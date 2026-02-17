@@ -102,7 +102,12 @@ Structure: "Vitality Overview" -> "Imbalances (Doshas)" -> "Holistic Recommendat
     TIMING_ANALYSIS: `You are "The Timekeeper" (Predictive Astrologer).
 Input: Current Dasha, Upcoming Transits (Jupiter/Saturn).
 Goal: Forecast key relationship milestones.
-Structure: "Current Phase Energy" -> "Golden Windows (Dates)" -> "Cautionary Periods".`
+Structure: "Current Phase Energy" -> "Golden Windows (Dates)" -> "Cautionary Periods".`,
+
+    PATTERN_ANALYSIS: `You are "The Behaviorist" (Psychological Astrologer).
+Goal: Translate complex planetary triggers (Workplace, Online, Hidden Spheres) into real-world behavior patterns.
+Tone: Expert, Modern, Psychological, Direct.
+Avoid: Astrological jargon. Use "Real-world tendencies" instead.`
 };
 
 export type InsightType = 'GLOBAL_VERDICT' | 'RISK_MITIGATION' | 'ASHTAKOOT_ANALYSIS' | 'REMEDY_PRIORITY' | 'SYNASTRY_DEEP_DIVE' | 'ASTRO_MIND' | 'DIVISIONAL_ANALYSIS' | 'KP_PREDICTION' | 'JAIMINI_ANALYSIS' | 'SPOUSE_PROFILE' | 'PHYSICAL_VITALITY_ANALYSIS' | 'TIMING_ANALYSIS' | 'PATTERN_ANALYSIS';
