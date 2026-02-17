@@ -4,7 +4,9 @@
  */
 import { Chart, Planet, SexualHealthAnalysis } from '@types';
 import { normalizeDegrees } from './coreCalculations';
-import sexualHealthRules from '../knowledge/sexual_health_rules.json';
+import sexualHealthRulesImport from '../knowledge/sexual_health_rules.json';
+
+const sexualHealthRules = (sexualHealthRulesImport as any).default || sexualHealthRulesImport;
 
 // ============================================================================
 // MALE SEXUAL HEALTH ASSESSMENT
@@ -203,7 +205,7 @@ export function analyzeLibido(chart: Chart): {
   const venus = chart.planetaryPositions.find(p => p.planet === 'Venus');
   const saturn = chart.planetaryPositions.find(p => p.planet === 'Saturn');
 
-  const weights = (sexualHealthRules as any).mutual_satisfaction.libido_weights;
+  const weights = sexualHealthRules.mutual_satisfaction.libido_weights;
   let score = 50; // Neutral starting point
 
   // High libido factors
@@ -251,7 +253,9 @@ export function analyzeLibido(chart: Chart): {
 
 export function analyzeMutualSatisfaction(
   chartA: Chart,
-  chartB: Chart
+  chartB: Chart,
+  genderA: 'male' | 'female' = 'male',
+  genderB: 'male' | 'female' = 'female'
 ): {
   score: number;
   vibeMatch: string;
@@ -262,85 +266,133 @@ export function analyzeMutualSatisfaction(
   const elementsA = getElementBalance(chartA);
   const elementsB = getElementBalance(chartB);
 
-  // Calculate compatibility
-  let elementScore = 0;
-  let elementDescription = '';
-  const elementDescriptions = (sexualHealthRules as any).mutual_satisfaction.element_descriptions;
+  const dominantA = getDominantElement(elementsA);
+  const dominantB = getDominantElement(elementsB);
 
-  // Fire-Air combination
-  if ((elementsA.fire > 2 && elementsB.air > 2) || (elementsA.air > 2 && elementsB.fire > 2)) {
-    elementScore = 90;
-    elementDescription = elementDescriptions.Fire_Air;
-  }
-  // Fire-Water combination
-  else if ((elementsA.fire > 2 && elementsB.water > 2) || (elementsA.water > 2 && elementsB.fire > 2)) {
-    elementScore = 60;
-    elementDescription = elementDescriptions.Fire_Water;
-  }
-  // Water-Earth combination
-  else if ((elementsA.water > 2 && elementsB.earth > 2) || (elementsA.earth > 2 && elementsB.water > 2)) {
-    elementScore = 80;
-    elementDescription = elementDescriptions.Water_Earth;
-  }
-  // Air-Earth combination
-  else if ((elementsA.air > 2 && elementsB.earth > 2) || (elementsA.earth > 2 && elementsB.air > 2)) {
-    elementScore = 70;
-    elementDescription = elementDescriptions.Air_Earth;
-  }
-  else {
-    elementScore = 75;
-    elementDescription = elementDescriptions.Default;
-  }
+  // Calculate compatibility using lookup
+  const elementDescriptions = sexualHealthRules.mutual_satisfaction.element_descriptions;
 
-  // Mars-Venus interaction
+  // Create lookup key (sorted alphabetically to handle A+B vs B+A)
+  const elements = [dominantA, dominantB].sort();
+  const lookupKey = `${elements[0]}_${elements[1]}`;
+
+  const elementDescription = elementDescriptions[lookupKey] || elementDescriptions.Default;
+
+  // Map scores based on combination (Alphabetical Order - Lower base scores for more headroom)
+  const scoreMap: Record<string, number> = {
+    'Air_Air': 55,
+    'Air_Earth': 45,
+    'Air_Fire': 70,
+    'Air_Water': 50,
+    'Earth_Earth': 60,
+    'Earth_Fire': 65,
+    'Earth_Water': 65,
+    'Fire_Fire': 60,
+    'Fire_Water': 40,
+    'Water_Water': 65
+  };
+
+  let elementScore = scoreMap[lookupKey] || 55;
+  let chemistryScore = 0;
+  let penaltyScore = 0;
+
+  // Mars-Venus interaction (Gender-Aware)
   const marsA = chartA.planetaryPositions.find(p => p.planet === 'Mars');
+  const venusA = chartA.planetaryPositions.find(p => p.planet === 'Venus');
+  const marsB = chartB.planetaryPositions.find(p => p.planet === 'Mars');
   const venusB = chartB.planetaryPositions.find(p => p.planet === 'Venus');
 
-  let chemistryScore = 0;
+  // Primary Attraction (Male Mars to Female Venus)
+  const maleMars = genderA === 'male' ? marsA : (genderB === 'male' ? marsB : null);
+  const femaleVenus = genderB === 'female' ? venusB : (genderA === 'female' ? venusA : null);
 
-  // Check if male's Mars aspects female's Venus (classic attraction)
-  if (marsA && venusB) {
-    const diff = Math.abs(normalizeDegrees(marsA.longitude - venusB.longitude));
-    if (diff < 8) {
-      chemistryScore += 25;
-    } else if (diff < 60 || (diff > 115 && diff < 125) || diff > 170) {
-      chemistryScore += 15;
+  if (maleMars && femaleVenus) {
+    const diff = Math.abs(normalizeDegrees(maleMars.longitude - femaleVenus.longitude));
+    const minDiff = Math.min(diff, 360 - diff);
+    if (minDiff < 8) { // Conjunction
+      chemistryScore += 20;
+    } else if (minDiff > 172 && minDiff < 188) { // Opposition
+      chemistryScore += 20;
+    } else if (minDiff > 115 && minDiff < 125) { // Trine
+      chemistryScore += 12;
+    } else if (minDiff > 55 && minDiff < 65) { // Sextile
+      chemistryScore += 12;
     }
   }
 
-  // Check 8th house strength
+  // Secondary Attraction (Female Mars to Male Venus)
+  const femaleMars = genderA === 'female' ? marsA : (genderB === 'female' ? marsB : null);
+  const maleVenus = genderB === 'male' ? venusB : (genderA === 'male' ? venusA : null);
+
+  if (femaleMars && maleVenus) {
+    const diff = Math.abs(normalizeDegrees(femaleMars.longitude - maleVenus.longitude));
+    const minDiff = Math.min(diff, 360 - diff);
+    if (minDiff < 8 || (minDiff > 172 && minDiff < 188)) {
+      chemistryScore += 10; // Extra spark
+    }
+  }
+
+  // Affliction Penalties
+  const saturnA = chartA.planetaryPositions.find(p => p.planet === 'Saturn');
+  const saturnB = chartB.planetaryPositions.find(p => p.planet === 'Saturn');
+  const ketuA = chartA.planetaryPositions.find(p => p.planet === 'Ketu');
+  const ketuB = chartB.planetaryPositions.find(p => p.planet === 'Ketu');
+
+  // 1. Saturn aspecting Venus (restrictive/coldness)
+  [chartA, chartB].forEach((chart, idx) => {
+    const venus = chart.planetaryPositions.find(p => p.planet === 'Venus');
+    const saturn = chart.planetaryPositions.find(p => p.planet === 'Saturn');
+    if (venus && saturn) {
+      const diff = Math.abs(normalizeDegrees(venus.longitude - saturn.longitude));
+      const minDiff = Math.min(diff, 360 - diff);
+      // conjunction (0), opposition (180), square (90), 10th aspect (270)
+      if (minDiff < 8 || minDiff > 172 || (minDiff > 82 && minDiff < 98)) {
+        penaltyScore -= 12; // Saturn restriction
+      }
+    }
+  });
+
+  // 2. Ketu in 8th house (detachment)
+  if (ketuA && ketuA.house === 8) penaltyScore -= 8;
+  if (ketuB && ketuB.house === 8) penaltyScore -= 8;
+
+  // 3. Debilitated Venus/Mars
+  if (venusA?.dignity === 'debilitated') penaltyScore -= 10;
+  if (venusB?.dignity === 'debilitated') penaltyScore -= 10;
+  if (marsA?.dignity === 'debilitated') penaltyScore -= 5;
+  if (marsB?.dignity === 'debilitated') penaltyScore -= 5;
+
+  // Check 8th house strength (Scaled Bonus)
   const eighthLordA = getLordOfHouse(chartA, 8);
   const eighthLordB = getLordOfHouse(chartB, 8);
 
   const eighthA = chartA.planetaryPositions.find(p => p.planet === eighthLordA);
   const eighthB = chartB.planetaryPositions.find(p => p.planet === eighthLordB);
 
-  if (eighthA && eighthA.dignity !== 'debilitated' && (eighthA.dignity as string) !== 'enemy') {
-    chemistryScore += 10;
+  // Only add bonus for EXALTED or OWN sign (high strength)
+  if (eighthA && (eighthA.dignity === 'exalted' || eighthA.dignity === 'own_house')) {
+    chemistryScore += 8;
   }
-  if (eighthB && eighthB.dignity !== 'debilitated' && (eighthB.dignity as string) !== 'enemy') {
-    chemistryScore += 10;
+  if (eighthB && (eighthB.dignity === 'exalted' || eighthB.dignity === 'own_house')) {
+    chemistryScore += 8;
   }
 
-  const totalScore = elementScore + chemistryScore;
+  const finalScore = Math.max(20, Math.min(100, elementScore + chemistryScore + penaltyScore));
 
   let satisfactionLevel = '';
-  if (totalScore >= 90) {
-    satisfactionLevel = 'Excellent sexual compatibility';
-  } else if (totalScore >= 70) {
-    satisfactionLevel = 'Good sexual compatibility with room for growth';
-  } else if (totalScore >= 50) {
-    satisfactionLevel = 'Moderate compatibility - communication needed';
+  if (finalScore >= 85) {
+    satisfactionLevel = 'Exceptional physical harmony and strong mutual attraction.';
+  } else if (finalScore >= 70) {
+    satisfactionLevel = 'Good sexual compatibility with shared rhythms and attraction.';
+  } else if (finalScore >= 50) {
+    satisfactionLevel = 'Moderate compatibility; needs conscious communication and effort to sync.';
   } else {
-    satisfactionLevel = 'Significant differences - conscious effort required';
+    satisfactionLevel = 'Significant differences in temperament or physical vitality detected.';
   }
 
-  const dominantElementA = getDominantElement(elementsA);
-  const dominantElementB = getDominantElement(elementsB);
-
   return {
-    score: Math.min(totalScore, 100),
-    vibeMatch: `${dominantElementA} + ${dominantElementB}`,
+    score: Math.round(finalScore),
+    vibeMatch: `${dominantA} + ${dominantB}`,
     elementCompatibility: elementDescription,
     description: satisfactionLevel
   };
@@ -471,7 +523,7 @@ export function analyzeSexualHealth(
       ? analyzeFemaleSexualHealth(chartB)
       : { frigidityRisk: 'Low' as const, physicalPainRisk: 'Low' as const, indicators: [], recommendations: [] };
 
-  const mutualSatisfaction = analyzeMutualSatisfaction(chartA, chartB);
+  const mutualSatisfaction = analyzeMutualSatisfaction(chartA, chartB, genderA, genderB);
 
   const libidoA = analyzeLibido(chartA);
   const libidoB = analyzeLibido(chartB);

@@ -8,6 +8,7 @@ import {
     Info
 } from 'lucide-react';
 import { RelationshipPatternAnalysis } from '../../../lib/relationshipPatternCalculations';
+import { AIPatternAnalyzer } from '../ai/AIPatternAnalyzer';
 
 interface RelationshipPatternWidgetProps {
     patternA?: RelationshipPatternAnalysis;
@@ -40,37 +41,41 @@ export const RelationshipPatternWidget: React.FC<RelationshipPatternWidgetProps>
 
     const getCategoryColor = (cat: string) => {
         switch (cat) {
-            case 'pre_marital': return 'bg-pink-50 dark:bg-pink-900/10 border-pink-200 dark:border-pink-800/30';
-            case 'affair_context': return 'bg-red-50 dark:bg-red-900/10 border-red-200 dark:border-red-800/30';
+            case 'narrative_history': return 'bg-pink-50 dark:bg-pink-900/10 border-pink-200 dark:border-pink-800/30';
+            case 'opportunity_triggers': return 'bg-red-50 dark:bg-red-900/10 border-red-200 dark:border-red-800/30';
             case 'spouse_longevity': return 'bg-blue-50 dark:bg-blue-900/10 border-blue-200 dark:border-blue-800/30';
-            default: return 'bg-indigo-50 dark:bg-indigo-900/10 border-indigo-200 dark:border-indigo-800/30';
+            case 'capacity_approach': return 'bg-indigo-50 dark:bg-indigo-900/10 border-indigo-200 dark:border-indigo-800/30';
+            default: return 'bg-gray-50 dark:bg-gray-900/10 border-gray-200 dark:border-gray-800/30';
         }
     };
 
     const getCategoryLabel = (cat: string) => {
         switch (cat) {
-            case 'pre_marital': return 'Pre-Marital';
-            case 'affair_context': return 'Affair Context';
+            case 'narrative_history': return 'Narrative History';
+            case 'opportunity_triggers': return 'Vulnerability Triggers';
             case 'spouse_longevity': return 'Spouse Longevity';
-            default: return 'Style';
+            case 'capacity_approach': return 'Capacity & Approach';
+            default: return 'Rel. Pattern';
         }
     };
 
     const getCategoryLabelColor = (cat: string) => {
         switch (cat) {
-            case 'pre_marital': return 'bg-pink-500';
-            case 'affair_context': return 'bg-red-500';
+            case 'narrative_history': return 'bg-pink-500';
+            case 'opportunity_triggers': return 'bg-red-500';
             case 'spouse_longevity': return 'bg-blue-500';
-            default: return 'bg-indigo-500';
+            case 'capacity_approach': return 'bg-indigo-500';
+            default: return 'bg-gray-500';
         }
     };
 
     const getCategoryDescription = (cat: string) => {
         switch (cat) {
-            case 'pre_marital': return '5th House analysis covering romantic history, intense attractions, and soul-level pre-marital connections.';
-            case 'affair_context': return '7th/12th House interlinks identifying environmental or psychological triggers for external attractions.';
-            case 'spouse_longevity': return '8th house and Mangalya Bhava assessment focusing on the long-term health and vitality of the spouse.';
-            default: return '2nd House (Family Boundaries), Family Taboos, and Subconscious Relationship Orientations.';
+            case 'narrative_history': return 'Indicates romantic capacity and past relationship experiences (The Journey).';
+            case 'opportunity_triggers': return 'Specific environments where emotional connections are most likely to form (The Road).';
+            case 'spouse_longevity': return '8th house and Mangalya Bhava assessment focusing on long-term health.';
+            case 'capacity_approach': return 'Psychological approach to commitment, stability, and intensity (The Driver).';
+            default: return 'Core relationship pattern and psychological profile.';
         }
     };
 
@@ -85,8 +90,8 @@ export const RelationshipPatternWidget: React.FC<RelationshipPatternWidgetProps>
                     <div>
                         <h2 className="text-2xl font-bold mb-2">Relationship Pattern Analyzer</h2>
                         <p className="text-rose-100 leading-relaxed">
-                            Analyzes historical romantic patterns, affair vulnerabilities by context, and
-                            relationship style tendencies from the birth chart.
+                            Analyzes historical romantic capacity, specific environmental triggers, and
+                            psychological approach to commitment.
                         </p>
                     </div>
                 </div>
@@ -116,44 +121,62 @@ export const RelationshipPatternWidget: React.FC<RelationshipPatternWidgetProps>
                 </div>
             )}
 
-            {/* Overall Risk */}
+            {/* Overall Risk & Narrative */}
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 transition-colors">
-                <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 transition-colors">{name}'s Pattern Overview</h3>
+                <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 transition-colors">{name}'s Pattern Profile</h3>
                     <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase text-white ${data.overallRiskLevel === 'high' ? 'bg-red-500' :
                         data.overallRiskLevel === 'elevated' ? 'bg-amber-500' :
                             data.overallRiskLevel === 'moderate' ? 'bg-yellow-500' : 'bg-green-500'
-                        }`}>{data.overallRiskLevel} risk</span>
+                        }`}>{data.overallRiskLevel} Risk</span>
                 </div>
+
+                {/* Narrative Synthesis */}
+                <div className="mb-6 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-xl border border-gray-100 dark:border-gray-700">
+                    <p className="text-sm text-gray-700 dark:text-gray-300 italic leading-relaxed">
+                        <span className="font-semibold not-italic text-pink-600 dark:text-pink-400">Narrative: </span>
+                        {data.narrativeHistorySummary}
+                        <span className="mx-2">•</span>
+                        <span className="font-semibold not-italic text-indigo-600 dark:text-indigo-400">Capacity: </span>
+                        {data.capacityApproachSummary}
+                        <span className="mx-2">•</span>
+                        <span className="font-semibold not-italic text-red-600 dark:text-red-400">Opportunity: </span>
+                        {data.opportunityTriggersSummary}
+                    </p>
+                </div>
+
                 <div className="grid md:grid-cols-3 gap-3 text-sm">
-                    <div className="group relative p-3 bg-pink-50 dark:bg-pink-900/10 rounded-lg transition-colors cursor-help">
+                    <div className="group relative p-3 bg-pink-50 dark:bg-pink-900/10 rounded-lg transition-colors cursor-help border border-pink-100 dark:border-pink-900/30">
                         <div className="flex items-center gap-1.5 mb-1">
-                            <p className="font-medium text-pink-800 dark:text-pink-200">Pre-Marital</p>
+                            <p className="font-bold text-pink-800 dark:text-pink-200">Narrative History</p>
                             <Info className="w-3 h-3 text-pink-400" />
                         </div>
-                        <p className="text-gray-600 dark:text-gray-400 text-xs">{data.preMaritalSummary}</p>
+                        <p className="text-[10px] text-pink-600/70 dark:text-pink-400/70 font-semibold mb-2 uppercase tracking-wider">Internal Experiences</p>
+                        <p className="text-gray-600 dark:text-gray-400 text-xs">{data.narrativeHistorySummary}</p>
                         <div className="absolute z-10 bottom-full left-0 mb-2 w-48 p-2 bg-gray-900 text-white text-[10px] rounded shadow-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                            {getCategoryDescription('pre_marital')}
+                            {getCategoryDescription('narrative_history')}
                         </div>
                     </div>
-                    <div className="group relative p-3 bg-red-50 dark:bg-red-900/10 rounded-lg transition-colors cursor-help">
+                    <div className="group relative p-3 bg-indigo-50 dark:bg-indigo-900/10 rounded-lg transition-colors cursor-help border border-indigo-100 dark:border-indigo-900/30">
                         <div className="flex items-center gap-1.5 mb-1">
-                            <p className="font-medium text-red-800 dark:text-red-200">Affair Context</p>
-                            <Info className="w-3 h-3 text-red-400" />
-                        </div>
-                        <p className="text-gray-600 dark:text-gray-400 text-xs">{data.affairContextSummary}</p>
-                        <div className="absolute z-10 bottom-full left-0 mb-2 w-48 p-2 bg-gray-900 text-white text-[10px] rounded shadow-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                            {getCategoryDescription('affair_context')}
-                        </div>
-                    </div>
-                    <div className="group relative p-3 bg-indigo-50 dark:bg-indigo-900/10 rounded-lg transition-colors cursor-help">
-                        <div className="flex items-center gap-1.5 mb-1">
-                            <p className="font-medium text-indigo-800 dark:text-indigo-200">Style</p>
+                            <p className="font-bold text-indigo-800 dark:text-indigo-200">Capacity & Approach</p>
                             <Info className="w-3 h-3 text-indigo-400" />
                         </div>
-                        <p className="text-gray-600 dark:text-gray-400 text-xs">{data.relationshipStyleSummary}</p>
+                        <p className="text-[10px] text-indigo-600/70 dark:text-indigo-400/70 font-semibold mb-2 uppercase tracking-wider">Psychological Driver</p>
+                        <p className="text-gray-600 dark:text-gray-400 text-xs">{data.capacityApproachSummary}</p>
                         <div className="absolute z-10 bottom-full left-0 mb-2 w-48 p-2 bg-gray-900 text-white text-[10px] rounded shadow-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                            {getCategoryDescription('style')}
+                            {getCategoryDescription('capacity_approach')}
+                        </div>
+                    </div>
+                    <div className="group relative p-3 bg-red-50 dark:bg-red-900/10 rounded-lg transition-colors cursor-help border border-red-100 dark:border-red-900/30">
+                        <div className="flex items-center gap-1.5 mb-1">
+                            <p className="font-bold text-red-800 dark:text-red-200">Opportunity Triggers</p>
+                            <Info className="w-3 h-3 text-red-400" />
+                        </div>
+                        <p className="text-[10px] text-red-600/70 dark:text-red-400/70 font-semibold mb-2 uppercase tracking-wider">External Context</p>
+                        <p className="text-gray-600 dark:text-gray-400 text-xs">{data.opportunityTriggersSummary}</p>
+                        <div className="absolute z-10 bottom-full left-0 mb-2 w-48 p-2 bg-gray-900 text-white text-[10px] rounded shadow-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                            {getCategoryDescription('opportunity_triggers')}
                         </div>
                     </div>
                 </div>
@@ -207,6 +230,8 @@ export const RelationshipPatternWidget: React.FC<RelationshipPatternWidgetProps>
                     <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 transition-colors">The chart shows a balanced approach to relationships.</p>
                 </div>
             )}
+            {/* AI Deep Dive */}
+            <AIPatternAnalyzer patterns={data.patterns} profileName={name || (activePartner === 'A' ? 'Partner A' : 'Partner B')} />
         </div>
     );
 };

@@ -22,7 +22,7 @@ import { calculateSpousePrediction } from './spouseCalculations';
 import { analyzeYogaDoshas } from './yogaDoshaCalculations';
 import { analyzeMentalHealth } from './mentalHealthCalculations';
 import { analyzeAddictionRisk } from './addictionCalculations';
-import { analyzeRelationshipPatterns } from './relationshipPatternCalculations';
+import { calculateRelationshipPatterns } from './relationshipPatternCalculations';
 import { calculateVimshottariDasha, getCurrentDasha } from './dashaCalculations';
 import {
   analyzeMaleSexualHealth,
@@ -117,7 +117,7 @@ export async function generateSelfAnalysisReport(
       analyzeYogaDoshas(chart),
       Promise.resolve(analyzeMentalHealth(chart)).catch(() => null),
       Promise.resolve(analyzeAddictionRisk(chart)).catch(() => null),
-      Promise.resolve(analyzeRelationshipPatterns(chart)).catch(() => null),
+      Promise.resolve(calculateRelationshipPatterns(chart, chart.name || 'You')).catch(() => null),
       calculateExtendedDivisionalAnalysis(chart),
       Promise.resolve(calculateKPAnalysis(chart)).catch((err) => {
         console.error('KP Analysis calculation failed:', err);

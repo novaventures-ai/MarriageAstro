@@ -76,15 +76,28 @@ export const AIVerdictGenerator: React.FC<AIVerdictGeneratorProps> = ({ report }
                         </div>
                     </div>
 
-                    {!insight && !loading && (
-                        <button
-                            onClick={generateInsight}
-                            className="flex items-center gap-2 px-4 py-2 bg-white text-indigo-900 rounded-lg font-bold hover:bg-indigo-50 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-                        >
-                            <Brain className="w-4 h-4" />
-                            Analyze Triggers
-                        </button>
-                    )}
+                    <button
+                        onClick={generateInsight}
+                        disabled={loading}
+                        className="flex items-center gap-2 px-4 py-2 bg-white text-indigo-900 rounded-lg font-bold hover:bg-indigo-50 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed"
+                    >
+                        {loading ? (
+                            <>
+                                <RefreshCw className="w-4 h-4 animate-spin" />
+                                Analyzing...
+                            </>
+                        ) : insight ? (
+                            <>
+                                <RefreshCw className="w-4 h-4" />
+                                Refresh Analysis
+                            </>
+                        ) : (
+                            <>
+                                <Brain className="w-4 h-4" />
+                                Analyze Triggers
+                            </>
+                        )}
+                    </button>
                 </div>
 
                 {error && (

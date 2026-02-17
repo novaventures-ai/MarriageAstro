@@ -105,7 +105,7 @@ Goal: Forecast key relationship milestones.
 Structure: "Current Phase Energy" -> "Golden Windows (Dates)" -> "Cautionary Periods".`
 };
 
-export type InsightType = 'GLOBAL_VERDICT' | 'RISK_MITIGATION' | 'ASHTAKOOT_ANALYSIS' | 'REMEDY_PRIORITY' | 'SYNASTRY_DEEP_DIVE' | 'ASTRO_MIND' | 'DIVISIONAL_ANALYSIS' | 'KP_PREDICTION' | 'JAIMINI_ANALYSIS' | 'SPOUSE_PROFILE' | 'PHYSICAL_VITALITY_ANALYSIS' | 'TIMING_ANALYSIS';
+export type InsightType = 'GLOBAL_VERDICT' | 'RISK_MITIGATION' | 'ASHTAKOOT_ANALYSIS' | 'REMEDY_PRIORITY' | 'SYNASTRY_DEEP_DIVE' | 'ASTRO_MIND' | 'DIVISIONAL_ANALYSIS' | 'KP_PREDICTION' | 'JAIMINI_ANALYSIS' | 'SPOUSE_PROFILE' | 'PHYSICAL_VITALITY_ANALYSIS' | 'TIMING_ANALYSIS' | 'PATTERN_ANALYSIS';
 
 export const generateVerdictPrompt = (context: AIContext) => {
     return `
@@ -233,6 +233,19 @@ Key Transits: ${JSON.stringify(context.transits)}
 Goal: ${context.goal || 'General Relationship Progress'}
 
 Identify key dates for marriage, challenges, or relationship milestones for the couple.
+`;
+        case 'PATTERN_ANALYSIS':
+            return `
+ANALYSIS FOR: ${context.name}
+RELATIONSHIP PATTERNS:
+${JSON.stringify(context.patterns, null, 2)}
+
+Your Goal: Provide a "Psychological & Real-World" translation of these patterns.
+- Do NOT use astrological jargon (like "7th Lord in 8th").
+- Instead, say "You have a tendency to..."
+- Focus on the "Social & Environmental Triggers" (Workplace, Online, etc.)
+- Give a specific "Probability Scenarios" (e.g., "High chance of emotional affair with a colleague during overtime").
+- Tone: Direct, modern, slightly cautionary but empowering.
 `;
         default:
             return '';

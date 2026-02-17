@@ -5,7 +5,11 @@ import {
     Activity,
     Sparkles,
     ChevronDown,
-    Clock
+    Clock,
+    Calendar,
+    MapPin,
+    Globe,
+    Compass
 } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -26,7 +30,7 @@ interface ChartDetailsWidgetProps {
     girlChart: Chart | null;
 }
 
-type TabType = 'charts' | 'planets' | 'kp' | 'yogas' | 'dashas';
+type TabType = 'charts' | 'planets' | 'kp' | 'yogas' | 'dashas' | 'birth';
 type ChartStyle = 'south' | 'north' | 'table';
 type ChartVarga = 'D1' | 'D2' | 'D3' | 'D4' | 'D5' | 'D7' | 'D8' | 'D9' | 'D10' | 'D12' | 'D16' | 'D20' | 'D24' | 'D27' | 'D30' | 'D40' | 'D45' | 'D60';
 
@@ -118,6 +122,9 @@ export default function ChartDetailsWidget({ boyChart, girlChart }: ChartDetails
                     </button>
                     <button onClick={() => setActiveTab('dashas')} className={cn("p-1.5 rounded flex items-center gap-1", activeTab === 'dashas' && "bg-white shadow")}>
                         <Clock className="w-4 h-4" /> <span className="hidden md:inline">Dashas</span>
+                    </button>
+                    <button onClick={() => setActiveTab('birth')} className={cn("p-1.5 rounded flex items-center gap-1", activeTab === 'birth' && "bg-white shadow")}>
+                        <MapPin className="w-4 h-4" /> <span className="hidden md:inline">Birth Details</span>
                     </button>
                 </div>
             </div>
@@ -423,6 +430,89 @@ export default function ChartDetailsWidget({ boyChart, girlChart }: ChartDetails
                                             </div>
                                         );
                                     })}
+                                </div>
+                            </div>
+                        )}
+                        {/* BIRTH DATA TAB */}
+                        {activeTab === 'birth' && (
+                            <div className="space-y-6">
+                                <h4 className="font-semibold text-sm mb-3 text-indigo-900 dark:text-indigo-300 flex items-center gap-2 transition-colors">
+                                    <Map className="w-4 h-4 text-orange-500" />
+                                    Birth Details
+                                </h4>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div className="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-xl border border-gray-100 dark:border-gray-800">
+                                        <div className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-semibold mb-1">Name</div>
+                                        <div className="text-lg font-bold text-gray-900 dark:text-gray-100">{currentChart.name}</div>
+                                    </div>
+                                    <div className="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-xl border border-gray-100 dark:border-gray-800">
+                                        <div className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-semibold mb-1">Gender</div>
+                                        <div className="text-lg font-bold text-gray-900 dark:text-gray-100 capitalize">{currentChart.gender}</div>
+                                    </div>
+
+                                    <div className="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-xl border border-gray-100 dark:border-gray-800">
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <Calendar className="w-3 h-3 text-orange-500" />
+                                            <div className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-semibold">Date of Birth</div>
+                                        </div>
+                                        <div className="text-base font-medium text-gray-800 dark:text-gray-200">
+                                            {new Date(currentChart.dateOfBirth).toLocaleDateString('en-GB', {
+                                                day: 'numeric',
+                                                month: 'long',
+                                                year: 'numeric'
+                                            })}
+                                        </div>
+                                    </div>
+
+                                    <div className="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-xl border border-gray-100 dark:border-gray-800">
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <Clock className="w-3 h-3 text-orange-500" />
+                                            <div className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-semibold">Time of Birth</div>
+                                        </div>
+                                        <div className="text-base font-medium text-gray-800 dark:text-gray-200">
+                                            {currentChart.timeOfBirth}
+                                        </div>
+                                    </div>
+
+                                    <div className="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-xl border border-gray-100 dark:border-gray-800 md:col-span-2">
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <MapPin className="w-3 h-3 text-orange-500" />
+                                            <div className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-semibold">Place of Birth</div>
+                                        </div>
+                                        <div className="text-base font-medium text-gray-800 dark:text-gray-200">
+                                            {currentChart.location}
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-4 mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
+                                            <div>
+                                                <div className="text-[10px] text-gray-500 dark:text-gray-400">Latitude</div>
+                                                <div className="font-mono text-xs text-gray-700 dark:text-gray-300">{currentChart.latitude.toFixed(4)}</div>
+                                            </div>
+                                            <div>
+                                                <div className="text-[10px] text-gray-500 dark:text-gray-400">Longitude</div>
+                                                <div className="font-mono text-xs text-gray-700 dark:text-gray-300">{currentChart.longitude.toFixed(4)}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-xl border border-gray-100 dark:border-gray-800">
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <Globe className="w-3 h-3 text-orange-500" />
+                                            <div className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-semibold">Timezone</div>
+                                        </div>
+                                        <div className="text-base font-medium text-gray-800 dark:text-gray-200">
+                                            {currentChart.timezone}
+                                        </div>
+                                    </div>
+
+                                    <div className="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-xl border border-gray-100 dark:border-gray-800">
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <Compass className="w-3 h-3 text-orange-500" />
+                                            <div className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-semibold">Ayanamsa</div>
+                                        </div>
+                                        <div className="text-base font-medium text-gray-800 dark:text-gray-200">
+                                            {currentChart.ayanamsha}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         )}

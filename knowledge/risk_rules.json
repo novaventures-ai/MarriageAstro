@@ -97,54 +97,50 @@
       }
     ]
   },
-  "infidelity_indicators": {
-    "description": "Combinations suggesting potential for unfaithfulness",
+  "passion_and_commitment_indicators": {
+    "description": "Indicators of strong desire nature, emotional restlessness, or contextual vulnerabilities (formerly Infidelity Risk)",
     "warning_signs": [
       {
-        "condition": "Rahu-Venus conjunction in 5th, 8th, or 12th house",
+        "condition": "Rahu-Venus connection in 5th, 8th, or 12th house",
         "severity": "High",
-        "description": "Obsessive desires, attraction to forbidden relationships"
+        "description": "Obsessive desires, attraction to unconventional or hidden relationship dynamics"
       },
       {
-        "condition": "Mars-Venus conjunction in 8th or 12th house",
+        "condition": "Mars-Venus connection in 8th or 12th house",
         "severity": "High",
-        "description": "Intense sexual desires, secret affairs"
+        "description": "Intense physical drive, potential for secret or private connections"
       },
       {
-        "condition": "5th Lord in 7th house AND 7th Lord in 5th house",
+        "condition": "5th Lord in 7th AND 7th Lord in 5th",
         "severity": "Medium",
-        "description": "Exchange between romance and marriage houses"
+        "description": "Fusion of romance and marriage; passion is a prerequisite for commitment"
       },
       {
         "condition": "5th Lord in 8th or 12th house",
         "severity": "Medium",
-        "description": "Romance connected to secrecy or hidden affairs"
+        "description": "Romantic life linked to secrecy or transformative hidden experiences"
       },
       {
-        "condition": "Venus in Gemini with affliction",
+        "condition": "Venus in Gemini/Dual sign with affliction",
         "severity": "Medium",
-        "description": "Dual nature in love, tendency for multiple connections"
+        "description": "Changeable nature in love, tendency to seek variety or mental stimulation"
       },
       {
-        "condition": "Rahu in 5th house aspecting Venus",
+        "condition": "Rahu in 5th house aspecting Venus/Moon",
         "severity": "High",
-        "description": "Obsessive romantic tendencies"
-      },
-      {
-        "condition": "Moon with Rahu and Venus affliction",
-        "severity": "Medium-High",
-        "description": "Emotional confusion in relationships, seeking external validation"
+        "description": "Obsessive emotional or romantic tendencies"
       }
     ],
-    "kp_formula": {
-      "description": "KP Astrology infidelity signature",
-      "conditions": [
-        "5th cusp sub-lord signifies 8th house",
-        "7th cusp sub-lord connected to 5-8-12 houses",
-        "Venus as significator of 5-8-12 in Dasha",
-        "Navamsa Confirmation: Passion combinations confirmed in D9 double the risk severity"
-      ]
-    }
+    "stabilizers": [
+      {
+        "condition": "Strong Jupiter aspecting 7th or Venus",
+        "effect": "Mitigates impulsive desires, provides moral grounding"
+      },
+      {
+        "condition": "Saturn in 7th (not debilitated)",
+        "effect": "Strong sense of duty and longevity over fleeting passion"
+      }
+    ]
   },
   "risk_assessment_matrix": {
     "low_risk": {

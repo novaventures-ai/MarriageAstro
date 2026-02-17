@@ -607,9 +607,10 @@ export interface RiskAssessment {
     profileName: string;
   }[];
   affairContextIndicators?: {
-    context: 'workplace' | 'neighbor' | 'social_circle' | 'online' | 'general';
+    context: 'workplace' | 'neighbor' | 'social_circle' | 'online' | 'family' | 'foreign_isolated' | 'travel' | 'spiritual' | 'financial' | 'family_taboo' | 'general';
     text: string;
     profileName: string;
+    confidence?: 'high' | 'medium' | 'low';
   }[];
   navamsaConfirmations?: {
     text: string;

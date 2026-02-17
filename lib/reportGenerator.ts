@@ -54,7 +54,7 @@ import { analyzeYogaDoshas } from './yogaDoshaCalculations';
 import { analyzeAddictionRisk } from './addictionCalculations';
 import { analyzeModernInsightsEnhanced } from './modernInsightsCalculations';
 import { analyzeMentalHealth } from './mentalHealthCalculations';
-import { analyzeRelationshipPatterns } from './relationshipPatternCalculations';
+import { calculateRelationshipPatterns } from './relationshipPatternCalculations';
 import { findVulnerablePeriods } from './dashaCalculations';
 import {
   calculateHouseOverlays,
@@ -657,8 +657,8 @@ export async function generateCompatibilityReport(
       partnerB: analyzeMentalHealth(chartB)
     },
     relationshipPatternAnalysis: {
-      partnerA: analyzeRelationshipPatterns(chartA),
-      partnerB: analyzeRelationshipPatterns(chartB)
+      partnerA: calculateRelationshipPatterns(chartA, chartA.name),
+      partnerB: calculateRelationshipPatterns(chartB, chartB.name)
     },
     createdAt: new Date(),
     status: 'saved'
@@ -1322,21 +1322,25 @@ function calculateAdvancedBreakdown(data: {
   const inLawScore = (inLawAvgA + inLawAvgB) / 2;
   const modernScore = 100 - (data.modernChallenges.mentalHealth.length * 10);
 
+  const infidelityScore = 100 - (data.riskAssessment.infidelityRisk.score || 0);
+
   const stabilityScore = Math.round(
-    divorceScore * 0.40 +
-    mentalScore * 0.20 +
+    divorceScore * 0.25 +
+    infidelityScore * 0.25 +
+    mentalScore * 0.15 +
     addictionScore * 0.15 +
-    inLawScore * 0.15 +
+    inLawScore * 0.10 +
     modernScore * 0.10
   );
 
   const stability = {
     score: stabilityScore,
     label: "Stability & Foundation",
-    explanation: "Synthesizes Divorce Risks, Mental Health patterns, Addiction indicators, In-Law stress, and Modern challenges.",
+    explanation: "Synthesizes Divorce Risks, Infidelity vulnerabilities, Mental Health patterns, Addiction indicators, In-Law stress, and Modern challenges.",
     status: (stabilityScore >= 80 ? 'positive' : stabilityScore >= 50 ? 'neutral' : 'challenging') as any,
     breakdown: [
       { name: 'Divorce Risk', score: Math.round(divorceScore) },
+      { name: 'Infidelity Risk', score: Math.round(infidelityScore) },
       { name: 'Mental Health', score: Math.round(mentalScore) },
       { name: 'Addiction Risk', score: Math.round(addictionScore) },
       { name: 'In-Law Support', score: Math.round(inLawScore) },
@@ -1584,6 +1588,13 @@ function calculateOverallScore(
     score = Math.round(score * 0.9); // 10% reduction
   }
 
+  // Case F: High Infidelity Risk (Refined)
+  if (context.riskAssessment.infidelityRisk.level === 'high') {
+    score = Math.round(score * 0.75); // 25% reduction for High
+  } else if (context.riskAssessment.infidelityRisk.level === 'medium') {
+    score = Math.round(score * 0.85); // 15% reduction for Medium
+  }
+
   return score;
 }
 
@@ -1653,9 +1664,9 @@ function generateExecutiveSummary(
     preservationKey = "Prioritize health-related spiritual remedies and maintain healthy physical boundaries.";
   }
 
-  if (riskAssessment.infidelityRisk.score > 60) {
-    challenges.push("Restless Desires: A high-passion nature that may challenge traditional commitment.");
-    preservationKey = "Maintaining novelty and emotional transparency is vital to channel passion constructively within the bond.";
+  if (riskAssessment.infidelityRisk.score > 25) {
+    challenges.push("Passion Management: Specific indicators suggest a high-passion nature that requires deeper emotional transparency.");
+    preservationKey = "Focus on novelty and clear boundaries to channel intense desire nature into relationship growth.";
   }
 
   const kpDenied = context?.kpAnalysis?.partnerA?.seventhCuspSubLord?.marriagePromise === 'denied' ||

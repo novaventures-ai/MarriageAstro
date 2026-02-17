@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { RiskAssessment } from '../../types';
-import { Shield, Users, Heart, AlertTriangle, CheckCircle, Briefcase, Home, Globe, Wifi, Sparkles, ShieldCheck, ChevronDown, ChevronUp, User, RefreshCw, AlertCircle } from 'lucide-react';
+import { Shield, Users, Heart, AlertTriangle, CheckCircle, Briefcase, Home, Globe, Wifi, Sparkles, ShieldCheck, ChevronDown, ChevronUp, User, RefreshCw, AlertCircle, MapPin, Plane, BookOpen, DollarSign } from 'lucide-react';
 import { useGeminiInsight } from '../../hooks/useGeminiInsight';
 import ReactMarkdown from 'react-markdown';
 
@@ -74,9 +74,15 @@ export const RiskRadarWidget: React.FC<RiskRadarWidgetProps> = ({
   const getContextIcon = (context: string) => {
     switch (context) {
       case 'workplace': return <Briefcase className="w-4 h-4" />;
-      case 'neighbor': return <Home className="w-4 h-4" />;
+      case 'neighbor': return <MapPin className="w-4 h-4" />;
+      case 'family': return <Home className="w-4 h-4" />;
       case 'social_circle': return <Globe className="w-4 h-4" />;
       case 'online': return <Wifi className="w-4 h-4" />;
+      case 'foreign_isolated': return <Globe className="w-4 h-4" />;
+      case 'travel': return <Plane className="w-4 h-4" />;
+      case 'spiritual': return <BookOpen className="w-4 h-4" />;
+      case 'financial': return <DollarSign className="w-4 h-4" />;
+      case 'family_taboo': return <AlertTriangle className="w-4 h-4 text-red-600" />;
       default: return <Users className="w-4 h-4" />;
     }
   };
@@ -94,28 +100,28 @@ export const RiskRadarWidget: React.FC<RiskRadarWidgetProps> = ({
           <div className="flex bg-gray-100 dark:bg-gray-900/50 p-1 rounded-lg self-start">
             <button
               onClick={() => setActivePartner('overall')}
-              className={`px - 4 py - 1.5 text - xs font - bold uppercase rounded - md transition - all ${activePartner === 'overall'
+              className={`px-4 py-1.5 text-xs font-bold uppercase rounded-md transition-all ${activePartner === 'overall'
                 ? 'bg-white dark:bg-gray-700 shadow-md text-indigo-600 dark:text-indigo-400'
                 : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
-                } `}
+                }`}
             >
               Overall
             </button>
             <button
               onClick={() => setActivePartner('A')}
-              className={`px - 4 py - 1.5 text - xs font - bold uppercase rounded - md transition - all flex items - center gap - 2 ${activePartner === 'A'
+              className={`px-4 py-1.5 text-xs font-bold uppercase rounded-md transition-all flex items-center gap-2 ${activePartner === 'A'
                 ? 'bg-white dark:bg-gray-700 shadow-md text-indigo-600 dark:text-indigo-400'
                 : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
-                } `}
+                }`}
             >
               <User className="w-4 h-4" /> {partnerAName}
             </button>
             <button
               onClick={() => setActivePartner('B')}
-              className={`px - 4 py - 1.5 text - xs font - bold uppercase rounded - md transition - all flex items - center gap - 2 ${activePartner === 'B'
+              className={`px-4 py-1.5 text-xs font-bold uppercase rounded-md transition-all flex items-center gap-2 ${activePartner === 'B'
                 ? 'bg-white dark:bg-gray-700 shadow-md text-indigo-600 dark:text-indigo-400'
                 : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
-                } `}
+                }`}
             >
               <User className="w-4 h-4" /> {partnerBName}
             </button>
@@ -130,7 +136,7 @@ export const RiskRadarWidget: React.FC<RiskRadarWidgetProps> = ({
                 <Heart className="w-5 h-5 text-gray-600 dark:text-gray-400" />
                 <h3 className="font-semibold text-gray-800 dark:text-gray-100 transition-colors text-sm uppercase tracking-wide">Divorce Probability</h3>
               </div>
-              <span className={`px - 3 py - 1 rounded - full text - [10px] font - bold uppercase border ${getRiskColor(displayDivorce.level)} `}>
+              <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase border ${getRiskColor(displayDivorce.level)}`}>
                 {displayDivorce.level.replace('_', ' ')}
               </span>
             </div>
@@ -142,8 +148,8 @@ export const RiskRadarWidget: React.FC<RiskRadarWidgetProps> = ({
               </div>
               <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 transition-colors">
                 <div
-                  className={`h - 3 rounded - full transition - all duration - 700 ${getRiskMeterColor(displayDivorce.score)} `}
-                  style={{ width: `${displayDivorce.score}% ` }}
+                  className={`h-3 rounded-full transition-all duration-700 ${getRiskMeterColor(displayDivorce.score)}`}
+                  style={{ width: `${displayDivorce.score}%` }}
                 />
               </div>
             </div>
@@ -226,7 +232,7 @@ export const RiskRadarWidget: React.FC<RiskRadarWidgetProps> = ({
                 <Users className="w-5 h-5 text-gray-600 dark:text-gray-400" />
                 <h3 className="font-semibold text-gray-800 dark:text-gray-100 transition-colors text-sm uppercase tracking-wide">Infidelity & Passion</h3>
               </div>
-              <span className={`px - 3 py - 1 rounded - full text - [10px] font - bold uppercase border ${getRiskColor(displayInfidelity.level)} `}>
+              <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase border ${getRiskColor(displayInfidelity.level)}`}>
                 {displayInfidelity.level.replace('_', ' ')}
               </span>
             </div>
@@ -238,8 +244,8 @@ export const RiskRadarWidget: React.FC<RiskRadarWidgetProps> = ({
               </div>
               <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 transition-colors">
                 <div
-                  className={`h - 3 rounded - full transition - all duration - 700 ${getRiskMeterColor(displayInfidelity.score)} `}
-                  style={{ width: `${displayInfidelity.score}% ` }}
+                  className={`h-3 rounded-full transition-all duration-700 ${getRiskMeterColor(displayInfidelity.score)}`}
+                  style={{ width: `${displayInfidelity.score}%` }}
                 />
               </div>
             </div>
@@ -336,10 +342,10 @@ export const RiskRadarWidget: React.FC<RiskRadarWidgetProps> = ({
           <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-6 flex items-center gap-3 transition-colors">
             <Heart className="w-6 h-6 text-red-500 dark:text-red-400" />
             Manglik Dosha Analysis
-            <span className={`ml - auto text - [10px] font - black uppercase tracking - widest px - 3 py - 1 rounded - full transition - colors ${riskAssessment.manglikAnalysis.compatibility.includes('High')
+            <span className={`ml-auto text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full transition-colors ${riskAssessment.manglikAnalysis.compatibility.includes('High')
               ? 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300'
               : 'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300'
-              } `}>
+              }`}>
               {riskAssessment.manglikAnalysis.compatibility}
             </span>
           </h3>
@@ -349,10 +355,10 @@ export const RiskRadarWidget: React.FC<RiskRadarWidgetProps> = ({
             <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800 shadow-sm transition-colors">
               <div className="flex items-center justify-between mb-3">
                 <span className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest">{partnerAName}</span>
-                <span className={`text - [10px] font - black px - 2 py - 0.5 rounded transition - colors ${riskAssessment.manglikAnalysis.partnerA.isManglik
+                <span className={`text-[10px] font-black px-2 py-0.5 rounded transition-colors ${riskAssessment.manglikAnalysis.partnerA.isManglik
                   ? 'bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400'
                   : 'bg-green-100 dark:bg-green-900/40 text-green-600 dark:text-green-400'
-                  } `}>
+                  }`}>
                   {riskAssessment.manglikAnalysis.partnerA.isManglik ? 'MANGLIK' : 'NON-MANGLIK'}
                 </span>
               </div>
@@ -363,7 +369,7 @@ export const RiskRadarWidget: React.FC<RiskRadarWidgetProps> = ({
                     <span>Dosha Intensity</span>
                     <div className="flex gap-1">
                       {[1, 2, 3].map(i => (
-                        <div key={i} className={`w - 3 h - 1.5 rounded - sm transition - colors ${i <= (riskAssessment.manglikAnalysis!.partnerA.score * 3) ? 'bg-red-400 dark:bg-red-500' : 'bg-gray-200 dark:bg-gray-700'} `} />
+                        <div key={i} className={`w-3 h-1.5 rounded-sm transition-colors ${i <= (riskAssessment.manglikAnalysis!.partnerA.score * 3) ? 'bg-red-400 dark:bg-red-500' : 'bg-gray-200 dark:bg-gray-700'}`} />
                       ))}
                     </div>
                   </div>
@@ -388,10 +394,10 @@ export const RiskRadarWidget: React.FC<RiskRadarWidgetProps> = ({
             <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800 shadow-sm transition-colors">
               <div className="flex items-center justify-between mb-3">
                 <span className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest">{partnerBName}</span>
-                <span className={`text - [10px] font - black px - 2 py - 0.5 rounded transition - colors ${riskAssessment.manglikAnalysis.partnerB.isManglik
+                <span className={`text-[10px] font-black px-2 py-0.5 rounded transition-colors ${riskAssessment.manglikAnalysis.partnerB.isManglik
                   ? 'bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400'
                   : 'bg-green-100 dark:bg-green-900/40 text-green-600 dark:text-green-400'
-                  } `}>
+                  }`}>
                   {riskAssessment.manglikAnalysis.partnerB.isManglik ? 'MANGLIK' : 'NON-MANGLIK'}
                 </span>
               </div>
@@ -402,7 +408,7 @@ export const RiskRadarWidget: React.FC<RiskRadarWidgetProps> = ({
                     <span>Dosha Intensity</span>
                     <div className="flex gap-1">
                       {[1, 2, 3].map(i => (
-                        <div key={i} className={`w - 3 h - 1.5 rounded - sm transition - colors ${i <= (riskAssessment.manglikAnalysis!.partnerB.score * 3) ? 'bg-red-400 dark:bg-red-500' : 'bg-gray-200 dark:bg-gray-700'} `} />
+                        <div key={i} className={`w-3 h-1.5 rounded-sm transition-colors ${i <= (riskAssessment.manglikAnalysis!.partnerB.score * 3) ? 'bg-red-400 dark:bg-red-500' : 'bg-gray-200 dark:bg-gray-700'}`} />
                       ))}
                     </div>
                   </div>
@@ -465,7 +471,7 @@ export const RiskRadarWidget: React.FC<RiskRadarWidgetProps> = ({
               <div key={index} className="p-4 rounded-xl bg-gray-50 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800/30 transition-all hover:border-amber-200 dark:hover:border-amber-900/50">
                 <div className="flex items-center justify-between mb-2">
                   <span className="font-bold text-gray-800 dark:text-gray-100 text-sm transition-colors">{yoga.name}</span>
-                  <span className={`px - 2 py - 0.5 rounded - full text - [10px] font - black uppercase border ${getSeverityColor(yoga.severity)} `}>
+                  <span className={`px-2 py-0.5 rounded-full text-[10px] font-black uppercase border ${getSeverityColor(yoga.severity)}`}>
                     {yoga.severity}
                   </span>
                 </div>
@@ -490,9 +496,9 @@ export const RiskRadarWidget: React.FC<RiskRadarWidgetProps> = ({
           <div className="space-y-3">
             {riskAssessment.protectiveFactors.map((factor, index) => (
               <div key={index} className="flex items-start gap-3 p-3 bg-green-50 dark:bg-green-900/15 rounded-xl border border-green-100 dark:border-green-800/30 transition-all hover:bg-green-100 dark:hover:bg-green-900/25">
-                <CheckCircle className={`w - 5 h - 5 mt - 0.5 flex - shrink - 0 ${factor.strength === 'strong' ? 'text-green-600 dark:text-green-400' :
+                <CheckCircle className={`w-5 h-5 mt-0.5 flex-shrink-0 ${factor.strength === 'strong' ? 'text-green-600 dark:text-green-400' :
                   'text-green-400 dark:text-green-600'
-                  } `} />
+                  }`} />
                 <div className="flex flex-col">
                   <span className="text-sm text-green-900 dark:text-green-200 font-bold transition-colors">{factor.text}</span>
                   <div className="flex items-center gap-2 mt-1">
@@ -541,7 +547,7 @@ export const RiskRadarWidget: React.FC<RiskRadarWidgetProps> = ({
           <div className="space-y-3">
             {riskAssessment.navamsaConfirmations.map((conf: { text: string; confirmed: boolean; profileName: string }, index: number) => (
               <div key={index} className="flex items-start gap-3 p-3 bg-sky-50 dark:bg-sky-900/15 rounded-xl border border-sky-100 dark:border-sky-800/30 transition-colors">
-                <div className={`w - 6 h - 6 rounded - full flex items - center justify - center flex - shrink - 0 ${conf.confirmed ? 'bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400' : 'bg-green-100 dark:bg-green-900/40 text-green-600 dark:text-green-400'} `}>
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${conf.confirmed ? 'bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400' : 'bg-green-100 dark:bg-green-900/40 text-green-600 dark:text-green-400'}`}>
                   {conf.confirmed ? <AlertTriangle className="w-3.5 h-3.5" /> : <CheckCircle className="w-3.5 h-3.5" />}
                 </div>
                 <div className="flex flex-col">

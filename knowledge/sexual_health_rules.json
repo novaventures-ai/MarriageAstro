@@ -293,10 +293,16 @@
       "saturn_venus_affliction": -25
     },
     "element_descriptions": {
-      "Fire_Air": "Excellent - Air fans Fire, passion is sustained",
-      "Fire_Water": "Challenging - Fire scorches water OR water extinguishes fire; intense but potentially exhausting",
-      "Water_Earth": "Good - Earth contains water, emotional depth with stability",
-      "Air_Earth": "Moderate - Different rhythms, needs conscious balance",
+      "Air_Air": "Mental - High variety and communication but may lack physical grounding",
+      "Air_Earth": "Moderate - Different rhythms; needs conscious balance between mental and physical needs",
+      "Air_Fire": "Excellent - Air fans Fire, passion is sustained and intellectually stimulated",
+      "Air_Water": "Moderate - Air creates ripples in Water; emotionally stimulating but potentially inconsistent",
+      "Earth_Earth": "Stable - High physical comfort and reliability but may become routine over time",
+      "Earth_Fire": "Good - Fire warms Earth, bringing creativity to stable physical passion",
+      "Earth_Water": "Good - Earth contains Water, providing emotional depth with reliable stability",
+      "Fire_Fire": "Intense - High passion but potential for burnout; needs grounding",
+      "Fire_Water": "Challenging - Fire scorches Water or Water extinguishes Fire; intense but potentially exhausting",
+      "Water_Water": "Deep - High emotional and sensual harmony; potentially too inward-looking",
       "Default": "Balanced - Mix of elements provides variety"
     }
   }
