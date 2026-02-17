@@ -185,32 +185,32 @@ export default function ChartDetailsWidget({ boyChart, girlChart }: ChartDetails
                             <div className="overflow-x-auto">
                                 <h4 className="font-semibold text-sm mb-3 text-gray-700 dark:text-gray-300 transition-colors">Planetary Positions ({activeVarga})</h4>
                                 <table className="w-full text-sm text-center">
-                                    <thead className="text-xs text-gray-500 dark:text-gray-400 uppercase bg-gray-50 dark:bg-gray-900 transition-colors">
+                                    <thead className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 uppercase bg-gray-50 dark:bg-gray-900 transition-colors">
                                         <tr>
-                                            <th className="px-3 py-2 text-left">Planet</th>
-                                            <th className="px-3 py-2">Sign</th>
-                                            <th className="px-3 py-2">Degree</th>
-                                            <th className="px-3 py-2">Nakshatra</th>
-                                            <th className="px-3 py-2">House</th>
+                                            <th className="px-2 py-2 text-left">Planet</th>
+                                            <th className="px-1 py-2 text-center">Sign</th>
+                                            <th className="px-1 py-2 text-center">Deg.</th>
+                                            <th className="px-1 py-2 text-center">Nakshatra</th>
+                                            <th className="px-1 py-2 text-center">H</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-gray-100 dark:divide-gray-700 transition-colors">
                                         {planets.map(p => (
-                                            <tr key={p.planet} className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
-                                                <td className="px-3 py-2 text-left font-medium">
+                                            <tr key={p.planet} className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors text-xs sm:text-sm">
+                                                <td className="px-2 py-2 text-left font-medium whitespace-nowrap">
                                                     <span className={cn(
                                                         p.planet === "Mars" && "text-red-600 dark:text-red-400",
                                                         p.planet === "Saturn" && "text-blue-700 dark:text-blue-400",
                                                         p.planet === "Sun" && "text-orange-600 dark:text-orange-400",
                                                         p.planet === "Moon" && "text-slate-500 dark:text-slate-400",
                                                         (p.planet === "Rahu" || p.planet === "Ketu") && "text-purple-600 dark:text-purple-400"
-                                                    )}>{p.planet}</span>
-                                                    {p.isRetrograde && <span className="ml-1 text-[10px] text-red-500 dark:text-red-400 font-bold">(R)</span>}
+                                                    )}>{p.planet.substring(0, 4)}</span>
+                                                    {p.isRetrograde && <span className="ml-0.5 text-[8px] text-red-500 dark:text-red-400 font-bold">(R)</span>}
                                                 </td>
-                                                <td className="px-3 py-2 text-gray-800 dark:text-gray-200">{p.sign}</td>
-                                                <td className="px-3 py-2 text-gray-800 dark:text-gray-200">{Math.floor(p.longitude % 30)}° {Math.round(((p.longitude % 30) % 1) * 60)}'</td>
-                                                <td className="px-3 py-2 text-xs text-gray-600 dark:text-gray-400">{p.nakshatra} ({p.nakshatraPada})</td>
-                                                <td className="px-3 py-2 text-gray-800 dark:text-gray-200">{p.house}</td>
+                                                <td className="px-1 py-2 text-gray-800 dark:text-gray-200 whitespace-nowrap">{p.sign.substring(0, 3)}</td>
+                                                <td className="px-1 py-2 text-gray-800 dark:text-gray-200 whitespace-nowrap">{Math.floor(p.longitude % 30)}°</td>
+                                                <td className="px-1 py-2 text-[10px] text-gray-600 dark:text-gray-400 whitespace-nowrap">{p.nakshatra.substring(0, 5)}</td>
+                                                <td className="px-1 py-2 text-gray-800 dark:text-gray-200">{p.house}</td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -226,21 +226,21 @@ export default function ChartDetailsWidget({ boyChart, girlChart }: ChartDetails
                                     <h4 className="font-semibold text-sm mb-2 text-indigo-900 dark:text-indigo-300 border-b dark:border-indigo-800 pb-1 transition-colors">KP Planetary Significators</h4>
                                     <div className="overflow-x-auto">
                                         <table className="w-full text-xs text-center border-collapse">
-                                            <thead className="bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400 transition-colors">
+                                            <thead className="bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400 transition-colors text-[10px] sm:text-xs">
                                                 <tr>
-                                                    <th className="p-2 text-left border-b dark:border-gray-800">Planet</th>
-                                                    <th className="p-2 border-b dark:border-gray-800">Star Lord</th>
-                                                    <th className="p-2 border-b dark:border-gray-800">Sub Lord</th>
-                                                    <th className="p-2 border-b dark:border-gray-800">Significations</th>
+                                                    <th className="p-1.5 sm:p-2 text-left border-b dark:border-gray-800">Planet</th>
+                                                    <th className="p-1.5 sm:p-2 border-b dark:border-gray-800 text-center">Star</th>
+                                                    <th className="p-1.5 sm:p-2 border-b dark:border-gray-800 text-center">Sub</th>
+                                                    <th className="p-1.5 sm:p-2 border-b dark:border-gray-800 text-center">Signif</th>
                                                 </tr>
                                             </thead>
-                                            <tbody className="divide-y dark:divide-gray-800 transition-colors">
+                                            <tbody className="divide-y dark:divide-gray-800 transition-colors text-[10px] sm:text-xs">
                                                 {kpData?.significators.map(s => (
                                                     <tr key={s.planet} className="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors">
-                                                        <td className="p-2 text-left font-medium border-b dark:border-gray-800 text-gray-800 dark:text-gray-200">{s.planet}</td>
-                                                        <td className="p-2 border-b dark:border-gray-800 text-gray-700 dark:text-gray-300">{s.starLord}</td>
-                                                        <td className="p-2 border-b dark:border-gray-800 font-medium text-indigo-700 dark:text-indigo-400">{s.subLord}</td>
-                                                        <td className="p-2 border-b dark:border-gray-800 text-gray-600 dark:text-gray-400 max-w-[150px] truncate" title={s.significations.join(', ')}>
+                                                        <td className="p-1.5 sm:p-2 text-left font-medium border-b dark:border-gray-800 text-gray-800 dark:text-gray-200 whitespace-nowrap">{s.planet.substring(0, 4)}</td>
+                                                        <td className="p-1.5 sm:p-2 border-b dark:border-gray-800 text-gray-700 dark:text-gray-300 whitespace-nowrap">{s.starLord.substring(0, 3)}</td>
+                                                        <td className="p-1.5 sm:p-2 border-b dark:border-gray-800 font-medium text-indigo-700 dark:text-indigo-400 whitespace-nowrap">{s.subLord.substring(0, 3)}</td>
+                                                        <td className="p-1.5 sm:p-2 border-b dark:border-gray-800 text-gray-600 dark:text-gray-400 max-w-[80px] sm:max-w-[150px] truncate" title={s.significations.join(', ')}>
                                                             {s.significations.join(', ')}
                                                         </td>
                                                     </tr>
@@ -256,29 +256,28 @@ export default function ChartDetailsWidget({ boyChart, girlChart }: ChartDetails
                                     <h4 className="font-semibold text-sm mb-2 text-indigo-900 dark:text-indigo-300 border-b dark:border-indigo-800 pb-1 transition-colors">KP House Cusps (Placidus)</h4>
                                     <div className="overflow-x-auto">
                                         <table className="w-full text-xs text-center border-collapse">
-                                            <thead className="bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400 transition-colors">
+                                            <thead className="bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400 transition-colors text-[10px] sm:text-xs">
                                                 <tr>
-                                                    <th className="p-2 border-b dark:border-gray-800">Cusp</th>
-                                                    <th className="p-2 border-b dark:border-gray-800">Sign</th>
-                                                    <th className="p-2 border-b dark:border-gray-800">Degree</th>
-                                                    <th className="p-2 border-b dark:border-gray-800">Sign Lord</th>
-                                                    <th className="p-2 border-b dark:border-gray-800">Star Lord</th>
-                                                    <th className="p-2 border-b dark:border-gray-800">Sub Lord</th>
+                                                    <th className="p-1.5 sm:p-2 border-b dark:border-gray-800">C</th>
+                                                    <th className="p-1.5 sm:p-2 border-b dark:border-gray-800">Sign</th>
+                                                    <th className="p-1.5 sm:p-2 border-b dark:border-gray-800">Deg</th>
+                                                    <th className="p-1.5 sm:p-2 border-b dark:border-gray-800">SL</th>
+                                                    <th className="p-1.5 sm:p-2 border-b dark:border-gray-800">StL</th>
+                                                    <th className="p-1.5 sm:p-2 border-b dark:border-gray-800">SbL</th>
                                                 </tr>
                                             </thead>
-                                            <tbody className="divide-y dark:divide-gray-800 transition-colors">
+                                            <tbody className="divide-y dark:divide-gray-800 transition-colors text-[10px] sm:text-xs">
                                                 {kpData?.cusps.map(cusp => {
                                                     const degreeVal = cusp.longitude % 30;
                                                     const deg = Math.floor(degreeVal);
-                                                    const min = Math.floor((degreeVal % 1) * 60);
                                                     return (
                                                         <tr key={cusp.cuspNumber} className="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors">
-                                                            <td className="p-2 font-bold border-b dark:border-gray-800 text-gray-900 dark:text-gray-100">{cusp.cuspNumber}</td>
-                                                            <td className="p-2 border-b dark:border-gray-800 text-gray-800 dark:text-gray-200">{cusp.sign}</td>
-                                                            <td className="p-2 border-b dark:border-gray-800 text-gray-700 dark:text-gray-300">{deg}° {min}'</td>
-                                                            <td className="p-2 border-b dark:border-gray-800 text-gray-700 dark:text-gray-300">{cusp.signLord}</td>
-                                                            <td className="p-2 border-b dark:border-gray-800 text-gray-700 dark:text-gray-300">{cusp.starLord}</td>
-                                                            <td className="p-2 border-b dark:border-gray-800 font-medium text-indigo-700 dark:text-indigo-400">{cusp.subLord}</td>
+                                                            <td className="p-1.5 sm:p-2 font-bold border-b dark:border-gray-800 text-gray-900 dark:text-gray-100">{cusp.cuspNumber}</td>
+                                                            <td className="p-1.5 sm:p-2 border-b dark:border-gray-800 text-gray-800 dark:text-gray-200">{cusp.sign.substring(0, 3)}</td>
+                                                            <td className="p-1.5 sm:p-2 border-b dark:border-gray-800 text-gray-700 dark:text-gray-300">{deg}°</td>
+                                                            <td className="p-1.5 sm:p-2 border-b dark:border-gray-800 text-gray-700 dark:text-gray-300">{cusp.signLord.substring(0, 3)}</td>
+                                                            <td className="p-1.5 sm:p-2 border-b dark:border-gray-800 text-gray-700 dark:text-gray-300">{cusp.starLord.substring(0, 3)}</td>
+                                                            <td className="p-1.5 sm:p-2 border-b dark:border-gray-800 font-medium text-indigo-700 dark:text-indigo-400">{cusp.subLord.substring(0, 3)}</td>
                                                         </tr>
                                                     );
                                                 })}

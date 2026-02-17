@@ -136,20 +136,22 @@ export const SelfReportPage: React.FC = () => {
       {/* Header */}
       <header className="sticky top-0 z-40 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
+          <div className="flex items-center justify-between gap-2 overflow-hidden">
+            <div className="flex items-center gap-2 min-w-0">
               <button
                 onClick={() => navigate('/')}
-                className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                className="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors flex-shrink-0"
               >
-                <ArrowLeft className="w-6 h-6 text-gray-600 dark:text-gray-400" />
+                <ArrowLeft className="w-5 h-5 text-gray-600 dark:text-gray-400" />
               </button>
-              <Logo size="md" className="mr-2" />
-              <div>
-                <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100">
-                  {selfChart?.name}'s Marriage Analysis
+              <div className="flex-shrink-0">
+                <Logo size="sm" className="hidden xs:block" />
+              </div>
+              <div className="min-w-0">
+                <h1 className="text-base sm:text-lg font-bold text-gray-800 dark:text-gray-100 truncate">
+                  {selfChart?.name}'s Analysis
                 </h1>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
+                <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 truncate">
                   Score: {selfReport.marriagePotential.score}/100 • {selfReport.marriagePotential.verdict.replace('_', ' ')}
                 </p>
               </div>
@@ -224,7 +226,7 @@ export const SelfReportPage: React.FC = () => {
         {/* Main Content */}
         <div>
           {/* Navigation Tabs */}
-          <div className="mb-6 overflow-x-auto">
+          <div className="mb-6 overflow-x-auto scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
             <div className="flex gap-2 pb-2">
               {tabs.map((tab) => {
                 const Icon = tab.icon;
@@ -232,12 +234,12 @@ export const SelfReportPage: React.FC = () => {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium whitespace-nowrap transition-all ${activeTab === tab.id
+                    className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg font-medium whitespace-nowrap transition-all text-sm sm:text-base ${activeTab === tab.id
                       ? 'bg-purple-600 text-white shadow-md'
                       : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                       }`}
                   >
-                    <Icon className="w-4 h-4" />
+                    <Icon className="w-3 h-3 sm:w-4 sm:h-4" />
                     {tab.label}
                   </button>
                 );

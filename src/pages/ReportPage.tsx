@@ -78,22 +78,24 @@ export const ReportPage: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 min-w-0">
             <button
               onClick={() => {
                 clearReport();
                 navigate('/calculator');
               }}
-              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+              className="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex-shrink-0"
             >
-              <ArrowLeft className="w-6 h-6 text-gray-600 dark:text-gray-400" />
+              <ArrowLeft className="w-5 h-5 text-gray-600 dark:text-gray-400" />
             </button>
-            <Logo size="md" className="mr-2" />
-            <div>
-              <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100 transition-colors">
+            <div className="flex-shrink-0">
+              <Logo size="sm" className="hidden xs:block" />
+            </div>
+            <div className="min-w-0">
+              <h1 className="text-xl sm:text-3xl font-bold text-gray-800 dark:text-gray-100 transition-colors truncate">
                 Compatibility Report
               </h1>
-              <p className="text-gray-600 dark:text-gray-400 transition-colors">
+              <p className="text-sm text-gray-600 dark:text-gray-400 transition-colors truncate">
                 {currentReport.chartA.name} & {currentReport.chartB.name}
               </p>
             </div>

@@ -201,16 +201,16 @@ export const DivisionalChartWidget: React.FC<DivisionalChartWidgetProps> = ({
               </h3>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 mb-6">
+            <div className="grid grid-cols-1 xs:grid-cols-2 gap-4 mb-6">
               <div className="p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl transition-colors">
                 <span className="text-xs text-indigo-600 dark:text-indigo-400 font-bold uppercase transition-colors">Ascendant</span>
-                <p className="text-xl font-black text-indigo-900 dark:text-indigo-100 transition-colors">{activeD9.ascendant}</p>
+                <p className="text-lg sm:text-xl font-black text-indigo-900 dark:text-indigo-100 transition-colors">{activeD9.ascendant}</p>
               </div>
               <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-xl transition-colors">
                 <span className="text-xs text-purple-600 dark:text-purple-400 font-bold uppercase transition-colors">7th Lord</span>
                 <div className="flex items-center gap-2 transition-colors">
                   {getPlanetIcon(activeD9.seventhLord)}
-                  <p className="text-xl font-black text-purple-900 dark:text-purple-100 transition-colors">{activeD9.seventhLord}</p>
+                  <p className="text-lg sm:text-xl font-black text-purple-900 dark:text-purple-100 transition-colors">{activeD9.seventhLord}</p>
                 </div>
               </div>
             </div>
@@ -292,15 +292,15 @@ export const DivisionalChartWidget: React.FC<DivisionalChartWidgetProps> = ({
                 Soul Mirror: Arudha Padas - {activeName}
               </h3>
 
-              <div className="grid grid-cols-2 gap-4 mb-4">
+              <div className="grid grid-cols-1 xs:grid-cols-2 gap-4 mb-4">
                 <div className="p-4 bg-cyan-50 dark:bg-cyan-900/10 rounded-xl border border-cyan-100 dark:border-cyan-800/30">
                   <span className="text-[10px] text-cyan-600 dark:text-cyan-400 font-bold uppercase tracking-widest">A7 (Dara Pada)</span>
-                  <p className="text-lg font-black text-cyan-900 dark:text-cyan-100">{activeExtended.arudhaPadas.a7.sign}</p>
+                  <p className="text-base sm:text-lg font-black text-cyan-900 dark:text-cyan-100">{activeExtended.arudhaPadas.a7.sign}</p>
                   <p className="text-[10px] text-gray-500 mt-1 leading-tight">{activeExtended.arudhaPadas.a7.meaning}</p>
                 </div>
                 <div className="p-4 bg-indigo-50 dark:bg-indigo-900/10 rounded-xl border border-indigo-100 dark:border-indigo-800/30">
                   <span className="text-[10px] text-indigo-600 dark:text-indigo-400 font-bold uppercase tracking-widest">UL (Upapada)</span>
-                  <p className="text-lg font-black text-indigo-900 dark:text-indigo-100">{activeExtended.arudhaPadas.ul.sign}</p>
+                  <p className="text-base sm:text-lg font-black text-indigo-900 dark:text-indigo-100">{activeExtended.arudhaPadas.ul.sign}</p>
                   <p className="text-[10px] text-gray-500 mt-1 leading-tight">{activeExtended.arudhaPadas.ul.meaning}</p>
                 </div>
               </div>
