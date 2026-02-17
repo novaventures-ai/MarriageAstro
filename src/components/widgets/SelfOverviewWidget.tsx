@@ -61,7 +61,7 @@ export const SelfOverviewWidget: React.FC<SelfOverviewWidgetProps> = ({ report }
               Get personalized insights about your marriage journey
             </p>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 no-print">
               <button
                 onClick={() => getAIInsight('SELF_GUIDE')}
                 className="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-colors"
@@ -77,6 +77,9 @@ export const SelfOverviewWidget: React.FC<SelfOverviewWidgetProps> = ({ report }
                 className="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-colors"
                 disabled={loading}
               >
+                {loading && activeInsight === 'TIMING_FORECAST' ? (
+                  <RefreshCw className="w-4 h-4 animate-spin inline mr-1" />
+                ) : null}
                 Timing Prediction
               </button>
               <button
@@ -84,6 +87,9 @@ export const SelfOverviewWidget: React.FC<SelfOverviewWidgetProps> = ({ report }
                 className="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-colors"
                 disabled={loading}
               >
+                {loading && activeInsight === 'PERSONAL_REMEDIES' ? (
+                  <RefreshCw className="w-4 h-4 animate-spin inline mr-1" />
+                ) : null}
                 My Remedies
               </button>
             </div>

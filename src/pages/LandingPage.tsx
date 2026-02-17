@@ -143,8 +143,8 @@ export const LandingPage: React.FC = () => {
             />
             <FeatureCard
               icon={<Heart className="w-8 h-8 text-pink-500 dark:text-pink-400" />}
-              title="Sexual Health"
-              description="In-depth analysis of physical compatibility and satisfaction"
+              title="Physical Health & Vitality"
+              description="In-depth analysis of physical compatibility and vitality"
             />
             <FeatureCard
               icon={<Sparkles className="w-8 h-8 text-amber-500 dark:text-amber-400" />}

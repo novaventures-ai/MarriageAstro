@@ -123,9 +123,9 @@ BASED ON: Mars (libido), Venus (sensuality), 8th house, Moon, Yoni type
 TONE: Respectful, professional, insightful. Never crude or explicit.
 
 OUTPUT:
-### 🔥 Your Intimate Nature
+### 🔥 Physical Profile & Vitality
 - **Yoni Type**: Animal and its characteristics
-- **Libido Level**: High/Moderate/Low + explanation
+- **Vitality Level**: High/Moderate/Low + explanation
 - **Romantic Style**: Passionate, gentle, intellectual, etc.
 - **What You Need**: Emotional connection vs physical attraction
 

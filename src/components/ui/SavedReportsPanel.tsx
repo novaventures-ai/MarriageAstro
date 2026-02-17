@@ -135,17 +135,16 @@ export const SavedReportsPanel: React.FC = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {reports.map((report) => (
-                    <button
+                    <div
                         key={report.id}
                         onClick={() => handleLoadReport(report.id)}
-                        disabled={loadingReportId === report.id}
-                        className="group relative bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5 text-left hover:border-indigo-400 dark:hover:border-indigo-500 hover:shadow-lg transition-all duration-200 disabled:opacity-60"
+                        className={`group relative bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5 text-left hover:border-indigo-400 dark:hover:border-indigo-500 hover:shadow-lg transition-all duration-200 cursor-pointer ${loadingReportId === report.id ? 'opacity-60 pointer-events-none' : ''}`}
                     >
                         {/* Delete button */}
                         <button
                             onClick={(e) => handleDeleteReport(e, report.id)}
                             disabled={deletingId === report.id}
-                            className="absolute top-3 right-3 p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 opacity-0 group-hover:opacity-100 transition-all"
+                            className="absolute top-3 right-3 p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 opacity-0 group-hover:opacity-100 transition-all z-10"
                             title="Delete report"
                         >
                             {deletingId === report.id ? (
@@ -184,7 +183,7 @@ export const SavedReportsPanel: React.FC = () => {
                                 <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-indigo-500 transition-colors" />
                             )}
                         </div>
-                    </button>
+                    </div>
                 ))}
             </div>
         </div>

@@ -93,7 +93,7 @@ Goal: Describe the future spouse vividly.
 Focus: Appearance, Career in modern terms, and Personality quirks.
 Output: "Visual Profile" -> "Career Archetype" -> "Where you might meet".`,
 
-    SEXUAL_HEALTH_ANALYSIS: `You are "The Vedic Healer" (Ayurveda & Medical Astrology Expert).
+    PHYSICAL_VITALITY_ANALYSIS: `You are "The Vedic Healer" (Ayurveda & Medical Astrology Expert).
 Input: Mars (Vitality), Venus (Pleasure), 8th House (Longevity/Secrets), 12th House (Pleasure of Bed).
 Goal: Analyze physical intimacy and vitality potential.
 Tone: Discreet, Professional, Medical, Holistic.
@@ -105,7 +105,7 @@ Goal: Forecast key relationship milestones.
 Structure: "Current Phase Energy" -> "Golden Windows (Dates)" -> "Cautionary Periods".`
 };
 
-export type InsightType = 'GLOBAL_VERDICT' | 'RISK_MITIGATION' | 'ASHTAKOOT_ANALYSIS' | 'REMEDY_PRIORITY' | 'SYNASTRY_DEEP_DIVE' | 'ASTRO_MIND' | 'DIVISIONAL_ANALYSIS' | 'KP_PREDICTION' | 'JAIMINI_ANALYSIS' | 'SPOUSE_PROFILE' | 'SEXUAL_HEALTH_ANALYSIS' | 'TIMING_ANALYSIS';
+export type InsightType = 'GLOBAL_VERDICT' | 'RISK_MITIGATION' | 'ASHTAKOOT_ANALYSIS' | 'REMEDY_PRIORITY' | 'SYNASTRY_DEEP_DIVE' | 'ASTRO_MIND' | 'DIVISIONAL_ANALYSIS' | 'KP_PREDICTION' | 'JAIMINI_ANALYSIS' | 'SPOUSE_PROFILE' | 'PHYSICAL_VITALITY_ANALYSIS' | 'TIMING_ANALYSIS';
 
 export const generateVerdictPrompt = (context: AIContext) => {
     return `
@@ -216,7 +216,7 @@ Venus Position: ${context.venus}
 
 Describe the future spouse's likely appearance, profession, and personality archetype.
 `;
-        case 'SEXUAL_HEALTH_ANALYSIS':
+        case 'PHYSICAL_VITALITY_ANALYSIS':
             return `
 ANALYSIS FOR: ${context.partnerName || 'User'}
 Mars (Male Energy): ${JSON.stringify(context.mars)}
@@ -224,7 +224,7 @@ Venus (Female Energy): ${JSON.stringify(context.venus)}
 8th House (Hidden Matters): ${JSON.stringify(context.eighthHouse)}
 12th House (Bed Pleasures): ${JSON.stringify(context.twelfthHouse)}
 
-Provide a discreet, professional analysis of sexual compatibility and vitality.
+Provide a discreet, professional analysis of physical compatibility and vitality.
 `;
         case 'TIMING_ANALYSIS':
             return `

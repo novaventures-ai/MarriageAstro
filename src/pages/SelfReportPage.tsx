@@ -120,7 +120,7 @@ export const SelfReportPage: React.FC = () => {
     { id: 'charts', label: 'Charts', icon: MapIcon },
     { id: 'divisional', label: 'Divisional Charts', icon: User },
     { id: 'spouse', label: 'Spouse', icon: Heart },
-    { id: 'sexual', label: 'Sexual', icon: Activity },
+    { id: 'sexual', label: 'Physical', icon: Activity },
     { id: 'timing', label: 'Timing', icon: Clock },
     { id: 'psychology', label: 'Psychology', icon: Brain },
     { id: 'doshas', label: 'Doshas', icon: Shield },
@@ -176,13 +176,6 @@ export const SelfReportPage: React.FC = () => {
                 <MessageCircle className="w-6 h-6" />
               </button>
 
-              <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors text-gray-600">
-                <Share2 className="w-5 h-5" />
-              </button>
-
-              <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors text-gray-600">
-                <Download className="w-5 h-5" />
-              </button>
 
               <ThemeToggle />
             </div>
@@ -271,17 +264,16 @@ export const SelfReportPage: React.FC = () => {
 
             {activeTab === 'spouse' && selfReport.spousePrediction && (
               <ErrorBoundary>
-                <SpousePredictionWidget
-                  prediction={selfReport.spousePrediction}
-                  gender={selfChart?.gender || 'other'}
-                  userName={selfChart?.name}
-                />
-              </ErrorBoundary>
-            )}
-
-            {activeTab === 'spouse' && selfChart && (
-              <ErrorBoundary>
-                <SeventhHousePlacementWidget chart={selfChart} />
+                <div className="space-y-6">
+                  <SpousePredictionWidget
+                    prediction={selfReport.spousePrediction}
+                    gender={selfChart?.gender || 'other'}
+                    userName={selfChart?.name}
+                  />
+                  {selfChart && (
+                    <SeventhHousePlacementWidget chart={selfChart} />
+                  )}
+                </div>
               </ErrorBoundary>
             )}
 

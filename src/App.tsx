@@ -16,6 +16,7 @@ import { SelfCalculatorPage } from './pages/SelfCalculatorPage';
 import { SelfReportPage } from './pages/SelfReportPage';
 import { AddPartnerPage } from './pages/AddPartnerPage';
 import { QuickComparePage } from './pages/QuickComparePage';
+import { PartnerDetailsPage } from './pages/PartnerDetailsPage';
 
 import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
@@ -40,6 +41,7 @@ function App() {
               <Route path="/self-report" element={<SelfReportPage />} />
               <Route path="/add-partner" element={<AddPartnerPage />} />
               <Route path="/quick-compare/:partnerId" element={<QuickComparePage />} />
+              <Route path="/partner/:partnerId" element={<PartnerDetailsPage />} />
 
               {/* Auth */}
               <Route path="/auth/callback" element={<AuthCallbackPage />} />

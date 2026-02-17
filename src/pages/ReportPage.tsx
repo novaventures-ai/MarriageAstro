@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppStore } from '../store/useAppStore';
 import { OverviewWidget } from '../components/widgets/OverviewWidget';
@@ -58,7 +58,7 @@ export const ReportPage: React.FC = () => {
     { id: 'overview', label: 'Overview' },
     { id: 'ashtakoot', label: 'Ashtakoot' },
     { id: 'porutham', label: 'Porutham' },
-    { id: 'sexual', label: 'Sexual' },
+    { id: 'sexual', label: 'Physical' },
     { id: 'spouse', label: 'Spouse' },
     { id: 'synastry', label: 'Synastry' },
     { id: 'divisional', label: 'Divisional' },
@@ -102,18 +102,6 @@ export const ReportPage: React.FC = () => {
           <div className="flex items-center gap-3">
             <AuthButton />
             <ThemeToggle />
-
-
-
-            <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 transition-colors">
-              <Share2 className="w-4 h-4" />
-              <span className="hidden sm:inline">Share</span>
-            </button>
-
-            <button className="flex items-center gap-2 px-4 py-2 bg-indigo-600 dark:bg-indigo-500 text-white rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-colors">
-              <Download className="w-4 h-4" />
-              <span className="hidden sm:inline">Download PDF</span>
-            </button>
           </div>
         </div>
 
@@ -135,6 +123,13 @@ export const ReportPage: React.FC = () => {
 
         {/* Report Content */}
         <div className="space-y-6">
+          {activeTab === 'charts' && (
+            <ChartDetailsWidget
+              boyChart={currentReport.chartA}
+              girlChart={currentReport.chartB}
+            />
+          )}
+
           {activeTab === 'overview' && (
             <OverviewWidget report={currentReport} viewMode={viewMode} />
           )}
@@ -164,46 +159,51 @@ export const ReportPage: React.FC = () => {
           )}
 
           {activeTab === 'spouse' && (
-            <div className="space-y-8">
-              <SpousePredictionWidget
-                prediction={currentReport.spousePrediction}
-                partnerPrediction={currentReport.partnerSpousePrediction}
-                gender={currentReport.chartA.gender}
-                inLawAnalysis={currentReport.inLawAnalysis}
-                partnerInLawAnalysis={currentReport.partnerInLawAnalysis}
-                userName={currentReport.chartA.name}
-                partnerName={currentReport.chartB.name}
-              />
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 px-4">
-                    {currentReport.chartA.name}'s 7th House
-                  </h3>
-                  <SeventhHousePlacementWidget chart={currentReport.chartA} />
-                </div>
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 px-4">
-                    {currentReport.chartB.name}'s 7th House
-                  </h3>
-                  <SeventhHousePlacementWidget chart={currentReport.chartB} />
+            <div>
+              <div className="space-y-8">
+                <SpousePredictionWidget
+                  prediction={currentReport.spousePrediction}
+                  partnerPrediction={currentReport.partnerSpousePrediction}
+                  gender={currentReport.chartA.gender}
+                  inLawAnalysis={currentReport.inLawAnalysis}
+                  partnerInLawAnalysis={currentReport.partnerInLawAnalysis}
+                  userName={currentReport.chartA.name}
+                  partnerName={currentReport.chartB.name}
+                />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 px-4">
+                      {currentReport.chartA.name}'s 7th House
+                    </h3>
+                    <SeventhHousePlacementWidget chart={currentReport.chartA} />
+                  </div>
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 px-4">
+                      {currentReport.chartB.name}'s 7th House
+                    </h3>
+                    <SeventhHousePlacementWidget chart={currentReport.chartB} />
+                  </div>
                 </div>
               </div>
             </div>
           )}
+
           {activeTab === 'synastry' && (
-            <div className="space-y-6">
-              <SynastryWidget
-                synastry={currentReport.synastry}
-                chartAName={currentReport.chartA.name}
-                chartBName={currentReport.chartB.name}
-              />
-              <ModernInsightsWidget
-                modernPlanets={currentReport.modernPlanets}
-                modernChallenges={currentReport.modernChallenges}
-                chartA={currentReport.chartA}
-                chartB={currentReport.chartB}
-                enhancedInsights={currentReport.modernInsightsEnhanced}
-              />
+            <div>
+              <div className="space-y-6">
+                <SynastryWidget
+                  synastry={currentReport.synastry}
+                  chartAName={currentReport.chartA.name}
+                  chartBName={currentReport.chartB.name}
+                />
+                <ModernInsightsWidget
+                  modernPlanets={currentReport.modernPlanets}
+                  modernChallenges={currentReport.modernChallenges}
+                  chartA={currentReport.chartA}
+                  chartB={currentReport.chartB}
+                  enhancedInsights={currentReport.modernInsightsEnhanced}
+                />
+              </div>
             </div>
           )}
 
@@ -220,7 +220,7 @@ export const ReportPage: React.FC = () => {
           {activeTab === 'kp' && currentReport.kpAnalysis && (
             <div className="space-y-6">
               <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 transition-colors">
-                <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4 transition-colors">KP Astrology Analysis</h2>
+                <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2 transition-colors">KP Astrology Analysis</h2>
                 <p className="text-gray-600 dark:text-gray-400 transition-colors">Krishnamurti Paddhati (KP) System - Precision predictive astrology</p>
               </div>
               <KPAnalysisWidget
@@ -235,7 +235,7 @@ export const ReportPage: React.FC = () => {
           {activeTab === 'chara' && currentReport.charaKarakas && currentReport.charaDasha && currentReport.upapadaLagna && currentReport.vivahSaham && (
             <div className="space-y-6">
               <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 transition-colors">
-                <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4 transition-colors">Jaimini Analysis</h2>
+                <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2 transition-colors">Jaimini Analysis</h2>
                 <p className="text-gray-600 dark:text-gray-400 transition-colors">Chara Karakas, Chara Dasha, Upapada Lagna & Vivah Saham</p>
               </div>
               <CharaKarakasWidget
@@ -323,13 +323,6 @@ export const ReportPage: React.FC = () => {
                 const getDasha = (dashas: any[]) => dashas.find(d => d.isCurrent)?.planet || 'Unknown';
                 return `${currentReport.chartA.name}: ${getDasha(currentReport.chartA.dashas)} Dasha | ${currentReport.chartB.name}: ${getDasha(currentReport.chartB.dashas)} Dasha`;
               })()}
-            />
-          )}
-
-          {activeTab === 'charts' && (
-            <ChartDetailsWidget
-              boyChart={currentReport.chartA}
-              girlChart={currentReport.chartB}
             />
           )}
         </div>

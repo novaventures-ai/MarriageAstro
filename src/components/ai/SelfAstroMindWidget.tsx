@@ -70,7 +70,7 @@ export const SelfAstroMindWidget: React.FC<SelfAstroMindWidgetProps> = ({
         insightType = 'SPOUSE_DETAILED_PROFILE';
       } else if (lowerContent.includes('remedy') || lowerContent.includes('solution') || lowerContent.includes('fix')) {
         insightType = 'PERSONAL_REMEDIES';
-      } else if (lowerContent.includes('sexual') || lowerContent.includes('intimacy') || lowerContent.includes('yoni')) {
+      } else if (lowerContent.includes('sexual') || lowerContent.includes('intimacy') || lowerContent.includes('yoni') || lowerContent.includes('physical profile') || lowerContent.includes('vitality')) {
         insightType = 'SEXUAL_PROFILE';
       } else if (lowerContent.includes('psychology') || lowerContent.includes('mind') || lowerContent.includes('attachment')) {
         insightType = 'PSYCHOLOGICAL_PROFILE';

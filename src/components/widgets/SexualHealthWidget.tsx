@@ -35,7 +35,7 @@ export const SexualHealthWidget: React.FC<SexualHealthWidgetProps> = ({
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 transition-colors">
         <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6 flex items-center gap-3 transition-colors">
           <Heart className="w-7 h-7 text-pink-500 dark:text-pink-400" />
-          Sexual Compatibility
+          Physical Compatibility
         </h2>
 
         <div className="flex flex-col md:flex-row items-center gap-8">
@@ -100,7 +100,7 @@ export const SexualHealthWidget: React.FC<SexualHealthWidgetProps> = ({
               </p>
             </div>
             <button
-              onClick={() => triggerAnalysis('SEXUAL_HEALTH_ANALYSIS', {
+              onClick={() => triggerAnalysis('PHYSICAL_VITALITY_ANALYSIS', {
                 mars: 'Mars data context', // In a real app, pass actual Mars position
                 venus: 'Venus data context', // In a real app, pass actual Venus position
                 eighthHouse: '8th House context',
@@ -138,7 +138,7 @@ export const SexualHealthWidget: React.FC<SexualHealthWidgetProps> = ({
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 transition-colors">
           <div className="flex items-center gap-3 mb-4">
             <Activity className="w-6 h-6 text-blue-600 dark:text-blue-400" />
-            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 transition-colors">{partnerAName}&apos;s Sexual Health</h3>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 transition-colors">{partnerAName}&apos;s Physical Health</h3>
           </div>
 
           <div className="space-y-4">
@@ -187,7 +187,7 @@ export const SexualHealthWidget: React.FC<SexualHealthWidgetProps> = ({
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 transition-colors">
           <div className="flex items-center gap-3 mb-4">
             <Heart className="w-6 h-6 text-pink-500 dark:text-pink-400" />
-            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 transition-colors">{partnerBName}&apos;s Sexual Health</h3>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 transition-colors">{partnerBName}&apos;s Physical Health</h3>
           </div>
 
           <div className="space-y-4">
@@ -241,7 +241,7 @@ export const SexualHealthWidget: React.FC<SexualHealthWidgetProps> = ({
           </h3>
           <div className="space-y-4">
             <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">Sexual Orientation Profile</span>
+              <span className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">Intimate Profile</span>
               <p className="font-semibold text-indigo-600 dark:text-indigo-400 mt-0.5">{orientationA?.pattern || 'Conventional'}</p>
               <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 leading-relaxed">{orientationA?.description}</p>
             </div>
@@ -254,7 +254,7 @@ export const SexualHealthWidget: React.FC<SexualHealthWidgetProps> = ({
           </h3>
           <div className="space-y-4">
             <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">Sexual Orientation Profile</span>
+              <span className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">Intimate Profile</span>
               <p className="font-semibold text-pink-600 dark:text-pink-400 mt-0.5">{orientationB?.pattern || 'Conventional'}</p>
               <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 leading-relaxed">{orientationB?.description}</p>
             </div>
@@ -266,7 +266,7 @@ export const SexualHealthWidget: React.FC<SexualHealthWidgetProps> = ({
       <div className="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/30 rounded-lg transition-colors">
         <p className="text-sm text-blue-700 dark:text-blue-300 transition-colors">
           <strong>Note:</strong> This analysis is based on astrological indicators and should not
-          replace professional medical advice. If you have concerns about sexual health, please
+          replace professional medical advice. If you have concerns about physical health, please
           consult a qualified healthcare provider.
         </p>
       </div>

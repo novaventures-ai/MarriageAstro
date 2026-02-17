@@ -73,10 +73,10 @@ export const AshtakootWidget: React.FC<AshtakootWidgetProps> = ({
     },
     {
       key: 'yoni',
-      label: 'Yoni (Sexual/Physical Compatibility)',
+      label: 'Physical Nature Compatibility (Yoni)',
       max: 4,
       description: 'Animal symbols representing physical nature',
-      detailInfo: 'Yoni represents the animal nature and sexual compatibility. Each nakshatra has an animal symbol (Horse, Elephant, Snake, etc.). Friendly animal pairs score high (4 points), neutral score medium (2-3), and enemy animals score low (0-1). This affects physical attraction and satisfaction.'
+      detailInfo: 'Yoni represents the animal nature and physical compatibility. Each nakshatra has an animal symbol (Horse, Elephant, Snake, etc.). Friendly animal pairs score high (4 points), neutral score medium (2-3), and enemy animals score low (0-1). This affects physical attraction and satisfaction.'
     },
     {
       key: 'grahaMaitri',
