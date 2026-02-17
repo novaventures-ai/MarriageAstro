@@ -282,6 +282,8 @@ export const useUserProfileStore = create<UserProfileState>()(
           if (session?.user) {
             const partners = await getUserPartners(session.user.id);
             set({ partners, isLoadingPartners: false });
+          } else {
+            set({ isLoadingPartners: false });
           }
         } catch (error) {
           console.error('Failed to load partners:', error);
