@@ -1,0 +1,221 @@
+{
+  "uranus": {
+    "name": "Uranus",
+    "symbol": "♅",
+    "nature": "Revolutionary, Sudden, Independent, Eccentric",
+    "houses": {
+      "1": {
+        "description": "Strong need for independence and individuality in relationships",
+        "effects": [
+          "Unconventional approach to marriage",
+          "May resist traditional commitment patterns",
+          "Needs partner who respects freedom",
+          "Sudden changes in self-expression"
+        ]
+      },
+      "5": {
+        "description": "Unconventional romance and creative expression",
+        "effects": [
+          "Attraction to unusual or unconventional partners",
+          "Sudden romantic attractions",
+          "May prefer open or non-traditional relationships",
+          "Children may be independent or unusual"
+        ]
+      },
+      "7": {
+        "description": "Key placement for marriage and partnerships",
+        "effects": [
+          "Marriage may be unconventional or sudden",
+          "Need for freedom within partnership",
+          "Attracts eccentric or independent partners",
+          "Relationship may have sudden beginnings/endings",
+          "Risk: Commitment issues, unpredictable partner"
+        ]
+      },
+      "8": {
+        "description": "Transformation through intimacy and shared resources",
+        "effects": [
+          "Sudden financial changes through marriage",
+          "Intense but unpredictable intimate life",
+          "May experience sudden losses or gains",
+          "Interest in alternative intimacy practices"
+        ]
+      },
+      "11": {
+        "description": "Unconventional social circles and friendships",
+        "effects": [
+          "Friends may become romantic partners",
+          "Network includes unconventional people",
+          "Social life affects relationship stability"
+        ]
+      },
+      "12": {
+        "description": "Hidden desire for freedom and rebellion",
+        "effects": [
+          "Secret desire to break free from constraints",
+          "Unconscious rebellion against norms",
+          "May attract secretive or unstable partners"
+        ]
+      }
+    },
+    "aspects": {
+      "Venus": {
+        "description": "Sudden attractions, unconventional love style",
+        "positive": "Exciting, fresh approach to love",
+        "challenging": "Inconsistent affections, sudden breakups"
+      },
+      "Mars": {
+        "description": "Erratic passion and energy",
+        "positive": "Exciting sexual energy",
+        "challenging": "Aggressive outbursts, impulsive actions"
+      },
+      "Moon": {
+        "description": "Emotional unpredictability",
+        "positive": "Intuitive and perceptive",
+        "challenging": "Mood swings, emotional detachment"
+      },
+      "Sun": {
+        "description": "Unique self-expression",
+        "positive": "Authentic and original",
+        "challenging": "Rebellion against authority, ego conflicts"
+      }
+    }
+  },
+  "neptune": {
+    "name": "Neptune",
+    "symbol": "♆",
+    "nature": "Spiritual, Illusory, Idealistic, Deceptive",
+    "houses": {
+      "1": {
+        "description": "Idealistic self-image, sensitive personality",
+        "effects": [
+          "Strong intuition and empathy",
+          "May have unclear boundaries in relationships",
+          "Prone to self-deception about relationship reality"
+        ]
+      },
+      "5": {
+        "description": "Romantic idealism and creative inspiration",
+        "effects": [
+          "Romanticizes relationships heavily",
+          "May fall for 'fantasy' rather than reality",
+          "Creative and spiritual children"
+        ]
+      },
+      "7": {
+        "description": "Major impact on marriage - rose-colored glasses",
+        "effects": [
+          "Idealizes partner and marriage",
+          "May attract deceptive or confused partners",
+          "Tendency to overlook red flags",
+          "Spiritual connection possible but boundaries blurred",
+          "Risk: Disillusionment when reality hits"
+        ]
+      },
+      "8": {
+        "description": "Spiritual intimacy and shared resources confusion",
+        "effects": [
+          "May be deceived about finances",
+          "Deep spiritual bond through intimacy",
+          "Potential for secrets and hidden debts"
+        ]
+      },
+      "12": {
+        "description": "Strong spiritual inclinations, hidden relationships",
+        "effects": [
+          "Secret romantic connections",
+          "Addiction to escape mechanisms",
+          "Deep spiritual and mystical experiences"
+        ]
+      }
+    },
+    "aspects": {
+      "Venus": {
+        "description": "Romantic idealization, spiritual love",
+        "positive": "Soulmate feeling, spiritual connection",
+        "challenging": "Deception in love, unrealistic expectations, codependency"
+      },
+      "Mercury": {
+        "description": "Confused or inspired communication",
+        "positive": "Poetic expression, intuitive understanding",
+        "challenging": "Miscommunication, passive-aggressive behavior, ghosting"
+      },
+      "Moon": {
+        "description": "Heightened sensitivity and imagination",
+        "positive": "Deep empathy, psychic connection",
+        "challenging": "Hypersensitivity, emotional confusion, anxiety"
+      }
+    }
+  },
+  "pluto": {
+    "name": "Pluto",
+    "symbol": "♇",
+    "nature": "Transformative, Intense, Power-oriented, Deep",
+    "houses": {
+      "1": {
+        "description": "Intense personality, personal transformation",
+        "effects": [
+          "Strong presence and magnetism",
+          "Life involves major personal transformations",
+          "May be controlling in relationships"
+        ]
+      },
+      "5": {
+        "description": "Intense romantic experiences, power in creativity",
+        "effects": [
+          "All-consuming romantic attractions",
+          "May experience romantic obsessions",
+          "Children bring transformation"
+        ]
+      },
+      "7": {
+        "description": "Profound transformation through marriage",
+        "effects": [
+          "Marriage is life-transforming",
+          "Power struggles with partner likely",
+          "May attract controlling or intense partners",
+          "Relationships may involve crisis and rebirth",
+          "Risk: Control issues, psychological manipulation, potential abuse"
+        ]
+      },
+      "8": {
+        "description": "Deep transformation through intimacy",
+        "effects": [
+          "Sexual intensity and exploration",
+          "Financial power struggles",
+          "Life-death-rebirth themes in relationships"
+        ]
+      },
+      "10": {
+        "description": "Power and career transformation",
+        "effects": [
+          "Career may affect marriage",
+          "Public power struggles",
+          "Transformation through status changes"
+        ]
+      }
+    },
+    "aspects": {
+      "Venus": {
+        "description": "Obsessive attraction, intense love",
+        "positive": "Transformative love, deep passion",
+        "challenging": "Obsession, jealousy, possessiveness, control issues"
+      },
+      "Mars": {
+        "description": "Intense passion and aggression",
+        "positive": "Powerful sexual energy, transformation through action",
+        "challenging": "Violence, power struggles, destructive anger"
+      },
+      "Sun": {
+        "description": "Personal power and transformation",
+        "positive": "Strong leadership, regeneration ability",
+        "challenging": "Narcissism, control issues, power battles"
+      },
+      "Moon": {
+        "description": "Deep emotional transformation",
+        "positive": "Emotional healing and depth",
+        "challenging": "Emotional manipulation, deep-seated fears"
+      }
+    }
+  }
+}

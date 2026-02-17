@@ -1,0 +1,3464 @@
+{
+  "nakshatra_compatibility": {
+    "Ashwini": {
+      "lord": "Ketu",
+      "deity": "Ashwini Kumaras",
+      "yoni": "Ashwa (Horse)",
+      "gana": "Deva",
+      "nadi": "Vata",
+      "gender": "Male",
+      "symbol": "Horse Head",
+      "animal": "Horse",
+      "compatibility": {
+        "Ashwini": {
+          "score": 77,
+          "description": "Very similar personalities. Passionate and confident love. Learn to curb independent nature to avoid clashes."
+        },
+        "Bharani": {
+          "score": 91,
+          "description": "Best partnership! Passionate, exciting and sexy. Bharani exudes sensual energy. They soothe your fears of rejection."
+        },
+        "Krittika": {
+          "score": 61,
+          "description": "Instant attraction but needs stoking with love. Krittika is shy and diffident. Chase them to keep interest."
+        },
+        "Rohini": {
+          "score": 62,
+          "description": "Sexy and sensuous. Karmic link for secret pleasures. Beware of Rohini's possessiveness and establish trust."
+        },
+        "Mrigashirsha": {
+          "score": 61,
+          "description": "Mrigasira stimulates you. Passionate and fiery love. Their possessiveness can make you uncomfortable."
+        },
+        "Ardra": {
+          "score": 44,
+          "description": "Appears to be soul mate but emotionally turbulent. Extreme emotions - from deliriously happy to disconsolate."
+        },
+        "Punarvasu": {
+          "score": 55,
+          "description": "Better as friends and adventure partners. You hate their constant advice on how to lead your life."
+        },
+        "Pushya": {
+          "score": 83,
+          "description": "Not instant attraction but grows with time. Excellent long-term relationship with deep foundations."
+        },
+        "Ashlesha": {
+          "score": 75,
+          "description": "Mystical and wise, keeps you interested. Problem is their possessiveness - they cannot tolerate your independence."
+        },
+        "Magha": {
+          "score": 55,
+          "description": "Unfinished karmic business. Many highs and lows. Both idealistic but can make each other unhappy."
+        },
+        "Purva Phalguni": {
+          "score": 67,
+          "description": "You love their exquisite taste and charm. They match your sensuality. Only issue: they don't understand your spiritual nature."
+        },
+        "Uttara Phalguni": {
+          "score": 34,
+          "description": "Cosmic relationship of Ketu and Sun is difficult. Distrust on both sides. Overcome it for a sublime relationship."
+        },
+        "Hasta": {
+          "score": 27,
+          "description": "Most difficult relationship. Hard to relate to their emotionalism. No sexual spark. Cannot appreciate their positive qualities."
+        },
+        "Chitra": {
+          "score": 47,
+          "description": "Never able to give full attention. Passion can be good but love may not stand test of time. Battlefield relationship."
+        },
+        "Swati": {
+          "score": 70,
+          "description": "Not sexy at first but mentally stimulating. Fulfill your other dreams. Pay attention to sexual intimacy."
+        },
+        "Vishakha": {
+          "score": 55,
+          "description": "Sensuous and passionate but lack of sensitivity. Restlessness undermines confidence. Commitment issues."
+        },
+        "Anuradha": {
+          "score": 66,
+          "description": "Appreciate their attractions given time. Passionate under cool exterior. Make them feel secure."
+        },
+        "Jyeshta": {
+          "score": 36,
+          "description": "Spiritually complex relationship. You know they can make you unhappy but unable to let go. Can hurt each other."
+        },
+        "Mula": {
+          "score": 33,
+          "description": "Lots in common - adventurous and fun. Share ruler Ketu. But spiritually you don't bond. Past becomes a demon."
+        },
+        "Purva Ashadha": {
+          "score": 66,
+          "description": "Charming, sexy, talented and creative. Passion is great, playful and sensual. Fun to be with."
+        },
+        "Uttara Ashadha": {
+          "score": 66,
+          "description": "Friendly but keeps emotional distance. You take this as challenge. Unconventional and special love possible."
+        },
+        "Shravana": {
+          "score": 72,
+          "description": "Serious workaholics with twinkle in eyes. Enjoy sex and are innovative lovers. Could easily fall in love."
+        },
+        "Dhanishta": {
+          "score": 53,
+          "description": "Fiery and combative love life. Both love sex but don't make it an issue of fights. Not possessive."
+        },
+        "Shatabhisha": {
+          "score": 38,
+          "description": "Good at sex, bad at intimacy. Past issues bother you. Unable to empathize with emotions or be open."
+        },
+        "Purva Bhadrapada": {
+          "score": 42,
+          "description": "Want to protect their dreaminess but soon desperate to escape. Passionate then distant. Arrogant lion underneath."
+        },
+        "Uttara Bhadrapada": {
+          "score": 64,
+          "description": "Can be friend, mate or colleague but never lover - until you discover hidden sensuality. Committed and steady love."
+        },
+        "Revati": {
+          "score": 72,
+          "description": "Feel intimate and emotional. Their love makes you feel strong. They understand you. Inspire protective instincts."
+        }
+      },
+      "best_match": [
+        "Bharani",
+        "Pushya"
+      ],
+      "worst_match": [
+        "Hasta",
+        "Uttara Phalguni"
+      ]
+    },
+    "Bharani": {
+      "lord": "Venus",
+      "deity": "Yama",
+      "yoni": "Gaja (Elephant)",
+      "gana": "Manushya",
+      "nadi": "Pitta",
+      "gender": "Female",
+      "symbol": "Vulva/Yoni",
+      "animal": "Elephant",
+      "compatibility": {
+        "Ashwini": {
+          "score": 91,
+          "description": "Your best relationship: dynamic, vital and adventurous. You can soothe their fears of rejection and lack of love."
+        },
+        "Bharani": {
+          "score": 77,
+          "description": "Similar natures bind you together: creative, caring, nurturing. Instinctively understanding partner's needs."
+        },
+        "Krittika": {
+          "score": 65,
+          "description": "Fascinates you. May need to seduce them into being exciting. Warm and loving but destructive if mocked."
+        },
+        "Rohini": {
+          "score": 64,
+          "description": "Can fulfill your need for sex and passion. Give them love, romance and fantasy. Possessive and may not let you go."
+        },
+        "Mrigashirsha": {
+          "score": 43,
+          "description": "Instant attraction, hot and fiery passion can propel you into an affair. The fire can burn out too quickly."
+        },
+        "Ardra": {
+          "score": 69,
+          "description": "You are able to understand the deeper needs of Ardra, their fears and insecurities. You find them witty and charming."
+        },
+        "Punarvasu": {
+          "score": 76,
+          "description": "Great potential. Let your Punarvasu lover know that you need a lover, not a guru. They have many admirers."
+        },
+        "Pushya": {
+          "score": 61,
+          "description": "Disciplined, practical and pragmatic, Pushya are what you really need. The balance of sensuality and passions."
+        },
+        "Ashlesha": {
+          "score": 66,
+          "description": "An unconventional relationship that works despite being based on different rules of engagement."
+        },
+        "Magha": {
+          "score": 53,
+          "description": "You are attracted to Magha's power and arrogance - and their unexpected sensitivity."
+        },
+        "Purva Phalguni": {
+          "score": 47,
+          "description": "Planet Venus rules both your Nakshatras. You enjoy a light flirtation but soon realise how similar you are."
+        },
+        "Uttara Phalguni": {
+          "score": 60,
+          "description": "Uttara Phalguni is keen to be helpful and will always be there for you. They can be boring but there are compensations."
+        },
+        "Hasta": {
+          "score": 50,
+          "description": "Hasta invites you into their homes and hearts. They will love you without accepting anything in return."
+        },
+        "Chitra": {
+          "score": 22,
+          "description": "A difficult partnership. Chitra is exotic, adventurous, and sensuous. This can lead to an exciting experience."
+        },
+        "Swati": {
+          "score": 78,
+          "description": "Swati are charmers. You love their verve, energy, and the interesting way they flirt with you."
+        },
+        "Vishakha": {
+          "score": 50,
+          "description": "The sexual excitement that brought you together cannot be sustained at the high note on which it started."
+        },
+        "Anuradha": {
+          "score": 47,
+          "description": "Anuradha is your spiritually complex relationship. Karmic issues from the past can intrude."
+        },
+        "Jyeshta": {
+          "score": 35,
+          "description": "You can be tied to Jyeshta's deeply sensual nature. They are mystical and intriguing."
+        },
+        "Mula": {
+          "score": 35,
+          "description": "You are attracted by their unconventional, daring lifestyle. You use all your wiles and sexual experience to get them interested."
+        },
+        "Purva Ashadha": {
+          "score": 47,
+          "description": "You connect to the Venusian qualities in each other. Your directions in life differ and this creates disagreements."
+        },
+        "Uttara Ashadha": {
+          "score": 72,
+          "description": "You are drawn to the cool asceticism of Uttara Ashadha. The relationship can only be fulfilling if you take the sensual lead."
+        },
+        "Shravana": {
+          "score": 77,
+          "description": "Great sexual attraction. Shravana's ability to pick up the vibrations of your senses and fulfill your every demand."
+        },
+        "Dhanishta": {
+          "score": 26,
+          "description": "You should think carefully before embarking on a relationship where your deeper sexual needs may not be met."
+        },
+        "Shatabhisha": {
+          "score": 53,
+          "description": "Shatabhishak can be your good friends, do not mistake friendship for love. You need warm, passionate partners."
+        },
+        "Purva Bhadrapada": {
+          "score": 62,
+          "description": "Who rules this relationship, the elephant or the lion? Sexually your worst partner but compatible in other areas."
+        },
+        "Uttara Bhadrapada": {
+          "score": 11,
+          "description": "Your worst relationship. Uttara Bhadra can be ascetic, rigid and cold. They may not express any of the warmth to you."
+        },
+        "Revati": {
+          "score": 69,
+          "description": "Revati is your perfect sexual partner. As you get to know of their inner purity and spirituality, this influences you."
+        }
+      },
+      "best_match": [
+        "Ashwini",
+        "Swati"
+      ],
+      "worst_match": [
+        "Uttara Bhadrapada",
+        "Dhanishta"
+      ]
+    },
+    "Krittika": {
+      "lord": "Sun",
+      "deity": "Agni",
+      "yoni": "Mesha (Sheep)",
+      "gana": "Rakshasa",
+      "nadi": "Kapha",
+      "gender": "Female",
+      "symbol": "Razor/Flame",
+      "animal": "Sheep",
+      "compatibility": {
+        "Ashwini": {
+          "score": 61,
+          "description": "Instant attraction but needs stoking with love. Krittika is shy and diffident. Chase them to keep interest."
+        },
+        "Bharani": {
+          "score": 65,
+          "description": "Fascinates you. May need to seduce them into being exciting. Warm and loving but destructive if mocked."
+        },
+        "Krittika": {
+          "score": 55,
+          "description": "Both shy and diffident. Takes time to express love. Good long-term potential but lacks initial spark."
+        },
+        "Rohini": {
+          "score": 30,
+          "description": "Warm but diffident Krittika hard to resist. Soon feel dominated. May seek other relationships making trust hard."
+        },
+        "Mrigashirsha": {
+          "score": 47,
+          "description": "Intellectual connection strong. Passion may be lacking. Need to work on emotional intimacy."
+        },
+        "Ardra": {
+          "score": 53,
+          "description": "Complex relationship with ups and downs. Emotional turbulence can be challenging."
+        },
+        "Punarvasu": {
+          "score": 58,
+          "description": "Good friendship base. Need to develop romantic connection. Shared values help."
+        },
+        "Pushya": {
+          "score": 67,
+          "description": "Stable and nurturing relationship. Both practical and caring. Good for long-term."
+        },
+        "Ashlesha": {
+          "score": 42,
+          "description": "Difficult dynamic. Power struggles and emotional manipulation possible."
+        },
+        "Magha": {
+          "score": 47,
+          "description": "Don't trust enough to share vulnerabilities. Playing 'who's stronger?' Both ignoring inner feelings covering insecurities."
+        },
+        "Purva Phalguni": {
+          "score": 61,
+          "description": "Venusian warmth helps open up. Fun and light relationship. Need deeper connection over time."
+        },
+        "Uttara Phalguni": {
+          "score": 78,
+          "description": "Excellent match. Both ruled by Sun. Strong, stable, and supportive. Share similar values."
+        },
+        "Hasta": {
+          "score": 72,
+          "description": "Moon and Sun balance. Emotional and practical. Good understanding between partners."
+        },
+        "Chitra": {
+          "score": 44,
+          "description": "Mars energy can clash. Passion present but conflicts arise. Need compromise."
+        },
+        "Swati": {
+          "score": 38,
+          "description": "Rahu influence creates uncertainty. Unconventional but challenging."
+        },
+        "Vishakha": {
+          "score": 52,
+          "description": "Jupiter brings wisdom but can be overwhelming. Need balance in relationship."
+        },
+        "Anuradha": {
+          "score": 60,
+          "description": "Powerful and dynamic, strong pull. Strong and silent type. Envelop you in warmth."
+        },
+        "Jyeshta": {
+          "score": 76,
+          "description": "Invigorated by warmth and straightforward approach. Strong so cannot manipulate. Feel secure and loved."
+        },
+        "Mula": {
+          "score": 41,
+          "description": "Ketu influence creates spiritual complexity. May lack practical grounding."
+        },
+        "Purva Ashadha": {
+          "score": 54,
+          "description": "Venusian qualities present. Creative but may lack discipline."
+        },
+        "Uttara Ashadha": {
+          "score": 82,
+          "description": "Sun rulers connect well. Strong, dignified relationship. Mutual respect and support."
+        },
+        "Shravana": {
+          "score": 66,
+          "description": "Lunar influence brings emotional depth. Good listener and supportive partner."
+        },
+        "Dhanishta": {
+          "score": 48,
+          "description": "Mars energy can create conflicts. Need to channel passion constructively."
+        },
+        "Shatabhisha": {
+          "score": 43,
+          "description": "Rahu creates complexity. Unconventional relationship with challenges."
+        },
+        "Purva Bhadrapada": {
+          "score": 56,
+          "description": "Jupiter influence brings growth. Can be overwhelming at times."
+        },
+        "Uttara Bhadrapada": {
+          "score": 68,
+          "description": "Saturn brings stability. Slow to develop but strong over time."
+        },
+        "Revati": {
+          "score": 74,
+          "description": "Mercury and Sun work well together. Good communication and understanding."
+        }
+      },
+      "best_match": [
+        "Jyeshta"
+      ],
+      "worst_match": [
+        "Rohini",
+        "Shravana",
+        "Swati"
+      ]
+    },
+    "Rohini": {
+      "lord": "Moon",
+      "deity": "Brahma",
+      "yoni": "Sarpa (Serpent)",
+      "gana": "Manushya",
+      "nadi": "Kapha",
+      "gender": "Female",
+      "symbol": "Chariot/Ox Cart",
+      "animal": "Serpent",
+      "compatibility": {
+        "Ashwini": {
+          "score": 62,
+          "description": "Exciting, fiery and passionate. Wild untameable quality. Both restless souls keep relationship fresh. Don't be too possessive."
+        },
+        "Bharani": {
+          "score": 64,
+          "description": "Exploration of sensuality. Be willing to be possessed. Journey of ecstasy. Beware of excesses in sexual and financial matters."
+        },
+        "Krittika": {
+          "score": 30,
+          "description": "Warm but diffident Krittika hard to resist. Soon feel dominated. May seek other relationships making trust hard."
+        },
+        "Rohini": {
+          "score": 55,
+          "description": "Too alike. Both look at life with rose-tinted glasses. Lack of practicality. Lack of trust, jealousy and possessiveness."
+        },
+        "Mrigashirsha": {
+          "score": 77,
+          "description": "Good friendship and exciting sex. Want same things. Introduce Mrigasira to sensuality. Emotionally complete."
+        },
+        "Ardra": {
+          "score": 64,
+          "description": "Moon fears Rahu but becomes delicious excitement. Practical responses to romance irritate. Avoid distrust."
+        },
+        "Punarvasu": {
+          "score": 66,
+          "description": "Enjoy their wisdom. Love playing sensual games. Both jealous and possessive, not hot on commitment."
+        },
+        "Pushya": {
+          "score": 75,
+          "description": "Don't look for superficial attraction. Can love you in ways few others can. Bring peace to restless mind."
+        },
+        "Ashlesha": {
+          "score": 33,
+          "description": "Mystical, secretive, manipulative. Power play and sensual games. Both venomous with sharp words. Emotional mess."
+        },
+        "Magha": {
+          "score": 28,
+          "description": "Worst relationship. You need romance, they want sex. Their rejection hard to deal with. Philandering makes you jealous."
+        },
+        "Purva Phalguni": {
+          "score": 66,
+          "description": "Will indulge your romantic dreams. Excellent foil - their practicality gives base to your emotions. Enjoy life together."
+        },
+        "Uttara Phalguni": {
+          "score": 72,
+          "description": "Love their strength - makes you feel secure. Not most imaginative but there for you. Beware of jealous temper."
+        },
+        "Hasta": {
+          "score": 69,
+          "description": "Enjoy their sophistication and earthiness. Both moody but understand this. Like their simple approach to life."
+        },
+        "Chitra": {
+          "score": 49,
+          "description": "Attracted to dynamic, confident, passionate Chitra. Let them dominate but discover implacability and selfishness."
+        },
+        "Swati": {
+          "score": 42,
+          "description": "Spiritually complex. Irrational mistrust. Moon frightened of Rahu. Fear interpreted as lack of trust."
+        },
+        "Vishakha": {
+          "score": 30,
+          "description": "Unable to understand inner needs. Happy as long as you play by their rules. Unrealistic expectations."
+        },
+        "Anuradha": {
+          "score": 80,
+          "description": "Aspire to divine love and self-realization through love. Passionate love brings out best in you. Remember to come back to earth."
+        },
+        "Jyeshta": {
+          "score": 67,
+          "description": "Love mystical charm and intellect. Satisfy need for luxury. May not be totally in tune spiritually but give freedom."
+        },
+        "Mula": {
+          "score": 36,
+          "description": "Tend to put responsibility of love on them. Ill-equipped to handle. Aspires to freedom. Can be hurtful and cruel."
+        },
+        "Purva Ashadha": {
+          "score": 53,
+          "description": "Fall for charm and creativity but may be falling for image. Realistic and develop friendship first. Need to be free."
+        },
+        "Uttara Ashadha": {
+          "score": 37,
+          "description": "Extreme jealousy and sexual rivalry. Mutual attraction compulsive but their coldness makes you lose faith."
+        },
+        "Shravana": {
+          "score": 50,
+          "description": "Know they are moody but become detached. Not there when you need them. Feel neglected and ignored."
+        },
+        "Dhanishta": {
+          "score": 53,
+          "description": "Happy to romance but no commitment. Suddenly austere when you show preference for luxury. Mixed signals."
+        },
+        "Shatabhisha": {
+          "score": 76,
+          "description": "Initially cold and unfeeling. Fall in love and they respond. Unique way of loving. Open emotionally to you."
+        },
+        "Purva Bhadrapada": {
+          "score": 60,
+          "description": "Generous, warm, flamboyant. Keep you in luxury. Detached side - need to do things alone. Don't let jealousy spoil."
+        },
+        "Uttara Bhadrapada": {
+          "score": 75,
+          "description": "Love dependability. They nurture and support. Secret sensuality behind cool persona. Usually won't risk alienating them."
+        },
+        "Revati": {
+          "score": 53,
+          "description": "Fall for idealism but hard to live up to image. They don't want sensuality, you want luxury. Descends into mediocrity."
+        }
+      },
+      "best_match": [
+        "Anuradha",
+        "Mrigashirsha"
+      ],
+      "worst_match": [
+        "Magha",
+        "Krittika"
+      ]
+    },
+    "Mrigashirsha": {
+      "lord": "Mars",
+      "deity": "Soma",
+      "yoni": "Sarpa (Serpent)",
+      "gana": "Deva",
+      "nadi": "Pitta",
+      "gender": "Neuter",
+      "symbol": "Deer's Head",
+      "animal": "Deer",
+      "compatibility": {
+        "Ashwini": {
+          "score": 61,
+          "description": "Mrigasira stimulates you. Passionate and fiery love. Their possessiveness can make you uncomfortable."
+        },
+        "Bharani": {
+          "score": 43,
+          "description": "Instant attraction, hot and fiery passion can propel you into an affair. The fire can burn out too quickly."
+        },
+        "Krittika": {
+          "score": 47,
+          "description": "Intellectual connection strong. Passion may be lacking. Need to work on emotional intimacy."
+        },
+        "Rohini": {
+          "score": 77,
+          "description": "Good friendship and exciting sex. Want same things. Introduce Mrigasira to sensuality. Emotionally complete."
+        },
+        "Mrigashirsha": {
+          "score": 58,
+          "description": "Similar natures. Both restless and seeking. Good intellectual match but may lack emotional depth."
+        },
+        "Ardra": {
+          "score": 72,
+          "description": "Excellent match. Both ruled by Mars/Rahu energy. Dynamic and exciting. Strong mental connection."
+        },
+        "Punarvasu": {
+          "score": 54,
+          "description": "Jupiter influence brings wisdom. May feel too philosophical at times."
+        },
+        "Pushya": {
+          "score": 63,
+          "description": "Saturn brings stability to restless nature. Good balance between adventure and security."
+        },
+        "Ashlesha": {
+          "score": 49,
+          "description": "Mercury connection but different expressions. Can be challenging emotionally."
+        },
+        "Magha": {
+          "score": 57,
+          "description": "Intellectual repartee and casual flirtation. Pleasantly surprised by sensuality. Jealous and want commitment."
+        },
+        "Purva Phalguni": {
+          "score": 61,
+          "description": "Venusian charm attracts. Fun and light but need deeper connection."
+        },
+        "Uttara Phalguni": {
+          "score": 68,
+          "description": "Good balance. Sun energy provides direction to restless nature."
+        },
+        "Hasta": {
+          "score": 82,
+          "description": "Best match! Moon and Mars work beautifully. Emotional depth with passionate expression."
+        },
+        "Chitra": {
+          "score": 26,
+          "description": "Both Mars-ruled can clash. Too similar in independence. Competition rather than partnership."
+        },
+        "Swati": {
+          "score": 44,
+          "description": "Rahu creates complexity. Unconventional but unstable."
+        },
+        "Vishakha": {
+          "score": 51,
+          "description": "Jupiter expansion meets Mars drive. Can be overwhelming."
+        },
+        "Anuradha": {
+          "score": 47,
+          "description": "Frustrating relationship. Refuse to accept love without questioning. Put up defenses fast."
+        },
+        "Jyeshta": {
+          "score": 53,
+          "description": "Constantly challenge and they rise to provocation. Find criticism irritating. Get along in practical areas."
+        },
+        "Mula": {
+          "score": 48,
+          "description": "Ketu creates spiritual connection but may lack practical grounding."
+        },
+        "Purva Ashadha": {
+          "score": 56,
+          "description": "Venus brings creativity. Good friendship base."
+        },
+        "Uttara Ashadha": {
+          "score": 64,
+          "description": "Sun provides direction. Good long-term potential."
+        },
+        "Shravana": {
+          "score": 74,
+          "description": "Lunar nurturing complements restless nature. Good emotional support."
+        },
+        "Dhanishta": {
+          "score": 22,
+          "description": "Mars clash! Both independent and competitive. Difficult to sustain."
+        },
+        "Shatabhisha": {
+          "score": 55,
+          "description": "Rahu connection creates mystery. Unconventional relationship."
+        },
+        "Purva Bhadrapada": {
+          "score": 58,
+          "description": "Jupiter wisdom appeals. Good intellectual match."
+        },
+        "Uttara Bhadrapada": {
+          "score": 66,
+          "description": "Saturn stability helps. Slow to warm up but good potential."
+        },
+        "Revati": {
+          "score": 71,
+          "description": "Mercury connection. Good communication and mental stimulation."
+        }
+      },
+      "best_match": [
+        "Ardra",
+        "Rohini"
+      ],
+      "worst_match": [
+        "Chitra",
+        "Dhanishta"
+      ]
+    },
+    "Ardra": {
+      "lord": "Rahu",
+      "deity": "Rudra",
+      "yoni": "Shwaan (Dog)",
+      "gana": "Manushya",
+      "nadi": "Vata",
+      "gender": "Female",
+      "symbol": "Teardrop",
+      "animal": "Dog",
+      "compatibility": {
+        "Ashwini": {
+          "score": 44,
+          "description": "Appears to be soul mate but emotionally turbulent. Extreme emotions - from deliriously happy to disconsolate."
+        },
+        "Bharani": {
+          "score": 69,
+          "description": "You are able to understand the deeper needs of Ardra, their fears and insecurities. You find them witty and charming."
+        },
+        "Krittika": {
+          "score": 53,
+          "description": "Complex relationship with ups and downs. Emotional turbulence can be challenging."
+        },
+        "Rohini": {
+          "score": 64,
+          "description": "Moon fears Rahu but becomes delicious excitement. Practical responses to romance irritate. Avoid distrust."
+        },
+        "Mrigashirsha": {
+          "score": 72,
+          "description": "Excellent match. Both ruled by Mars/Rahu energy. Dynamic and exciting. Strong mental connection."
+        },
+        "Ardra": {
+          "score": 52,
+          "description": "Too similar in emotional intensity. Can create stormy relationship. Need grounding."
+        },
+        "Punarvasu": {
+          "score": 61,
+          "description": "Jupiter provides wisdom to navigate emotions. Good balance."
+        },
+        "Pushya": {
+          "score": 58,
+          "description": "Saturn brings stability. Can help ground emotional turbulence."
+        },
+        "Ashlesha": {
+          "score": 67,
+          "description": "Mercury connection. Both have depth. Complex but rewarding."
+        },
+        "Magha": {
+          "score": 58,
+          "description": "Profound relationship with complex karmic aspects. Inner being connections. Great ups and downs. Love can be special."
+        },
+        "Purva Phalguni": {
+          "score": 54,
+          "description": "Venus brings lightness. Can help balance intensity."
+        },
+        "Uttara Phalguni": {
+          "score": 62,
+          "description": "Sun provides clarity. Helps navigate emotional storms."
+        },
+        "Hasta": {
+          "score": 48,
+          "description": "Moon connection but different expressions. Can be challenging."
+        },
+        "Chitra": {
+          "score": 59,
+          "description": "Mars energy adds passion. Dynamic but needs management."
+        },
+        "Swati": {
+          "score": 76,
+          "description": "Rahu connection! Both ruled by Rahu. Understand each other's complexity. Intense and transformative."
+        },
+        "Vishakha": {
+          "score": 57,
+          "description": "Jupiter expansion with Rahu intensity. Can be overwhelming."
+        },
+        "Anuradha": {
+          "score": 53,
+          "description": "Attraction is fearful fascination. Inability to combine sex with words of love makes you feel unloved."
+        },
+        "Jyeshta": {
+          "score": 14,
+          "description": "Bring worst out in each other. Dominant and aggressive thinking can deal with aftermath. Can press self-destruct."
+        },
+        "Mula": {
+          "score": 63,
+          "description": "Ketu-Rahu axis. Spiritual connection. Intense but transformative."
+        },
+        "Purva Ashadha": {
+          "score": 55,
+          "description": "Venus brings creativity. Good balance to intensity."
+        },
+        "Uttara Ashadha": {
+          "score": 59,
+          "description": "Sun provides direction. Helps focus energy."
+        },
+        "Shravana": {
+          "score": 51,
+          "description": "Lunar connection. Emotional understanding present."
+        },
+        "Dhanishta": {
+          "score": 64,
+          "description": "Mars energy aligns. Passionate and dynamic."
+        },
+        "Shatabhisha": {
+          "score": 71,
+          "description": "Rahu connection strong. Understand each other's depths."
+        },
+        "Purva Bhadrapada": {
+          "score": 56,
+          "description": "Jupiter wisdom helps. Good for growth."
+        },
+        "Uttara Bhadrapada": {
+          "score": 61,
+          "description": "Saturn stability provides grounding."
+        },
+        "Revati": {
+          "score": 58,
+          "description": "Mercury connection. Good communication."
+        }
+      },
+      "best_match": [
+        "Mrigashirsha",
+        "Swati"
+      ],
+      "worst_match": [
+        "Jyeshta"
+      ]
+    },
+    "Punarvasu": {
+      "lord": "Jupiter",
+      "deity": "Aditi",
+      "yoni": "Marjar (Cat)",
+      "gana": "Deva",
+      "nadi": "Vata",
+      "gender": "Male",
+      "symbol": "Quiver of Arrows",
+      "animal": "Cat",
+      "compatibility": {
+        "Ashwini": {
+          "score": 55,
+          "description": "Better as friends and adventure partners. You hate their constant advice on how to lead your life."
+        },
+        "Bharani": {
+          "score": 76,
+          "description": "Great potential. Let your Punarvasu lover know that you need a lover, not a guru. They have many admirers."
+        },
+        "Krittika": {
+          "score": 58,
+          "description": "Good friendship base. Need to develop romantic connection. Shared values help."
+        },
+        "Rohini": {
+          "score": 66,
+          "description": "Enjoy their wisdom. Love playing sensual games. Both jealous and possessive, not hot on commitment."
+        },
+        "Mrigashirsha": {
+          "score": 54,
+          "description": "Jupiter influence brings wisdom. May feel too philosophical at times."
+        },
+        "Ardra": {
+          "score": 61,
+          "description": "Jupiter provides wisdom to navigate emotions. Good balance."
+        },
+        "Punarvasu": {
+          "score": 68,
+          "description": "Similar natures. Both seeking and philosophical. Good intellectual match."
+        },
+        "Pushya": {
+          "score": 74,
+          "description": "Excellent match! Both Jupiter-ruled. Share values and spiritual outlook. Nurturing and supportive."
+        },
+        "Ashlesha": {
+          "score": 46,
+          "description": "Mercury clash. Different worldviews. Challenging."
+        },
+        "Magha": {
+          "score": 51,
+          "description": "Find stimulating, listen to advice. Great friends but intimate relationship challenging. No sexual compatibility."
+        },
+        "Purva Phalguni": {
+          "score": 63,
+          "description": "Venus brings warmth. Good balance to philosophical nature."
+        },
+        "Uttara Phalguni": {
+          "score": 71,
+          "description": "Sun and Jupiter work well. Good balance of expansion and focus."
+        },
+        "Hasta": {
+          "score": 69,
+          "description": "Moon and Jupiter harmonious. Emotional and philosophical balance."
+        },
+        "Chitra": {
+          "score": 52,
+          "description": "Mars energy can be too aggressive. Need patience."
+        },
+        "Swati": {
+          "score": 49,
+          "description": "Rahu creates unpredictability. Unstable."
+        },
+        "Vishakha": {
+          "score": 77,
+          "description": "Jupiter connection! Both expansive and philosophical. Excellent spiritual partnership."
+        },
+        "Anuradha": {
+          "score": 62,
+          "description": "Enjoy ability to be everywhere. Happy to wait. Expand horizons and give stability by loving selflessly."
+        },
+        "Jyeshta": {
+          "score": 22,
+          "description": "Attraction on surface. Not into complicated relationships but you enjoy them. Try to control, they may leave."
+        },
+        "Mula": {
+          "score": 36,
+          "description": "Ketu challenges Jupiter. Spiritual but difficult."
+        },
+        "Purva Ashadha": {
+          "score": 64,
+          "description": "Venus and Jupiter harmonious. Creative and expansive."
+        },
+        "Uttara Ashadha": {
+          "score": 73,
+          "description": "Sun and Jupiter work well. Strong values and direction."
+        },
+        "Shravana": {
+          "score": 78,
+          "description": "Lunar nurturing with Jupiter wisdom. Excellent emotional and spiritual match."
+        },
+        "Dhanishta": {
+          "score": 47,
+          "description": "Mars too aggressive. Conflicts likely."
+        },
+        "Shatabhisha": {
+          "score": 35,
+          "description": "Rahu disturbs Jupiter. Unstable and unpredictable."
+        },
+        "Purva Bhadrapada": {
+          "score": 81,
+          "description": "Jupiter connection! Both expansive and philosophical. Excellent match."
+        },
+        "Uttara Bhadrapada": {
+          "score": 76,
+          "description": "Saturn and Jupiter combine for stability and wisdom."
+        },
+        "Revati": {
+          "score": 84,
+          "description": "Mercury and Jupiter excellent! Best match. Wisdom and communication combined."
+        }
+      },
+      "best_match": [
+        "Bharani",
+        "Pushya"
+      ],
+      "worst_match": [
+        "Jyeshta",
+        "Mula",
+        "Shatabhisha"
+      ]
+    },
+    "Pushya": {
+      "lord": "Saturn",
+      "deity": "Brihaspati",
+      "yoni": "Mesha (Sheep)",
+      "gana": "Deva",
+      "nadi": "Pitta",
+      "gender": "Male",
+      "symbol": "Flower/Circle",
+      "animal": "Sheep",
+      "compatibility": {
+        "Ashwini": {
+          "score": 83,
+          "description": "Not instant attraction but grows with time. Excellent long-term relationship with deep foundations."
+        },
+        "Bharani": {
+          "score": 61,
+          "description": "Disciplined, practical and pragmatic, Pushya are what you really need. The balance of sensuality and passions."
+        },
+        "Krittika": {
+          "score": 67,
+          "description": "Stable and nurturing relationship. Both practical and caring. Good for long-term."
+        },
+        "Rohini": {
+          "score": 75,
+          "description": "Don't look for superficial attraction. Can love you in ways few others can. Bring peace to restless mind."
+        },
+        "Mrigashirsha": {
+          "score": 63,
+          "description": "Saturn brings stability to restless nature. Good balance between adventure and security."
+        },
+        "Ardra": {
+          "score": 58,
+          "description": "Saturn brings stability. Can help ground emotional turbulence."
+        },
+        "Punarvasu": {
+          "score": 74,
+          "description": "Excellent match! Both Jupiter-ruled. Share values and spiritual outlook. Nurturing and supportive."
+        },
+        "Pushya": {
+          "score": 72,
+          "description": "Similar natures. Both nurturing and caring. Good for family life."
+        },
+        "Ashlesha": {
+          "score": 59,
+          "description": "Mercury-Saturn combination. Practical but may lack warmth."
+        },
+        "Magha": {
+          "score": 50,
+          "description": "Ideas about life differ. They are egalitarian, you are bossy. Hardly feel comfortable. Celebrate differences."
+        },
+        "Purva Phalguni": {
+          "score": 57,
+          "description": "Venus brings warmth. Need to open up emotionally."
+        },
+        "Uttara Phalguni": {
+          "score": 69,
+          "description": "Sun and Saturn work for responsibility. Good for commitment."
+        },
+        "Hasta": {
+          "score": 76,
+          "description": "Moon and Saturn complement. Emotional depth with practicality."
+        },
+        "Chitra": {
+          "score": 48,
+          "description": "Mars too aggressive for Saturn. Conflicts."
+        },
+        "Swati": {
+          "score": 53,
+          "description": "Rahu and Saturn complex. Karmic challenges."
+        },
+        "Vishakha": {
+          "score": 66,
+          "description": "Jupiter and Saturn - wisdom and discipline. Good for growth."
+        },
+        "Anuradha": {
+          "score": 47,
+          "description": "Saturn rules both. Inflexible about divine love. Afraid to be enveloped by emotions. Teach them about love."
+        },
+        "Jyeshta": {
+          "score": 55,
+          "description": "Too disciplined and rigid. Not into mind games, appear ascetic. Surprisingly good lovers behind coldness."
+        },
+        "Mula": {
+          "score": 44,
+          "description": "Ketu challenges Saturn. Difficult and unsettling."
+        },
+        "Purva Ashadha": {
+          "score": 52,
+          "description": "Venus and Saturn challenging. Different values."
+        },
+        "Uttara Ashadha": {
+          "score": 78,
+          "description": "Sun-Saturn strong. Responsibility and commitment."
+        },
+        "Shravana": {
+          "score": 81,
+          "description": "Moon-Saturn excellent. Nurturing with responsibility."
+        },
+        "Dhanishta": {
+          "score": 42,
+          "description": "Mars too harsh. Difficult dynamic."
+        },
+        "Shatabhisha": {
+          "score": 38,
+          "description": "Rahu disturbs Saturn. Unstable."
+        },
+        "Purva Bhadrapada": {
+          "score": 73,
+          "description": "Jupiter-Saturn good for wisdom and stability."
+        },
+        "Uttara Bhadrapada": {
+          "score": 88,
+          "description": "Saturn connection! Best match. Both disciplined and committed."
+        },
+        "Revati": {
+          "score": 79,
+          "description": "Mercury-Saturn work well. Practical communication."
+        }
+      },
+      "best_match": [
+        "Ashwini"
+      ],
+      "worst_match": [
+        "Dhanishta",
+        "Purva Ashadha"
+      ]
+    },
+    "Ashlesha": {
+      "lord": "Mercury",
+      "deity": "Nagas/Serpents",
+      "yoni": "Marjar (Cat)",
+      "gana": "Rakshasa",
+      "nadi": "Kapha",
+      "gender": "Female",
+      "symbol": "Coiled Serpent",
+      "animal": "Cat",
+      "compatibility": {
+        "Ashwini": {
+          "score": 75,
+          "description": "Mystical and wise, keeps you interested. Problem is their possessiveness - they cannot tolerate your independence."
+        },
+        "Bharani": {
+          "score": 66,
+          "description": "An unconventional relationship that works despite being based on different rules of engagement."
+        },
+        "Krittika": {
+          "score": 42,
+          "description": "Difficult dynamic. Power struggles and emotional manipulation possible."
+        },
+        "Rohini": {
+          "score": 33,
+          "description": "Mystical, secretive, manipulative. Power play and sensual games. Both venomous with sharp words. Emotional mess."
+        },
+        "Mrigashirsha": {
+          "score": 49,
+          "description": "Mercury connection but different expressions. Can be challenging emotionally."
+        },
+        "Ardra": {
+          "score": 67,
+          "description": "Mercury connection. Both have depth. Complex but rewarding."
+        },
+        "Punarvasu": {
+          "score": 46,
+          "description": "Mercury clash. Different worldviews. Challenging."
+        },
+        "Pushya": {
+          "score": 59,
+          "description": "Mercury-Saturn combination. Practical but may lack warmth."
+        },
+        "Ashlesha": {
+          "score": 54,
+          "description": "Too similar in intensity. Can be overwhelming."
+        },
+        "Magha": {
+          "score": 41,
+          "description": "Sex is bone of contention. Rat afraid of cat's sexual power. Way of coping is rejection. Sexless relationship frustrating."
+        },
+        "Purva Phalguni": {
+          "score": 48,
+          "description": "Venus brings charm but Mercury brings criticism. Complex."
+        },
+        "Uttara Phalguni": {
+          "score": 56,
+          "description": "Sun provides clarity. Helps navigate complexity."
+        },
+        "Hasta": {
+          "score": 63,
+          "description": "Moon-Mercury good. Emotional and intellectual balance."
+        },
+        "Chitra": {
+          "score": 71,
+          "description": "Mars-Mercury dynamic. Passionate and intelligent."
+        },
+        "Swati": {
+          "score": 68,
+          "description": "Rahu-Mercury. Unconventional and intellectual."
+        },
+        "Vishakha": {
+          "score": 52,
+          "description": "Jupiter-Mercury. Wisdom with intelligence."
+        },
+        "Anuradha": {
+          "score": 53,
+          "description": "Hate complications. Shy away from passion and complex emotions. Your lifeblood is love. Keep relationship simple."
+        },
+        "Jyeshta": {
+          "score": 69,
+          "description": "Learn to look beyond intellectual restrictions. Understand each other's life path. Take risk with you."
+        },
+        "Mula": {
+          "score": 57,
+          "description": "Ketu-Mercury. Spiritual and intellectual."
+        },
+        "Purva Ashadha": {
+          "score": 51,
+          "description": "Venus-Mercury. Creative but critical."
+        },
+        "Uttara Ashadha": {
+          "score": 44,
+          "description": "Sun-Mercury challenging. Different approaches."
+        },
+        "Shravana": {
+          "score": 58,
+          "description": "Moon-Mercury. Emotional and communicative."
+        },
+        "Dhanishta": {
+          "score": 55,
+          "description": "Mars-Mercury. Dynamic but argumentative."
+        },
+        "Shatabhisha": {
+          "score": 62,
+          "description": "Rahu-Mercury. Unconventional intellectual connection."
+        },
+        "Purva Bhadrapada": {
+          "score": 53,
+          "description": "Jupiter-Mercury. Wisdom meets intellect."
+        },
+        "Uttara Bhadrapada": {
+          "score": 46,
+          "description": "Saturn-Mercury. Practical but cold."
+        },
+        "Revati": {
+          "score": 76,
+          "description": "Mercury connection! Best match. Intellectual and communicative."
+        }
+      },
+      "best_match": [
+        "Pushya"
+      ],
+      "worst_match": [
+        "Uttara Ashadha",
+        "Swati"
+      ]
+    },
+    "Magha": {
+      "lord": "Ketu",
+      "deity": "Pitris (Ancestors)",
+      "yoni": "Mushak (Rat)",
+      "gana": "Rakshasa",
+      "nadi": "Kapha",
+      "gender": "Female",
+      "symbol": "Royal Throne",
+      "animal": "Rat",
+      "compatibility": {
+        "Ashwini": {
+          "score": 55,
+          "description": "Unfinished karmic business. Similar ideals and thinking keep you together. Be realistic about love."
+        },
+        "Bharani": {
+          "score": 53,
+          "description": "Fascinated by personality, give too much. Elephant and rat special relationship. Revere them, uncomfortable about sex."
+        },
+        "Krittika": {
+          "score": 47,
+          "description": "Don't trust enough to share vulnerabilities. Playing 'who's stronger?' Both ignoring inner feelings covering insecurities."
+        },
+        "Rohini": {
+          "score": 28,
+          "description": "Mock romantic nature and ignore possessiveness. They need romance, you want sex. Ignore each other's needs."
+        },
+        "Mrigashirsha": {
+          "score": 57,
+          "description": "Intellectual repartee and casual flirtation. Pleasantly surprised by sensuality. Jealous and want commitment."
+        },
+        "Ardra": {
+          "score": 58,
+          "description": "Profound relationship with complex karmic aspects. Inner being connections. Great ups and downs. Love can be special."
+        },
+        "Punarvasu": {
+          "score": 51,
+          "description": "Find stimulating, listen to advice. Great friends but intimate relationship challenging. No sexual compatibility."
+        },
+        "Pushya": {
+          "score": 50,
+          "description": "Ideas about life differ. They are egalitarian, you are bossy. Hardly feel comfortable. Celebrate differences."
+        },
+        "Ashlesha": {
+          "score": 41,
+          "description": "Sex is bone of contention. Rat afraid of cat's sexual power. Way of coping is rejection. Sexless relationship frustrating."
+        },
+        "Magha": {
+          "score": 77,
+          "description": "Great sex, love, passion, shared goals and commitment. Instinctive understanding. Fight but it's lovemaking."
+        },
+        "Purva Phalguni": {
+          "score": 83,
+          "description": "Capacity to enjoy life fills heart with joy. Creative, perfectionist, devoted. Ideal sexual partner matching passion."
+        },
+        "Uttara Phalguni": {
+          "score": 55,
+          "description": "Potential to become complex. Both strong and stubborn. Rejecting as coping mechanism. Trust with inner feelings."
+        },
+        "Hasta": {
+          "score": 39,
+          "description": "Psychological inability to connect. Past life connections in negative way. Appreciate good qualities."
+        },
+        "Chitra": {
+          "score": 58,
+          "description": "Very sensual, match endless demands. May feel intimidated sexually. Fight for supremacy. Be democratic."
+        },
+        "Swati": {
+          "score": 27,
+          "description": "Feel uneasy. Stressful karmic bond brings unhappiness before true happiness. Work through fears and inadequacies."
+        },
+        "Vishakha": {
+          "score": 54,
+          "description": "On defensive, need to prove power. Way of dealing is rejection. Stop feeling intimidated and connect sexually."
+        },
+        "Anuradha": {
+          "score": 66,
+          "description": "Can challenge autocratic behavior, invigorating. Opposite in every way but powerful attraction. They love completely."
+        },
+        "Jyeshta": {
+          "score": 88,
+          "description": "Best partner! Mystical, makes you feel complete. Charm works wonders. Blend of passionate sex and flirtatious loving."
+        },
+        "Mula": {
+          "score": 66,
+          "description": "Both ruled by mystical Ketu. Understand each other's needs and spiritual journey. But sexually complicated."
+        },
+        "Purva Ashadha": {
+          "score": 53,
+          "description": "Creative and talented, instant magnet. Sexually fun but settle for compromise. Their inner search undermines you."
+        },
+        "Uttara Ashadha": {
+          "score": 15,
+          "description": "See through lack of confidence. Sexually active vs their diffidence. Cannot be sensitive to needs. Brings out worst."
+        },
+        "Shravana": {
+          "score": 11,
+          "description": "Lose sense of right and wrong. Difficult to deal with sentimentality. Very critical. Frozen by chilly behavior."
+        },
+        "Dhanishta": {
+          "score": 55,
+          "description": "Must overcome complex about animal sign. Lioness too powerful for rat. Pay back laziness by looking at others."
+        },
+        "Shatabhisha": {
+          "score": 66,
+          "description": "Deep and intense relationships. Endeavor to fulfill needs. Let you into innermost secrets. Open hearts."
+        },
+        "Purva Bhadrapada": {
+          "score": 47,
+          "description": "Don't allow them to put you on pedestal. One moment of glory creates problems. Feel inadequate, make them unwanted."
+        },
+        "Uttara Bhadrapada": {
+          "score": 50,
+          "description": "Too restricted about sex while you want freedom. Quietly sensuous behind cool exterior. Delighted by discovery."
+        },
+        "Revati": {
+          "score": 33,
+          "description": "Try to live up to image but feel inadequate. Spiritually complex. Cover inadequacies with contrary behavior."
+        }
+      },
+      "best_match": [
+        "Jyeshta",
+        "Purva Phalguni"
+      ],
+      "worst_match": [
+        "Shravana",
+        "Uttara Ashadha"
+      ]
+    },
+    "Purva Phalguni": {
+      "lord": "Venus",
+      "deity": "Bhaga/Aryaman",
+      "yoni": "Mushak (Rat)",
+      "gana": "Manushya",
+      "nadi": "Pitta",
+      "gender": "Female",
+      "symbol": "Front Legs of Bed",
+      "animal": "Rat",
+      "compatibility": {
+        "Ashwini": {
+          "score": 67,
+          "description": "You love their exquisite taste and charm. They match your sensuality. Only issue: they don't understand your spiritual nature."
+        },
+        "Bharani": {
+          "score": 47,
+          "description": "Planet Venus rules both your Nakshatras. You enjoy a light flirtation but soon realise how similar you are."
+        },
+        "Krittika": {
+          "score": 61,
+          "description": "Venusian warmth helps open up. Fun and light relationship. Need deeper connection over time."
+        },
+        "Rohini": {
+          "score": 66,
+          "description": "Will indulge your romantic dreams. Excellent foil - their practicality gives base to your emotions. Enjoy life together."
+        },
+        "Mrigashirsha": {
+          "score": 61,
+          "description": "Venusian charm attracts. Fun and light but need deeper connection."
+        },
+        "Ardra": {
+          "score": 54,
+          "description": "Venus brings lightness. Can help balance intensity."
+        },
+        "Punarvasu": {
+          "score": 63,
+          "description": "Venus brings warmth. Good balance to philosophical nature."
+        },
+        "Pushya": {
+          "score": 57,
+          "description": "Venus brings warmth. Need to open up emotionally."
+        },
+        "Ashlesha": {
+          "score": 48,
+          "description": "Venus brings charm but Mercury brings criticism. Complex."
+        },
+        "Magha": {
+          "score": 83,
+          "description": "Capacity to enjoy life fills heart with joy. Creative, perfectionist, devoted. Ideal sexual partner matching passion."
+        },
+        "Purva Phalguni": {
+          "score": 79,
+          "description": "Similar natures. Fun-loving and sensual. Good match for enjoyment."
+        },
+        "Uttara Phalguni": {
+          "score": 86,
+          "description": "Venus connection! Excellent match. Both creative and sensual. Strong partnership."
+        },
+        "Hasta": {
+          "score": 74,
+          "description": "Moon-Venus harmonious. Emotional and sensual balance."
+        },
+        "Chitra": {
+          "score": 51,
+          "description": "Mars-Venus passion. Dynamic and exciting."
+        },
+        "Swati": {
+          "score": 56,
+          "description": "Rahu-Venus unconventional. Exciting but unpredictable."
+        },
+        "Vishakha": {
+          "score": 68,
+          "description": "Jupiter-Venus. Wisdom with pleasure."
+        },
+        "Anuradha": {
+          "score": 62,
+          "description": "Fun, social, witty, charming. Main challenge is expectations. They want you social, you want focus on needs."
+        },
+        "Jyeshta": {
+          "score": 66,
+          "description": "Endeavor to satisfy senses. Creative, sophisticated, exciting. Sexual life full, social life entertaining."
+        },
+        "Mula": {
+          "score": 58,
+          "description": "Ketu-Venus. Spiritual and sensual."
+        },
+        "Purva Ashadha": {
+          "score": 81,
+          "description": "Venus connection! Best match. Both creative and sensual."
+        },
+        "Uttara Ashadha": {
+          "score": 64,
+          "description": "Venus-Sun. Creative and focused."
+        },
+        "Shravana": {
+          "score": 69,
+          "description": "Moon-Venus. Emotional and sensual harmony."
+        },
+        "Dhanishta": {
+          "score": 47,
+          "description": "Mars-Venus challenging. Passion but conflicts."
+        },
+        "Shatabhisha": {
+          "score": 53,
+          "description": "Rahu-Venus. Unconventional but challenging."
+        },
+        "Purva Bhadrapada": {
+          "score": 72,
+          "description": "Jupiter-Venus. Wisdom and pleasure combined."
+        },
+        "Uttara Bhadrapada": {
+          "score": 59,
+          "description": "Saturn-Venus. Practical but may lack fun."
+        },
+        "Revati": {
+          "score": 77,
+          "description": "Mercury-Venus. Creative and communicative."
+        }
+      },
+      "best_match": [
+        "Magha",
+        "Uttara Phalguni",
+        "Jyeshta"
+      ],
+      "worst_match": [
+        "Dhanishta"
+      ]
+    },
+    "Uttara Phalguni": {
+      "lord": "Sun",
+      "deity": "Aryaman/Bhaga",
+      "yoni": "Gow (Cow)",
+      "gana": "Manushya",
+      "nadi": "Vata",
+      "gender": "Female",
+      "symbol": "Back Legs of Bed",
+      "animal": "Cow",
+      "compatibility": {
+        "Ashwini": {
+          "score": 34,
+          "description": "Cosmic relationship of Ketu and Sun is difficult. Distrust on both sides. Overcome it for a sublime relationship."
+        },
+        "Bharani": {
+          "score": 60,
+          "description": "Uttara Phalguni is keen to be helpful and will always be there for you. They can be boring but there are compensations."
+        },
+        "Krittika": {
+          "score": 78,
+          "description": "Excellent match. Both ruled by Sun. Strong, stable, and supportive. Share similar values."
+        },
+        "Rohini": {
+          "score": 72,
+          "description": "Love their strength - makes you feel secure. Not most imaginative but there for you. Beware of jealous temper."
+        },
+        "Mrigashirsha": {
+          "score": 68,
+          "description": "Good balance. Sun energy provides direction to restless nature."
+        },
+        "Ardra": {
+          "score": 62,
+          "description": "Sun provides clarity. Helps navigate emotional storms."
+        },
+        "Punarvasu": {
+          "score": 71,
+          "description": "Sun and Jupiter work well. Good balance of expansion and focus."
+        },
+        "Pushya": {
+          "score": 69,
+          "description": "Sun and Saturn work for responsibility. Good for commitment."
+        },
+        "Ashlesha": {
+          "score": 56,
+          "description": "Sun provides clarity. Helps navigate complexity."
+        },
+        "Magha": {
+          "score": 55,
+          "description": "Potential to become complex. Both strong and stubborn. Rejecting as coping mechanism. Trust with inner feelings."
+        },
+        "Purva Phalguni": {
+          "score": 86,
+          "description": "Venus connection! Excellent match. Both creative and sensual. Strong partnership."
+        },
+        "Uttara Phalguni": {
+          "score": 73,
+          "description": "Similar natures. Both strong and helpful. Good partnership."
+        },
+        "Hasta": {
+          "score": 82,
+          "description": "Moon-Sun excellent! Best match. Emotional depth with strength."
+        },
+        "Chitra": {
+          "score": 59,
+          "description": "Mars-Sun. Passion with strength."
+        },
+        "Swati": {
+          "score": 48,
+          "description": "Rahu-Sun challenging. Unconventional and difficult."
+        },
+        "Vishakha": {
+          "score": 67,
+          "description": "Jupiter-Sun. Wisdom with strength."
+        },
+        "Anuradha": {
+          "score": 80,
+          "description": "Different priorities but make something beautiful. Returns love completely. Support dreams. Not talkative but confident in love."
+        },
+        "Jyeshta": {
+          "score": 39,
+          "description": "Stop playing mind games. Make emotionally unsettled by loving passionately then transferring interests."
+        },
+        "Mula": {
+          "score": 44,
+          "description": "Ketu-Sun complex. Spiritual but challenging."
+        },
+        "Purva Ashadha": {
+          "score": 67,
+          "description": "Venus-Sun. Creative and focused."
+        },
+        "Uttara Ashadha": {
+          "score": 91,
+          "description": "Sun connection! Best match. Both strong and committed."
+        },
+        "Shravana": {
+          "score": 76,
+          "description": "Moon-Sun harmonious. Emotional and strong."
+        },
+        "Dhanishta": {
+          "score": 51,
+          "description": "Mars-Sun. Dynamic but competitive."
+        },
+        "Shatabhisha": {
+          "score": 42,
+          "description": "Rahu-Sun difficult. Unconventional and unstable."
+        },
+        "Purva Bhadrapada": {
+          "score": 64,
+          "description": "Jupiter-Sun. Wisdom with strength."
+        },
+        "Uttara Bhadrapada": {
+          "score": 71,
+          "description": "Saturn-Sun. Responsibility and strength."
+        },
+        "Revati": {
+          "score": 68,
+          "description": "Mercury-Sun. Communicative and strong."
+        }
+      },
+      "best_match": [
+        "Purva Phalguni",
+        "Anuradha"
+      ],
+      "worst_match": [
+        "Ashwini",
+        "Jyeshta",
+        "Mula"
+      ]
+    },
+    "Hasta": {
+      "lord": "Moon",
+      "deity": "Savitar (Sun)",
+      "yoni": "Mahish (Buffalo)",
+      "gana": "Deva",
+      "nadi": "Vata",
+      "gender": "Male",
+      "symbol": "Hand/Closed Fist",
+      "animal": "Buffalo",
+      "compatibility": {
+        "Ashwini": {
+          "score": 27,
+          "description": "Most difficult relationship. Hard to relate to their emotionalism. No sexual spark. Cannot appreciate their positive qualities."
+        },
+        "Bharani": {
+          "score": 50,
+          "description": "Hasta invites you into their homes and hearts. They will love you without accepting anything in return."
+        },
+        "Krittika": {
+          "score": 72,
+          "description": "Moon and Sun balance. Emotional and practical. Good understanding between partners."
+        },
+        "Rohini": {
+          "score": 69,
+          "description": "Enjoy their sophistication and earthiness. Both moody but understand this. Like their simple approach to life."
+        },
+        "Mrigashirsha": {
+          "score": 82,
+          "description": "Best match! Moon and Mars work beautifully. Emotional depth with passionate expression."
+        },
+        "Ardra": {
+          "score": 48,
+          "description": "Moon connection but different expressions. Can be challenging."
+        },
+        "Punarvasu": {
+          "score": 69,
+          "description": "Moon and Jupiter harmonious. Emotional and philosophical balance."
+        },
+        "Pushya": {
+          "score": 76,
+          "description": "Moon and Saturn complement. Emotional depth with practicality."
+        },
+        "Ashlesha": {
+          "score": 63,
+          "description": "Moon-Mercury good. Emotional and intellectual balance."
+        },
+        "Magha": {
+          "score": 39,
+          "description": "Psychological inability to connect. Past life connections in negative way. Appreciate good qualities."
+        },
+        "Purva Phalguni": {
+          "score": 74,
+          "description": "Moon-Venus harmonious. Emotional and sensual balance."
+        },
+        "Uttara Phalguni": {
+          "score": 82,
+          "description": "Moon-Sun excellent! Best match. Emotional depth with strength."
+        },
+        "Hasta": {
+          "score": 71,
+          "description": "Similar natures. Both emotional and caring. Good understanding."
+        },
+        "Chitra": {
+          "score": 77,
+          "description": "Moon-Mars-Venus. Emotional, passionate, sensual. Excellent match."
+        },
+        "Swati": {
+          "score": 64,
+          "description": "Moon-Rahu. Emotional but unconventional."
+        },
+        "Vishakha": {
+          "score": 68,
+          "description": "Moon-Jupiter. Emotional and wise."
+        },
+        "Anuradha": {
+          "score": 72,
+          "description": "Good partner - attractive, sophisticated, emotional and intuitive. Both practical and ambitious. Unconditional love."
+        },
+        "Jyeshta": {
+          "score": 36,
+          "description": "Fascinated by sophistication but react to buffalo animal sign - rough and ugly. Too critical reinforcing poor self-image."
+        },
+        "Mula": {
+          "score": 52,
+          "description": "Moon-Ketu complex. Emotional but challenging."
+        },
+        "Purva Ashadha": {
+          "score": 66,
+          "description": "Moon-Venus. Emotional and sensual."
+        },
+        "Uttara Ashadha": {
+          "score": 74,
+          "description": "Moon-Sun. Emotional and strong."
+        },
+        "Shravana": {
+          "score": 88,
+          "description": "Moon connection! Best match. Both lunar and nurturing."
+        },
+        "Dhanishta": {
+          "score": 58,
+          "description": "Moon-Mars. Emotional and dynamic."
+        },
+        "Shatabhisha": {
+          "score": 49,
+          "description": "Moon-Rahu. Emotional but unstable."
+        },
+        "Purva Bhadrapada": {
+          "score": 67,
+          "description": "Moon-Jupiter. Emotional and wise."
+        },
+        "Uttara Bhadrapada": {
+          "score": 79,
+          "description": "Moon-Saturn. Emotional and stable."
+        },
+        "Revati": {
+          "score": 83,
+          "description": "Moon-Mercury. Emotional and communicative."
+        }
+      },
+      "best_match": [
+        "Mrigashirsha"
+      ],
+      "worst_match": [
+        "Ashwini",
+        "Shatabhisha"
+      ]
+    },
+    "Chitra": {
+      "lord": "Mars",
+      "deity": "Tvashtar/Vishvakarma",
+      "yoni": "Vyaghra (Tiger)",
+      "gana": "Rakshasa",
+      "nadi": "Pitta",
+      "gender": "Female",
+      "symbol": "Shining Jewel/Pearl",
+      "animal": "Tiger",
+      "compatibility": {
+        "Ashwini": {
+          "score": 47,
+          "description": "Never able to give full attention. Passion can be good but love may not stand test of time. Battlefield relationship."
+        },
+        "Bharani": {
+          "score": 22,
+          "description": "A difficult partnership. Chitra is exotic, adventurous, and sensuous. This can lead to an exciting experience."
+        },
+        "Krittika": {
+          "score": 44,
+          "description": "Mars energy can clash. Passion present but conflicts arise. Need compromise."
+        },
+        "Rohini": {
+          "score": 49,
+          "description": "Attracted to dynamic, confident, passionate Chitra. Let them dominate but discover implacability and selfishness."
+        },
+        "Mrigashirsha": {
+          "score": 26,
+          "description": "Both Mars-ruled can clash. Too similar in independence. Competition rather than partnership."
+        },
+        "Ardra": {
+          "score": 59,
+          "description": "Mars energy adds passion. Dynamic but needs management."
+        },
+        "Punarvasu": {
+          "score": 52,
+          "description": "Mars energy can be too aggressive. Need patience."
+        },
+        "Pushya": {
+          "score": 48,
+          "description": "Mars too aggressive for Saturn. Conflicts."
+        },
+        "Ashlesha": {
+          "score": 71,
+          "description": "Mars-Mercury dynamic. Passionate and intelligent."
+        },
+        "Magha": {
+          "score": 58,
+          "description": "Very sensual, match endless demands. May feel intimidated sexually. Fight for supremacy. Be democratic."
+        },
+        "Purva Phalguni": {
+          "score": 51,
+          "description": "Mars-Venus passion. Dynamic and exciting."
+        },
+        "Uttara Phalguni": {
+          "score": 59,
+          "description": "Mars-Sun. Passion with strength."
+        },
+        "Hasta": {
+          "score": 77,
+          "description": "Moon-Mars-Venus. Emotional, passionate, sensual. Excellent match."
+        },
+        "Chitra": {
+          "score": 55,
+          "description": "Similar natures. Both dynamic and creative. Need to avoid competition."
+        },
+        "Swati": {
+          "score": 63,
+          "description": "Mars-Rahu. Passionate and unconventional."
+        },
+        "Vishakha": {
+          "score": 58,
+          "description": "Mars-Jupiter. Passion with wisdom."
+        },
+        "Anuradha": {
+          "score": 23,
+          "description": "Tough, challenging and frustrating. Challenge at every step. Lessons are complex. Usually don't give up easily but this is hard."
+        },
+        "Jyeshta": {
+          "score": 62,
+          "description": "Instant dislike and argue incessantly but strong underlying attraction. Agree to disagree. Unresolved spiritual issues."
+        },
+        "Mula": {
+          "score": 56,
+          "description": "Mars-Ketu. Passionate and spiritual."
+        },
+        "Purva Ashadha": {
+          "score": 64,
+          "description": "Mars-Venus. Passionate and creative."
+        },
+        "Uttara Ashadha": {
+          "score": 57,
+          "description": "Mars-Sun. Passionate and strong."
+        },
+        "Shravana": {
+          "score": 61,
+          "description": "Mars-Moon. Passionate and emotional."
+        },
+        "Dhanishta": {
+          "score": 67,
+          "description": "Mars connection! Both dynamic and passionate."
+        },
+        "Shatabhisha": {
+          "score": 54,
+          "description": "Mars-Rahu. Passionate but unconventional."
+        },
+        "Purva Bhadrapada": {
+          "score": 59,
+          "description": "Mars-Jupiter. Passion with wisdom."
+        },
+        "Uttara Bhadrapada": {
+          "score": 48,
+          "description": "Mars-Saturn. Passion meets discipline. Challenging."
+        },
+        "Revati": {
+          "score": 65,
+          "description": "Mars-Mercury. Passionate and communicative."
+        }
+      },
+      "best_match": [
+        "Hasta"
+      ],
+      "worst_match": [
+        "Uttara Bhadrapada",
+        "Purva Phalguni",
+        "Bharani"
+      ]
+    },
+    "Swati": {
+      "lord": "Rahu",
+      "deity": "Vayu (Wind)",
+      "yoni": "Mahish (Buffalo)",
+      "gana": "Deva",
+      "nadi": "Kapha",
+      "gender": "Female",
+      "symbol": "Coral/Sapphire",
+      "animal": "Buffalo",
+      "compatibility": {
+        "Ashwini": {
+          "score": 70,
+          "description": "Not sexy at first but mentally stimulating. Fulfill your other dreams. Pay attention to sexual intimacy."
+        },
+        "Bharani": {
+          "score": 78,
+          "description": "Swati are charmers. You love their verve, energy, and the interesting way they flirt with you."
+        },
+        "Krittika": {
+          "score": 38,
+          "description": "Rahu influence creates uncertainty. Unconventional but challenging."
+        },
+        "Rohini": {
+          "score": 42,
+          "description": "Spiritually complex. Irrational mistrust. Moon frightened of Rahu. Fear interpreted as lack of trust."
+        },
+        "Mrigashirsha": {
+          "score": 44,
+          "description": "Rahu creates complexity. Unconventional but unstable."
+        },
+        "Ardra": {
+          "score": 76,
+          "description": "Rahu connection! Both ruled by Rahu. Understand each other's complexity. Intense and transformative."
+        },
+        "Punarvasu": {
+          "score": 49,
+          "description": "Rahu creates unpredictability. Unstable."
+        },
+        "Pushya": {
+          "score": 53,
+          "description": "Rahu and Saturn complex. Karmic challenges."
+        },
+        "Ashlesha": {
+          "score": 68,
+          "description": "Rahu-Mercury. Unconventional and intellectual."
+        },
+        "Magha": {
+          "score": 27,
+          "description": "Feel uneasy. Stressful karmic bond brings unhappiness before true happiness. Work through fears and inadequacies."
+        },
+        "Purva Phalguni": {
+          "score": 56,
+          "description": "Rahu-Venus unconventional. Exciting but unpredictable."
+        },
+        "Uttara Phalguni": {
+          "score": 48,
+          "description": "Rahu-Sun challenging. Unconventional and difficult."
+        },
+        "Hasta": {
+          "score": 64,
+          "description": "Moon-Rahu. Emotional but unconventional."
+        },
+        "Chitra": {
+          "score": 63,
+          "description": "Mars-Rahu. Passionate and unconventional."
+        },
+        "Swati": {
+          "score": 54,
+          "description": "Similar natures. Both unconventional and independent."
+        },
+        "Vishakha": {
+          "score": 57,
+          "description": "Rahu-Jupiter. Unconventional wisdom."
+        },
+        "Anuradha": {
+          "score": 58,
+          "description": "Pragmatists, never become what you desire. Don't expect all fantasies to become reality. Love them for what they are."
+        },
+        "Jyeshta": {
+          "score": 41,
+          "description": "Way with words exhilarating. Ambitions take precedence. If play mind games, they give as good as they get."
+        },
+        "Mula": {
+          "score": 69,
+          "description": "Rahu-Ketu axis. Intense and transformative."
+        },
+        "Purva Ashadha": {
+          "score": 62,
+          "description": "Rahu-Venus. Unconventional but creative."
+        },
+        "Uttara Ashadha": {
+          "score": 53,
+          "description": "Rahu-Sun. Unconventional and challenging."
+        },
+        "Shravana": {
+          "score": 58,
+          "description": "Rahu-Moon. Unconventional but emotional."
+        },
+        "Dhanishta": {
+          "score": 47,
+          "description": "Rahu-Mars. Unconventional and dynamic."
+        },
+        "Shatabhisha": {
+          "score": 82,
+          "description": "Rahu connection! Best match. Both unconventional and intense."
+        },
+        "Purva Bhadrapada": {
+          "score": 67,
+          "description": "Rahu-Jupiter. Unconventional wisdom."
+        },
+        "Uttara Bhadrapada": {
+          "score": 59,
+          "description": "Rahu-Saturn. Unconventional discipline."
+        },
+        "Revati": {
+          "score": 71,
+          "description": "Rahu-Mercury. Unconventional and communicative."
+        }
+      },
+      "best_match": [
+        "Bharani",
+        "Ardra"
+      ],
+      "worst_match": [
+        "Revati",
+        "Magha"
+      ]
+    },
+    "Vishakha": {
+      "lord": "Jupiter",
+      "deity": "Indra-Agni",
+      "yoni": "Vyaghra (Tiger)",
+      "gana": "Rakshasa",
+      "nadi": "Kapha",
+      "gender": "Female",
+      "symbol": "Triumphant Arch",
+      "animal": "Tiger",
+      "compatibility": {
+        "Ashwini": {
+          "score": 55,
+          "description": "Sensuous and passionate but lack of sensitivity. Restlessness undermines confidence. Commitment issues."
+        },
+        "Bharani": {
+          "score": 50,
+          "description": "The sexual excitement that brought you together cannot be sustained at the high note on which it started."
+        },
+        "Krittika": {
+          "score": 52,
+          "description": "Jupiter brings wisdom but can be overwhelming. Need balance in relationship."
+        },
+        "Rohini": {
+          "score": 30,
+          "description": "Unable to understand inner needs. Happy as long as you play by their rules. Unrealistic expectations."
+        },
+        "Mrigashirsha": {
+          "score": 51,
+          "description": "Jupiter expansion meets Mars drive. Can be overwhelming."
+        },
+        "Ardra": {
+          "score": 57,
+          "description": "Jupiter expansion with Rahu intensity. Can be overwhelming."
+        },
+        "Punarvasu": {
+          "score": 77,
+          "description": "Jupiter connection! Both expansive and philosophical. Excellent spiritual partnership."
+        },
+        "Pushya": {
+          "score": 66,
+          "description": "Jupiter and Saturn - wisdom and discipline. Good for growth."
+        },
+        "Ashlesha": {
+          "score": 52,
+          "description": "Jupiter-Mercury. Wisdom with intelligence."
+        },
+        "Magha": {
+          "score": 54,
+          "description": "On defensive, need to prove power. Way of dealing is rejection. Stop feeling intimidated and connect sexually."
+        },
+        "Purva Phalguni": {
+          "score": 68,
+          "description": "Jupiter-Venus. Wisdom with pleasure."
+        },
+        "Uttara Phalguni": {
+          "score": 67,
+          "description": "Jupiter-Sun. Wisdom with strength."
+        },
+        "Hasta": {
+          "score": 68,
+          "description": "Moon-Jupiter. Emotional and wise."
+        },
+        "Chitra": {
+          "score": 58,
+          "description": "Mars-Jupiter. Passion with wisdom."
+        },
+        "Swati": {
+          "score": 57,
+          "description": "Rahu-Jupiter. Unconventional wisdom."
+        },
+        "Vishakha": {
+          "score": 73,
+          "description": "Similar natures. Both expansive and goal-oriented."
+        },
+        "Anuradha": {
+          "score": 59,
+          "description": "Meeting of opposing forces. Cautious vs expansive. Splendid partnership. Love should be free and giving."
+        },
+        "Jyeshta": {
+          "score": 72,
+          "description": "Love, sex, desire, philosophy, mysticism - all interest you both. Enjoy sensuality but know when to control senses."
+        },
+        "Mula": {
+          "score": 68,
+          "description": "Jupiter-Ketu. Wisdom and spirituality."
+        },
+        "Purva Ashadha": {
+          "score": 71,
+          "description": "Jupiter-Venus. Wisdom and pleasure."
+        },
+        "Uttara Ashadha": {
+          "score": 74,
+          "description": "Jupiter-Sun. Wisdom and strength."
+        },
+        "Shravana": {
+          "score": 76,
+          "description": "Jupiter-Moon. Wisdom and emotion."
+        },
+        "Dhanishta": {
+          "score": 64,
+          "description": "Jupiter-Mars. Wisdom and passion."
+        },
+        "Shatabhisha": {
+          "score": 69,
+          "description": "Jupiter-Rahu. Wisdom and unconventionality."
+        },
+        "Purva Bhadrapada": {
+          "score": 88,
+          "description": "Jupiter connection! Best match. Both wise and expansive."
+        },
+        "Uttara Bhadrapada": {
+          "score": 79,
+          "description": "Jupiter-Saturn. Wisdom and stability."
+        },
+        "Revati": {
+          "score": 81,
+          "description": "Jupiter-Mercury. Wisdom and communication."
+        }
+      },
+      "best_match": [
+        "Chitra"
+      ],
+      "worst_match": [
+        "Revati",
+        "Rohini"
+      ]
+    },
+    "Anuradha": {
+      "lord": "Saturn",
+      "deity": "Mitra",
+      "yoni": "Mriga (Deer)",
+      "gana": "Deva",
+      "nadi": "Pitta",
+      "gender": "Male",
+      "symbol": "Lotus Arch",
+      "animal": "Deer",
+      "compatibility": {
+        "Ashwini": {
+          "score": 66,
+          "description": "Good partners if you don't cling too much. They need freedom. Passionate and carefree, different from you."
+        },
+        "Bharani": {
+          "score": 47,
+          "description": "Spiritually complex. They want sex, you want love. Mistake one for other. Feel insecure and restless."
+        },
+        "Krittika": {
+          "score": 60,
+          "description": "Powerful and dynamic, strong pull. Strong and silent type. Envelop you in warmth."
+        },
+        "Rohini": {
+          "score": 80,
+          "description": "Aspire to divine love and self-realization. Both fulfill need for romance and sublime love. Passionate brings out best."
+        },
+        "Mrigashirsha": {
+          "score": 47,
+          "description": "Frustrating relationship. Refuse to accept love without questioning. Put up defenses fast."
+        },
+        "Ardra": {
+          "score": 53,
+          "description": "Attraction is fearful fascination. Inability to combine sex with words of love makes you feel unloved."
+        },
+        "Punarvasu": {
+          "score": 62,
+          "description": "Enjoy ability to be everywhere. Happy to wait. Expand horizons and give stability by loving selflessly."
+        },
+        "Pushya": {
+          "score": 47,
+          "description": "Saturn rules both. Inflexible about divine love. Afraid to be enveloped by emotions. Teach them about love."
+        },
+        "Ashlesha": {
+          "score": 53,
+          "description": "Hate complications. Shy away from passion and complex emotions. Your lifeblood is love. Keep relationship simple."
+        },
+        "Magha": {
+          "score": 66,
+          "description": "Can challenge autocratic behavior, invigorating. Opposite in every way but powerful attraction. They love completely."
+        },
+        "Purva Phalguni": {
+          "score": 62,
+          "description": "Fun, social, witty, charming. Main challenge is expectations. They want you social, you want focus on needs."
+        },
+        "Uttara Phalguni": {
+          "score": 80,
+          "description": "Different priorities but make something beautiful. Returns love completely. Support dreams. Not talkative but confident in love."
+        },
+        "Hasta": {
+          "score": 72,
+          "description": "Good partner - attractive, sophisticated, emotional and intuitive. Both practical and ambitious. Unconditional love."
+        },
+        "Chitra": {
+          "score": 23,
+          "description": "Tough, challenging and frustrating. Challenge at every step. Lessons are complex. Usually don't give up easily but this is hard."
+        },
+        "Swati": {
+          "score": 58,
+          "description": "Pragmatists, never become what you desire. Don't expect all fantasies to become reality. Love them for what they are."
+        },
+        "Vishakha": {
+          "score": 59,
+          "description": "Meeting of opposing forces. Cautious vs expansive. Splendid partnership. Love should be free and giving."
+        },
+        "Anuradha": {
+          "score": 77,
+          "description": "Both want same things. No words necessary - when you meet they know what you desire. Sex wonderful, love divine."
+        },
+        "Jyeshta": {
+          "score": 86,
+          "description": "Best partner! Sexy, passionate, sensual. Fulfill all desires for love and emotional satisfaction. Patient and loving."
+        },
+        "Mula": {
+          "score": 41,
+          "description": "Can destroy illusions. Think they offer true love but unable to fulfill. Mula aggressive to deer. Dump anger on you."
+        },
+        "Purva Ashadha": {
+          "score": 36,
+          "description": "Fall for charm and creativity but falling for image. Realistic and develop friendship first. Need to be free."
+        },
+        "Uttara Ashadha": {
+          "score": 64,
+          "description": "Love them more than they do you. Sense loneliness and need for love. Wish they were more demonstrative."
+        },
+        "Shravana": {
+          "score": 72,
+          "description": "Love lunar radiance. Endeavor to find realization. Meld on spiritual, emotional and physical levels. Feed your love."
+        },
+        "Dhanishta": {
+          "score": 32,
+          "description": "Admire courage. Fall in musth - divine ecstasy living in imaginary world. May not deal with needs sensitively."
+        },
+        "Shatabhisha": {
+          "score": 61,
+          "description": "Elusive, never there when wanted. Making promises not always kept. Encourage to talk about love. Be realistic."
+        },
+        "Purva Bhadrapada": {
+          "score": 66,
+          "description": "Fall for generous and warm. Very different, confident and strong. Let you be in charge. Friends say it weighs too heavily."
+        },
+        "Uttara Bhadrapada": {
+          "score": 47,
+          "description": "Hide emotional needs behind practicality. Bonds not those on which relationship develops initially. Hard to give up on their love."
+        },
+        "Revati": {
+          "score": 72,
+          "description": "Make you feel whole. No longer live in polarities. Divine love you were seeking. Cocoon of love and happiness."
+        }
+      },
+      "best_match": [
+        "Jyeshta",
+        "Rohini"
+      ],
+      "worst_match": [
+        "Chitra"
+      ]
+    },
+    "Jyeshta": {
+      "lord": "Mercury",
+      "deity": "Indra",
+      "yoni": "Mriga (Deer)",
+      "gana": "Rakshasa",
+      "nadi": "Vata",
+      "gender": "Female",
+      "symbol": "Umbrella/Earring",
+      "animal": "Deer",
+      "compatibility": {
+        "Ashwini": {
+          "score": 36,
+          "description": "Spiritually complex. Cavalier attitude to passions. Express negatively - loving, leaving, emotionally messing about."
+        },
+        "Bharani": {
+          "score": 53,
+          "description": "Excessive sensuality trying to fulfill desires. Hypnotized by allure but feel guilty ignoring spirituality."
+        },
+        "Krittika": {
+          "score": 76,
+          "description": "Invigorated by warmth and straightforward approach. Strong so cannot manipulate. Feel secure and loved."
+        },
+        "Rohini": {
+          "score": 67,
+          "description": "Stretches mentally and emotionally. Exciting, romantic, sensuous. Satisfy love for luxury. May become too tied to desires."
+        },
+        "Mrigashirsha": {
+          "score": 53,
+          "description": "Constantly challenge and they rise to provocation. Find criticism irritating. Get along in practical areas."
+        },
+        "Ardra": {
+          "score": 14,
+          "description": "Bring worst out in each other. Dominant and aggressive thinking can deal with aftermath. Can press self-destruct."
+        },
+        "Punarvasu": {
+          "score": 22,
+          "description": "Attraction on surface. Not into complicated relationships but you enjoy them. Try to control, they may leave."
+        },
+        "Pushya": {
+          "score": 55,
+          "description": "Too disciplined and rigid. Not into mind games, appear ascetic. Surprisingly good lovers behind coldness."
+        },
+        "Ashlesha": {
+          "score": 69,
+          "description": "Learn to look beyond intellectual restrictions. Understand each other's life path. Take risk with you."
+        },
+        "Magha": {
+          "score": 88,
+          "description": "Best partner! Everything you want: confident, dynamic, sexy, passionate, soulful and loving. Warmth brings security."
+        },
+        "Purva Phalguni": {
+          "score": 66,
+          "description": "Endeavor to satisfy senses. Creative, sophisticated, exciting. Sexual life full, social life entertaining."
+        },
+        "Uttara Phalguni": {
+          "score": 39,
+          "description": "Stop playing mind games. Make emotionally unsettled by loving passionately then transferring interests."
+        },
+        "Hasta": {
+          "score": 36,
+          "description": "Fascinated by sophistication but react to buffalo animal sign - rough and ugly. Too critical reinforcing poor self-image."
+        },
+        "Chitra": {
+          "score": 62,
+          "description": "Instant dislike and argue incessantly but strong underlying attraction. Agree to disagree. Unresolved spiritual issues."
+        },
+        "Swati": {
+          "score": 41,
+          "description": "Way with words exhilarating. Ambitions take precedence. If play mind games, they give as good as they get."
+        },
+        "Vishakha": {
+          "score": 72,
+          "description": "Love, sex, desire, philosophy, mysticism - all interest you both. Enjoy sensuality but know when to control senses."
+        },
+        "Anuradha": {
+          "score": 86,
+          "description": "Love you unconditionally, flourish under love. Best lovers and friends. Supportive when exploring spiritual self."
+        },
+        "Jyeshta": {
+          "score": 77,
+          "description": "Same junction of life, subtle understanding. In Vedic tradition two Jyeshtas should not marry - create painful turmoil."
+        },
+        "Mula": {
+          "score": 39,
+          "description": "Teach about rejection and love. Usually want to be in charge. When tables turned, creates emotional distress."
+        },
+        "Purva Ashadha": {
+          "score": 44,
+          "description": "Flexibility hard to handle. Want concentration on you but outside interests interfere. Paths may be different."
+        },
+        "Uttara Ashadha": {
+          "score": 50,
+          "description": "Spiritual side relates to austere coolness but sensuous side unfulfilled. Need to teach intimacy."
+        },
+        "Shravana": {
+          "score": 55,
+          "description": "Appear like you thinking and philosophizing. Important difference - you think, they feel. Get very emotional."
+        },
+        "Dhanishta": {
+          "score": 68,
+          "description": "Admire courage and forbearance. Strong and loving relationship. Bask in warmth. Learn to face harsh realities."
+        },
+        "Shatabhisha": {
+          "score": 47,
+          "description": "As they control inner demons, may not stand by. Understand spiritual struggle more than they do."
+        },
+        "Purva Bhadrapada": {
+          "score": 26,
+          "description": "Show new sensual world, bewitched and enchanted. Use words without meaning weaving web of illusions."
+        },
+        "Uttara Bhadrapada": {
+          "score": 55,
+          "description": "Teach about discipline. Bonds not on which relationship develops initially. Can learn from ascetic nature."
+        },
+        "Revati": {
+          "score": 55,
+          "description": "Similar but different agendas. Explore sensuality vs love. Tendency to be supercritical. Blame each other."
+        }
+      },
+      "best_match": [
+        "Magha",
+        "Anuradha"
+      ],
+      "worst_match": [
+        "Ardra",
+        "Punarvasu",
+        "Purva Bhadrapada"
+      ]
+    },
+    "Mula": {
+      "lord": "Ketu",
+      "deity": "Nirriti",
+      "yoni": "Shwaan (Dog)",
+      "gana": "Rakshasa",
+      "nadi": "Vata",
+      "gender": "Neuter",
+      "symbol": "Root/Tied Roots",
+      "animal": "Dog",
+      "compatibility": {
+        "Ashwini": {
+          "score": 33,
+          "description": "Lots in common - adventurous and fun. Share ruler Ketu. But spiritually you don't bond. Past becomes a demon."
+        },
+        "Bharani": {
+          "score": 35,
+          "description": "You are attracted by their unconventional, daring lifestyle. You use all your wiles and sexual experience to get them interested."
+        },
+        "Krittika": {
+          "score": 41,
+          "description": "Ketu influence creates spiritual complexity. May lack practical grounding."
+        },
+        "Rohini": {
+          "score": 36,
+          "description": "Tend to put responsibility of love on them. Ill-equipped to handle. Aspires to freedom. Can be hurtful and cruel."
+        },
+        "Mrigashirsha": {
+          "score": 48,
+          "description": "Ketu creates spiritual connection but may lack practical grounding."
+        },
+        "Ardra": {
+          "score": 63,
+          "description": "Ketu-Rahu axis. Spiritual connection. Intense but transformative."
+        },
+        "Punarvasu": {
+          "score": 36,
+          "description": "Ketu challenges Jupiter. Spiritual but difficult."
+        },
+        "Pushya": {
+          "score": 44,
+          "description": "Ketu challenges Saturn. Difficult and unsettling."
+        },
+        "Ashlesha": {
+          "score": 57,
+          "description": "Ketu-Mercury. Spiritual and intellectual."
+        },
+        "Magha": {
+          "score": 66,
+          "description": "Both ruled by mystical Ketu. Understand each other's needs and spiritual journey. But sexually complicated."
+        },
+        "Purva Phalguni": {
+          "score": 58,
+          "description": "Ketu-Venus. Spiritual and sensual."
+        },
+        "Uttara Phalguni": {
+          "score": 44,
+          "description": "Ketu-Sun complex. Spiritual but challenging."
+        },
+        "Hasta": {
+          "score": 52,
+          "description": "Ketu-Moon complex. Emotional but challenging."
+        },
+        "Chitra": {
+          "score": 56,
+          "description": "Ketu-Mars. Spiritual and passionate."
+        },
+        "Swati": {
+          "score": 69,
+          "description": "Rahu-Ketu axis. Intense and transformative."
+        },
+        "Vishakha": {
+          "score": 68,
+          "description": "Ketu-Jupiter. Spirituality and wisdom."
+        },
+        "Anuradha": {
+          "score": 41,
+          "description": "Can destroy illusions. Think they offer true love but unable to fulfill. Mula aggressive to deer. Dump anger on you."
+        },
+        "Jyeshta": {
+          "score": 39,
+          "description": "Teach about rejection and love. Usually want to be in charge. When tables turned, creates emotional distress."
+        },
+        "Mula": {
+          "score": 59,
+          "description": "Similar natures. Both spiritual and intense. Need grounding."
+        },
+        "Purva Ashadha": {
+          "score": 72,
+          "description": "Ketu-Venus. Spiritual and creative."
+        },
+        "Uttara Ashadha": {
+          "score": 68,
+          "description": "Ketu-Sun. Spiritual and strong."
+        },
+        "Shravana": {
+          "score": 64,
+          "description": "Ketu-Moon. Spiritual and emotional."
+        },
+        "Dhanishta": {
+          "score": 61,
+          "description": "Ketu-Mars. Spiritual and dynamic."
+        },
+        "Shatabhisha": {
+          "score": 76,
+          "description": "Ketu-Rahu. Spiritual and unconventional."
+        },
+        "Purva Bhadrapada": {
+          "score": 78,
+          "description": "Ketu-Jupiter. Spiritual wisdom."
+        },
+        "Uttara Bhadrapada": {
+          "score": 74,
+          "description": "Ketu-Saturn. Spiritual discipline."
+        },
+        "Revati": {
+          "score": 71,
+          "description": "Ketu-Mercury. Spiritual and communicative."
+        }
+      },
+      "best_match": [
+        "Revati",
+        "Mula",
+        "Purva Ashadha"
+      ],
+      "worst_match": [
+        "Punarvasu"
+      ]
+    },
+    "Purva Ashadha": {
+      "lord": "Venus",
+      "deity": "Apah (Water)",
+      "yoni": "Vanar (Monkey)",
+      "gana": "Manushya",
+      "nadi": "Pitta",
+      "gender": "Female",
+      "symbol": "Elephant Tusk/Bed",
+      "animal": "Monkey",
+      "compatibility": {
+        "Ashwini": {
+          "score": 66,
+          "description": "Charming, sexy, talented and creative. Passion is great, playful and sensual. Fun to be with."
+        },
+        "Bharani": {
+          "score": 47,
+          "description": "You connect to the Venusian qualities in each other. Your directions in life differ and this creates disagreements."
+        },
+        "Krittika": {
+          "score": 54,
+          "description": "Venusian qualities present. Creative but may lack discipline."
+        },
+        "Rohini": {
+          "score": 53,
+          "description": "Fall for charm and creativity but may be falling for image. Realistic and develop friendship first. Need to be free."
+        },
+        "Mrigashirsha": {
+          "score": 56,
+          "description": "Venus brings creativity. Good friendship base."
+        },
+        "Ardra": {
+          "score": 55,
+          "description": "Venus brings creativity. Good balance to intensity."
+        },
+        "Punarvasu": {
+          "score": 64,
+          "description": "Venus and Jupiter harmonious. Creative and expansive."
+        },
+        "Pushya": {
+          "score": 52,
+          "description": "Venus and Saturn challenging. Different values."
+        },
+        "Ashlesha": {
+          "score": 51,
+          "description": "Venus-Mercury. Creative but critical."
+        },
+        "Magha": {
+          "score": 53,
+          "description": "Creative and talented, instant magnet. Sexually fun but settle for compromise. Their inner search undermines you."
+        },
+        "Purva Phalguni": {
+          "score": 81,
+          "description": "Venus connection! Best match. Both creative and sensual."
+        },
+        "Uttara Phalguni": {
+          "score": 67,
+          "description": "Venus-Sun. Creative and focused."
+        },
+        "Hasta": {
+          "score": 66,
+          "description": "Moon-Venus. Emotional and sensual."
+        },
+        "Chitra": {
+          "score": 64,
+          "description": "Mars-Venus. Passionate and creative."
+        },
+        "Swati": {
+          "score": 62,
+          "description": "Rahu-Venus. Unconventional but creative."
+        },
+        "Vishakha": {
+          "score": 71,
+          "description": "Jupiter-Venus. Wisdom and pleasure."
+        },
+        "Anuradha": {
+          "score": 36,
+          "description": "Fall for charm and creativity but falling for image. Realistic and develop friendship first. Need to be free."
+        },
+        "Jyeshta": {
+          "score": 44,
+          "description": "Flexibility hard to handle. Want concentration on you but outside interests interfere. Paths may be different."
+        },
+        "Mula": {
+          "score": 72,
+          "description": "Ketu-Venus. Spiritual and creative."
+        },
+        "Purva Ashadha": {
+          "score": 76,
+          "description": "Similar natures. Both creative and sensual."
+        },
+        "Uttara Ashadha": {
+          "score": 79,
+          "description": "Venus-Sun. Creative and strong."
+        },
+        "Shravana": {
+          "score": 68,
+          "description": "Venus-Moon. Creative and emotional."
+        },
+        "Dhanishta": {
+          "score": 58,
+          "description": "Venus-Mars. Creative and passionate."
+        },
+        "Shatabhisha": {
+          "score": 56,
+          "description": "Venus-Rahu. Creative but unconventional."
+        },
+        "Purva Bhadrapada": {
+          "score": 69,
+          "description": "Venus-Jupiter. Creative wisdom."
+        },
+        "Uttara Bhadrapada": {
+          "score": 62,
+          "description": "Venus-Saturn. Creative but disciplined."
+        },
+        "Revati": {
+          "score": 74,
+          "description": "Venus-Mercury. Creative and communicative."
+        }
+      },
+      "best_match": [
+        "Revati"
+      ],
+      "worst_match": [
+        "Dhanishta"
+      ]
+    },
+    "Uttara Ashadha": {
+      "lord": "Sun",
+      "deity": "Vishvadevas",
+      "yoni": "Nakul (Mongoose)",
+      "gana": "Manushya",
+      "nadi": "Kapha",
+      "gender": "Female",
+      "symbol": "Elephant Tusk",
+      "animal": "Mongoose",
+      "compatibility": {
+        "Ashwini": {
+          "score": 66,
+          "description": "Friendly but keeps emotional distance. You take this as challenge. Unconventional and special love possible."
+        },
+        "Bharani": {
+          "score": 72,
+          "description": "You are drawn to the cool asceticism of Uttara Ashadha. The relationship can only be fulfilling if you take the sensual lead."
+        },
+        "Krittika": {
+          "score": 82,
+          "description": "Sun rulers connect well. Strong, dignified relationship. Mutual respect and support."
+        },
+        "Rohini": {
+          "score": 37,
+          "description": "Extreme jealousy and sexual rivalry. Mutual attraction compulsive but their coldness makes you lose faith."
+        },
+        "Mrigashirsha": {
+          "score": 64,
+          "description": "Sun provides direction. Good long-term potential."
+        },
+        "Ardra": {
+          "score": 59,
+          "description": "Sun provides direction. Helps focus energy."
+        },
+        "Punarvasu": {
+          "score": 73,
+          "description": "Sun and Jupiter work well. Strong values and direction."
+        },
+        "Pushya": {
+          "score": 78,
+          "description": "Sun-Saturn strong. Responsibility and commitment."
+        },
+        "Ashlesha": {
+          "score": 44,
+          "description": "Sun-Mercury challenging. Different approaches."
+        },
+        "Magha": {
+          "score": 15,
+          "description": "See through lack of confidence. Sexually active vs their diffidence. Cannot be sensitive to needs. Brings out worst."
+        },
+        "Purva Phalguni": {
+          "score": 64,
+          "description": "Venus-Sun. Creative and focused."
+        },
+        "Uttara Phalguni": {
+          "score": 91,
+          "description": "Sun connection! Best match. Both strong and committed."
+        },
+        "Hasta": {
+          "score": 74,
+          "description": "Moon-Sun. Emotional and strong."
+        },
+        "Chitra": {
+          "score": 57,
+          "description": "Mars-Sun. Passionate and strong."
+        },
+        "Swati": {
+          "score": 53,
+          "description": "Rahu-Sun. Unconventional and challenging."
+        },
+        "Vishakha": {
+          "score": 74,
+          "description": "Jupiter-Sun. Wisdom and strength."
+        },
+        "Anuradha": {
+          "score": 64,
+          "description": "Love them more than they do you. Sense loneliness and need for love. Wish they were more demonstrative."
+        },
+        "Jyeshta": {
+          "score": 50,
+          "description": "Spiritual side relates to austere coolness but sensuous side unfulfilled. Need to teach intimacy."
+        },
+        "Mula": {
+          "score": 68,
+          "description": "Ketu-Sun. Spiritual and strong."
+        },
+        "Purva Ashadha": {
+          "score": 79,
+          "description": "Venus-Sun. Creative and strong."
+        },
+        "Uttara Ashadha": {
+          "score": 77,
+          "description": "Similar natures. Both strong and committed."
+        },
+        "Shravana": {
+          "score": 83,
+          "description": "Moon-Sun. Emotional and strong."
+        },
+        "Dhanishta": {
+          "score": 62,
+          "description": "Mars-Sun. Dynamic and strong."
+        },
+        "Shatabhisha": {
+          "score": 54,
+          "description": "Rahu-Sun. Unconventional and strong."
+        },
+        "Purva Bhadrapada": {
+          "score": 66,
+          "description": "Jupiter-Sun. Wisdom and strength."
+        },
+        "Uttara Bhadrapada": {
+          "score": 76,
+          "description": "Saturn-Sun. Discipline and strength."
+        },
+        "Revati": {
+          "score": 72,
+          "description": "Mercury-Sun. Communicative and strong."
+        }
+      },
+      "best_match": [
+        "Uttara Bhadrapada"
+      ],
+      "worst_match": [
+        "Magha",
+        "Ashlesha"
+      ]
+    },
+    "Shravana": {
+      "lord": "Moon",
+      "deity": "Vishnu",
+      "yoni": "Vanar (Monkey)",
+      "gana": "Deva",
+      "nadi": "Kapha",
+      "gender": "Male",
+      "symbol": "Ear/Three Footprints",
+      "animal": "Monkey",
+      "compatibility": {
+        "Ashwini": {
+          "score": 72,
+          "description": "Serious workaholics with twinkle in eyes. Enjoy sex and are innovative lovers. Could easily fall in love."
+        },
+        "Bharani": {
+          "score": 77,
+          "description": "Great sexual attraction. Shravana's ability to pick up the vibrations of your senses and fulfill your every demand."
+        },
+        "Krittika": {
+          "score": 66,
+          "description": "Lunar influence brings emotional depth. Good listener and supportive partner."
+        },
+        "Rohini": {
+          "score": 50,
+          "description": "Know they are moody but become detached. Not there when you need them. Feel neglected and ignored."
+        },
+        "Mrigashirsha": {
+          "score": 74,
+          "description": "Lunar nurturing complements restless nature. Good emotional support."
+        },
+        "Ardra": {
+          "score": 51,
+          "description": "Lunar connection. Emotional understanding present."
+        },
+        "Punarvasu": {
+          "score": 78,
+          "description": "Lunar nurturing with Jupiter wisdom. Excellent emotional and spiritual match."
+        },
+        "Pushya": {
+          "score": 81,
+          "description": "Moon-Saturn excellent. Nurturing with responsibility."
+        },
+        "Ashlesha": {
+          "score": 58,
+          "description": "Moon-Mercury. Emotional and communicative."
+        },
+        "Magha": {
+          "score": 11,
+          "description": "Lose sense of right and wrong. Difficult to deal with sentimentality. Very critical. Frozen by chilly behavior."
+        },
+        "Purva Phalguni": {
+          "score": 69,
+          "description": "Moon-Venus. Emotional and sensual harmony."
+        },
+        "Uttara Phalguni": {
+          "score": 76,
+          "description": "Moon-Sun harmonious. Emotional and strong."
+        },
+        "Hasta": {
+          "score": 88,
+          "description": "Moon connection! Best match. Both lunar and nurturing."
+        },
+        "Chitra": {
+          "score": 61,
+          "description": "Mars-Moon. Passionate and emotional."
+        },
+        "Swati": {
+          "score": 58,
+          "description": "Rahu-Moon. Unconventional but emotional."
+        },
+        "Vishakha": {
+          "score": 76,
+          "description": "Jupiter-Moon. Wisdom and emotion."
+        },
+        "Anuradha": {
+          "score": 72,
+          "description": "Love lunar radiance. Endeavor to find realization. Meld on spiritual, emotional and physical levels. Feed your love."
+        },
+        "Jyeshta": {
+          "score": 55,
+          "description": "Appear like you thinking and philosophizing. Important difference - you think, they feel. Get very emotional."
+        },
+        "Mula": {
+          "score": 64,
+          "description": "Ketu-Moon. Spiritual and emotional."
+        },
+        "Purva Ashadha": {
+          "score": 68,
+          "description": "Venus-Moon. Creative and emotional."
+        },
+        "Uttara Ashadha": {
+          "score": 83,
+          "description": "Moon-Sun. Emotional and strong."
+        },
+        "Shravana": {
+          "score": 79,
+          "description": "Similar natures. Both nurturing and caring."
+        },
+        "Dhanishta": {
+          "score": 67,
+          "description": "Mars-Moon. Dynamic and emotional."
+        },
+        "Shatabhisha": {
+          "score": 74,
+          "description": "Rahu-Moon. Unconventional but emotional."
+        },
+        "Purva Bhadrapada": {
+          "score": 69,
+          "description": "Jupiter-Moon. Wisdom and emotion."
+        },
+        "Uttara Bhadrapada": {
+          "score": 84,
+          "description": "Saturn-Moon. Stable and nurturing."
+        },
+        "Revati": {
+          "score": 86,
+          "description": "Mercury-Moon. Communicative and emotional."
+        }
+      },
+      "best_match": [
+        "Uttara Bhadrapada",
+        "Bharani"
+      ],
+      "worst_match": [
+        "Magha"
+      ]
+    },
+    "Dhanishta": {
+      "lord": "Mars",
+      "deity": "Vasus (Eight Gods)",
+      "yoni": "Simha (Lioness)",
+      "gana": "Rakshasa",
+      "nadi": "Pitta",
+      "gender": "Female",
+      "symbol": "Drum",
+      "animal": "Lioness",
+      "compatibility": {
+        "Ashwini": {
+          "score": 53,
+          "description": "Fiery and combative love life. Both love sex but don't make it an issue of fights. Not possessive."
+        },
+        "Bharani": {
+          "score": 26,
+          "description": "You should think carefully before embarking on a relationship where your deeper sexual needs may not be met."
+        },
+        "Krittika": {
+          "score": 48,
+          "description": "Mars energy can create conflicts. Need to channel passion constructively."
+        },
+        "Rohini": {
+          "score": 53,
+          "description": "Happy to romance but no commitment. Suddenly austere when you show preference for luxury. Mixed signals."
+        },
+        "Mrigashirsha": {
+          "score": 22,
+          "description": "Mars clash! Both independent and competitive. Difficult to sustain."
+        },
+        "Ardra": {
+          "score": 64,
+          "description": "Mars energy aligns. Passionate and dynamic."
+        },
+        "Punarvasu": {
+          "score": 47,
+          "description": "Mars too aggressive. Conflicts likely."
+        },
+        "Pushya": {
+          "score": 42,
+          "description": "Mars too harsh. Difficult dynamic."
+        },
+        "Ashlesha": {
+          "score": 55,
+          "description": "Mars-Mercury. Dynamic but argumentative."
+        },
+        "Magha": {
+          "score": 55,
+          "description": "Must overcome complex about animal sign. Lioness too powerful for rat. Pay back laziness by looking at others."
+        },
+        "Purva Phalguni": {
+          "score": 47,
+          "description": "Mars-Venus challenging. Passion but conflicts."
+        },
+        "Uttara Phalguni": {
+          "score": 51,
+          "description": "Mars-Sun. Dynamic but competitive."
+        },
+        "Hasta": {
+          "score": 58,
+          "description": "Mars-Moon. Dynamic and emotional."
+        },
+        "Chitra": {
+          "score": 67,
+          "description": "Mars connection! Both dynamic and passionate."
+        },
+        "Swati": {
+          "score": 47,
+          "description": "Rahu-Mars. Unconventional and dynamic."
+        },
+        "Vishakha": {
+          "score": 64,
+          "description": "Jupiter-Mars. Wisdom and passion."
+        },
+        "Anuradha": {
+          "score": 32,
+          "description": "Admire courage. Fall in musth - divine ecstasy living in imaginary world. May not deal with needs sensitively."
+        },
+        "Jyeshta": {
+          "score": 68,
+          "description": "Admire courage and forbearance. Strong and loving relationship. Bask in warmth. Learn to face harsh realities."
+        },
+        "Mula": {
+          "score": 61,
+          "description": "Ketu-Mars. Spiritual and dynamic."
+        },
+        "Purva Ashadha": {
+          "score": 58,
+          "description": "Venus-Mars. Creative and passionate."
+        },
+        "Uttara Ashadha": {
+          "score": 62,
+          "description": "Mars-Sun. Dynamic and strong."
+        },
+        "Shravana": {
+          "score": 67,
+          "description": "Mars-Moon. Dynamic and emotional."
+        },
+        "Dhanishta": {
+          "score": 69,
+          "description": "Similar natures. Both dynamic and independent."
+        },
+        "Shatabhisha": {
+          "score": 83,
+          "description": "Rahu-Mars. Unconventional and dynamic."
+        },
+        "Purva Bhadrapada": {
+          "score": 66,
+          "description": "Jupiter-Mars. Wisdom and passion."
+        },
+        "Uttara Bhadrapada": {
+          "score": 24,
+          "description": "Mars-Saturn clash. Too challenging."
+        },
+        "Revati": {
+          "score": 59,
+          "description": "Mars-Mercury. Dynamic and communicative."
+        }
+      },
+      "best_match": [
+        "Shatabhisha"
+      ],
+      "worst_match": [
+        "Uttara Bhadrapada"
+      ]
+    },
+    "Shatabhisha": {
+      "lord": "Rahu",
+      "deity": "Varuna",
+      "yoni": "Ashwa (Horse)",
+      "gana": "Rakshasa",
+      "nadi": "Vata",
+      "gender": "Neuter",
+      "symbol": "100 Physicians/Empty Circle",
+      "animal": "Horse",
+      "compatibility": {
+        "Ashwini": {
+          "score": 38,
+          "description": "Good at sex, bad at intimacy. Past issues bother you. Unable to empathize with emotions or be open."
+        },
+        "Bharani": {
+          "score": 53,
+          "description": "Shatabhishak can be your good friends, do not mistake friendship for love. You need warm, passionate partners."
+        },
+        "Krittika": {
+          "score": 43,
+          "description": "Rahu creates complexity. Unconventional but challenging."
+        },
+        "Rohini": {
+          "score": 76,
+          "description": "Initially cold and unfeeling. Fall in love and they respond. Unique way of loving. Open emotionally to you."
+        },
+        "Mrigashirsha": {
+          "score": 55,
+          "description": "Rahu connection creates mystery. Unconventional relationship."
+        },
+        "Ardra": {
+          "score": 71,
+          "description": "Rahu connection strong. Understand each other's depths."
+        },
+        "Punarvasu": {
+          "score": 35,
+          "description": "Rahu disturbs Jupiter. Unstable and unpredictable."
+        },
+        "Pushya": {
+          "score": 38,
+          "description": "Rahu disturbs Saturn. Unstable."
+        },
+        "Ashlesha": {
+          "score": 62,
+          "description": "Rahu-Mercury. Unconventional intellectual connection."
+        },
+        "Magha": {
+          "score": 66,
+          "description": "Deep and intense relationships. Endeavor to fulfill needs. Let you into innermost secrets. Open hearts."
+        },
+        "Purva Phalguni": {
+          "score": 53,
+          "description": "Rahu-Venus. Unconventional but challenging."
+        },
+        "Uttara Phalguni": {
+          "score": 42,
+          "description": "Rahu-Sun difficult. Unconventional and unstable."
+        },
+        "Hasta": {
+          "score": 49,
+          "description": "Rahu-Moon. Emotional but unstable."
+        },
+        "Chitra": {
+          "score": 54,
+          "description": "Rahu-Mars. Passionate but unconventional."
+        },
+        "Swati": {
+          "score": 82,
+          "description": "Rahu connection! Best match. Both unconventional and intense."
+        },
+        "Vishakha": {
+          "score": 69,
+          "description": "Rahu-Jupiter. Wisdom and unconventionality."
+        },
+        "Anuradha": {
+          "score": 61,
+          "description": "Elusive, never there when wanted. Making promises not always kept. Encourage to talk about love. Be realistic."
+        },
+        "Jyeshta": {
+          "score": 47,
+          "description": "As they control inner demons, may not stand by. Understand spiritual struggle more than they do."
+        },
+        "Mula": {
+          "score": 76,
+          "description": "Rahu-Ketu. Spiritual and unconventional."
+        },
+        "Purva Ashadha": {
+          "score": 56,
+          "description": "Rahu-Venus. Creative but unconventional."
+        },
+        "Uttara Ashadha": {
+          "score": 54,
+          "description": "Rahu-Sun. Unconventional and strong."
+        },
+        "Shravana": {
+          "score": 74,
+          "description": "Rahu-Moon. Unconventional but emotional."
+        },
+        "Dhanishta": {
+          "score": 83,
+          "description": "Rahu-Mars. Unconventional and dynamic."
+        },
+        "Shatabhisha": {
+          "score": 58,
+          "description": "Similar natures. Both unconventional and mysterious."
+        },
+        "Purva Bhadrapada": {
+          "score": 77,
+          "description": "Rahu-Jupiter. Unconventional wisdom."
+        },
+        "Uttara Bhadrapada": {
+          "score": 68,
+          "description": "Rahu-Saturn. Unconventional discipline."
+        },
+        "Revati": {
+          "score": 72,
+          "description": "Rahu-Mercury. Unconventional and communicative."
+        }
+      },
+      "best_match": [
+        "Dhanishta",
+        "Rohini"
+      ],
+      "worst_match": [
+        "Punarvasu",
+        "Hasta"
+      ]
+    },
+    "Purva Bhadrapada": {
+      "lord": "Jupiter",
+      "deity": "Ajaikapada",
+      "yoni": "Simha (Lion)",
+      "gana": "Manushya",
+      "nadi": "Pitta",
+      "gender": "Male",
+      "symbol": "Front of Funeral Cot",
+      "animal": "Lion",
+      "compatibility": {
+        "Ashwini": {
+          "score": 42,
+          "description": "Want to protect their dreaminess but soon desperate to escape. Passionate then distant. Arrogant lion underneath."
+        },
+        "Bharani": {
+          "score": 62,
+          "description": "Who rules this relationship, the elephant or the lion? Sexually your worst partner but compatible in other areas."
+        },
+        "Krittika": {
+          "score": 56,
+          "description": "Jupiter brings growth. Can be overwhelming at times."
+        },
+        "Rohini": {
+          "score": 60,
+          "description": "Generous, warm, flamboyant. Keep you in luxury. Detached side - need to do things alone. Don't let jealousy spoil."
+        },
+        "Mrigashirsha": {
+          "score": 58,
+          "description": "Jupiter wisdom appeals. Good intellectual match."
+        },
+        "Ardra": {
+          "score": 56,
+          "description": "Jupiter wisdom helps. Good for growth."
+        },
+        "Punarvasu": {
+          "score": 81,
+          "description": "Jupiter connection! Best match. Both expansive and philosophical."
+        },
+        "Pushya": {
+          "score": 73,
+          "description": "Jupiter-Saturn good for wisdom and stability."
+        },
+        "Ashlesha": {
+          "score": 53,
+          "description": "Jupiter-Mercury. Wisdom meets intellect."
+        },
+        "Magha": {
+          "score": 47,
+          "description": "Don't allow them to put you on pedestal. One moment of glory creates problems. Feel inadequate, make them unwanted."
+        },
+        "Purva Phalguni": {
+          "score": 72,
+          "description": "Jupiter-Venus. Wisdom and pleasure combined."
+        },
+        "Uttara Phalguni": {
+          "score": 64,
+          "description": "Jupiter-Sun. Wisdom with strength."
+        },
+        "Hasta": {
+          "score": 67,
+          "description": "Jupiter-Moon. Wisdom and emotion."
+        },
+        "Chitra": {
+          "score": 59,
+          "description": "Jupiter-Mars. Wisdom and passion."
+        },
+        "Swati": {
+          "score": 67,
+          "description": "Jupiter-Rahu. Unconventional wisdom."
+        },
+        "Vishakha": {
+          "score": 88,
+          "description": "Jupiter connection! Best match. Both wise and expansive."
+        },
+        "Anuradha": {
+          "score": 66,
+          "description": "Fall for generous and warm. Very different, confident and strong. Let you be in charge. Friends say it weighs too heavily."
+        },
+        "Jyeshta": {
+          "score": 26,
+          "description": "Show new sensual world, bewitched and enchanted. Use words without meaning weaving web of illusions."
+        },
+        "Mula": {
+          "score": 78,
+          "description": "Ketu-Jupiter. Spiritual wisdom."
+        },
+        "Purva Ashadha": {
+          "score": 69,
+          "description": "Jupiter-Venus. Creative wisdom."
+        },
+        "Uttara Ashadha": {
+          "score": 66,
+          "description": "Jupiter-Sun. Wisdom and strength."
+        },
+        "Shravana": {
+          "score": 69,
+          "description": "Jupiter-Moon. Wisdom and emotion."
+        },
+        "Dhanishta": {
+          "score": 66,
+          "description": "Jupiter-Mars. Wisdom and passion."
+        },
+        "Shatabhisha": {
+          "score": 77,
+          "description": "Jupiter-Rahu. Wisdom and unconventionality."
+        },
+        "Purva Bhadrapada": {
+          "score": 75,
+          "description": "Similar natures. Both wise and philosophical."
+        },
+        "Uttara Bhadrapada": {
+          "score": 82,
+          "description": "Jupiter-Saturn. Wisdom and discipline."
+        },
+        "Revati": {
+          "score": 80,
+          "description": "Jupiter-Mercury. Wisdom and communication."
+        }
+      },
+      "best_match": [
+        "Uttara Bhadrapada"
+      ],
+      "worst_match": [
+        "Jyeshta"
+      ]
+    },
+    "Uttara Bhadrapada": {
+      "lord": "Saturn",
+      "deity": "Ahirbudhnya",
+      "yoni": "Gow (Cow)",
+      "gana": "Manushya",
+      "nadi": "Pitta",
+      "gender": "Male",
+      "symbol": "Back of Funeral Cot",
+      "animal": "Cow",
+      "compatibility": {
+        "Ashwini": {
+          "score": 64,
+          "description": "Can be friend, mate or colleague but never lover - until you discover hidden sensuality. Committed and steady love."
+        },
+        "Bharani": {
+          "score": 11,
+          "description": "Your worst relationship. Uttara Bhadra can be ascetic, rigid and cold. They may not express any of the warmth to you."
+        },
+        "Krittika": {
+          "score": 68,
+          "description": "Saturn brings stability. Slow to develop but strong over time."
+        },
+        "Rohini": {
+          "score": 75,
+          "description": "Love dependability. They nurture and support. Secret sensuality behind cool persona. Usually won't risk alienating them."
+        },
+        "Mrigashirsha": {
+          "score": 66,
+          "description": "Saturn stability helps. Slow to warm up but good potential."
+        },
+        "Ardra": {
+          "score": 61,
+          "description": "Saturn stability provides grounding."
+        },
+        "Punarvasu": {
+          "score": 76,
+          "description": "Saturn and Jupiter combine for stability and wisdom."
+        },
+        "Pushya": {
+          "score": 88,
+          "description": "Saturn connection! Best match. Both disciplined and committed."
+        },
+        "Ashlesha": {
+          "score": 46,
+          "description": "Saturn-Mercury. Practical but cold."
+        },
+        "Magha": {
+          "score": 50,
+          "description": "Too restricted about sex while you want freedom. Quietly sensuous behind cool exterior. Delighted by discovery."
+        },
+        "Purva Phalguni": {
+          "score": 59,
+          "description": "Saturn-Venus. Practical but may lack fun."
+        },
+        "Uttara Phalguni": {
+          "score": 71,
+          "description": "Saturn-Sun. Responsibility and strength."
+        },
+        "Hasta": {
+          "score": 79,
+          "description": "Moon-Saturn. Emotional and stable."
+        },
+        "Chitra": {
+          "score": 48,
+          "description": "Mars-Saturn. Passion meets discipline. Challenging."
+        },
+        "Swati": {
+          "score": 59,
+          "description": "Saturn-Rahu. Disciplined but unconventional."
+        },
+        "Vishakha": {
+          "score": 79,
+          "description": "Jupiter-Saturn. Wisdom and stability."
+        },
+        "Anuradha": {
+          "score": 47,
+          "description": "Hide emotional needs behind practicality. Bonds not those on which relationship develops initially. Hard to give up on their love."
+        },
+        "Jyeshta": {
+          "score": 55,
+          "description": "Teach about discipline. Bonds not on which relationship develops initially. Can learn from ascetic nature."
+        },
+        "Mula": {
+          "score": 74,
+          "description": "Ketu-Saturn. Spiritual discipline."
+        },
+        "Purva Ashadha": {
+          "score": 62,
+          "description": "Venus-Saturn. Creative but disciplined."
+        },
+        "Uttara Ashadha": {
+          "score": 76,
+          "description": "Saturn-Sun. Discipline and strength."
+        },
+        "Shravana": {
+          "score": 84,
+          "description": "Saturn-Moon. Stable and nurturing."
+        },
+        "Dhanishta": {
+          "score": 24,
+          "description": "Mars-Saturn clash. Too challenging."
+        },
+        "Shatabhisha": {
+          "score": 68,
+          "description": "Saturn-Rahu. Disciplined but unconventional."
+        },
+        "Purva Bhadrapada": {
+          "score": 82,
+          "description": "Jupiter-Saturn. Wisdom and discipline."
+        },
+        "Uttara Bhadrapada": {
+          "score": 74,
+          "description": "Similar natures. Both disciplined and stable."
+        },
+        "Revati": {
+          "score": 85,
+          "description": "Saturn-Mercury. Stable and communicative."
+        }
+      },
+      "best_match": [
+        "Revati"
+      ],
+      "worst_match": [
+        "Bharani",
+        "Chitra",
+        "Dhanishta"
+      ]
+    },
+    "Revati": {
+      "lord": "Mercury",
+      "deity": "Pushan",
+      "yoni": "Gaja (Elephant)",
+      "gana": "Deva",
+      "nadi": "Kapha",
+      "gender": "Female",
+      "symbol": "Drum/Fish",
+      "animal": "Elephant",
+      "compatibility": {
+        "Ashwini": {
+          "score": 72,
+          "description": "Feel intimate and emotional. Their love makes you feel strong. They understand you. Inspire protective instincts."
+        },
+        "Bharani": {
+          "score": 69,
+          "description": "Revati is your perfect sexual partner. As you get to know of their inner purity and spirituality, this influences you."
+        },
+        "Krittika": {
+          "score": 74,
+          "description": "Mercury and Sun work well together. Good communication and understanding."
+        },
+        "Rohini": {
+          "score": 53,
+          "description": "Fall for idealism but hard to live up to image. They don't want sensuality, you want luxury. Descends into mediocrity."
+        },
+        "Mrigashirsha": {
+          "score": 71,
+          "description": "Mercury connection. Good communication and mental stimulation."
+        },
+        "Ardra": {
+          "score": 58,
+          "description": "Mercury connection. Good communication."
+        },
+        "Punarvasu": {
+          "score": 84,
+          "description": "Mercury and Jupiter excellent! Best match. Wisdom and communication combined."
+        },
+        "Pushya": {
+          "score": 79,
+          "description": "Mercury-Saturn work well. Practical communication."
+        },
+        "Ashlesha": {
+          "score": 76,
+          "description": "Mercury connection! Best match. Intellectual and communicative."
+        },
+        "Magha": {
+          "score": 33,
+          "description": "Try to live up to image but feel inadequate. Spiritually complex. Cover inadequacies with contrary behavior."
+        },
+        "Purva Phalguni": {
+          "score": 77,
+          "description": "Mercury-Venus. Creative and communicative."
+        },
+        "Uttara Phalguni": {
+          "score": 68,
+          "description": "Mercury-Sun. Communicative and strong."
+        },
+        "Hasta": {
+          "score": 83,
+          "description": "Mercury-Moon. Emotional and communicative."
+        },
+        "Chitra": {
+          "score": 65,
+          "description": "Mercury-Mars. Passionate and communicative."
+        },
+        "Swati": {
+          "score": 71,
+          "description": "Mercury-Rahu. Communicative and unconventional."
+        },
+        "Vishakha": {
+          "score": 81,
+          "description": "Mercury-Jupiter. Wisdom and communication."
+        },
+        "Anuradha": {
+          "score": 72,
+          "description": "Make you feel whole. No longer live in polarities. Divine love you were seeking. Cocoon of love and happiness."
+        },
+        "Jyeshta": {
+          "score": 55,
+          "description": "Similar but different agendas. Explore sensuality vs love. Tendency to be supercritical. Blame each other."
+        },
+        "Mula": {
+          "score": 71,
+          "description": "Mercury-Ketu. Communicative and spiritual."
+        },
+        "Purva Ashadha": {
+          "score": 74,
+          "description": "Mercury-Venus. Creative and communicative."
+        },
+        "Uttara Ashadha": {
+          "score": 72,
+          "description": "Mercury-Sun. Communicative and strong."
+        },
+        "Shravana": {
+          "score": 86,
+          "description": "Mercury-Moon. Communicative and emotional."
+        },
+        "Dhanishta": {
+          "score": 59,
+          "description": "Mercury-Mars. Communicative and dynamic."
+        },
+        "Shatabhisha": {
+          "score": 72,
+          "description": "Mercury-Rahu. Communicative and unconventional."
+        },
+        "Purva Bhadrapada": {
+          "score": 80,
+          "description": "Mercury-Jupiter. Wisdom and communication."
+        },
+        "Uttara Bhadrapada": {
+          "score": 85,
+          "description": "Mercury-Saturn. Stable and communicative."
+        },
+        "Revati": {
+          "score": 78,
+          "description": "Similar natures. Both communicative and caring."
+        }
+      },
+      "best_match": [
+        "Uttara Bhadrapada"
+      ],
+      "worst_match": [
+        "Vishakha"
+      ]
+    }
+  },
+  "metadata": {
+    "total_nakshatras": 27,
+    "methodology": "Based on detailed nakshatra characteristics from aaps.space including lord, deity, yoni, gana, nadi, and psychological profiles",
+    "score_interpretation": {
+      "90-100": "Excellent - Highly compatible, natural soulmates",
+      "80-89": "Very Good - Strong compatibility with minor adjustments",
+      "70-79": "Good - Compatible with understanding",
+      "60-69": "Fair - Manageable with effort",
+      "50-59": "Average - Challenging but possible",
+      "40-49": "Difficult - Significant differences",
+      "30-39": "Poor - Major challenges",
+      "below_30": "Very Poor - Avoid if possible"
+    },
+    "source": "aaps.space - Complete Nakshatra Compatibility Database",
+    "last_updated": "2026-02-11",
+    "version": "1.0.0"
+  }
+}

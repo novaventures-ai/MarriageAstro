@@ -1,0 +1,175 @@
+{
+  "digital_age_issues": {
+    "description": "Modern technology and communication challenges",
+    "mercury_uranus": {
+      "condition": "Mercury conjunct or square Uranus",
+      "orb": 4,
+      "description": "Erratic communication patterns",
+      "manifestations": [
+        "Inconsistent texting/messaging",
+        "Sudden changes in communication style",
+        "Misunderstandings due to rushed messages",
+        "Preferring digital over face-to-face"
+      ],
+      "modern_symptoms": [
+        "Ghosting or sudden disappearance",
+        "Sending mixed signals online",
+        "Difficulty with deep conversation",
+        "Addiction to instant gratification"
+      ]
+    },
+    "mercury_neptune": {
+      "condition": "Mercury conjunct or opposite Neptune",
+      "orb": 5,
+      "description": "Confused or deceptive communication",
+      "manifestations": [
+        "Passive-aggressive messaging",
+        "Saying one thing, meaning another",
+        "Reading too much into texts",
+        "Misinterpretation of tone"
+      ],
+      "modern_symptoms": [
+        "Overanalyzing social media activity",
+        "Creating false narratives online",
+        "Catfishing or misrepresentation",
+        "Ghosting without explanation"
+      ]
+    },
+    "social_media_addiction": {
+      "condition": "11th house (social networks) with Uranus/Neptune/Rahu",
+      "description": "Online validation seeking affecting relationship",
+      "manifestations": [
+        "Posting relationship for validation",
+        "Jealousy over online interactions",
+        "Comparing relationship to social media",
+        "Emotional affairs through DMs"
+      ]
+    }
+  },
+  "lifestyle_career_stress": {
+    "description": "Work-life balance and career conflicts",
+    "tenth_house_affliction": {
+      "condition": "10th house lord in 6/8/12 OR 10th house heavily afflicted",
+      "description": "Career stress affecting relationship",
+      "manifestations": [
+        "Workaholic tendencies",
+        "Bringing work stress home",
+        "Career prioritization over relationship",
+        "Financial instability affecting marriage"
+      ]
+    },
+    "saturn_uranus": {
+      "condition": "Saturn conjunct or square Uranus",
+      "orb": 6,
+      "description": "Conflict between tradition and innovation",
+      "manifestations": [
+        "One partner traditional, other modern",
+        "Disagreement on gender roles",
+        "Conflict over career vs family",
+        "Unpredictable work schedules"
+      ]
+    },
+    "dual_career_tension": {
+      "condition": "Both partners have 10th house afflictions",
+      "description": "Both career-focused, relationship neglected",
+      "manifestations": [
+        "Competition between partners",
+        "No quality time together",
+        "Relocation conflicts",
+        "Unequal career sacrifices"
+      ]
+    }
+  },
+  "mental_health_markers": {
+    "description": "Astrological indicators of mental/emotional health issues affecting relationship",
+    "anxiety": {
+      "condition": "Moon with Rahu OR Moon in 6th/12th",
+      "description": "Anxiety and emotional instability",
+      "manifestations": [
+        "Need for constant reassurance",
+        "Overthinking in relationship",
+        "Emotional volatility",
+        "Attachment anxiety"
+      ],
+      "moon_neptune": {
+        "condition": "Moon conjunct or opposite Neptune",
+        "description": "Hypersensitivity and emotional confusion",
+        "manifestations": [
+          "Absorbing partner's emotions",
+          "Difficulty distinguishing own feelings",
+          "Idealization followed by disappointment"
+        ]
+      }
+    },
+    "depression": {
+      "condition": "Saturn-Moon conjunction OR Saturn aspecting Moon",
+      "description": "Emotional heaviness and distance",
+      "manifestations": [
+        "Emotional unavailability",
+        "Pessimism about relationship",
+        "Withdrawal from intimacy",
+        "Chronic sadness affecting connection"
+      ]
+    },
+    "narcissism": {
+      "condition": "Sun-Rahu conjunction with Pluto involvement",
+      "description": "Self-centered behavior patterns",
+      "manifestations": [
+        "Lack of empathy for partner",
+        "Need for constant admiration",
+        "Controlling behavior",
+        "Manipulative tendencies"
+      ],
+      "first_house_pluto": {
+        "condition": "Pluto in 1st house OR Pluto conjunct Ascendant",
+        "description": "Intense need for control",
+        "manifestations": [
+          "Dominating partner",
+          "Power struggles",
+          "Transformation through crisis"
+        ]
+      }
+    },
+    "addiction_issues": {
+      "condition": "Neptune afflicting Venus/Mars in 12th house",
+      "description": "Escapism and addiction affecting relationship",
+      "manifestations": [
+        "Substance abuse affecting marriage",
+        "Pornography addiction",
+        "Gambling or financial irresponsibility",
+        "Emotional addiction to drama"
+      ]
+    }
+  },
+  "relationship_patterns": {
+    "commitment_phobia": {
+      "condition": "Uranus in 7th house OR Venus-Uranus hard aspect",
+      "description": "Fear of commitment and need for freedom",
+      "manifestations": [
+        "Avoiding labels",
+        "Sabotaging when things get serious",
+        "Attraction to unavailable partners",
+        "Open relationship preference"
+      ]
+    },
+    "codependency": {
+      "condition": "Neptune in 7th house OR Moon-Neptune conjunction",
+      "description": "Loss of self in relationship",
+      "manifestations": [
+        "Can't function without partner",
+        "Enabling bad behavior",
+        "Poor boundaries",
+        "Rescuer-victim dynamics"
+      ]
+    },
+    "repetitive_patterns": {
+      "condition": "Nodal axis across relationship houses (1-7)",
+      "description": "Karmic relationship patterns",
+      "manifestations": [
+        "Attracting same type of partner",
+        "Repeating parental relationship patterns",
+        "Same conflicts in every relationship"
+      ]
+    }
+  }
+}

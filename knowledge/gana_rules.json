@@ -1,0 +1,57 @@
+{
+  "gana_types": {
+    "Deva": {
+      "nakshatras": ["Ashwini", "Mrigashira", "Punarvasu", "Pushya", "Hasta", "Swati", "Anuradha", "Shravana", "Revati"],
+      "nature": "Divine, Sattvic, Upright, Optimistic",
+      "score": 6
+    },
+    "Manushya": {
+      "nakshatras": ["Bharani", "Rohini", "Ardra", "Purva Phalguni", "Uttara Phalguni", "Purva Ashadha", "Uttara Ashadha", "Purva Bhadrapada", "Uttara Bhadrapada"],
+      "nature": "Human, Mixed Rajas, Ambitious, Pragmatic",
+      "score": 6
+    },
+    "Rakshasa": {
+      "nakshatras": ["Krittika", "Ashlesha", "Magha", "Chitra", "Vishakha", "Jyeshtha", "Mula", "Dhanishta", "Shatabhisha"],
+      "nature": "Demonic, Tamasic, Dominant, Intense",
+      "score": 6
+    }
+  },
+  "matching_rules": {
+    "Deva-Deva": { "points": 6, "compatibility": "Excellent" },
+    "Deva-Manushya": { "points": 5, "compatibility": "Very Good" },
+    "Deva-Rakshasa": { "points": 1, "compatibility": "Poor", "dosha": true },
+    "Manushya-Deva": { "points": 5, "compatibility": "Very Good" },
+    "Manushya-Manushya": { "points": 6, "compatibility": "Excellent" },
+    "Manushya-Rakshasa": { "points": 3, "compatibility": "Fair", "dosha": true },
+    "Rakshasa-Deva": { "points": 0, "compatibility": "Very Poor", "dosha": true },
+    "Rakshasa-Manushya": { "points": 3, "compatibility": "Fair", "dosha": true },
+    "Rakshasa-Rakshasa": { "points": 6, "compatibility": "Excellent" }
+  },
+  "cancellation_rules": [
+    {
+      "name": "Rashi Lord Friendship",
+      "condition": "If Moon sign lords of both are mutual friends",
+      "effect": "Gana Dosha is cancelled",
+      "example": "Deva with Rakshasa cancelled if Moon lords are friends (e.g., Sun-Moon)"
+    },
+    {
+      "name": "Same Tara",
+      "condition": "If both have same Tara (auspicious) relationship",
+      "effect": "Partial cancellation of Gana Dosha"
+    },
+    {
+      "name": "Bhakoot Exception",
+      "condition": "If Bhakoot is 7-7 (same sign)",
+      "effect": "Gana Dosha effect reduced by 50%"
+    },
+    {
+      "name": "Navamsa Harmony",
+      "condition": "If Navamsa lords are friendly or same",
+      "effect": "Complete cancellation of Gana Dosha"
+    }
+  ],
+  "exceptions": {
+    "Rakshasa_bride_note": "Rakshasa bride with Deva/Manushya groom is most challenging - requires strong cancellation",
+    "Rakshasa_groom_note": "Rakshasa groom can work with strong Moon sign lord friendship"
+  }
+}

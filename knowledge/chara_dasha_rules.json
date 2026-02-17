@@ -1,0 +1,156 @@
+{
+  "chara_karakas": {
+    "description": "7 variable significators based on planetary degrees",
+    "calculation": "Planets ordered by highest to lowest degree in natal chart",
+    "karakas": {
+      "Atmakaraka (AK)": {
+        "rank": 1,
+        "highest_degree": true,
+        "signification": "Self, soul, individual essence",
+        "importance": "Most important planet in Jaimini system"
+      },
+      "Amatyakaraka (AmK)": {
+        "rank": 2,
+        "signification": "Advisor, career, guidance",
+        "importance": "Professional life and counselors"
+      },
+      "Bhratrukaraka (BK)": {
+        "rank": 3,
+        "signification": "Siblings, courage, initiative",
+        "importance": "Relationship with siblings"
+      },
+      "Matrukaraka (MK)": {
+        "rank": 4,
+        "signification": "Mother, home, emotional foundation",
+        "importance": "Parental and domestic life"
+      },
+      "Pitrukaraka (PK)": {
+        "rank": 5,
+        "signification": "Father, ancestors, dharma",
+        "importance": "Lineage and spiritual guidance"
+      },
+      "Putrakaraka (PiK)": {
+        "rank": 6,
+        "signification": "Children, creativity, legacy",
+        "importance": "Progeny and creative expression"
+      },
+      "Darakaraka (DK)": {
+        "rank": 7,
+        "lowest_degree": true,
+        "signification": "Spouse, marriage partner",
+        "importance": "Critical for marriage analysis"
+      }
+    },
+    "marriage_analysis": {
+      "DK_in_houses": {
+        "1": "Spouse significantly impacts self-identity; partner is very independent",
+        "2": "Spouse brings wealth or family connections; emphasis on family values",
+        "3": "Spouse is courageous, communicative, possibly younger sibling-like",
+        "4": "Spouse provides emotional security; strong domestic focus",
+        "5": "Spouse is creative, romantic, or connected to children/intelligence",
+        "6": "Challenging placement - spouse may bring obstacles or health issues",
+        "7": "Excellent for marriage - spouse is true partner; strong relationship",
+        "8": "Transformation through marriage; intense but potentially difficult",
+        "9": "Spouse brings fortune, wisdom, or foreign connections; dharma alignment",
+        "10": "Spouse influences career or is career-oriented; public marriage",
+        "11": "Spouse brings gains, fulfillment of desires; good financial partnership",
+        "12": "Spouse may be from foreign land or spiritual; possible separation themes"
+      },
+      "DK_planet_nature": {
+        "Sun": "Authoritative, respected, possibly government/management spouse",
+        "Moon": "Nurturing, emotional, motherly/fatherly spouse; changeable nature",
+        "Mars": "Active, energetic, possibly military/athletic spouse; assertive",
+        "Mercury": "Intelligent, communicative, business-minded, young spouse",
+        "Jupiter": "Wise, spiritual, teacher/guide spouse; expansive and generous",
+        "Venus": "Artistic, romantic, beautiful/handsome spouse; pleasure-oriented",
+        "Saturn": "Mature, older, serious, hardworking spouse; delayed marriage",
+        "Rahu": "Foreign, unconventional, ambitious spouse; sudden changes",
+        "Ketu": "Spiritual, detached, mystical spouse; past-life connection"
+      }
+    }
+  },
+  "chara_dasha": {
+    "description": "Jaimini sign-based timing system for events",
+    "calculation_rules": {
+      "dasha_order": "Based on sign characteristics",
+      "direct_movement": "Aries, Taurus, Gemini, Libra, Scorpio, Sagittarius - forward through zodiac",
+      "reverse_movement": "Cancer, Leo, Virgo, Capricorn, Aquarius, Pisces - backward through zodiac",
+      "dual_lordship": {
+        "Scorpio": "Mars (first 15°), Ketu (last 15°)",
+        "Aquarius": "Saturn (first 15°), Rahu (last 15°)"
+      }
+    },
+    "dasha_periods": {
+      "description": "Each sign period determined by placement of its lord",
+      "calculation": "Count from sign to its lord, then count same distance forward",
+      "example": "If Aries lord Mars is in Cancer (4th from Aries), count 4 from Cancer = Libra gets 10 years"
+    },
+    "marriage_timing": {
+      "favorable_dashas": [
+        {
+          "sign": "Sign containing DK",
+          "description": "Dasha of sign holding Darakaraka brings marriage"
+        },
+        {
+          "sign": "7th from DK",
+          "description": "Activation of 7th from DK is marriage timing"
+        },
+        {
+          "sign": "UL sign",
+          "description": "Dasha of Upapada Lagna sign activates marriage"
+        },
+        {
+          "sign": "7th from UL",
+          "description": "7th from UL also indicates marriage period"
+        },
+        {
+          "sign": "Sign containing Venus",
+          "description": "Natural marriage karaka's sign"
+        },
+        {
+          "sign": "7th house sign",
+          "description": "Traditional marriage house activation"
+        }
+      ],
+      "antardasha_importance": "Sub-periods refine timing - look for overlap of marriage indicators"
+    }
+  },
+  "upapada_lagna": {
+    "description": "Special ascendant for marriage and spouse characteristics",
+    "calculation": {
+      "step1": "Identify 12th house from Ascendant",
+      "step2": "Find lord of 12th house",
+      "step3": "Count houses from 12th to its lord",
+      "step4": "Count same distance forward from the lord",
+      "result": "Final position is Upapada Lagna (UL)"
+    },
+    "example": {
+      "ascendant": "Aries",
+      "twelfth_house": "Pisces",
+      "twelfth_lord": "Jupiter",
+      "jupiter_placement": "5th house (Leo)",
+      "count": "4 houses from 12th to Jupiter (Pisces to Leo)",
+      "upapada": "4 houses from Leo = Scorpio is UL"
+    },
+    "interpretation": {
+      "UL_sign": "Characteristics of spouse's family and background",
+      "planets_in_UL": "Specific influences on marriage quality",
+      "UL_lord": "Stability and nature of marital happiness",
+      "afflictions_to_UL": "Challenges in marriage"
+    },
+    "sequences": {
+      "UL": "First marriage indicator",
+      "UL2": "8th from UL - Second marriage",
+      "UL3": "8th from UL2 - Third marriage",
+      "note": "Dual signs on UL with malefic influence suggests multiple marriages"
+    }
+  },
+  "vivah_saham": {
+    "description": "Sensitive point specifically for marriage timing",
+    "calculation": {
+      "formula": "Venus longitude - Sun longitude + Ascendant longitude",
+      "note": "If result is negative, add 360°"
+    },
+    "usage": "When activated by transit or dasha, indicates marriage timing"
+  }
+}

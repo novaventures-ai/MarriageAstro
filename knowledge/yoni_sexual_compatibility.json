@@ -1,0 +1,663 @@
+{
+  "yoni_system": {
+    "description": "Yoni matching for sexual compatibility based on aaps.space comprehensive research",
+    "methodology": "Each nakshatra is assigned a yoni (animal symbol) representing sexual nature and compatibility",
+    "total_yonis": 14,
+    "yonis": {
+      "Ashwa": {
+        "name": "Horse",
+        "nakshatras": [
+          "Ashwini",
+          "Shatabhisha"
+        ],
+        "gender": "Male",
+        "element": "Air",
+        "sexual_nature": {
+          "description": "Very strong sexual drive and stamina. Hard to satisfy due to high libido.",
+          "characteristics": [
+            "Initiates lovemaking with caress, touches, and kisses",
+            "Dominant in sexual relationships",
+            "Expects long intimate play sessions",
+            "Can go for longer sexual sessions"
+          ],
+          "yoni_features": {
+            "opening": "soft",
+            "passage": "narrow",
+            "base": "deep"
+          },
+          "lingam_features": {
+            "foreskin": "loose",
+            "girth": "narrow",
+            "glans": "big"
+          }
+        },
+        "best_matches": [
+          "Gaja",
+          "Mriga",
+          "Vanar",
+          "Sarpa"
+        ],
+        "worst_matches": [],
+        "compatibility_notes": "Horse yoni has high libido levels which can be satisfied by capable Elephant yoni, agreeable Deer yoni, foreplay-loving Monkey yoni and sexual Serpent yoni."
+      },
+      "Gaja": {
+        "name": "Elephant",
+        "nakshatras": [
+          "Bharani",
+          "Revati"
+        ],
+        "gender": "Female",
+        "element": "Earth & Air",
+        "sexual_nature": {
+          "description": "Conservative nature. Considers sex as moral act for pure love or procreation.",
+          "characteristics": [
+            "Takes long time for preparation or to get aroused",
+            "Needs healthy foreplay before penetration",
+            "Considers sexual pleasures as secondary need",
+            "Can give pleasure for long time when aroused"
+          ],
+          "yoni_features": {
+            "opening": "soft",
+            "passage": "wide",
+            "base": "deep"
+          },
+          "lingam_features": {
+            "foreskin": "loose",
+            "girth": "thick",
+            "glans": "big"
+          }
+        },
+        "best_matches": [
+          "Ashwa",
+          "Mriga",
+          "Vanar",
+          "Sarpa"
+        ],
+        "worst_matches": [],
+        "compatibility_notes": "Elephant yoni is capable to have good intimate life with most other yonis. Goes well with Horse, Deer, Monkey and Serpent yonis."
+      },
+      "Mriga": {
+        "name": "Deer",
+        "nakshatras": [
+          "Anuradha",
+          "Jyeshta"
+        ],
+        "gender": "Female",
+        "element": "Spirit",
+        "sexual_nature": {
+          "description": "Most accommodating sexual nature. Faithful and can give pleasure to partner.",
+          "characteristics": [
+            "Neither bothers about sex nor complains about performance",
+            "Can make married life blissful and joyful",
+            "Understanding and suppresses urges for partner benefit",
+            "Ready at all seasons - mornings and evenings"
+          ],
+          "yoni_features": {
+            "opening": "soft",
+            "passage": "narrow",
+            "base": "deep"
+          },
+          "lingam_features": {
+            "foreskin": "loose",
+            "girth": "narrow",
+            "glans": "big"
+          }
+        },
+        "best_matches": [
+          "Gaja",
+          "Sarpa",
+          "Vanar",
+          "Ashwa"
+        ],
+        "worst_matches": [
+          "Sarpa",
+          "Mushaka",
+          "Vyaghra",
+          "Simha"
+        ],
+        "compatibility_notes": "Deer yoni is most accommodating. Goes good with Elephant yoni. Can easily satisfy Snake yoni, Monkey yoni and even Horse yoni."
+      },
+      "Vanar": {
+        "name": "Monkey",
+        "nakshatras": [
+          "Purva Ashadha",
+          "Shravana"
+        ],
+        "gender": "Male",
+        "element": "Fire & Spirit",
+        "sexual_nature": {
+          "description": "Dominant and demanding in bed. Needs lots of attention and pampering.",
+          "characteristics": [
+            "Wants to be dominant one in bed",
+            "Needs hugging, cuddling, pampering and pleading",
+            "Requires gifts, favours and praises",
+            "Can give satisfying and ecstatic experiences if pampered"
+          ],
+          "yoni_features": {
+            "opening": "tight",
+            "passage": "wide",
+            "base": "deep"
+          },
+          "lingam_features": {
+            "foreskin": "tight",
+            "girth": "thick",
+            "glans": "big"
+          }
+        },
+        "best_matches": [
+          "Ashwa",
+          "Gaja",
+          "Sarpa",
+          "Mriga"
+        ],
+        "worst_matches": [],
+        "compatibility_notes": "Monkey yoni demands high sexual attention and care which can be completed by sexual driven Horse yoni, Serpent yoni, Elephant yoni and Deer yoni."
+      },
+      "Sarpa": {
+        "name": "Serpent/Snake",
+        "nakshatras": [
+          "Rohini",
+          "Mrigashirsha"
+        ],
+        "gender": "Female",
+        "element": "Fire & Air",
+        "sexual_nature": {
+          "description": "Reserved, modest and shy. Faithful partner requiring foreplay and closeness.",
+          "characteristics": [
+            "Does not try to attract attention in sexual matters",
+            "Requires more foreplay by hugging, cuddling and close contact",
+            "Duration ranges from 1 hour to 2-3 hours when aroused",
+            "Prefers specific positions for easy orgasm"
+          ],
+          "yoni_features": {
+            "opening": "tight",
+            "passage": "narrow",
+            "base": "deep"
+          },
+          "lingam_features": {
+            "foreskin": "tight",
+            "girth": "narrow",
+            "glans": "big"
+          }
+        },
+        "best_matches": [
+          "Mriga",
+          "Gaja",
+          "Vanar",
+          "Ashwa"
+        ],
+        "worst_matches": [
+          "Shwaan",
+          "Mushaka",
+          "Mriga"
+        ],
+        "compatibility_notes": "Serpent yoni due to fairly good and active sexual nature can satisfy Horse yoni, Elephant yoni and Deer yoni. Can also make good play with Monkey yoni."
+      },
+      "Simha": {
+        "name": "Lion",
+        "nakshatras": [
+          "Dhanishta",
+          "Purva Bhadrapada"
+        ],
+        "gender": "Female",
+        "element": "Fire",
+        "sexual_nature": {
+          "description": "Powerful, energetic and majestic sexual nature. Strong and assertive.",
+          "characteristics": [
+            "Strong sexual energy and stamina",
+            "Majestic and commanding presence",
+            "Assertive in expressing needs",
+            "Passionate and intense"
+          ],
+          "yoni_features": {
+            "opening": "firm",
+            "passage": "strong",
+            "base": "deep"
+          },
+          "lingam_features": {
+            "foreskin": "tight",
+            "girth": "thick",
+            "glans": "strong"
+          }
+        },
+        "best_matches": [
+          "Ashwa",
+          "Marjara",
+          "Vyaghra",
+          "Simha"
+        ],
+        "worst_matches": [
+          "Mriga"
+        ]
+      },
+      "Mahisha": {
+        "name": "Buffalo",
+        "nakshatras": [
+          "Hasta",
+          "Swati"
+        ],
+        "gender": "Female",
+        "element": "Earth",
+        "sexual_nature": {
+          "description": "Slow, steady and sensual nature. Deep and heavy sexual energy.",
+          "characteristics": [
+            "Takes time to build momentum",
+            "Deeply sensual and tactile",
+            "High endurance once aroused",
+            "Solid and reliable partner"
+          ],
+          "yoni_features": {
+            "opening": "large",
+            "passage": "wide",
+            "base": "heavy"
+          },
+          "lingam_features": {
+            "foreskin": "loose",
+            "girth": "very thick",
+            "glans": "blunt"
+          }
+        },
+        "best_matches": [
+          "Gaja",
+          "Aja",
+          "Ustra",
+          "Gow",
+          "Mahisha",
+          "Mriga"
+        ],
+        "worst_matches": []
+      },
+      "Vyaghra": {
+        "name": "Tiger",
+        "nakshatras": [
+          "Chitra",
+          "Vishakha"
+        ],
+        "gender": "Female",
+        "element": "Fire",
+        "sexual_nature": {
+          "description": "Fierce, intense and highly energetic. Passionate but potentially erratic.",
+          "characteristics": [
+            "High intensity sessions",
+            "Requires variety and excitement",
+            "Sharp and focused energy",
+            "Unpredictable rhythms"
+          ],
+          "yoni_features": {
+            "opening": "tight",
+            "passage": "contracting",
+            "base": "deep"
+          },
+          "lingam_features": {
+            "foreskin": "tight",
+            "girth": "medium",
+            "glans": "pointed"
+          }
+        },
+        "best_matches": [
+          "Ashwa",
+          "Marjara",
+          "Vyaghra",
+          "Simha"
+        ],
+        "worst_matches": [
+          "Mriga",
+          "Nakula"
+        ]
+      },
+      "Mushaka": {
+        "name": "Rat",
+        "nakshatras": [
+          "Magha",
+          "Purva Phalguni"
+        ],
+        "gender": "Female",
+        "element": "Earth",
+        "sexual_nature": {
+          "description": "Quick, playful and curious nature. Light and active sexual energy.",
+          "characteristics": [
+            "Short but frequent sessions",
+            "Highly curious and experimental",
+            "Quick arousal and release",
+            "Playful attitude in bed"
+          ],
+          "yoni_features": {
+            "opening": "small",
+            "passage": "narrow",
+            "base": "shallow"
+          },
+          "lingam_features": {
+            "foreskin": "tight",
+            "girth": "thin",
+            "glans": "small"
+          }
+        },
+        "best_matches": [
+          "Aja",
+          "Mushaka",
+          "Vanar"
+        ],
+        "worst_matches": [
+          "Sarpa",
+          "Marjara",
+          "Mriga",
+          "Nakula"
+        ]
+      },
+      "Nakula": {
+        "name": "Mongoose",
+        "nakshatras": [
+          "Uttara Ashadha"
+        ],
+        "gender": "Female",
+        "element": "Earth",
+        "sexual_nature": {
+          "description": "Extremely active, responsive and agile. Fast and intense energy.",
+          "characteristics": [
+            "Exceptional reflexes and response",
+            "Fast-paced sexual rhythm",
+            "Very high energy levels",
+            "Attentive to every stimulus"
+          ],
+          "yoni_features": {
+            "opening": "active",
+            "passage": "responsive",
+            "base": "deep"
+          },
+          "lingam_features": {
+            "foreskin": "flexible",
+            "girth": "medium",
+            "glans": "sensitive"
+          }
+        },
+        "best_matches": [
+          "Aja",
+          "Vanar",
+          "Nakula"
+        ],
+        "worst_matches": [
+          "Marjara",
+          "Mushaka",
+          "Vyaghra"
+        ]
+      },
+      "Shwaan": {
+        "name": "Dog",
+        "nakshatras": [
+          "Ardra",
+          "Mula"
+        ],
+        "gender": "Female",
+        "element": "Fire",
+        "sexual_nature": {
+          "description": "Enthusiastic, loyal and friendly. Active and very responsive nature.",
+          "characteristics": [
+            "Very enthusiastic and eager",
+            "Highly responsive to partner",
+            "Playful and energetic",
+            "Deeply loyal in physical intimacy"
+          ],
+          "yoni_features": {
+            "opening": "soft",
+            "passage": "variable",
+            "base": "deep"
+          },
+          "lingam_features": {
+            "foreskin": "moderate",
+            "girth": "medium",
+            "glans": "notable"
+          }
+        },
+        "best_matches": [
+          "Ashwa",
+          "Aja",
+          "Shwaan",
+          "Ustra",
+          "Gow",
+          "Vanar"
+        ],
+        "worst_matches": [
+          "Sarpa",
+          "Marjara"
+        ]
+      },
+      "Marjara": {
+        "name": "Cat",
+        "nakshatras": [
+          "Ashlesha",
+          "Punarvasu"
+        ],
+        "gender": "Female",
+        "element": "Water",
+        "sexual_nature": {
+          "description": "Independent, graceful and sensual. Needs rhythm and comfort.",
+          "characteristics": [
+            "Clean and graceful intimacy",
+            "Aesthetic and sensual",
+            "Takes time to trust fully",
+            "Rhythmic and steady flow"
+          ],
+          "yoni_features": {
+            "opening": "smooth",
+            "passage": "graceful",
+            "base": "supple"
+          },
+          "lingam_features": {
+            "foreskin": "thin",
+            "girth": "medium",
+            "glans": "smooth"
+          }
+        },
+        "best_matches": [
+          "Gaja",
+          "Marjara",
+          "Vyaghra",
+          "Simha"
+        ],
+        "worst_matches": [
+          "Shwaan",
+          "Mushaka",
+          "Nakula"
+        ]
+      },
+      "Aja": {
+        "name": "Sheep/Goat",
+        "nakshatras": [
+          "Pushya",
+          "Krittika"
+        ],
+        "gender": "Male",
+        "element": "Earth",
+        "sexual_nature": {
+          "description": "Simple, persistent and earthy nature. Balanced and steady energy.",
+          "characteristics": [
+            "Steady and consistent energy",
+            "Simple and honest intimacy",
+            "Earthy and grounded rhythm",
+            "Persistent endurance"
+          ],
+          "yoni_features": {
+            "opening": "natural",
+            "passage": "earthy",
+            "base": "firm"
+          },
+          "lingam_features": {
+            "foreskin": "thick",
+            "girth": "balanced",
+            "glans": "rounded"
+          }
+        },
+        "best_matches": [
+          "Ashwa",
+          "Gaja",
+          "Aja",
+          "Shwaan",
+          "Mushaka",
+          "Ustra",
+          "Gow",
+          "Mahisha",
+          "Mriga",
+          "Nakula"
+        ],
+        "worst_matches": []
+      },
+      "Ustra": {
+        "name": "Camel",
+        "nakshatras": [
+          "Uttara Phalguni"
+        ],
+        "gender": "Female",
+        "element": "Air",
+        "sexual_nature": {
+          "description": "High endurance, steady and capable of long sessions. Resilient energy.",
+          "characteristics": [
+            "Incredible stamina and endurance",
+            "Steady and unchanging rhythm",
+            "Capable of long periods of intimacy",
+            "Resilient and adaptive"
+          ],
+          "yoni_features": {
+            "opening": "tough",
+            "passage": "deep",
+            "base": "resilient"
+          },
+          "lingam_features": {
+            "foreskin": "loose",
+            "girth": "thick",
+            "glans": "long"
+          }
+        },
+        "best_matches": [
+          "Ashwa",
+          "Gaja",
+          "Aja",
+          "Shwaan",
+          "Ustra",
+          "Gow",
+          "Mahisha",
+          "Mriga"
+        ],
+        "worst_matches": []
+      },
+      "Gow": {
+        "name": "Cow",
+        "nakshatras": [
+          "Uttara Bhadrapada"
+        ],
+        "gender": "Female",
+        "element": "Earth",
+        "sexual_nature": {
+          "description": "Nurturing, gentle and extremely patient. Soft and loving energy.",
+          "characteristics": [
+            "Extremely gentle and nurturing",
+            "Patient and accommodating",
+            "Soft and slow intimacy",
+            "Deeply loving and protective"
+          ],
+          "yoni_features": {
+            "opening": "soft",
+            "passage": "mild",
+            "base": "nurturing"
+          },
+          "lingam_features": {
+            "foreskin": "soft",
+            "girth": "medium",
+            "glans": "gentle"
+          }
+        },
+        "best_matches": [
+          "Ashwa",
+          "Gaja",
+          "Aja",
+          "Shwaan",
+          "Ustra",
+          "Gow",
+          "Mahisha",
+          "Mriga"
+        ],
+        "worst_matches": []
+      }
+    }
+  },
+  "nakshatra_yoni_mapping": {
+    "Ashwini": "Ashwa",
+    "Bharani": "Gaja",
+    "Krittika": "Aja",
+    "Rohini": "Sarpa",
+    "Mrigashirsha": "Sarpa",
+    "Ardra": "Shwaan",
+    "Punarvasu": "Marjara",
+    "Pushya": "Aja",
+    "Ashlesha": "Marjara",
+    "Magha": "Mushaka",
+    "Purva Phalguni": "Mushaka",
+    "Uttara Phalguni": "Ustra",
+    "Hasta": "Mahisha",
+    "Chitra": "Vyaghra",
+    "Swati": "Mahisha",
+    "Vishakha": "Vyaghra",
+    "Anuradha": "Mriga",
+    "Jyeshta": "Mriga",
+    "Mula": "Shwaan",
+    "Purva Ashadha": "Vanar",
+    "Uttara Ashadha": "Nakula",
+    "Shravana": "Vanar",
+    "Dhanishta": "Simha",
+    "Shatabhisha": "Ashwa",
+    "Purva Bhadrapada": "Simha",
+    "Uttara Bhadrapada": "Gow",
+    "Revati": "Gaja"
+  },
+  "yoni_compatibility_matrix": {
+    "Ashwa": {
+      "Ashwa": 4,
+      "Gaja": 5,
+      "Mriga": 5,
+      "Vanar": 5,
+      "Sarpa": 4,
+      "others": 3
+    },
+    "Gaja": {
+      "Ashwa": 5,
+      "Gaja": 4,
+      "Mriga": 5,
+      "Vanar": 5,
+      "Sarpa": 5,
+      "others": 3
+    },
+    "Mriga": {
+      "Ashwa": 5,
+      "Gaja": 5,
+      "Mriga": 4,
+      "Vanar": 4,
+      "Sarpa": 4,
+      "others": 3
+    },
+    "Vanar": {
+      "Ashwa": 5,
+      "Gaja": 5,
+      "Mriga": 4,
+      "Vanar": 4,
+      "Sarpa": 4,
+      "others": 3
+    },
+    "Sarpa": {
+      "Ashwa": 4,
+      "Gaja": 5,
+      "Mriga": 4,
+      "Vanar": 4,
+      "Sarpa": 4,
+      "others": 3
+    }
+  },
+  "scoring_system": {
+    "excellent": 5,
+    "good": 4,
+    "average": 3,
+    "challenging": 2,
+    "poor": 1,
+    "description": "Yoni matching contributes to overall marriage compatibility. Sexual compatibility is one of the pros of marital life but must be supported by overall horoscope compatibility."
+  },
+  "source": "aaps.space - Sexual Attraction, Yoni and Compatibility in Kundli Matching",
+  "last_updated": "2026-02-12"
+}

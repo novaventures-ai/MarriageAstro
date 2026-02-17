@@ -1,0 +1,303 @@
+{
+  "male_sexual_health": {
+    "premature_ejaculation_pme": {
+      "description": "Early or quick release - Venus affliction",
+      "indicators": [
+        {
+          "condition": "Venus conjunct Mars",
+          "severity": "High",
+          "explanation": "Heat and haste affecting semen quality and control"
+        },
+        {
+          "condition": "Venus conjunct Ketu",
+          "severity": "High",
+          "explanation": "Suddenness and detachment affecting timing"
+        },
+        {
+          "condition": "Venus in Fire sign (Aries/Leo/Sag) aspected by malefics",
+          "severity": "Medium-High",
+          "explanation": "Excessive heat and haste"
+        },
+        {
+          "condition": "Venus in 6th house (house of quick resolution)",
+          "severity": "Medium",
+          "explanation": "Natural tendency toward quick culmination"
+        },
+        {
+          "condition": "Mars in 7th or 8th house (over-excitement)",
+          "severity": "Medium",
+          "explanation": "Excessive energy without Saturn's control"
+        }
+      ],
+      "assessment": {
+        "low_risk": "No Venus-Mars/Ketu conjunction, Venus well-placed in earth/water",
+        "medium_risk": "Venus-Mars or Venus-Ketu aspect, or Venus in fire sign",
+        "high_risk": "Venus-Mars or Venus-Ketu conjunction in 1st, 6th, 7th, or 8th house"
+      }
+    },
+    "erectile_dysfunction_ed": {
+      "description": "Low vitality and performance - Sun and 7th/8th house affliction",
+      "indicators": [
+        {
+          "condition": "Sun debilitated (Libra) OR in 6th/8th/12th",
+          "severity": "High",
+          "explanation": "Core vitality significantly weakened"
+        },
+        {
+          "condition": "Sun-Saturn conjunction OR Saturn aspecting Sun",
+          "severity": "High",
+          "explanation": "Saturn's coldness and restriction affecting vitality"
+        },
+        {
+          "condition": "7th house lord in 6th/8th/12th AND Saturn influence",
+          "severity": "High",
+          "explanation": "Marriage significator weak with Saturn's delay"
+        },
+        {
+          "condition": "Mercury or Saturn in 7th or 8th house",
+          "severity": "Medium",
+          "explanation": "Eunuch planets affecting sexual vitality"
+        },
+        {
+          "condition": "Excessive Water elements without Fire",
+          "severity": "Medium",
+          "explanation": "Dampened digestive/metabolic fire affecting vitality"
+        },
+        {
+          "condition": "8th house lord weak or afflicted",
+          "severity": "Medium",
+          "explanation": "House of vitality and regeneration compromised"
+        }
+      ],
+      "assessment": {
+        "low_risk": "Strong Sun in 1st/5th/9th/10th, no Saturn affliction",
+        "medium_risk": "Sun in neutral house or mild Saturn aspect",
+        "high_risk": "Sun debilitated, Sun-Saturn conjunction, or 7th/8th heavily afflicted by Saturn/Mercury"
+      }
+    },
+    "general_vitality": {
+      "description": "Overall stamina and sexual energy",
+      "positive_indicators": [
+        "Strong Sun and Mars in D1 and D9",
+        "Mars in own sign or exalted",
+        "1st house lord well-placed",
+        "8th house well-supported"
+      ],
+      "negative_indicators": [
+        "Sun and Mars both weak",
+        "6th house afflictions affecting health",
+        "Saturn debilitated affecting longevity"
+      ]
+    }
+  },
+  "female_sexual_health": {
+    "frigidity_low_desire": {
+      "description": "Low interest or coldness - Saturn and Ketu influence",
+      "indicators": [
+        {
+          "condition": "Saturn aspecting Venus OR Moon",
+          "severity": "High",
+          "explanation": "Saturn's coldness suppressing emotional and physical desire"
+        },
+        {
+          "condition": "Ketu in 7th or 8th house",
+          "severity": "High",
+          "explanation": "Detachment from physical intimacy"
+        },
+        {
+          "condition": "Venus in Capricorn (Saturn's sign) afflicted",
+          "severity": "Medium-High",
+          "explanation": "Love planet in cold, restrictive sign"
+        },
+        {
+          "condition": "Moon in Saturn's signs (Capricorn/Aquarius) afflicted",
+          "severity": "Medium",
+          "explanation": "Emotions dampened by Saturn"
+        },
+        {
+          "condition": "Excessive Saturn emphasis in chart",
+          "severity": "Medium",
+          "explanation": "Overall chart leaning toward restraint over expression"
+        }
+      ],
+      "assessment": {
+        "low_risk": "Venus and Moon well-aspected by Jupiter, fire/water balance",
+        "medium_risk": "Saturn aspecting Venus or Moon, but Jupiter also present",
+        "high_risk": "Multiple Saturn-Ketu influences on Venus, Moon, or relationship houses"
+      }
+    },
+    "physical_pain_issues": {
+      "description": "Pain or discomfort during intimacy - Mars/Rahu in 8th",
+      "indicators": [
+        {
+          "condition": "Mars in 8th house",
+          "severity": "High",
+          "explanation": "Inflammation, heat, potential for physical discomfort"
+        },
+        {
+          "condition": "Rahu in 8th house",
+          "severity": "High",
+          "explanation": "Unusual physical conditions, inflammation, intensity causing pain"
+        },
+        {
+          "condition": "8th Lord in 6th house",
+          "severity": "Medium-High",
+          "explanation": "Connection between intimacy and disease house"
+        },
+        {
+          "condition": "Saturn in 8th house with affliction",
+          "severity": "Medium",
+          "explanation": "Dryness and constriction causing discomfort"
+        },
+        {
+          "condition": "6th-8th house lord connection",
+          "severity": "Medium",
+          "explanation": "Disease affecting intimacy sector"
+        }
+      ],
+      "assessment": {
+        "low_risk": "8th house supported by benefics, no malefic influence",
+        "medium_risk": "Minor malefic influence on 8th house",
+        "high_risk": "Mars/Rahu in 8th, or 8th lord in 6th with affliction"
+      }
+    },
+    "emotional_comfort": {
+      "description": "Feeling safe and connected during intimacy",
+      "positive_indicators": [
+        "Moon well-placed and supported",
+        "Venus in Taurus/Libra/Pisces",
+        "4th house well-supported for emotional security",
+        "Jupiter aspecting Moon or Venus"
+      ],
+      "negative_indicators": [
+        "Moon afflicted by Saturn/Rahu",
+        "Moon in Scorpio (debilitated)",
+        "Past trauma indicators in 8th/12th"
+      ]
+    }
+  },
+  "mutual_satisfaction": {
+    "element_balance": {
+      "description": "Fire/Water/Air/Earth balance for sexual temperament",
+      "fire_energy": {
+        "planets": [
+          "Sun",
+          "Mars"
+        ],
+        "signs": [
+          "Aries",
+          "Leo",
+          "Sagittarius"
+        ],
+        "character": "Passionate, intense, quick to ignite",
+        "needs": "Excitement, spontaneity, physical expression"
+      },
+      "water_energy": {
+        "planets": [
+          "Moon",
+          "Venus"
+        ],
+        "signs": [
+          "Cancer",
+          "Scorpio",
+          "Pisces"
+        ],
+        "character": "Emotional, deep, flowing",
+        "needs": "Emotional connection, intimacy, sensuality"
+      },
+      "air_energy": {
+        "planets": [
+          "Mercury"
+        ],
+        "signs": [
+          "Gemini",
+          "Libra",
+          "Aquarius"
+        ],
+        "character": "Mental, communicative, varied",
+        "needs": "Mental stimulation, variety, verbal connection"
+      },
+      "earth_energy": {
+        "planets": [
+          "Mercury",
+          "Saturn"
+        ],
+        "signs": [
+          "Taurus",
+          "Virgo",
+          "Capricorn"
+        ],
+        "character": "Physical, steady, practical",
+        "needs": "Physical comfort, consistency, tangible expression"
+      }
+    },
+    "compatibility_rules": [
+      {
+        "combination": "Fire + Air",
+        "compatibility": "Excellent",
+        "reason": "Air fans Fire - passion is stimulated and sustained"
+      },
+      {
+        "combination": "Fire + Water",
+        "compatibility": "Challenging",
+        "reason": "Fire scorches Water OR Water extinguishes Fire - intense but potentially exhausting"
+      },
+      {
+        "combination": "Water + Earth",
+        "compatibility": "Good",
+        "reason": "Earth contains Water - emotional depth with stability"
+      },
+      {
+        "combination": "Air + Earth",
+        "compatibility": "Moderate",
+        "reason": "Different rhythms - needs conscious balance"
+      }
+    ],
+    "libido_assessment": {
+      "high_libido": [
+        "Strong Mars and Venus",
+        "8th house lord well-placed and supported",
+        "Fire sign emphasis",
+        "Mars-Venus harmonious aspect"
+      ],
+      "low_libido": [
+        "Saturn affliction to Mars/Venus",
+        "8th house weak or afflicted",
+        "Excessive earth/water without fire",
+        "Ketu influence on relationship planets"
+      ]
+    },
+    "satisfaction_score": {
+      "calculation_factors": [
+        "Mars-Venus relationship between partners",
+        "8th house compatibility",
+        "Element balance",
+        "Sexual health indicators (low dysfunction = higher score)"
+      ],
+      "ranges": {
+        "90-100": "Excellent - Highly compatible",
+        "70-89": "Good - Compatible with minor adjustments",
+        "50-69": "Fair - Requires communication and effort",
+        "30-49": "Challenging - Significant differences",
+        "0-29": "Poor - Fundamental incompatibility"
+      }
+    },
+    "libido_weights": {
+      "exalted_mars": 20,
+      "own_house_mars": 20,
+      "exalted_venus": 15,
+      "own_house_venus": 15,
+      "fire_sign_mars": 10,
+      "mars_venus_aspect": 20,
+      "saturn_mars_affliction": -30,
+      "saturn_venus_affliction": -25
+    },
+    "element_descriptions": {
+      "Fire_Air": "Excellent - Air fans Fire, passion is sustained",
+      "Fire_Water": "Challenging - Fire scorches water OR water extinguishes fire; intense but potentially exhausting",
+      "Water_Earth": "Good - Earth contains water, emotional depth with stability",
+      "Air_Earth": "Moderate - Different rhythms, needs conscious balance",
+      "Default": "Balanced - Mix of elements provides variety"
+    }
+  }
+}

@@ -1,0 +1,284 @@
+{
+  "divisional_charts_marriage": {
+    "description": "Comprehensive guide to divisional charts (Vargas) used in marriage astrology",
+    "methodology": "Vedic astrology uses multiple divisional charts for specific life areas - marriage primarily uses Navamsa (D9)",
+    
+    "primary_charts": {
+      "d1_rashi": {
+        "name": "Rashi Chart (D1)",
+        "also_known_as": ["Lagna Chart", "Birth Chart", "Janma Kundli"],
+        "significance": "Foundation chart showing overall life pattern",
+        "marriage_usage": "Basic 7th house analysis for marriage and spouse",
+        "houses_for_marriage": ["7th house - Marriage and spouse"]
+      },
+      
+      "d9_navamsa": {
+        "name": "Navamsa Chart (D9)",
+        "meaning": "Nine divisions (Nav-amsa)",
+        "division_method": "Each 30-degree sign divided into 9 portions of 3°20' each",
+        "significance": "Most important divisional chart for marriage predictions",
+        "also_known_as": "Supplementary chart to Rashi chart",
+        "marriage_usage": [
+          "Spouse characteristics and appearance",
+          "Married life happiness",
+          "Strength of planets for marriage",
+          "Timing of marriage",
+          "Confirming D1 chart predictions"
+        ],
+        "importance_note": "Many Vedic astrologers never predict Rashi chart without Navamsa chart",
+        
+        "calculation_method": {
+          "step1": "Get Lagna chart or D1 chart",
+          "step2": "Divide each sign (30 degrees) into nine portions of 3°20'",
+          "step3": "Aries Navamsa: Aries to Sagittarius (9 signs)",
+          "step4": "Taurus Navamsa: Capricorn to... (next 9 signs)",
+          "step5": "Place planets in respective Navamsa signs",
+          "step6": "Find Navamsa Lagna based on D1 Lagna degrees"
+        }
+      }
+    },
+    
+    "derivative_charts": {
+      "rtn": {
+        "name": "RTN Chart",
+        "full_name": "Rashi Tulya Navamsa",
+        "description": "Important derivative chart for spouse prediction"
+      },
+      
+      "ntr": {
+        "name": "NTR Chart", 
+        "full_name": "Navamsa Tulya Rashi",
+        "description": "Important derivative chart for spouse prediction"
+      }
+    },
+    
+    "navamsa_house_meanings": {
+      "description": "Detailed significance of each house in Navamsa for marriage analysis",
+      
+      "first_house": {
+        "name": "Navamsa Lagna (1st House)",
+        "significations": [
+          "Overall fortune of the person",
+          "Luck factor in married life",
+          "Fortune in married relationships"
+        ],
+        "spouse_insight": "General happiness and fortune through marriage"
+      },
+      
+      "second_house": {
+        "name": "2nd House of Navamsa",
+        "significations": [
+          "Prosperity and rise through marriage",
+          "Wealth through relationships",
+          "Family after wedding (native, spouse, children)",
+          "What we have or will have",
+          "Happiness from family"
+        ]
+      },
+      
+      "third_house": {
+        "name": "3rd House of Navamsa",
+        "significations": [
+          "Strength of marriage",
+          "Ability to overcome misfortune",
+          "Ability to overcome challenges",
+          "Courage in relationship"
+        ]
+      },
+      
+      "fourth_house": {
+        "name": "4th House of Navamsa",
+        "significations": [
+          "Comfort and satisfaction from relationships",
+          "Responsibility of partner",
+          "Domestic happiness"
+        ],
+        "gender_specific": {
+          "for_man": "Whether wife would be housewife or working woman",
+          "for_woman": "Privileges owing to husband's career"
+        }
+      },
+      
+      "fifth_house": {
+        "name": "5th House of Navamsa",
+        "significations": [
+          "Romance in relationship",
+          "Fun in marriage",
+          "Conjugal happiness",
+          "Dating and courtship",
+          "Combined creativity"
+        ]
+      },
+      
+      "sixth_house": {
+        "name": "6th House of Navamsa",
+        "significations": [
+          "Obligations in life and relationship",
+          "Obstructions to luck factor",
+          "Determination and skillfulness",
+          "Challenges to overcome"
+        ]
+      },
+      
+      "seventh_house": {
+        "name": "7th House of Navamsa",
+        "significations": [
+          "Partner's behaviour and personality",
+          "Partner's temperament",
+          "Ability to surrender and negotiate",
+          "Marriage partnership quality"
+        ],
+        "special": "Can give information about appearance of spouse"
+      },
+      
+      "eighth_house": {
+        "name": "8th House of Navamsa",
+        "significations": [
+          "Longevity of relationship",
+          "Common assets with spouse",
+          "Joint properties",
+          "Joint bank accounts",
+          "Inheritance through marriage"
+        ]
+      },
+      
+      "ninth_house": {
+        "name": "9th House of Navamsa",
+        "significations": [
+          "Bond between person and spouse",
+          "Path to achieve goals together",
+          "Religious and spiritual path",
+          "Partner's influence on beliefs"
+        ],
+        "additional": "Can give insight into father's fortune"
+      },
+      
+      "tenth_house": {
+        "name": "10th House of Navamsa",
+        "significations": [
+          "Social image as a couple",
+          "Public image of marriage",
+          "How others view the relationship",
+          "Status through marriage"
+        ]
+      },
+      
+      "eleventh_house": {
+        "name": "11th House of Navamsa",
+        "significations": [
+          "Desires and their fulfilment",
+          "Spouse's desires",
+          "How spouse fulfils expectations",
+          "Prosperity of relationship",
+          "Gains through marriage"
+        ]
+      },
+      
+      "twelfth_house": {
+        "name": "12th House of Navamsa",
+        "significations": [
+          "Bhog (enjoyment) in life",
+          "Ability to enjoy wealth",
+          "Bed happiness",
+          "Travel after marriage",
+          "Expenses and losses"
+        ]
+      }
+    },
+    
+    "special_concepts": {
+      "vargottama": {
+        "name": "Vargottama Navamsa",
+        "definition": "Planet in same zodiac sign in Rashi chart and Navamsa chart",
+        "significance": "Planet becomes as capable as being in own sign",
+        "marriage_importance": "Vargottama planets in 7th house or related to marriage give strong results"
+      },
+      
+      "pushkar_navamsa": {
+        "name": "Pushkar Navamsa",
+        "definition": "Specific degrees in Navamsa that are highly auspicious",
+        "types": [
+          "Pushkar Bhaga - Specific degrees",
+          "Pushkar Navamsa - Specific navamsa divisions"
+        ],
+        "significance": "Greatly enhances planet's benefic results",
+        "marriage_importance": "Planets in Pushkar Navamsa give excellent marriage results"
+      },
+      
+      "planetary_strength": {
+        "name": "Planetary Strength in Navamsa",
+        "indicators": [
+          "Exalted in Navamsa - Very strong",
+          "Own house in Navamsa - Strong",
+          "Vargottama - Strong",
+          "Friendly sign - Good",
+          "Enemy sign - Weak",
+          "Debilitated - Very weak"
+        ]
+      }
+    },
+    
+    "analysis_method": {
+      "step1": "Analyze D1 (Rashi) chart 7th house for basic marriage potential",
+      "step2": "Check D9 (Navamsa) chart for confirmation and details",
+      "step3": "Compare 7th lord positions in both charts",
+      "step4": "Check for Vargottama planets related to marriage",
+      "step5": "Analyze Navamsa houses 1, 2, 7, 8, 11 for marriage quality",
+      "step6": "Use RTN and NTR charts for additional insights",
+      "step7": "Confirm with Dashas (planetary periods) for timing"
+    },
+    
+    "interpreting_marriage": {
+      "description": "How to interpret marriage from Lagna and Navamsa charts",
+      
+      "timing_indicators": [
+        "Dasha periods of 7th lord",
+        "Dasha of planets in 7th house",
+        "Dasha of Venus (karaka)",
+        "Transit of Jupiter over 7th house/lord"
+      ],
+      
+      "quality_indicators": {
+        "happy_marriage": [
+          "7th house/lord strong in both D1 and D9",
+          "Benefic planets in 7th house",
+          "Venus well-placed and strong",
+          "Navamsa 7th house has benefic influences",
+          "Navamsa Lagna and 7th house well-connected"
+        ],
+        "challenging_marriage": [
+          "Malefic planets in 7th house",
+          "7th lord afflicted",
+          "Venus debilitated or combust",
+          "Navamsa 7th house has malefic influences",
+          "Navamsa 6th, 8th, 12th houses connected to 7th"
+        ]
+      }
+    },
+    
+    "other_vargas": {
+      "description": "Other divisional charts occasionally used in marriage analysis",
+      
+      "saptamsa_d7": {
+        "name": "Saptamsa (D7)",
+        "use": "Progeny and children",
+        "marriage_relevance": "Used when analyzing family planning and children in marriage"
+      },
+      
+      "dasamsa_d10": {
+        "name": "Dasamsa (D10)",
+        "use": "Career and profession",
+        "marriage_relevance": "Analyzing spouse's career or impact of marriage on career"
+      },
+      
+      "shodasamsa_d16": {
+        "name": "Shodasamsa (D16)",
+        "use": "Vehicles and comforts",
+        "marriage_relevance": "Material comforts in married life"
+      }
+    },
+    
+    "source": "aaps.space - Navamsa Chart, Divisional Charts, and Marriage Astrology",
+    "last_updated": "2026-02-11"
+  }
+}

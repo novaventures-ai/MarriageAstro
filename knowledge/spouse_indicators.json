@@ -1,0 +1,321 @@
+{
+  "spouse_indicators": {
+    "description": "Comprehensive spouse prediction system based on aaps.space Spouse Indicator and Vedic astrology",
+    "methodology": "Uses D1 (Rashi/Lagna), D9 (Navamsa), and derivative charts for spouse characteristics prediction",
+    
+    "main_indicators": {
+      "first_impression": {
+        "name": "First Impression Indicator",
+        "description": "Derived from basic signals in Kundli chart (D1) and Navamsa chart (D9)",
+        "forecasts": [
+          "Spouse characteristics based on strength in Kundli and Navamsa",
+          "Navamsa and Lagna chart analysis"
+        ]
+      },
+      
+      "type_of_marriage": {
+        "name": "Type of Marriage Indicator",
+        "description": "Predicts whether marriage is arranged by parents or love marriage",
+        "indicators": {
+          "arranged_marriage_strong": "Parents' influence is greater than individual in choice of life partner",
+          "love_marriage_strong": "Individual has greater influence than parents in choice of life partner"
+        },
+        "fortune_snippets": "Accurately tracks if charts match with strong predictive rules from older texts - very strong indications when present"
+      },
+      
+      "family_and_background": {
+        "name": "Family and Background Indicator",
+        "description": "Checks if spouse comes from well-to-do family compared to native's family",
+        "additional_insights": [
+          "Spouse may have better profession/status/money than native",
+          "Or reverse case where native's profession/status is better than spouse"
+        ]
+      },
+      
+      "samskaar": {
+        "name": "Samskaar of Spouse",
+        "description": "Indicates natural and honourable qualities spouse might possess",
+        "scale": ["Bad", "Average", "Good", "Very Good", "Excellent"]
+      },
+      
+      "nature": {
+        "name": "Nature of Spouse",
+        "description": "Looks at dominant planets determining qualities of spouse",
+        "complex_derivatives": "May give complex qualities due to influence of one or more planets"
+      },
+      
+      "chemistry": {
+        "name": "Chemistry of Couple Indicator",
+        "description": "Tells about person's skills in handling relationship with spouse",
+        "note": "This indicator tells more about yourself than about your spouse",
+        "calculation": "Uses overall average from different charts and astrological methods"
+      },
+      
+      "physique": {
+        "name": "Physique of Spouse",
+        "description": "Experimental indicator predicting certain body parts and beauty",
+        "sex_specific": true,
+        "male_query": "Predicts female body parts (breasts, etc.)",
+        "female_query": "Predicts male body parts",
+        "note": "Use to get clues about physique, not face value predictions",
+        "reference": "Based on planets in 7th house - Brihat Parasara Hora Shastra"
+      },
+      
+      "sukh_of_married_life": {
+        "name": "Sukh of Married Life",
+        "description": "Overall bliss and happiness in married life",
+        "importance": "Very important indicator made up of many different components",
+        "technical_components": "Provided individually for expert astrologers"
+      }
+    },
+    
+    "technical_indicators": {
+      "description": "Advanced indicators for detailed astrological analysis",
+      
+      "struggle_in_getting_married": {
+        "name": "Struggle in Getting Married",
+        "interpretation": {
+          "dark_red_black_yellow": "Difficulties finding partner, longer time than usual, delay in marriage expected"
+        }
+      },
+      
+      "foundations_of_marriage": {
+        "name": "Foundations of Marriage",
+        "description": "General 7th house conditions in Kundli (D1)",
+        "interpretation": {
+          "strong": "People judge you as capable of getting very good spouse",
+          "weak": "People might think opposite about your prospects"
+        },
+        "note": "Talks about the tree (foundation), not the fruits (actual spouse)"
+      },
+      
+      "fruits_of_marriage": {
+        "name": "Fruits of Marriage",
+        "description": "Shows what kind of spouse you will actually get",
+        "interpretation": {
+          "good_strength": "Spouse who practically makes life much better - good looks, money, or qualities"
+        }
+      },
+      
+      "results_of_married_life": {
+        "name": "Results of Married Life",
+        "description": "Confirms strength of Fruits of Marriage indicator",
+        "combination": "If both Fruits of Marriage and Results show good strength = blissful married life",
+        "exception": "Only Chemistry of Couple indicator can make married life bad in this case"
+      },
+      
+      "luck_in_wife": {
+        "name": "Luck in Wife/Law's House",
+        "description": "How easy life gets once you bring wife or go to husband's house",
+        "importance": "Very good quality of married life indicator when paired with others"
+      },
+      
+      "rtn_ntr": {
+        "name": "RTN and NTR Charts",
+        "description": "Rashi Tulya Navamsa chart and Navamsa Tulya Rashi chart",
+        "importance": "Indicators from two very important derivative charts"
+      },
+      
+      "seventh_amsa_lord": {
+        "name": "7th Amsa Lord",
+        "description": "Ruler of the 7th Navamsa house",
+        "significance": "Very important for marriage timing and spouse characteristics"
+      },
+      
+      "compound_characteristics": {
+        "name": "Compound Characteristics of Wife/Husband",
+        "combination": "Combining Qualities in wife/husband + Nature of wife/husband indicators",
+        "result": "Weapon to know how good spouse is in eyes of everyone around"
+      }
+    },
+    
+    "seventh_house_planets": {
+      "description": "Spouse characteristics based on planets in 7th house (Brihat Parasara Hora Shastra)",
+      
+      "Sun": {
+        "appearance": {
+          "complexion": "Wheat coloured and fair",
+          "height": "Normal height",
+          "voice": "Very deep or not very pleasant sounding",
+          "elegance": "Air of elegance",
+          "beauty": "Beauty with elegance"
+        },
+        "family": "Comes from respectable family, might belong to well-known extended family"
+      },
+      
+      "Moon": {
+        "appearance": {
+          "look": "Very good looking, charming and fair-looking",
+          "skin": "Very soft and smooth",
+          "nature": "Childish and innocent-looking"
+        },
+        "note": "Really good planet to have for lovely life partner",
+        "variation": "If waning moon, complexion not as fair as waxing moon"
+      },
+      
+      "Mars": {
+        "physical_traits": {
+          "breasts": "Attractive breasts (for female spouse)"
+        }
+      },
+      
+      "Jupiter": {
+        "physical_traits": {
+          "breasts": "Hard and prominent breasts (for female spouse)"
+        },
+        "qualities": "Virtuous, good looking, supportive spouse"
+      },
+      
+      "Saturn": {
+        "physical_traits": {
+          "health": "Sickly and weak"
+        },
+        "note": "May give undesirable, unsupportive, average-looking spouse"
+      },
+      
+      "Venus": {
+        "physical_traits": {
+          "breasts": "Beautiful, well-proportioned breasts"
+        },
+        "qualities": "Virtuous, good looking, supportive spouse"
+      }
+    },
+    
+    "navamsa_houses": {
+      "description": "Significance of each house in Navamsa chart for marriage",
+      
+      "first_house": {
+        "name": "1st House of Navamsa (Navamsa Lagna)",
+        "significations": [
+          "Overall fortune of the person",
+          "Luck factor in married life",
+          "Overall fortune in married relationships"
+        ]
+      },
+      
+      "second_house": {
+        "name": "2nd House of Navamsa",
+        "significations": [
+          "Prosperity and rise through marriage",
+          "Wealth through relationships",
+          "Family after wedding (you, spouse and children)",
+          "Happiness from what we have"
+        ]
+      },
+      
+      "third_house": {
+        "name": "3rd House of Navamsa",
+        "significations": [
+          "Strength of your marriage",
+          "Ability to overcome misfortune",
+          "Ability to overcome challenges"
+        ]
+      },
+      
+      "fourth_house": {
+        "name": "4th House of Navamsa",
+        "significations": [
+          "Comfort and satisfaction from relationships",
+          "Responsibility of partner",
+          "For man: Whether wife would be housewife or working woman",
+          "For woman: Privileges owing to husband's career"
+        ]
+      },
+      
+      "fifth_house": {
+        "name": "5th House of Navamsa",
+        "significations": [
+          "Romance in relationship",
+          "Fun in marriage",
+          "Conjugal happiness",
+          "Fun while dating",
+          "Combined creativity"
+        ]
+      },
+      
+      "sixth_house": {
+        "name": "6th House of Navamsa",
+        "significations": [
+          "Obligations in life",
+          "Obstructions to luck factor",
+          "Determination and skillfulness",
+          "Obligations in relationship"
+        ]
+      },
+      
+      "seventh_house": {
+        "name": "7th House of Navamsa",
+        "significations": [
+          "Partner's behaviour and personality",
+          "Partner's temperament",
+          "Ability to surrender and negotiate",
+          "Appearance of spouse"
+        ]
+      },
+      
+      "eighth_house": {
+        "name": "8th House of Navamsa",
+        "significations": [
+          "Longevity of relationship",
+          "Common assets with spouse",
+          "Joint properties",
+          "Joint bank accounts"
+        ]
+      },
+      
+      "ninth_house": {
+        "name": "9th House of Navamsa",
+        "significations": [
+          "Bond between person and spouse",
+          "Path to achieve goals",
+          "Religious/spiritual path",
+          "How partner influences philosophical and spiritual beliefs"
+        ]
+      },
+      
+      "tenth_house": {
+        "name": "10th House of Navamsa",
+        "significations": [
+          "Social image",
+          "Public image of relationship/marriage",
+          "How others view you as a couple"
+        ]
+      },
+      
+      "eleventh_house": {
+        "name": "11th House of Navamsa",
+        "significations": [
+          "Desires and their fulfilment",
+          "Spouse's desires",
+          "How spouse fulfils expectations",
+          "Whether relationship will be prosperous"
+        ]
+      },
+      
+      "twelfth_house": {
+        "name": "12th House of Navamsa",
+        "significations": [
+          "Bhog (enjoyment) in life",
+          "Ability to enjoy wealth and material aspects",
+          "Bed happiness after relationship",
+          "Journey after marriage or distance travel"
+        ]
+      }
+    },
+    
+    "vargottama": {
+      "name": "Vargottama Navamsa",
+      "description": "Planet in same zodiac sign in Rashi chart and Navamsa chart",
+      "significance": "As capable as planet in its own sign for that divisional chart"
+    },
+    
+    "pushkar_navamsa": {
+      "name": "Pushkar Navamsa",
+      "description": "Specific degrees in Navamsa that are highly auspicious",
+      "significance": "Greatly enhances planet's benefic results"
+    },
+    
+    "source": "aaps.space - Spouse Indicator, Navamsa Chart, and 7th House Analysis",
+    "last_updated": "2026-02-11"
+  }
+}

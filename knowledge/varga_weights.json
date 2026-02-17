@@ -1,0 +1,182 @@
+{
+  "description": "Shodashvarga - 16 Divisional Charts with Weights for Planetary Strength",
+  "calculation_method": "Each varga divides the zodiac differently to analyze specific life areas",
+  "varga_weights": {
+    "D1": {
+      "name": "Rashi",
+      "division": "1",
+      "weight": 3.0,
+      "signifies": "Physical Body, General Destiny, Overall Life",
+      "importance": "Root chart - foundation of all analysis"
+    },
+    "D2": {
+      "name": "Hora",
+      "division": "2",
+      "weight": 0.5,
+      "signifies": "Wealth, Resources",
+      "importance": "Financial prosperity"
+    },
+    "D3": {
+      "name": "Drekkana",
+      "division": "3",
+      "weight": 0.5,
+      "signifies": "Siblings, Courage, Initiative",
+      "importance": "Relationship with siblings"
+    },
+    "D4": {
+      "name": "Chaturthamsa",
+      "division": "4",
+      "weight": 0.5,
+      "signifies": "Fortune, Property, Happiness",
+      "importance": "Material assets and fortune"
+    },
+    "D7": {
+      "name": "Saptamsa",
+      "division": "7",
+      "weight": 1.5,
+      "signifies": "Children, Progeny, Creative Legacy",
+      "importance": "Important for family continuation"
+    },
+    "D9": {
+      "name": "Navamsa",
+      "division": "9",
+      "weight": 2.5,
+      "signifies": "Marriage, Inner Strength, Dharma",
+      "importance": "Critical for marriage - spouse's inner nature"
+    },
+    "D10": {
+      "name": "Dasamsa",
+      "division": "10",
+      "weight": 0.5,
+      "signifies": "Career, Power, Status",
+      "importance": "Professional achievements"
+    },
+    "D12": {
+      "name": "Dwadasamsa",
+      "division": "12",
+      "weight": 0.5,
+      "signifies": "Parents, Ancestry",
+      "importance": "Family lineage"
+    },
+    "D16": {
+      "name": "Shodasamsa",
+      "division": "16",
+      "weight": 0.5,
+      "signifies": "Vehicles, Comforts, Happiness",
+      "importance": "Luxuries and conveyances"
+    },
+    "D20": {
+      "name": "Vimsamsa",
+      "division": "20",
+      "weight": 0.5,
+      "signifies": "Spiritual Attainment, Worship",
+      "importance": "Religious and spiritual progress"
+    },
+    "D24": {
+      "name": "Chaturvimsamsa",
+      "division": "24",
+      "weight": 0.5,
+      "signifies": "Learning, Education, Knowledge",
+      "importance": "Academic achievements"
+    },
+    "D27": {
+      "name": "Saptavimsamsa",
+      "division": "27",
+      "weight": 0.5,
+      "signifies": "Strength, Vitality, Health",
+      "importance": "Physical and mental strength"
+    },
+    "D30": {
+      "name": "Trimsamsa",
+      "division": "30",
+      "weight": 0.5,
+      "signifies": "Evils, Misfortunes, Health Issues",
+      "importance": "Adversities and challenges"
+    },
+    "D40": {
+      "name": "Khavedamsa",
+      "division": "40",
+      "weight": 0.5,
+      "signifies": "Auspicious/ Inauspicious Effects",
+      "importance": "General fortune"
+    },
+    "D45": {
+      "name": "Akshavedamsa",
+      "division": "45",
+      "weight": 0.5,
+      "signifies": "Character, Morals",
+      "importance": "General character"
+    },
+    "D60": {
+      "name": "Shashtiamsa",
+      "division": "60",
+      "weight": 2.0,
+      "signifies": "Past Life Karma, General Results",
+      "importance": "Deep karmic patterns and legacy"
+    }
+  },
+  "varga_vimshopaka": {
+    "description": "20-point strength scoring system for planets across vargas",
+    "scoring": {
+      "exaltation": "20 points - Highest strength",
+      "moolatrikona": "18 points - Very strong",
+      "own_house": "15 points - Strong",
+      "great_friend": "12 points - Good strength",
+      "friend": "10 points - Moderate strength",
+      "neutral": "8 points - Average",
+      "enemy": "5 points - Weak",
+      "great_enemy": "3 points - Very weak",
+      "debilitation": "0 points - No strength"
+    }
+  },
+  "planetary_strength_calculation": {
+    "description": "Calculate weighted strength of planet across all 16 vargas",
+    "formula": "Sum of (Varga Score × Varga Weight) / Total Weights",
+    "interpretation": {
+      "above_15": "Very Strong - Planet gives excellent results",
+      "10_to_15": "Strong - Planet gives good results",
+      "6_to_10": "Moderate - Mixed results, effort required",
+      "below_6": "Weak - Planet struggles to give results"
+    }
+  },
+  "marriage_specific_vargas": {
+    "primary": {
+      "D1": "Physical and general compatibility",
+      "D9": "Inner nature, soul-level compatibility, spouse's true nature",
+      "D7": "Children and creative legacy together",
+      "D60": "Past-life karmic connection and debt"
+    },
+    "weight_formula": {
+      "description": "For marriage, emphasize D9 and D60",
+      "calculation": "(D1 × 3 + D9 × 2.5 + D7 × 1.5 + D60 × 2) / 9"
+    }
+  },
+  "varga_deities_D60": {
+    "description": "Shashtiamsa deities modify planetary effects",
+    "benefic_deities": [
+      "Maheshwara (Lord Shiva) - Spiritual blessings",
+      "Vishnu - Preservation and protection",
+      "Lakshmi - Wealth and prosperity",
+      "Saraswati - Wisdom and learning",
+      "Indra - Power and authority",
+      "Kubera - Wealth and treasures",
+      "Agni - Purification and energy"
+    ],
+    "malefic_deities": [
+      "Gulika - Poison, obstacles",
+      "Mandi - Delay, restriction",
+      "Yama - Death, endings",
+      "Mrityu - Mortality",
+      "Kaala - Time, destruction",
+      "Roga - Disease",
+      "Krodha - Anger"
+    ],
+    "interpretation": "Planet in D60 ruled by benefic deity = favorable past karma; Malefic deity = challenges to overcome"
+  },
+  "cross_varga_conjunctions": {
+    "description": "When same planets conjunct in multiple vargas",
+    "significance": "Creates Varga Linkage - amplifies the planetary combination",
+    "example": "Venus-Mars conjunct in D1, D9, and D60 indicates strong passion across physical, spiritual, and karmic levels",
+    "bhavottama": "Planet strong in D1, D9, and D60 (or other important vargas) becomes very powerful"
+  }
+}

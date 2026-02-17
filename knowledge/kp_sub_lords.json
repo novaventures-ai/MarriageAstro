@@ -1,0 +1,122 @@
+{
+  "description": "KP Astrology - 249 Sub-Lord degree divisions across 12 signs and 27 nakshatras",
+  "calculation_method": "Each nakshatra (13°20') is divided into 9 sub-lords based on Vimshottari Dasha order",
+  "vimshottari_order": ["Ketu", "Venus", "Sun", "Moon", "Mars", "Rahu", "Jupiter", "Saturn", "Mercury"],
+  "sub_lord_table": {
+    "Ashwini": {
+      "lord": "Ketu",
+      "divisions": [
+        { "sub_lord": "Ketu", "start": "0°00'", "end": "0°46'40\"", "degrees": 0.778 },
+        { "sub_lord": "Venus", "start": "0°46'40\"", "end": "2°00'00\"", "degrees": 1.222 },
+        { "sub_lord": "Sun", "start": "2°00'00\"", "end": "2°46'40\"", "degrees": 0.778 },
+        { "sub_lord": "Moon", "start": "2°46'40\"", "end": "4°00'00\"", "degrees": 1.222 },
+        { "sub_lord": "Mars", "start": "4°00'00\"", "end": "5°13'20\"", "degrees": 1.222 },
+        { "sub_lord": "Rahu", "start": "5°13'20\"", "end": "7°00'00\"", "degrees": 1.778 },
+        { "sub_lord": "Jupiter", "start": "7°00'00\"", "end": "9°06'40\"", "degrees": 2.111 },
+        { "sub_lord": "Saturn", "start": "9°06'40\"", "end": "11°33'20\"", "degrees": 2.444 },
+        { "sub_lord": "Mercury", "start": "11°33'20\"", "end": "13°20'00\"", "degrees": 1.778 }
+      ]
+    },
+    "Bharani": {
+      "lord": "Venus",
+      "divisions": [
+        { "sub_lord": "Venus", "start": "0°00'", "end": "1°33'20\"", "degrees": 1.556 },
+        { "sub_lord": "Sun", "start": "1°33'20\"", "end": "2°46'40\"", "degrees": 1.222 },
+        { "sub_lord": "Moon", "start": "2°46'40\"", "end": "4°00'00\"", "degrees": 1.222 },
+        { "sub_lord": "Mars", "start": "4°00'00\"", "end": "5°33'20\"", "degrees": 1.556 },
+        { "sub_lord": "Rahu", "start": "5°33'20\"", "end": "8°00'00\"", "degrees": 2.444 },
+        { "sub_lord": "Jupiter", "start": "8°00'00\"", "end": "10°26'40\"", "degrees": 2.444 },
+        { "sub_lord": "Saturn", "start": "10°26'40\"", "end": "13°06'40\"", "degrees": 2.667 },
+        { "sub_lord": "Mercury", "start": "13°06'40\"", "end": "15°00'00\"", "degrees": 1.889 },
+        { "sub_lord": "Ketu", "start": "15°00'00\"", "end": "15°46'40\"", "degrees": 0.778 }
+      ]
+    }
+  },
+  "significator_rules": {
+    "four_fold": [
+      {
+        "level": 1,
+        "type": "Planet in Star of Occupant",
+        "strength": "Strongest",
+        "description": "Planet gives results of the house its Star Lord occupies"
+      },
+      {
+        "level": 2,
+        "type": "Occupant of House",
+        "strength": "Strong",
+        "description": "Planet itself occupies the house"
+      },
+      {
+        "level": 3,
+        "type": "Planet in Star of Lord",
+        "strength": "Moderate",
+        "description": "Planet gives results of houses owned by its Star Lord"
+      },
+      {
+        "level": 4,
+        "type": "Lord of House",
+        "strength": "Base",
+        "description": "Planet owns the house"
+      }
+    ],
+    "sub_lord_significance": {
+      "description": "Sub Lord decides quality and fructification",
+      "positive": "If Sub Lord signifies favorable houses, event materializes",
+      "negative": "If Sub Lord signifies unfavorable houses, event denied or delayed"
+    }
+  },
+  "marriage_house_groups": {
+    "promised": {
+      "houses": [2, 7, 11],
+      "description": "Primary marriage significators - gain of partner (2), marriage (7), fulfillment (11)",
+      "result": "Marriage promised and will occur"
+    },
+    "denied": {
+      "houses": [1, 6, 10],
+      "description": "Self (1), obstacles (6), career focus (10) - denies marriage",
+      "result": "Marriage denied, delayed, or leads to separation"
+    },
+    "scandal": {
+      "houses": [5, 8, 12],
+      "description": "Romance (5), obstacles/scandals (8), loss (12)",
+      "result": "Marriage with complications, secrecy, or dishonor"
+    },
+    "timing": {
+      "houses": [2, 7, 11],
+      "description": "During Dasha of significators of these houses",
+      "note": "Look for 2 or more planets signifying 2-7-11 simultaneously"
+    }
+  },
+  "ruling_planets": {
+    "description": "Planets ruling the moment of judgment - used for rectification and timing",
+    "components": [
+      { "name": "Day Lord", "description": "Planet ruling the weekday" },
+      { "name": "Moon Sign Lord", "description": "Lord of Moon's current sign" },
+      { "name": "Moon Star Lord", "description": "Lord of Moon's current nakshatra" },
+      { "name": "Lagna Sign Lord", "description": "Lord of Ascendant at query time" },
+      { "name": "Lagna Star Lord", "description": "Lord of Ascendant's nakshatra" }
+    ],
+    "usage": "Present ruling planets should match birth chart significators for accurate timing"
+  },
+  "cuspal_sub_lord_analysis": {
+    "7th_csl": {
+      "importance": "Most critical for marriage analysis",
+      "significations": {
+        "2": "Gain of partner, family expansion",
+        "7": "Marriage itself, partnerships",
+        "11": "Fulfillment, permanent relationship",
+        "1": "Self-focus, independence - denies",
+        "6": "Obstacles, disputes - denies",
+        "10": "Career focus - denies",
+        "5": "Romance only",
+        "8": "Challenges, longevity issues",
+        "12": "Loss, separation"
+      }
+    },
+    "promise_logic": {
+      "marriage_promised": "7th CSL signifies 2, 7, or 11",
+      "marriage_denied": "7th CSL signifies 1, 6, or 10",
+      "marriage_complicated": "7th CSL signifies 5, 8, or 12"
+    }
+  }
+}

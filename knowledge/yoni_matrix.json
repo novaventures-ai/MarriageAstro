@@ -1,0 +1,86 @@
+{
+  "yoni_animals": [
+    "Horse", "Elephant", "Sheep", "Snake", "Dog", "Cat", "Rat", 
+    "Cow", "Buffalo", "Tiger", "Hare", "Monkey", "Mongoose", "Lion"
+  ],
+  "compatibility_matrix": {
+    "Horse": {
+      "Horse": 4, "Elephant": 2, "Sheep": 3, "Snake": 2, "Dog": 3, "Cat": 2, "Rat": 2, "Cow": 3, "Buffalo": 2, "Tiger": 3, "Hare": 2, "Monkey": 3, "Mongoose": 2, "Lion": 3
+    },
+    "Elephant": {
+      "Horse": 2, "Elephant": 4, "Sheep": 3, "Snake": 2, "Dog": 2, "Cat": 3, "Rat": 2, "Cow": 3, "Buffalo": 3, "Tiger": 2, "Hare": 3, "Monkey": 2, "Mongoose": 2, "Lion": 2
+    },
+    "Sheep": {
+      "Horse": 3, "Elephant": 3, "Sheep": 4, "Snake": 2, "Dog": 3, "Cat": 2, "Rat": 3, "Cow": 3, "Buffalo": 3, "Tiger": 2, "Hare": 3, "Monkey": 2, "Mongoose": 3, "Lion": 2
+    },
+    "Snake": {
+      "Horse": 2, "Elephant": 2, "Sheep": 2, "Snake": 4, "Dog": 1, "Cat": 2, "Rat": 0, "Cow": 2, "Buffalo": 2, "Tiger": 2, "Hare": 1, "Monkey": 2, "Mongoose": 2, "Lion": 2
+    },
+    "Dog": {
+      "Horse": 3, "Elephant": 2, "Sheep": 3, "Snake": 1, "Dog": 4, "Cat": 0, "Rat": 2, "Cow": 3, "Buffalo": 2, "Tiger": 2, "Hare": 2, "Monkey": 3, "Mongoose": 2, "Lion": 2
+    },
+    "Cat": {
+      "Horse": 2, "Elephant": 3, "Sheep": 2, "Snake": 2, "Dog": 0, "Cat": 4, "Rat": 0, "Cow": 2, "Buffalo": 2, "Tiger": 3, "Hare": 2, "Monkey": 2, "Mongoose": 1, "Lion": 3
+    },
+    "Rat": {
+      "Horse": 2, "Elephant": 2, "Sheep": 3, "Snake": 0, "Dog": 2, "Cat": 0, "Rat": 4, "Cow": 2, "Buffalo": 2, "Tiger": 2, "Hare": 1, "Monkey": 3, "Mongoose": 0, "Lion": 2
+    },
+    "Cow": {
+      "Horse": 3, "Elephant": 3, "Sheep": 3, "Snake": 2, "Dog": 3, "Cat": 2, "Rat": 2, "Cow": 4, "Buffalo": 3, "Tiger": 2, "Hare": 3, "Monkey": 2, "Mongoose": 2, "Lion": 2
+    },
+    "Buffalo": {
+      "Horse": 2, "Elephant": 3, "Sheep": 3, "Snake": 2, "Dog": 2, "Cat": 2, "Rat": 2, "Cow": 3, "Buffalo": 4, "Tiger": 2, "Hare": 3, "Monkey": 2, "Mongoose": 2, "Lion": 2
+    },
+    "Tiger": {
+      "Horse": 3, "Elephant": 2, "Sheep": 2, "Snake": 2, "Dog": 2, "Cat": 3, "Rat": 2, "Cow": 2, "Buffalo": 2, "Tiger": 4, "Hare": 0, "Monkey": 2, "Mongoose": 1, "Lion": 3
+    },
+    "Hare": {
+      "Horse": 2, "Elephant": 3, "Sheep": 3, "Snake": 1, "Dog": 2, "Cat": 2, "Rat": 1, "Cow": 3, "Buffalo": 3, "Tiger": 0, "Hare": 4, "Monkey": 3, "Mongoose": 2, "Lion": 1
+    },
+    "Monkey": {
+      "Horse": 3, "Elephant": 2, "Sheep": 2, "Snake": 2, "Dog": 3, "Cat": 2, "Rat": 3, "Cow": 2, "Buffalo": 2, "Tiger": 2, "Hare": 3, "Monkey": 4, "Mongoose": 3, "Lion": 2
+    },
+    "Mongoose": {
+      "Horse": 2, "Elephant": 2, "Sheep": 3, "Snake": 2, "Dog": 2, "Cat": 1, "Rat": 0, "Cow": 2, "Buffalo": 2, "Tiger": 1, "Hare": 2, "Monkey": 3, "Mongoose": 4, "Lion": 2
+    },
+    "Lion": {
+      "Horse": 3, "Elephant": 2, "Sheep": 2, "Snake": 2, "Dog": 2, "Cat": 3, "Rat": 2, "Cow": 2, "Buffalo": 2, "Tiger": 3, "Hare": 1, "Monkey": 2, "Mongoose": 2, "Lion": 4
+    }
+  },
+  "nakshatra_to_yoni": {
+    "Ashwini": "Horse",
+    "Bharani": "Elephant",
+    "Krittika": "Sheep",
+    "Rohini": "Snake",
+    "Mrigashira": "Snake",
+    "Ardra": "Dog",
+    "Punarvasu": "Cat",
+    "Pushya": "Sheep",
+    "Ashlesha": "Cat",
+    "Magha": "Rat",
+    "Purva Phalguni": "Rat",
+    "Uttara Phalguni": "Cow",
+    "Hasta": "Buffalo",
+    "Chitra": "Tiger",
+    "Swati": "Buffalo",
+    "Vishakha": "Tiger",
+    "Anuradha": "Hare",
+    "Jyeshtha": "Hare",
+    "Mula": "Dog",
+    "Purva Ashadha": "Monkey",
+    "Uttara Ashadha": "Mongoose",
+    "Shravana": "Monkey",
+    "Dhanishta": "Lion",
+    "Shatabhisha": "Horse",
+    "Purva Bhadrapada": "Lion",
+    "Uttara Bhadrapada": "Cow",
+    "Revati": "Elephant"
+  },
+  "scoring_interpretation": {
+    "0": "Very Poor - Avoid match",
+    "1": "Poor - Challenging",
+    "2": "Fair - Requires effort",
+    "3": "Good - Compatible",
+    "4": "Excellent - Natural harmony"
+  }
+}

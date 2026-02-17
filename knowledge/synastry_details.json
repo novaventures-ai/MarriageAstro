@@ -1,0 +1,204 @@
+{
+    "house_overlays": {
+        "Sun": {
+            "1": "Partner A's Sun in Partner B's 1st House: This placement creates a strong immediate connection. Partner A 'shines' on Partner B's personality and self-image, making Partner B feel energized, seen, and appreciated. There is a natural identification with each other.",
+            "2": "Partner A's Sun in Partner B's 2nd House: Partner A brings focus to Partner B's finances, values, and sense of security. This can be a productive placement for building wealth together, though Partner A may influence how Partner B spends or saves.",
+            "3": "Partner A's Sun in Partner B's 3rd House: Communication is highlighted. Partner A stimulates Partner B's mind and encourages expression. Short trips and learning together are favored activities.",
+            "4": "Partner A's Sun in Partner B's 4th House: A very intimate placement. Partner A feels like 'family' to Partner B. There is a deep desire to build a home and domestic life together. Partner B feels emotionally safe with Partner A.",
+            "5": "Partner A's Sun in Partner B's 5th House: This is a placement of romance, fun, and creativity. Partner A brings joy and playfulness into Partner B's life. It is excellent for dating and potentially for having children together.",
+            "6": "Partner A's Sun in Partner B's 6th House: The focus is on service and daily routines. Partner A may help Partner B organize their life or improve their health. It can feel a bit unequal if Partner A becomes too critical or demanding.",
+            "7": "Partner A's Sun in Partner B's 7th House: A classic indicator of marriage and partnership. Partner B sees Partner A as their ideal complement. There is a strong pull towards commitment and doing everything as a pair.",
+            "8": "Partner A's Sun in Partner B's 8th House: An intense and transformative connection. Partner A triggers deep changes in Partner B's psyche. Issues of shared resources, intimacy, and secrets come to the forefront. Highly magnetic.",
+            "9": "Partner A's Sun in Partner B's 9th House: Partner A expands Partner B's horizons. This relationship involves travel, philosophy, and higher learning. Partner A inspires Partner B to grow and see the bigger picture.",
+            "10": "Partner A's Sun in Partner B's 10th House: Partner A influences Partner B's career and public status. They look good together in public. Partner A supports Partner B's ambitions and professional goals.",
+            "11": "Partner A's Sun in Partner B's 11th House: A strong basis for friendship. Partner A supports Partner B's dreams and social network. There is a feeling of acceptance and shared ideals.",
+            "12": "Partner A's Sun in Partner B's 12th House: A spiritual and subconscious connection. Partner A lights up Partner B's blind spots. There can be a psychic link, but also potential for misunderstandings if boundaries aren't clear."
+        },
+        "Moon": {
+            "1": "Partner A's Moon in Partner B's 1st House: Partner A instinctively understands Partner B's feelings. Partner B feels emotionally open and vulnerable with Partner A. A very nurturing bond.",
+            "2": "Partner A's Moon in Partner B's 2nd House: Emotional security is tied to material stability. Partner A may support Partner B financially or emotionally validate their worth.",
+            "3": "Partner A's Moon in Partner B's 3rd House: Communication is emotionally colored. You share feelings easily. Good for intuitive understanding.",
+            "4": "Partner A's Moon in Partner B's 4th House: One of the best indicators for living together. There is a deep sense of belonging and comfort. Partner A nurtures Partner B's inner child.",
+            "5": "Partner A's Moon in Partner B's 5th House: Emotional connection through fun and romance. Partner A loves Partner B's creative expression. Great for raising children.",
+            "6": "Partner A's Moon in Partner B's 6th House: Emotional support in daily life. Partner A cares for Partner B's well-being. Can become a caregiver-patient dynamic.",
+            "7": "Partner A's Moon in Partner B's 7th House: Partner B sees Partner A as 'family-like' and emotionally supportive. Partner A wants to care for Partner B. Great for long-term domestic life.",
+            "8": "Partner A's Moon in Partner B's 8th House: An intensely emotional and psychic bond. Emotional depths are explored. Can lead to possessiveness or deep healing depending on maturity.",
+            "9": "Partner A's Moon in Partner B's 9th House: Shared emotional philosophy. Travel and learning bring you closer emotionally.",
+            "10": "Partner A's Moon in Partner B's 10th House: Partner A feels proud of Partner B's achievements. Partner B feels emotionally supported in their career. Public displays of emotion or care are likely.",
+            "11": "Partner A's Moon in Partner B's 11th House: Emotional friendship. You feel like extended family. Partner A supports Partner B's hopes and wishes.",
+            "12": "Partner A's Moon in Partner B's 12th House: Deep psychic connection. Interaction happens on a subtle plane. Compassion is key, but clarify can be lacking."
+        },
+        "Mercury": {
+            "1": "Partner A's Mercury in Partner B's 1st House: Intellectual stimulation. You share ideas easily.",
+            "2": "Partner A's Mercury in Partner B's 2nd House: Communication about finances and values. Good for planning together.",
+            "3": "Partner A's Mercury in Partner B's 3rd House: Excellent mental rapport. Shared interests and hobbies.",
+            "4": "Partner A's Mercury in Partner B's 4th House: Talk about home and family. Intellectual security in the relationship.",
+            "5": "Partner A's Mercury in Partner B's 5th House: Creative and playful communication. Fun mental connection.",
+            "6": "Partner A's Mercury in Partner B's 6th House: Practical communication. You help each other solve daily problems.",
+            "7": "Partner A's Mercury in Partner B's 7th House: Mental chemistry. Verbalizing commitment and shared goals.",
+            "8": "Partner A's Mercury in Partner B's 8th House: Deep, probing conversations. You share secrets and explore depths.",
+            "9": "Partner A's Mercury in Partner B's 9th House: Intellectual expansion. Travel and philosophy are shared topics.",
+            "10": "Partner A's Mercury in Partner B's 10th House: Discussions about career and ambition. Mental support for public life.",
+            "11": "Partner A's Mercury in Partner B's 11th House: Sharing dreams and social visions. Good communication in groups.",
+            "12": "Partner A's Mercury in Partner B's 12th House: Subconscious or intuitive communication. Unspoken understanding."
+        },
+        "Venus": {
+            "1": "Partner A's Venus in Partner B's 1st House: Physical attraction is high. Partner A finds Partner B beautiful/handsome. Partner B feels attractive and loved in Partner A's presence.",
+            "2": "Partner A's Venus in Partner B's 2nd House: Appreciation of shared values and assets. Partner A brings gifts or financial luck to Partner B.",
+            "3": "Partner A's Venus in Partner B's 3rd House: Pleasant communication. you enjoy talking and short trips. Partner A appreciates Partner B's mind.",
+            "4": "Partner A's Venus in Partner B's 4th House: Harmonious home life. You enjoy decorating and nesting. Peace in the domestic sphere.",
+            "5": "Partner A's Venus in Partner B's 5th House: Pure romance and pleasure. Dating is fun and creative. A very harmonious placement for love affairs and artistic collaboration.",
+            "6": "Partner A's Venus in Partner B's 6th House: Love expressed through service. Partner A enjoys helping Partner B. Shared enjoyment of daily rituals.",
+            "7": "Partner A's Venus in Partner B's 7th House: A strong indicator of love and marriage. Partner A embodies what Partner B desires in a partner. Harmony and balance are natural.",
+            "8": "Partner A's Venus in Partner B's 8th House: A deep, intense, and possibly obsessive attraction. Sexual chemistry is profound and transformative. Finances may be merged.",
+            "9": "Partner A's Venus in Partner B's 9th House: Love of adventure and learning. You enjoy exploring new cultures together. Shared aesthetic values.",
+            "10": "Partner A's Venus in Partner B's 10th House: Partner A admires Partner B's status. The relationship looks good to the public. Partner A brings grace to Partner B's career.",
+            "11": "Partner A's Venus in Partner B's 11th House: Friendly love. You enjoy the same social circles. The relationship is based on shared ideals.",
+            "12": "Partner A's Venus in Partner B's 12th House: A secret or spiritual love. There is a sublime, almost telepathic affection, but feelings may not always be openly expressed."
+        },
+        "Mars": {
+            "1": "Partner A's Mars in Partner B's 1st House: High energy and physical attraction. Partner A energizes Partner B but can also be pushy. Great for doing physical activities together.",
+            "2": "Partner A's Mars in Partner B's 2nd House: Drive to make money together. Can argue about finances or values.",
+            "3": "Partner A's Mars in Partner B's 3rd House: Stimulating debates. Partner A challenges Partner B's ideas. Communication is direct and active.",
+            "4": "Partner A's Mars in Partner B's 4th House: Activity in the home. Can be productive for renovations but also create domestic friction.",
+            "5": "Partner A's Mars in Partner B's 5th House: Passionate romance and strong sexual drive. Partner A pursues Partner B actively. Can lead to competitive sports or creative projects.",
+            "6": "Partner A's Mars in Partner B's 6th House: Getting things done. Partner A pushes Partner B to be efficient or healthy. Can feel critical.",
+            "7": "Partner A's Mars in Partner B's 7th House: Dynamic partnership. Partner A stirs up Partner B's relationship sector. Can indicate strong attraction but also potential for arguments.",
+            "8": "Partner A's Mars in Partner B's 8th House: Intense sexual chemistry. Partner A triggers Partner B's deepest desires. Can be volatile if not managed well.",
+            "9": "Partner A's Mars in Partner B's 9th House: Adventure buddies. You challenge each other's beliefs. Active travel or learning.",
+            "10": "Partner A's Mars in Partner B's 10th House: Ambition alignment. Partner A pushes for Partner B's success. Public image is dynamic.",
+            "11": "Partner A's Mars in Partner B's 11th House: Active social life. You pursue goals together. Friends may find you a powerful couple.",
+            "12": "Partner A's Mars in Partner B's 12th House: Subconscious activation. Partner A triggers hidden anger or drive in Partner B. Actions may be confusing."
+        },
+        "Jupiter": {
+            "1": "Partner A's Jupiter in Partner B's 1st House: Partner A brings optimism and luck to Partner B. Partner B feels confident and expansive around Partner A.",
+            "2": "Partner A's Jupiter in Partner B's 2nd House: Financial expansion. Partner A brings wealth or abundance mindset to Partner B.",
+            "3": "Partner A's Jupiter in Partner B's 3rd House: Mental expansion. Great conversations and shared learning.",
+            "4": "Partner A's Jupiter in Partner B's 4th House: Large, happy home. Generosity in the family. Buying a big house together.",
+            "5": "Partner A's Jupiter in Partner B's 5th House: Lots of fun, generosity, and creative expansion. Excellent for children and speculative gains together.",
+            "6": "Partner A's Jupiter in Partner B's 6th House: Joy in work and service. Partner A helps improve Partner B's health.",
+            "7": "Partner A's Jupiter in Partner B's 7th House: Indicates a successful and growth-oriented partnership. Partner A brings wisdom and abundance to the marriage. Very favorable.",
+            "8": "Partner A's Jupiter in Partner B's 8th House: Benefit from shared resources. Partner A brings spiritual understanding to Partner B's crises.",
+            "9": "Partner A's Jupiter in Partner B's 9th House: Shared philosophy and travel. Partner A is a teacher/mentor figure to Partner B. Spiritual growth is key.",
+            "10": "Partner A's Jupiter in Partner B's 10th House: Professional success. Partner A boosts Partner B's reputation.",
+            "11": "Partner A's Jupiter in Partner B's 11th House: Expanded social circle. Partner A helps fulfill Partner B's dreams.",
+            "12": "Partner A's Jupiter in Partner B's 12th House: Spiritual protection. Partner A acts as a guardian angel for Partner B's inner world."
+        },
+        "Saturn": {
+            "1": "Partner A's Saturn in Partner B's 1st House: A serious, karmic bond. Partner A has a sobering effect on Partner B. Indicates responsibility and maturity, but can feel restrictive.",
+            "2": "Partner A's Saturn in Partner B's 2nd House: Financial caution. You build security slowly. Partner A structures Partner B's values.",
+            "3": "Partner A's Saturn in Partner B's 3rd House: Serious communication. You solve problems together. mental discipline.",
+            "4": "Partner A's Saturn in Partner B's 4th House: Heavy domestic responsibilities. Ties to tradition or family duty. Buying a 'forever home'.",
+            "5": "Partner A's Saturn in Partner B's 5th House: Parenting is taken seriously. Romance is restrained or dutiful. Creative work requires discipline.",
+            "6": "Partner A's Saturn in Partner B's 6th House: Duty in daily life. You work hard together. Health routines are strict.",
+            "7": "Partner A's Saturn in Partner B's 7th House: A classic 'glue' aspect for marriage. Indicates commitment, duty, and endurance. It may lack spontaneity but provides stability.",
+            "8": "Partner A's Saturn in Partner B's 8th House: Deep binding ties, often financial or sexual. Can indicate a fear of intimacy that needs to be worked through. Very durable if engaged.",
+            "9": "Partner A's Saturn in Partner B's 9th House: Serious worldview. You study or travel for purpose, not just fun. Traditional beliefs.",
+            "10": "Partner A's Saturn in Partner B's 10th House: Power couple potential. You build a legacy. Partner A stabilizes Partner B's career.",
+            "11": "Partner A's Saturn in Partner B's 11th House: Few but loyal friends. Long-term goals are prioritized. Networking for work.",
+            "12": "Partner A's Saturn in Partner B's 12th House: Karmic debt. Partner A structures Partner B's subconscious. Fear of the unknown may be addressed."
+        },
+        "Rahu": {
+            "1": "Partner A's Rahu in Partner B's 1st House: Obsessive attraction. Partner A is fascinated by Partner B's persona.",
+            "2": "Partner A's Rahu in Partner B's 2nd House: Obsession with shared values or financial growth.",
+            "3": "Partner A's Rahu in Partner B's 3rd House: Intense communication or shared mental goals.",
+            "4": "Partner A's Rahu in Partner B's 4th House: Strong desire for domestic security or a non-traditional home.",
+            "5": "Partner A's Rahu in Partner B's 5th House: Passionate and experimental romance.",
+            "6": "Partner A's Rahu in Partner B's 6th House: Unusual routines or service together.",
+            "7": "Partner A's Rahu in Partner B's 7th House: Intense desire for partnership. The relationship feels destined and all-consuming.",
+            "8": "Partner A's Rahu in Partner B's 8th House: Intense sexual or psychological exploration. Transformation through intimacy.",
+            "9": "Partner A's Rahu in Partner B's 9th House: Obsession with non-traditional beliefs or travel.",
+            "10": "Partner A's Rahu in Partner B's 10th House: Driving force for public status and achievement.",
+            "11": "Partner A's Rahu in Partner B's 11th House: Intense social ambitions and large social circles.",
+            "12": "Partner A's Rahu in Partner B's 12th House: Deep subconscious pull or psychic fascination."
+        },
+        "Ketu": {
+            "1": "Partner A's Ketu in Partner B's 1st House: Past life familiar. Partner A feels familiar but may eventually detach from Partner B.",
+            "2": "Partner A's Ketu in Partner B's 2nd House: Detachment from material values together.",
+            "3": "Partner A's Ketu in Partner B's 3rd House: Quiet or intuitive communication.",
+            "4": "Partner A's Ketu in Partner B's 4th House: Past life home connection. Comfort in simplicity.",
+            "5": "Partner A's Ketu in Partner B's 5th House: Spiritual or karmic romance.",
+            "6": "Partner A's Ketu in Partner B's 6th House: Service without expectation.",
+            "7": "Partner A's Ketu in Partner B's 7th House: Spiritual partnership. Less emphasis on worldly attachment, more on letting go together.",
+            "8": "Partner A's Ketu in Partner B's 8th House: Healing through intimacy and letting go.",
+            "9": "Partner A's Ketu in Partner B's 9th House: Shared spiritual philosophy and non-attachment.",
+            "10": "Partner A's Ketu in Partner B's 10th House: Spiritualizing the public path.",
+            "11": "Partner A's Ketu in Partner B's 11th House: Detachment from social status.",
+            "12": "Partner A's Ketu in Partner B's 12th House: Deep spiritual bond. You help each other dissolve ego boundaries. Karmic completion."
+        }
+    },
+    "conjunctions": {
+        "Sun-Sun": "Ego alignment. You understand each other's core motivations, but can also clash due to similarities.",
+        "Sun-Moon": "The classic soulmate aspect. The Moon person naturally supports the Sun person's purpose. Deep psychological unity and balance.",
+        "Sun-Venus": "Warmth, affection, and love. You genuinely like each other. The Sun person shines, and the Venus person admires.",
+        "Sun-Mars": "High energy and action. You get things done together. Strong sexual chemistry, but potential for ego clashes.",
+        "Sun-Jupiter": "Mutual optimism and growth. You encourage each other's success. A very lucky and abundant combination.",
+        "Sun-Saturn": "Karmic bond. The Saturn person binds the Sun person. Can feel heavy or restrictive, but offers long-term stability.",
+        "Sun-Rahu": "Ambition amplifier. You fuel each other's desires for status. Can be obsessive.",
+        "Sun-Ketu": "Ego dissolution. The relationship serves a spiritual purpose, lessening the ego's dominance.",
+        "Moon-Moon": "Emotional telepathy. You feel comfortable and 'at home' with each other. Moods and domestic needs are synced.",
+        "Moon-Venus": "Sweetness and affection. A very gentle and loving bond. You share similar tastes and a desire for peace.",
+        "Moon-Mars": "Emotional volatility and passion. Feelings run hot. Can be exciting but needs patience to avoid hurt feelings.",
+        "Moon-Jupiter": "Emotional generosity. You make each other feel good. Optimism and support flow easily between you.",
+        "Moon-Saturn": "Emotional responsibility. The Moon person may feel cooled or restricted by Saturn, but Saturn provides security.",
+        "Moon-Rahu": "Intense emotional craving. Fear of loss or obsession with feelings. High highs and low lows.",
+        "Moon-Ketu": "Psychic bond. You understand each other without words. Emotional detachment or spiritual comfort.",
+        "Venus-Mars": "The primary indicator of sexual attraction. The yin and yang energies merge. Passionate and magnetic.",
+        "Venus-Jupiter": "Joy and abundance in love. You spoil each other. Shared values and a love of the good life.",
+        "Venus-Saturn": "Commitment in love. Love is taken seriously. May start slowly or have an age gap, but is built to last.",
+        "Venus-Rahu": "Unconventional love. Intense attraction that breaks norms. High romance but potential for illusion.",
+        "Venus-Ketu": "Past life love. The connection feels fated. Love is spiritual or involves sacrifice.",
+        "Mars-Jupiter": "Energetic enterprise. You encourage each other to take risks. Great for achieving goals together.",
+        "Mars-Saturn": "Controlled energy. Saturn focuses Mars's drive. Constructive work is possible, but frustration can occur if blocked.",
+        "Jupiter-Saturn": "Balanced growth. Jupiter expands, Saturn structures. A very stable and progressive pair for business or life building."
+    },
+    "d9_overlays": {
+        "generic": {
+            "1": "Partner's Planet in your Navamsa Lagna: A very strong indicator of marriage. This planet directly influences your marital identity and path.",
+            "7": "Partner's Planet in your Navamsa 7th House: This planet describes the qualities you experience in your spouse. Strong alignment here confirms marriage suitability.",
+            "4": "Partner's Planet in your Navamsa 4th House: Indicates deep domestic happiness and comfort in the married life.",
+            "9": "Partner's Planet in your Navamsa 9th House: Luck and dharma in marriage. Your partner supports your spiritual path."
+        },
+        "Sun": {
+            "1": "Partner's Sun in your Navamsa Lagna: Their core identity shines directly on your marital path. This indicates a strong, visible connection where your partner leads and inspires your shared life direction.",
+            "7": "Partner's Sun in your Navamsa 7th House: They embody your ideal life partner. This placement brings clarity and vitality to your marriage, indicating a partner who is respected and central to your life destiny.",
+            "4": "Partner's Sun in your Navamsa 4th House: They bring warmth and leadership to your domestic sphere. Your home life feels 'brightened' by their presence, creating a strong sense of pride in your shared foundation.",
+            "9": "Partner's Sun in your Navamsa 9th House: Luck and dharma shine on this union. Your partner inspires you to take the higher path in marriage, possibly through shared philosophy or travel."
+        },
+        "Moon": {
+            "1": "Partner's Moon in your Navamsa Lagna: A deeply emotional and fated bond. You feel an instinctive comfort with them at a soul level. They nurture your marital identity like no one else.",
+            "7": "Partner's Moon in your Navamsa 7th House: You experience them as a deeply caring and emotionally supportive spouse. This brings a nurturing, 'homely' feel to the marriage contract.",
+            "4": "Partner's Moon in your Navamsa 4th House: Absolute domestic peace and emotional safety. They understand your inner needs in marriage perfectly, making the shared home a true sanctuary.",
+            "9": "Partner's Moon in your Navamsa 9th House: Emotional growth is tied to your shared dharma. They provide intuitive guidance on your joint spiritual journey."
+        },
+        "Venus": {
+            "1": "Partner's Venus in your Navamsa Lagna: Exceptional attraction and harmony in the marriage destiny. They bring beauty and grace to your marital path, making the union feel like a romantic masterpiece.",
+            "7": "Partner's Venus in your Navamsa 7th House: The ultimate indicator of a loving spouse. They bring affection, luxury, and mutual enjoyment into the core of your committed partnership.",
+            "4": "Partner's Venus in your Navamsa 4th House: A beautiful and comfortable home life. You enjoy 'nesting' together, and there is a shared love for creating a peaceful, aesthetic domestic environment.",
+            "9": "Partner's Venus in your Navamsa 9th House: Luck in love. Your partner brings grace and ease to your shared destiny, often through shared cultural or spiritual appreciation."
+        },
+        "Mars": {
+            "1": "Partner's Mars in your Navamsa Lagna: A dynamic and energetic soul connection. Your partner provides the drive and initiative in the marriage, though you must navigate occasional power dynamics.",
+            "7": "Partner's Mars in your Navamsa 7th House: An intense, passionate partnership. Your spouse is seen as active, courageous, and perhaps a bit competitive. High sexual energy in the marriage bond.",
+            "4": "Partner's Mars in your Navamsa 4th House: Activity and vigor in the domestic sphere. You may work on home projects together with great intensity, but should be mindful of domestic friction.",
+            "9": "Partner's Mars in your Navamsa 9th House: Active pursuit of dharma. Your partner pushes you to be courageous in your spiritual or philosophical path within the marriage."
+        }
+    },
+    "kp_connections": {
+        "csl_7_connection": "Marriage Contract Alignment: Partner A's marriage significator is directly linked to Partner B's soul contract, indicating a strong destined alignment for a life-long partnership.",
+        "csl_1_connection": "Deeper Life Resonance: Partner A's core life-force energy harmonizes beautifully with Partner B, promoting a natural ease and mutual support in your shared journey.",
+        "csl_1_connection_neutral": "Deeper Life Resonance: Partner A and Partner B's life energies are in a stable structural alignment. While not instinctively intense, it provides a very grounded and reliable foundation for mutual growth.",
+        "significator_match": "Soul Purpose Resonance: Your marriage significators interact positively, indicating that your individual paths are naturally aligned toward a shared purpose."
+    },
+    "jaimini_aspects": {
+        "dk_dk_same": "Mutual Darakaraka Conjunction: You share a 'soul spouse' signature. This indicates that your spirits have chosen this specific incarnation to walk the marital path together.",
+        "dk_dk_trines": "Darakaraka Trine (1/5/9): Your relationship flows with grace. There is a natural, intuitive understanding of each other's emotional and romantic needs without the need for constant explanation.",
+        "dk_dk_kendras": "Darakaraka Kendra (1/4/7/10): This is a dynamic and industrious soul connection. You challenge each other to become the highest versions of yourselves, building a solid and active life together.",
+        "dk_dk_opposition": "Darakaraka Mirror (1/7): A powerful attraction through contrast. You are 'divine mirrors' for each other, perfectly balancing what the other lacks, leading to profound personal transformation through love.",
+        "dk_dk_neutral": "Darakaraka Foundational Link: Your souls are in a stable relative alignment. This placement provides a peaceful and steady ground, allowing you to build love through conscious daily effort and shared wisdom.",
+        "dk_dk_2_12": "Darakaraka 2/12 Axis (Dvi-Dwadasha): This indicates a relationship of 'giving and receiving'. You are here to learn about mutual support and how to blend your individual values into a shared spiritual treasury.",
+        "dk_dk_6_8": "Darakaraka 6/8 Axis (Shashtashtaka): An intense karmic alignment of transformation. This relationship pushes you to heal deep-seated patterns and find a profound hidden harmony through life's challenges.",
+        "dk_dk_3_11": "Darakaraka 3/11 Axis (Labha-Tritya): A highly supportive and growth-oriented alignment. You act as each other's greatest cheerleaders, expanding each other's social horizons and shared dreams.",
+        "dk_ak_link": "Darakaraka - Atmakaraka Link: A sacred soul contract. One partner's deepest soul mission (Atmakaraka) is intricately tied to the other's relationship happiness (Darakaraka)."
+    }
+}

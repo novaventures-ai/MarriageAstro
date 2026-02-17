@@ -1,0 +1,196 @@
+{
+  "remedies": [
+    {
+      "planet": "Sun",
+      "afflictions": [
+        {
+          "condition": "Sun in 7th house",
+          "remedy": "Donate wheat and jaggery on Sundays. Avoid accepting gifts from father."
+        },
+        {
+          "condition": "Sun in 12th house",
+          "remedy": "Throw copper coin in flowing river. Feed Brahmin on Sunday."
+        },
+        {
+          "condition": "Sun debilitated (Libra)",
+          "remedy": "Keep saffron tilak on forehead. Donate red clothes."
+        }
+      ],
+      "general_remedies": [
+        "Offer water to Sun every morning",
+        "Wear ruby (only if Sun is benefic in chart)",
+        "Read or listen to Aditya Hriday Stotra"
+      ]
+    },
+    {
+      "planet": "Moon",
+      "afflictions": [
+        {
+          "condition": "Moon in 6th/8th/12th",
+          "remedy": "Keep a square piece of silver in pocket. Donate white items on Monday."
+        },
+        {
+          "condition": "Moon with Rahu/Ketu",
+          "remedy": "Keep a piece of silver given by mother. Chant Mahamrityunjaya mantra."
+        }
+      ],
+      "general_remedies": [
+        "Keep a vessel full of water near bed head at night",
+        "Wear pearl or moonstone",
+        "Donate rice and milk on Mondays"
+      ]
+    },
+    {
+      "planet": "Mars",
+      "afflictions": [
+        {
+          "condition": "Mars in 1st, 2nd, 4th, 7th, 8th, 12th (Mangal Dosha)",
+          "remedy": "Marry a tree (Peepal/Ashvattha) first. Feed sweets to brothers. Keep red handkerchief."
+        },
+        {
+          "condition": "Mars in 4th house (Mangal Vad)",
+          "remedy": "Keep square piece of silver. Feed dogs regularly. Throw sweet roti in fire."
+        },
+        {
+          "condition": "Mars aspecting 7th",
+          "remedy": "Plant pomegranate tree. Donate red lentils on Tuesday."
+        }
+      ],
+      "general_remedies": [
+        "Worship Lord Hanuman on Tuesdays",
+        "Wear red coral (only if Mars is benefic)",
+        "Donate red clothes and masoor dal"
+      ]
+    },
+    {
+      "planet": "Mercury",
+      "afflictions": [
+        {
+          "condition": "Mercury in 7th house",
+          "remedy": "Wear emerald in little finger. Feed green vegetables to cows."
+        },
+        {
+          "condition": "Mercury combust or retrograde in 7th",
+          "remedy": "Keep a solid silver ball in pocket. Donate green items on Wednesday."
+        }
+      ],
+      "general_remedies": [
+        "Feed green fodder to cows on Wednesdays",
+        "Wear green clothes on Wednesdays",
+        "Keep a green plant (tulsi) at home"
+      ]
+    },
+    {
+      "planet": "Jupiter",
+      "afflictions": [
+        {
+          "condition": "Jupiter in 6th/8th/12th",
+          "remedy": "Wear yellow sapphire. Feed Brahmins on Thursday."
+        },
+        {
+          "condition": "Jupiter debilitated (Capricorn)",
+          "remedy": "Apply turmeric tilak on forehead. Donate yellow clothes."
+        }
+      ],
+      "general_remedies": [
+        "Worship Lord Vishnu/Peepal tree on Thursdays",
+        "Wear yellow clothes on Thursdays",
+        "Donate yellow items and bananas"
+      ]
+    },
+    {
+      "planet": "Venus",
+      "afflictions": [
+        {
+          "condition": "Venus in 6th/8th/12th",
+          "remedy": "Wear diamond or white sapphire. Feed white sweets to young girls."
+        },
+        {
+          "condition": "Venus with Saturn/Rahu",
+          "remedy": "Donate cow (or equivalent). Keep a white cow at home if possible."
+        },
+        {
+          "condition": "Venus debilitated (Virgo)",
+          "remedy": "Keep a silver piece in wallet. Donate white clothes on Friday."
+        }
+      ],
+      "general_remedies": [
+        "Worship Goddess Lakshmi on Fridays",
+        "Wear white clothes on Fridays",
+        "Donate white items - rice, sugar, milk"
+      ]
+    },
+    {
+      "planet": "Saturn",
+      "afflictions": [
+        {
+          "condition": "Saturn in 7th house",
+          "remedy": "Donate iron and black items on Saturday. Feed black dogs."
+        },
+        {
+          "condition": "Saturn aspecting 7th lord",
+          "remedy": "Keep a square piece of iron. Light mustard oil lamp under peepal on Saturdays."
+        }
+      ],
+      "general_remedies": [
+        "Feed black sesame to ants on Saturdays",
+        "Donate black blanket and mustard oil",
+        "Light lamp under peepal tree on Saturdays"
+      ]
+    },
+    {
+      "planet": "Rahu",
+      "afflictions": [
+        {
+          "condition": "Rahu in 7th house",
+          "remedy": "Wear hessonite (gomed). Feed Brahmin on Saturday."
+        },
+        {
+          "condition": "Rahu with Venus (relationship issues)",
+          "remedy": "Keep a solid silver elephant at home. Donate blue items."
+        }
+      ],
+      "general_remedies": [
+        "Worship Goddess Durga",
+        "Wear dark blue clothes on Saturdays",
+        "Donate black and blue items"
+      ]
+    },
+    {
+      "planet": "Ketu",
+      "afflictions": [
+        {
+          "condition": "Ketu in 7th house",
+          "remedy": "Wear cat's eye (lehsunia). Worship Lord Ganesha."
+        },
+        {
+          "condition": "Ketu aspecting Venus",
+          "remedy": "Keep a brown dog at home. Feed dogs regularly."
+        }
+      ],
+      "general_remedies": [
+        "Worship Lord Ganesha on Tuesdays",
+        "Donate multicolored blankets",
+        "Keep a pet dog if possible"
+      ]
+    }
+  ],
+  "relationship_specific": [
+    {
+      "condition": "7th house heavily afflicted",
+      "remedy": "Perform marriage ceremony with a peepal or banana tree before actual marriage"
+    },
+    {
+      "condition": "Delay in marriage (Saturn influence)",
+      "remedy": "Fast on Saturdays, feed poor, donate iron items"
+    },
+    {
+      "condition": "Frequent quarrels after marriage",
+      "remedy": "Both partners should donate red items on Tuesdays. Keep rose quartz in bedroom."
+    },
+    {
+      "condition": "In-law issues",
+      "remedy": "Donate yellow items on Thursdays. Respect elders and touch their feet daily."
+    }
+  ]
+}

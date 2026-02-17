@@ -1,0 +1,171 @@
+{
+  "divorce_indicators": {
+    "description": "Combinations that statistically correlate with separation",
+    "research_based": {
+      "source": "Jyotisha Journal 2025 - 111 divorce cases analyzed",
+      "key_findings": [
+        "99% had 7th or 2nd Lord affliction",
+        "7th/2nd Lords in 6/8/12 houses showed high correlation",
+        "Venus affliction present in 85% of cases"
+      ]
+    },
+    "high_risk_combinations": [
+      {
+        "condition": "7th Lord in 6th, 8th, or 12th house",
+        "severity": "High",
+        "description": "Marriage significator in dusthana houses indicates conflict, obstacles, or losses"
+      },
+      {
+        "condition": "2nd Lord in 6th, 8th, or 12th house",
+        "severity": "High",
+        "description": "Family harmony significator afflicted - affects marital stability"
+      },
+      {
+        "condition": "7th Lord conjunct 6th, 8th, or 12th Lord",
+        "severity": "High",
+        "description": "Direct affliction by dusthana lords"
+      },
+      {
+        "condition": "Venus in 6th, 8th, or 12th AND afflicted",
+        "severity": "Medium-High",
+        "description": "Love and relationship karaka in difficult houses"
+      },
+      {
+        "condition": "Saturn + Mars in 7th house",
+        "severity": "High",
+        "description": "Severe affliction to marriage house - conflict and delay"
+      },
+      {
+        "condition": "Rahu in 7th house with no benefic aspect",
+        "severity": "Medium",
+        "description": "Confusion and obsession affecting marriage"
+      },
+      {
+        "condition": "Ketu in 7th house alone",
+        "severity": "Medium",
+        "description": "Detachment and lack of interest in partnership"
+      },
+      {
+        "condition": "6th Lord in 7th house",
+        "severity": "Medium-High",
+        "description": "Brings conflicts and disputes into marriage"
+      },
+      {
+        "condition": "Lord of 7th in debilitation/weak",
+        "severity": "Medium",
+        "description": "Weak significator unable to sustain marriage"
+      },
+      {
+        "condition": "6th Lord in 7th house",
+        "severity": "Medium-High",
+        "description": "Brings disputes and active conflict into marriage"
+      },
+      {
+        "condition": "8th Lord in 7th house",
+        "severity": "High",
+        "description": "Transforms or destroys marriage - crisis prone"
+      }
+    ],
+    "separative_planets": {
+      "description": "Planets that cause separation when affecting 7th house",
+      "Saturn": "Delays and creates distance. If aspects 7th, separation after long time",
+      "Mars": "Creates conflicts. Mangal Dosha effect",
+      "Sun": "Ego clashes. Particularly if in 7th",
+      "Rahu": "Confusion leading to separation",
+      "Ketu": "Detachment leading to separation"
+    },
+    "multiple_marriage_indicators": [
+      {
+        "condition": "Dual signs (Gemini, Virgo, Sagittarius, Pisces) on 7th cusp",
+        "description": "Indicates possibility of more than one marriage"
+      },
+      {
+        "condition": "7th Lord in dual sign",
+        "description": "Multiple partnerships possible"
+      },
+      {
+        "condition": "Venus in dual sign AND afflicted",
+        "description": "For men, indicates multiple wives/partnerships"
+      },
+      {
+        "condition": "Jupiter in dual sign AND afflicted",
+        "description": "For women, indicates multiple husbands/partnerships"
+      },
+      {
+        "condition": "Upapada Lagna (UL) dual sign + UL2 activated",
+        "description": "Jaimini indicator of multiple marriages"
+      }
+    ]
+  },
+  "infidelity_indicators": {
+    "description": "Combinations suggesting potential for unfaithfulness",
+    "warning_signs": [
+      {
+        "condition": "Rahu-Venus conjunction in 5th, 8th, or 12th house",
+        "severity": "High",
+        "description": "Obsessive desires, attraction to forbidden relationships"
+      },
+      {
+        "condition": "Mars-Venus conjunction in 8th or 12th house",
+        "severity": "High",
+        "description": "Intense sexual desires, secret affairs"
+      },
+      {
+        "condition": "5th Lord in 7th house AND 7th Lord in 5th house",
+        "severity": "Medium",
+        "description": "Exchange between romance and marriage houses"
+      },
+      {
+        "condition": "5th Lord in 8th or 12th house",
+        "severity": "Medium",
+        "description": "Romance connected to secrecy or hidden affairs"
+      },
+      {
+        "condition": "Venus in Gemini with affliction",
+        "severity": "Medium",
+        "description": "Dual nature in love, tendency for multiple connections"
+      },
+      {
+        "condition": "Rahu in 5th house aspecting Venus",
+        "severity": "High",
+        "description": "Obsessive romantic tendencies"
+      },
+      {
+        "condition": "Moon with Rahu and Venus affliction",
+        "severity": "Medium-High",
+        "description": "Emotional confusion in relationships, seeking external validation"
+      }
+    ],
+    "kp_formula": {
+      "description": "KP Astrology infidelity signature",
+      "conditions": [
+        "5th cusp sub-lord signifies 8th house",
+        "7th cusp sub-lord connected to 5-8-12 houses",
+        "Venus as significator of 5-8-12 in Dasha",
+        "Navamsa Confirmation: Passion combinations confirmed in D9 double the risk severity"
+      ]
+    }
+  },
+  "risk_assessment_matrix": {
+    "low_risk": {
+      "score_range": "0-25",
+      "description": "Minor afflictions, manageable with awareness",
+      "recommendation": "Normal relationship counseling if needed"
+    },
+    "medium_risk": {
+      "score_range": "26-50",
+      "description": "Notable challenges present",
+      "recommendation": "Active effort required, remedies advised"
+    },
+    "high_risk": {
+      "score_range": "51-75",
+      "description": "Significant difficulties likely",
+      "recommendation": "Professional guidance strongly recommended"
+    },
+    "very_high_risk": {
+      "score_range": "76-100",
+      "description": "Severe afflictions, separation highly probable",
+      "recommendation": "Careful evaluation advised before commitment"
+    }
+  }
+}

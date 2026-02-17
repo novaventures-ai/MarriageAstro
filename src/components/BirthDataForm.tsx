@@ -1,0 +1,196 @@
+import React, { useState } from 'react';
+import { BirthDataInput } from '@types';
+import PlaceAutocomplete from './PlaceAutocomplete';
+
+interface BirthDataFormProps {
+  onSubmit: (data: BirthDataInput) => void;
+  defaultValues?: Partial<BirthDataInput>;
+}
+
+export const BirthDataForm: React.FC<BirthDataFormProps> = ({
+  onSubmit,
+  defaultValues
+}) => {
+  const [formData, setFormData] = useState<BirthDataInput>({
+    name: defaultValues?.name || '',
+    gender: defaultValues?.gender || 'male',
+    dateOfBirth: defaultValues?.dateOfBirth || '',
+    timeOfBirth: defaultValues?.timeOfBirth || '',
+    location: defaultValues?.location || '',
+    latitude: defaultValues?.latitude || 0,
+    longitude: defaultValues?.longitude || 0,
+    timezone: defaultValues?.timezone || 'Asia/Kolkata',
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSubmit(formData);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev: BirthDataInput) => ({
+      ...prev,
+      [name]: name === 'latitude' || name === 'longitude' ? parseFloat(value) : value
+    }));
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="grid md:grid-cols-2 gap-6">
+        {/* Name */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors">
+            Full Name
+          </label>
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-gray-100 transition-colors"
+            placeholder="Enter name"
+          />
+        </div>
+
+        {/* Gender */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors">
+            Gender
+          </label>
+          <select
+            name="gender"
+            value={formData.gender}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-gray-100 transition-colors"
+          >
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        {/* Date of Birth */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors">
+            Date of Birth
+          </label>
+          <input
+            type="date"
+            name="dateOfBirth"
+            value={formData.dateOfBirth instanceof Date ? formData.dateOfBirth.toISOString().split('T')[0] : formData.dateOfBirth}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-gray-100 transition-colors [color-scheme:light] dark:[color-scheme:dark]"
+          />
+        </div>
+
+        {/* Time of Birth */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors">
+            Time of Birth
+          </label>
+          <input
+            type="time"
+            name="timeOfBirth"
+            value={formData.timeOfBirth}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-gray-100 transition-colors [color-scheme:light] dark:[color-scheme:dark]"
+          />
+        </div>
+      </div>
+
+      {/* Location */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors">
+          Birth Location (City)
+        </label>
+        <PlaceAutocomplete
+          value={formData.location}
+          onPlaceSelect={(place) => {
+            setFormData((prev: BirthDataInput) => ({
+              ...prev,
+              location: place.formattedAddress,
+              latitude: place.latitude,
+              longitude: place.longitude,
+              // Note: Timezone is not automatically set here, user might need to adjust or we default to India
+            }));
+          }}
+          placeholder="e.g., Mumbai, India"
+        />
+      </div>
+
+      {/* Coordinates */}
+      <div className="grid md:grid-cols-2 gap-6">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors">
+            Latitude
+          </label>
+          <input
+            type="number"
+            name="latitude"
+            value={formData.latitude}
+            onChange={handleChange}
+            step="0.0001"
+            required
+            className="w-full px-4 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-gray-100 transition-colors"
+            placeholder="e.g., 19.0760"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors">
+            Longitude
+          </label>
+          <input
+            type="number"
+            name="longitude"
+            value={formData.longitude}
+            onChange={handleChange}
+            step="0.0001"
+            required
+            className="w-full px-4 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-gray-100 transition-colors"
+            placeholder="e.g., 72.8777"
+          />
+        </div>
+      </div>
+
+      {/* Timezone */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors">
+          Timezone
+        </label>
+        <select
+          name="timezone"
+          value={formData.timezone}
+          onChange={handleChange}
+          required
+          className="w-full px-4 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-gray-100 transition-colors"
+        >
+          <option value="Asia/Kolkata">India (IST)</option>
+          <option value="America/New_York">Eastern Time (ET)</option>
+          <option value="America/Chicago">Central Time (CT)</option>
+          <option value="America/Denver">Mountain Time (MT)</option>
+          <option value="America/Los_Angeles">Pacific Time (PT)</option>
+          <option value="Europe/London">London (GMT)</option>
+          <option value="Europe/Paris">Paris (CET)</option>
+          <option value="Asia/Tokyo">Tokyo (JST)</option>
+          <option value="Australia/Sydney">Sydney (AEST)</option>
+        </select>
+      </div>
+
+      {/* Submit Button */}
+      <button
+        type="submit"
+        className="w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-lg hover:shadow-lg transform hover:scale-[1.02] transition-all"
+      >
+        Continue
+      </button>
+    </form>
+  );
+};
+
+export default BirthDataForm;

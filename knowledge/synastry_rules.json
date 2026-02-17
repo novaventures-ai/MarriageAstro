@@ -1,0 +1,166 @@
+{
+  "soulmate_aspects": {
+    "description": "Harmonious connections that indicate deep compatibility and understanding",
+    "aspects": [
+      {
+        "combination": "Jupiter-Moon",
+        "type": "soulmate",
+        "orb": 8,
+        "description": "Strong emotional and spiritual bond. Jupiter provides wisdom and protection to Moon's emotions."
+      },
+      {
+        "combination": "Jupiter-Venus",
+        "type": "soulmate",
+        "orb": 8,
+        "description": "Harmonious love, shared values, and mutual respect. Blessings in relationship."
+      },
+      {
+        "combination": "Sun-Moon",
+        "type": "soulmate",
+        "orb": 8,
+        "description": "Classic compatibility - conscious and unconscious alignment. Masculine-feminine balance."
+      },
+      {
+        "combination": "Venus-Jupiter",
+        "type": "soulmate",
+        "orb": 8,
+        "description": "Generosity in love, shared joy, and abundance in relationship."
+      },
+      {
+        "combination": "Moon-Venus",
+        "type": "soulmate",
+        "orb": 6,
+        "description": "Emotional and affectionate harmony. Natural comfort and care."
+      }
+    ],
+    "indicators": [
+      "Partner's Jupiter aspects Moon or Venus",
+      "Harmonious Sun-Moon relationship",
+      "Venus in partner's 7th house",
+      "Jupiter in partner's 1st or 7th house",
+      "Moon-Moon harmonious aspect (emotional understanding)"
+    ]
+  },
+  "karmic_aspects": {
+    "description": "Challenging connections indicating past-life ties and lessons",
+    "aspects": [
+      {
+        "combination": "Saturn-Sun",
+        "type": "karmic",
+        "orb": 8,
+        "description": "Authority and ego clashes. Saturn restricts Sun's expression. Karmic debt around power."
+      },
+      {
+        "combination": "Saturn-Moon",
+        "type": "karmic",
+        "orb": 8,
+        "description": "Emotional coldness or responsibility. Saturn brings maturity but can create distance."
+      },
+      {
+        "combination": "Saturn-Venus",
+        "type": "karmic",
+        "orb": 8,
+        "description": "Delays in love, age difference, or feeling unloved. Serious commitment potential."
+      },
+      {
+        "combination": "Rahu-Moon",
+        "type": "karmic",
+        "orb": 6,
+        "description": "Obsessive emotional attachment. Illusion and confusion in feelings."
+      },
+      {
+        "combination": "Rahu-Venus",
+        "type": "karmic",
+        "orb": 6,
+        "description": "Intense attraction that may not be grounded in reality. Obsessive love."
+      },
+      {
+        "combination": "Ketu-Venus",
+        "type": "karmic",
+        "orb": 6,
+        "description": "Past-life love connection. Detachment or disillusionment in love."
+      }
+    ],
+    "indicators": [
+      "Saturn aspects personal planets (Sun, Moon, Venus)",
+      "Rahu/Ketu conjunct relationship planets",
+      "Nodal axis across relationship houses (1-7, 2-8)",
+      "Saturn in partner's 7th house"
+    ]
+  },
+  "sexual_chemistry": {
+    "description": "Mars-Venus interactions indicating physical attraction",
+    "aspects": [
+      {
+        "combination": "Mars-Venus (trine/sextile)",
+        "type": "positive",
+        "orb": 6,
+        "description": "Strong sexual attraction balanced with harmony. Passion and affection combined."
+      },
+      {
+        "combination": "Mars-Venus (conjunction)",
+        "type": "intense",
+        "orb": 4,
+        "description": "Intense sexual chemistry. May be overwhelming or exhausting."
+      },
+      {
+        "combination": "Mars-Venus (square/opposition)",
+        "type": "challenging",
+        "orb": 6,
+        "description": "Magnetic attraction but friction. Passionate conflicts. Love-hate dynamic."
+      },
+      {
+        "combination": "Mars-Mars (harmonious)",
+        "type": "positive",
+        "orb": 6,
+        "description": "Similar energy levels and sexual drives. Good physical compatibility."
+      },
+      {
+        "combination": "Venus-Venus (harmonious)",
+        "type": "positive",
+        "orb": 6,
+        "description": "Similar love languages and aesthetic preferences. Comfort in affection."
+      }
+    ]
+  },
+  "house_overlays": {
+    "description": "When partner's planets fall in specific houses of your chart",
+    "significant_overlays": [
+      {
+        "house": 1,
+        "description": "Partner influences your identity and self-expression"
+      },
+      {
+        "house": 4,
+        "description": "Partner affects your home and emotional security"
+      },
+      {
+        "house": 7,
+        "description": "Partner activates your relationship sector - significant for marriage"
+      },
+      {
+        "house": 8,
+        "description": "Partner triggers deep intimacy and transformation - intense sexual connection"
+      },
+      {
+        "house": 12,
+        "description": "Partner connects to your subconscious - hidden or karmic relationship"
+      }
+    ]
+  },
+  "composite_indicators": {
+    "description": "Midpoint chart indicators for relationship quality",
+    "positive": [
+      "Composite Sun conjunct Venus or Jupiter",
+      "Composite Moon in harmonious aspect to Sun",
+      "Composite Venus-Jupiter conjunction",
+      "Composite 7th house well-aspected"
+    ],
+    "challenging": [
+      "Composite Saturn conjunct Sun or Moon",
+      "Composite Mars square Saturn",
+      "Composite 12th house emphasis with malefics",
+      "Composite Uranus square Sun (instability)"
+    ]
+  }
+}

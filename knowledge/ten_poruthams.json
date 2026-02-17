@@ -1,0 +1,184 @@
+{
+    "poruthams": {
+        "Dina": {
+            "name": "Dina Porutham",
+            "purpose": "Health and Longevity",
+            "description": "Indicates health and longevity of the couple. It is calculated by counting from the bride's nakshatra to the groom's nakshatra.",
+            "max_points": 3,
+            "rules": "Count from girl's nakshatra to boy's. Divide by 9. Remainder 2, 4, 6, 8, 9 (0) are good. 1, 3, 5, 7 are bad."
+        },
+        "Gana": {
+            "name": "Gana Porutham",
+            "purpose": "Temperament Compatibility",
+            "description": "Matches the temperament of the couple (Deva, Manurya, Rakshasa).",
+            "max_points": 4,
+            "rules": {
+                "Deva_Deva": 4,
+                "Deva_Manushya": 4,
+                "Manushya_Manushya": 4,
+                "Rakshasa_Rakshasa": 4,
+                "Manushya_Deva": 2,
+                "Deva_Rakshasa": 0,
+                "Manushya_Rakshasa": 0,
+                "Rakshasa_Deva": 0,
+                "Rakshasa_Manushya": 0
+            }
+        },
+        "Mahendra": {
+            "name": "Mahendra Porutham",
+            "purpose": "Progeny and Wealth",
+            "description": "Indicators for children and prosperity.",
+            "max_points": 1,
+            "rules": "Count from girl's nakshatra to boy's. If it is 4, 7, 10, 13, 16, 19, 22, 25, it is Good."
+        },
+        "Stree_Deergha": {
+            "name": "Stree Deergha Porutham",
+            "purpose": "Prosperity through Wife",
+            "description": "Ensures the longevity and well-being of the wife.",
+            "max_points": 1,
+            "rules": "Count from girl's nakshatra to boy's. If it is more than 13, it is Good. Some consider more than 9 or 15."
+        },
+        "Yoni": {
+            "name": "Yoni Porutham",
+            "purpose": "Sexual Compatibility",
+            "description": "Physical matching based on animal symbols.",
+            "max_points": 4,
+            "rules": "Match animal symbols. Same animal = 4, Friendly = 2-3, Neutral = 1, Enemy = 0."
+        },
+        "Rashi": {
+            "name": "Rashi Porutham",
+            "purpose": "Growth of Family",
+            "description": "Matches the moon signs of the couple.",
+            "max_points": 7,
+            "rules": "Good positions: 1/1, 1/7, 3/11, 4/10, 5/9. Bad positions: 2/12, 6/8."
+        },
+        "Rashyadhipati": {
+            "name": "Rashyadhipati Porutham",
+            "purpose": "Friendship of Lords",
+            "description": "Check friendliness between Moon sign lords.",
+            "max_points": 5,
+            "rules": "Friends = 5, Neutral/Direct Friend = 4, Neutral = 1, Enemy = 0."
+        },
+        "Vashya": {
+            "name": "Vashya Porutham",
+            "purpose": "Mutual Attraction",
+            "description": "Attraction between signs.",
+            "max_points": 2,
+            "rules": "Compatible groups = 2, Mildly compatible = 1, Others = 0."
+        },
+        "Rajju": {
+            "name": "Rajju Porutham",
+            "purpose": "Longevity of Partners",
+            "description": "Most critical Porutham. Protects the life of partners.",
+            "max_points": 5,
+            "rules": "Both should not be in same Rajju group (Padah, Janu, Thodai, Kanti, Shira)."
+        },
+        "Vedha": {
+            "name": "Vedha Porutham",
+            "purpose": "Obstacle Avoidance",
+            "description": "Detects any unseen obstacles or curses.",
+            "max_points": 5,
+            "rules": "Nakshatras should not be in Vedha (forbidden pairs)."
+        },
+        "Nadi": {
+            "name": "Nadi Porutham",
+            "purpose": "Health and Genetic Compatibility",
+            "description": "Ensures healthy lineage and physical compatibility.",
+            "max_points": 8,
+            "rules": "Different Nadis (Vata, Pitta, Kapha) = 8, Same = 0."
+        }
+    },
+    "rajju_groups": {
+        "Padah": [
+            "Ashwini",
+            "Ashlesha",
+            "Magha",
+            "Jyeshta",
+            "Mula",
+            "Revati"
+        ],
+        "Janu": [
+            "Bharani",
+            "Pushya",
+            "Purva Phalguni",
+            "Anuradha",
+            "Purva Ashadha",
+            "Uttara Bhadrapada"
+        ],
+        "Thodai": [
+            "Krittika",
+            "Punarvasu",
+            "Uttara Phalguni",
+            "Vishakha",
+            "Uttara Ashadha",
+            "Purva Bhadrapada"
+        ],
+        "Kanti": [
+            "Rohini",
+            "Ardra",
+            "Hasta",
+            "Swati",
+            "Shravana",
+            "Shatabhisha"
+        ],
+        "Shira": [
+            "Mrigashirsha",
+            "Chitra",
+            "Dhanishta"
+        ]
+    },
+    "vedha_pairs": [
+        [
+            "Ashwini",
+            "Jyeshta"
+        ],
+        [
+            "Bharani",
+            "Anuradha"
+        ],
+        [
+            "Krittika",
+            "Vishakha"
+        ],
+        [
+            "Rohini",
+            "Swati"
+        ],
+        [
+            "Ardra",
+            "Shravana"
+        ],
+        [
+            "Punarvasu",
+            "Uttara Ashadha"
+        ],
+        [
+            "Pushya",
+            "Purva Ashadha"
+        ],
+        [
+            "Ashlesha",
+            "Mula"
+        ],
+        [
+            "Magha",
+            "Revati"
+        ],
+        [
+            "Purva Phalguni",
+            "Uttara Bhadrapada"
+        ],
+        [
+            "Uttara Phalguni",
+            "Purva Bhadrapada"
+        ],
+        [
+            "Hasta",
+            "Shatabhisha"
+        ],
+        [
+            "Mrigashirsha",
+            "Dhanishta"
+        ]
+    ]
+}
