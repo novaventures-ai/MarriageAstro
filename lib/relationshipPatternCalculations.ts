@@ -58,6 +58,7 @@ function findNeutralizer(chart: Chart): { title: string; text: string } | undefi
     const jupiter = getPos(chart, 'Jupiter');
     const saturn = getPos(chart, 'Saturn');
     const moon = getPos(chart, 'Moon');
+    const venus = getPos(chart, 'Venus');
 
     // 1. Jupiter influence (The Giver of Values)
     if (jupiter && ([7, 9, 1, 5, 2].includes(jupiter.house) || ['exalted', 'own_house', 'moolatrikona'].includes(jupiter.dignity))) {
@@ -75,7 +76,16 @@ function findNeutralizer(chart: Chart): { title: string; text: string } | undefi
         };
     }
 
-    // 3. Moon influence (Emotional Maturity)
+    // 3. Moon or Venus in 9th (Ethical Orientation)
+    if ((moon && moon.house === 9) || (venus && venus.house === 9)) {
+        const planet = (moon && moon.house === 9) ? 'Moon' : 'Venus';
+        return {
+            title: 'Innate Moral Compass',
+            text: `With ${planet} in the 9th house of Dharma, your relationship choices are guided by a strong internal sense of what is right and honorable. This natural orientation towards integrity acts as a constant stabilizer.`
+        };
+    }
+
+    // 4. Moon influence (Emotional Maturity)
     if (moon && ['exalted', 'own_house'].includes(moon.dignity)) {
         return {
             title: 'Emotional Resilience (Moon Influence)',
