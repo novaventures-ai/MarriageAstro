@@ -870,12 +870,12 @@ export function assessAffairContext(chart: Chart, name: string): {
     tabooScore += 1;
   }
 
-  if (tabooScore >= 4) { // Very High Threshold
+  if (tabooScore >= 3) {
     indicators.push({
       context: 'family_taboo',
       text: tabooText,
       profileName: name,
-      confidence: 'high' // Only show if high confidence
+      confidence: tabooScore >= 4 ? 'high' : 'medium'
     });
   }
 
@@ -1004,17 +1004,17 @@ export function assessAffairContext(chart: Chart, name: string): {
   if (checkKp7thSublord([4]) && (checkKp7thSublord([8]) || checkKp7thSublord([12]))) {
     tabooScore += 2; tabooText += ' + KP: 7th Cusp Sublord links to 4 & 8/12';
   }
-  if (tabooScore >= 4) {
+  if (tabooScore >= 3) {
     const existing = indicators.find(i => i.context === 'family_taboo');
     if (existing) {
       existing.text = tabooText;
-      existing.confidence = 'high';
+      existing.confidence = tabooScore >= 4 ? 'high' : 'medium';
     } else {
       indicators.push({
         context: 'family_taboo',
         text: tabooText,
         profileName: name,
-        confidence: 'high'
+        confidence: tabooScore >= 4 ? 'high' : 'medium'
       });
     }
   }
