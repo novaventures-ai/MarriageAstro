@@ -175,6 +175,28 @@ export const RiskRadarWidget: React.FC<RiskRadarWidgetProps> = ({
               </div>
             )}
 
+            {/* Neutralizing Influences (Paired UI) */}
+            {riskAssessment.protectiveFactors && riskAssessment.protectiveFactors.length > 0 && (
+              <div className="mt-4 p-3 bg-green-50/50 dark:bg-green-900/10 rounded-lg border border-green-100 dark:border-green-800/20 transition-all hover:border-green-200">
+                <div className="flex items-center gap-2 mb-2">
+                  <ShieldCheck className="w-3.5 h-3.5 text-green-600 dark:text-green-400" />
+                  <span className="text-[10px] font-black text-green-700 dark:text-green-300 uppercase tracking-widest">Neutralizing Shields</span>
+                </div>
+                <div className="space-y-1.5">
+                  {riskAssessment.protectiveFactors
+                    .filter(f => activePartner === 'overall' || f.profileName === (activePartner === 'A' ? partnerAName : partnerBName))
+                    .map((factor, idx) => (
+                      <div key={idx} className="flex items-start gap-2 group/shield">
+                        <CheckCircle className="w-2.5 h-2.5 text-green-500 mt-0.5 flex-shrink-0" />
+                        <p className="text-[10px] text-green-800 dark:text-green-200 leading-tight font-medium">
+                          {factor.text}
+                        </p>
+                      </div>
+                    ))}
+                </div>
+              </div>
+            )}
+
             <div className="mt-6 pt-4 border-t border-gray-100 dark:border-gray-800/50">
               <div className="flex items-center justify-between">
                 <button
@@ -271,6 +293,28 @@ export const RiskRadarWidget: React.FC<RiskRadarWidgetProps> = ({
               </div>
             )}
 
+            {/* Neutralizing Influences (Paired UI) */}
+            {riskAssessment.protectiveFactors && riskAssessment.protectiveFactors.length > 0 && (
+              <div className="mt-4 p-3 bg-green-50/50 dark:bg-green-900/10 rounded-lg border border-green-100 dark:border-green-800/20 transition-all hover:border-green-200">
+                <div className="flex items-center gap-2 mb-2">
+                  <ShieldCheck className="w-3.5 h-3.5 text-green-600 dark:text-green-400" />
+                  <span className="text-[10px] font-black text-green-700 dark:text-green-300 uppercase tracking-widest">Neutralizing Shields</span>
+                </div>
+                <div className="space-y-1.5">
+                  {riskAssessment.protectiveFactors
+                    .filter(f => activePartner === 'overall' || f.profileName === (activePartner === 'A' ? partnerAName : partnerBName))
+                    .map((factor, idx) => (
+                      <div key={idx} className="flex items-start gap-2 group/shield">
+                        <CheckCircle className="w-2.5 h-2.5 text-green-500 mt-0.5 flex-shrink-0" />
+                        <p className="text-[10px] text-green-800 dark:text-green-200 leading-tight font-medium">
+                          {factor.text}
+                        </p>
+                      </div>
+                    ))}
+                </div>
+              </div>
+            )}
+
             <div className="mt-6 pt-4 border-t border-gray-100 dark:border-gray-800/50">
               <div className="flex items-center justify-between">
                 <button
@@ -334,353 +378,340 @@ export const RiskRadarWidget: React.FC<RiskRadarWidgetProps> = ({
             </div>
           </div>
         </div>
-      </div>
+      </div >
 
       {/* Manglik Analysis Section */}
-      {riskAssessment.manglikAnalysis && (
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border border-red-50 dark:border-red-900/20 transition-colors">
-          <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-6 flex items-center gap-3 transition-colors">
-            <Heart className="w-6 h-6 text-red-500 dark:text-red-400" />
-            Manglik Dosha Analysis
-            <span className={`ml-auto text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full transition-colors ${riskAssessment.manglikAnalysis.compatibility.includes('High')
-              ? 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300'
-              : 'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300'
-              }`}>
-              {riskAssessment.manglikAnalysis.compatibility}
-            </span>
-          </h3>
-
-          <div className="grid md:grid-cols-2 gap-6">
-            {/* Partner A */}
-            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800 shadow-sm transition-colors">
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest">{partnerAName}</span>
-                <span className={`text-[10px] font-black px-2 py-0.5 rounded transition-colors ${riskAssessment.manglikAnalysis.partnerA.isManglik
-                  ? 'bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400'
-                  : 'bg-green-100 dark:bg-green-900/40 text-green-600 dark:text-green-400'
-                  }`}>
-                  {riskAssessment.manglikAnalysis.partnerA.isManglik ? 'MANGLIK' : 'NON-MANGLIK'}
-                </span>
-              </div>
-
-              {riskAssessment.manglikAnalysis.partnerA.isManglik && (
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-tighter">
-                    <span>Dosha Intensity</span>
-                    <div className="flex gap-1">
-                      {[1, 2, 3].map(i => (
-                        <div key={i} className={`w-3 h-1.5 rounded-sm transition-colors ${i <= (riskAssessment.manglikAnalysis!.partnerA.score * 3) ? 'bg-red-400 dark:bg-red-500' : 'bg-gray-200 dark:bg-gray-700'}`} />
-                      ))}
-                    </div>
-                  </div>
-
-                  {riskAssessment.manglikAnalysis.partnerA.isCancelled && (
-                    <div className="p-2 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-100 dark:border-green-800/30 transition-colors">
-                      <p className="text-[10px] font-bold text-green-700 dark:text-green-400 mb-1 flex items-center gap-1">
-                        <ShieldCheck className="w-3 h-3" /> DOSHA CANCELLED
-                      </p>
-                      <ul className="text-[10px] text-green-600 dark:text-green-500 space-y-0.5 list-disc pl-3">
-                        {riskAssessment.manglikAnalysis.partnerA.cancellationReasons.map((r, i) => (
-                          <li key={i}>{r}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-
-            {/* Partner B */}
-            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800 shadow-sm transition-colors">
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest">{partnerBName}</span>
-                <span className={`text-[10px] font-black px-2 py-0.5 rounded transition-colors ${riskAssessment.manglikAnalysis.partnerB.isManglik
-                  ? 'bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400'
-                  : 'bg-green-100 dark:bg-green-900/40 text-green-600 dark:text-green-400'
-                  }`}>
-                  {riskAssessment.manglikAnalysis.partnerB.isManglik ? 'MANGLIK' : 'NON-MANGLIK'}
-                </span>
-              </div>
-
-              {riskAssessment.manglikAnalysis.partnerB.isManglik && (
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-tighter transition-colors">
-                    <span>Dosha Intensity</span>
-                    <div className="flex gap-1">
-                      {[1, 2, 3].map(i => (
-                        <div key={i} className={`w-3 h-1.5 rounded-sm transition-colors ${i <= (riskAssessment.manglikAnalysis!.partnerB.score * 3) ? 'bg-red-400 dark:bg-red-500' : 'bg-gray-200 dark:bg-gray-700'}`} />
-                      ))}
-                    </div>
-                  </div>
-
-                  {riskAssessment.manglikAnalysis.partnerB.isCancelled && (
-                    <div className="p-2 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-100 dark:border-green-800/30 transition-colors">
-                      <p className="text-[10px] font-bold text-green-700 dark:text-green-400 mb-1 flex items-center gap-1 transition-colors">
-                        <ShieldCheck className="w-3 h-3" /> DOSHA CANCELLED
-                      </p>
-                      <ul className="text-[10px] text-green-600 dark:text-green-500 space-y-0.5 list-disc pl-3 transition-colors">
-                        {riskAssessment.manglikAnalysis.partnerB.cancellationReasons.map((r, i) => (
-                          <li key={i}>{r}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Multiple Marriage Indicators */}
-      {multipleMarriageIndicators && multipleMarriageIndicators.length > 0 && (
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 transition-colors">
-          <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4 flex items-center gap-2 transition-colors">
-            <Users className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
-            Multiple Marriage Indicators
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {multipleMarriageIndicators.map((indicator: { text: string; profileName: string }, index: number) => (
-              <div key={index} className="flex items-center gap-3 p-3 bg-purple-50 dark:bg-purple-900/20 rounded-xl border border-purple-100 dark:border-purple-800/30 transition-all hover:bg-purple-100 dark:hover:bg-purple-900/30">
-                <div className="w-8 h-8 rounded-full bg-purple-100 dark:bg-purple-900/40 flex items-center justify-center text-[10px] font-black text-purple-600 dark:text-purple-300 transition-colors">
-                  {indicator.profileName.charAt(0)}
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-[9px] font-black uppercase tracking-widest text-purple-400 dark:text-purple-500 transition-colors">
-                    {indicator.profileName}
-                  </span>
-                  <span className="text-sm text-purple-900 dark:text-purple-200 font-bold transition-colors">
-                    {indicator.text}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Detected Yogas/Doshas */}
-      {riskAssessment.detectedYogas && riskAssessment.detectedYogas.length > 0 && (
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 transition-colors">
-          <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4 flex items-center gap-2 transition-colors">
-            <AlertTriangle className="w-5 h-5 text-amber-600 dark:text-amber-400" />
-            Detected Risk Yogas & Doshas
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {riskAssessment.detectedYogas.map((yoga: { name: string; severity: string; description: string; profileName: string }, index: number) => (
-              <div key={index} className="p-4 rounded-xl bg-gray-50 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800/30 transition-all hover:border-amber-200 dark:hover:border-amber-900/50">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="font-bold text-gray-800 dark:text-gray-100 text-sm transition-colors">{yoga.name}</span>
-                  <span className={`px-2 py-0.5 rounded-full text-[10px] font-black uppercase border ${getSeverityColor(yoga.severity)}`}>
-                    {yoga.severity}
-                  </span>
-                </div>
-                <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed transition-colors">{yoga.description}</p>
-                <div className="mt-2 flex items-center justify-between">
-                  <span className="text-[9px] font-black uppercase tracking-widest text-amber-600/60 dark:text-amber-500/60">{yoga.profileName}</span>
-                  <Shield className="w-3 h-3 text-amber-500 opacity-20" />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Protective Factors */}
-      {riskAssessment.protectiveFactors && riskAssessment.protectiveFactors.length > 0 && (
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border border-green-50 dark:border-green-900/20 transition-colors">
-          <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4 flex items-center gap-2 transition-colors">
-            <ShieldCheck className="w-5 h-5 text-green-600 dark:text-green-400" />
-            Vedic Protective Factors
-          </h3>
-          <div className="space-y-3">
-            {riskAssessment.protectiveFactors.map((factor, index) => (
-              <div key={index} className="flex items-start gap-3 p-3 bg-green-50 dark:bg-green-900/15 rounded-xl border border-green-100 dark:border-green-800/30 transition-all hover:bg-green-100 dark:hover:bg-green-900/25">
-                <CheckCircle className={`w-5 h-5 mt-0.5 flex-shrink-0 ${factor.strength === 'strong' ? 'text-green-600 dark:text-green-400' :
-                  'text-green-400 dark:text-green-600'
-                  }`} />
-                <div className="flex flex-col">
-                  <span className="text-sm text-green-900 dark:text-green-200 font-bold transition-colors">{factor.text}</span>
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className="text-[9px] font-black uppercase tracking-widest text-green-500 dark:text-green-600 transition-colors">{factor.profileName}</span>
-                    <span className="text-[9px] font-black px-2 py-0.5 rounded bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-400 uppercase tracking-tighter">{factor.strength}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Affair Context Indicators */}
-      {riskAssessment.affairContextIndicators && riskAssessment.affairContextIndicators.length > 0 && (
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 transition-colors">
-          <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4 flex items-center gap-2 transition-colors">
-            <Sparkles className="w-5 h-5 text-violet-600 dark:text-violet-400" />
-            Social & Environmental Triggers
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {riskAssessment.affairContextIndicators.map((indicator: { context: string; text: string; profileName: string }, index: number) => (
-              <div key={index} className="flex items-start gap-3 p-3 bg-violet-50 dark:bg-violet-900/15 rounded-xl border border-violet-100 dark:border-violet-800/30 transition-colors">
-                <div className="w-8 h-8 rounded-full bg-violet-100 dark:bg-violet-900/40 flex items-center justify-center text-violet-600 dark:text-violet-300 flex-shrink-0 transition-colors">
-                  {getContextIcon(indicator.context)}
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-[9px] font-black uppercase tracking-widest text-violet-500 dark:text-violet-400 transition-colors">
-                    {indicator.context.replace('_', ' ')} • {indicator.profileName}
-                  </span>
-                  <span className="text-sm text-violet-900 dark:text-violet-200 font-bold tracking-tight transition-colors">{indicator.text}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Navamsa Confirmations */}
-      {riskAssessment.navamsaConfirmations && riskAssessment.navamsaConfirmations.length > 0 && (
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 transition-colors">
-          <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4 flex items-center gap-2 transition-colors">
-            <Shield className="w-5 h-5 text-sky-600 dark:text-sky-400" />
-            Navamsa (D-9) Confirmation
-          </h3>
-          <div className="space-y-3">
-            {riskAssessment.navamsaConfirmations.map((conf: { text: string; confirmed: boolean; profileName: string }, index: number) => (
-              <div key={index} className="flex items-start gap-3 p-3 bg-sky-50 dark:bg-sky-900/15 rounded-xl border border-sky-100 dark:border-sky-800/30 transition-colors">
-                <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${conf.confirmed ? 'bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400' : 'bg-green-100 dark:bg-green-900/40 text-green-600 dark:text-green-400'}`}>
-                  {conf.confirmed ? <AlertTriangle className="w-3.5 h-3.5" /> : <CheckCircle className="w-3.5 h-3.5" />}
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-sm text-sky-900 dark:text-sky-200 font-bold transition-colors">{conf.text}</span>
-                  <span className="text-[9px] font-black uppercase tracking-widest text-sky-400 dark:text-sky-500 mt-1 transition-colors">{conf.profileName} (Soul Level)</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Spouse Longevity Section */}
-      {spouseLongevity && (
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border-l-4 border-emerald-500 transition-colors">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-            <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100 flex items-center gap-2 transition-colors">
-              <Heart className="w-5 h-5 text-emerald-500" />
-              Spouse Longevity & Life-Span Analysis
+      {
+        riskAssessment.manglikAnalysis && (
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border border-red-50 dark:border-red-900/20 transition-colors">
+            <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-6 flex items-center gap-3 transition-colors">
+              <Heart className="w-6 h-6 text-red-500 dark:text-red-400" />
+              Manglik Dosha Analysis
+              <span className={`ml-auto text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full transition-colors ${riskAssessment.manglikAnalysis.compatibility.includes('High')
+                ? 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300'
+                : 'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300'
+                }`}>
+                {riskAssessment.manglikAnalysis.compatibility}
+              </span>
             </h3>
 
-            <div className="text-[10px] font-black text-emerald-600 dark:text-emerald-500 uppercase tracking-widest bg-emerald-50 dark:bg-emerald-900/20 px-3 py-1 rounded transition-colors">
-              Perspective: {activePartner === 'overall' ? 'Combined Path' : activePartner === 'A' ? partnerAName : partnerBName}
-            </div>
-          </div>
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Partner A */}
+              <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800 shadow-sm transition-colors">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest">{partnerAName}</span>
+                  <span className={`text-[10px] font-black px-2 py-0.5 rounded transition-colors ${riskAssessment.manglikAnalysis.partnerA.isManglik
+                    ? 'bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400'
+                    : 'bg-green-100 dark:bg-green-900/40 text-green-600 dark:text-green-400'
+                    }`}>
+                    {riskAssessment.manglikAnalysis.partnerA.isManglik ? 'MANGLIK' : 'NON-MANGLIK'}
+                  </span>
+                </div>
 
-          <div className="grid md:grid-cols-3 gap-6 items-start">
-            <div className="md:col-span-1 border-r border-gray-100 dark:border-gray-700 pr-6">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block transition-colors">
-                {activePartner === 'overall' ? 'Shared Longevity Score' : `${activePartner === 'A' ? partnerAName : partnerBName} 's Impact Rating`}
-              </span >
-              <div className="flex items-end gap-1">
-                <span className={`text-3xl font-black ${displayLongevity!.score >= 70 ? 'text-emerald-600 dark:text-emerald-400' :
-                  displayLongevity!.score >= 40 ? 'text-yellow-600 dark:text-yellow-400' :
-                    'text-red-600 dark:text-red-400'
-                  }`}>
-                  {displayLongevity!.score}
-                </span>
-                <span className="text-sm text-gray-400 mb-1">/100</span>
-              </div>
-              <span className={`mt-2 inline-block px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter ${displayLongevity!.level === 'stable' ? 'bg-green-100 text-green-700' :
-                displayLongevity!.level === 'moderate' ? 'bg-yellow-100 text-yellow-700' :
-                  'bg-red-100 text-red-700'
-                }`}>
-                {displayLongevity!.level}
-              </span>
-
-              <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-900/30 rounded-lg border border-gray-100 dark:border-gray-800 transition-colors">
-                <p className="text-[10px] leading-relaxed text-gray-500 dark:text-gray-400 font-medium">
-                  {activePartner === 'overall'
-                    ? "Combined analysis of both charts determining the shared longevity path."
-                    : `Analysis of ${activePartner === 'A' ? partnerAName : partnerBName}'s chart predicting the longevity of the partner.`}
-                </p>
-              </div>
-            </div >
-
-            <div className="md:col-span-2">
-              <p className="text-sm font-bold text-gray-700 dark:text-gray-300 mb-1 transition-colors">{displayLongevity!.description}</p>
-              <p className="text-[10px] text-gray-500 dark:text-gray-400 mb-4 italic transition-colors">
-                *Indicators extracted from {activePartner === 'overall' ? 'both birth charts' : `${activePartner === 'A' ? partnerAName : partnerBName}'s birth chart`}.
-              </p>
-
-              <div className="space-y-3">
-                {displayLongevity!.indicators?.map((ind: { text: string; profileName: string }, i: number) => (
-                  <div key={i} className="flex items-start gap-3 p-2.5 bg-gray-50/50 dark:bg-gray-900/20 rounded-lg border border-transparent hover:border-emerald-100 dark:hover:border-emerald-900/30 transition-all group">
-                    <span className="text-emerald-500 mt-1 flex-shrink-0 group-hover:scale-110 transition-transform">
-                      <ShieldCheck className="w-4 h-4" />
-                    </span>
-                    <div className="flex flex-col">
-                      {activePartner === 'overall' && (
-                        <span className="font-black text-[9px] uppercase tracking-tighter text-emerald-600 dark:text-emerald-500 opacity-60">
-                          {ind.profileName}
-                        </span>
-                      )}
-                      <span className="text-xs text-gray-700 dark:text-gray-300 leading-relaxed font-bold">
-                        {ind.text}
-                      </span>
+                {riskAssessment.manglikAnalysis.partnerA.isManglik && (
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-tighter">
+                      <span>Dosha Intensity</span>
+                      <div className="flex gap-1">
+                        {[1, 2, 3].map(i => (
+                          <div key={i} className={`w-3 h-1.5 rounded-sm transition-colors ${i <= (riskAssessment.manglikAnalysis!.partnerA.score * 3) ? 'bg-red-400 dark:bg-red-500' : 'bg-gray-200 dark:bg-gray-700'}`} />
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                ))}
 
-                {(!displayLongevity!.indicators || displayLongevity!.indicators.length === 0) && (
-                  <p className="text-xs text-gray-400 italic py-2">No specific risk patterns detected for this perspective.</p>
+                    {riskAssessment.manglikAnalysis.partnerA.isCancelled && (
+                      <div className="p-2 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-100 dark:border-green-800/30 transition-colors">
+                        <p className="text-[10px] font-bold text-green-700 dark:text-green-400 mb-1 flex items-center gap-1">
+                          <ShieldCheck className="w-3 h-3" /> DOSHA CANCELLED
+                        </p>
+                        <ul className="text-[10px] text-green-600 dark:text-green-500 space-y-0.5 list-disc pl-3">
+                          {riskAssessment.manglikAnalysis.partnerA.cancellationReasons.map((r, i) => (
+                            <li key={i}>{r}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Partner B */}
+              <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800 shadow-sm transition-colors">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest">{partnerBName}</span>
+                  <span className={`text-[10px] font-black px-2 py-0.5 rounded transition-colors ${riskAssessment.manglikAnalysis.partnerB.isManglik
+                    ? 'bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400'
+                    : 'bg-green-100 dark:bg-green-900/40 text-green-600 dark:text-green-400'
+                    }`}>
+                    {riskAssessment.manglikAnalysis.partnerB.isManglik ? 'MANGLIK' : 'NON-MANGLIK'}
+                  </span>
+                </div>
+
+                {riskAssessment.manglikAnalysis.partnerB.isManglik && (
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-tighter transition-colors">
+                      <span>Dosha Intensity</span>
+                      <div className="flex gap-1">
+                        {[1, 2, 3].map(i => (
+                          <div key={i} className={`w-3 h-1.5 rounded-sm transition-colors ${i <= (riskAssessment.manglikAnalysis!.partnerB.score * 3) ? 'bg-red-400 dark:bg-red-500' : 'bg-gray-200 dark:bg-gray-700'}`} />
+                        ))}
+                      </div>
+                    </div>
+
+                    {riskAssessment.manglikAnalysis.partnerB.isCancelled && (
+                      <div className="p-2 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-100 dark:border-green-800/30 transition-colors">
+                        <p className="text-[10px] font-bold text-green-700 dark:text-green-400 mb-1 flex items-center gap-1 transition-colors">
+                          <ShieldCheck className="w-3 h-3" /> DOSHA CANCELLED
+                        </p>
+                        <ul className="text-[10px] text-green-600 dark:text-green-500 space-y-0.5 list-disc pl-3 transition-colors">
+                          {riskAssessment.manglikAnalysis.partnerB.cancellationReasons.map((r, i) => (
+                            <li key={i}>{r}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
                 )}
               </div>
             </div>
-          </div >
+          </div>
+        )
+      }
 
-          {/* Longevity Logic Dropdown */}
-          < div className="mt-8 border-t border-gray-100 dark:border-gray-700 pt-4" >
-            <button
-              onClick={() => setShowLongevityLogic(!showLongevityLogic)}
-              className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-emerald-500 transition-colors"
-            >
-              {showLongevityLogic ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
-              Spouse Longevity Calculation Logic
-            </button>
-
-            {
-              showLongevityLogic && (
-                <div className="mt-4 grid md:grid-cols-2 gap-4 bg-gray-50 dark:bg-gray-900/40 p-4 rounded-xl border border-gray-100 dark:border-gray-800 animate-in fade-in slide-in-from-top-2 duration-300 transition-all">
-                  <div className="space-y-3">
-                    <h4 className="text-[10px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-2">
-                      <Sparkles className="w-3 h-3" /> Vedic Methodology
-                    </h4>
-                    <ul className="space-y-2">
-                      <li className="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed">
-                        <strong className="text-gray-800 dark:text-gray-200 uppercase tracking-tighter">Mangalya Bhava (2nd):</strong> In relationship charts, the 2nd house represents the longevity of the marital bond.
-                      </li>
-                      <li className="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed">
-                        <strong className="text-gray-800 dark:text-gray-200 uppercase tracking-tighter">8th House Analysis:</strong> Represents transformations. Patterns here can project onto the partner's wellbeing.
-                      </li>
-                    </ul>
+      {/* Multiple Marriage Indicators */}
+      {
+        multipleMarriageIndicators && multipleMarriageIndicators.length > 0 && (
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 transition-colors">
+            <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4 flex items-center gap-2 transition-colors">
+              <Users className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+              Multiple Marriage Indicators
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {multipleMarriageIndicators.map((indicator: { text: string; profileName: string }, index: number) => (
+                <div key={index} className="flex items-center gap-3 p-3 bg-purple-50 dark:bg-purple-900/20 rounded-xl border border-purple-100 dark:border-purple-800/30 transition-all hover:bg-purple-100 dark:hover:bg-purple-900/30">
+                  <div className="w-8 h-8 rounded-full bg-purple-100 dark:bg-purple-900/40 flex items-center justify-center text-[10px] font-black text-purple-600 dark:text-purple-300 transition-colors">
+                    {indicator.profileName.charAt(0)}
                   </div>
-                  <div className="space-y-3">
-                    <h4 className="text-[10px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-2">
-                      <Shield className="w-3 h-3" /> Key Factors
-                    </h4>
-                    <ul className="space-y-2">
-                      <li className="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed">
-                        <strong className="text-gray-800 dark:text-gray-200 uppercase tracking-tighter">7th Lord Impact:</strong> Placement in Dusthana (6/8/12) is evaluated for "Maraka" (death-inflicting) influences.
-                      </li>
-                      <li className="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed">
-                        <strong className="text-gray-800 dark:text-gray-200 uppercase tracking-tighter">Planetary Strength:</strong> Jupiter/Venus aspects are counted as protective life-extending influences.
-                      </li>
-                    </ul>
+                  <div className="flex flex-col">
+                    <span className="text-[9px] font-black uppercase tracking-widest text-purple-400 dark:text-purple-500 transition-colors">
+                      {indicator.profileName}
+                    </span>
+                    <span className="text-sm text-purple-900 dark:text-purple-200 font-bold transition-colors">
+                      {indicator.text}
+                    </span>
                   </div>
                 </div>
-              )
-            }
+              ))}
+            </div>
+          </div>
+        )
+      }
+
+      {/* Detected Yogas/Doshas */}
+      {
+        riskAssessment.detectedYogas && riskAssessment.detectedYogas.length > 0 && (
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 transition-colors">
+            <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4 flex items-center gap-2 transition-colors">
+              <AlertTriangle className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+              Detected Risk Yogas & Doshas
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {riskAssessment.detectedYogas.map((yoga: { name: string; severity: string; description: string; profileName: string }, index: number) => (
+                <div key={index} className="p-4 rounded-xl bg-gray-50 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800/30 transition-all hover:border-amber-200 dark:hover:border-amber-900/50">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="font-bold text-gray-800 dark:text-gray-100 text-sm transition-colors">{yoga.name}</span>
+                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-black uppercase border ${getSeverityColor(yoga.severity)}`}>
+                      {yoga.severity}
+                    </span>
+                  </div>
+                  <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed transition-colors">{yoga.description}</p>
+                  <div className="mt-2 flex items-center justify-between">
+                    <span className="text-[9px] font-black uppercase tracking-widest text-amber-600/60 dark:text-amber-500/60">{yoga.profileName}</span>
+                    <Shield className="w-3 h-3 text-amber-500 opacity-20" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )
+      }
+
+
+      {/* Affair Context Indicators */}
+      {
+        riskAssessment.affairContextIndicators && riskAssessment.affairContextIndicators.length > 0 && (
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 transition-colors">
+            <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4 flex items-center gap-2 transition-colors">
+              <Sparkles className="w-5 h-5 text-violet-600 dark:text-violet-400" />
+              Social & Environmental Triggers
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {riskAssessment.affairContextIndicators.map((indicator: { context: string; text: string; profileName: string }, index: number) => (
+                <div key={index} className="flex items-start gap-3 p-3 bg-violet-50 dark:bg-violet-900/15 rounded-xl border border-violet-100 dark:border-violet-800/30 transition-colors">
+                  <div className="w-8 h-8 rounded-full bg-violet-100 dark:bg-violet-900/40 flex items-center justify-center text-violet-600 dark:text-violet-300 flex-shrink-0 transition-colors">
+                    {getContextIcon(indicator.context)}
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[9px] font-black uppercase tracking-widest text-violet-500 dark:text-violet-400 transition-colors">
+                      {indicator.context.replace('_', ' ')} • {indicator.profileName}
+                    </span>
+                    <span className="text-sm text-violet-900 dark:text-violet-200 font-bold tracking-tight transition-colors">{indicator.text}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )
+      }
+
+      {/* Navamsa Confirmations */}
+      {
+        riskAssessment.navamsaConfirmations && riskAssessment.navamsaConfirmations.length > 0 && (
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 transition-colors">
+            <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4 flex items-center gap-2 transition-colors">
+              <Shield className="w-5 h-5 text-sky-600 dark:text-sky-400" />
+              Navamsa (D-9) Confirmation
+            </h3>
+            <div className="space-y-3">
+              {riskAssessment.navamsaConfirmations.map((conf: { text: string; confirmed: boolean; profileName: string }, index: number) => (
+                <div key={index} className="flex items-start gap-3 p-3 bg-sky-50 dark:bg-sky-900/15 rounded-xl border border-sky-100 dark:border-sky-800/30 transition-colors">
+                  <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${conf.confirmed ? 'bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400' : 'bg-green-100 dark:bg-green-900/40 text-green-600 dark:text-green-400'}`}>
+                    {conf.confirmed ? <AlertTriangle className="w-3.5 h-3.5" /> : <CheckCircle className="w-3.5 h-3.5" />}
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-sm text-sky-900 dark:text-sky-200 font-bold transition-colors">{conf.text}</span>
+                    <span className="text-[9px] font-black uppercase tracking-widest text-sky-400 dark:text-sky-500 mt-1 transition-colors">{conf.profileName} (Soul Level)</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )
+      }
+
+      {/* Spouse Longevity Section */}
+      {
+        spouseLongevity && (
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border-l-4 border-emerald-500 transition-colors">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+              <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100 flex items-center gap-2 transition-colors">
+                <Heart className="w-5 h-5 text-emerald-500" />
+                Spouse Longevity & Life-Span Analysis
+              </h3>
+
+              <div className="text-[10px] font-black text-emerald-600 dark:text-emerald-500 uppercase tracking-widest bg-emerald-50 dark:bg-emerald-900/20 px-3 py-1 rounded transition-colors">
+                Perspective: {activePartner === 'overall' ? 'Combined Path' : activePartner === 'A' ? partnerAName : partnerBName}
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6 items-start">
+              <div className="md:col-span-1 border-r border-gray-100 dark:border-gray-700 pr-6">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 block transition-colors">
+                  {activePartner === 'overall' ? 'Shared Longevity Score' : `${activePartner === 'A' ? partnerAName : partnerBName} 's Impact Rating`}
+                </span >
+                <div className="flex items-end gap-1">
+                  <span className={`text-3xl font-black ${displayLongevity!.score >= 70 ? 'text-emerald-600 dark:text-emerald-400' :
+                    displayLongevity!.score >= 40 ? 'text-yellow-600 dark:text-yellow-400' :
+                      'text-red-600 dark:text-red-400'
+                    }`}>
+                    {displayLongevity!.score}
+                  </span>
+                  <span className="text-sm text-gray-400 mb-1">/100</span>
+                </div>
+                <span className={`mt-2 inline-block px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter ${displayLongevity!.level === 'stable' ? 'bg-green-100 text-green-700' :
+                  displayLongevity!.level === 'moderate' ? 'bg-yellow-100 text-yellow-700' :
+                    'bg-red-100 text-red-700'
+                  }`}>
+                  {displayLongevity!.level}
+                </span>
+
+                <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-900/30 rounded-lg border border-gray-100 dark:border-gray-800 transition-colors">
+                  <p className="text-[10px] leading-relaxed text-gray-500 dark:text-gray-400 font-medium">
+                    {activePartner === 'overall'
+                      ? "Combined analysis of both charts determining the shared longevity path."
+                      : `Analysis of ${activePartner === 'A' ? partnerAName : partnerBName}'s chart predicting the longevity of the partner.`}
+                  </p>
+                </div>
+              </div >
+
+              <div className="md:col-span-2">
+                <p className="text-sm font-bold text-gray-700 dark:text-gray-300 mb-1 transition-colors">{displayLongevity!.description}</p>
+                <p className="text-[10px] text-gray-500 dark:text-gray-400 mb-4 italic transition-colors">
+                  *Indicators extracted from {activePartner === 'overall' ? 'both birth charts' : `${activePartner === 'A' ? partnerAName : partnerBName}'s birth chart`}.
+                </p>
+
+                <div className="space-y-3">
+                  {displayLongevity!.indicators?.map((ind: { text: string; profileName: string }, i: number) => (
+                    <div key={i} className="flex items-start gap-3 p-2.5 bg-gray-50/50 dark:bg-gray-900/20 rounded-lg border border-transparent hover:border-emerald-100 dark:hover:border-emerald-900/30 transition-all group">
+                      <span className="text-emerald-500 mt-1 flex-shrink-0 group-hover:scale-110 transition-transform">
+                        <ShieldCheck className="w-4 h-4" />
+                      </span>
+                      <div className="flex flex-col">
+                        {activePartner === 'overall' && (
+                          <span className="font-black text-[9px] uppercase tracking-tighter text-emerald-600 dark:text-emerald-500 opacity-60">
+                            {ind.profileName}
+                          </span>
+                        )}
+                        <span className="text-xs text-gray-700 dark:text-gray-300 leading-relaxed font-bold">
+                          {ind.text}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+
+                  {(!displayLongevity!.indicators || displayLongevity!.indicators.length === 0) && (
+                    <p className="text-xs text-gray-400 italic py-2">No specific risk patterns detected for this perspective.</p>
+                  )}
+                </div>
+              </div>
+            </div >
+
+            {/* Longevity Logic Dropdown */}
+            < div className="mt-8 border-t border-gray-100 dark:border-gray-700 pt-4" >
+              <button
+                onClick={() => setShowLongevityLogic(!showLongevityLogic)}
+                className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-emerald-500 transition-colors"
+              >
+                {showLongevityLogic ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+                Spouse Longevity Calculation Logic
+              </button>
+
+              {
+                showLongevityLogic && (
+                  <div className="mt-4 grid md:grid-cols-2 gap-4 bg-gray-50 dark:bg-gray-900/40 p-4 rounded-xl border border-gray-100 dark:border-gray-800 animate-in fade-in slide-in-from-top-2 duration-300 transition-all">
+                    <div className="space-y-3">
+                      <h4 className="text-[10px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-2">
+                        <Sparkles className="w-3 h-3" /> Vedic Methodology
+                      </h4>
+                      <ul className="space-y-2">
+                        <li className="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed">
+                          <strong className="text-gray-800 dark:text-gray-200 uppercase tracking-tighter">Mangalya Bhava (2nd):</strong> In relationship charts, the 2nd house represents the longevity of the marital bond.
+                        </li>
+                        <li className="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed">
+                          <strong className="text-gray-800 dark:text-gray-200 uppercase tracking-tighter">8th House Analysis:</strong> Represents transformations. Patterns here can project onto the partner's wellbeing.
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="space-y-3">
+                      <h4 className="text-[10px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-2">
+                        <Shield className="w-3 h-3" /> Key Factors
+                      </h4>
+                      <ul className="space-y-2">
+                        <li className="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed">
+                          <strong className="text-gray-800 dark:text-gray-200 uppercase tracking-tighter">7th Lord Impact:</strong> Placement in Dusthana (6/8/12) is evaluated for "Maraka" (death-inflicting) influences.
+                        </li>
+                        <li className="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed">
+                          <strong className="text-gray-800 dark:text-gray-200 uppercase tracking-tighter">Planetary Strength:</strong> Jupiter/Venus aspects are counted as protective life-extending influences.
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                )
+              }
+            </div >
           </div >
-        </div >
-      )}
+        )
+      }
     </div >
   );
 };

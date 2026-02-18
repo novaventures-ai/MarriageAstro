@@ -60,6 +60,12 @@ export interface KPAnalysis {
     interpretation: string;
     severity: 'low' | 'moderate' | 'high';
   };
+  protectionFormula?: {
+    isActive: boolean;
+    houses: number[];
+    interpretation: string;
+    strength: 'low' | 'moderate' | 'high';
+  };
 }
 
 export interface KPSignificatorDetailed {

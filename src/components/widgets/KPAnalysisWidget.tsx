@@ -21,7 +21,7 @@ export const KPAnalysisWidget: React.FC<KPAnalysisWidgetProps> = ({
   const activeAnalysis = selectedPartner === 'A' ? partnerA : partnerB;
   const activeName = selectedPartner === 'A' ? nameA : nameB;
 
-  const { seventhCuspSubLord, significators, rulingPlanets, fourFoldAnalysis, fifthCuspAffairFormula, cuspalInterlinks, workplaceAffairGrouping } = activeAnalysis;
+  const { seventhCuspSubLord, significators, rulingPlanets, fourFoldAnalysis, fifthCuspAffairFormula, cuspalInterlinks, workplaceAffairGrouping, protectionFormula } = activeAnalysis;
   const [showHelp, setShowHelp] = useState<string | null>(null);
   const { loading, insight, error, triggerAnalysis } = useGeminiInsight();
 
@@ -253,6 +253,80 @@ export const KPAnalysisWidget: React.FC<KPAnalysisWidgetProps> = ({
               </p>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* KP Net Stability Summary (NEW Section) */}
+      <div className="bg-gradient-to-br from-slate-50 to-indigo-50 dark:from-slate-900/40 dark:to-indigo-900/20 rounded-2xl shadow-lg p-6 border border-indigo-100 dark:border-indigo-800/20">
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 flex items-center gap-3">
+            <ShieldAlert className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+            Stability & Risk Balance — {activeName}
+          </h3>
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Net Stability</span>
+            <div className="flex gap-1">
+              {[1, 2, 3, 4, 5].map(i => {
+                const stabilityScore = (protectionFormula?.isActive ? 2 : 0) + (fifthCuspAffairFormula?.isActive ? -1 : 1) + (cuspalInterlinks?.breakdownGrouping.isActive ? -1 : 1);
+                const normalizedScore = Math.min(5, Math.max(1, stabilityScore + 2)); // map to 1-5 scale
+                return (
+                  <div key={i} className={`w-4 h-2 rounded-sm ${i <= normalizedScore ? 'bg-indigo-500' : 'bg-gray-200 dark:bg-gray-700'}`} />
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-4">
+          <div className="p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm">
+            <h4 className="text-[10px] font-black uppercase tracking-widest text-rose-500 mb-3 flex items-center gap-2">
+              <AlertTriangle className="w-3 h-3" /> Combined Risk Factors
+            </h4>
+            <ul className="space-y-2">
+              <li className="flex items-center justify-between text-xs">
+                <span className="text-gray-600 dark:text-gray-400">5-8-12 Romance Stress:</span>
+                <span className={`font-bold ${fifthCuspAffairFormula?.isActive ? 'text-rose-600' : 'text-green-600'}`}>
+                  {fifthCuspAffairFormula?.isActive ? 'Active' : 'Neutral'}
+                </span>
+              </li>
+              <li className="flex items-center justify-between text-xs">
+                <span className="text-gray-600 dark:text-gray-400">6-8-12 Stability Stress:</span>
+                <span className={`font-bold ${cuspalInterlinks?.breakdownGrouping.isActive ? 'text-rose-600' : 'text-green-600'}`}>
+                  {cuspalInterlinks?.breakdownGrouping.isActive ? 'Active' : 'Neutral'}
+                </span>
+              </li>
+            </ul>
+          </div>
+
+          {protectionFormula && (
+            <div className="p-4 bg-white dark:bg-gray-800 rounded-xl border border-green-100 dark:border-green-900/30 shadow-sm">
+              <h4 className="text-[10px] font-black uppercase tracking-widest text-green-600 mb-3 flex items-center gap-2">
+                <CheckCircle className="w-3 h-3" /> Neutralizing Protections
+              </h4>
+              <ul className="space-y-2">
+                <li className="flex items-center justify-between text-xs">
+                  <span className="text-gray-600 dark:text-gray-400">Dharma Stability (9th):</span>
+                  <span className={`font-bold ${protectionFormula.isActive ? 'text-green-600' : 'text-gray-400'}`}>
+                    {protectionFormula.isActive ? 'Active Support' : 'Not Detected'}
+                  </span>
+                </li>
+                <li className="flex items-center justify-between text-xs">
+                  <span className="text-gray-600 dark:text-gray-400">Reputational Shield (10th):</span>
+                  <span className={`font-bold ${protectionFormula.isActive ? 'text-green-600' : 'text-gray-400'}`}>
+                    {protectionFormula.isActive ? 'Protective' : 'Standard'}
+                  </span>
+                </li>
+              </ul>
+              {protectionFormula.isActive && (
+                <div className="mt-3 p-2 bg-green-50 dark:bg-green-900/20 rounded border border-green-100 dark:border-green-800/40">
+                  <p className="text-[10px] text-green-800 dark:text-green-200 leading-tight">
+                    <Sparkles className="w-2.5 h-2.5 inline mr-1" />
+                    {protectionFormula.interpretation}
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
@@ -749,6 +823,7 @@ export const KPAnalysisWidget: React.FC<KPAnalysisWidgetProps> = ({
           )}
         </div>
       )}
+
     </div>
   );
 };

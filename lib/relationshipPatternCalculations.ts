@@ -18,6 +18,10 @@ export interface RelationshipPattern {
     description: string;
     indicators: string[];
     advice: string;
+    counterBalance?: {
+        title: string;
+        text: string;
+    };
 }
 
 export interface RelationshipPatternAnalysis {
@@ -50,6 +54,38 @@ function hasAspect(lon1: number, lon2: number, maxOrb = 10): { type: string } | 
     return null;
 }
 
+function findNeutralizer(chart: Chart): { title: string; text: string } | undefined {
+    const jupiter = getPos(chart, 'Jupiter');
+    const saturn = getPos(chart, 'Saturn');
+    const moon = getPos(chart, 'Moon');
+
+    // 1. Jupiter influence (The Giver of Values)
+    if (jupiter && ([7, 9, 1, 5, 2].includes(jupiter.house) || ['exalted', 'own_house', 'moolatrikona'].includes(jupiter.dignity))) {
+        return {
+            title: 'Dharmic Anchor (Jupiter Influence)',
+            text: `Strong Jupiter in ${jupiter.house}th house provides a core sense of ethics and commitment that acts as a powerful brake on impulsive emotional deviations. You value your reputation and spiritual integrity over temporary thrill.`
+        };
+    }
+
+    // 2. Saturn influence (The Vow-Keeper)
+    if (saturn && ([7, 10, 1].includes(saturn.house) && saturn.dignity !== 'debilitated')) {
+        return {
+            title: 'Vow-Bound Stability (Saturn Influence)',
+            text: 'A strongly placed Saturn indicates that once you have made a commitment, you view it as a permanent duty. This "gravity" in your personality ensures that even during high-temptation periods, the weight of your word holds the bond together.'
+        };
+    }
+
+    // 3. Moon influence (Emotional Maturity)
+    if (moon && ['exalted', 'own_house'].includes(moon.dignity)) {
+        return {
+            title: 'Emotional Resilience (Moon Influence)',
+            text: 'A dignified Moon provides the emotional security needed to handle relationship boredom without seeking outside validation. You are anchored within yourself.'
+        };
+    }
+
+    return undefined;
+}
+
 // ============================================================================
 // PRE-MARITAL HISTORY ANALYSIS (5th house)
 // ============================================================================
@@ -67,7 +103,8 @@ function analyzePreMaritalPatterns(chart: Chart): RelationshipPattern[] {
             severity: 'moderate',
             description: `The 5th house is heavily active with ${planetsIn5.length} planets. This typically indicates a life where romantic experiences have been a major avenue for self-discovery. You likely have a history of falling in love deeply and often, with each relationship shaping your identity significantly.`,
             indicators: planetsIn5.map(p => `${p.planet} in 5th house`),
-            advice: 'Ensure your current partner understands that your past was a "training ground," not a comparison chart.'
+            advice: 'Ensure your current partner understands that your past was a "training ground," not a comparison chart.',
+            counterBalance: findNeutralizer(chart)
         });
     } else if (planetsIn5.length === 2) {
         patterns.push({
@@ -105,7 +142,8 @@ function analyzePreMaritalPatterns(chart: Chart): RelationshipPattern[] {
             severity: 'moderate',
             description: 'Rahu in the 5th house creates intense, unconventional, and sometimes obsessive romantic attraction. May be drawn to unusual or taboo romantic situations.',
             indicators: ['Rahu in 5th house'],
-            advice: 'Self-awareness about obsessive tendencies in romance helps channel this energy constructively.'
+            advice: 'Self-awareness about obsessive tendencies in romance helps channel this energy constructively.',
+            counterBalance: findNeutralizer(chart)
         });
     }
 
@@ -189,7 +227,8 @@ function analyzeAffairContextPatterns(chart: Chart, name: string): RelationshipP
                 severity: severity,
                 description: description + (ctx.text ? ` (${ctx.text})` : ''),
                 indicators: [ctx.text],
-                advice: advice
+                advice: advice,
+                counterBalance: findNeutralizer(chart)
             });
         }
     });
@@ -220,7 +259,8 @@ function analyzeRelationshipStyle(chart: Chart): RelationshipPattern[] {
             severity: 'severe',
             description: `The chart shows ${maleficsInKama.length} intense planets in the "Zones of Desire" (3rd, 7th, 11th houses). In reality, this often manifests as a person who gets bored easily with "safe" or "routine" love. There is a subconscious drive for relationships that provide constant adrenaline or validation.`,
             indicators: maleficsInKama.map(p => `${p.planet} in ${p.house}th house`),
-            advice: 'You need "healthy danger"—adventure, ambitious shared goals, or rigorous physical activity together—to prevent seeking drama elsewhere.'
+            advice: 'You need "healthy danger"—adventure, ambitious shared goals, or rigorous physical activity together—to prevent seeking drama elsewhere.',
+            counterBalance: findNeutralizer(chart)
         });
     }
 

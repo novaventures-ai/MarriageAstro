@@ -628,6 +628,72 @@ export function assessProtectiveFactors(chart: Chart, name: string): {
     }
   }
 
+  // Navamsa (D9) Stabilizers (Soul-level strength)
+  if (chart.vargaCharts?.D9) {
+    const d9 = chart.vargaCharts.D9;
+    const d9Jupiter = d9.planetaryPositions?.find(p => p.planet === 'Jupiter');
+    if (d9Jupiter && [1, 7].includes(d9Jupiter.house)) {
+      factors.push({
+        text: `Navamsa Confirmation: Jupiter in D9 ${d9Jupiter.house === 1 ? 'Ascendant' : '7th house'} indicates deep soul-level ethical commitment and moral protection`,
+        strength: 'strong',
+        profileName: name
+      });
+    }
+
+    const d9H1 = d9.houses?.find(h => h.houseNumber === 1);
+    if (d9H1) {
+      const d9LagnaLord = d9.planetaryPositions?.find(p => p.planet === d9H1.lord);
+      if (d9LagnaLord && ['exalted', 'own_house'].includes(d9LagnaLord.dignity)) {
+        factors.push({
+          text: 'Navamsa Lagna Lord is exceptionally strong, indicating high spiritual/mental resilience against external temptations',
+          strength: 'moderate',
+          profileName: name
+        });
+      }
+    }
+  }
+
+  // Social Deterrent (Saturn in 10th)
+  const saturn10 = chart.planetaryPositions.find(p => p.planet === 'Saturn' && p.house === 10);
+  if (saturn10) {
+    factors.push({
+      text: 'Social Responsibility: Saturn in 10th house creates a strong conscience and fear of reputational loss, acting as a deterrent against unconventional choices',
+      strength: 'moderate',
+      profileName: name
+    });
+  }
+
+  // KP Dharma/Status Protection
+  if (chart.kp?.significators) {
+    const seventhCusp = chart.kp.cusps.find(c => c.cuspNumber === 7);
+    if (seventhCusp) {
+      const subLordSignificator = chart.kp.significators.find(s => s.planet === seventhCusp.subLord);
+      const sigs = subLordSignificator?.significations || [];
+      if (sigs.includes(9) || sigs.includes(10)) {
+        factors.push({
+          text: `KP Protection: 7th Cusp Sub-Lord links to houses ${sigs.filter(h => [9, 10].includes(h)).join('/')} (Dharma/Status), anchoring the relationship in public duty rather than private desire`,
+          strength: 'strong',
+          profileName: name
+        });
+      }
+    }
+  }
+
+  // Protective Yogas (Gajakesari / Dharma Karmadhipati)
+  const moon = chart.planetaryPositions.find(p => p.planet === 'Moon');
+  if (jupiter && moon) {
+    // Simplified Gajakesari check: Moon-Jupiter opposition or conjunction or square
+    const angle = Math.abs(normalizeDegrees(jupiter.longitude - moon.longitude));
+    const isKendra = [0, 90, 180, 270].some(a => Math.abs(angle - a) < 10);
+    if (isKendra) {
+      factors.push({
+        text: 'Gajakesari Yoga: Jupiter-Moon connection provides emotional stability, wisdom, and strong mental self-control',
+        strength: 'strong',
+        profileName: name
+      });
+    }
+  }
+
   return factors;
 }
 

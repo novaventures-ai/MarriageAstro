@@ -318,6 +318,39 @@ export function calculateKPAnalysis(chart: Chart): KPAnalysis {
     severity: workplaceSeverity
   };
 
+  // 4. Protection Formula (9-10-11 significations - P2 Extension)
+  const protectionHouses = [9, 10, 11];
+  const protectionCusps = [7, 9, 10]
+    .map(h => chart.kp?.cusps?.find(c => c.cuspNumber === h))
+    .filter(Boolean) as typeof chart.kp.cusps;
+
+  const housesProtective = protectionCusps.map(cusp => {
+    const cslSig = significators.find(s => s.planet === cusp.subLord);
+    return {
+      house: cusp.cuspNumber,
+      subLord: cusp.subLord,
+      significations: cslSig?.significations || []
+    };
+  });
+
+  const protectiveSigs = housesProtective.filter(entry =>
+    entry.significations.some(h => [9, 10].includes(h))
+  );
+
+  const protectionActive = protectiveSigs.length >= 1;
+  const protectionStrength: 'low' | 'moderate' | 'high' = protectiveSigs.length >= 2 ? 'high' : protectionActive ? 'moderate' : 'low';
+
+  const protectionInterpretation = protectionActive
+    ? `The sub-lords of key houses (${protectiveSigs.map(e => e.house).join(', ')}) link to Dharma (9th) or Reputation (10th). This provides a strong structural protection against impulsive or unconventional actions. ${protectionStrength === 'high' ? 'Exceptional moral anchoring detected.' : 'Moderate moral stability present.'}`
+    : 'No strong 9-10 KP protection found at the cuspal sub-lord level. Relationship stability depends more on personal effort and D1/D9 factors.';
+
+  const protectionFormula: KPAnalysis['protectionFormula'] = {
+    isActive: protectionActive,
+    houses: protectionHouses,
+    interpretation: protectionInterpretation,
+    strength: protectionStrength
+  };
+
   return {
     seventhCuspSubLord: {
       planet: seventhCusp.subLord,
@@ -340,7 +373,8 @@ export function calculateKPAnalysis(chart: Chart): KPAnalysis {
     fourFoldAnalysis,
     fifthCuspAffairFormula,
     cuspalInterlinks,
-    workplaceAffairGrouping
+    workplaceAffairGrouping,
+    protectionFormula
   };
 }
 

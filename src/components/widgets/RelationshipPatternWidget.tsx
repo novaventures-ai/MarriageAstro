@@ -218,6 +218,20 @@ export const RelationshipPatternWidget: React.FC<RelationshipPatternWidgetProps>
                                             <strong>Guidance:</strong> {pat.advice}
                                         </p>
                                     </div>
+
+                                    {pat.counterBalance && (
+                                        <div className="p-3 bg-indigo-50 dark:bg-indigo-900/10 rounded-lg border-l-4 border-indigo-400 transition-colors">
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <Shield className="w-3 h-3 text-indigo-600 dark:text-indigo-400" />
+                                                <p className="text-xs font-bold text-indigo-800 dark:text-indigo-200 uppercase tracking-tighter">
+                                                    Counter-Balance: {pat.counterBalance.title}
+                                                </p>
+                                            </div>
+                                            <p className="text-[11px] text-indigo-700 dark:text-indigo-300 leading-tight">
+                                                {pat.counterBalance.text}
+                                            </p>
+                                        </div>
+                                    )}
                                 </div>
                             )}
                         </div>
