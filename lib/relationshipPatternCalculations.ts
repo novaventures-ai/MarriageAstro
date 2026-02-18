@@ -161,10 +161,10 @@ function analyzeAffairContextPatterns(chart: Chart, name: string): RelationshipP
                 advice = 'Distinguish clearly between spiritual devotion and personal intimacy. Avoid one-on-one private sessions with mentors.';
                 severity = 'mild';
                 break;
-            case 'domestic_incest':
-                title = 'Domestic/Taboo Vulnerability';
-                description = 'Planetary afflictions involving the 4th/8th houses suggest a complex psychological pattern where "forbidden" or "taboo" dynamics trigger attraction. This is a high-risk pattern indicating potential for boundary-crossing within close family circles or extended domestic networks.';
-                advice = 'Strict adherence to social and familial boundaries is essential. Seek therapy if you notice patterns of attraction to unavailable or inappropriate figures.';
+            case 'family_taboo':
+                title = 'Family/Taboo Connection Pattern';
+                description = 'Planetary afflictions involving the 4th/9th houses (D1/D12) suggest a complex psychological pattern where "forbidden" or "taboo" dynamics trigger attraction. This indicates a high-risk pattern suggesting potential for boundary-crossing within close family circles or extended domestic networks.';
+                advice = 'Strict adherence to social and familial boundaries is essential. Seek professional guidance if you notice patterns of attraction to inappropriate or unavailable figures.';
                 severity = 'severe';
                 break;
             case 'foreign_isolated':
