@@ -606,6 +606,11 @@ export interface RiskAssessment {
     strength: 'strong' | 'moderate' | 'weak';
     profileName: string;
   }[];
+  infidelityProtections?: {
+    text: string;
+    strength: 'strong' | 'moderate' | 'weak';
+    profileName: string;
+  }[];
   affairContextIndicators?: {
     context: 'workplace' | 'neighbor' | 'social_circle' | 'online' | 'family' | 'foreign_isolated' | 'travel' | 'spiritual' | 'financial' | 'family_taboo' | 'general';
     text: string;

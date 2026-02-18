@@ -47,6 +47,7 @@ import {
 } from './poruthamCalculations';
 import {
   assessRisk,
+  assessInfidelityProtections,
   analyzeModernPlanets,
   analyzeModernChallenges
 } from './riskCalculations';
@@ -422,6 +423,11 @@ export async function generateCompatibilityReport(
   // Assess Risk
   const riskAssessment = assessRisk(chartA, chartB);
   riskAssessment.manglikAnalysis = ashtakoot.manglikAnalysis;
+
+  // Calculate Infidelity Protections (Moral Anchors) - Distinct from Divorce Protections
+  const infidelityProtectionsA = assessInfidelityProtections(chartA, chartA.name);
+  const infidelityProtectionsB = assessInfidelityProtections(chartB, chartB.name);
+  riskAssessment.infidelityProtections = [...infidelityProtectionsA, ...infidelityProtectionsB];
 
   // Analyze Modern Planets
   const modernPlanetsA = analyzeModernPlanets(chartA);
@@ -1339,12 +1345,12 @@ function calculateAdvancedBreakdown(data: {
     explanation: "Synthesizes Divorce Risks, Infidelity vulnerabilities, Mental Health patterns, Addiction indicators, In-Law stress, and Modern challenges.",
     status: (stabilityScore >= 80 ? 'positive' : stabilityScore >= 50 ? 'neutral' : 'challenging') as any,
     breakdown: [
-      { name: 'Divorce Risk', score: Math.round(divorceScore) },
-      { name: 'Infidelity Risk', score: Math.round(infidelityScore) },
-      { name: 'Mental Health', score: Math.round(mentalScore) },
-      { name: 'Addiction Risk', score: Math.round(addictionScore) },
-      { name: 'In-Law Support', score: Math.round(inLawScore) },
-      { name: 'Modern Dynamics', score: Math.round(modernScore) }
+      { name: 'Marital Stability', score: Math.round(divorceScore) },
+      { name: 'Fidelity & Loyalty', score: Math.round(infidelityScore) },
+      { name: 'Emotional Resilience', score: Math.round(mentalScore) },
+      { name: 'Lifestyle Stability', score: Math.round(addictionScore) },
+      { name: 'In-Law Harmony', score: Math.round(inLawScore) },
+      { name: 'Modern Adaptability', score: Math.round(modernScore) }
     ]
   };
 

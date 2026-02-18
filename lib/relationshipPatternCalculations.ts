@@ -54,53 +54,11 @@ function hasAspect(lon1: number, lon2: number, maxOrb = 10): { type: string } | 
     return null;
 }
 
-function findNeutralizer(chart: Chart): { title: string; text: string } | undefined {
-    const jupiter = getPos(chart, 'Jupiter');
-    const saturn = getPos(chart, 'Saturn');
-    const moon = getPos(chart, 'Moon');
-    const venus = getPos(chart, 'Venus');
-
-    // 1. Jupiter influence (The Giver of Values)
-    if (jupiter && ([7, 9, 1, 5, 2].includes(jupiter.house) || ['exalted', 'own_house', 'moolatrikona'].includes(jupiter.dignity))) {
-        return {
-            title: 'Dharmic Anchor (Jupiter Influence)',
-            text: `Strong Jupiter in ${jupiter.house}th house provides a core sense of ethics and commitment that acts as a powerful brake on impulsive emotional deviations. You value your reputation and spiritual integrity over temporary thrill.`
-        };
-    }
-
-    // 2. Saturn influence (The Vow-Keeper)
-    if (saturn && ([7, 10, 1].includes(saturn.house) && saturn.dignity !== 'debilitated')) {
-        return {
-            title: 'Vow-Bound Stability (Saturn Influence)',
-            text: 'A strongly placed Saturn indicates that once you have made a commitment, you view it as a permanent duty. This "gravity" in your personality ensures that even during high-temptation periods, the weight of your word holds the bond together.'
-        };
-    }
-
-    // 3. Moon or Venus in 9th (Ethical Orientation)
-    if ((moon && moon.house === 9) || (venus && venus.house === 9)) {
-        const planet = (moon && moon.house === 9) ? 'Moon' : 'Venus';
-        return {
-            title: 'Innate Moral Compass',
-            text: `With ${planet} in the 9th house of Dharma, your relationship choices are guided by a strong internal sense of what is right and honorable. This natural orientation towards integrity acts as a constant stabilizer.`
-        };
-    }
-
-    // 4. Moon influence (Emotional Maturity)
-    if (moon && ['exalted', 'own_house'].includes(moon.dignity)) {
-        return {
-            title: 'Emotional Resilience (Moon Influence)',
-            text: 'A dignified Moon provides the emotional security needed to handle relationship boredom without seeking outside validation. You are anchored within yourself.'
-        };
-    }
-
-    return undefined;
-}
-
 // ============================================================================
 // PRE-MARITAL HISTORY ANALYSIS (5th house)
 // ============================================================================
 
-function analyzePreMaritalPatterns(chart: Chart): RelationshipPattern[] {
+function analyzePreMaritalPatterns(chart: Chart, name: string): RelationshipPattern[] {
     const patterns: RelationshipPattern[] = [];
     const planetsIn5 = chart.planetaryPositions.filter(p => p.house === 5);
 
@@ -114,7 +72,7 @@ function analyzePreMaritalPatterns(chart: Chart): RelationshipPattern[] {
             description: `The 5th house is heavily active with ${planetsIn5.length} planets. This typically indicates a life where romantic experiences have been a major avenue for self-discovery. You likely have a history of falling in love deeply and often, with each relationship shaping your identity significantly.`,
             indicators: planetsIn5.map(p => `${p.planet} in 5th house`),
             advice: 'Ensure your current partner understands that your past was a "training ground," not a comparison chart.',
-            counterBalance: findNeutralizer(chart)
+            counterBalance: findSmartNeutralizer(chart, name, 'narrative_history', 'Complex Romantic History')
         });
     } else if (planetsIn5.length === 2) {
         patterns.push({
@@ -138,13 +96,14 @@ function analyzePreMaritalPatterns(chart: Chart): RelationshipPattern[] {
             severity: 'mild',
             description: 'Venus in the 5th house suggests you are "in love with love." You likely had a vivid romantic life (or fantasy life) before marriage. In reality, this can lead to disappointment if marriage becomes too mundane or practical.',
             indicators: ['Venus in 5th house'],
-            advice: 'Schedule regular "dating" nights with your spouse. You need romance to feel married; utility is not enough.'
+            advice: 'Schedule regular "dating" nights with your spouse. You need romance to feel married; utility is not enough.',
+            counterBalance: findSmartNeutralizer(chart, name, 'narrative_history', 'Innate Romantic Idealism')
         });
     }
 
-    // 5th lord in 7th or 7th lord in 5th (romance continues into marriage)
-    const rahu = getPos(chart, 'Rahu');
-    if (rahu && rahu.house === 5) {
+    // Unconventional desires (Rahu in 5th)
+    const rahuIn5 = planetsIn5.find(p => p.planet === 'Rahu');
+    if (rahuIn5) {
         patterns.push({
             name: 'Unconventional Romantic Desires',
             category: 'narrative_history',
@@ -153,7 +112,7 @@ function analyzePreMaritalPatterns(chart: Chart): RelationshipPattern[] {
             description: 'Rahu in the 5th house creates intense, unconventional, and sometimes obsessive romantic attraction. May be drawn to unusual or taboo romantic situations.',
             indicators: ['Rahu in 5th house'],
             advice: 'Self-awareness about obsessive tendencies in romance helps channel this energy constructively.',
-            counterBalance: findNeutralizer(chart)
+            counterBalance: findSmartNeutralizer(chart, name, 'narrative_history', 'Unconventional Romantic Desires')
         });
     }
 
@@ -165,7 +124,66 @@ function analyzePreMaritalPatterns(chart: Chart): RelationshipPattern[] {
 // Uses shared logic from riskCalculations.ts
 // ============================================================================
 
-import { assessAffairContext } from './riskCalculations';
+import { assessAffairContext, assessInfidelityProtections } from './riskCalculations';
+
+function findSmartNeutralizer(chart: Chart, name: string, patternCategory: string, patternName: string): { title: string; text: string } | undefined {
+    // 1. Get all available protections using the advanced logic
+    const protections = assessInfidelityProtections(chart, name);
+
+    if (protections.length === 0) return undefined;
+
+    // 2. Define priority keywords based on pattern context
+    let priorityKeywords: string[] = [];
+
+    // -- Contextual Mapping --
+    if (patternName.includes('High-Stimulus') || patternName.includes('Unconventional') || patternName.includes('Passion')) {
+        // For high passion/stimulus, we need CONTROL and RESTRICTION
+        priorityKeywords = ['Saturn', 'Control', 'Discipline', 'Restrictive'];
+    } else if (patternName.includes('Taboo') || patternName.includes('Secret') || patternName.includes('Affair')) {
+        // For taboo/secrets, we need HIGH MORALITY and DHARMA
+        priorityKeywords = ['Atmakaraka', 'Ishta Devata', 'Dharma', 'Jupiter', 'Ethics', 'Moral'];
+    } else if (patternCategory === 'narrative_history' || patternName.includes('Emotional')) {
+        // For narrative/emotional history, we need EMOTIONAL STABILITY and SUSTENANCE
+        priorityKeywords = ['Moon', 'Upapada', 'Family', 'Contentment', 'Resilience'];
+    } else if (patternCategory === 'spouse_longevity') {
+        // For longevity/conflict, we need COMMITMENT and DUTY
+        priorityKeywords = ['Vargottama', 'Mangalya', 'Saturn', 'Vow'];
+    }
+
+    // 3. Find the best match
+    // First, look for a STRONG protection that matches keywords
+    let bestMatch = protections.find(p =>
+        p.strength === 'strong' && priorityKeywords.some(kw => p.text.includes(kw))
+    );
+
+    // Second, look for ANY protection that matches keywords
+    if (!bestMatch) {
+        bestMatch = protections.find(p =>
+            priorityKeywords.some(kw => p.text.includes(kw))
+        );
+    }
+
+    // Third, fallback to the STRONGEST available protection (General Anchor)
+    if (!bestMatch) {
+        bestMatch = protections.find(p => p.strength === 'strong');
+    }
+
+    // Fourth, fallback to the first available (Moderate/Weak)
+    if (!bestMatch && protections.length > 0) {
+        bestMatch = protections[0];
+    }
+
+    if (bestMatch) {
+        // Add a prefix to define context if it's a specific match
+        const isSpecific = priorityKeywords.some(kw => bestMatch!.text.includes(kw));
+        return {
+            title: isSpecific ? `Specific Counter: ${bestMatch.text.split(':')[0]}` : `General Stabilizer: ${bestMatch.text.split(':')[0]}`,
+            text: bestMatch.text.split(':')[1] ? bestMatch.text.split(':')[1].trim() : bestMatch.text
+        };
+    }
+
+    return undefined;
+}
 
 function analyzeAffairContextPatterns(chart: Chart, name: string): RelationshipPattern[] {
     const patterns: RelationshipPattern[] = [];
@@ -238,7 +256,7 @@ function analyzeAffairContextPatterns(chart: Chart, name: string): RelationshipP
                 description: description + (ctx.text ? ` (${ctx.text})` : ''),
                 indicators: [ctx.text],
                 advice: advice,
-                counterBalance: findNeutralizer(chart)
+                counterBalance: findSmartNeutralizer(chart, name, 'opportunity_triggers', title)
             });
         }
     });
@@ -250,7 +268,7 @@ function analyzeAffairContextPatterns(chart: Chart, name: string): RelationshipP
 // RELATIONSHIP STYLE ANALYSIS
 // ============================================================================
 
-function analyzeRelationshipStyle(chart: Chart): RelationshipPattern[] {
+function analyzeRelationshipStyle(chart: Chart, name: string): RelationshipPattern[] {
     const patterns: RelationshipPattern[] = [];
     const venus = getPos(chart, 'Venus');
     const mars = getPos(chart, 'Mars');
@@ -270,7 +288,7 @@ function analyzeRelationshipStyle(chart: Chart): RelationshipPattern[] {
             description: `The chart shows ${maleficsInKama.length} intense planets in the "Zones of Desire" (3rd, 7th, 11th houses). In reality, this often manifests as a person who gets bored easily with "safe" or "routine" love. There is a subconscious drive for relationships that provide constant adrenaline or validation.`,
             indicators: maleficsInKama.map(p => `${p.planet} in ${p.house}th house`),
             advice: 'You need "healthy danger"—adventure, ambitious shared goals, or rigorous physical activity together—to prevent seeking drama elsewhere.',
-            counterBalance: findNeutralizer(chart)
+            counterBalance: findSmartNeutralizer(chart, name, 'capacity_approach', 'High-Stimulus Relationship Needs')
         });
     }
 
@@ -303,7 +321,8 @@ function analyzeRelationshipStyle(chart: Chart): RelationshipPattern[] {
             severity: 'moderate',
             description: `${planetsIn8.length} planets in the 8th house indicate that superficial connections feel meaningless to you. You crave "soul-merging" depth. If a relationship becomes too polite or distant, you may subconsciously provoke a crisis just to feel something real.`,
             indicators: planetsIn8.map(p => `${p.planet} in 8th house`),
-            advice: 'Practice "Radical Honesty" with your partner. Deep conversations are your substitute for drama.'
+            advice: 'Practice "Radical Honesty" with your partner. Deep conversations are your substitute for drama.',
+            counterBalance: findSmartNeutralizer(chart, name, 'capacity_approach', 'Transformational Intensity Pattern')
         });
     }
 
@@ -314,7 +333,7 @@ function analyzeRelationshipStyle(chart: Chart): RelationshipPattern[] {
 // TABOO & FAMILY PATTERNS (§4.5)
 // ============================================================================
 
-function analyzeTabooPatterns(chart: Chart): RelationshipPattern[] {
+function analyzeTabooPatterns(chart: Chart, name: string): RelationshipPattern[] {
     const patterns: RelationshipPattern[] = [];
     const house2 = chart.houses.find(h => h.houseNumber === 2);
     const house8 = chart.houses.find(h => h.houseNumber === 8);
@@ -336,7 +355,8 @@ function analyzeTabooPatterns(chart: Chart): RelationshipPattern[] {
             severity: 'moderate',
             description: 'Rahu in 2nd with afflicted Lord indicates potential for hidden family matters or secrets affecting relationships.',
             indicators: ['Rahu in 2nd', `2nd Lord in ${lord2Pos.house}th`],
-            advice: 'Transparency about family history and finances is crucial.'
+            advice: 'Transparency about family history and finances is crucial.',
+            counterBalance: findSmartNeutralizer(chart, name, 'opportunity_triggers', 'Family Secrets Sensitivity')
         });
     }
 
@@ -349,7 +369,8 @@ function analyzeTabooPatterns(chart: Chart): RelationshipPattern[] {
             severity: 'severe',
             description: 'Mars or Rahu in 8th house can indicate attraction to taboo or secretive relationships contexts.',
             indicators: ['Malefics in 8th house'],
-            advice: 'Be conscious of the attraction to forbidden or secretive dynamics.'
+            advice: 'Be conscious of the attraction to forbidden or secretive dynamics.',
+            counterBalance: findSmartNeutralizer(chart, name, 'opportunity_triggers', 'Taboo Relationship Vulnerability')
         });
     }
 
@@ -362,7 +383,8 @@ function analyzeTabooPatterns(chart: Chart): RelationshipPattern[] {
             severity: 'moderate',
             description: 'Cluster of planets in 12th house emphasizes private, hidden, or isolated relationship dynamics.',
             indicators: [`${house12.planets.length} planets in 12th`],
-            advice: 'Ensure that the need for privacy does not become secrecy.'
+            advice: 'Ensure that the need for privacy does not become secrecy.',
+            counterBalance: findSmartNeutralizer(chart, name, 'opportunity_triggers', 'Hidden/Isolated Connection Pattern')
         });
     }
 
@@ -373,7 +395,7 @@ function analyzeTabooPatterns(chart: Chart): RelationshipPattern[] {
 // SPOUSE LONGEVITY INDICATORS (§5)
 // ============================================================================
 
-function analyzeSpouseLongevity(chart: Chart): RelationshipPattern[] {
+function analyzeSpouseLongevity(chart: Chart, name: string): RelationshipPattern[] {
     const patterns: RelationshipPattern[] = [];
     // 8th House Analysis (Mangalya Sthana for females, longevity in general)
     const house8 = chart.houses.find(h => h.houseNumber === 8);
@@ -393,7 +415,8 @@ function analyzeSpouseLongevity(chart: Chart): RelationshipPattern[] {
                 severity: 'moderate',
                 description: 'Mars in the 8th house indicates that conflicts in marriage can escalate quickly and intensely. In real terms, this often means arguments don\'t stay "small"—they can trigger disproportionate reactions or sudden decisions to separate.',
                 indicators: ['Mars in 8th house'],
-                advice: 'Implement a "time-out" rule during heated arguments. Cooling down prevents permanent damage.'
+                advice: 'Implement a "time-out" rule during heated arguments. Cooling down prevents permanent damage.',
+                counterBalance: findSmartNeutralizer(chart, name, 'spouse_longevity', 'Mars Influence (Mangal Dosha)')
             });
         } else if (malefics.length >= 2) {
             patterns.push({
@@ -403,7 +426,8 @@ function analyzeSpouseLongevity(chart: Chart): RelationshipPattern[] {
                 severity: 'moderate',
                 description: `${malefics.join(', ')} in the 8th house suggests that shared finances, in-laws, or chronic health issues could become major stress points in the marriage. The relationship is tested through crises.`,
                 indicators: [`${malefics.length} malefics in 8th`],
-                advice: 'Proactive management of joint assets and clear boundaries with in-laws are essential.'
+                advice: 'Proactive management of joint assets and clear boundaries with in-laws are essential.',
+                counterBalance: findSmartNeutralizer(chart, name, 'spouse_longevity', '8th House Stress Factors')
             });
         }
     }
@@ -416,24 +440,30 @@ function analyzeSpouseLongevity(chart: Chart): RelationshipPattern[] {
 // ============================================================================
 
 export function calculateRelationshipPatterns(chart: Chart, name: string): RelationshipPatternAnalysis {
-    const preMarital = analyzePreMaritalPatterns(chart);
+    const preMarital = analyzePreMaritalPatterns(chart, name);
     const affairContext = [
         ...analyzeAffairContextPatterns(chart, name),
-        ...analyzeTabooPatterns(chart)
+        ...analyzeTabooPatterns(chart, name)
     ];
-    const relationshipStyle = analyzeRelationshipStyle(chart);
-    const spouseLongevity = analyzeSpouseLongevity(chart);
+    const relationshipStyle = analyzeRelationshipStyle(chart, name);
+    const spouseLongevity = analyzeSpouseLongevity(chart, name);
 
     const allPatterns = [...preMarital, ...affairContext, ...relationshipStyle, ...spouseLongevity];
 
     // Calculate overall risk
     const severeCount = allPatterns.filter(p => p.severity === 'severe').length;
     const moderateCount = allPatterns.filter(p => p.severity === 'moderate').length;
+    const counterCount = allPatterns.filter(p => p.counterBalance).length;
+
+    // Adjust counts based on counter-balances for overall level
+    // A counter-balance effectively "neutralizes" one moderate risk or softens a severe one
+    const effectiveSevere = Math.max(0, severeCount - Math.floor(counterCount / 2));
+    const effectiveModerate = Math.max(0, moderateCount - (counterCount % 2 === 1 ? 1 : 0));
 
     let overallRisk: 'low' | 'moderate' | 'elevated' | 'high' = 'low';
-    if (severeCount >= 2) overallRisk = 'high';
-    else if (severeCount === 1 || moderateCount >= 3) overallRisk = 'elevated';
-    else if (moderateCount >= 1) overallRisk = 'moderate';
+    if (effectiveSevere >= 2) overallRisk = 'high';
+    else if (effectiveSevere === 1 || effectiveModerate >= 3) overallRisk = 'elevated';
+    else if (effectiveModerate >= 1) overallRisk = 'moderate';
 
     return {
         patterns: allPatterns,

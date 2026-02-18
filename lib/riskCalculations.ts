@@ -17,6 +17,38 @@ function getOrdinal(n: number): string {
   return n + (s[(v - 20) % 10] || s[v] || s[0]);
 }
 
+/**
+ * Calculates a numerical deduction based on protective factors.
+ */
+function calculateProtectionBuffer(chart: Chart, name: string): number {
+  const factors = assessProtectiveFactors(chart, name);
+  let buffer = 0;
+
+  factors.forEach(f => {
+    if (f.strength === 'strong') buffer += 15;
+    else if (f.strength === 'moderate') buffer += 10;
+    else if (f.strength === 'weak') buffer += 5;
+  });
+
+  return buffer;
+}
+
+/**
+ * Calculates a numerical deduction based on INFIDELITY protective factors (Moral/Character).
+ */
+function calculateInfidelityProtectionBuffer(chart: Chart, name: string): number {
+  const factors = assessInfidelityProtections(chart, name);
+  let buffer = 0;
+
+  factors.forEach(f => {
+    if (f.strength === 'strong') buffer += 15;
+    else if (f.strength === 'moderate') buffer += 10;
+    else if (f.strength === 'weak') buffer += 5;
+  });
+
+  return buffer;
+}
+
 // ============================================================================
 // DIVORCE RISK ASSESSMENT
 // ============================================================================
@@ -146,19 +178,9 @@ export function assessDivorceRisk(chart: Chart, name: string): {
     }
   }
 
-  // Protective Factor: Strong Jupiter aspecting 7th house (§1.1.4)
-  const jupiter = chart.planetaryPositions.find(p => p.planet === 'Jupiter');
-  if (jupiter) {
-    const jupHouse = jupiter.house;
-    const aspect7 = (jupHouse + 6) % 12 + 1; // 7th aspect
-    const aspect5 = (jupHouse + 4) % 12 + 1; // 5th aspect
-    const aspect9 = (jupHouse + 8) % 12 + 1; // 9th aspect
-
-    if (jupHouse === 7 || aspect5 === 7 || aspect7 === 7 || aspect9 === 7) {
-      indicators.push({ text: 'Benefic Jupiter aspects/occupies 7th house: Strong protective influence mitigating risks', profileName: name });
-      score -= 25; // Mitigation
-    }
-  }
+  // --- REFINED PROTECTIVE BUFFER ---
+  const protectiveBuffer = calculateProtectionBuffer(chart, name);
+  score -= protectiveBuffer;
 
   // Determine level
   const levelByScore: 'low' | 'medium' | 'high' | 'very_high' = score >= 70 ? 'very_high' : score >= 45 ? 'high' : score >= 20 ? 'medium' : 'low';
@@ -363,9 +385,12 @@ export function assessInfidelityRisk(chart: Chart, name: string): {
 
   // Final Score Calculation
   // We weight Capacity and Opportunity, then subtract Stabilizers
-  // If ANY significant Opportunity/Capacity exists, we add a base jump of 10 to ensure it's not floored at 10
+  // --- REFINED PROTECTIVE BUFFER ---
+  // --- REFINED PROTECTIVE BUFFER (Using Moral/Character Anchors) ---
+  const protectiveBuffer = calculateInfidelityProtectionBuffer(chart, name);
   const hasIndicators = (capacityScore + opportunityScore) > 0;
-  let finalScore = (capacityScore * 0.5) + (opportunityScore * 0.5) - stabilizerScore;
+
+  let finalScore = (capacityScore * 0.5) + (opportunityScore * 0.5) - stabilizerScore - protectiveBuffer;
   if (hasIndicators) finalScore += 5; // Base bump for detected presence
 
   finalScore = Math.max(10, Math.min(100, finalScore));
@@ -609,73 +634,170 @@ export function assessProtectiveFactors(chart: Chart, name: string): {
 
   // 9th house strength (dharma protection)
   if (ninthHouse) {
-    const ninthLord = chart.planetaryPositions.find(p => p.planet === ninthHouse.lord);
-    const benefics: Planet[] = ['Jupiter', 'Venus', 'Mercury', 'Moon'];
-    const beneficsIn9 = ninthHouse.planets.filter(p => benefics.includes(p as Planet));
-    if (beneficsIn9.length > 0) {
-      factors.push({ text: `Benefic planet(s) in 9th house (${beneficsIn9.join(', ')}) strengthen dharma and commitment`, strength: 'strong', profileName: name });
-    }
-    if (ninthLord && ['exalted', 'own_house', 'moolatrikona'].includes(ninthLord.dignity)) {
-      factors.push({ text: '9th lord is strong — deep-rooted values and ethical foundation support marital fidelity', strength: 'moderate', profileName: name });
-    }
-  }
+    // 9th house logic moved to Infidelity Protections (Moral Anchors)
 
-  // Benefic aspects to 7th house
-  if (seventhHouse) {
-    const beneficsIn7 = seventhHouse.planets.filter(p => ['Jupiter', 'Venus'].includes(p));
-    if (beneficsIn7.length > 0) {
-      factors.push({ text: `${beneficsIn7.join(' and ')} in 7th house stabilizes marriage`, strength: 'strong', profileName: name });
-    }
-  }
-
-  // Navamsa (D9) Stabilizers (Soul-level strength)
-  if (chart.vargaCharts?.D9) {
-    const d9 = chart.vargaCharts.D9;
-    const d9Jupiter = d9.planetaryPositions?.find(p => p.planet === 'Jupiter');
-    if (d9Jupiter && [1, 7].includes(d9Jupiter.house)) {
-      factors.push({
-        text: `Navamsa Confirmation: Jupiter in D9 ${d9Jupiter.house === 1 ? 'Ascendant' : '7th house'} indicates deep soul-level ethical commitment and moral protection`,
-        strength: 'strong',
-        profileName: name
-      });
-    }
-
-    const d9H1 = d9.houses?.find(h => h.houseNumber === 1);
-    if (d9H1) {
-      const d9LagnaLord = d9.planetaryPositions?.find(p => p.planet === d9H1.lord);
-      if (d9LagnaLord && ['exalted', 'own_house'].includes(d9LagnaLord.dignity)) {
-        factors.push({
-          text: 'Navamsa Lagna Lord is exceptionally strong, indicating high spiritual/mental resilience against external temptations',
-          strength: 'moderate',
-          profileName: name
-        });
+    // Benefic aspects to 7th house
+    if (seventhHouse) {
+      const beneficsIn7 = seventhHouse.planets.filter(p => ['Jupiter', 'Venus'].includes(p));
+      if (beneficsIn7.length > 0) {
+        factors.push({ text: `${beneficsIn7.join(' and ')} in 7th house stabilizes marriage`, strength: 'strong', profileName: name });
       }
     }
-  }
 
-  // Social Deterrent (Saturn in 10th)
-  const saturn10 = chart.planetaryPositions.find(p => p.planet === 'Saturn' && p.house === 10);
-  if (saturn10) {
-    factors.push({
-      text: 'Social Responsibility: Saturn in 10th house creates a strong conscience and fear of reputational loss, acting as a deterrent against unconventional choices',
-      strength: 'moderate',
-      profileName: name
-    });
-  }
-
-  // KP Dharma/Status Protection
-  if (chart.kp?.significators) {
-    const seventhCusp = chart.kp.cusps.find(c => c.cuspNumber === 7);
-    if (seventhCusp) {
-      const subLordSignificator = chart.kp.significators.find(s => s.planet === seventhCusp.subLord);
-      const sigs = subLordSignificator?.significations || [];
-      if (sigs.includes(9) || sigs.includes(10)) {
+    // --- NEW: Subha Kartari Yoga on 7th House ---
+    const house6 = chart.houses.find(h => h.houseNumber === 6);
+    const house8 = chart.houses.find(h => h.houseNumber === 8);
+    const benefics: Planet[] = ['Jupiter', 'Venus', 'Mercury', 'Moon'];
+    if (house6 && house8) {
+      const beneficsIn6 = house6.planets.filter(p => benefics.includes(p as Planet));
+      const beneficsIn8 = house8.planets.filter(p => benefics.includes(p as Planet));
+      if (beneficsIn6.length > 0 && beneficsIn8.length > 0) {
         factors.push({
-          text: `KP Protection: 7th Cusp Sub-Lord links to houses ${sigs.filter(h => [9, 10].includes(h)).join('/')} (Dharma/Status), anchoring the relationship in public duty rather than private desire`,
+          text: `Subha Kartari Yoga: 7th house (Marriage) is protected by benefics in 6th and 8th, creating a safety net during crises`,
           strength: 'strong',
           profileName: name
         });
       }
+    }
+
+    // --- NEW: Mangalya Bhava (2nd House) Strength ---
+    const house2 = chart.houses.find(h => h.houseNumber === 2);
+    if (house2) {
+      const beneficsIn2 = house2.planets.filter(p => benefics.includes(p as Planet));
+      if (beneficsIn2.length >= 2) {
+        factors.push({ text: `Strong Mangalya Bhava: Multiple benefics in 2nd house provide profound stability to the marital bond`, strength: 'strong', profileName: name });
+      } else if (beneficsIn2.length === 1) {
+        factors.push({ text: `Well-fortified 2nd house supports family longevity`, strength: 'moderate', profileName: name });
+      }
+
+      const secondLord = chart.planetaryPositions.find(p => p.planet === house2.lord);
+      if (secondLord && ['exalted', 'own_house', 'moolatrikona'].includes(secondLord.dignity)) {
+        factors.push({ text: `2nd Lord (family longevity) is exceptionally strong and dignified`, strength: 'strong', profileName: name });
+      }
+    }
+
+    // --- NEW: Upapada Lagna (UL) Stabilizers ---
+    // Approximate UL: 12th lord's position, then same distance from there.
+    const house12 = chart.houses.find(h => h.houseNumber === 12);
+    if (house12?.lord) {
+      const lord12Pos = chart.planetaryPositions.find(p => p.planet === house12.lord);
+      if (lord12Pos) {
+        // Calculate UL House
+        // 12th lord is X houses away from 12th. UL is X houses away from 12th lord.
+        const dist = (lord12Pos.house >= 12) ? (lord12Pos.house - 12) : (lord12Pos.house + 12 - 12);
+        const ulHouse = (lord12Pos.house + dist - 1) % 12 + 1;
+        const houseUL2 = chart.houses.find(h => h.houseNumber === (ulHouse % 12 + 1));
+
+        if (houseUL2) {
+          const beneficsInUL2 = houseUL2.planets.filter(p => benefics.includes(p as Planet));
+          if (beneficsInUL2.length > 0) {
+            factors.push({ text: `Upapada Lagna Protection: Benefics in 2nd from UL indicate intrinsic longevity of the marital contract`, strength: 'moderate', profileName: name });
+          }
+        }
+      }
+    }
+
+    // --- NEW: Dharma Karmadhipati Yoga ---
+    const house9 = chart.houses.find(h => h.houseNumber === 9);
+    const house10 = chart.houses.find(h => h.houseNumber === 10);
+    if (house9?.lord && house10?.lord) {
+      const lord9 = chart.planetaryPositions.find(p => p.planet === house9.lord);
+      const lord10 = chart.planetaryPositions.find(p => p.planet === house10.lord);
+      if (lord9 && lord10) {
+        // Simple connection: conjunction or mutual aspect (180 deg)
+        const diff = Math.abs(lord9.longitude - lord10.longitude);
+        if (diff < 10 || Math.abs(diff - 180) < 10) {
+          factors.push({ text: `Dharma-Karmadhipati Yoga: Strong sense of purpose and public duty prevents impulsive relationship decisions`, strength: 'strong', profileName: name });
+        }
+      }
+    }
+
+    // Navamsa (D9) logic moved to Infidelity Protections
+
+
+    // --- NEW: D7 (Saptamsha) Bond Strength ---
+    if (chart.vargaCharts?.D7) {
+      const d7 = chart.vargaCharts.D7;
+      const d7H1 = d7.houses?.find(h => h.houseNumber === 1);
+      const d7H7 = d7.houses?.find(h => h.houseNumber === 7);
+
+      if (d7H1) {
+        const d7LagnaLord = d7.planetaryPositions?.find(p => p.planet === d7H1.lord);
+        if (d7LagnaLord && ['exalted', 'own_house'].includes(d7LagnaLord.dignity)) {
+          factors.push({ text: 'D7 (Saptamsha) Confirmation: Strong Ascendant Lord indicates a fruitful and stable creative bond', strength: 'moderate', profileName: name });
+        }
+      }
+
+      if (d7H7) {
+        const d7BeneficsIn7 = d7H7.planets.filter(p => benefics.includes(p as Planet));
+        if (d7BeneficsIn7.length > 0) {
+          factors.push({ text: `D7 (Saptamsha) Protection: Benefics in 7th house (${d7BeneficsIn7.join(', ')}) strengthen the specific relationship fruitfulness`, strength: 'moderate', profileName: name });
+        }
+      }
+    }
+
+    // --- NEW: D60 (Shashtiamsha) Karmic Seal ---
+    if (chart.vargaCharts?.D60) {
+      const d60 = chart.vargaCharts.D60;
+      const d60H7 = d60.houses?.find(h => h.houseNumber === 7);
+      if (d60H7) {
+        const d60BeneficsIn7 = d60H7.planets.filter(p => benefics.includes(p as Planet));
+        if (d60BeneficsIn7.length > 0) {
+          factors.push({ text: 'D60 (Shashtiamsha) Protection: Benefic influence in the 7th house indicates deep-rooted past-life karmic protection for the marriage', strength: 'strong', profileName: name });
+        }
+      }
+    }
+
+    // Social Deterrent (Saturn in 10th)
+    const saturn10 = chart.planetaryPositions.find(p => p.planet === 'Saturn' && p.house === 10);
+    if (saturn10) {
+      factors.push({
+        text: 'Social Responsibility: Saturn in 10th house creates a strong conscience and fear of reputational loss, acting as a deterrent against unconventional choices',
+        strength: 'moderate',
+        profileName: name
+      });
+    }
+
+    // KP Dharma/Status Protection
+    if (chart.kp?.significators) {
+      const seventhCusp = chart.kp.cusps.find(c => c.cuspNumber === 7);
+      if (seventhCusp) {
+        const subLordSignificator = chart.kp.significators.find(s => s.planet === seventhCusp.subLord);
+        const sigs = subLordSignificator?.significations || [];
+
+        // Check for 9 or 10 connection
+        // Check for 10 connection (Status/Reputation only - Social Deterrent)
+        // 9th House (Dharma) moved to Infidelity Protections
+        if (sigs.includes(10)) {
+          factors.push({
+            text: `KP Status Anchor: 7th Cusp Sub-Lord links to 10th house (Social Status), anchoring the relationship in public duty rather than private desire`,
+            strength: 'strong',
+            profileName: name
+          });
+        }
+
+        // --- NEW: KP 11H Binding Counter ---
+        if (sigs.includes(11)) {
+          factors.push({
+            text: 'KP Binding: 7th Cusp Sub-Lord signifies 11th house (fulfillment), acting as a "Binding Anchor" that preserves the relationship against separation',
+            strength: 'moderate',
+            profileName: name
+          });
+        }
+      }
+    }
+  }
+
+  // --- NEW: Jaimini Darakaraka Stability ---
+  const dkPlanetName = chart.specialPoints?.darakaraka;
+  if (dkPlanetName) {
+    const dkPos = chart.planetaryPositions.find(p => p.planet === dkPlanetName);
+    if (dkPos && ['exalted', 'own_house', 'moolatrikona'].includes(dkPos.dignity)) {
+      factors.push({
+        text: `Darakaraka Stability: Your spouse-significator planet (${dkPlanetName}) is exceptionally dignified, indicating a partner who acts as a core stabilizer`,
+        strength: 'strong',
+        profileName: name
+      });
     }
   }
 
@@ -694,7 +816,249 @@ export function assessProtectiveFactors(chart: Chart, name: string): {
     }
   }
 
+  // --- NEW: Vargottama 7th Lord (Destiny Seal) ---
+  if (seventhHouse && chart.vargaCharts.D9) {
+    const lord7Name = seventhHouse.lord;
+    const lord7D1 = chart.planetaryPositions.find(p => p.planet === lord7Name);
+    const lord7D9 = chart.vargaCharts.D9.planetaryPositions.find(p => p.planet === lord7Name);
+
+    if (lord7D1 && lord7D9 && lord7D1.sign === lord7D9.sign) {
+      factors.push({
+        text: `Vargottama 7th Lord: The Lord of Marriage (${lord7Name}) is in the same sign in Rashi and Navamsa, creating an unbreakable 'Destiny Seal' on the partnership`,
+        strength: 'strong',
+        profileName: name
+      });
+    }
+  }
+
+  // --- NEW: Samubandha (Mutual Aspect) ---
+  const house1 = chart.houses.find(h => h.houseNumber === 1);
+  if (house1 && seventhHouse) {
+    const lord1 = chart.planetaryPositions.find(p => p.planet === house1.lord);
+    const lord7 = chart.planetaryPositions.find(p => p.planet === seventhHouse.lord);
+
+    if (lord1 && lord7) {
+      const diff = Math.abs(normalizeDegrees(lord1.longitude - lord7.longitude));
+      // Check for mutual opposition (approx 180 degrees)
+      if (Math.abs(diff - 180) < 15) {
+        factors.push({
+          text: `Samubandha (Mutual Aspect): The Lords of Self and Spouse are gazing at each other (mutual aspect), creating a powerful fated bond`,
+          strength: 'strong',
+          profileName: name
+        });
+      }
+    }
+  }
+
+  // --- NEW: Upapada Sustenance (4th from UL) ---
+  if (chart.specialPoints?.upapadaLagna) {
+    const ulSign = chart.specialPoints.upapadaLagna;
+    const signs = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
+    const ulIndex = signs.indexOf(ulSign);
+    const fourthFromULIndex = (ulIndex + 3) % 12; // 0-based index: +3 is 4th house
+    const fourthFromULSign = signs[fourthFromULIndex];
+
+    const beneficsIn4FromUL = chart.planetaryPositions.filter(
+      p => p.sign === fourthFromULSign && ['Jupiter', 'Venus', 'Mercury', 'Moon'].includes(p.planet)
+    );
+
+    if (beneficsIn4FromUL.length > 0) {
+      const planetNames = beneficsIn4FromUL.map(p => p.planet).join(', ');
+      factors.push({
+        text: `Upapada Sustenance: Benefics (${planetNames}) in the 4th house from Upapada Lagna ensure the marriage has the resources to sustain itself long-term`,
+        strength: 'moderate',
+        profileName: name
+      });
+    }
+  }
+
   return factors;
+}
+
+// ============================================================================
+// INFIDELITY SPECIFIC PROTECTIONS (Moral/Character)
+// ============================================================================
+
+export function assessInfidelityProtections(chart: Chart, name: string): {
+  text: string;
+  strength: 'strong' | 'moderate' | 'weak';
+  profileName: string;
+}[] {
+  const protections: { text: string; strength: 'strong' | 'moderate' | 'weak'; profileName: string }[] = [];
+  const benefics = ['Jupiter', 'Venus', 'Mercury', 'Moon'];
+
+  // 0. Navamsa (D9) Moral/Spiritual Strength (Moved from Divorce)
+  if (chart.vargaCharts?.D9) {
+    const d9 = chart.vargaCharts.D9;
+    const d9Jupiter = d9.planetaryPositions?.find(p => p.planet === 'Jupiter');
+    if (d9Jupiter && [1, 7].includes(d9Jupiter.house)) {
+      protections.push({
+        text: `Navamsa Deep Ethics: Jupiter in D9 ${d9Jupiter.house === 1 ? 'Ascendant' : '7th house'} indicates deep soul-level ethical commitment and moral protection`,
+        strength: 'strong',
+        profileName: name
+      });
+    }
+
+    const d9H1 = d9.houses?.find(h => h.houseNumber === 1);
+    if (d9H1) {
+      const d9LagnaLord = d9.planetaryPositions?.find(p => p.planet === d9H1.lord);
+      if (d9LagnaLord && ['exalted', 'own_house'].includes(d9LagnaLord.dignity)) {
+        protections.push({
+          text: 'Inner Resilience: Navamsa Lagna Lord is exceptionally strong, indicating high spiritual resilience against external temptations',
+          strength: 'moderate',
+          profileName: name
+        });
+      }
+    }
+  }
+
+  // 1. Strong Jupiter (Wisdom/Ethics)
+  const jupiter = chart.planetaryPositions.find(p => p.planet === 'Jupiter');
+  if (jupiter && ['exalted', 'own_house', 'moolatrikona'].includes(jupiter.dignity)) {
+    protections.push({
+      text: 'Titan Jupiter: A powerful Jupiter grants deep wisdom and a natural moral compass that inherently rejects deceit.',
+      strength: 'strong',
+      profileName: name
+    });
+  }
+
+  // 2. KP Dharma Connection (New migration from Divorce)
+  if (chart.kp?.significators) {
+    const seventhCusp = chart.kp.cusps.find(c => c.cuspNumber === 7);
+    if (seventhCusp) {
+      const subLordSignificator = chart.kp.significators.find(s => s.planet === seventhCusp.subLord);
+      const sigs = subLordSignificator?.significations || [];
+      if (sigs.includes(9)) {
+        protections.push({
+          text: 'KP Dharmic Alignment: 7th Cusp Sub-Lord connects to the 9th House of Dharma, indicating that righteousness is a core value in relationships.',
+          strength: 'strong',
+          profileName: name
+        });
+      }
+    }
+  }
+
+  // 2. Benefic 9th Lord (Dharma)
+  const house9 = chart.houses.find(h => h.houseNumber === 9);
+  if (house9) {
+    const lord9 = chart.planetaryPositions.find(p => p.planet === house9.lord);
+    if (lord9 && benefics.includes(lord9.planet) && ['exalted', 'own_house'].includes(lord9.dignity)) {
+      protections.push({
+        text: 'Dharmic Shield: The Lord of High Ethics (9th) is powerful, creating a natural aversion to actions that violate your personal code of honor.',
+        strength: 'strong',
+        profileName: name
+      });
+    }
+  }
+
+  // 3. 4th House Purity (Emotional Contentment)
+  const house4 = chart.houses.find(h => h.houseNumber === 4);
+  if (house4) {
+    const beneficsIn4 = house4.planets.filter(p => benefics.includes(p));
+    if (beneficsIn4.length >= 1) {
+      protections.push({
+        text: 'Domestic Contentment: Benefics in the 4th house suggest a heart that finds peace at home, reducing the "seeking" impulse.',
+        strength: 'moderate',
+        profileName: name
+      });
+    }
+  }
+
+  // 4. Sun in 10th or 1st (Dignity/Reputation)
+  const sun = chart.planetaryPositions.find(p => p.planet === 'Sun');
+  if (sun && [1, 10].includes(sun.house)) {
+    protections.push({
+      text: 'Solar Dignity: A prominent Sun creates a strong ego-ideal and need for public respect, acting as a barrier against scandalous behavior.',
+      strength: 'moderate',
+      profileName: name
+    });
+  }
+
+  // 5. Saturn Aspecting Venus (Control over Passion)
+  const venus = chart.planetaryPositions.find(p => p.planet === 'Venus');
+  const saturn = chart.planetaryPositions.find(p => p.planet === 'Saturn');
+  if (venus && saturn) {
+    // Checking conjunction or opposition or 10th aspect (Saturn aspects 3, 7, 10 from itself)
+    // Simple checks for conjunction/opposition/trine relative to Saturn
+    const diff = Math.abs(normalizeDegrees(venus.longitude - saturn.longitude));
+    // Saturn aspects: 0 (conjunct), 180 (opp), 60 (3rd), 270 (10th) - approx
+    // Actually Saturn aspects 3rd, 7th, 10th houses from itself.
+    // Let's stick to simple Conjunction or Opposition for "Restriction"
+    if (diff < 10 || Math.abs(diff - 180) < 10) {
+      protections.push({
+        text: 'Saturn-Venus Control: Saturn\'s restrictive influence on Venus cools down impulsive passions and imposes discipline on romantic desires.',
+        strength: 'strong',
+        profileName: name
+      });
+    }
+  }
+
+  // 6. Atmakaraka Nobility ("Soul's King")
+  if (chart.specialPoints?.atmakaraka) {
+    const akPlanet = chart.specialPoints.atmakaraka;
+    const akPos = chart.planetaryPositions.find(p => p.planet === akPlanet); // AK is an object from Jaimini calc, but might just be string in specialPoints ref
+    // Wait, checking type definition: specialPoints.atmakaraka is 'Planet' (string) in types/index.ts
+    // Let's assume it's the planet name string as per the interface
+    if (akPos) {
+      const isNaturalBenefic = ['Jupiter', 'Venus', 'Mercury', 'Moon'].includes(akPlanet as any);
+      const isExalted = akPos.dignity === 'exalted';
+      const isMoolatrikona = akPos.dignity === 'moolatrikona';
+
+      if (isNaturalBenefic || isExalted || isMoolatrikona) {
+        protections.push({
+          text: `Atmakaraka Nobility: The Soul Significator (${akPlanet}) is ${isNaturalBenefic ? 'a natural benefic' : 'highly dignified'}, indicating a soul that naturally rejects deceit`,
+          strength: 'strong',
+          profileName: name
+        });
+      }
+    }
+  }
+
+  // 7. Ishta Devata Protection (12th from Karakamsa)
+  // Karakamsa = Sign of Atmakaraka in Navamsa
+  if (chart.specialPoints?.atmakaraka && chart.vargaCharts.D9) {
+    const akName = chart.specialPoints.atmakaraka;
+    const d9AK = chart.vargaCharts.D9.planetaryPositions.find(p => p.planet === akName);
+
+    if (d9AK) {
+      const signs = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
+      const karakamsaIndex = signs.indexOf(d9AK.sign);
+
+      // 12th from Karakamsa
+      // index + 11 = 12th house logic
+      const ishtaIndex = (karakamsaIndex + 11) % 12;
+      const ishtaSign = signs[ishtaIndex];
+
+      const d9BeneficsInIshta = chart.vargaCharts.D9.planetaryPositions.filter(
+        p => p.sign === ishtaSign && ['Jupiter', 'Venus', 'Mercury', 'Moon', 'Ketu'].includes(p.planet) // Ketu is Moksha karaka too
+      );
+
+      if (d9BeneficsInIshta.length > 0) {
+        const pNames = d9BeneficsInIshta.map(p => p.planet).join(', ');
+        protections.push({
+          text: `Ishta Devata Protection: Benefics/Moksha planets (${pNames}) in 12th from Karakamsa indicate a spiritual path that prioritizes liberation over worldly indulgence`,
+          strength: 'strong',
+          profileName: name
+        });
+      }
+    }
+  }
+
+  // 8. Vargottama Jupiter/Venus ("Consistent Values")
+  ['Jupiter', 'Venus'].forEach(planetName => {
+    const pD1 = chart.planetaryPositions.find(p => p.planet === planetName);
+    const pD9 = chart.vargaCharts.D9?.planetaryPositions.find(p => p.planet === planetName);
+
+    if (pD1 && pD9 && pD1.sign === pD9.sign) {
+      protections.push({
+        text: `Vargottama ${planetName}: ${planetName} is in the same sign in D1 & D9, indicating deeply consistent ${planetName === 'Jupiter' ? 'moral' : 'romantic'} values that do not waver`,
+        strength: 'strong',
+        profileName: name
+      });
+    }
+  });
+
+  return protections;
 }
 
 // ============================================================================

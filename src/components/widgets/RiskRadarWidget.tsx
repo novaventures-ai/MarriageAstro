@@ -175,27 +175,6 @@ export const RiskRadarWidget: React.FC<RiskRadarWidgetProps> = ({
               </div>
             )}
 
-            {/* Neutralizing Influences (Paired UI) */}
-            {riskAssessment.protectiveFactors && riskAssessment.protectiveFactors.length > 0 && (
-              <div className="mt-4 p-3 bg-green-50/50 dark:bg-green-900/10 rounded-lg border border-green-100 dark:border-green-800/20 transition-all hover:border-green-200">
-                <div className="flex items-center gap-2 mb-2">
-                  <ShieldCheck className="w-3.5 h-3.5 text-green-600 dark:text-green-400" />
-                  <span className="text-[10px] font-black text-green-700 dark:text-green-300 uppercase tracking-widest">Neutralizing Shields</span>
-                </div>
-                <div className="space-y-1.5">
-                  {riskAssessment.protectiveFactors
-                    .filter(f => activePartner === 'overall' || f.profileName === (activePartner === 'A' ? partnerAName : partnerBName))
-                    .map((factor, idx) => (
-                      <div key={idx} className="flex items-start gap-2 group/shield">
-                        <CheckCircle className="w-2.5 h-2.5 text-green-500 mt-0.5 flex-shrink-0" />
-                        <p className="text-[10px] text-green-800 dark:text-green-200 leading-tight font-medium">
-                          {factor.text}
-                        </p>
-                      </div>
-                    ))}
-                </div>
-              </div>
-            )}
 
             <div className="mt-6 pt-4 border-t border-gray-100 dark:border-gray-800/50">
               <div className="flex items-center justify-between">
@@ -245,6 +224,27 @@ export const RiskRadarWidget: React.FC<RiskRadarWidgetProps> = ({
                 </div>
               )}
             </div>
+            {/* Protective Factors (Divorce Specific) */}
+            {riskAssessment.protectiveFactors && riskAssessment.protectiveFactors.length > 0 && (
+              <div className="mt-6 pt-4 border-t border-green-100 dark:border-green-900/30">
+                <div className="flex items-center gap-2 mb-3">
+                  <ShieldCheck className="w-4 h-4 text-green-600 dark:text-green-400" />
+                  <h4 className="text-[10px] font-black text-green-800 dark:text-green-200 uppercase tracking-widest">Protective Buffer (Reduces Risk)</h4>
+                </div>
+                <div className="space-y-2">
+                  {riskAssessment.protectiveFactors
+                    .filter(f => activePartner === 'overall' || f.profileName === (activePartner === 'A' ? partnerAName : partnerBName))
+                    .map((factor, idx) => (
+                      <div key={idx} className="flex items-start gap-2 p-2 bg-green-50/50 dark:bg-green-900/10 rounded-lg border border-green-100/50 dark:border-green-800/10">
+                        <CheckCircle className="w-3 h-3 text-green-500 mt-0.5 flex-shrink-0" />
+                        <p className="text-[10px] text-green-800 dark:text-green-300 leading-snug font-medium">
+                          {factor.text}
+                        </p>
+                      </div>
+                    ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Infidelity Risk Card */}
@@ -293,20 +293,21 @@ export const RiskRadarWidget: React.FC<RiskRadarWidgetProps> = ({
               </div>
             )}
 
-            {/* Neutralizing Influences (Paired UI) */}
-            {riskAssessment.protectiveFactors && riskAssessment.protectiveFactors.length > 0 && (
-              <div className="mt-4 p-3 bg-green-50/50 dark:bg-green-900/10 rounded-lg border border-green-100 dark:border-green-800/20 transition-all hover:border-green-200">
-                <div className="flex items-center gap-2 mb-2">
-                  <ShieldCheck className="w-3.5 h-3.5 text-green-600 dark:text-green-400" />
-                  <span className="text-[10px] font-black text-green-700 dark:text-green-300 uppercase tracking-widest">Neutralizing Shields</span>
+
+            {/* Protective Factors (Infidelity Specific) */}
+            {riskAssessment.infidelityProtections && riskAssessment.infidelityProtections.length > 0 && (
+              <div className="mt-6 pt-4 border-t border-indigo-100 dark:border-indigo-900/30">
+                <div className="flex items-center gap-2 mb-3">
+                  <ShieldCheck className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+                  <h4 className="text-[10px] font-black text-indigo-800 dark:text-indigo-200 uppercase tracking-widest">Moral & Emotional Anchors</h4>
                 </div>
-                <div className="space-y-1.5">
-                  {riskAssessment.protectiveFactors
+                <div className="space-y-2">
+                  {riskAssessment.infidelityProtections
                     .filter(f => activePartner === 'overall' || f.profileName === (activePartner === 'A' ? partnerAName : partnerBName))
                     .map((factor, idx) => (
-                      <div key={idx} className="flex items-start gap-2 group/shield">
-                        <CheckCircle className="w-2.5 h-2.5 text-green-500 mt-0.5 flex-shrink-0" />
-                        <p className="text-[10px] text-green-800 dark:text-green-200 leading-tight font-medium">
+                      <div key={idx} className="flex items-start gap-2 p-2 bg-indigo-50/50 dark:bg-indigo-900/10 rounded-lg border border-indigo-100/50 dark:border-indigo-800/10">
+                        <CheckCircle className="w-3 h-3 text-indigo-500 mt-0.5 flex-shrink-0" />
+                        <p className="text-[10px] text-indigo-800 dark:text-indigo-300 leading-snug font-medium">
                           {factor.text}
                         </p>
                       </div>
@@ -314,6 +315,7 @@ export const RiskRadarWidget: React.FC<RiskRadarWidgetProps> = ({
                 </div>
               </div>
             )}
+
 
             <div className="mt-6 pt-4 border-t border-gray-100 dark:border-gray-800/50">
               <div className="flex items-center justify-between">
@@ -378,7 +380,9 @@ export const RiskRadarWidget: React.FC<RiskRadarWidgetProps> = ({
             </div>
           </div>
         </div>
-      </div >
+
+
+      </div>
 
       {/* Manglik Analysis Section */}
       {
