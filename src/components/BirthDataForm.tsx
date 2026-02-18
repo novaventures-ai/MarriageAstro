@@ -36,11 +36,11 @@ export const BirthDataForm: React.FC<BirthDataFormProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="grid md:grid-cols-2 gap-6">
+    <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
         {/* Name */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors">
+          <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2 transition-colors">
             Full Name
           </label>
           <input
@@ -49,14 +49,14 @@ export const BirthDataForm: React.FC<BirthDataFormProps> = ({
             value={formData.name}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-gray-100 transition-colors"
+            className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-gray-100 transition-colors text-sm sm:text-base"
             placeholder="Enter name"
           />
         </div>
 
         {/* Gender */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors">
+          <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2 transition-colors">
             Gender
           </label>
           <select
@@ -64,7 +64,7 @@ export const BirthDataForm: React.FC<BirthDataFormProps> = ({
             value={formData.gender}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-gray-100 transition-colors"
+            className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-gray-100 transition-colors text-sm sm:text-base"
           >
             <option value="male">Male</option>
             <option value="female">Female</option>
@@ -74,7 +74,7 @@ export const BirthDataForm: React.FC<BirthDataFormProps> = ({
 
         {/* Date of Birth */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors">
+          <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2 transition-colors">
             Date of Birth
           </label>
           <input
@@ -83,13 +83,13 @@ export const BirthDataForm: React.FC<BirthDataFormProps> = ({
             value={formData.dateOfBirth instanceof Date ? formData.dateOfBirth.toISOString().split('T')[0] : formData.dateOfBirth}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-gray-100 transition-colors [color-scheme:light] dark:[color-scheme:dark]"
+            className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-gray-100 transition-colors text-sm sm:text-base [color-scheme:light] dark:[color-scheme:dark]"
           />
         </div>
 
         {/* Time of Birth */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors">
+          <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2 transition-colors">
             Time of Birth
           </label>
           <input
@@ -98,14 +98,14 @@ export const BirthDataForm: React.FC<BirthDataFormProps> = ({
             value={formData.timeOfBirth}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-gray-100 transition-colors [color-scheme:light] dark:[color-scheme:dark]"
+            className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-gray-100 transition-colors text-sm sm:text-base [color-scheme:light] dark:[color-scheme:dark]"
           />
         </div>
       </div>
 
       {/* Location */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors">
+        <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2 transition-colors">
           Birth Location (City)
         </label>
         <PlaceAutocomplete
@@ -116,7 +116,6 @@ export const BirthDataForm: React.FC<BirthDataFormProps> = ({
               location: place.formattedAddress,
               latitude: place.latitude,
               longitude: place.longitude,
-              // Note: Timezone is not automatically set here, user might need to adjust or we default to India
             }));
           }}
           placeholder="e.g., Mumbai, India"
@@ -124,9 +123,9 @@ export const BirthDataForm: React.FC<BirthDataFormProps> = ({
       </div>
 
       {/* Coordinates */}
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors">
+          <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2 transition-colors">
             Latitude
           </label>
           <input
@@ -136,13 +135,13 @@ export const BirthDataForm: React.FC<BirthDataFormProps> = ({
             onChange={handleChange}
             step="0.0001"
             required
-            className="w-full px-4 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-gray-100 transition-colors"
+            className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-gray-100 transition-colors text-sm sm:text-base"
             placeholder="e.g., 19.0760"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors">
+          <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2 transition-colors">
             Longitude
           </label>
           <input
@@ -152,7 +151,7 @@ export const BirthDataForm: React.FC<BirthDataFormProps> = ({
             onChange={handleChange}
             step="0.0001"
             required
-            className="w-full px-4 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-gray-100 transition-colors"
+            className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-gray-100 transition-colors text-sm sm:text-base"
             placeholder="e.g., 72.8777"
           />
         </div>
@@ -160,7 +159,7 @@ export const BirthDataForm: React.FC<BirthDataFormProps> = ({
 
       {/* Timezone */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors">
+        <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2 transition-colors">
           Timezone
         </label>
         <select
@@ -168,7 +167,7 @@ export const BirthDataForm: React.FC<BirthDataFormProps> = ({
           value={formData.timezone}
           onChange={handleChange}
           required
-          className="w-full px-4 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-gray-100 transition-colors"
+          className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-gray-100 transition-colors text-sm sm:text-base"
         >
           <option value="Asia/Kolkata">India (IST)</option>
           <option value="America/New_York">Eastern Time (ET)</option>
@@ -185,7 +184,7 @@ export const BirthDataForm: React.FC<BirthDataFormProps> = ({
       {/* Submit Button */}
       <button
         type="submit"
-        className="w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-lg hover:shadow-lg transform hover:scale-[1.02] transition-all"
+        className="w-full py-3 sm:py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-lg hover:shadow-lg transform hover:scale-[1.02] transition-all text-sm sm:text-base min-touch"
       >
         Continue
       </button>

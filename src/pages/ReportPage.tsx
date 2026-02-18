@@ -18,7 +18,7 @@ import { YogaDoshaWidget } from '../components/widgets/YogaDoshaWidget';
 import { AddictionRiskWidget } from '../components/widgets/AddictionRiskWidget';
 import { MentalHealthWidget } from '../components/widgets/MentalHealthWidget';
 import { RelationshipPatternWidget } from '../components/widgets/RelationshipPatternWidget';
-import { ArrowLeft, Download, Share2, Eye, EyeOff } from 'lucide-react';
+import { ArrowLeft, ChevronDown } from 'lucide-react';
 import ChartDetailsWidget from '../components/ChartDetailsWidget';
 import { ThemeToggle } from '../components/ui/ThemeToggle';
 import { AuthButton } from '../components/ui/AuthButton';
@@ -36,6 +36,8 @@ export const ReportPage: React.FC = () => {
     setViewMode,
     clearReport
   } = useAppStore();
+
+  const [showMobileTabs, setShowMobileTabs] = useState(false);
 
   if (!currentReport) {
     return (
@@ -76,44 +78,79 @@ export const ReportPage: React.FC = () => {
   return (
     <div className="min-h-screen py-8 px-4 transition-colors duration-500">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-          <div className="flex items-center gap-3 min-w-0">
-            <button
-              onClick={() => {
-                clearReport();
-                navigate('/calculator');
-              }}
-              className="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex-shrink-0"
-            >
-              <ArrowLeft className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-            </button>
-            <div className="flex-shrink-0">
-              <Logo size="sm" className="hidden xs:block" />
+        {/* Header - Mobile Optimized */}
+        <div className="flex flex-col gap-3 sm:gap-4 mb-6 sm:mb-8">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
+              <button
+                onClick={() => {
+                  clearReport();
+                  navigate('/calculator');
+                }}
+                className="p-1.5 sm:p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex-shrink-0 min-touch"
+              >
+                <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 dark:text-gray-400" />
+              </button>
+              <div className="flex-shrink-0">
+                <Logo size="xs" className="block sm:hidden" />
+                <Logo size="sm" className="hidden sm:block" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <h1 className="text-base sm:text-xl md:text-2xl font-bold text-gray-800 dark:text-gray-100 transition-colors truncate">
+                  Compatibility Report
+                </h1>
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 transition-colors truncate">
+                  {currentReport.chartA.name} & {currentReport.chartB.name}
+                </p>
+              </div>
             </div>
-            <div className="min-w-0">
-              <h1 className="text-xl sm:text-3xl font-bold text-gray-800 dark:text-gray-100 transition-colors truncate">
-                Compatibility Report
-              </h1>
-              <p className="text-sm text-gray-600 dark:text-gray-400 transition-colors truncate">
-                {currentReport.chartA.name} & {currentReport.chartB.name}
-              </p>
-            </div>
-          </div>
 
-          <div className="flex items-center gap-3">
-            <AuthButton />
-            <ThemeToggle />
+            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+              <AuthButton />
+              <ThemeToggle />
+            </div>
           </div>
         </div>
 
-        {/* Navigation Tabs */}
-        <div className="flex gap-1 mb-8 overflow-x-auto pb-2 scrollbar-hide">
+        {/* Mobile Tab Dropdown */}
+        <div className="sm:hidden mb-4">
+          <div className="relative">
+            <button
+              onClick={() => setShowMobileTabs(!showMobileTabs)}
+              className="w-full flex items-center justify-between px-4 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-800 dark:text-gray-100 font-medium text-sm"
+            >
+              <span>{tabs.find(t => t.id === activeTab)?.label}</span>
+              <ChevronDown className={`w-5 h-5 transition-transform ${showMobileTabs ? 'rotate-180' : ''}`} />
+            </button>
+            {showMobileTabs && (
+              <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50 max-h-[60vh] overflow-y-auto">
+                {tabs.map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => {
+                      setActiveTab(tab.id);
+                      setShowMobileTabs(false);
+                    }}
+                    className={`w-full px-4 py-3 text-left text-sm transition-colors ${activeTab === tab.id
+                      ? 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 font-medium'
+                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+                      }`}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Desktop Navigation Tabs */}
+        <div className="hidden sm:flex gap-1 mb-6 sm:mb-8 overflow-x-auto pb-2 scrollbar-hide">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-6 py-3 font-medium rounded-lg whitespace-nowrap transition-all duration-300 ${activeTab === tab.id
+              className={`px-3 sm:px-4 lg:px-6 py-2 sm:py-3 font-medium rounded-lg whitespace-nowrap transition-all duration-300 text-xs sm:text-sm ${activeTab === tab.id
                 ? 'bg-indigo-600 dark:bg-indigo-500 text-white shadow-md'
                 : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                 }`}
@@ -123,8 +160,8 @@ export const ReportPage: React.FC = () => {
           ))}
         </div>
 
-        {/* Report Content */}
-        <div className="space-y-6">
+        {/* Report Content - Mobile Optimized */}
+        <div className="space-y-4 sm:space-y-6">
           {activeTab === 'charts' && (
             <ChartDetailsWidget
               boyChart={currentReport.chartA}
@@ -162,7 +199,7 @@ export const ReportPage: React.FC = () => {
 
           {activeTab === 'spouse' && (
             <div>
-              <div className="space-y-8">
+              <div className="space-y-4 sm:space-y-8">
                 <SpousePredictionWidget
                   prediction={currentReport.spousePrediction}
                   partnerPrediction={currentReport.partnerSpousePrediction}
@@ -172,16 +209,16 @@ export const ReportPage: React.FC = () => {
                   userName={currentReport.chartA.name}
                   partnerName={currentReport.chartB.name}
                 />
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                  <div className="space-y-4">
-                    <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 px-4">
-                      {currentReport.chartA.name}'s 7th House
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mt-4 sm:mt-6">
+                  <div className="space-y-3 sm:space-y-4">
+                    <h3 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-gray-100 px-2 sm:px-4">
+                      {currentReport.chartA.name}&apos;s 7th House
                     </h3>
                     <SeventhHousePlacementWidget chart={currentReport.chartA} />
                   </div>
-                  <div className="space-y-4">
-                    <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 px-4">
-                      {currentReport.chartB.name}'s 7th House
+                  <div className="space-y-3 sm:space-y-4">
+                    <h3 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-gray-100 px-2 sm:px-4">
+                      {currentReport.chartB.name}&apos;s 7th House
                     </h3>
                     <SeventhHousePlacementWidget chart={currentReport.chartB} />
                   </div>
@@ -192,7 +229,7 @@ export const ReportPage: React.FC = () => {
 
           {activeTab === 'synastry' && (
             <div>
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-6">
                 <SynastryWidget
                   synastry={currentReport.synastry}
                   chartAName={currentReport.chartA.name}
@@ -220,10 +257,10 @@ export const ReportPage: React.FC = () => {
           )}
 
           {activeTab === 'kp' && currentReport.kpAnalysis && (
-            <div className="space-y-6">
-              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 transition-colors">
-                <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2 transition-colors">KP Astrology Analysis</h2>
-                <p className="text-gray-600 dark:text-gray-400 transition-colors">Krishnamurti Paddhati (KP) System - Precision predictive astrology</p>
+            <div className="space-y-4 sm:space-y-6">
+              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 sm:p-6 transition-colors">
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2 transition-colors">KP Astrology Analysis</h2>
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 transition-colors">Krishnamurti Paddhati (KP) System - Precision predictive astrology</p>
               </div>
               <KPAnalysisWidget
                 partnerA={currentReport.kpAnalysis.partnerA}
@@ -235,10 +272,10 @@ export const ReportPage: React.FC = () => {
           )}
 
           {activeTab === 'chara' && currentReport.charaKarakas && currentReport.charaDasha && currentReport.upapadaLagna && currentReport.vivahSaham && (
-            <div className="space-y-6">
-              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 transition-colors">
-                <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2 transition-colors">Jaimini Analysis</h2>
-                <p className="text-gray-600 dark:text-gray-400 transition-colors">Chara Karakas, Chara Dasha, Upapada Lagna & Vivah Saham</p>
+            <div className="space-y-4 sm:space-y-6">
+              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 sm:p-6 transition-colors">
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2 transition-colors">Jaimini Analysis</h2>
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 transition-colors">Chara Karakas, Chara Dasha, Upapada Lagna & Vivah Saham</p>
               </div>
               <CharaKarakasWidget
                 partnerA={{
@@ -296,7 +333,7 @@ export const ReportPage: React.FC = () => {
           )}
 
           {activeTab === 'risks' && (
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               <RiskRadarWidget
                 riskAssessment={currentReport.riskAssessment}
                 partnerAName={currentReport.chartA.name}

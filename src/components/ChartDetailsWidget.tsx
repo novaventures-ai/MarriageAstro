@@ -84,61 +84,61 @@ export default function ChartDetailsWidget({ boyChart, girlChart }: ChartDetails
 
     return (
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-orange-100 dark:border-orange-900/30 overflow-hidden transition-colors">
-            {/* Header Toggle */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border-b border-gray-100 dark:border-gray-700 bg-orange-50/30 dark:bg-orange-900/10 gap-4 transition-colors">
+            {/* Header Toggle - Mobile Optimized */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between p-3 sm:p-4 border-b border-gray-100 dark:border-gray-700 bg-orange-50/30 dark:bg-orange-900/10 gap-3 sm:gap-4 transition-colors">
                 {girlChart && (
                     <div className="flex bg-gray-100 dark:bg-gray-900 p-1 rounded-lg self-start sm:self-auto transition-colors">
                         <button
                             onClick={() => setActiveProfile('boy')}
-                            className={cn("px-4 py-1.5 rounded-md text-sm font-medium transition-all",
+                            className={cn("px-3 sm:px-4 py-1.5 rounded-md text-xs sm:text-sm font-medium transition-all",
                                 activeProfile === 'boy' ? "bg-white dark:bg-gray-800 text-indigo-600 dark:text-indigo-400 shadow-sm" : "text-gray-500 hover:text-gray-900 dark:hover:text-gray-100"
                             )}
                         >
-                            Boy's Chart
+                            Boy&apos;s Chart
                         </button>
                         <button
                             onClick={() => setActiveProfile('girl')}
-                            className={cn("px-4 py-1.5 rounded-md text-sm font-medium transition-all",
+                            className={cn("px-3 sm:px-4 py-1.5 rounded-md text-xs sm:text-sm font-medium transition-all",
                                 activeProfile === 'girl' ? "bg-white dark:bg-gray-800 text-pink-600 dark:text-pink-400 shadow-sm" : "text-gray-500 hover:text-gray-900 dark:hover:text-gray-100"
                             )}
                         >
-                            Girl's Chart
+                            Girl&apos;s Chart
                         </button>
                     </div>
                 )}
 
-                <div className="flex gap-1 text-sm bg-gray-100 p-1 rounded-lg overflow-x-auto max-w-full">
-                    <button onClick={() => setActiveTab('charts')} className={cn("p-1.5 rounded flex items-center gap-1", activeTab === 'charts' && "bg-white shadow")}>
-                        <Map className="w-4 h-4" /> <span className="hidden md:inline">Charts</span>
+                <div className="flex gap-1 text-xs sm:text-sm bg-gray-100 p-1 rounded-lg overflow-x-auto max-w-full scrollbar-hide">
+                    <button onClick={() => setActiveTab('charts')} className={cn("p-1.5 rounded flex items-center gap-1 min-touch-small", activeTab === 'charts' && "bg-white shadow")}>
+                        <Map className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> <span className="hidden md:inline">Charts</span>
                     </button>
-                    <button onClick={() => setActiveTab('planets')} className={cn("p-1.5 rounded flex items-center gap-1", activeTab === 'planets' && "bg-white shadow")}>
-                        <TableIcon className="w-4 h-4" /> <span className="hidden md:inline">Planets</span>
+                    <button onClick={() => setActiveTab('planets')} className={cn("p-1.5 rounded flex items-center gap-1 min-touch-small", activeTab === 'planets' && "bg-white shadow")}>
+                        <TableIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> <span className="hidden md:inline">Planets</span>
                     </button>
-                    <button onClick={() => setActiveTab('kp')} className={cn("p-1.5 rounded flex items-center gap-1", activeTab === 'kp' && "bg-white shadow")}>
-                        <Activity className="w-4 h-4" /> <span className="hidden md:inline">KP</span>
+                    <button onClick={() => setActiveTab('kp')} className={cn("p-1.5 rounded flex items-center gap-1 min-touch-small", activeTab === 'kp' && "bg-white shadow")}>
+                        <Activity className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> <span className="hidden md:inline">KP</span>
                     </button>
-                    <button onClick={() => setActiveTab('yogas')} className={cn("p-1.5 rounded flex items-center gap-1", activeTab === 'yogas' && "bg-white shadow")}>
-                        <Sparkles className="w-4 h-4" /> <span className="hidden md:inline">Yogas</span>
+                    <button onClick={() => setActiveTab('yogas')} className={cn("p-1.5 rounded flex items-center gap-1 min-touch-small", activeTab === 'yogas' && "bg-white shadow")}>
+                        <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> <span className="hidden md:inline">Yogas</span>
                     </button>
-                    <button onClick={() => setActiveTab('dashas')} className={cn("p-1.5 rounded flex items-center gap-1", activeTab === 'dashas' && "bg-white shadow")}>
-                        <Clock className="w-4 h-4" /> <span className="hidden md:inline">Dashas</span>
+                    <button onClick={() => setActiveTab('dashas')} className={cn("p-1.5 rounded flex items-center gap-1 min-touch-small", activeTab === 'dashas' && "bg-white shadow")}>
+                        <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> <span className="hidden md:inline">Dashas</span>
                     </button>
-                    <button onClick={() => setActiveTab('birth')} className={cn("p-1.5 rounded flex items-center gap-1", activeTab === 'birth' && "bg-white shadow")}>
-                        <MapPin className="w-4 h-4" /> <span className="hidden md:inline">Birth Details</span>
+                    <button onClick={() => setActiveTab('birth')} className={cn("p-1.5 rounded flex items-center gap-1 min-touch-small", activeTab === 'birth' && "bg-white shadow")}>
+                        <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> <span className="hidden md:inline">Birth Details</span>
                     </button>
                 </div>
             </div>
 
-            <div className="p-4 min-h-[400px]">
+            <div className="p-3 sm:p-4 min-h-[300px] sm:min-h-[400px]">
                 {!currentChart ? (
-                    <div className="h-full flex items-center justify-center text-gray-400">
+                    <div className="h-full flex items-center justify-center text-gray-400 text-sm sm:text-base">
                         Data not available
                     </div>
                 ) : (
                     <>
                         {/* CHARTS VIEW */}
                         {activeTab === 'charts' && (
-                            <div className="space-y-4">
+                            <div className="space-y-3 sm:space-y-4">
                                 <div className="flex flex-wrap justify-between items-center gap-2">
                                     {/* Varga Selector */}
                                     <div className="relative group">
