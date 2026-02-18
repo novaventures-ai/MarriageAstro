@@ -91,13 +91,10 @@ export const ReportPage: React.FC = () => {
               >
                 <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 dark:text-gray-400" />
               </button>
-              <div className="flex-shrink-0">
-                <Logo size="xs" className="block sm:hidden" />
-                <Logo size="sm" className="hidden sm:block" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <h1 className="text-base sm:text-xl md:text-2xl font-bold text-gray-800 dark:text-gray-100 transition-colors truncate">
-                  Compatibility Report
+              <div className="min-w-0 flex-1 overflow-hidden">
+                <h1 className="text-sm sm:text-xl md:text-2xl font-bold text-gray-800 dark:text-gray-100 transition-colors whitespace-nowrap">
+                  <span className="hidden sm:inline">Compatibility Report</span>
+                  <span className="sm:hidden">Report</span>
                 </h1>
                 <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 transition-colors truncate">
                   {currentReport.chartA.name} & {currentReport.chartB.name}

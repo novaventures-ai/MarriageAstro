@@ -147,9 +147,9 @@ export const SelfReportPage: React.FC = () => {
               <div className="flex-shrink-0">
                 <Logo size="sm" className="hidden xs:block" />
               </div>
-              <div className="min-w-0">
-                <h1 className="text-base sm:text-lg font-bold text-gray-800 dark:text-gray-100 truncate">
-                  {selfChart?.name}'s Analysis
+              <div className="min-w-0 overflow-hidden">
+                <h1 className="text-sm sm:text-lg font-bold text-gray-800 dark:text-gray-100 whitespace-nowrap">
+                  {selfChart?.name}&apos;s Analysis
                 </h1>
                 <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 truncate">
                   Score: {selfReport.marriagePotential.score}/100 • {selfReport.marriagePotential.verdict.replace('_', ' ')}

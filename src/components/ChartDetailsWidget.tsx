@@ -107,24 +107,24 @@ export default function ChartDetailsWidget({ boyChart, girlChart }: ChartDetails
                     </div>
                 )}
 
-                <div className="flex gap-1 text-xs sm:text-sm bg-gray-100 p-1 rounded-lg overflow-x-auto max-w-full scrollbar-hide">
-                    <button onClick={() => setActiveTab('charts')} className={cn("p-1.5 rounded flex items-center gap-1 min-touch-small", activeTab === 'charts' && "bg-white shadow")}>
+                <div className="flex gap-1 text-xs sm:text-sm bg-gray-200 dark:bg-gray-700 p-1 rounded-lg overflow-x-auto max-w-full scrollbar-hide">
+                    <button onClick={() => setActiveTab('charts')} className={cn("p-1.5 rounded flex items-center gap-1 min-touch-small transition-all", activeTab === 'charts' ? "bg-white dark:bg-gray-600 text-indigo-600 dark:text-indigo-400 shadow-sm" : "text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600")}>
                         <Map className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> <span className="hidden md:inline">Charts</span>
                     </button>
-                    <button onClick={() => setActiveTab('planets')} className={cn("p-1.5 rounded flex items-center gap-1 min-touch-small", activeTab === 'planets' && "bg-white shadow")}>
+                    <button onClick={() => setActiveTab('planets')} className={cn("p-1.5 rounded flex items-center gap-1 min-touch-small transition-all", activeTab === 'planets' ? "bg-white dark:bg-gray-600 text-indigo-600 dark:text-indigo-400 shadow-sm" : "text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600")}>
                         <TableIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> <span className="hidden md:inline">Planets</span>
                     </button>
-                    <button onClick={() => setActiveTab('kp')} className={cn("p-1.5 rounded flex items-center gap-1 min-touch-small", activeTab === 'kp' && "bg-white shadow")}>
+                    <button onClick={() => setActiveTab('kp')} className={cn("p-1.5 rounded flex items-center gap-1 min-touch-small transition-all", activeTab === 'kp' ? "bg-white dark:bg-gray-600 text-indigo-600 dark:text-indigo-400 shadow-sm" : "text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600")}>
                         <Activity className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> <span className="hidden md:inline">KP</span>
                     </button>
-                    <button onClick={() => setActiveTab('yogas')} className={cn("p-1.5 rounded flex items-center gap-1 min-touch-small", activeTab === 'yogas' && "bg-white shadow")}>
+                    <button onClick={() => setActiveTab('yogas')} className={cn("p-1.5 rounded flex items-center gap-1 min-touch-small transition-all", activeTab === 'yogas' ? "bg-white dark:bg-gray-600 text-indigo-600 dark:text-indigo-400 shadow-sm" : "text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600")}>
                         <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> <span className="hidden md:inline">Yogas</span>
                     </button>
-                    <button onClick={() => setActiveTab('dashas')} className={cn("p-1.5 rounded flex items-center gap-1 min-touch-small", activeTab === 'dashas' && "bg-white shadow")}>
+                    <button onClick={() => setActiveTab('dashas')} className={cn("p-1.5 rounded flex items-center gap-1 min-touch-small transition-all", activeTab === 'dashas' ? "bg-white dark:bg-gray-600 text-indigo-600 dark:text-indigo-400 shadow-sm" : "text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600")}>
                         <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> <span className="hidden md:inline">Dashas</span>
                     </button>
-                    <button onClick={() => setActiveTab('birth')} className={cn("p-1.5 rounded flex items-center gap-1 min-touch-small", activeTab === 'birth' && "bg-white shadow")}>
-                        <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> <span className="hidden md:inline">Birth Details</span>
+                    <button onClick={() => setActiveTab('birth')} className={cn("p-1.5 rounded flex items-center gap-1 min-touch-small transition-all", activeTab === 'birth' ? "bg-white dark:bg-gray-600 text-indigo-600 dark:text-indigo-400 shadow-sm" : "text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600")}>
+                        <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> <span className="hidden md:inline">Birth</span>
                     </button>
                 </div>
             </div>
