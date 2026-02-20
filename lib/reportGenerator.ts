@@ -385,9 +385,13 @@ export async function generateCompatibilityReport(
   } as any;
 
   // Analyze Divisional Charts
-  const basicDivisionalAnalysis = analyzeDivisionalCharts(chartA, chartB);
-  const extendedDivisionalA = calculateExtendedDivisionalAnalysis(chartA);
-  const extendedDivisionalB = calculateExtendedDivisionalAnalysis(chartB);
+  let basicDivisionalAnalysis: any = { d9: null, d7: null, d60: null };
+  try { basicDivisionalAnalysis = analyzeDivisionalCharts(chartA, chartB); } catch (e) { console.error('Basic Divisional failed', e); }
+
+  let extendedDivisionalA: any = null;
+  let extendedDivisionalB: any = null;
+  try { extendedDivisionalA = calculateExtendedDivisionalAnalysis(chartA); } catch (e) { console.error('Ext Divisional A failed', e); }
+  try { extendedDivisionalB = calculateExtendedDivisionalAnalysis(chartB); } catch (e) { console.error('Ext Divisional B failed', e); }
 
   const divisionalAnalysis = {
     ...basicDivisionalAnalysis,
@@ -398,32 +402,61 @@ export async function generateCompatibilityReport(
   };
 
   // Calculate Synastry (Pass D60 info)
-  const synastryData = calculateSynastry(chartA, chartB, divisionalAnalysis.d60);
+  let synastryData: any = { score: 70, aspects: [], interpretation: '' };
+  try { synastryData = calculateSynastry(chartA, chartB, divisionalAnalysis.d60); } catch (e) { console.error('Synastry failed', e); }
 
   // Analyze In-Laws
-  const inLawAnalysis = analyzeInLaws(chartA, chartB);
-  const partnerInLawAnalysis = analyzeInLaws(chartB, chartA);
+  let inLawAnalysis: any = { inLawHarmony: 70, indicators: [] };
+  let partnerInLawAnalysis: any = { inLawHarmony: 70, indicators: [] };
+  try { inLawAnalysis = analyzeInLaws(chartA, chartB); } catch (e) { console.error('In-Laws A failed', e); }
+  try { partnerInLawAnalysis = analyzeInLaws(chartB, chartA); } catch (e) { console.error('In-Laws B failed', e); }
 
   // Analyze Sexual Health
-  const sexualHealth = analyzeSexualHealth(
-    chartA,
-    chartB,
-    chartA.gender === 'male' ? 'male' : 'female',
-    chartB.gender === 'male' ? 'male' : 'female'
-  );
+  let sexualHealth: any = {
+    maleHealth: { pmeRisk: 'Low', edRisk: 'Low', indicators: [], recommendations: [] },
+    femaleHealth: { frigidityRisk: 'Low', physicalPainRisk: 'Low', indicators: [], recommendations: [] },
+    mutualSatisfaction: { score: 70, vibeMatch: '', elementCompatibility: '', description: '' },
+    libidoA: { level: 'Medium', description: '' },
+    libidoB: { level: 'Medium', description: '' },
+    orientationA: { pattern: '', indicators: [], description: '' },
+    orientationB: { pattern: '', indicators: [], description: '' }
+  };
+  try {
+    sexualHealth = analyzeSexualHealth(
+      chartA,
+      chartB,
+      chartA.gender === 'male' ? 'male' : 'female',
+      chartB.gender === 'male' ? 'male' : 'female'
+    );
+  } catch (e) { console.error('Sexual Health failed', e); }
 
   // Assess Risk
-  const riskAssessment = assessRisk(chartA, chartB);
-  riskAssessment.manglikAnalysis = ashtakoot.manglikAnalysis;
+  let riskAssessment: any = {
+    divorceProbability: { score: 20, rawScore: 20, level: 'low', indicators: [], mitigation: [] },
+    infidelityRisk: { score: 20, rawScore: 20, level: 'low', indicators: [], warning: [] },
+    multipleMarriageIndicators: [],
+    detectedYogas: [],
+    protectiveFactors: [],
+    spouseLongevity: { score: 70, level: 'stable', indicators: [], description: '' }
+  };
+  try {
+    riskAssessment = assessRisk(chartA, chartB);
+    riskAssessment.manglikAnalysis = ashtakoot.manglikAnalysis;
+  } catch (e) { console.error('Risk Assessment failed', e); }
 
   // Calculate Infidelity Protections (Moral Anchors) - Distinct from Divorce Protections
-  const infidelityProtectionsA = assessInfidelityProtections(chartA, chartA.name);
-  const infidelityProtectionsB = assessInfidelityProtections(chartB, chartB.name);
-  riskAssessment.infidelityProtections = [...infidelityProtectionsA, ...infidelityProtectionsB];
+  try {
+    const infidelityProtectionsA = assessInfidelityProtections(chartA, chartA.name);
+    const infidelityProtectionsB = assessInfidelityProtections(chartB, chartB.name);
+    riskAssessment.infidelityProtections = [...(infidelityProtectionsA || []), ...(infidelityProtectionsB || [])];
+  } catch (e) { console.error('Infidelity Protections failed', e); }
 
   // Analyze Modern Planets
-  const modernPlanetsA = analyzeModernPlanets(chartA);
-  const modernPlanetsB = analyzeModernPlanets(chartB);
+  let modernPlanetsA: any = { uranus: { house: 0, aspects: [], interpretation: '', challenges: [] }, neptune: { house: 0, aspects: [], interpretation: '', challenges: [] }, pluto: { house: 0, aspects: [], interpretation: '', challenges: [] } };
+  let modernPlanetsB: any = { uranus: { house: 0, aspects: [], interpretation: '', challenges: [] }, neptune: { house: 0, aspects: [], interpretation: '', challenges: [] }, pluto: { house: 0, aspects: [], interpretation: '', challenges: [] } };
+  try { modernPlanetsA = analyzeModernPlanets(chartA); } catch (e) { console.error('Modern Planets A failed', e); }
+  try { modernPlanetsB = analyzeModernPlanets(chartB); } catch (e) { console.error('Modern Planets B failed', e); }
+
   // Helper to combine interpretations without semicolons
   const combineInterpretations = (interpA: string, interpB: string): string => {
     const cleanA = interpA?.trim() || '';
@@ -456,8 +489,10 @@ export async function generateCompatibilityReport(
   };
 
   // Analyze Modern Challenges
-  const challengesA = analyzeModernChallenges(chartA);
-  const challengesB = analyzeModernChallenges(chartB);
+  let challengesA: any = { digitalAge: [], careerStress: [], mentalHealth: [], communicationIssues: [] };
+  let challengesB: any = { digitalAge: [], careerStress: [], mentalHealth: [], communicationIssues: [] };
+  try { challengesA = analyzeModernChallenges(chartA); } catch (e) { console.error('Modern Challenges A failed', e); }
+  try { challengesB = analyzeModernChallenges(chartB); } catch (e) { console.error('Modern Challenges B failed', e); }
   const modernChallenges = {
     digitalAge: [...new Set([...challengesA.digitalAge, ...challengesB.digitalAge])],
     careerStress: [...new Set([...challengesA.careerStress, ...challengesB.careerStress])],
@@ -466,7 +501,12 @@ export async function generateCompatibilityReport(
   };
 
   // Calculate Timing
-  const timing = calculateTiming(chartA, chartB);
+  let timing: any = { favorablePeriods: [], detailedDasha: [], upcomingTransits: [], summary: 'Analysis not available' };
+  try {
+    timing = calculateTiming(chartA, chartB);
+  } catch (e) {
+    console.error('Timing analysis failed', e);
+  }
 
   // Extended Calculations (new widgets)
   let kpAnalysisA: any = { seventhCuspSubLord: { planet: 'Sun', significations: [], marriagePromise: 'complicated', interpretation: 'Not available' }, significators: [], rulingPlanets: { dayLord: 'Sun', moonSignLord: 'Sun', moonStarLord: 'Sun', lagnaSignLord: 'Sun', lagnaStarLord: 'Sun' }, fourFoldAnalysis: { level1: [], level2: [], level3: [], level4: [] } };
@@ -509,8 +549,8 @@ export async function generateCompatibilityReport(
   try { extendedRemediesB = calculateExtendedRemedies(chartB); } catch (e) { console.error('Ext Remedies B failed', e); }
 
   // Yoga & Dosha Analysis
-  let yogaDoshaA = analyzeYogaDoshas(chartA);
-  let yogaDoshaB = analyzeYogaDoshas(chartB);
+  let yogaDoshaA: any = { yogas: [], doshas: [] };
+  let yogaDoshaB: any = { yogas: [], doshas: [] };
   try { yogaDoshaA = analyzeYogaDoshas(chartA); } catch (e) { console.error('YogaDosha A failed', e); }
   try { yogaDoshaB = analyzeYogaDoshas(chartB); } catch (e) { console.error('YogaDosha B failed', e); }
 
@@ -521,7 +561,10 @@ export async function generateCompatibilityReport(
   try { transitAnalysisB = calculateTransitAnalysis(chartB); } catch (e) { console.error('Transit B failed', e); }
 
   // Calculate Joint Destiny Sync
-  const jointDestinySync = calculateJointDestinySync(timing.favorablePeriods, charaDashaA, charaDashaB, vivahSahamA, vivahSahamB);
+  let jointDestinySync: any = { syncScore: 70, synchronizedWindows: [], timeline: [] };
+  try {
+    jointDestinySync = calculateJointDestinySync(timing.favorablePeriods, charaDashaA, charaDashaB, vivahSahamA, vivahSahamB);
+  } catch (e) { console.error('Joint Destiny Sync failed', e); }
 
   // Extend Timing Analysis
   timing.extended = {
@@ -540,59 +583,94 @@ export async function generateCompatibilityReport(
 
 
   // Generate Remedies (Classic)
-  const remedies = generateRemedies(chartA, chartB, ashtakoot.doshas);
+  let remedies: any = { general: [], gemstone: [], mantra: [], ritual: [] };
+  try { remedies = generateRemedies(chartA, chartB, ashtakoot.doshas); } catch (e) { console.error('Remedies failed', e); }
 
   // Calculate Advanced Score Breakdown
-  const mentalHealthA = analyzeMentalHealth(chartA);
-  const mentalHealthB = analyzeMentalHealth(chartB);
-  const addictionRiskA = analyzeAddictionRisk(chartA);
-  const addictionRiskB = analyzeAddictionRisk(chartB);
+  let mentalHealthA: any = { categories: [], emotionalStrengths: [], overallWellbeing: 'strong', totalRiskScore: 0, summary: '', disclaimer: '' };
+  let mentalHealthB: any = { categories: [], emotionalStrengths: [], overallWellbeing: 'strong', totalRiskScore: 0, summary: '', disclaimer: '' };
+  try { mentalHealthA = analyzeMentalHealth(chartA); } catch (e) { console.error('Mental Health A failed', e); }
+  try { mentalHealthB = analyzeMentalHealth(chartB); } catch (e) { console.error('Mental Health B failed', e); }
 
-  const advancedBreakdown = calculateAdvancedBreakdown({
-    ashtakoot,
-    kpAnalysis: { partnerA: kpAnalysisA, partnerB: kpAnalysisB },
-    charaKarakas: { partnerA: charaKarakasA, partnerB: charaKarakasB },
-    synastry: synastryData,
-    riskAssessment,
-    mentalHealth: { partnerA: mentalHealthA, partnerB: mentalHealthB },
-    addictionRisk: { partnerA: addictionRiskA, partnerB: addictionRiskB },
-    inLaws: { partnerA: inLawAnalysis, partnerB: partnerInLawAnalysis },
-    modernChallenges,
-    sexualHealth,
-    yogaDosha: { partnerA: yogaDoshaA, partnerB: yogaDoshaB },
-    poruthamAnalysis
-  });
+  let addictionRiskA: any = { levels: { overall: 'low' }, indicators: [] };
+  let addictionRiskB: any = { levels: { overall: 'low' }, indicators: [] };
+  try { addictionRiskA = analyzeAddictionRisk(chartA); } catch (e) { console.error('Addiction Risk A failed', e); }
+  try { addictionRiskB = analyzeAddictionRisk(chartB); } catch (e) { console.error('Addiction Risk B failed', e); }
+
+  let advancedBreakdown: any = {
+    stability: { score: 60, label: 'Stability', explanation: '', status: 'neutral', breakdown: [] },
+    interaction: { score: 60, label: 'Dynamics', explanation: '', status: 'neutral', breakdown: [] },
+    soul: { score: 60, label: 'Soul & Purpose', explanation: '', status: 'neutral', breakdown: [] },
+    tradition: { score: 60, label: 'Traditional', explanation: '', status: 'neutral', breakdown: [] },
+    promise: { score: 60, label: 'Promise', explanation: '', status: 'neutral', breakdown: [] }
+  };
+
+  try {
+    advancedBreakdown = calculateAdvancedBreakdown({
+      ashtakoot,
+      kpAnalysis: { partnerA: kpAnalysisA, partnerB: kpAnalysisB },
+      charaKarakas: { partnerA: charaKarakasA, partnerB: charaKarakasB },
+      synastry: synastryData,
+      riskAssessment,
+      mentalHealth: { partnerA: mentalHealthA, partnerB: mentalHealthB },
+      addictionRisk: { partnerA: addictionRiskA, partnerB: addictionRiskB },
+      inLaws: { partnerA: inLawAnalysis, partnerB: partnerInLawAnalysis },
+      modernChallenges,
+      sexualHealth,
+      yogaDosha: { partnerA: yogaDoshaA, partnerB: yogaDoshaB },
+      poruthamAnalysis
+    });
+  } catch (e) {
+    console.error('Advanced Breakdown failed', e);
+  }
 
   // Calculate Overall Score (Weighted modular synthesis)
-  const overallScore = calculateOverallScore({
-    stability: advancedBreakdown.stability.score,
-    interaction: advancedBreakdown.interaction.score,
-    soul: advancedBreakdown.soul.score,
-    tradition: advancedBreakdown.tradition.score,
-    promise: advancedBreakdown.promise.score
-  }, {
-    ashtakootScore: ashtakoot.totalScore,
-    riskAssessment: riskAssessment,
-    kpAnalysis: { partnerA: kpAnalysisA, partnerB: kpAnalysisB },
-    mentalHealth: { partnerA: mentalHealthA, partnerB: mentalHealthB },
-    addictionRisk: { partnerA: addictionRiskA, partnerB: addictionRiskB }
-  });
+  let overallScore = 60;
+  try {
+    overallScore = calculateOverallScore({
+      stability: advancedBreakdown.stability.score,
+      interaction: advancedBreakdown.interaction.score,
+      soul: advancedBreakdown.soul.score,
+      tradition: advancedBreakdown.tradition.score,
+      promise: advancedBreakdown.promise.score
+    }, {
+      ashtakootScore: ashtakoot.totalScore,
+      riskAssessment: riskAssessment,
+      kpAnalysis: { partnerA: kpAnalysisA, partnerB: kpAnalysisB },
+      mentalHealth: { partnerA: mentalHealthA, partnerB: mentalHealthB },
+      addictionRisk: { partnerA: addictionRiskA, partnerB: addictionRiskB }
+    });
+  } catch (e) {
+    console.error('Overall Score calculation failed', e);
+  }
 
   // Determine Verdict
-  const overallVerdict = determineVerdict(overallScore, ashtakoot.totalScore, riskAssessment);
+  let overallVerdict: any = { level: 'Average', color: 'blue', description: '' };
+  try {
+    overallVerdict = determineVerdict(overallScore, ashtakoot.totalScore, riskAssessment);
+  } catch (e) {
+    console.error('Verdict determination failed', e);
+  }
 
   // Generate Executive Summary
-  const executiveSummary = generateExecutiveSummary(
-    overallScore,
-    ashtakoot,
-    riskAssessment,
-    sexualHealth,
-    { kpAnalysis: { partnerA: kpAnalysisA, partnerB: kpAnalysisB }, synastry: synastryData }
-  );
+  let executiveSummary: any = { verdict: '', highlights: [], summaryText: '' };
+  try {
+    executiveSummary = generateExecutiveSummary(
+      overallScore,
+      ashtakoot,
+      riskAssessment,
+      sexualHealth,
+      { kpAnalysis: { partnerA: kpAnalysisA, partnerB: kpAnalysisB }, synastry: synastryData }
+    );
+  } catch (e) {
+    console.error('Executive Summary failed', e);
+  }
 
   // 17. Psychological Profiles
-  const psychologicalProfileA = calculatePsychologicalProfile(chartA);
-  const psychologicalProfileB = calculatePsychologicalProfile(chartB);
+  let psychologicalProfileA: any = { traits: [], nature: '', behavior: '' };
+  let psychologicalProfileB: any = { traits: [], nature: '', behavior: '' };
+  try { psychologicalProfileA = calculatePsychologicalProfile(chartA); } catch (e) { console.error('Psych Profile A failed', e); }
+  try { psychologicalProfileB = calculatePsychologicalProfile(chartB); } catch (e) { console.error('Psych Profile B failed', e); }
 
   // 18. Relationship Pattern Analysis
   let relationshipPatternA: any = { patterns: [], overallRiskLevel: 'low' };
@@ -600,7 +678,12 @@ export async function generateCompatibilityReport(
   try { relationshipPatternA = calculateRelationshipPatterns(chartA, chartA.name); } catch (e) { console.error('RelationshipPattern A failed', e); }
   try { relationshipPatternB = calculateRelationshipPatterns(chartB, chartB.name); } catch (e) { console.error('RelationshipPattern B failed', e); }
 
-  const vulnerabilityTimeline = await calculateVulnerabilityTimeline(chartA, chartB);
+  let vulnerabilityTimeline: any = { periods: [], conclusion: '', score: 100 };
+  try {
+    vulnerabilityTimeline = await calculateVulnerabilityTimeline(chartA, chartB);
+  } catch (e) {
+    console.error('Vulnerability Timeline failed', e);
+  }
 
   const report: any = {
     id: `report-${Date.now()}`,
@@ -1298,15 +1381,15 @@ function calculateAdvancedBreakdown(data: {
 }): any {
   // --- PILLAR 1: STRUCTURAL STABILITY (25%) ---
   // AI Analyzing based on RAW risk (without protective buffer)
-  const divorceScore = 100 - (data.riskAssessment.divorceProbability.rawScore || 0);
-  const mentalScore = Math.max(0, 100 - ((data.mentalHealth.partnerA.totalRiskScore + data.mentalHealth.partnerB.totalRiskScore) / 2));
-  const addictionScore = Math.max(0, 100 - ((data.addictionRisk.partnerA.overallScore + data.addictionRisk.partnerB.overallScore) / 2));
-  const inLawAvgA = (data.inLaws.partnerA.secondHouseScore + data.inLaws.partnerA.tenthHouseScore) / 2;
-  const inLawAvgB = (data.inLaws.partnerB.secondHouseScore + data.inLaws.partnerB.tenthHouseScore) / 2;
+  const divorceScore = 100 - (data.riskAssessment?.divorceProbability?.rawScore || 0);
+  const mentalScore = Math.max(0, 100 - (((data.mentalHealth?.partnerA?.totalRiskScore || 0) + (data.mentalHealth?.partnerB?.totalRiskScore || 0)) / 2));
+  const addictionScore = Math.max(0, 100 - (((data.addictionRisk?.partnerA?.overallScore || 0) + (data.addictionRisk?.partnerB?.overallScore || 0)) / 2));
+  const inLawAvgA = ((data.inLaws?.partnerA?.secondHouseScore || 70) + (data.inLaws?.partnerA?.tenthHouseScore || 70)) / 2;
+  const inLawAvgB = ((data.inLaws?.partnerB?.secondHouseScore || 70) + (data.inLaws?.partnerB?.tenthHouseScore || 70)) / 2;
   const inLawScore = (inLawAvgA + inLawAvgB) / 2;
-  const modernScore = 100 - (data.modernChallenges.mentalHealth.length * 10);
+  const modernScore = 100 - ((data.modernChallenges?.mentalHealth?.length || 0) * 10);
 
-  const infidelityScore = 100 - (data.riskAssessment.infidelityRisk.rawScore || 0);
+  const infidelityScore = 100 - (data.riskAssessment?.infidelityRisk?.rawScore || 0);
 
   const stabilityScore = Math.round(
     divorceScore * 0.25 +
@@ -1374,15 +1457,15 @@ function calculateAdvancedBreakdown(data: {
   };
 
   const kpA = kpScoreForPromise(
-    data.kpAnalysis.partnerA.seventhCuspSubLord.marriagePromise,
-    data.kpAnalysis.partnerA.seventhCuspSubLord.significators?.some((s: any) =>
-      ['Venus', 'Jupiter', 'Moon'].includes(s.planet)
+    data.kpAnalysis?.partnerA?.seventhCuspSubLord?.marriagePromise || 'complicated',
+    data.kpAnalysis?.partnerA?.seventhCuspSubLord?.significators?.some((s: any) =>
+      ['Venus', 'Jupiter', 'Moon'].includes(s?.planet)
     ) ? 'strong' : 'neutral'
   );
   const kpB = kpScoreForPromise(
-    data.kpAnalysis.partnerB.seventhCuspSubLord.marriagePromise,
-    data.kpAnalysis.partnerB.seventhCuspSubLord.significators?.some((s: any) =>
-      ['Venus', 'Jupiter', 'Moon'].includes(s.planet)
+    data.kpAnalysis?.partnerB?.seventhCuspSubLord?.marriagePromise || 'complicated',
+    data.kpAnalysis?.partnerB?.seventhCuspSubLord?.significators?.some((s: any) =>
+      ['Venus', 'Jupiter', 'Moon'].includes(s?.planet)
     ) ? 'strong' : 'neutral'
   );
   const kpPromise = Math.round((kpA + kpB) / 2);
@@ -1546,24 +1629,24 @@ function calculateOverallScore(
   // 2. Apply "Hard-Stop" Deal-Breaker Caps
 
   // Case A: Mental Health Crisis
-  if (context.mentalHealth.partnerA.totalRiskScore > 75 || context.mentalHealth.partnerB.totalRiskScore > 75) {
+  if ((context.mentalHealth?.partnerA?.totalRiskScore || 0) > 75 || (context.mentalHealth?.partnerB?.totalRiskScore || 0) > 75) {
     score = Math.round(score * 0.7); // 30% reduction instead of hard cap
   }
 
   // Case B: Severe Addiction
-  if (context.addictionRisk.partnerA.overallScore > 80 || context.addictionRisk.partnerB.overallScore > 80) {
+  if ((context.addictionRisk?.partnerA?.overallScore || 0) > 80 || (context.addictionRisk?.partnerB?.overallScore || 0) > 80) {
     score = Math.round(score * 0.7); // 30% reduction
   }
 
   // Case C: Denied Marriage Promise (KP)
-  const promiseA = context.kpAnalysis.partnerA.seventhCuspSubLord.marriagePromise;
-  const promiseB = context.kpAnalysis.partnerB.seventhCuspSubLord.marriagePromise;
+  const promiseA = context.kpAnalysis?.partnerA?.seventhCuspSubLord?.marriagePromise;
+  const promiseB = context.kpAnalysis?.partnerB?.seventhCuspSubLord?.marriagePromise;
   if (promiseA === 'denied' || promiseB === 'denied') {
     score = Math.round(score * 0.75); // 25% reduction instead of hard cap at 40
   }
 
   // Case D: Extreme Divorce Risk
-  if (context.riskAssessment.divorceProbability.level === 'very_high') {
+  if (context.riskAssessment?.divorceProbability?.level === 'very_high') {
     score = Math.round(score * 0.8); // 20% reduction
   }
 
@@ -1573,9 +1656,9 @@ function calculateOverallScore(
   }
 
   // Case F: High Infidelity Risk (Refined)
-  if (context.riskAssessment.infidelityRisk.level === 'high') {
+  if (context.riskAssessment?.infidelityRisk?.level === 'high') {
     score = Math.round(score * 0.75); // 25% reduction for High
-  } else if (context.riskAssessment.infidelityRisk.level === 'medium') {
+  } else if (context.riskAssessment?.infidelityRisk?.level === 'medium') {
     score = Math.round(score * 0.85); // 15% reduction for Medium
   }
 

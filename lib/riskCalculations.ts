@@ -80,9 +80,9 @@ export function assessDivorceRisk(chart: Chart, name: string): {
 
   // 7th Lord in Dusthana (6, 8, 12)
   if (seventhLordPosition && [6, 8, 12].includes(seventhLordPosition.house)) {
-    const rule = rules.high_risk_combinations?.find((r: any) => r.condition.includes('7th Lord in 6th, 8th, or 12th'));
+    const rule = rules.high_risk_combinations?.find((r: any) => r?.condition?.includes('7th Lord in 6th, 8th, or 12th'));
     if (rule) {
-      indicators.push({ text: rule.condition + ': ' + rule.description, profileName: name });
+      indicators.push({ text: (rule.condition || '') + ': ' + (rule.description || ''), profileName: name });
     } else {
       indicators.push({ text: `7th Lord in ${getOrdinal(seventhLordPosition.house)} house: Relationship challenges`, profileName: name });
     }
@@ -98,9 +98,9 @@ export function assessDivorceRisk(chart: Chart, name: string): {
 
   // Venus in Dusthana
   if (venusPosition && [6, 8, 12].includes(venusPosition.house)) {
-    const rule = rules.high_risk_combinations?.find((r: any) => r.condition.includes('Venus in 6th, 8th, or 12th'));
+    const rule = rules.high_risk_combinations?.find((r: any) => r?.condition?.includes('Venus in 6th, 8th, or 12th'));
     if (rule) {
-      indicators.push({ text: rule.condition + ': ' + rule.description, profileName: name });
+      indicators.push({ text: (rule.condition || '') + ': ' + (rule.description || ''), profileName: name });
     } else {
       indicators.push({ text: `Venus in ${getOrdinal(venusPosition.house)} house: Challenges in love`, profileName: name });
     }
@@ -438,9 +438,9 @@ export function assessMultipleMarriages(chart: Chart, name: string): { text: str
 
   // 7th Lord in Dual Sign
   if (seventhLordPosition && dualSigns.includes(seventhLordPosition.sign)) {
-    const rule = rules?.find((r: any) => r.condition.includes('7th Lord in dual sign'));
+    const rule = rules?.find((r: any) => r?.condition?.includes('7th Lord in dual sign'));
     if (rule) {
-      indicators.push({ text: rule.condition + ': ' + rule.description, profileName: name });
+      indicators.push({ text: (rule.condition || '') + ': ' + (rule.description || ''), profileName: name });
     } else {
       indicators.push({ text: '7th Lord in Dual Sign: Potential for multiple partnerships', profileName: name });
     }

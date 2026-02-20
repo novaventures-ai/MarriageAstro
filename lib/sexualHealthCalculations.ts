@@ -37,8 +37,8 @@ export function analyzeMaleSexualHealth(chart: Chart): {
   if (venus && mars) {
     const diff = Math.abs(normalizeDegrees(venus.longitude - mars.longitude));
     if (diff < 10) {
-      const rule = pmeRules.find((r: any) => r.condition === 'Venus conjunct Mars');
-      if (rule) indicators.push(rule.condition + ': ' + rule.explanation);
+      const rule = pmeRules.find((r: any) => r?.condition === 'Venus conjunct Mars');
+      if (rule) indicators.push((rule.condition || 'Venus conjunct Mars') + ': ' + (rule.explanation || ''));
       pmeRiskScore += 40;
     }
   }
@@ -47,23 +47,23 @@ export function analyzeMaleSexualHealth(chart: Chart): {
   if (venus && ketu) {
     const diff = Math.abs(normalizeDegrees(venus.longitude - ketu.longitude));
     if (diff < 10) {
-      const rule = pmeRules.find((r: any) => r.condition === 'Venus conjunct Ketu');
-      if (rule) indicators.push(rule.condition + ': ' + rule.explanation);
+      const rule = pmeRules.find((r: any) => r?.condition === 'Venus conjunct Ketu');
+      if (rule) indicators.push((rule.condition || 'Venus conjunct Ketu') + ': ' + (rule.explanation || ''));
       pmeRiskScore += 35;
     }
   }
 
   // Venus in Fire sign
   if (venus && ['Aries', 'Leo', 'Sagittarius'].includes(venus.sign)) {
-    const rule = pmeRules.find((r: any) => r.condition.includes('Venus in Fire sign'));
-    if (rule) indicators.push(rule.condition + ': ' + rule.explanation);
+    const rule = pmeRules.find((r: any) => r?.condition?.includes('Venus in Fire sign'));
+    if (rule) indicators.push((rule.condition || 'Venus in Fire sign') + ': ' + (rule.explanation || ''));
     pmeRiskScore += 20;
   }
 
   // Mars in 7th or 8th house
   if (mars && (mars.house === 7 || mars.house === 8)) {
-    const rule = pmeRules.find((r: any) => r.condition.includes('Mars in 7th or 8th house'));
-    if (rule) indicators.push(rule.condition + ': ' + rule.explanation);
+    const rule = pmeRules.find((r: any) => r?.condition?.includes('Mars in 7th or 8th house'));
+    if (rule) indicators.push((rule.condition || 'Mars in 7th or 8th house') + ': ' + (rule.explanation || ''));
     pmeRiskScore += 20;
   }
 
@@ -73,8 +73,8 @@ export function analyzeMaleSexualHealth(chart: Chart): {
 
   // Sun debilitated or in Dusthana
   if (sun && (sun.dignity === 'debilitated' || [6, 8, 12].includes(sun.house))) {
-    const rule = edRules.find((r: any) => r.condition.includes('Sun debilitated'));
-    if (rule) indicators.push(rule.condition + ': ' + rule.explanation);
+    const rule = edRules.find((r: any) => r?.condition?.includes('Sun debilitated'));
+    if (rule) indicators.push((rule.condition || 'Sun debilitated') + ': ' + (rule.explanation || ''));
     edRiskScore += 35;
     recommendations.push('Strengthen Sun through Surya Namaskar and lifestyle changes');
   }
@@ -83,8 +83,8 @@ export function analyzeMaleSexualHealth(chart: Chart): {
   if (sun && saturn) {
     const diff = Math.abs(normalizeDegrees(sun.longitude - saturn.longitude));
     if (diff < 10) {
-      const rule = edRules.find((r: any) => r.condition.includes('Sun-Saturn conjunction'));
-      if (rule) indicators.push(rule.condition + ': ' + rule.explanation);
+      const rule = edRules.find((r: any) => r?.condition?.includes('Sun-Saturn conjunction'));
+      if (rule) indicators.push((rule.condition || 'Sun-Saturn conjunction') + ': ' + (rule.explanation || ''));
       edRiskScore += 40;
       recommendations.push('Remedies for Sun-Saturn conjunction: Donate on Saturdays');
     }
@@ -92,8 +92,8 @@ export function analyzeMaleSexualHealth(chart: Chart): {
 
   // Mercury or Saturn in 7th/8th
   if ((saturn && [7, 8].includes(saturn.house)) || (mercury && [7, 8].includes(mercury.house))) {
-    const rule = edRules.find((r: any) => r.condition.includes('Mercury or Saturn in 7th or 8th house'));
-    if (rule) indicators.push(rule.condition + ': ' + rule.explanation);
+    const rule = edRules.find((r: any) => r?.condition?.includes('Mercury or Saturn in 7th or 8th house'));
+    if (rule) indicators.push((rule.condition || 'Mercury or Saturn in 7th or 8th house') + ': ' + (rule.explanation || ''));
     edRiskScore += 30;
   }
 
@@ -140,23 +140,23 @@ export function analyzeFemaleSexualHealth(chart: Chart): {
     const moonDiff = moon ? Math.abs(normalizeDegrees(saturn.longitude - moon.longitude)) : 1000;
 
     if (venusDiff < 10 || (venusDiff > 170 && venusDiff < 190) || moonDiff < 10 || (moonDiff > 170 && moonDiff < 190)) {
-      const rule = frigidityRules.find((r: any) => r.condition.includes('Saturn aspecting Venus OR Moon'));
-      if (rule) indicators.push(rule.condition + ': ' + rule.explanation);
+      const rule = frigidityRules.find((r: any) => r?.condition?.includes('Saturn aspecting Venus OR Moon'));
+      if (rule) indicators.push((rule.condition || 'Saturn aspecting Venus OR Moon') + ': ' + (rule.explanation || ''));
       frigidityScore += 40;
     }
   }
 
   // Ketu in 7th or 8th house
   if (ketu && (ketu.house === 7 || ketu.house === 8)) {
-    const rule = frigidityRules.find((r: any) => r.condition.includes('Ketu in 7th or 8th house'));
-    if (rule) indicators.push(rule.condition + ': ' + rule.explanation);
+    const rule = frigidityRules.find((r: any) => r?.condition?.includes('Ketu in 7th or 8th house'));
+    if (rule) indicators.push((rule.condition || 'Ketu in 7th or 8th house') + ': ' + (rule.explanation || ''));
     frigidityScore += 40;
   }
 
   // Venus in Capricorn
   if (venus && venus.sign === 'Capricorn') {
-    const rule = frigidityRules.find((r: any) => r.condition.includes('Venus in Capricorn'));
-    if (rule) indicators.push(rule.condition + ': ' + rule.explanation);
+    const rule = frigidityRules.find((r: any) => r?.condition?.includes('Venus in Capricorn'));
+    if (rule) indicators.push((rule.condition || 'Venus in Capricorn') + ': ' + (rule.explanation || ''));
     frigidityScore += 20;
   }
 
@@ -166,13 +166,13 @@ export function analyzeFemaleSexualHealth(chart: Chart): {
 
   // Mars or Rahu in 8th house
   if (mars && mars.house === 8) {
-    const rule = painRules.find((r: any) => r.condition === 'Mars in 8th house');
-    if (rule) indicators.push(rule.condition + ': ' + rule.explanation);
+    const rule = painRules.find((r: any) => r?.condition === 'Mars in 8th house');
+    if (rule) indicators.push((rule.condition || 'Mars in 8th house') + ': ' + (rule.explanation || ''));
     painScore += 35;
   }
   if (rahu && rahu.house === 8) {
-    const rule = painRules.find((r: any) => r.condition === 'Rahu in 8th house');
-    if (rule) indicators.push(rule.condition + ': ' + rule.explanation);
+    const rule = painRules.find((r: any) => r?.condition === 'Rahu in 8th house');
+    if (rule) indicators.push((rule.condition || 'Rahu in 8th house') + ': ' + (rule.explanation || ''));
     painScore += 30;
   }
 
@@ -180,8 +180,8 @@ export function analyzeFemaleSexualHealth(chart: Chart): {
   const eighthLord = getLordOfHouse(chart, 8);
   const eighthLordPosition = chart.planetaryPositions.find(p => p.planet === eighthLord);
   if (eighthLordPosition && eighthLordPosition.house === 6) {
-    const rule = painRules.find((r: any) => r.condition === '8th Lord in 6th house');
-    if (rule) indicators.push(rule.condition + ': ' + rule.explanation);
+    const rule = painRules.find((r: any) => r?.condition === '8th Lord in 6th house');
+    if (rule) indicators.push((rule.condition || '8th Lord in 6th house') + ': ' + (rule.explanation || ''));
     painScore += 25;
   }
 

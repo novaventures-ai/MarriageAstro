@@ -337,8 +337,13 @@ export class AIMatchmakingEngine {
 
     // Step 2: Analyze each partner comprehensively
     for (const partner of this.partners) {
-      const analysis = await this.analyzePartner(partner);
-      this.analyses.set(partner.id, analysis);
+      try {
+        const analysis = await this.analyzePartner(partner);
+        this.analyses.set(partner.id, analysis);
+      } catch (error) {
+        console.error(`Analysis failed for partner ${partner.name}:`, error);
+        // We could create a minimal "failed" analysis here if we want to avoid skipping the partner entirely
+      }
     }
 
     // Step 3: Rank and select best match
@@ -418,7 +423,7 @@ export class AIMatchmakingEngine {
       partnerId: partner.id,
       partnerName: partner.name,
       overallScore,
-      categoryScores: comparisonScore.categories,
+      categoryScores: comparisonScore?.categories || {},
       rankingFactors,
       strengthAreas,
       challengeAreas,

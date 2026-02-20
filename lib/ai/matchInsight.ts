@@ -343,7 +343,11 @@ export async function generateMatchInsight(
             aiAnalysis: analysis
         };
     } catch (error) {
-        console.error('Error generating AI match insight:', error);
+        console.error('Error generating AI match insight (dashboard path):', error);
+        // Specifically log the stack trace to identify where the engine crashed
+        if (error instanceof Error) {
+            console.error('Stack trace:', error.stack);
+        }
 
         // Fallback to basic calculation if engine fails
         const ashtakoot = calculateAshtakootMilan(selfChart, partnerChart);
