@@ -105,6 +105,38 @@ export async function saveReport(
     userId: string,
     report: CompatibilityReport
 ): Promise<{ id: string } | null> {
+
+    // 1. Check if a report for this pair already exists
+    const { data: existing } = await supabase
+        .from('compatibility_reports')
+        .select('id')
+        .eq('user_id', userId)
+        .eq('chart_a_name', report.chartA.name)
+        .eq('chart_b_name', report.chartB.name)
+        .single();
+
+    if (existing) {
+        // 2. If it exists, update the existing report
+        const { data, error } = await supabase
+            .from('compatibility_reports')
+            .update({
+                overall_score: report.overallScore,
+                overall_verdict: report.overallVerdict,
+                report_data: report as unknown as Record<string, unknown>,
+            })
+            .eq('id', existing.id)
+            .select('id')
+            .single();
+
+        if (error) {
+            console.error('Error updating existing report:', error.message);
+            return null;
+        }
+
+        return data;
+    }
+
+    // 3. Otherwise, insert a new report
     const { data, error } = await supabase
         .from('compatibility_reports')
         .insert({

@@ -40,6 +40,7 @@ export interface AIMatchAnalysis {
   partnerId: string;
   partnerName: string;
   overallScore: number;
+  rawScore: number;
   categoryScores: CategoryScore;
   rankingFactors: RankingFactor[];
   strengthAreas: StrengthArea[];
@@ -395,8 +396,8 @@ export class AIMatchmakingEngine {
     // Analyze all ranking factors
     const rankingFactors = this.analyzeRankingFactors(report, partner.chart);
 
-    // Calculate weighted overall score
-    const overallScore = this.calculateWeightedScore(rankingFactors);
+    // Calculate weighted overall score (Use the comprehensive report score directly for UI consistency)
+    const overallScore = report.overallScore;
 
     // Identify strengths
     const strengthAreas = this.identifyStrengthAreas(report, partner.chart);
@@ -423,6 +424,7 @@ export class AIMatchmakingEngine {
       partnerId: partner.id,
       partnerName: partner.name,
       overallScore,
+      rawScore: report.ashtakoot.totalScore,
       categoryScores: comparisonScore?.categories || {},
       rankingFactors,
       strengthAreas,

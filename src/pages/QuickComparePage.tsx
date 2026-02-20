@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useUserProfileStore } from '../store/useUserProfileStore';
 import { useAppStore } from '../store/useAppStore';
@@ -20,10 +20,15 @@ export const QuickComparePage: React.FC = () => {
 
     const [error, setError] = useState<string | null>(null);
     const [isProcessing, setIsProcessing] = useState(false);
+    const hasProcessed = useRef(false);
 
     useEffect(() => {
         // Wait for hydration
         if (!isHydrated) return;
+
+        // Prevent duplicate processing in Strict Mode
+        if (hasProcessed.current) return;
+        hasProcessed.current = true;
 
         const processComparison = async () => {
             try {

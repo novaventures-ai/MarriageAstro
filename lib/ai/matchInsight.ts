@@ -47,31 +47,7 @@ export async function generateComprehensiveMatchInsight(
 
         // Create a minimal analysis from the report
         const ashtakoot = report.ashtakoot;
-        let score = Math.round((ashtakoot.totalScore / 36) * 100);
-
-        // Apply penalties like in the original
-        if (ashtakoot.doshas.nadiDosha) {
-            const isCancelled = ashtakoot.exceptions.some((e: string) => e.includes('Nadi'));
-            if (!isCancelled) score -= 15;
-        }
-        if (ashtakoot.doshas.bhakootDosha) {
-            const isCancelled = ashtakoot.exceptions.some((e: string) => e.includes('Bhakoot'));
-            if (!isCancelled) score -= 10;
-        }
-        if (ashtakoot.manglikAnalysis?.compatibility === 'Low') {
-            score -= 10;
-        }
-        if (ashtakoot.doshas.ganaDosha) {
-            const isCancelled = ashtakoot.exceptions.some((e: string) => e.includes('Gana'));
-            if (!isCancelled) score -= 5;
-        }
-        if (ashtakoot.parameters.grahaMaitri.pointsObtained >= 4) {
-            score += 5;
-        } else if (ashtakoot.parameters.grahaMaitri.pointsObtained <= 1) {
-            score -= 5;
-        }
-
-        score = Math.max(0, Math.min(100, score));
+        const score = report.overallScore;
 
         let verdict = 'Neutral';
         if (score >= 80) verdict = 'Excellent';
@@ -169,6 +145,7 @@ export async function generateComprehensiveMatchInsight(
             partnerId,
             partnerName,
             overallScore: score,
+            rawScore: ashtakoot.totalScore,
             categoryScores: {
                 traditional: Math.round((ashtakoot.totalScore / 36) * 100),
                 relationship: report.synastry.soulmateConnections.length > 0 ? 75 : 50,
@@ -394,7 +371,7 @@ export async function analyzeBestMatch(
             partnerId: analysis.partnerId,
             partnerName: analysis.partnerName,
             score: analysis.overallScore,
-            rawScore: 0, // Will be filled from ashtakoot if needed
+            rawScore: analysis.rawScore,
             verdict: analysis.recommendation.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
             reason: analysis.explanationData.executiveSummary,
             strengths: analysis.strengthAreas.map(s => s.title),

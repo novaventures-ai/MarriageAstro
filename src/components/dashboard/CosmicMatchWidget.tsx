@@ -114,7 +114,9 @@ const CounselorContent: React.FC<{
                                                         </span>
                                                     </h5>
                                                     <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                                                        {factor.explanation}
+                                                        {factor.explanation.split('**').map((part, j) =>
+                                                            j % 2 === 0 ? part : <strong key={j} className="text-gray-900 dark:text-gray-100">{part}</strong>
+                                                        )}
                                                     </p>
                                                     <p className="text-xs text-indigo-600 dark:text-indigo-400 mt-2 italic font-medium">
                                                         {factor.astrologicalBasis}
