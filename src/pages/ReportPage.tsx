@@ -95,6 +95,12 @@ export const ReportPage: React.FC = () => {
               >
                 <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 dark:text-gray-400" />
               </button>
+              <button
+                onClick={() => navigate('/dashboard')}
+                className="flex items-center gap-1.5 sm:gap-2 hover:opacity-80 transition-opacity cursor-pointer flex-shrink-0"
+              >
+                <Logo size="sm" showText={false} />
+              </button>
               <div className="min-w-0 flex-1 overflow-hidden">
                 <h1 className="text-sm sm:text-xl md:text-2xl font-bold text-gray-800 dark:text-gray-100 transition-colors whitespace-nowrap">
                   <span className="hidden sm:inline">Compatibility Report</span>
