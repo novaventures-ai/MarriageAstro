@@ -20,6 +20,7 @@ import { MentalHealthWidget } from '../components/widgets/MentalHealthWidget';
 import { RelationshipPatternWidget } from '../components/widgets/RelationshipPatternWidget';
 import { ConflictZoneWidget } from '../components/widgets/ConflictZoneWidget';
 import { PsychologicalProfileWidget } from '../components/widgets/PsychologicalProfileWidget';
+import { VulnerabilityTimelineWidget } from '../components/widgets/VulnerabilityTimelineWidget';
 import { ArrowLeft, ChevronDown, Home } from 'lucide-react';
 import ChartDetailsWidget from '../components/ChartDetailsWidget';
 import { ThemeToggle } from '../components/ui/ThemeToggle';
@@ -75,6 +76,7 @@ export const ReportPage: React.FC = () => {
     { id: 'psychology', label: 'Psychology' },
     { id: 'conflicts', label: 'Conflicts' },
     { id: 'risks', label: 'Risks' },
+    { id: 'vulnerability', label: 'Vulnerability' },
     { id: 'timing', label: 'Timing' },
     { id: 'remedies', label: 'Remedies' },
   ] as const;
@@ -373,6 +375,10 @@ export const ReportPage: React.FC = () => {
 
           {activeTab === 'timing' && (
             <TimingWidget timing={currentReport.timing} />
+          )}
+
+          {activeTab === 'vulnerability' && currentReport.vulnerabilityTimeline && (
+            <VulnerabilityTimelineWidget timeline={currentReport.vulnerabilityTimeline} />
           )}
 
           {activeTab === 'remedies' && (

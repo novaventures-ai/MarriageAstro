@@ -59,6 +59,7 @@ import { analyzeMentalHealth } from './mentalHealthCalculations';
 import { calculateRelationshipPatterns } from './relationshipPatternCalculations';
 import { findVulnerablePeriods } from './dashaCalculations';
 import { calculateConflictZones } from './conflictCalculations';
+import { calculateVulnerabilityTimeline } from './vulnerabilityTiming';
 import {
   calculateHouseOverlays,
   calculatePlanetaryConjunctions,
@@ -599,6 +600,8 @@ export async function generateCompatibilityReport(
   try { relationshipPatternA = calculateRelationshipPatterns(chartA, chartA.name); } catch (e) { console.error('RelationshipPattern A failed', e); }
   try { relationshipPatternB = calculateRelationshipPatterns(chartB, chartB.name); } catch (e) { console.error('RelationshipPattern B failed', e); }
 
+  const vulnerabilityTimeline = await calculateVulnerabilityTimeline(chartA, chartB);
+
   const report: any = {
     id: `report-${Date.now()}`,
     userId,
@@ -635,6 +638,7 @@ export async function generateCompatibilityReport(
     yogaDoshaAnalysis: { partnerA: yogaDoshaA, partnerB: yogaDoshaB },
     relationshipPatternAnalysis: { partnerA: relationshipPatternA, partnerB: relationshipPatternB },
     poruthamAnalysis,
+    vulnerabilityTimeline,
     advancedBreakdown
   };
 

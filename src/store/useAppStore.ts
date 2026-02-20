@@ -18,7 +18,7 @@ interface AppState {
   // UI states
   isLoading: boolean;
   error: string | null;
-  activeTab: 'charts' | 'overview' | 'ashtakoot' | 'porutham' | 'synastry' | 'risks' | 'timing' | 'remedies' | 'sexual' | 'spouse' | 'divisional' | 'kp' | 'chara' | 'yogas' | 'addiction' | 'mental' | 'patterns' | 'psychology' | 'conflicts';
+  activeTab: 'charts' | 'overview' | 'ashtakoot' | 'porutham' | 'synastry' | 'risks' | 'vulnerability' | 'timing' | 'remedies' | 'sexual' | 'spouse' | 'divisional' | 'kp' | 'chara' | 'yogas' | 'addiction' | 'mental' | 'patterns' | 'psychology' | 'conflicts';
   viewMode: 'executive' | 'detailed';
 
   // Actions

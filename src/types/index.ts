@@ -803,6 +803,23 @@ export interface ConflictZone {
   awarenessNote: string;
 }
 
+export interface VulnerabilityWindow {
+  startDate: Date;
+  endDate: Date;
+  partnerAAge: number;
+  partnerBAge: number;
+  riskType: 'divorce' | 'infidelity' | 'both';
+  riskLevel: 'moderate' | 'high' | 'critical';
+  description: string;
+  astrologicalTriggers: string[];
+}
+
+export interface VulnerabilityTimeline {
+  partnerAName: string;
+  partnerBName: string;
+  windows: VulnerabilityWindow[];
+}
+
 export interface CompatibilityReport {
   id: string;
   userId: string;
@@ -878,6 +895,7 @@ export interface CompatibilityReport {
     partnerA: import('../../lib/relationshipPatternCalculations').RelationshipPatternAnalysis;
     partnerB: import('../../lib/relationshipPatternCalculations').RelationshipPatternAnalysis;
   };
+  vulnerabilityTimeline?: VulnerabilityTimeline;
 
   // Summary for quick view
   executiveSummary: {
