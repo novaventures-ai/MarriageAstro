@@ -20,7 +20,7 @@ import { MentalHealthWidget } from '../components/widgets/MentalHealthWidget';
 import { RelationshipPatternWidget } from '../components/widgets/RelationshipPatternWidget';
 import { ConflictZoneWidget } from '../components/widgets/ConflictZoneWidget';
 import { PsychologicalProfileWidget } from '../components/widgets/PsychologicalProfileWidget';
-import { ArrowLeft, ChevronDown } from 'lucide-react';
+import { ArrowLeft, ChevronDown, Home } from 'lucide-react';
 import ChartDetailsWidget from '../components/ChartDetailsWidget';
 import { ThemeToggle } from '../components/ui/ThemeToggle';
 import { AuthButton } from '../components/ui/AuthButton';
@@ -96,10 +96,12 @@ export const ReportPage: React.FC = () => {
                 <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 dark:text-gray-400" />
               </button>
               <button
-                onClick={() => navigate('/dashboard')}
+                onClick={() => navigate('/')}
                 className="flex items-center gap-1.5 sm:gap-2 hover:opacity-80 transition-opacity cursor-pointer flex-shrink-0"
+                title="Go to Dashboard"
               >
                 <Logo size="sm" showText={false} />
+                <span className="hidden sm:inline text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">Dashboard</span>
               </button>
               <div className="min-w-0 flex-1 overflow-hidden">
                 <h1 className="text-sm sm:text-xl md:text-2xl font-bold text-gray-800 dark:text-gray-100 transition-colors whitespace-nowrap">
@@ -113,6 +115,13 @@ export const ReportPage: React.FC = () => {
             </div>
 
             <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+              <button
+                onClick={() => navigate('/')}
+                className="p-1.5 sm:p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors text-gray-600 dark:text-gray-400"
+                title="Go Home"
+              >
+                <Home className="w-4 h-4 sm:w-5 sm:h-5" />
+              </button>
               <AuthButton />
               <ThemeToggle />
             </div>
