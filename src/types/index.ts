@@ -812,6 +812,9 @@ export interface VulnerabilityWindow {
   riskLevel: 'moderate' | 'high' | 'critical';
   description: string;
   astrologicalTriggers: string[];
+  isCrucial?: boolean;
+  activePlanets?: Planet[];
+  remedy?: string;
 }
 
 export interface VulnerabilityTimeline {
