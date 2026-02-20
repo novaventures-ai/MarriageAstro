@@ -821,6 +821,7 @@ export interface VulnerabilityWindow {
     endDate: Date;
     planet: Planet;
     triggers: string[];
+    isCritical?: boolean;
   }[];
   divisitionalNote?: string;
 }
