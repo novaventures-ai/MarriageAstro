@@ -133,10 +133,8 @@ function calculateVarna(signA: string, signB: string): AshtakootParameter {
     return 'Shudra';
   };
 
-  console.log(`DEBUG: calculateVarna input - signA: [${signA}], signB: [${signB}]`);
   const varnaA = getVarna(signA as Sign);
   const varnaB = getVarna(signB as Sign);
-  console.log(`DEBUG: calculateVarna output - varnaA: [${varnaA}], varnaB: [${varnaB}]`);
 
   const varnaHierarchy = ['Shudra', 'Vaishya', 'Kshatriya', 'Brahmin'];
   const rankA = varnaHierarchy.indexOf(varnaA);

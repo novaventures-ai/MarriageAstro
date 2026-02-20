@@ -53,6 +53,7 @@ interface UserProfileState {
   // Actions - Partners
   addPartner: (data: BirthDataInput) => Promise<string>;
   removePartner: (id: string) => Promise<void>;
+  removeAllPartners: () => Promise<void>;
   updatePartner: (id: string, data: Partial<PartnerProfile>) => Promise<void>;
   selectPartner: (id: string | null) => void;
   loadPartners: () => Promise<void>;
@@ -246,6 +247,22 @@ export const useUserProfileStore = create<UserProfileState>()(
           await deletePartner(id);
         } catch (error) {
           console.error('Failed to delete partner:', error);
+        }
+      },
+
+      removeAllPartners: async () => {
+        const currentPartners = get().partners;
+
+        // Clear local state immediately
+        set({ partners: [], selectedPartnerId: null });
+
+        // Delete each from cloud
+        for (const partner of currentPartners) {
+          try {
+            await deletePartner(partner.id);
+          } catch (error) {
+            console.error(`Failed to delete partner ${partner.id}:`, error);
+          }
         }
       },
 

@@ -80,7 +80,6 @@ export const QuickComparePage: React.FC = () => {
                 };
 
                 // 5. Generate Report
-                console.log('Generating Quick Compare Report for:', personAData.name, 'and', personBData.name);
                 await generateReport(personAData, personBData);
 
                 // 6. Navigate to Report

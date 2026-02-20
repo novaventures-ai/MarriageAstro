@@ -21,6 +21,7 @@ export const UserDashboard: React.FC = () => {
     selectedPartnerId,
     isLoadingPartners,
     removePartner,
+    removeAllPartners,
     selectPartner,
     loadPartners,
     isHydrated,
@@ -28,6 +29,7 @@ export const UserDashboard: React.FC = () => {
   } = useUserProfileStore();
 
   const [partnerScores, setPartnerScores] = useState<Record<string, { score: number, verdict: string }>>({});
+  const [confirmDeleteAll, setConfirmDeleteAll] = useState(false);
   const [partnersWithCharts, setPartnersWithCharts] = useState<any[]>([]);
 
   // Load partners on mount
@@ -76,7 +78,7 @@ export const UserDashboard: React.FC = () => {
 
             try {
               // Use unified Logic for Consistent Scoring
-              const insight = generateMatchInsight(selfChart, partnerChart, partner.name, partner.id);
+              const insight = await generateMatchInsight(selfChart, partnerChart, partner.name, partner.id);
 
               newScores[partner.id] = {
                 score: insight.score,
@@ -125,7 +127,11 @@ export const UserDashboard: React.FC = () => {
         </h2>
 
         {/* AI Insight Widget */}
-        <CosmicMatchWidget selfChart={selfChart} partners={partnersWithCharts} />
+        <CosmicMatchWidget
+          selfChart={selfChart}
+          selfBirthData={selfBirthData}
+          partners={partners}
+        />
 
         {/* Self Profile Card */}
         <div className="mb-8">
@@ -207,13 +213,45 @@ export const UserDashboard: React.FC = () => {
             <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
               Saved Partners ({partners.length})
             </h3>
-            <button
-              onClick={() => navigate('/add-partner')}
-              className="flex items-center gap-2 px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors text-sm"
-            >
-              <Plus className="w-4 h-4" />
-              Add Partner
-            </button>
+            <div className="flex items-center gap-2">
+              {partners.length > 0 && (
+                confirmDeleteAll ? (
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-red-400 font-medium">Delete all {partners.length} partners?</span>
+                    <button
+                      onClick={async () => {
+                        await removeAllPartners();
+                        setConfirmDeleteAll(false);
+                      }}
+                      className="flex items-center gap-1 px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm font-medium"
+                    >
+                      Confirm
+                    </button>
+                    <button
+                      onClick={() => setConfirmDeleteAll(false)}
+                      className="flex items-center gap-1 px-3 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors text-sm font-medium"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => setConfirmDeleteAll(true)}
+                    className="flex items-center gap-2 px-4 py-2 bg-red-600/20 text-red-400 border border-red-500/30 rounded-lg hover:bg-red-600/30 transition-colors text-sm font-medium"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                    Delete All
+                  </button>
+                )
+              )}
+              <button
+                onClick={() => navigate('/add-partner')}
+                className="flex items-center gap-2 px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors text-sm"
+              >
+                <Plus className="w-4 h-4" />
+                Add Partner
+              </button>
+            </div>
           </div>
 
           {isLoadingPartners ? (

@@ -55,6 +55,7 @@ function calculateInfidelityProtectionBuffer(chart: Chart, name: string): number
 
 export function assessDivorceRisk(chart: Chart, name: string): {
   score: number;
+  rawScore: number;
   level: 'low' | 'medium' | 'high' | 'very_high';
   indicators: { text: string; profileName: string }[];
   mitigation: string[];
@@ -64,7 +65,7 @@ export function assessDivorceRisk(chart: Chart, name: string): {
   const mitigation: string[] = [];
   const rules = (riskRules as any).divorce_indicators;
 
-  if (!rules) return { score, level: 'low', indicators, mitigation };
+  if (!rules) return { score, rawScore: 0, level: 'low', indicators, mitigation };
 
   // Get key positions
   const seventhHouse = chart.houses.find(h => h.houseNumber === 7);
@@ -180,13 +181,17 @@ export function assessDivorceRisk(chart: Chart, name: string): {
 
   // --- REFINED PROTECTIVE BUFFER ---
   const protectiveBuffer = calculateProtectionBuffer(chart, name);
+  const rawScore = Math.max(0, Math.min(score, 100)); // Raw score before buffer, capped at 100
   score -= protectiveBuffer;
 
   // Determine level
   const levelByScore: 'low' | 'medium' | 'high' | 'very_high' = score >= 70 ? 'very_high' : score >= 45 ? 'high' : score >= 20 ? 'medium' : 'low';
+  // Ensure score doesn't go below 0 (negative risk doesn't make sense)
+  const finalScore = Math.max(0, Math.min(score, 100));
 
   return {
-    score: Math.min(score, 100),
+    score: finalScore,
+    rawScore: rawScore,
     level: levelByScore,
     indicators,
     mitigation
@@ -199,6 +204,7 @@ export function assessDivorceRisk(chart: Chart, name: string): {
 
 export function assessInfidelityRisk(chart: Chart, name: string): {
   score: number;
+  rawScore: number;
   level: 'low' | 'medium' | 'high';
   indicators: { text: string; profileName: string }[];
   warning: string[];
@@ -390,10 +396,15 @@ export function assessInfidelityRisk(chart: Chart, name: string): {
   const protectiveBuffer = calculateInfidelityProtectionBuffer(chart, name);
   const hasIndicators = (capacityScore + opportunityScore) > 0;
 
-  let finalScore = (capacityScore * 0.5) + (opportunityScore * 0.5) - stabilizerScore - protectiveBuffer;
-  if (hasIndicators) finalScore += 5; // Base bump for detected presence
+  // Raw score is before stabilizers and protective buffer are subtracted
+  // But we still apply the "base bump" if indicators exist
+  let rawScore = (capacityScore * 0.5) + (opportunityScore * 0.5);
+  if (hasIndicators) rawScore += 5;
+
+  let finalScore = rawScore - stabilizerScore - protectiveBuffer;
 
   finalScore = Math.max(10, Math.min(100, finalScore));
+  const cappedRawScore = Math.max(10, Math.min(100, Math.round(rawScore)));
 
   const level: 'low' | 'medium' | 'high' = finalScore >= 60 ? 'high' : finalScore >= 30 ? 'medium' : 'low';
 
@@ -403,6 +414,7 @@ export function assessInfidelityRisk(chart: Chart, name: string): {
 
   return {
     score: Math.round(finalScore),
+    rawScore: cappedRawScore,
     level,
     indicators,
     warning
@@ -1651,14 +1663,17 @@ export function assessRisk(chartA: Chart, chartB: Chart): RiskAssessment {
   const longevityB = assessSpouseLongevity(chartB, chartB.name);
 
   const combinedDivorceScore = Math.round((divorceA.score + divorceB.score) / 2);
-  const combinedDivorceLevel = combinedDivorceScore >= 70 ? 'very_high' : combinedDivorceScore >= 45 ? 'high' : combinedDivorceScore >= 20 ? 'medium' : 'low';
+  const combinedDivorceRawScore = Math.round((divorceA.rawScore + divorceB.rawScore) / 2);
+  const combinedDivorceLevel = combinedDivorceRawScore >= 70 ? 'very_high' : combinedDivorceRawScore >= 45 ? 'high' : combinedDivorceRawScore >= 20 ? 'medium' : 'low';
 
   const combinedInfidelityScore = Math.round((infidelityA.score + infidelityB.score) / 2);
-  const combinedInfidelityLevel = combinedInfidelityScore >= 60 ? 'high' : combinedInfidelityScore >= 30 ? 'medium' : 'low';
+  const combinedInfidelityRawScore = Math.round((infidelityA.rawScore + infidelityB.rawScore) / 2);
+  const combinedInfidelityLevel = combinedInfidelityRawScore >= 60 ? 'high' : combinedInfidelityRawScore >= 30 ? 'medium' : 'low';
 
   return {
     divorceProbability: {
       score: combinedDivorceScore,
+      rawScore: combinedDivorceRawScore,
       level: combinedDivorceLevel,
       indicators: [...divorceA.indicators, ...divorceB.indicators],
       mitigation: [...new Set([...divorceA.mitigation, ...divorceB.mitigation])],
@@ -1667,6 +1682,7 @@ export function assessRisk(chartA: Chart, chartB: Chart): RiskAssessment {
     },
     infidelityRisk: {
       score: combinedInfidelityScore,
+      rawScore: combinedInfidelityRawScore,
       level: combinedInfidelityLevel,
       indicators: [...infidelityA.indicators, ...infidelityB.indicators],
       warning: [...new Set([...infidelityA.warning, ...infidelityB.warning])],

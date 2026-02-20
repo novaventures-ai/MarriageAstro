@@ -18,7 +18,7 @@ interface AppState {
   // UI states
   isLoading: boolean;
   error: string | null;
-  activeTab: 'charts' | 'overview' | 'ashtakoot' | 'porutham' | 'synastry' | 'risks' | 'timing' | 'remedies' | 'sexual' | 'spouse' | 'divisional' | 'kp' | 'chara' | 'yogas' | 'addiction' | 'mental' | 'patterns';
+  activeTab: 'charts' | 'overview' | 'ashtakoot' | 'porutham' | 'synastry' | 'risks' | 'timing' | 'remedies' | 'sexual' | 'spouse' | 'divisional' | 'kp' | 'chara' | 'yogas' | 'addiction' | 'mental' | 'patterns' | 'psychology' | 'conflicts';
   viewMode: 'executive' | 'detailed';
 
   // Actions
@@ -70,7 +70,6 @@ export const useAppStore = create<AppState>((set, get) => ({
         const { data: { session } } = await supabase.auth.getSession();
         if (session?.user?.id) {
           await saveReport(session.user.id, report);
-          console.log('Report auto-saved to Supabase');
         }
       } catch (saveError) {
         // Don't fail the report generation if save fails

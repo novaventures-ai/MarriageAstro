@@ -901,7 +901,6 @@ export function calculateVargaChart(
     // Calculate Varga ascendant
     const ascDegreeInSign = ascendantLongitude % 30;
     const ascD1SignIndex = Math.floor(ascendantLongitude / 30);
-    console.log(`[DEBUG] Chart: ${name}, division: ${division}, ascD1SignIndex: ${ascD1SignIndex}, ascDegreeInSign: ${ascDegreeInSign}`);
     let vargaAscSignIndex: number;
 
     switch (division) {
@@ -1395,7 +1394,6 @@ export async function generateBirthChart(birthData: BirthData): Promise<BirthCha
  * Generate full chart data including vargas and dashas
  */
 export async function generateFullChartData(birthData: BirthData, includeDeepDashas: boolean = false): Promise<FullChartData> {
-    console.log('[DEBUG] generateFullChartData input:', JSON.stringify(birthData));
     const d1 = await generateBirthChart(birthData);
 
     const ascLongitude = d1.ascendant.signIndex * 30 + d1.ascendant.degree;

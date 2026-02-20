@@ -58,15 +58,6 @@ import yoniData from '../knowledge/yoni_sexual_compatibility.json';
 // ============================================================================
 
 export function calculateKPAnalysis(chart: Chart): KPAnalysis {
-  // Debug logging
-  console.log('calculateKPAnalysis called:', {
-    hasKp: !!chart.kp,
-    hasCusps: !!chart.kp?.cusps,
-    cuspsLength: chart.kp?.cusps?.length || 0,
-    hasSignificators: !!chart.kp?.significators,
-    significatorsLength: chart.kp?.significators?.length || 0
-  });
-
   const seventhCusp = chart.kp?.cusps?.find(c => c.cuspNumber === 7);
 
   // Generate fallback significators from planetary positions (used when KP calculation fails)
@@ -74,7 +65,6 @@ export function calculateKPAnalysis(chart: Chart): KPAnalysis {
 
   if (!seventhCusp) {
     console.warn('KP Analysis: 7th cusp not found in chart. Available cusps:', chart.kp?.cusps?.map(c => c.cuspNumber));
-    console.log('Using fallback significators:', fallbackSignificators.length, 'planets');
 
     // Calculate actual 7th house sub-lord from chart data (not hardcoded)
     const seventhHouse = chart.houses.find(h => h.houseNumber === 7);
@@ -145,7 +135,6 @@ export function calculateKPAnalysis(chart: Chart): KPAnalysis {
 
   // If significators are empty, generate fallback from planetary positions
   if (!significators || significators.length === 0) {
-    console.log('Generating fallback significators from planetary positions');
     significators = generateFallbackSignificators(chart);
   }
 
@@ -686,11 +675,6 @@ export function calculateVivahSaham(chart: Chart): VivahSahamAnalysis {
   const venus = chart.planetaryPositions.find(p => p.planet === 'Venus');
   const saturn = chart.planetaryPositions.find(p => p.planet === 'Saturn');
 
-  // Debug Logging
-  console.log('[VivahSaham Debug] Chart Planets:', chart.planetaryPositions.map(p => p.planet));
-  console.log('[VivahSaham Debug] Venus found:', venus);
-  console.log('[VivahSaham Debug] Saturn found:', saturn);
-
   const sun = chart.planetaryPositions.find(p => p.planet === 'Sun'); // Used for Day/Night check
 
   // Determine Day or Night Birth
@@ -721,14 +705,6 @@ export function calculateVivahSaham(chart: Chart): VivahSahamAnalysis {
         ascLongitude = ascPlanet.longitude;
       }
     }
-
-    // Debug Logging (Final Check)
-    console.log('[VivahSaham Calculation] Inputs:', {
-      venus: venus.longitude,
-      saturn: saturn.longitude,
-      ascendant: ascLongitude,
-      isDayBirth
-    });
 
     if (ascLongitude === 0 && !chart.houses[0]?.cuspLongitude) {
       calculationNote = 'Warning: Ascendant degree missing. Using 0° Aries approximation.';

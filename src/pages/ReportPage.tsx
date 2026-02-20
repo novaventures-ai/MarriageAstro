@@ -18,6 +18,8 @@ import { YogaDoshaWidget } from '../components/widgets/YogaDoshaWidget';
 import { AddictionRiskWidget } from '../components/widgets/AddictionRiskWidget';
 import { MentalHealthWidget } from '../components/widgets/MentalHealthWidget';
 import { RelationshipPatternWidget } from '../components/widgets/RelationshipPatternWidget';
+import { ConflictZoneWidget } from '../components/widgets/ConflictZoneWidget';
+import { PsychologicalProfileWidget } from '../components/widgets/PsychologicalProfileWidget';
 import { ArrowLeft, ChevronDown } from 'lucide-react';
 import ChartDetailsWidget from '../components/ChartDetailsWidget';
 import { ThemeToggle } from '../components/ui/ThemeToggle';
@@ -70,6 +72,8 @@ export const ReportPage: React.FC = () => {
     { id: 'addiction', label: 'Addiction' },
     { id: 'mental', label: 'Mental Health' },
     { id: 'patterns', label: 'Patterns' },
+    { id: 'psychology', label: 'Psychology' },
+    { id: 'conflicts', label: 'Conflicts' },
     { id: 'risks', label: 'Risks' },
     { id: 'timing', label: 'Timing' },
     { id: 'remedies', label: 'Remedies' },
@@ -327,6 +331,14 @@ export const ReportPage: React.FC = () => {
               nameA={currentReport.chartA.name}
               nameB={currentReport.chartB.name}
             />
+          )}
+
+          {activeTab === 'psychology' && (
+            <PsychologicalProfileWidget report={currentReport} />
+          )}
+
+          {activeTab === 'conflicts' && (
+            <ConflictZoneWidget report={currentReport} />
           )}
 
           {activeTab === 'risks' && (

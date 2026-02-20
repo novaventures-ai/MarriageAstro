@@ -3,7 +3,7 @@
  * Types for single-person marriage potential analysis
  */
 
-import { Chart, BirthDataInput, TimingAnalysis, SpousePrediction, DashaPeriod, PlanetaryPosition, House, Sign, Planet, Nakshatra, CompatibilityReport, DivisionalChartAnalysis } from './index';
+import { Chart, BirthDataInput, TimingAnalysis, SpousePrediction, DashaPeriod, PlanetaryPosition, House, Sign, Planet, Nakshatra, CompatibilityReport, DivisionalChartAnalysis, PsychologicalProfile } from './index';
 import { MentalHealthAnalysis } from '../../lib/mentalHealthCalculations';
 import { AddictionRiskAnalysis } from '../../lib/addictionCalculations';
 import { RelationshipPatternAnalysis } from '../../lib/relationshipPatternCalculations';
@@ -251,58 +251,6 @@ export interface SelfSexualProfile {
   };
 }
 
-/**
- * Psychological Profile
- */
-export interface PsychologicalProfile {
-  attachmentStyle: {
-    type: 'secure' | 'anxious' | 'avoidant' | 'fearful';
-    description: string;
-    moonSign: Sign;
-    fourthHouseAnalysis: string;
-  };
-
-  communicationStyle: {
-    style: string;
-    mercuryPlacement: string;
-    expressionMethod: string;
-    conflictResolution: string;
-    triggers: string[];
-  };
-
-  loveLanguage: {
-    primary: string;
-    secondary: string;
-    venusSign: Sign;
-    description: string;
-  };
-
-  coreFears: {
-    primaryFear: string;
-    rahuInfluence: string;
-    howItManifests: string;
-  };
-
-  defenseMechanisms: {
-    mechanism: string;
-    ketuInfluence: string;
-    impactOnRelationships: string;
-  };
-
-  repeatingPatterns: {
-    pattern: string;
-    fifthHouseInfluence: string;
-    venusCycles: string;
-    howToBreakIt: string;
-  };
-
-  mentalLandscape: {
-    coreFear: string;
-    defenseMechanism: string;
-    blindSpot: string;
-    growthArea: string;
-  };
-}
 
 /**
  * Self Remedies

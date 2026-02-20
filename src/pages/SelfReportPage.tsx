@@ -63,13 +63,7 @@ export const SelfReportPage: React.FC = () => {
 
   // Check if KP data is missing from chart (needs regeneration after code update)
   useEffect(() => {
-    console.log('SelfReportPage mounted');
-    console.log('selfChart:', selfChart);
-    console.log('selfChart.kp:', selfChart?.kp);
-    console.log('selfChart.kp.cusps:', selfChart?.kp?.cusps);
-
     if (selfChart && (!selfChart.kp || !selfChart.kp.cusps || selfChart.kp.cusps.length === 0)) {
-      console.log('KP data missing from chart - needs regeneration');
       setKpDataMissing(true);
     } else {
       setKpDataMissing(false);

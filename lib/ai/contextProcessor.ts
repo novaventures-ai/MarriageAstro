@@ -39,28 +39,32 @@ export const processReportForAI = (report: CompatibilityReport): AIContext => {
     // 1. Extract Critical Risks safely
     const riskFlags: string[] = [];
 
+    const nameA = report.chartA?.name || 'Partner A';
+    const nameB = report.chartB?.name || 'Partner B';
+
     const extractRisks = (analysis: any, type: 'addiction' | 'mental' | 'pattern') => {
         if (!analysis) return;
         ['partnerA', 'partnerB'].forEach(partner => {
             const data = analysis[partner];
             if (!data) return;
+            const partnerLabel = partner === 'partnerA' ? nameA : nameB;
 
             if (type === 'addiction' && data.categories) {
                 data.categories
                     .filter((c: any) => c.riskLevel === 'high' || c.riskLevel === 'very_high')
-                    .forEach((c: any) => riskFlags.push(`${c.label} Risk (${partner === 'partnerA' ? 'Partner A' : 'Partner B'})`));
+                    .forEach((c: any) => riskFlags.push(`${c.label} Risk (${partnerLabel})`));
             }
 
             if (type === 'mental' && data.categories) {
                 data.categories
                     .filter((c: any) => c.riskLevel === 'high' || c.riskLevel === 'elevated')
-                    .forEach((c: any) => riskFlags.push(`${c.label} Issue (${partner === 'partnerA' ? 'Partner A' : 'Partner B'})`));
+                    .forEach((c: any) => riskFlags.push(`${c.label} Issue (${partnerLabel})`));
             }
 
             if (type === 'pattern' && data.patterns) {
                 data.patterns
                     .filter((p: any) => p.severity === 'severe')
-                    .forEach((p: any) => riskFlags.push(`${p.name} (${partner === 'partnerA' ? 'Partner A' : 'Partner B'})`));
+                    .forEach((p: any) => riskFlags.push(`${p.name} (${partnerLabel})`));
             }
         });
     };

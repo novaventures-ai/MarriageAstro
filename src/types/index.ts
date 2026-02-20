@@ -547,33 +547,39 @@ export interface DivisionalChartAnalysis {
 
 export interface RiskAssessment {
   divorceProbability: {
-    score: number; // 0-100
+    score: number; // 0-100 (Buffered)
+    rawScore: number; // 0-100 (Unbuffered)
     level: 'low' | 'medium' | 'high' | 'very_high';
     indicators: { text: string; profileName: string }[];
     mitigation: string[];
     partnerA?: {
       score: number;
+      rawScore: number;
       level: 'low' | 'medium' | 'high' | 'very_high';
       indicators: { text: string; profileName: string }[];
     };
     partnerB?: {
       score: number;
+      rawScore: number;
       level: 'low' | 'medium' | 'high' | 'very_high';
       indicators: { text: string; profileName: string }[];
     };
   };
   infidelityRisk: {
-    score: number;
+    score: number; // Buffered
+    rawScore: number; // Unbuffered
     level: 'low' | 'medium' | 'high';
     indicators: { text: string; profileName: string }[];
     warning: string[];
     partnerA?: {
       score: number;
+      rawScore: number;
       level: 'low' | 'medium' | 'high';
       indicators: { text: string; profileName: string }[];
     };
     partnerB?: {
       score: number;
+      rawScore: number;
       level: 'low' | 'medium' | 'high';
       indicators: { text: string; profileName: string }[];
     };
@@ -723,6 +729,80 @@ export interface Remedies {
 // MAIN COMPATIBILITY REPORT
 // ============================================================================
 
+/**
+ * Psychological Profile
+ */
+export interface PsychologicalProfile {
+  attachmentStyle: {
+    type: 'secure' | 'anxious' | 'avoidant' | 'fearful';
+    description: string;
+    moonSign: Sign;
+    fourthHouseAnalysis: string;
+  };
+
+  communicationStyle: {
+    style: string;
+    mercuryPlacement: string;
+    expressionMethod: string;
+    conflictResolution: string;
+    triggers: string[];
+  };
+
+  loveLanguage: {
+    primary: string;
+    secondary: string;
+    venusSign: Sign;
+    description: string;
+  };
+
+  coreFears: {
+    primaryFear: string;
+    rahuInfluence: string;
+    howItManifests: string;
+  };
+
+  defenseMechanisms: {
+    mechanism: string;
+    ketuInfluence: string;
+    impactOnRelationships: string;
+  };
+
+  repeatingPatterns: {
+    pattern: string;
+    fifthHouseInfluence: string;
+    venusCycles: string;
+    howToBreakIt: string;
+  };
+
+  mentalLandscape: {
+    coreFear: string;
+    defenseMechanism: string;
+    blindSpot: string;
+    growthArea: string;
+  };
+}
+
+// ============================================================================
+// CONFLICT ZONE TYPES
+// ============================================================================
+
+export interface ConflictTrigger {
+  title: string;
+  intensity: 'High' | 'Medium' | 'Low';
+  description: string;
+  technicalBasis: string;
+  source: 'partnerA' | 'partnerB' | 'mutual';
+}
+
+export interface ConflictZone {
+  people: ConflictTrigger[];
+  things: ConflictTrigger[];
+  ideology: ConflictTrigger[];
+  behavior: ConflictTrigger[];
+  overallSeverity: 'High' | 'Medium' | 'Low';
+  awarenessNote: string;
+}
+
 export interface CompatibilityReport {
   id: string;
   userId: string;
@@ -749,6 +829,7 @@ export interface CompatibilityReport {
   spousePrediction: SpousePrediction;
   partnerSpousePrediction: SpousePrediction;
   divisionalAnalysis: DivisionalChartAnalysis;
+  conflictZone: ConflictZone;
 
   // Extended analysis (new widgets)
   kpAnalysis?: {
@@ -791,6 +872,8 @@ export interface CompatibilityReport {
     partnerA: import('../../lib/mentalHealthCalculations').MentalHealthAnalysis;
     partnerB: import('../../lib/mentalHealthCalculations').MentalHealthAnalysis;
   };
+  psychologicalProfileA?: PsychologicalProfile;
+  psychologicalProfileB?: PsychologicalProfile;
   relationshipPatternAnalysis?: {
     partnerA: import('../../lib/relationshipPatternCalculations').RelationshipPatternAnalysis;
     partnerB: import('../../lib/relationshipPatternCalculations').RelationshipPatternAnalysis;

@@ -3,14 +3,13 @@
  * Generates comprehensive marriage analysis for a single person
  */
 
-import { Chart, BirthDataInput, PlanetaryPosition, House, Sign, Planet, DivisionalChartAnalysis } from '../src/types';
+import { Chart, BirthDataInput, PlanetaryPosition, House, Sign, Planet, DivisionalChartAnalysis, PsychologicalProfile } from '../src/types';
 import {
   SelfAnalysisReport,
   MarriagePotential,
   SpouseDetailedProfile,
   TimingForecast,
   SelfSexualProfile,
-  PsychologicalProfile,
   SelfRemedies,
   SelfExecutiveSummary,
   FavorablePeriod,
@@ -36,11 +35,20 @@ import {
   calculateCharaKarakas,
   calculateCharaDasha,
   calculateUpapadaLagna,
-  calculateExtendedDivisionalAnalysis,
   calculateVivahSaham,
-  calculateTransitAnalysis,
-  calculateExtendedSexualCompatibility
+  calculateExtendedSpousePrediction,
+  calculateExtendedSexualCompatibility,
+  calculateExtendedRemedies,
+  calculateExtendedDivisionalAnalysis,
+  calculateTransitAnalysis
 } from './extendedCalculations';
+import {
+  calculateAshtakootMilan,
+  calculateNavamsaMatching,
+  calculateSexualCompatibility,
+  predictSpouseCharacteristics,
+  analyzeDivisionalCharts
+} from './compatibilityCalculations';
 import { ExtendedDivisionalAnalysis, ExtendedTimingAnalysis, DestinySyncItem } from '../src/types/extendedTypes';
 
 function getCurrentDashaFromChart(chart: Chart): { planet: string; mahadasha: string } | null {
@@ -1130,7 +1138,7 @@ function calculateSexualProfile(chart: Chart): SelfSexualProfile {
 /**
  * Calculate psychological profile
  */
-function calculatePsychologicalProfile(chart: Chart): PsychologicalProfile {
+export function calculatePsychologicalProfile(chart: Chart): PsychologicalProfile {
   const moon = chart.planetaryPositions.find((p: PlanetaryPosition) => p.planet === 'Moon');
   const sun = chart.planetaryPositions.find((p: PlanetaryPosition) => p.planet === 'Sun');
   const mercury = chart.planetaryPositions.find((p: PlanetaryPosition) => p.planet === 'Mercury');
@@ -2091,7 +2099,6 @@ export {
   generateDetailedSpouseProfile,
   generateTimingForecast,
   calculateSexualProfile,
-  calculatePsychologicalProfile,
   generateSelfRemedies,
   generateExecutiveSummary
 };

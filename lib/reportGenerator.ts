@@ -39,6 +39,7 @@ import {
   predictSpouseCharacteristics,
   analyzeDivisionalCharts
 } from './compatibilityCalculations';
+import { calculatePsychologicalProfile } from './selfReportGenerator';
 import {
   analyzeSexualHealth
 } from './sexualHealthCalculations';
@@ -57,6 +58,7 @@ import { analyzeModernInsightsEnhanced } from './modernInsightsCalculations';
 import { analyzeMentalHealth } from './mentalHealthCalculations';
 import { calculateRelationshipPatterns } from './relationshipPatternCalculations';
 import { findVulnerablePeriods } from './dashaCalculations';
+import { calculateConflictZones } from './conflictCalculations';
 import {
   calculateHouseOverlays,
   calculatePlanetaryConjunctions,
@@ -188,7 +190,6 @@ export async function generateChartFromBirthData(birthData: BirthDataInput): Pro
   };
 
   // 2. Run High-Precision Calculations (Vedic)
-  console.log('Generating chart with high-precision engine...');
   const fullChartData = await generateFullChartData(calcInput);
   const d1 = fullChartData.d1;
 
@@ -261,38 +262,28 @@ export async function generateChartFromBirthData(birthData: BirthDataInput): Pro
   // 4. KP System Calculations
   let kpData: { cusps: KPCusp[]; significators: KPSignificator[] } = { cusps: [], significators: [] };
   try {
-    console.log('Starting KP calculation...');
     const birthDate = new Date(`${dateStr}T${birthData.timeOfBirth}`);
-    console.log('Birth date:', birthDate);
 
     const jd = await SwissEphemeris.getJulianDay(birthDate);
-    console.log('Julian day:', jd);
 
     // 4.1 Get House Cusps in Placidus
-    console.log('Calling calculateKPHouseCusps with lat/lon:', birthData.latitude, birthData.longitude);
     const houseCuspsRaw = await calculateKPHouseCusps(jd, birthData.latitude, birthData.longitude);
-    console.log('House cusps raw:', houseCuspsRaw);
 
     const houseCuspsLongitudes = houseCuspsRaw.map((h: any) => (h.signIndex * 30) + h.degree + h.minute / 60 + h.second / 3600);
-    console.log('House cusps longitudes:', houseCuspsLongitudes);
 
     // 4.2 Map lords and significators
     const kpCusps = mapKPLords(houseCuspsLongitudes, planetaryPositions);
-    console.log('KP Cusps:', kpCusps);
 
     const kpSignificators = (planetaryPositions.slice(0, 9) as any[]).map(p =>
       calculateSignificators(p.planet, planetaryPositions, houseCuspsLongitudes)
     );
-    console.log('KP Significators:', kpSignificators);
 
     kpData = {
       cusps: kpCusps,
       significators: kpSignificators
     };
-    console.log('KP Data successfully generated:', kpData);
   } catch (e) {
     console.error("KP Calculation failed with error:", e);
-    console.error("Error stack:", e instanceof Error ? e.stack : 'No stack');
   }
 
   // 5. Construct Final Chart Object
@@ -598,8 +589,12 @@ export async function generateCompatibilityReport(
     { kpAnalysis: { partnerA: kpAnalysisA, partnerB: kpAnalysisB }, synastry: synastryData }
   );
 
-  return {
-    id: `report - ${Date.now()} `,
+  // 17. Psychological Profiles
+  const psychologicalProfileA = calculatePsychologicalProfile(chartA);
+  const psychologicalProfileB = calculatePsychologicalProfile(chartB);
+
+  const report: any = {
+    id: `report-${Date.now()}`,
     userId,
     chartA,
     chartB,
@@ -615,60 +610,31 @@ export async function generateCompatibilityReport(
     modernPlanets,
     modernChallenges,
     timing,
-    synastry: synastryData,
+    remedies,
+    sexualHealth,
     inLawAnalysis,
     partnerInLawAnalysis,
-    sexualHealth,
-    remedies,
+    kpAnalysis: { partnerA: kpAnalysisA, partnerB: kpAnalysisB },
+    charaKarakas: { partnerA: charaKarakasA, partnerB: charaKarakasB },
+    charaDasha: { partnerA: charaDashaA, partnerB: charaDashaB },
+    upapadaLagna: { partnerA: upapadaLagnaA, partnerB: upapadaLagnaB },
+    vivahSaham: { partnerA: vivahSahamA, partnerB: vivahSahamB },
     executiveSummary,
-    // Extended analysis data
-    kpAnalysis: {
-      partnerA: kpAnalysisA,
-      partnerB: kpAnalysisB
-    },
-    charaKarakas: {
-      partnerA: charaKarakasA,
-      partnerB: charaKarakasB
-    },
-    charaDasha: {
-      partnerA: charaDashaA,
-      partnerB: charaDashaB
-    },
-    upapadaLagna: {
-      partnerA: upapadaLagnaA,
-      partnerB: upapadaLagnaB
-    },
-    vivahSaham: {
-      partnerA: vivahSahamA,
-      partnerB: vivahSahamB
-    },
-    extendedSexualCompatibility,
-    extendedRemedies: {
-      partnerA: extendedRemediesA,
-      partnerB: extendedRemediesB
-    },
-    advancedBreakdown,
+    psychologicalProfileA,
+    psychologicalProfileB,
+    synastry: synastryData,
+    modernInsightsEnhanced: analyzeModernInsightsEnhanced(chartA, chartB, chartA.name, chartB.name), // Fixed arguments
+    mentalHealth: { partnerA: mentalHealthA, partnerB: mentalHealthB },
+    addictionRisk: { partnerA: addictionRiskA, partnerB: addictionRiskB },
+    yogaDosha: { partnerA: yogaDoshaA, partnerB: yogaDoshaB },
     poruthamAnalysis,
-    yogaDoshaAnalysis: {
-      partnerA: yogaDoshaA,
-      partnerB: yogaDoshaB
-    },
-    addictionRiskAnalysis: {
-      partnerA: analyzeAddictionRisk(chartA),
-      partnerB: analyzeAddictionRisk(chartB)
-    },
-    modernInsightsEnhanced: analyzeModernInsightsEnhanced(chartA, chartB, chartA.name, chartB.name),
-    mentalHealthAnalysis: {
-      partnerA: analyzeMentalHealth(chartA),
-      partnerB: analyzeMentalHealth(chartB)
-    },
-    relationshipPatternAnalysis: {
-      partnerA: calculateRelationshipPatterns(chartA, chartA.name),
-      partnerB: calculateRelationshipPatterns(chartB, chartB.name)
-    },
-    createdAt: new Date(),
-    status: 'saved'
+    advancedBreakdown
   };
+
+  // 18. Conflict Zone Analysis
+  report.conflictZone = calculateConflictZones(chartA, chartB, report as CompatibilityReport);
+
+  return report as CompatibilityReport;
 }
 
 // ============================================================================
@@ -1320,7 +1286,8 @@ function calculateAdvancedBreakdown(data: {
   poruthamAnalysis?: any;
 }): any {
   // --- PILLAR 1: STRUCTURAL STABILITY (25%) ---
-  const divorceScore = 100 - (data.riskAssessment.divorceProbability.score || 0);
+  // AI Analyzing based on RAW risk (without protective buffer)
+  const divorceScore = 100 - (data.riskAssessment.divorceProbability.rawScore || 0);
   const mentalScore = Math.max(0, 100 - ((data.mentalHealth.partnerA.totalRiskScore + data.mentalHealth.partnerB.totalRiskScore) / 2));
   const addictionScore = Math.max(0, 100 - ((data.addictionRisk.partnerA.overallScore + data.addictionRisk.partnerB.overallScore) / 2));
   const inLawAvgA = (data.inLaws.partnerA.secondHouseScore + data.inLaws.partnerA.tenthHouseScore) / 2;
@@ -1328,7 +1295,7 @@ function calculateAdvancedBreakdown(data: {
   const inLawScore = (inLawAvgA + inLawAvgB) / 2;
   const modernScore = 100 - (data.modernChallenges.mentalHealth.length * 10);
 
-  const infidelityScore = 100 - (data.riskAssessment.infidelityRisk.score || 0);
+  const infidelityScore = 100 - (data.riskAssessment.infidelityRisk.rawScore || 0);
 
   const stabilityScore = Math.round(
     divorceScore * 0.25 +

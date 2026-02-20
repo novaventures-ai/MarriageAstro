@@ -1,6 +1,7 @@
+
 import React, { useState } from 'react';
 import { RiskAssessment } from '../../types';
-import { Shield, Users, Heart, AlertTriangle, CheckCircle, Briefcase, Home, Globe, Wifi, Sparkles, ShieldCheck, ChevronDown, ChevronUp, User, RefreshCw, AlertCircle, MapPin, Plane, BookOpen, DollarSign } from 'lucide-react';
+import { Shield, ShieldOff, Users, Heart, AlertTriangle, CheckCircle, Briefcase, Home, Globe, Wifi, Sparkles, ShieldCheck, ChevronDown, ChevronUp, User, RefreshCw, AlertCircle, MapPin, Plane, BookOpen, DollarSign } from 'lucide-react';
 import { useGeminiInsight } from '../../hooks/useGeminiInsight';
 import ReactMarkdown from 'react-markdown';
 
@@ -16,10 +17,25 @@ export const RiskRadarWidget: React.FC<RiskRadarWidgetProps> = ({
   partnerBName = 'Partner B'
 }) => {
   const { divorceProbability, infidelityRisk, multipleMarriageIndicators, spouseLongevity } = riskAssessment;
+
+  // Thresholds matching matchmakingEngine.ts logic
+  const getDivorceRiskLevel = (score: number) => {
+    if (score >= 70) return 'very_high';
+    if (score >= 45) return 'high';
+    if (score >= 20) return 'medium';
+    return 'low';
+  };
+
+  const getInfidelityRiskLevel = (score: number) => {
+    if (score >= 60) return 'high';
+    if (score >= 30) return 'medium';
+    return 'low';
+  };
   const [activePartner, setActivePartner] = useState<'overall' | 'A' | 'B'>('overall');
   const [showDivorceLogic, setShowDivorceLogic] = useState(false);
   const [showInfidelityLogic, setShowInfidelityLogic] = useState(false);
   const [showLongevityLogic, setShowLongevityLogic] = useState(false);
+  const [showProtectiveBuffer, setShowProtectiveBuffer] = useState(true);
 
   const { loading, insight, error, triggerAnalysis } = useGeminiInsight();
   const [activeAnalysis, setActiveAnalysis] = useState<string | null>(null);
@@ -136,22 +152,113 @@ export const RiskRadarWidget: React.FC<RiskRadarWidgetProps> = ({
                 <Heart className="w-5 h-5 text-gray-600 dark:text-gray-400" />
                 <h3 className="font-semibold text-gray-800 dark:text-gray-100 transition-colors text-sm uppercase tracking-wide">Divorce Probability</h3>
               </div>
-              <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase border ${getRiskColor(displayDivorce.level)}`}>
-                {displayDivorce.level.replace('_', ' ')}
-              </span>
+              {(() => {
+                const protectiveCount = riskAssessment.protectiveFactors?.filter(
+                  f => activePartner === 'overall' || f.profileName === (activePartner === 'A' ? partnerAName : partnerBName)
+                ).length || 0;
+                const bufferAmount = Math.min(protectiveCount * 8, 25);
+                const rawScore = Math.min(displayDivorce.score + bufferAmount, 100);
+                const displayScore = showProtectiveBuffer ? displayDivorce.score : rawScore;
+                // Risk level is ALWAYS based on raw score as per user request
+                const currentLevel = getDivorceRiskLevel(rawScore);
+
+                return (
+                  <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase border ${getRiskColor(currentLevel)}`}>
+                    {currentLevel.replace('_', ' ')}
+                  </span>
+                );
+              })()}
             </div>
 
-            <div className="mb-6">
-              <div className="flex justify-between text-xs text-gray-600 dark:text-gray-400 mb-1 transition-colors font-medium">
-                <span>Risk Score</span>
-                <span>{displayDivorce.score}%</span>
+            {/* Protective Buffer Toggle for Divorce */}
+            <div className="mb-4 p-3 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg border border-indigo-100 dark:border-indigo-800/30">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  {showProtectiveBuffer ? (
+                    <Shield className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+                  ) : (
+                    <ShieldOff className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                  )}
+                  <span className="text-[11px] font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+                    Protective Buffer
+                  </span>
+                </div>
+                <button
+                  onClick={() => setShowProtectiveBuffer(!showProtectiveBuffer)}
+                  className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${showProtectiveBuffer ? 'bg-indigo-600' : 'bg-gray-300 dark:bg-gray-600'
+                    }`}
+                >
+                  <span
+                    className={`inline-block h-3 w-3 transform rounded-full bg-white transition-transform ${showProtectiveBuffer ? 'translate-x-5' : 'translate-x-1'
+                      }`}
+                  />
+                </button>
               </div>
-              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 transition-colors">
-                <div
-                  className={`h-3 rounded-full transition-all duration-700 ${getRiskMeterColor(displayDivorce.score)}`}
-                  style={{ width: `${displayDivorce.score}%` }}
-                />
-              </div>
+            </div>
+
+            {/* Divorce Risk Score Display with Buffer Comparison */}
+            <div className="mb-6 space-y-3">
+              {(() => {
+                const protectiveCount = riskAssessment.protectiveFactors?.filter(
+                  f => activePartner === 'overall' || f.profileName === (activePartner === 'A' ? partnerAName : partnerBName)
+                ).length || 0;
+                const bufferAmount = Math.min(protectiveCount * 8, 25);
+                const rawScore = Math.min(displayDivorce.score + bufferAmount, 100);
+                const displayScore = showProtectiveBuffer ? displayDivorce.score : rawScore;
+
+                return (
+                  <>
+                    {/* Score Comparison Bar */}
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-center">
+                        <span className="text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                          {showProtectiveBuffer ? 'Adjusted Risk Score' : 'Raw Risk Score'}
+                        </span>
+                        <span className={`text-lg font-black ${displayScore < 25 ? 'text-green-600 dark:text-green-400' :
+                          displayScore < 50 ? 'text-yellow-600 dark:text-yellow-400' :
+                            displayScore < 75 ? 'text-orange-600 dark:text-orange-400' :
+                              'text-red-600 dark:text-red-400'
+                          }`}>
+                          {Math.round(displayScore)}%
+                        </span>
+                      </div>
+
+                      {/* Main Score Bar */}
+                      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 transition-colors relative overflow-hidden">
+                        <div
+                          className={`h-3 rounded-full transition-all duration-700 ${getRiskMeterColor(displayScore)}`}
+                          style={{ width: `${displayScore}%` }}
+                        />
+                        {/* Buffer indicator line */}
+                        {showProtectiveBuffer && bufferAmount > 0 && (
+                          <div
+                            className="absolute top-0 bottom-0 w-0.5 bg-indigo-500 dark:bg-indigo-400 opacity-60"
+                            style={{ left: `${rawScore}%` }}
+                          />
+                        )}
+                      </div>
+
+                      {/* Score Breakdown */}
+                      <div className="flex justify-between text-[10px] pt-1">
+                        <div className="flex items-center gap-1">
+                          <span className="font-medium text-gray-500 dark:text-gray-400">Raw:</span>
+                          <span className="font-bold text-gray-700 dark:text-gray-300">{Math.round(rawScore)}%</span>
+                        </div>
+                        {bufferAmount > 0 && (
+                          <div className="flex items-center gap-1 text-green-600 dark:text-green-400">
+                            <Shield className="w-3 h-3" />
+                            <span className="font-bold">-{bufferAmount}% buffer</span>
+                          </div>
+                        )}
+                        <div className="flex items-center gap-1">
+                          <span className="font-medium text-gray-500 dark:text-gray-400">Final:</span>
+                          <span className="font-bold text-gray-700 dark:text-gray-300">{displayDivorce.score}%</span>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                );
+              })()}
             </div>
 
             {displayDivorce.indicators.length > 0 && (
@@ -254,22 +361,114 @@ export const RiskRadarWidget: React.FC<RiskRadarWidgetProps> = ({
                 <Users className="w-5 h-5 text-gray-600 dark:text-gray-400" />
                 <h3 className="font-semibold text-gray-800 dark:text-gray-100 transition-colors text-sm uppercase tracking-wide">Infidelity & Passion</h3>
               </div>
-              <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase border ${getRiskColor(displayInfidelity.level)}`}>
-                {displayInfidelity.level.replace('_', ' ')}
-              </span>
+
+              {(() => {
+                const protectiveCount = riskAssessment.infidelityProtections?.filter(
+                  f => activePartner === 'overall' || f.profileName === (activePartner === 'A' ? partnerAName : partnerBName)
+                ).length || 0;
+                const bufferAmount = Math.min(protectiveCount * 6, 20);
+                const rawScore = Math.min(displayInfidelity.score + bufferAmount, 100);
+                const displayScore = showProtectiveBuffer ? displayInfidelity.score : rawScore;
+                // Risk level is ALWAYS based on raw score as per user request
+                const currentLevel = getInfidelityRiskLevel(rawScore);
+
+                return (
+                  <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase border ${getRiskColor(currentLevel)}`}>
+                    {currentLevel.replace('_', ' ')}
+                  </span>
+                );
+              })()}
             </div>
 
-            <div className="mb-6">
-              <div className="flex justify-between text-xs text-gray-600 dark:text-gray-400 mb-1 transition-colors font-medium">
-                <span>Risk Score</span>
-                <span>{displayInfidelity.score}%</span>
+            {/* Protective Buffer Toggle for Infidelity */}
+            <div className="mb-4 p-3 bg-violet-50 dark:bg-violet-900/20 rounded-lg border border-violet-100 dark:border-violet-800/30">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  {showProtectiveBuffer ? (
+                    <Shield className="w-4 h-4 text-violet-600 dark:text-violet-400" />
+                  ) : (
+                    <ShieldOff className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                  )}
+                  <span className="text-[11px] font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+                    Protective Buffer
+                  </span>
+                </div>
+                <button
+                  onClick={() => setShowProtectiveBuffer(!showProtectiveBuffer)}
+                  className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${showProtectiveBuffer ? 'bg-violet-600' : 'bg-gray-300 dark:bg-gray-600'
+                    }`}
+                >
+                  <span
+                    className={`inline-block h-3 w-3 transform rounded-full bg-white transition-transform ${showProtectiveBuffer ? 'translate-x-5' : 'translate-x-1'
+                      }`}
+                  />
+                </button>
               </div>
-              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 transition-colors">
-                <div
-                  className={`h-3 rounded-full transition-all duration-700 ${getRiskMeterColor(displayInfidelity.score)}`}
-                  style={{ width: `${displayInfidelity.score}%` }}
-                />
-              </div>
+            </div>
+
+            {/* Infidelity Risk Score Display with Buffer Comparison */}
+            <div className="mb-6 space-y-3">
+              {(() => {
+                const protectiveCount = riskAssessment.infidelityProtections?.filter(
+                  f => activePartner === 'overall' || f.profileName === (activePartner === 'A' ? partnerAName : partnerBName)
+                ).length || 0;
+                const bufferAmount = Math.min(protectiveCount * 6, 20);
+                const rawScore = Math.min(displayInfidelity.score + bufferAmount, 100);
+                const displayScore = showProtectiveBuffer ? displayInfidelity.score : rawScore;
+
+                return (
+                  <>
+                    {/* Score Comparison Bar */}
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-center">
+                        <span className="text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                          {showProtectiveBuffer ? 'Adjusted Risk Score' : 'Raw Risk Score'}
+                        </span>
+                        <span className={`text-lg font-black ${displayScore < 25 ? 'text-green-600 dark:text-green-400' :
+                          displayScore < 50 ? 'text-yellow-600 dark:text-yellow-400' :
+                            displayScore < 75 ? 'text-orange-600 dark:text-orange-400' :
+                              'text-red-600 dark:text-red-400'
+                          }`}>
+                          {Math.round(displayScore)}%
+                        </span>
+                      </div>
+
+                      {/* Main Score Bar */}
+                      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 transition-colors relative overflow-hidden">
+                        <div
+                          className={`h-3 rounded-full transition-all duration-700 ${getRiskMeterColor(displayScore)}`}
+                          style={{ width: `${displayScore}%` }}
+                        />
+                        {/* Buffer indicator line */}
+                        {showProtectiveBuffer && bufferAmount > 0 && (
+                          <div
+                            className="absolute top-0 bottom-0 w-0.5 bg-violet-500 dark:bg-violet-400 opacity-60"
+                            style={{ left: `${rawScore}%` }}
+                          />
+                        )}
+                      </div>
+
+                      {/* Score Breakdown */}
+                      <div className="flex justify-between text-[10px] pt-1">
+                        <div className="flex items-center gap-1">
+                          <span className="font-medium text-gray-500 dark:text-gray-400">Raw:</span>
+                          <span className="font-bold text-gray-700 dark:text-gray-300">{Math.round(rawScore)}%</span>
+                        </div>
+                        {bufferAmount > 0 && (
+                          <div className="flex items-center gap-1 text-violet-600 dark:text-violet-400">
+                            <Shield className="w-3 h-3" />
+                            <span className="font-bold">-{bufferAmount}% buffer</span>
+                          </div>
+                        )}
+                        <div className="flex items-center gap-1">
+                          <span className="font-medium text-gray-500 dark:text-gray-400">Final:</span>
+                          <span className="font-bold text-gray-700 dark:text-gray-300">{displayInfidelity.score}%</span>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                );
+              })()}
             </div>
 
             {displayInfidelity.indicators.length > 0 && (
