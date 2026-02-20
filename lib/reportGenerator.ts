@@ -593,6 +593,12 @@ export async function generateCompatibilityReport(
   const psychologicalProfileA = calculatePsychologicalProfile(chartA);
   const psychologicalProfileB = calculatePsychologicalProfile(chartB);
 
+  // 18. Relationship Pattern Analysis
+  let relationshipPatternA: any = { patterns: [], overallRiskLevel: 'low' };
+  let relationshipPatternB: any = { patterns: [], overallRiskLevel: 'low' };
+  try { relationshipPatternA = calculateRelationshipPatterns(chartA, chartA.name); } catch (e) { console.error('RelationshipPattern A failed', e); }
+  try { relationshipPatternB = calculateRelationshipPatterns(chartB, chartB.name); } catch (e) { console.error('RelationshipPattern B failed', e); }
+
   const report: any = {
     id: `report-${Date.now()}`,
     userId,
@@ -624,9 +630,10 @@ export async function generateCompatibilityReport(
     psychologicalProfileB,
     synastry: synastryData,
     modernInsightsEnhanced: analyzeModernInsightsEnhanced(chartA, chartB, chartA.name, chartB.name), // Fixed arguments
-    mentalHealth: { partnerA: mentalHealthA, partnerB: mentalHealthB },
-    addictionRisk: { partnerA: addictionRiskA, partnerB: addictionRiskB },
-    yogaDosha: { partnerA: yogaDoshaA, partnerB: yogaDoshaB },
+    mentalHealthAnalysis: { partnerA: mentalHealthA, partnerB: mentalHealthB },
+    addictionRiskAnalysis: { partnerA: addictionRiskA, partnerB: addictionRiskB },
+    yogaDoshaAnalysis: { partnerA: yogaDoshaA, partnerB: yogaDoshaB },
+    relationshipPatternAnalysis: { partnerA: relationshipPatternA, partnerB: relationshipPatternB },
     poruthamAnalysis,
     advancedBreakdown
   };
