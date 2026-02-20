@@ -830,6 +830,20 @@ export interface VulnerabilityTimeline {
   partnerAName: string;
   partnerBName: string;
   windows: VulnerabilityWindow[];
+  summaryConclusion?: {
+    primeDivorceRisk?: {
+      year: number;
+      partnerAAge: number;
+      partnerBAge: number;
+      intensity: 'high' | 'critical';
+    };
+    primeInfidelityRisk?: {
+      year: number;
+      partnerAAge: number;
+      partnerBAge: number;
+      intensity: 'high' | 'critical';
+    };
+  };
 }
 
 export interface CompatibilityReport {
