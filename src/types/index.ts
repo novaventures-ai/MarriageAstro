@@ -810,11 +810,19 @@ export interface VulnerabilityWindow {
   partnerBAge: number;
   riskType: 'divorce' | 'infidelity' | 'both';
   riskLevel: 'moderate' | 'high' | 'critical';
+  partnerSource?: 'partnerA' | 'partnerB';
   description: string;
   astrologicalTriggers: string[];
   isCrucial?: boolean;
   activePlanets?: Planet[];
   remedy?: string;
+  subPeriods?: {
+    startDate: Date;
+    endDate: Date;
+    planet: Planet;
+    triggers: string[];
+  }[];
+  divisitionalNote?: string;
 }
 
 export interface VulnerabilityTimeline {
