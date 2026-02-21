@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { Chart } from '@types';
 import { generateMatchInsight, MatchInsight, analyzeBestMatch } from '@lib/ai/matchInsight';
 import { generateChartFromBirthData } from '@lib/reportGenerator';
@@ -835,6 +835,26 @@ export const CosmicMatchWidget: React.FC<CosmicMatchWidgetProps> = ({ selfChart,
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const [bestMatch, setBestMatch] = useState<PartnerWithAnalysis | null>(null);
     const [expandedPartner, setExpandedPartner] = useState<string | null>(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const PARTNERS_PER_PAGE = 5;
+
+    // Memoized sorted and paginated partners
+    const sortedPartners = useMemo(() => {
+        return [...partnerAnalyses].sort((a, b) => {
+            const scoreA = a.insight?.score ?? -1;
+            const scoreB = b.insight?.score ?? -1;
+            return scoreB - scoreA;
+        });
+    }, [partnerAnalyses]);
+
+    const paginatedPartners = useMemo(() => {
+        const startIndex = (currentPage - 1) * PARTNERS_PER_PAGE;
+        return sortedPartners.slice(startIndex, startIndex + PARTNERS_PER_PAGE);
+    }, [sortedPartners, currentPage, PARTNERS_PER_PAGE]);
+
+    const allMatchesData = useMemo(() => {
+        return partnerAnalyses.filter(p => p.insight).map(p => p.insight!);
+    }, [partnerAnalyses]);
 
     // Automatically analyze all partners when component mounts
     useEffect(() => {
@@ -1253,7 +1273,7 @@ export const CosmicMatchWidget: React.FC<CosmicMatchWidgetProps> = ({ selfChart,
                         </h4>
 
                         <div className="space-y-2">
-                            {partnerAnalyses.map((partner) => (
+                            {paginatedPartners.map((partner) => (
                                 <div
                                     key={partner.id}
                                     className={`border rounded-lg transition-all ${bestMatch?.id === partner.id
@@ -1415,6 +1435,33 @@ export const CosmicMatchWidget: React.FC<CosmicMatchWidgetProps> = ({ selfChart,
                                 </div>
                             ))}
                         </div>
+
+                        {/* Pagination Controls */}
+                        {partnerAnalyses.length > PARTNERS_PER_PAGE && (
+                            <div className="mt-6 flex items-center justify-between border-t border-gray-100 dark:border-gray-800 pt-4">
+                                <span className="text-xs text-gray-500 dark:text-gray-400">
+                                    Page {currentPage} of {Math.ceil(partnerAnalyses.length / PARTNERS_PER_PAGE)}
+                                </span>
+                                <div className="flex gap-2">
+                                    <button
+                                        onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                                        disabled={currentPage === 1}
+                                        className="px-3 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 disabled:opacity-50 transition-all flex items-center gap-1"
+                                    >
+                                        <ChevronUp className="w-3 h-3 -rotate-90" />
+                                        Previous
+                                    </button>
+                                    <button
+                                        onClick={() => setCurrentPage(p => Math.min(Math.ceil(partnerAnalyses.length / PARTNERS_PER_PAGE), p + 1))}
+                                        disabled={currentPage === Math.ceil(partnerAnalyses.length / PARTNERS_PER_PAGE)}
+                                        className="px-3 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 disabled:opacity-50 transition-all flex items-center gap-1"
+                                    >
+                                        Next
+                                        <ChevronDown className="w-3 h-3 rotate-90" />
+                                    </button>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
@@ -1428,7 +1475,7 @@ export const CosmicMatchWidget: React.FC<CosmicMatchWidgetProps> = ({ selfChart,
                 match={selectedMatch}
                 selfChart={selfChart}
                 partnerChart={selectedPartnerChart}
-                allMatches={partnerAnalyses.filter(p => p.insight).map(p => p.insight!)}
+                allMatches={allMatchesData}
             />
         </>
     );
