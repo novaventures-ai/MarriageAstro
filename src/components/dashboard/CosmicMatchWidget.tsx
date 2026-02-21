@@ -5,7 +5,7 @@ import { generateChartFromBirthData } from '@lib/reportGenerator';
 import { generateCounselorExplanation, CounselorExplanation } from '@lib/ai/counselorExplanations';
 import {
     Sparkles, Trophy, ArrowRight, Brain, AlertTriangle, CheckCircle, Info, X,
-    Loader2, ChevronDown, ChevronUp, Heart, MessageCircle, Lightbulb, Target
+    Loader2, ChevronDown, ChevronUp, ChevronLeft, ChevronRight, Heart, MessageCircle, Lightbulb, Target
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -1448,7 +1448,7 @@ export const CosmicMatchWidget: React.FC<CosmicMatchWidgetProps> = ({ selfChart,
                                         disabled={currentPage === 1}
                                         className="px-3 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 disabled:opacity-50 transition-all flex items-center gap-1"
                                     >
-                                        <ChevronUp className="w-3 h-3 -rotate-90" />
+                                        <ChevronLeft className="w-3 h-3" />
                                         Previous
                                     </button>
                                     <button
@@ -1457,7 +1457,7 @@ export const CosmicMatchWidget: React.FC<CosmicMatchWidgetProps> = ({ selfChart,
                                         className="px-3 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 disabled:opacity-50 transition-all flex items-center gap-1"
                                     >
                                         Next
-                                        <ChevronDown className="w-3 h-3 rotate-90" />
+                                        <ChevronRight className="w-3 h-3" />
                                     </button>
                                 </div>
                             </div>
