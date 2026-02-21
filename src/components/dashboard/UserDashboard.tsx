@@ -23,7 +23,7 @@ export const UserDashboard: React.FC = () => {
     removePartner,
     removeAllPartners,
     selectPartner,
-    loadPartners,
+    loadFromCloud,
     isHydrated,
     clearSelfProfile
   } = useUserProfileStore();
@@ -31,13 +31,15 @@ export const UserDashboard: React.FC = () => {
   const [partnerScores, setPartnerScores] = useState<Record<string, { score: number, verdict: string }>>({});
   const [confirmDeleteAll, setConfirmDeleteAll] = useState(false);
   const [partnersWithCharts, setPartnersWithCharts] = useState<any[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const PARTNERS_PER_PAGE = 10;
 
-  // Load partners on mount
+  // Load profile and partners on mount
   useEffect(() => {
     if (isHydrated) {
-      loadPartners();
+      loadFromCloud();
     }
-  }, [isHydrated, loadPartners]);
+  }, [isHydrated, loadFromCloud]);
 
   // Calculate scores on the fly
   useEffect(() => {
@@ -278,98 +280,134 @@ export const UserDashboard: React.FC = () => {
               </button>
             </div>
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {partners.map((partner) => (
-                <div
-                  key={partner.id}
-                  onClick={() => selectPartner(partner.id)}
-                  className={`bg-white dark:bg-gray-800 rounded-xl shadow-sm p-5 cursor-pointer transition-all hover:shadow-md ${selectedPartnerId === partner.id
-                    ? 'ring-2 ring-pink-500'
-                    : ''
-                    }`}
-                >
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-full bg-pink-100 dark:bg-pink-900/30 flex items-center justify-center">
-                        <span className="text-lg font-bold text-pink-600">
-                          {partner.name.charAt(0).toUpperCase()}
-                        </span>
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-gray-800 dark:text-gray-100">
-                          {partner.name}
-                        </h4>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
-                          {partner.gender} • {calculateAge(new Date(partner.dateOfBirth))} years
-                        </p>
+          ): (
+              <>
+              <div className = "grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                { partners
+                  .slice()
+                  .sort((a, b) => {
+                    const scoreA = partnerScores[a.id]?.score ?? -1;
+          const scoreB = partnerScores[b.id]?.score ?? -1;
+          return scoreB - scoreA;
+                  })
+          .slice((currentPage - 1) * PARTNERS_PER_PAGE, currentPage * PARTNERS_PER_PAGE)
+                  .map((partner) => (
+          <div
+            key={partner.id}
+            onClick={() => selectPartner(partner.id)}
+            className={`bg-white dark:bg-gray-800 rounded-xl shadow-sm p-5 cursor-pointer transition-all hover:shadow-md ${selectedPartnerId === partner.id
+              ? 'ring-2 ring-pink-500'
+              : ''
+              }`}
+          >
+            <div className="flex items-start justify-between mb-3">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-full bg-pink-100 dark:bg-pink-900/30 flex items-center justify-center">
+                  <span className="text-lg font-bold text-pink-600">
+                    {partner.name.charAt(0).toUpperCase()}
+                  </span>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-800 dark:text-gray-100">
+                    {partner.name}
+                  </h4>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    {partner.gender} • {calculateAge(new Date(partner.dateOfBirth))} years
+                  </p>
 
-                        {partnerScores[partner.id] && (
-                          <div className="mt-1 flex items-center gap-2">
-                            <Star className="w-3 h-3 text-amber-500 fill-amber-500" />
-                            <span className="font-bold text-gray-700 dark:text-gray-200 text-sm">
-                              {partnerScores[partner.id].score}/100
-                            </span>
-                            <span className={`text-xs px-1.5 py-0.5 rounded-full font-medium ${partnerScores[partner.id].verdict === 'Excellent' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' :
-                              partnerScores[partner.id].verdict === 'Good' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' :
-                                partnerScores[partner.id].verdict === 'Average' ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' :
-                                  'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
-                              }`}>
-                              {partnerScores[partner.id].verdict}
-                            </span>
-                          </div>
-                        )}
-                      </div>
+                  {partnerScores[partner.id] && (
+                    <div className="mt-1 flex items-center gap-2">
+                      <Star className="w-3 h-3 text-amber-500 fill-amber-500" />
+                      <span className="font-bold text-gray-700 dark:text-gray-200 text-sm">
+                        {partnerScores[partner.id].score}/100
+                      </span>
+                      <span className={`text-xs px-1.5 py-0.5 rounded-full font-medium ${partnerScores[partner.id].verdict === 'Excellent' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' :
+                        partnerScores[partner.id].verdict === 'Good' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' :
+                          partnerScores[partner.id].verdict === 'Average' ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' :
+                            'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
+                        }`}>
+                        {partnerScores[partner.id].verdict}
+                      </span>
                     </div>
-                    <button
-                      onClick={(e) => handleRemovePartner(partner.id, e)}
-                      className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
-                      title="Remove partner"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
-
-                  <div className="text-xs text-gray-500 dark:text-gray-400 mb-3">
-                    Added {new Date(partner.createdAt).toLocaleDateString()}
-                  </div>
-
-                  <div className="flex gap-2">
-                    <button
-                      onClick={(e) => handleCompare(partner.id, e)}
-                      className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 bg-pink-50 dark:bg-pink-900/20 text-pink-600 dark:text-pink-400 rounded-lg text-sm font-medium hover:bg-pink-100 dark:hover:bg-pink-900/30 transition-colors"
-                    >
-                      <Scale className="w-4 h-4" />
-                      Compare
-                    </button>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        navigate(`/partner/${partner.id}`);
-                      }}
-                      className="px-3 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-                    >
-                      <ChevronRight className="w-4 h-4" />
-                    </button>
-                  </div>
+                  )}
                 </div>
-              ))}
-
-              {/* Add Partner Card */}
+              </div>
               <button
-                onClick={() => navigate('/add-partner')}
-                className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-5 border-2 border-dashed border-gray-300 dark:border-gray-600 hover:border-pink-500 transition-colors flex flex-col items-center justify-center min-h-[180px]"
+                onClick={(e) => handleRemovePartner(partner.id, e)}
+                className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                title="Remove partner"
               >
-                <div className="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-3">
-                  <Plus className="w-6 h-6 text-gray-400" />
-                </div>
-                <span className="text-gray-600 dark:text-gray-400 font-medium">
-                  Add Partner
-                </span>
+                <Trash2 className="w-4 h-4" />
               </button>
             </div>
+
+            <div className="text-xs text-gray-500 dark:text-gray-400 mb-3">
+              Added {new Date(partner.createdAt).toLocaleDateString()}
+            </div>
+
+            <div className="flex gap-2">
+              <button
+                onClick={(e) => handleCompare(partner.id, e)}
+                className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 bg-pink-50 dark:bg-pink-900/20 text-pink-600 dark:text-pink-400 rounded-lg text-sm font-medium hover:bg-pink-100 dark:hover:bg-pink-900/30 transition-colors"
+              >
+                <Scale className="w-4 h-4" />
+                Compare
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(`/partner/${partner.id}`);
+                }}
+                className="px-3 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+                  ))}
+
+          {/* Add Partner Card */}
+          {currentPage === 1 && partners.length < PARTNERS_PER_PAGE && (
+            <button
+              onClick={() => navigate('/add-partner')}
+              className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-5 border-2 border-dashed border-gray-300 dark:border-gray-600 hover:border-pink-500 transition-colors flex flex-col items-center justify-center min-h-[180px]"
+            >
+              <div className="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-3">
+                <Plus className="w-6 h-6 text-gray-400" />
+              </div>
+              <span className="text-gray-600 dark:text-gray-400 font-medium">
+                Add Partner
+              </span>
+            </button>
           )}
         </div>
-      </div>
+
+        {/* Pagination Controls */}
+        {partners.length > PARTNERS_PER_PAGE && (
+          <div className="mt-8 flex items-center justify-center gap-4">
+            <button
+              onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+              disabled={currentPage === 1}
+              className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-600 dark:text-gray-400 disabled:opacity-50 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+            >
+              Previous
+            </button>
+            <span className="text-gray-600 dark:text-gray-400 font-medium">
+              Page {currentPage} of {Math.ceil(partners.length / PARTNERS_PER_PAGE)}
+            </span>
+            <button
+              onClick={() => setCurrentPage(prev => Math.min(Math.ceil(partners.length / PARTNERS_PER_PAGE), prev + 1))}
+              disabled={currentPage === Math.ceil(partners.length / PARTNERS_PER_PAGE)}
+              className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-600 dark:text-gray-400 disabled:opacity-50 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+            >
+              Next
+            </button>
+          </div>
+        )}
+      </>
+          )}
+    </div>
+      </div >
     </section >
   );
 };

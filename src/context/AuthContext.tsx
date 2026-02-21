@@ -42,10 +42,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         // 2. Listen for auth state changes (login, logout, token refresh)
         const { data: { subscription } } = supabase.auth.onAuthStateChange(
-            (_event, newSession) => {
+            (event, newSession) => {
                 setSession(newSession);
                 setUser(newSession?.user ?? null);
                 setIsLoading(false);
+
+                // If user just signed in or session was restored, sync data from cloud
+                if (newSession?.user && (event === 'SIGNED_IN' || event === 'INITIAL_SESSION')) {
+                    useUserProfileStore.getState().loadFromCloud();
+                }
             }
         );
 
