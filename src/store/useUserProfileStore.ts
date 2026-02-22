@@ -399,36 +399,80 @@ export const useUserProfileStore = create<UserProfileState>()(
           }
 
           const state = get();
+          let mergedPartners = [...state.partners];
 
-          // 1. Handle Self Profile
-          const profile = await getUserProfile(session.user.id);
+          // 1. Handle Self Profile robustly
+          try {
+            const profile = await getUserProfile(session.user.id);
 
-          if (state.selfBirthData) {
-            // Local data exists (likely guest report), push to cloud to prevent wiping
-            if (state.selfChart) {
-              await saveUserProfile(session.user.id, state.selfBirthData, state.selfChart, state.selfReport || undefined);
+            if (state.selfBirthData) {
+              // Local data exists, try to push to cloud
+              if (state.selfChart) {
+                try {
+                  await saveUserProfile(session.user.id, state.selfBirthData, state.selfChart, state.selfReport || undefined);
+                } catch (saveProfileErr) {
+                  console.warn('Failed to push local self profile to cloud:', saveProfileErr);
+                }
+              }
+            } else if (profile) {
+              // No local data, safely load from cloud
+              set({
+                selfBirthData: profile.birthData,
+                selfChart: profile.chart,
+                selfReport: profile.report || null
+              });
             }
-          } else if (profile) {
-            // No local data, safely load from cloud
-            set({
-              selfBirthData: profile.birthData,
-              selfChart: profile.chart,
-              selfReport: profile.report || null
-            });
+          } catch (profileErr) {
+            console.error('Error fetching user profile from cloud:', profileErr);
           }
 
-          // 2. Safely push any local guest partners to cloud (Upsert based on ID)
-          if (state.partners.length > 0) {
-            for (const partner of state.partners) {
-              await savePartner(session.user.id, partner);
+          // 2. Safely push any local guest partners to cloud
+          // A valid Supabase UUID check
+          const isUUID = (str: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(str);
+
+          if (mergedPartners.length > 0) {
+            let stateUpdated = false;
+
+            for (let i = 0; i < mergedPartners.length; i++) {
+              let partner = { ...mergedPartners[i] };
+
+              // Validate and fix legacy IDs that aren't valid UUIDs
+              if (!isUUID(partner.id)) {
+                partner.id = uuidv4();
+                mergedPartners[i] = partner;
+                stateUpdated = true;
+              }
+
+              try {
+                await savePartner(session.user.id, partner);
+              } catch (savePartnerErr) {
+                console.warn(`Failed to push local partner (${partner.id}) to cloud:`, savePartnerErr);
+              }
+            }
+
+            // If we fixed any IDs, persist the new IDs immediately so local storage is updated
+            if (stateUpdated) {
+              set({ partners: mergedPartners });
             }
           }
 
-          // 3. Finally, load all merged partners from cloud
-          const partners = await getUserPartners(session.user.id);
-          set({ partners, isLoadingPartners: false });
+          // 3. Finally, load cloud partners and merge them safely with local ones
+          try {
+            const cloudPartners = await getUserPartners(session.user.id);
+
+            // Merge logic: prefer cloud data, but keep local data if it failed to push
+            const cloudIds = new Set(cloudPartners.map(p => p.id));
+            const localOnlyPartners = mergedPartners.filter(p => !cloudIds.has(p.id));
+
+            const finalPartners = [...cloudPartners, ...localOnlyPartners];
+            set({ partners: finalPartners, isLoadingPartners: false });
+          } catch (cloudPartnersErr) {
+            console.error('Error fetching partners from cloud:', cloudPartnersErr);
+            set({ isLoadingPartners: false });
+          }
+
         } catch (error) {
-          console.error('Failed to load from cloud:', error);
+          console.error('Critical failure in loadFromCloud:', error);
           set({ isLoadingPartners: false });
         }
       },
