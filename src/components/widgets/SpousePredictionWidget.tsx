@@ -1126,8 +1126,8 @@ export const SpousePredictionWidget: React.FC<SpousePredictionWidgetProps> = ({
       })()}
 
       {/* How Will You Meet Your Spouse? */}
-      {currentPrediction?.meetingPrediction && (() => {
-        const mp = currentPrediction!.meetingPrediction!;
+      {activePrediction?.meetingPrediction && (() => {
+        const mp = activePrediction.meetingPrediction!;
         const dirConfColor = mp.direction.confidence === 'high' ? 'text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900/30' : mp.direction.confidence === 'medium' ? 'text-amber-600 dark:text-amber-400 bg-amber-100 dark:bg-amber-900/30' : 'text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800';
         const distLevels = ['very_near', 'near', 'nearby', 'hometown', 'same_region', 'moderate', 'familiar', 'unpredictable', 'far', 'career_linked', 'social_network', 'very_far'];
         const distIndex = distLevels.indexOf(mp.distance.level);

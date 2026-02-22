@@ -39,6 +39,7 @@ import {
   predictSpouseCharacteristics,
   analyzeDivisionalCharts
 } from './compatibilityCalculations';
+import { calculateSpouseMeeting } from './spouseCalculations';
 import { calculatePsychologicalProfile } from './selfReportGenerator';
 import {
   analyzeSexualHealth
@@ -369,7 +370,8 @@ export async function generateCompatibilityReport(
       ...basicSpousePredictionA.physique,
       ...(extendedSpousePredictionA as any).physique
     },
-    predictions: [...new Set([...basicSpousePredictionA.predictions, ...(extendedSpousePredictionA as any).predictions || []])]
+    predictions: [...new Set([...basicSpousePredictionA.predictions, ...(extendedSpousePredictionA as any).predictions || []])],
+    meetingPrediction: calculateSpouseMeeting(chartA)
   } as any;
 
   const basicSpousePredictionB = predictSpouseCharacteristics(chartB);
@@ -381,7 +383,8 @@ export async function generateCompatibilityReport(
       ...basicSpousePredictionB.physique,
       ...(extendedSpousePredictionB as any).physique
     },
-    predictions: [...new Set([...basicSpousePredictionB.predictions, ...(extendedSpousePredictionB as any).predictions || []])]
+    predictions: [...new Set([...basicSpousePredictionB.predictions, ...(extendedSpousePredictionB as any).predictions || []])],
+    meetingPrediction: calculateSpouseMeeting(chartB)
   } as any;
 
   // Analyze Divisional Charts
