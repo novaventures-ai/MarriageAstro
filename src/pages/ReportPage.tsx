@@ -222,6 +222,7 @@ export const ReportPage: React.FC = () => {
                   prediction={currentReport.spousePrediction}
                   partnerPrediction={currentReport.partnerSpousePrediction}
                   gender={currentReport.chartA.gender}
+                  partnerGender={currentReport.chartB.gender}
                   inLawAnalysis={currentReport.inLawAnalysis}
                   partnerInLawAnalysis={currentReport.partnerInLawAnalysis}
                   userName={currentReport.chartA.name}

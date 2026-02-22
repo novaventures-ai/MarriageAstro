@@ -10,6 +10,7 @@ interface SpousePredictionWidgetProps {
   prediction?: SpousePrediction;
   partnerPrediction?: SpousePrediction;
   gender: 'male' | 'female' | 'other';
+  partnerGender?: 'male' | 'female' | 'other';
   inLawAnalysis?: any;
   partnerInLawAnalysis?: any;
   userName?: string;
@@ -270,6 +271,7 @@ export const SpousePredictionWidget: React.FC<SpousePredictionWidgetProps> = ({
   prediction,
   partnerPrediction,
   gender: _gender,
+  partnerGender,
   inLawAnalysis,
   partnerInLawAnalysis,
   userName,
@@ -278,6 +280,9 @@ export const SpousePredictionWidget: React.FC<SpousePredictionWidgetProps> = ({
   const [activeProfile, setActiveProfile] = React.useState<'primary' | 'partner'>('primary');
   const [showSensitive, setShowSensitive] = React.useState(false);
   const { loading, insight, error, triggerAnalysis } = useGeminiInsight();
+
+  // Compute effective gender based on active profile toggle
+  const effectiveGender = activeProfile === 'partner' && partnerGender ? partnerGender : _gender;
 
   const currentInLawAnalysis = activeProfile === 'primary' ? inLawAnalysis : partnerInLawAnalysis;
   const currentPrediction = activeProfile === 'primary' ? prediction : partnerPrediction;
@@ -353,8 +358,8 @@ export const SpousePredictionWidget: React.FC<SpousePredictionWidgetProps> = ({
                 <button
                   onClick={() => setActiveProfile('primary')}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${activeProfile === 'primary'
-                      ? 'bg-white text-indigo-700 shadow-sm'
-                      : 'text-white hover:bg-white/10'
+                    ? 'bg-white text-indigo-700 shadow-sm'
+                    : 'text-white hover:bg-white/10'
                     } `}
                 >
                   {userName || prediction.profileName || 'Your'}
@@ -362,8 +367,8 @@ export const SpousePredictionWidget: React.FC<SpousePredictionWidgetProps> = ({
                 <button
                   onClick={() => setActiveProfile('partner')}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${activeProfile === 'partner'
-                      ? 'bg-white text-indigo-700 shadow-sm'
-                      : 'text-white hover:bg-white/10'
+                    ? 'bg-white text-indigo-700 shadow-sm'
+                    : 'text-white hover:bg-white/10'
                     } `}
                 >
                   {partnerName || partnerPrediction.profileName || 'Partner'}
@@ -374,8 +379,8 @@ export const SpousePredictionWidget: React.FC<SpousePredictionWidgetProps> = ({
             <button
               onClick={() => setShowSensitive(!showSensitive)}
               className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${showSensitive
-                  ? 'bg-red-500 text-white shadow-inner'
-                  : 'bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm'
+                ? 'bg-red-500 text-white shadow-inner'
+                : 'bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm'
                 } `}
               title={showSensitive ? 'Hide Sensitive Anatomical Details' : 'Show Sensitive Anatomical Details'}
             >
@@ -1038,76 +1043,87 @@ export const SpousePredictionWidget: React.FC<SpousePredictionWidgetProps> = ({
       </div>
 
       {/* Navamsa Planet Appearance Influences */}
-      {navamsaSeventh.planets.length > 0 && (
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 transition-colors">
-          <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4 flex items-center gap-2 transition-colors">
-            <Sparkles className="w-6 h-6 text-pink-500 dark:text-pink-400" />
-            Physical Appearance Indicators (D9)
-          </h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 transition-colors">
-            Planets in the Navamsa 7th house provide detailed insights into spouse's physical characteristics and attractiveness.
-          </p>
+      {(() => {
+        const d9Planets = navamsaSeventh.planets.length > 0
+          ? navamsaSeventh.planets
+          : (seventhHouse.lord ? [seventhHouse.lord] : []);
+        const hasD9Planets = navamsaSeventh.planets.length > 0;
 
-          <div className="space-y-4">
-            {navamsaSeventh.planets.map((planet, idx) => {
-              const appearance = navamsaPlanetAppearance[planet];
-              if (!appearance) return null;
+        return d9Planets.length > 0 ? (
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 transition-colors">
+            <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4 flex items-center gap-2 transition-colors">
+              <Sparkles className="w-6 h-6 text-pink-500 dark:text-pink-400" />
+              Physical Appearance Indicators (D9)
+            </h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 transition-colors">
+              {hasD9Planets
+                ? 'Planets in the Navamsa 7th house provide detailed insights into spouse\'s physical characteristics and attractiveness.'
+                : `No planets in D9 7th house. Showing appearance indicators based on the 7th Lord (${seventhHouse.lord}).`}
+            </p>
 
-              return (
-                <div key={idx} className="p-4 bg-gradient-to-r from-pink-50 to-rose-50 dark:from-pink-900/10 dark:to-rose-900/10 rounded-xl border border-pink-100 dark:border-pink-800/30 transition-colors">
-                  <div className="flex items-center gap-3 mb-3">
-                    {getPlanetIcon(planet)}
-                    <h4 className="text-lg font-bold text-gray-800 dark:text-gray-100 transition-colors">{planet} in D9 7th House</h4>
-                  </div>
+            <div className="space-y-4">
+              {d9Planets.map((planet, idx) => {
+                const appearance = navamsaPlanetAppearance[planet];
+                if (!appearance) return null;
 
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <h5 className="font-semibold text-pink-800 dark:text-pink-200 mb-2 transition-colors">
-                        {_gender === 'male' ? 'Spouse Anatomical Traits (Female)' : 'Spouse Anatomical Traits (Male)'}
-                      </h5>
-                      <div className="flex flex-wrap gap-2 mb-3">
-                        {(_gender === 'male' ? appearance.breastType : appearance.lingamType).map((type, tIdx) => (
-                          <span key={tIdx} className={`px-2 py-1 bg-white dark:bg-gray - 800 rounded-full text-xs text-pink - 700 dark: text-pink - 300 border border-pink - 200 dark: border-pink - 800 / 50 transition-colors ${!showSensitive ? 'blur-[3px] select-none opacity-50' : ''} `}>
-                            {showSensitive ? type : 'Hidden Detail'}
-                          </span>
-                        ))}
-                      </div>
-                      {_gender === 'male' ? (
-                        <p className="text-xs text-pink-600 dark:text-pink-400 italic mb-2 transition-colors">Breast types influenced by {planet}</p>
-                      ) : (
-                        <p className="text-xs text-pink-600 dark:text-pink-400 italic mb-2 transition-colors">Penis/Lingam types influenced by {planet}</p>
-                      )}
-                      {!showSensitive && (
-                        <button
-                          onClick={() => setShowSensitive(true)}
-                          className="text-[10px] text-indigo-600 dark:text-indigo-400 hover:underline mb-2 block transition-colors"
-                        >
-                          Reveal Anatomical Indicators
-                        </button>
-                      )}
-                      <p className="text-sm text-gray-700 dark:text-gray-300 transition-colors"><strong>Predicted Size:</strong> {appearance.size}</p>
+                return (
+                  <div key={idx} className="p-4 bg-gradient-to-r from-pink-50 to-rose-50 dark:from-pink-900/10 dark:to-rose-900/10 rounded-xl border border-pink-100 dark:border-pink-800/30 transition-colors">
+                    <div className="flex items-center gap-3 mb-3">
+                      {getPlanetIcon(planet)}
+                      <h4 className="text-lg font-bold text-gray-800 dark:text-gray-100 transition-colors">
+                        {hasD9Planets ? `${planet} in D9 7th House` : `${planet} (7th Lord Influence)`}
+                      </h4>
                     </div>
 
-                    <div>
-                      <h5 className="font-semibold text-pink-800 dark:text-pink-200 mb-2 transition-colors">Beauty Characteristics</h5>
-                      <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-1 mb-3 transition-colors">
-                        {appearance.beautyIndicators.map((indicator, i) => (
-                          <li key={i} className="flex items-center gap-2">
-                            <span className="text-pink-400">•</span> {indicator}
-                          </li>
-                        ))}
-                      </ul>
-                      <div className="p-2 bg-pink-100/50 dark:bg-pink-900/30 rounded-lg transition-colors">
-                        <p className="text-xs text-pink-800 dark:text-pink-200 transition-colors"><strong>Attractiveness:</strong> {appearance.attractiveness}</p>
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div>
+                        <h5 className="font-semibold text-pink-800 dark:text-pink-200 mb-2 transition-colors">
+                          {effectiveGender === 'male' ? 'Spouse Anatomical Traits (Female)' : 'Spouse Anatomical Traits (Male)'}
+                        </h5>
+                        <div className="flex flex-wrap gap-2 mb-3">
+                          {(effectiveGender === 'male' ? appearance.breastType : appearance.lingamType).map((type, tIdx) => (
+                            <span key={tIdx} className={`px-2 py-1 bg-white dark:bg-gray-800 rounded-full text-xs text-pink-700 dark:text-pink-300 border border-pink-200 dark:border-pink-800/50 transition-colors ${!showSensitive ? 'blur-[3px] select-none opacity-50' : ''}`}>
+                              {showSensitive ? type : 'Hidden Detail'}
+                            </span>
+                          ))}
+                        </div>
+                        {effectiveGender === 'male' ? (
+                          <p className="text-xs text-pink-600 dark:text-pink-400 italic mb-2 transition-colors">Breast types influenced by {planet}</p>
+                        ) : (
+                          <p className="text-xs text-pink-600 dark:text-pink-400 italic mb-2 transition-colors">Penis/Lingam types influenced by {planet}</p>
+                        )}
+                        {!showSensitive && (
+                          <button
+                            onClick={() => setShowSensitive(true)}
+                            className="text-[10px] text-indigo-600 dark:text-indigo-400 hover:underline mb-2 block transition-colors"
+                          >
+                            Reveal Anatomical Indicators
+                          </button>
+                        )}
+                        <p className="text-sm text-gray-700 dark:text-gray-300 transition-colors"><strong>Predicted Size:</strong> {appearance.size}</p>
+                      </div>
+
+                      <div>
+                        <h5 className="font-semibold text-pink-800 dark:text-pink-200 mb-2 transition-colors">Beauty Characteristics</h5>
+                        <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-1 mb-3 transition-colors">
+                          {appearance.beautyIndicators.map((indicator, i) => (
+                            <li key={i} className="flex items-center gap-2">
+                              <span className="text-pink-400">•</span> {indicator}
+                            </li>
+                          ))}
+                        </ul>
+                        <div className="p-2 bg-pink-100/50 dark:bg-pink-900/30 rounded-lg transition-colors">
+                          <p className="text-xs text-pink-800 dark:text-pink-200 transition-colors"><strong>Attractiveness:</strong> {appearance.attractiveness}</p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
-        </div>
-      )}
+        ) : null;
+      })()}
 
       {/* Marriage Happiness Score */}
       <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/10 dark:to-emerald-900/10 rounded-2xl shadow-lg p-6 border border-green-100 dark:border-green-800/30 transition-colors overflow-hidden">
