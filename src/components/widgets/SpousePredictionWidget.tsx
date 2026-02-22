@@ -1,7 +1,7 @@
 import React from 'react';
 import { SpousePrediction, Chart } from '../../types';
 import { ExtendedSpousePrediction } from '../../types/extendedTypes';
-import { User, Crown, Heart, Sparkles, Star, Clock, Info, Smile, Award, Briefcase, Footprints, Music, Shirt, Eye, EyeOff, RefreshCw, AlertCircle } from 'lucide-react';
+import { User, Crown, Heart, Sparkles, Star, Clock, Info, Smile, Award, Briefcase, Footprints, Music, Shirt, Eye, EyeOff, RefreshCw, AlertCircle, Compass, MapPin, Users, Navigation, Users2, Globe, Zap, ArrowRight, CheckCircle2, XCircle } from 'lucide-react';
 import { useGeminiInsight } from '../../hooks/useGeminiInsight';
 import ReactMarkdown from 'react-markdown';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
@@ -1123,6 +1123,175 @@ export const SpousePredictionWidget: React.FC<SpousePredictionWidgetProps> = ({
             </div>
           </div>
         ) : null;
+      })()}
+
+      {/* How Will You Meet Your Spouse? */}
+      {currentPrediction?.meetingPrediction && (() => {
+        const mp = currentPrediction!.meetingPrediction!;
+        const dirConfColor = mp.direction.confidence === 'high' ? 'text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900/30' : mp.direction.confidence === 'medium' ? 'text-amber-600 dark:text-amber-400 bg-amber-100 dark:bg-amber-900/30' : 'text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800';
+        const distLevels = ['very_near', 'near', 'nearby', 'hometown', 'same_region', 'moderate', 'familiar', 'unpredictable', 'far', 'career_linked', 'social_network', 'very_far'];
+        const distIndex = distLevels.indexOf(mp.distance.level);
+        const distPercent = Math.round(((distIndex + 1) / distLevels.length) * 100);
+        const mtColor = mp.marriageType.type === 'love' ? 'from-pink-500 to-rose-500' : mp.marriageType.type === 'arranged' ? 'from-amber-500 to-orange-500' : 'from-purple-500 to-indigo-500';
+        const mtIcon = mp.marriageType.type === 'love' ? '💕' : mp.marriageType.type === 'arranged' ? '🤝' : '✨';
+
+        return (
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 transition-colors border border-indigo-100 dark:border-indigo-800/30">
+            <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2 flex items-center gap-2 transition-colors">
+              <Compass className="w-6 h-6 text-indigo-500 dark:text-indigo-400" />
+              How Will You Meet Your Spouse?
+            </h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-5 transition-colors">
+              Multi-system analysis using D1, D9, KP & Jaimini to predict direction, distance, and meeting circumstances.
+            </p>
+
+            <div className="grid md:grid-cols-2 gap-4 mb-4">
+              {/* Direction Card */}
+              <div className="p-4 bg-gradient-to-br from-sky-50 to-blue-50 dark:from-sky-900/10 dark:to-blue-900/10 rounded-xl border border-sky-100 dark:border-sky-800/30 transition-colors">
+                <div className="flex items-center justify-between mb-3">
+                  <h4 className="font-bold text-sky-800 dark:text-sky-200 flex items-center gap-2 transition-colors">
+                    <Navigation className="w-5 h-5" />
+                    Spouse Direction
+                  </h4>
+                  <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${dirConfColor} transition-colors`}>{mp.direction.confidence.toUpperCase()}</span>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="relative w-20 h-20 rounded-full border-2 border-sky-200 dark:border-sky-700 flex items-center justify-center bg-white dark:bg-gray-900 transition-colors flex-shrink-0">
+                    <span className="absolute top-0.5 left-1/2 -translate-x-1/2 text-[9px] font-bold text-sky-600 dark:text-sky-400">N</span>
+                    <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 text-[9px] font-bold text-sky-600 dark:text-sky-400">S</span>
+                    <span className="absolute left-1 top-1/2 -translate-y-1/2 text-[9px] font-bold text-sky-600 dark:text-sky-400">W</span>
+                    <span className="absolute right-1 top-1/2 -translate-y-1/2 text-[9px] font-bold text-sky-600 dark:text-sky-400">E</span>
+                    <span className="text-lg font-black text-sky-700 dark:text-sky-300">{mp.direction.primary.slice(0, 2)}</span>
+                  </div>
+                  <div>
+                    <p className="text-lg font-bold text-sky-700 dark:text-sky-300 transition-colors">{mp.direction.primary}</p>
+                    {mp.direction.secondary && <p className="text-xs text-gray-500 dark:text-gray-400">Secondary: {mp.direction.secondary}</p>}
+                    <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-1">{mp.direction.sources.length} sources analyzed</p>
+                  </div>
+                </div>
+                {mp.direction.sources.length > 0 && (
+                  <div className="mt-3 space-y-1">
+                    {mp.direction.sources.slice(0, 4).map((s, i) => (
+                      <div key={i} className="flex items-center gap-2 text-[11px]">
+                        <span className="text-sky-400">→</span>
+                        <span className="text-gray-600 dark:text-gray-400">{s.system}:</span>
+                        <span className="font-medium text-sky-700 dark:text-sky-300">{s.direction}</span>
+                        <span className="text-gray-400 dark:text-gray-500">({s.basis})</span>
+                      </div>
+                    ))}
+                    {mp.direction.sources.length > 4 && <p className="text-[10px] text-gray-400">+{mp.direction.sources.length - 4} more sources</p>}
+                  </div>
+                )}
+              </div>
+
+              {/* Distance Card */}
+              <div className="p-4 bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/10 dark:to-teal-900/10 rounded-xl border border-emerald-100 dark:border-emerald-800/30 transition-colors">
+                <h4 className="font-bold text-emerald-800 dark:text-emerald-200 flex items-center gap-2 mb-3 transition-colors">
+                  <MapPin className="w-5 h-5" />
+                  Spouse Distance
+                </h4>
+                <p className="text-lg font-bold text-emerald-700 dark:text-emerald-300 transition-colors">{mp.distance.label}</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 transition-colors">{mp.distance.description}</p>
+                {/* Distance gauge */}
+                <div className="mb-2">
+                  <div className="flex justify-between text-[9px] text-gray-400 dark:text-gray-500 mb-1">
+                    <span>Same Locality</span>
+                    <span>Foreign Land</span>
+                  </div>
+                  <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                    <div className="h-full rounded-full bg-gradient-to-r from-emerald-400 to-teal-500 transition-all duration-500" style={{ width: `${distPercent}%` }} />
+                  </div>
+                </div>
+                {mp.distance.foreignIndicators.length > 0 && (
+                  <div className="mt-3">
+                    <p className="text-xs font-semibold text-amber-700 dark:text-amber-300 flex items-center gap-1 mb-1"><Globe className="w-3 h-3" /> Foreign Indicators</p>
+                    {mp.distance.foreignIndicators.map((fi, i) => (
+                      <div key={i} className="text-[11px] text-gray-600 dark:text-gray-400 flex items-center gap-1">
+                        <Zap className="w-3 h-3 text-amber-500" />
+                        <span className="font-medium">{fi.name}</span>
+                        <span className="text-gray-400">—</span>
+                        <span>{fi.interpretation}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-4 mb-4">
+              {/* Meeting Medium */}
+              <div className="p-4 bg-gradient-to-br from-violet-50 to-purple-50 dark:from-violet-900/10 dark:to-purple-900/10 rounded-xl border border-violet-100 dark:border-violet-800/30 transition-colors">
+                <h4 className="font-bold text-violet-800 dark:text-violet-200 flex items-center gap-2 mb-3 transition-colors text-sm">
+                  <Users2 className="w-5 h-5" />
+                  Meeting Medium
+                </h4>
+                <p className="text-sm font-semibold text-violet-700 dark:text-violet-300 mb-1 transition-colors">{mp.meetingMedium.through}</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">{mp.meetingMedium.primary}</p>
+                <div className="p-2 bg-white/60 dark:bg-gray-900/40 rounded-lg transition-colors">
+                  <p className="text-[10px] font-semibold text-violet-600 dark:text-violet-400 mb-1">🌐 Modern Context</p>
+                  <p className="text-xs text-gray-600 dark:text-gray-400">{mp.meetingMedium.modernInterpretation}</p>
+                </div>
+                {mp.meetingMedium.alternatives.length > 0 && (
+                  <div className="flex flex-wrap gap-1 mt-2">
+                    {mp.meetingMedium.alternatives.slice(0, 3).map((alt, i) => (
+                      <span key={i} className="text-[10px] px-2 py-0.5 bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 rounded-full transition-colors">{alt}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Circumstances */}
+              <div className="p-4 bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/10 dark:to-orange-900/10 rounded-xl border border-amber-100 dark:border-amber-800/30 transition-colors">
+                <h4 className="font-bold text-amber-800 dark:text-amber-200 flex items-center gap-2 mb-3 transition-colors text-sm">
+                  <Sparkles className="w-5 h-5" />
+                  Meeting Circumstances
+                </h4>
+                <p className="text-sm font-semibold text-amber-700 dark:text-amber-300 mb-1 transition-colors">{mp.circumstances.setting}</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 italic mb-2">Atmosphere: {mp.circumstances.atmosphere}</p>
+                <div className="space-y-1">
+                  {mp.circumstances.examples.map((ex, i) => (
+                    <div key={i} className="flex items-center gap-1 text-xs text-gray-600 dark:text-gray-400">
+                      <ArrowRight className="w-3 h-3 text-amber-400" /> {ex}
+                    </div>
+                  ))}
+                </div>
+                {mp.circumstances.nakshatraFlavor && (
+                  <div className="mt-2 p-2 bg-amber-100/50 dark:bg-amber-900/20 rounded-lg">
+                    <p className="text-[10px] font-semibold text-amber-600 dark:text-amber-400">⭐ Nakshatra Energy: {mp.circumstances.nakshatraEnergy}</p>
+                    <p className="text-[11px] text-gray-600 dark:text-gray-400 mt-0.5">{mp.circumstances.nakshatraFlavor}</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Marriage Type */}
+              <div className="p-4 bg-gradient-to-br from-rose-50 to-pink-50 dark:from-rose-900/10 dark:to-pink-900/10 rounded-xl border border-rose-100 dark:border-rose-800/30 transition-colors">
+                <h4 className="font-bold text-rose-800 dark:text-rose-200 flex items-center gap-2 mb-3 transition-colors text-sm">
+                  <Heart className="w-5 h-5" />
+                  Marriage Type
+                </h4>
+                <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-white text-sm font-bold bg-gradient-to-r ${mtColor} mb-2`}>
+                  <span>{mtIcon}</span>
+                  <span>{mp.marriageType.type === 'love' ? 'Love Marriage' : mp.marriageType.type === 'arranged' ? 'Arranged Marriage' : 'Mixed / Hybrid'}</span>
+                </div>
+                <p className="text-xs text-gray-600 dark:text-gray-400 mb-2 transition-colors">{mp.marriageType.description}</p>
+                <div className="space-y-1">
+                  {mp.marriageType.yogas.filter(y => y.present).map((y, i) => (
+                    <div key={i} className="flex items-start gap-1 text-[11px]">
+                      <CheckCircle2 className="w-3 h-3 text-green-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-gray-600 dark:text-gray-400">{y.name}</span>
+                    </div>
+                  ))}
+                  {mp.marriageType.yogas.filter(y => !y.present).slice(0, 2).map((y, i) => (
+                    <div key={i} className="flex items-start gap-1 text-[11px]">
+                      <XCircle className="w-3 h-3 text-gray-400 mt-0.5 flex-shrink-0" />
+                      <span className="text-gray-400 dark:text-gray-500">{y.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        );
       })()}
 
       {/* Marriage Happiness Score */}

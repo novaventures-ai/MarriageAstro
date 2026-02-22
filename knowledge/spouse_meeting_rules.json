@@ -1,0 +1,478 @@
+{
+    "spouse_meeting_prediction": {
+        "description": "Comprehensive rules for predicting how, where, and through whom the native will meet their spouse",
+        "methodology": "Uses D1, D9, KP sub-lords, Jaimini Darakaraka, and classical Vedic combinations",
+        "reference": "Brihat Parasara Hora Shastra, Jaimini Sutras, KP Reader",
+        "direction_from_sign": {
+            "description": "Direction spouse will come from based on zodiac sign on 7th house cusp or 7th lord's rashi",
+            "Aries": {
+                "direction": "South",
+                "element": "Fire"
+            },
+            "Taurus": {
+                "direction": "South",
+                "element": "Earth"
+            },
+            "Gemini": {
+                "direction": "West",
+                "element": "Air"
+            },
+            "Cancer": {
+                "direction": "North",
+                "element": "Water"
+            },
+            "Leo": {
+                "direction": "East",
+                "element": "Fire"
+            },
+            "Virgo": {
+                "direction": "Southeast",
+                "element": "Earth"
+            },
+            "Libra": {
+                "direction": "West",
+                "element": "Air"
+            },
+            "Scorpio": {
+                "direction": "South",
+                "element": "Water"
+            },
+            "Sagittarius": {
+                "direction": "Northeast",
+                "element": "Fire"
+            },
+            "Capricorn": {
+                "direction": "South",
+                "element": "Earth"
+            },
+            "Aquarius": {
+                "direction": "West",
+                "element": "Air"
+            },
+            "Pisces": {
+                "direction": "North",
+                "element": "Water"
+            }
+        },
+        "direction_from_planet": {
+            "description": "Direction indicated by planet in or ruling the 7th house",
+            "Sun": {
+                "direction": "East",
+                "quality": "Prominent, prestigious setting"
+            },
+            "Moon": {
+                "direction": "Northwest",
+                "quality": "Emotional, nurturing connection"
+            },
+            "Mars": {
+                "direction": "South",
+                "quality": "Energetic, competitive environment"
+            },
+            "Mercury": {
+                "direction": "North",
+                "quality": "Through communication, intellectual connection"
+            },
+            "Jupiter": {
+                "direction": "Northeast",
+                "quality": "Religious, educational, or cultural setting"
+            },
+            "Venus": {
+                "direction": "Southeast",
+                "quality": "Romantic, artistic, or luxurious setting"
+            },
+            "Saturn": {
+                "direction": "West",
+                "quality": "Formal, structured, possibly delayed meeting"
+            },
+            "Rahu": {
+                "direction": "Southwest",
+                "quality": "Unconventional, foreign, or digital means"
+            },
+            "Ketu": {
+                "direction": "Northeast",
+                "quality": "Spiritual, karmic, past-life connection feeling"
+            }
+        },
+        "distance_from_7th_lord_house": {
+            "description": "How far the spouse is likely from based on house placement of 7th lord in D1",
+            "1": {
+                "distance": "very_near",
+                "label": "Same locality",
+                "description": "Spouse from your own community or neighborhood. You may already know them.",
+                "meeting_context": "Self-initiated — through personal activities, gym, training, or self-improvement",
+                "modern": "Someone in your daily life, same apartment complex, or regular hangout spots"
+            },
+            "2": {
+                "distance": "near",
+                "label": "Family circles",
+                "description": "Spouse through family connections or financial circles. Same city likely.",
+                "meeting_context": "Family gathering, restaurant, financial institution, or through family friends",
+                "modern": "Family introduction, family WhatsApp groups, community gatherings"
+            },
+            "3": {
+                "distance": "nearby",
+                "label": "Nearby area",
+                "description": "Spouse from neighboring area. Siblings or neighbors may connect you.",
+                "meeting_context": "Through siblings, neighbors, messaging, short travel, or communication",
+                "modern": "Social media DMs, dating apps, WhatsApp/Telegram, matchmaking by siblings"
+            },
+            "4": {
+                "distance": "hometown",
+                "label": "Same hometown",
+                "description": "Spouse from your native place or early life connections.",
+                "meeting_context": "Through mother, maternal relatives, from childhood or school",
+                "modern": "Childhood sweetheart, school/college alumni network, hometown connections"
+            },
+            "5": {
+                "distance": "same_region",
+                "label": "Social circles",
+                "description": "Spouse through entertainment, romance, or creative pursuits in same region.",
+                "meeting_context": "Party, social gathering, creative/art event, sports, dating",
+                "modern": "Dating apps (Tinder, Bumble), entertainment events, friend's party"
+            },
+            "6": {
+                "distance": "moderate",
+                "label": "Through service/work",
+                "description": "Spouse may be a colleague or met through challenging circumstances.",
+                "meeting_context": "Workplace, hospital, service organization, charity event",
+                "modern": "Office romance, hospital/clinic, NGO work, volunteering"
+            },
+            "7": {
+                "distance": "familiar",
+                "label": "Known circles",
+                "description": "Spouse from same social standing. Met through conventional means.",
+                "meeting_context": "Public event, business meeting, social gathering, networking",
+                "modern": "Professional networking events, industry conferences, business meetings"
+            },
+            "8": {
+                "distance": "unpredictable",
+                "label": "Unexpected place",
+                "description": "Spouse met during a transformative or crisis situation. Hard to predict distance.",
+                "meeting_context": "During a difficult period, accident, research, occult/mystery setting",
+                "modern": "Unexpected encounter, crisis situation, insurance/legal matter, online mystery groups"
+            },
+            "9": {
+                "distance": "far",
+                "label": "Different state/culture",
+                "description": "Spouse from different cultural background, state, or country. Higher education link.",
+                "meeting_context": "University, temple, pilgrimage, long-distance travel, conference",
+                "modern": "Inter-state move for education, international conference, religious community"
+            },
+            "10": {
+                "distance": "career_linked",
+                "label": "Through career",
+                "description": "Spouse connected through profession. Distance depends on career mobility.",
+                "meeting_context": "Workplace, corporate event, professional conference, through father's contacts",
+                "modern": "LinkedIn, professional conference, office, corporate transfer"
+            },
+            "11": {
+                "distance": "social_network",
+                "label": "Through friends/community",
+                "description": "Spouse introduced through friends or large community networks.",
+                "meeting_context": "Friend's introduction, social club, community organization, online groups",
+                "modern": "Social media (Instagram, Facebook), mutual friends, community apps, matrimony sites"
+            },
+            "12": {
+                "distance": "very_far",
+                "label": "Foreign/distant land",
+                "description": "Strong indication of spouse from foreign country or very distant place.",
+                "meeting_context": "Foreign land, spiritual retreat, hospital, isolated/private setting",
+                "modern": "International dating apps, met while traveling abroad, online long-distance"
+            }
+        },
+        "foreign_spouse_yogas": {
+            "description": "Combinations strongly indicating spouse from different culture or foreign land",
+            "yogas": [
+                {
+                    "name": "Rahu in 7th House",
+                    "condition": "Rahu placed in 7th house of D1 or D9",
+                    "strength": "strong",
+                    "interpretation": "Spouse likely from different culture, caste, or foreign background"
+                },
+                {
+                    "name": "7th Lord in 12th House",
+                    "condition": "Lord of 7th house placed in 12th house",
+                    "strength": "very_strong",
+                    "interpretation": "Strong yoga for spouse from foreign land or very distant place"
+                },
+                {
+                    "name": "7th Lord conjunct Rahu",
+                    "condition": "7th lord in conjunction with Rahu in any house",
+                    "strength": "strong",
+                    "interpretation": "Inter-caste or foreign marriage likely. Unconventional partner"
+                },
+                {
+                    "name": "Darakaraka in 12th",
+                    "condition": "Jaimini Darakaraka planet placed in 12th house",
+                    "strength": "strong",
+                    "interpretation": "Spouse from foreign country. Possible relocation abroad after marriage"
+                },
+                {
+                    "name": "Venus-Rahu Conjunction",
+                    "condition": "Venus conjunct Rahu (for males seeking female spouse)",
+                    "strength": "moderate",
+                    "interpretation": "Attraction to foreign or unconventional partner. Intense romantic desires"
+                },
+                {
+                    "name": "Jupiter-Rahu Conjunction",
+                    "condition": "Jupiter conjunct Rahu (for females seeking male spouse)",
+                    "strength": "moderate",
+                    "interpretation": "Husband from different cultural or religious background"
+                },
+                {
+                    "name": "12th Lord in 7th",
+                    "condition": "Lord of 12th house placed in 7th house",
+                    "strength": "moderate",
+                    "interpretation": "Foreign influence on marriage. Possible settlement abroad after marriage"
+                },
+                {
+                    "name": "7th Lord in Rahu Nakshatra",
+                    "condition": "7th lord placed in Ardra, Swati, or Shatabhisha nakshatra",
+                    "strength": "moderate",
+                    "interpretation": "Unconventional meeting or partner from unexpected background"
+                }
+            ]
+        },
+        "marriage_type_yogas": {
+            "description": "Determining love marriage vs arranged marriage from planetary combinations",
+            "love_marriage": [
+                {
+                    "name": "5th-7th Lord Connection",
+                    "condition": "5th lord conjunct, aspecting, or exchanging signs with 7th lord",
+                    "strength": "very_strong",
+                    "interpretation": "Romance transforms into marriage. Classic love marriage yoga"
+                },
+                {
+                    "name": "Venus-Mars Connection",
+                    "condition": "Venus conjunct or aspecting Mars",
+                    "strength": "strong",
+                    "interpretation": "Passionate attraction leads to relationship and eventually marriage"
+                },
+                {
+                    "name": "Rahu on 5th or 7th",
+                    "condition": "Rahu placed in 5th or 7th house",
+                    "strength": "strong",
+                    "interpretation": "Unconventional romance. May break social norms for love"
+                },
+                {
+                    "name": "5th Lord in 7th House",
+                    "condition": "Lord of 5th house placed in 7th house",
+                    "strength": "very_strong",
+                    "interpretation": "Love affair leads directly to marriage"
+                },
+                {
+                    "name": "7th Lord in 5th House",
+                    "condition": "Lord of 7th house placed in 5th house",
+                    "strength": "very_strong",
+                    "interpretation": "Marriage partner becomes your romantic love"
+                },
+                {
+                    "name": "Venus in 5th House",
+                    "condition": "Venus placed in 5th house",
+                    "strength": "strong",
+                    "interpretation": "Strong romantic nature. Love relationship highly likely before marriage"
+                },
+                {
+                    "name": "Moon-Venus Connection",
+                    "condition": "Moon conjunct or aspecting Venus",
+                    "strength": "moderate",
+                    "interpretation": "Deep emotional and romantic bond. Feelings drive the relationship"
+                },
+                {
+                    "name": "5th-7th-11th Connection",
+                    "condition": "Lords of 5th, 7th, and 11th houses connected",
+                    "strength": "very_strong",
+                    "interpretation": "Love marriage with fulfillment of desires. Very strong indication"
+                }
+            ],
+            "arranged_marriage": [
+                {
+                    "name": "4th-7th Connection",
+                    "condition": "4th lord connected with 7th lord or house",
+                    "strength": "strong",
+                    "interpretation": "Family plays dominant role in spouse selection"
+                },
+                {
+                    "name": "9th-7th Connection",
+                    "condition": "9th lord connected with 7th lord or house",
+                    "strength": "strong",
+                    "interpretation": "Traditional or religious matchmaking process"
+                },
+                {
+                    "name": "Saturn in 7th",
+                    "condition": "Saturn placed in 7th house",
+                    "strength": "moderate",
+                    "interpretation": "Structured and formal marriage process. May involve delays"
+                },
+                {
+                    "name": "Jupiter Aspect on 7th",
+                    "condition": "Jupiter aspecting the 7th house",
+                    "strength": "moderate",
+                    "interpretation": "Elders' guidance and blessings determine marriage. Traditional approach"
+                },
+                {
+                    "name": "No 5th-7th Link",
+                    "condition": "No connection between 5th and 7th lords",
+                    "strength": "moderate",
+                    "interpretation": "Romance not the primary driver. Family-arranged union more likely"
+                }
+            ]
+        },
+        "meeting_circumstances": {
+            "description": "Planet aspecting or in 7th house indicates the atmosphere of first meeting",
+            "Jupiter": {
+                "setting": "Auspicious ceremony or educational setting",
+                "atmosphere": "Respectful, dignified, blessed",
+                "examples": [
+                    "Wedding of relative",
+                    "Religious ceremony",
+                    "University campus",
+                    "Cultural function"
+                ]
+            },
+            "Venus": {
+                "setting": "Romantic or artistic setting",
+                "atmosphere": "Beautiful, pleasurable, luxurious",
+                "examples": [
+                    "Party or celebration",
+                    "Art exhibition",
+                    "Music concert",
+                    "Fine dining"
+                ]
+            },
+            "Mars": {
+                "setting": "Competitive or energetic setting",
+                "atmosphere": "Intense, passionate, possibly argumentative first",
+                "examples": [
+                    "Sports event",
+                    "Gym or fitness",
+                    "Competition",
+                    "Heated debate that turns to attraction"
+                ]
+            },
+            "Saturn": {
+                "setting": "Formal or structured setting",
+                "atmosphere": "Serious, practical, possibly through hardship",
+                "examples": [
+                    "Professional setting",
+                    "Government office",
+                    "Through family elders",
+                    "During difficult period"
+                ]
+            },
+            "Mercury": {
+                "setting": "Intellectual or communication-based",
+                "atmosphere": "Witty, conversational, mentally stimulating",
+                "examples": [
+                    "Through messaging/texting",
+                    "Book club",
+                    "Workshop",
+                    "Business communication"
+                ]
+            },
+            "Moon": {
+                "setting": "Emotional or family environment",
+                "atmosphere": "Nurturing, comforting, emotionally charged",
+                "examples": [
+                    "Family event",
+                    "Caring situation",
+                    "Through mother's connection",
+                    "Emotional support group"
+                ]
+            },
+            "Sun": {
+                "setting": "Prestigious or authority-linked",
+                "atmosphere": "Grand, impressive, through status",
+                "examples": [
+                    "Government event",
+                    "Through authority figure",
+                    "Company leadership event",
+                    "Public ceremony"
+                ]
+            },
+            "Rahu": {
+                "setting": "Unconventional or foreign",
+                "atmosphere": "Surprising, mysterious, foreign element",
+                "examples": [
+                    "Online/social media",
+                    "Foreign country",
+                    "Unusual circumstances",
+                    "Through technology"
+                ]
+            },
+            "Ketu": {
+                "setting": "Spiritual or karmic",
+                "atmosphere": "Mystical, feeling of past-life connection",
+                "examples": [
+                    "Spiritual retreat",
+                    "Meditation center",
+                    "Chance encounter",
+                    "Feels instantly familiar"
+                ]
+            }
+        },
+        "nakshatra_meeting_flavor": {
+            "description": "Nakshatra of 7th lord adds nuance to the meeting energy",
+            "fire_nakshatras": {
+                "nakshatras": [
+                    "Ashwini",
+                    "Bharani",
+                    "Krittika",
+                    "Magha",
+                    "Purva Phalguni",
+                    "Mula",
+                    "Purva Ashadha",
+                    "Uttara Ashadha"
+                ],
+                "flavor": "Sudden, impulsive, passionate first meeting. Love at first sight possible.",
+                "energy": "fast"
+            },
+            "earth_nakshatras": {
+                "nakshatras": [
+                    "Rohini",
+                    "Mrigashira",
+                    "Hasta",
+                    "Chitra",
+                    "Uttara Phalguni",
+                    "Shravana",
+                    "Dhanishta"
+                ],
+                "flavor": "Practical, stable setting. Meeting through grounded circumstances.",
+                "energy": "steady"
+            },
+            "air_nakshatras": {
+                "nakshatras": [
+                    "Ardra",
+                    "Punarvasu",
+                    "Swati",
+                    "Vishakha",
+                    "Shatabhisha",
+                    "Purva Bhadrapada"
+                ],
+                "flavor": "Through communication or chance. Unexpected wind of fate brings you together.",
+                "energy": "variable"
+            },
+            "water_nakshatras": {
+                "nakshatras": [
+                    "Pushya",
+                    "Ashlesha",
+                    "Anuradha",
+                    "Jyeshtha",
+                    "Uttara Bhadrapada",
+                    "Revati"
+                ],
+                "flavor": "Emotional, nurturing event. Deep feeling of connection from the start.",
+                "energy": "flowing"
+            }
+        },
+        "confidence_rules": {
+            "description": "How to score confidence when multiple systems agree",
+            "high_confidence": "3+ systems agree (D1 sign + D1 planet + D9 + KP/Jaimini)",
+            "medium_confidence": "2 systems agree",
+            "low_confidence": "Only 1 system indicates, others silent or conflicting",
+            "note": "Always present dominant + secondary predictions to user"
+        },
+        "source": "Brihat Parasara Hora Shastra, Jaimini Sutras, KP Astrology, aaps.space, Classical Vedic Texts",
+        "last_updated": "2026-02-22"
+    }
+}

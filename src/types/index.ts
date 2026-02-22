@@ -511,6 +511,42 @@ export interface SpousePrediction {
       darakarakaD9: string;
     };
   };
+  meetingPrediction?: SpouseMeetingPrediction;
+}
+
+export interface SpouseMeetingPrediction {
+  direction: {
+    primary: string;
+    secondary?: string;
+    confidence: 'high' | 'medium' | 'low';
+    sources: { system: string; direction: string; basis: string }[];
+  };
+  distance: {
+    level: 'very_near' | 'near' | 'nearby' | 'hometown' | 'same_region' | 'moderate' | 'familiar' | 'unpredictable' | 'far' | 'career_linked' | 'social_network' | 'very_far';
+    label: string;
+    description: string;
+    foreignIndicators: { name: string; strength: string; interpretation: string }[];
+    confidence: 'high' | 'medium' | 'low';
+  };
+  meetingMedium: {
+    primary: string;
+    alternatives: string[];
+    through: string;
+    modernInterpretation: string;
+  };
+  circumstances: {
+    setting: string;
+    atmosphere: string;
+    examples: string[];
+    nakshatraFlavor?: string;
+    nakshatraEnergy?: string;
+  };
+  marriageType: {
+    type: 'love' | 'arranged' | 'mixed';
+    confidence: 'high' | 'medium' | 'low';
+    yogas: { name: string; present: boolean; description: string }[];
+    description: string;
+  };
 }
 
 export interface DivisionalChartAnalysis {
