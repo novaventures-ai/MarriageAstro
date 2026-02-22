@@ -10,6 +10,9 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['icon.svg', 'apple-touch-icon.png'],
+      workbox: {
+        maximumFileSizeToCacheInBytes: 8 * 1024 * 1024, // 8MB - bundle is large due to astro calculations
+      },
       manifest: {
         name: 'Astro Marriage',
         short_name: 'AstroMarriage',
