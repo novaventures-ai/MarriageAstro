@@ -1290,6 +1290,38 @@ export const SpousePredictionWidget: React.FC<SpousePredictionWidgetProps> = ({
                 </div>
               </div>
             </div>
+
+            {/* Spouse Attraction */}
+            {mp.spouseAttraction && (
+              <div className="p-4 bg-gradient-to-r from-pink-50 via-fuchsia-50 to-purple-50 dark:from-pink-900/10 dark:via-fuchsia-900/10 dark:to-purple-900/10 rounded-xl border border-pink-100 dark:border-pink-800/30 transition-colors">
+                <h4 className="font-bold text-pink-800 dark:text-pink-200 flex items-center gap-2 mb-3 transition-colors text-sm">
+                  <Star className="w-5 h-5" />
+                  What Attracts Your {effectiveGender === 'female' ? 'Husband' : 'Wife'} To You?
+                </h4>
+                <p className="text-xs text-gray-600 dark:text-gray-400 mb-3 leading-relaxed">{mp.spouseAttraction.genderSpecific}</p>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-3">
+                  {mp.spouseAttraction.qualities.map((q, i) => (
+                    <div key={i} className="flex items-center gap-2 p-2 bg-white/60 dark:bg-gray-900/40 rounded-lg transition-colors">
+                      <span className="text-sm">{q.icon}</span>
+                      <div>
+                        <p className="text-[11px] font-semibold text-pink-700 dark:text-pink-300">{q.trait}</p>
+                        <p className="text-[9px] text-gray-400 dark:text-gray-500">{q.source}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex gap-4 text-xs">
+                  <div className="flex items-center gap-1">
+                    <span className="w-2 h-2 rounded-full bg-pink-400"></span>
+                    <span className="text-gray-500 dark:text-gray-400">Physical: <span className="text-gray-700 dark:text-gray-300 font-medium">{mp.spouseAttraction.physicalAttraction}</span></span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <span className="w-2 h-2 rounded-full bg-purple-400"></span>
+                    <span className="text-gray-500 dark:text-gray-400">Emotional: <span className="text-gray-700 dark:text-gray-300 font-medium">{mp.spouseAttraction.emotionalAttraction}</span></span>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         );
       })()}

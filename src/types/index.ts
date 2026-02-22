@@ -547,6 +547,12 @@ export interface SpouseMeetingPrediction {
     yogas: { name: string; present: boolean; description: string }[];
     description: string;
   };
+  spouseAttraction?: {
+    qualities: { trait: string; source: string; icon: string }[];
+    physicalAttraction: string;
+    emotionalAttraction: string;
+    genderSpecific: string;
+  };
 }
 
 export interface DivisionalChartAnalysis {

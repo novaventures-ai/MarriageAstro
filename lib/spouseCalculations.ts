@@ -212,79 +212,308 @@ export function calculateSpouseMeeting(chart: Chart): SpouseMeetingPrediction {
     }
   }
 
-  // =================== MARRIAGE TYPE ===================
+  // =================== HELPER: Planetary Association ===================
+  // Check if two planets are associated via any classical method
+  const arePlanetsAssociated = (p1Name: Planet, p2Name: Planet): boolean => {
+    const pos1 = chart.planetaryPositions.find(p => p.planet === p1Name);
+    const pos2 = chart.planetaryPositions.find(p => p.planet === p2Name);
+    if (!pos1 || !pos2) return false;
+
+    // 1. Conjunction — same house
+    if (pos1.house === pos2.house) return true;
+
+    // 2. Vedic aspects — all planets aspect 7th house from themselves
+    const h1 = pos1.house || 0;
+    const h2 = pos2.house || 0;
+    const houseDistance = (target: number, from: number) => ((target - from + 12) % 12) || 12;
+    const d12 = houseDistance(h2, h1);
+    const d21 = houseDistance(h1, h2);
+
+    // All planets aspect 7th from themselves
+    if (d12 === 7 || d21 === 7) return true;
+
+    // Mars special aspects: 4th and 8th
+    if ((p1Name === 'Mars' && (d12 === 4 || d12 === 8)) ||
+      (p2Name === 'Mars' && (d21 === 4 || d21 === 8))) return true;
+
+    // Jupiter special aspects: 5th and 9th
+    if ((p1Name === 'Jupiter' && (d12 === 5 || d12 === 9)) ||
+      (p2Name === 'Jupiter' && (d21 === 5 || d21 === 9))) return true;
+
+    // Saturn special aspects: 3rd and 10th
+    if ((p1Name === 'Saturn' && (d12 === 3 || d12 === 10)) ||
+      (p2Name === 'Saturn' && (d21 === 3 || d21 === 10))) return true;
+
+    // 3. Mutual reception — each in the other's sign
+    if (pos1.sign && pos2.sign) {
+      const lord1 = chart.houses.find(h => h.sign === pos1.sign)?.lord;
+      const lord2 = chart.houses.find(h => h.sign === pos2.sign)?.lord;
+      if (lord1 === p2Name && lord2 === p1Name) return true;
+    }
+
+    return false;
+  };
+
+  // Check if a house lord is associated with another house lord
+  const areHouseLordsAssociated = (lord1: Planet | undefined, lord2: Planet | undefined): boolean => {
+    if (!lord1 || !lord2) return false;
+    if (lord1 === lord2) return true; // Same planet rules both houses
+    return arePlanetsAssociated(lord1, lord2);
+  };
+
+  // Check if a planet is in or aspecting a specific house
+  const isPlanetInfluencingHouse = (planet: Planet, houseNum: number): boolean => {
+    const pos = chart.planetaryPositions.find(p => p.planet === planet);
+    if (!pos) return false;
+    if (pos.house === houseNum) return true;
+    const h = pos.house || 0;
+    const dist = ((houseNum - h + 12) % 12) || 12;
+    if (dist === 7) return true; // All planets aspect 7th
+    if (planet === 'Mars' && (dist === 4 || dist === 8)) return true;
+    if (planet === 'Jupiter' && (dist === 5 || dist === 9)) return true;
+    if (planet === 'Saturn' && (dist === 3 || dist === 10)) return true;
+    return false;
+  };
+
+  // =================== MARRIAGE TYPE (ACCURATE) ===================
   const loveYogas: { name: string; present: boolean; description: string }[] = [];
   let loveScore = 0;
   let arrangedScore = 0;
 
-  // 5th-7th Lord Connection
-  const fifthLordPos = chart.planetaryPositions.find(p => p.planet === fifthLord);
-  const hasFifthSeventhConnection = fifthLord === seventhLord || // Same lord
-    fifthLordPos?.sign === seventhLordPos?.sign || // Conjunction
-    fifthLordPos?.house === 7 || seventhLordPos?.house === 5; // Exchange
-  loveYogas.push({ name: '5th-7th Lord Connection', present: !!hasFifthSeventhConnection, description: hasFifthSeventhConnection ? 'Romance transforms into marriage — classic love marriage yoga' : 'No direct 5th-7th link' });
-  if (hasFifthSeventhConnection) loveScore += 3;
+  // 1. Venus-Moon Association
+  const moonPos = chart.planetaryPositions.find(p => p.planet === 'Moon');
+  const hasVenusMoon = arePlanetsAssociated('Venus' as Planet, 'Moon' as Planet);
+  loveYogas.push({
+    name: 'Venus-Moon Association',
+    present: hasVenusMoon,
+    description: hasVenusMoon
+      ? 'Strong emotional desire to marry for love — Venus-Moon bond creates deep romantic attraction'
+      : 'Moon and Venus are not associated in your chart'
+  });
+  if (hasVenusMoon) loveScore += 3;
 
-  // Venus-Mars Connection
+  // 2. Venus-Mars Association
   const marsPos = chart.planetaryPositions.find(p => p.planet === 'Mars');
-  const hasVenusMars = venusPos && marsPos && venusPos.sign === marsPos.sign;
-  loveYogas.push({ name: 'Venus-Mars Connection', present: !!hasVenusMars, description: hasVenusMars ? 'Passionate attraction leads to relationship' : 'No Venus-Mars connection' });
-  if (hasVenusMars) loveScore += 2;
+  const hasVenusMars = arePlanetsAssociated('Venus' as Planet, 'Mars' as Planet);
+  loveYogas.push({
+    name: 'Venus-Mars Association',
+    present: hasVenusMars,
+    description: hasVenusMars
+      ? 'Passionate physical attraction leads to love marriage — Mars-Venus connection creates strong desire'
+      : 'Mars and Venus are not associated in your chart'
+  });
+  if (hasVenusMars) loveScore += 3;
 
-  // Rahu on 5th or 7th
+  // 3. Venus-Rahu Association
+  const hasVenusRahu = arePlanetsAssociated('Venus' as Planet, 'Rahu' as Planet);
+  loveYogas.push({
+    name: 'Venus-Rahu Association',
+    present: hasVenusRahu,
+    description: hasVenusRahu
+      ? 'Impulsive romantic desires, love for taboo or unconventional relationships — may choose partner against social norms'
+      : 'Venus and Rahu are not associated in your chart'
+  });
+  if (hasVenusRahu) loveScore += 2;
+
+  // 4. 5th House-7th House Association (Lord connection)
+  const fifthLordPos = chart.planetaryPositions.find(p => p.planet === fifthLord);
+  const hasFifthSeventhConnection = areHouseLordsAssociated(fifthLord, seventhLord);
+  // Also check if any planet connects both houses
+  const planetsIn5th = fifthHouse?.planets || [];
+  const crossHouseLink = planetsIn5th.some(p => isPlanetInfluencingHouse(p, 7)) ||
+    planetsIn7th.some(p => isPlanetInfluencingHouse(p, 5));
+  const has5th7th = hasFifthSeventhConnection || crossHouseLink;
+  loveYogas.push({
+    name: '5th-7th House Association',
+    present: has5th7th,
+    description: has5th7th
+      ? 'Romance house directly linked to marriage house — strong love marriage indicator'
+      : 'There is no association between fifth house and seventh house in your chart'
+  });
+  if (has5th7th) loveScore += 3;
+
+  // 5. 1st House-7th House Association
+  const firstLord = chart.houses.find(h => h.houseNumber === 1)?.lord;
+  const has1st7th = areHouseLordsAssociated(firstLord, seventhLord);
+  loveYogas.push({
+    name: '1st-7th House Association',
+    present: has1st7th,
+    description: has1st7th
+      ? 'Self-chosen partner — native plays active role in selecting their spouse'
+      : 'There is no association between first house and seventh house in your chart'
+  });
+  if (has1st7th) loveScore += 2;
+
+  // 6. Rahu on 5th or 7th
   const rahuOn5or7 = rahuPos && (rahuPos.house === 5 || rahuPos.house === 7);
-  loveYogas.push({ name: 'Rahu on 5th/7th', present: !!rahuOn5or7, description: rahuOn5or7 ? 'Unconventional romance, may break social norms for love' : 'No Rahu influence on romance/marriage houses' });
+  loveYogas.push({
+    name: 'Rahu on 5th/7th',
+    present: !!rahuOn5or7,
+    description: rahuOn5or7
+      ? 'Unconventional romance, may break social norms for love'
+      : 'No Rahu influence on romance/marriage houses'
+  });
   if (rahuOn5or7) loveScore += 2;
 
-  // 5th Lord in 7th or 7th Lord in 5th
-  const fiveSevenExchange = fifthLordPos?.house === 7 || seventhLordPos?.house === 5;
-  loveYogas.push({ name: '5th Lord in 7th / 7th Lord in 5th', present: !!fiveSevenExchange, description: fiveSevenExchange ? 'Love affair leads directly to marriage' : 'No direct house exchange' });
-  if (fiveSevenExchange) loveScore += 3;
-
-  // Venus in 5th
+  // 7. Venus in 5th House
   const venusIn5 = venusPos?.house === 5;
-  loveYogas.push({ name: 'Venus in 5th House', present: !!venusIn5, description: venusIn5 ? 'Strong romantic nature, love relationship likely before marriage' : 'Venus not in 5th' });
+  loveYogas.push({
+    name: 'Venus in 5th House',
+    present: !!venusIn5,
+    description: venusIn5
+      ? 'Strong romantic nature, love relationship very likely before marriage'
+      : 'Venus not in 5th house'
+  });
   if (venusIn5) loveScore += 2;
 
-  // 4th-7th Connection (Arranged)
+  // 8. Moon in 7th — emotional readiness for love
+  const moonIn7 = moonPos?.house === 7;
+  loveYogas.push({
+    name: 'Moon in 7th House',
+    present: !!moonIn7,
+    description: moonIn7
+      ? 'Emotional nature seeks love-based marriage, strong desire for romantic partner'
+      : 'Moon not in 7th house'
+  });
+  if (moonIn7) loveScore += 1;
+
+  // ---- ARRANGED INDICATORS ----
+  // 4th-7th Connection (Family involvement)
   const fourthLordPos = chart.planetaryPositions.find(p => p.planet === fourthLord);
-  const hasFourthSeventh = fourthLordPos?.sign === seventhLordPos?.sign || fourthLordPos?.house === 7 || seventhLordPos?.house === 4;
+  const hasFourthSeventh = areHouseLordsAssociated(fourthLord, seventhLord);
   if (hasFourthSeventh) arrangedScore += 2;
 
-  // 9th-7th Connection (Arranged)
+  // 9th-7th Connection (Father/elder's role)
   const ninthLordPos = chart.planetaryPositions.find(p => p.planet === ninthLord);
-  const hasNinthSeventh = ninthLordPos?.sign === seventhLordPos?.sign || ninthLordPos?.house === 7 || seventhLordPos?.house === 9;
+  const hasNinthSeventh = areHouseLordsAssociated(ninthLord, seventhLord);
   if (hasNinthSeventh) arrangedScore += 2;
 
-  // Saturn in 7th (Arranged)
-  if (planetsIn7th.includes('Saturn' as Planet)) arrangedScore += 1;
+  // Saturn in 7th (Traditional, delayed, family-arranged)
+  if (planetsIn7th.includes('Saturn' as Planet)) arrangedScore += 2;
 
-  // Jupiter aspect on 7th (Arranged) — Jupiter aspects 5th, 7th, 9th from itself
-  if (jupiterPos) {
-    const jupHouse = jupiterPos.house || 0;
-    if ([jupHouse + 4, jupHouse + 6, jupHouse + 8].map(h => ((h - 1) % 12) + 1).includes(7)) arrangedScore += 1;
-  }
+  // Saturn aspecting 7th house
+  if (isPlanetInfluencingHouse('Saturn' as Planet, 7) && !planetsIn7th.includes('Saturn' as Planet)) arrangedScore += 1;
 
-  // No 5th-7th link (Arranged)
-  if (!hasFifthSeventhConnection && !fiveSevenExchange && !venusIn5) arrangedScore += 1;
+  // Jupiter aspect on 7th (Blessing of elders, arranged)
+  if (isPlanetInfluencingHouse('Jupiter' as Planet, 7)) arrangedScore += 1;
 
+  // No love links at all → strong arranged indicator
+  if (loveScore === 0) arrangedScore += 3;
+
+  // Weak love links → mild arranged boost
+  if (loveScore > 0 && loveScore <= 2) arrangedScore += 1;
+
+  // Decision logic — require STRONG evidence for Love
   let marriageType: 'love' | 'arranged' | 'mixed' = 'mixed';
   let marriageDesc = 'A mix of personal choice and family involvement in spouse selection';
-  if (loveScore >= 5 && loveScore > arrangedScore * 2) {
+  if (loveScore >= 6 && loveScore > arrangedScore * 1.5) {
     marriageType = 'love';
-    marriageDesc = 'Strong indications of love marriage. Romance and personal choice will drive spouse selection';
+    marriageDesc = 'Strong indications of love marriage. Multiple classical yogas confirm romance driving spouse selection';
+  } else if (loveScore >= 4 && loveScore > arrangedScore) {
+    marriageType = 'love';
+    marriageDesc = 'Love marriage likely with some family acceptance. Romance will lead the way';
   } else if (arrangedScore >= 4 && arrangedScore > loveScore) {
+    marriageType = 'arranged';
+    marriageDesc = 'Arranged marriage likely, though personal preferences will be considered';
+  } else if (arrangedScore > loveScore) {
     marriageType = 'arranged';
     marriageDesc = 'Family and traditional processes will play the dominant role in finding your spouse';
   } else if (loveScore > arrangedScore) {
-    marriageType = 'love';
-    marriageDesc = 'Love marriage likely with some family support. Romance will lead the way';
-  } else if (arrangedScore > loveScore) {
-    marriageType = 'arranged';
-    marriageDesc = 'Arranged marriage likely, though personal preferences will be considered';
+    marriageType = 'mixed';
+    marriageDesc = 'Some romantic inclination but family will also have significant say. A semi-arranged or love-cum-arranged marriage is possible';
   }
 
-  const mtConfidence = Math.abs(loveScore - arrangedScore) >= 3 ? 'high' : Math.abs(loveScore - arrangedScore) >= 1 ? 'medium' : 'low';
+  const mtConfidence = Math.abs(loveScore - arrangedScore) >= 4 ? 'high' : Math.abs(loveScore - arrangedScore) >= 2 ? 'medium' : 'low';
+
+  // =================== SPOUSE ATTRACTION ===================
+  // What attracts the spouse to the native (gender-specific)
+  const VENUS_SIGN_ATTRACTION: Record<string, { quality: string; physical: string; emotional: string }> = {
+    'Aries': { quality: 'Boldness & confidence', physical: 'Athletic, energetic appearance', emotional: 'Direct and protective nature' },
+    'Taurus': { quality: 'Sensuality & stability', physical: 'Attractive build, pleasant appearance', emotional: 'Loyal, dependable, grounded' },
+    'Gemini': { quality: 'Wit & communication', physical: 'Youthful, expressive face', emotional: 'Intellectual connection, humor' },
+    'Cancer': { quality: 'Nurturing warmth', physical: 'Soft features, caring expressions', emotional: 'Emotional depth, family values' },
+    'Leo': { quality: 'Charisma & generosity', physical: 'Regal bearing, magnetic presence', emotional: 'Warmheartedness, loyalty' },
+    'Virgo': { quality: 'Intelligence & refinement', physical: 'Clean, well-groomed appearance', emotional: 'Practical support, attentiveness' },
+    'Libra': { quality: 'Charm & diplomacy', physical: 'Beautiful features, well-dressed', emotional: 'Romantic nature, fairness' },
+    'Scorpio': { quality: 'Intensity & mystery', physical: 'Magnetic eyes, alluring presence', emotional: 'Deep passion, unwavering commitment' },
+    'Sagittarius': { quality: 'Adventure & optimism', physical: 'Tall, distinguished look', emotional: 'Open-mindedness, philosophical depth' },
+    'Capricorn': { quality: 'Ambition & maturity', physical: 'Dignified, serious demeanor', emotional: 'Stability, long-term commitment' },
+    'Aquarius': { quality: 'Uniqueness & independence', physical: 'Unconventional, distinctive look', emotional: 'Progressive thinking, friendship bond' },
+    'Pisces': { quality: 'Spirituality & compassion', physical: 'Dreamy, gentle appearance', emotional: 'Empathy, selfless love' }
+  };
+
+  const PLANET_ATTRACTION: Record<string, string> = {
+    'Sun': 'Authority, leadership, status',
+    'Moon': 'Emotional sensitivity, caring nature',
+    'Mars': 'Courage, physical strength, passion',
+    'Mercury': 'Intelligence, communication, humor',
+    'Jupiter': 'Wisdom, knowledge, moral values',
+    'Venus': 'Beauty, charm, artistic taste',
+    'Saturn': 'Maturity, discipline, reliability',
+    'Rahu': 'Mystery, ambition, foreign appeal',
+    'Ketu': 'Spirituality, detachment, past-life connection'
+  };
+
+  const gender = chart.gender || 'male';
+  // For males → Venus describes what wife is attracted to
+  // For females → Jupiter describes what husband is attracted to
+  const significator = gender === 'female' ? jupiterPos : venusPos;
+  const sigPlanet = gender === 'female' ? 'Jupiter' : 'Venus';
+  const sigSign = significator?.sign || 'Aries';
+  const venusAttr = VENUS_SIGN_ATTRACTION[sigSign] || VENUS_SIGN_ATTRACTION['Aries'];
+
+  const attractionQualities: { trait: string; source: string; icon: string }[] = [];
+
+  // From significator sign
+  attractionQualities.push({
+    trait: venusAttr.quality,
+    source: `${sigPlanet} in ${sigSign}`,
+    icon: '💫'
+  });
+
+  // From 7th lord
+  if (seventhLord) {
+    attractionQualities.push({
+      trait: PLANET_ATTRACTION[seventhLord] || 'Core marital qualities',
+      source: `7th Lord ${seventhLord}`,
+      icon: '🏠'
+    });
+  }
+
+  // From Darakaraka
+  const dkAttr = PLANET_ATTRACTION[darakaraka] || 'Soulmate connection';
+  attractionQualities.push({
+    trait: dkAttr,
+    source: `Darakaraka ${darakaraka}`,
+    icon: '✨'
+  });
+
+  // From planets aspecting 7th
+  const aspectingPlanets: string[] = [];
+  (['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu'] as Planet[]).forEach(p => {
+    if (!planetsIn7th.includes(p) && isPlanetInfluencingHouse(p, 7)) {
+      aspectingPlanets.push(p);
+      const attr = PLANET_ATTRACTION[p];
+      if (attr) attractionQualities.push({ trait: attr, source: `${p} aspecting 7th`, icon: '🔮' });
+    }
+  });
+
+  // From planets IN 7th
+  planetsIn7th.forEach(p => {
+    const attr = PLANET_ATTRACTION[p];
+    if (attr) attractionQualities.push({ trait: attr, source: `${p} in 7th house`, icon: '⭐' });
+  });
+
+  const genderSpecific = gender === 'female'
+    ? `Your husband is attracted to your ${venusAttr.quality.toLowerCase()}. Jupiter in ${sigSign} indicates he values ${venusAttr.emotional.toLowerCase()} in a partner. Your ${venusAttr.physical.toLowerCase()} appeals to him physically.`
+    : `Your wife is attracted to your ${venusAttr.quality.toLowerCase()}. Venus in ${sigSign} indicates she values ${venusAttr.emotional.toLowerCase()} in a partner. Your ${venusAttr.physical.toLowerCase()} appeals to her physically.`;
+
+  const spouseAttraction = {
+    qualities: attractionQualities.slice(0, 6), // Cap at 6
+    physicalAttraction: venusAttr.physical,
+    emotionalAttraction: venusAttr.emotional,
+    genderSpecific
+  };
 
   return {
     direction: {
@@ -318,7 +547,8 @@ export function calculateSpouseMeeting(chart: Chart): SpouseMeetingPrediction {
       confidence: mtConfidence,
       yogas: loveYogas,
       description: marriageDesc
-    }
+    },
+    spouseAttraction
   };
 }
 
