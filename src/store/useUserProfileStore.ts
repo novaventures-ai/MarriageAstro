@@ -398,9 +398,18 @@ export const useUserProfileStore = create<UserProfileState>()(
             return;
           }
 
-          // Load self profile
+          const state = get();
+
+          // 1. Handle Self Profile
           const profile = await getUserProfile(session.user.id);
-          if (profile) {
+
+          if (state.selfBirthData) {
+            // Local data exists (likely guest report), push to cloud to prevent wiping
+            if (state.selfChart) {
+              await saveUserProfile(session.user.id, state.selfBirthData, state.selfChart, state.selfReport || undefined);
+            }
+          } else if (profile) {
+            // No local data, safely load from cloud
             set({
               selfBirthData: profile.birthData,
               selfChart: profile.chart,
@@ -408,7 +417,14 @@ export const useUserProfileStore = create<UserProfileState>()(
             });
           }
 
-          // Load partners
+          // 2. Safely push any local guest partners to cloud (Upsert based on ID)
+          if (state.partners.length > 0) {
+            for (const partner of state.partners) {
+              await savePartner(session.user.id, partner);
+            }
+          }
+
+          // 3. Finally, load all merged partners from cloud
           const partners = await getUserPartners(session.user.id);
           set({ partners, isLoadingPartners: false });
         } catch (error) {

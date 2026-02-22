@@ -8,6 +8,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '../lib/supabase';
 import { useUserProfileStore } from '../store/useUserProfileStore';
+import { useAppStore } from '../store/useAppStore';
 
 interface AuthContextType {
     user: User | null;
@@ -47,9 +48,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 setUser(newSession?.user ?? null);
                 setIsLoading(false);
 
-                // If user just signed in or session was restored, sync data from cloud
+                // If user just signed in or session was restored, handle data sync
                 if (newSession?.user && (event === 'SIGNED_IN' || event === 'INITIAL_SESSION')) {
-                    useUserProfileStore.getState().loadFromCloud();
+                    const userProfileState = useUserProfileStore.getState();
+
+                    // If user has local self data, they likely just created it as guest.
+                    // Save it to cloud to prevent wiping it. Otherwise, load cloud data.
+                    if (userProfileState.selfBirthData) {
+                        userProfileState.saveToCloud();
+                    } else {
+                        userProfileState.loadFromCloud();
+                    }
+
+                    // If user has a local Match Report, save it to cloud
+                    const appState = useAppStore.getState();
+                    if (appState.currentReport) {
+                        appState.syncToCloud();
+                    }
                 }
             }
         );

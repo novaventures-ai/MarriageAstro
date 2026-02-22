@@ -28,6 +28,7 @@ import { AuthButton } from '../components/ui/AuthButton';
 import { AstroMindWidget } from '../components/chat/AstroMindWidget';
 import SeventhHousePlacementWidget from '../components/widgets/SeventhHousePlacementWidget';
 import { Logo } from '../components/ui/Logo';
+import { CosmicNavigator, ThemeId, ThemeConfig } from '../components/widgets/CosmicNavigator';
 
 export const ReportPage: React.FC = () => {
   const navigate = useNavigate();
@@ -41,6 +42,7 @@ export const ReportPage: React.FC = () => {
   } = useAppStore();
 
   const [showMobileTabs, setShowMobileTabs] = useState(false);
+  const [activeTheme, setActiveTheme] = useState<ThemeId>('match');
 
   if (!currentReport) {
     return (
@@ -58,28 +60,120 @@ export const ReportPage: React.FC = () => {
     );
   }
 
-  const tabs = [
-    { id: 'charts', label: 'Chart Details' },
-    { id: 'overview', label: 'Overview' },
-    { id: 'ashtakoot', label: 'Ashtakoot' },
-    { id: 'porutham', label: 'Porutham' },
-    { id: 'sexual', label: 'Physical' },
-    { id: 'spouse', label: 'Spouse' },
-    { id: 'synastry', label: 'Synastry' },
-    { id: 'divisional', label: 'Divisional' },
-    { id: 'kp', label: 'KP Analysis' },
-    { id: 'chara', label: 'Jaimini' },
-    { id: 'yogas', label: 'Yogas' },
-    { id: 'addiction', label: 'Addiction' },
-    { id: 'mental', label: 'Mental Health' },
-    { id: 'patterns', label: 'Patterns' },
-    { id: 'psychology', label: 'Psychology' },
-    { id: 'conflicts', label: 'Conflicts' },
-    { id: 'risks', label: 'Risks' },
-    { id: 'vulnerability', label: 'Vulnerability' },
-    { id: 'timing', label: 'Timing' },
-    { id: 'remedies', label: 'Remedies' },
-  ] as const;
+  // --- Dynamic Theme Configuration ---
+  const themes: ThemeConfig[] = [
+    {
+      id: 'match',
+      icon: '💍',
+      title: 'Match Foundations',
+      question: 'Is this match meant to be?',
+      color: 'purple',
+      gradient: 'from-purple-500 to-indigo-600',
+      widgets: [
+        { id: 'overview', label: 'Overall Compatibility' },
+        { id: 'ashtakoot', label: 'Ashtakoot Guna Milan' },
+        { id: 'porutham', label: 'South Indian Porutham' },
+        { id: 'kp', label: 'KP Promise Analysis' },
+        { id: 'yogadosha', label: 'Yogas & Doshas' },
+      ],
+      dynamicData: {
+        badge: `${currentReport.ashtakoot?.totalScore || 0}/36`,
+        status: (currentReport.ashtakoot?.totalScore || 0) >= 18 ? 'good' : 'danger',
+        highlight: (currentReport.ashtakoot?.totalScore || 0) >= 18 ? 'Foundational matching passed' : 'Caution: Low Ashtakoot score'
+      }
+    },
+    {
+      id: 'spouse',
+      icon: '👤',
+      title: 'Spouse & Destiny',
+      question: 'Who are they to me?',
+      color: 'blue',
+      gradient: 'from-blue-500 to-cyan-600',
+      widgets: [
+        { id: 'prediction', label: 'Spouse Prediction Details' },
+        { id: '7thhouse', label: '7th House Placement' },
+        { id: 'navamsa', label: 'D9 Navamsa (Marriage Chart)' },
+        { id: 'jaimini', label: 'Jaimini Soul Connection' },
+      ],
+      dynamicData: {
+        highlight: currentReport.spousePrediction?.meetingPrediction?.marriageType?.type
+          ? `Predicted: ${currentReport.spousePrediction.meetingPrediction.marriageType.type} Marriage`
+          : 'Spouse traits analyzed'
+      }
+    },
+    {
+      id: 'chemistry',
+      icon: '🔥',
+      title: 'Chemistry & Intimacy',
+      question: 'Are there sparks?',
+      color: 'rose',
+      gradient: 'from-rose-500 to-pink-600',
+      widgets: [
+        { id: 'sexual', label: 'Sexual Compatibility (Yoni)' },
+        { id: 'health', label: 'Vitality & Core Health' },
+        { id: 'synastry', label: 'Synastry Connections' },
+      ],
+      dynamicData: {
+        badge: (currentReport.sexualCompatibility as any)?.animalA ? `${(currentReport.sexualCompatibility as any).animalA} + ${(currentReport.sexualCompatibility as any).animalB}` : undefined,
+        status: (currentReport.sexualCompatibility as any)?.score >= 60 ? 'good' : 'warning'
+      }
+    },
+    {
+      id: 'risks',
+      icon: '⚠️',
+      title: 'Red Flags & Risks',
+      question: 'What could go wrong?',
+      color: 'amber',
+      gradient: 'from-amber-500 to-orange-600',
+      widgets: [
+        { id: 'radar', label: 'Complete Risk Radar' },
+        { id: 'conflict', label: 'Conflict Zones' },
+        { id: 'addiction', label: 'Addiction Vulnerabilities' },
+        { id: 'mental', label: 'Mental Health Impact' },
+      ],
+      dynamicData: {
+        badge: `${(currentReport.riskAssessment as any)?.overallRisk?.level || 'Unknown'} Risk`,
+        status: (currentReport.riskAssessment as any)?.overallRisk?.level === 'Low' ? 'good' : ((currentReport.riskAssessment as any)?.overallRisk?.level === 'High' || (currentReport.riskAssessment as any)?.overallRisk?.level === 'Critical' ? 'danger' : 'warning')
+      }
+    },
+    {
+      id: 'mind',
+      icon: '🧠',
+      title: 'Mind & Emotions',
+      question: 'How will we behave?',
+      color: 'emerald',
+      gradient: 'from-emerald-500 to-teal-600',
+      widgets: [
+        { id: 'psychology', label: 'Psychological Profile' },
+        { id: 'patterns', label: 'Relationship Behaviors' },
+        { id: 'modern', label: 'Modern Western Insights' },
+      ],
+      dynamicData: {
+        highlight: `Attachment: ${(currentReport as any).psychologicalProfile?.partnerA?.attachmentStyle?.type || 'analyzed'}`
+      }
+    },
+    {
+      id: 'timing',
+      icon: '⏰',
+      title: 'Timing & Action',
+      question: 'When to act & how to fix?',
+      color: 'indigo',
+      gradient: 'from-indigo-500 to-violet-600',
+      widgets: [
+        { id: 'timeline', label: 'Vimshottari Timeline' },
+        { id: 'vulnerable', label: 'Vulnerability Periods' },
+        { id: 'remedies', label: 'Actionable Remedies' },
+      ]
+    }
+  ];
+
+  const handleScrollToWidget = (widgetId: string) => {
+    const el = document.getElementById(widgetId);
+    if (el) {
+      const y = el.getBoundingClientRect().top + window.pageYOffset - 100;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
 
   return (
     <div className="min-h-screen py-8 px-4 transition-colors duration-500">
@@ -130,94 +224,67 @@ export const ReportPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Mobile Tab Dropdown */}
-        <div className="sm:hidden mb-4">
-          <div className="relative">
-            <button
-              onClick={() => setShowMobileTabs(!showMobileTabs)}
-              className="w-full flex items-center justify-between px-4 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-800 dark:text-gray-100 font-medium text-sm"
-            >
-              <span>{tabs.find(t => t.id === activeTab)?.label}</span>
-              <ChevronDown className={`w-5 h-5 transition-transform ${showMobileTabs ? 'rotate-180' : ''}`} />
-            </button>
-            {showMobileTabs && (
-              <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50 max-h-[60vh] overflow-y-auto">
-                {tabs.map((tab) => (
-                  <button
-                    key={tab.id}
-                    onClick={() => {
-                      setActiveTab(tab.id);
-                      setShowMobileTabs(false);
-                    }}
-                    className={`w-full px-4 py-3 text-left text-sm transition-colors ${activeTab === tab.id
-                      ? 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 font-medium'
-                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
-                      }`}
-                  >
-                    {tab.label}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
+        {/* Cosmic Navigator replacing 20 tabs */}
+        <CosmicNavigator
+          themes={themes}
+          activeTheme={activeTheme}
+          onSelectTheme={setActiveTheme}
+          onScrollToWidget={handleScrollToWidget}
+        />
 
-        {/* Desktop Navigation Tabs */}
-        <div className="hidden sm:flex gap-1 mb-6 sm:mb-8 overflow-x-auto pb-2 scrollbar-hide">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`px-3 sm:px-4 lg:px-6 py-2 sm:py-3 font-medium rounded-lg whitespace-nowrap transition-all duration-300 text-xs sm:text-sm ${activeTab === tab.id
-                ? 'bg-indigo-600 dark:bg-indigo-500 text-white shadow-md'
-                : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-                }`}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
+        {/* Thematic Content Areas - Rendering based on activeTheme */}
+        <div className="space-y-6 sm:space-y-8 pb-32">
 
-        {/* Report Content - Mobile Optimized */}
-        <div className="space-y-4 sm:space-y-6">
-          {activeTab === 'charts' && (
+          {/* Always visible at the top: Basic Info */}
+          <div className="mb-8 pl-4 pr-4 sm:pl-0 sm:pr-0 -mx-4 sm:mx-0 overflow-x-hidden w-screen sm:w-auto">
             <ChartDetailsWidget
               boyChart={currentReport.chartA}
               girlChart={currentReport.chartB}
             />
+          </div>
+
+          {/* 1. FOUNDATIONS */}
+          {activeTheme === 'match' && (
+            <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <div id="overview"><OverviewWidget report={currentReport} viewMode={viewMode as any} /></div>
+              <div id="ashtakoot">
+                <AshtakootWidget
+                  ashtakoot={currentReport.ashtakoot}
+                  viewMode={viewMode as any}
+                  nameA={currentReport.chartA.name}
+                  nameB={currentReport.chartB.name}
+                />
+              </div>
+              {currentReport.poruthamAnalysis && (
+                <div id="porutham"><PoruthamWidget data={currentReport.poruthamAnalysis} /></div>
+              )}
+              {currentReport.kpAnalysis && (
+                <div id="kp">
+                  <KPAnalysisWidget
+                    partnerA={currentReport.kpAnalysis.partnerA}
+                    partnerB={currentReport.kpAnalysis.partnerB}
+                    nameA={currentReport.chartA.name}
+                    nameB={currentReport.chartB.name}
+                  />
+                </div>
+              )}
+              {currentReport.yogaDoshaAnalysis && (
+                <div id="yogadosha">
+                  <YogaDoshaWidget
+                    partnerA={currentReport.yogaDoshaAnalysis.partnerA}
+                    partnerB={currentReport.yogaDoshaAnalysis.partnerB}
+                    nameA={currentReport.chartA.name}
+                    nameB={currentReport.chartB.name}
+                  />
+                </div>
+              )}
+            </div>
           )}
 
-          {activeTab === 'overview' && (
-            <OverviewWidget report={currentReport} viewMode={viewMode} />
-          )}
-
-          {activeTab === 'ashtakoot' && (
-            <AshtakootWidget
-              ashtakoot={currentReport.ashtakoot}
-              viewMode={viewMode}
-              nameA={currentReport.chartA.name}
-              nameB={currentReport.chartB.name}
-            />
-          )}
-
-          {activeTab === 'porutham' && currentReport.poruthamAnalysis && (
-            <PoruthamWidget data={currentReport.poruthamAnalysis} />
-          )}
-
-          {activeTab === 'sexual' && (
-            <SexualCompatibilityWidget
-              sexualCompatibility={currentReport.sexualCompatibility}
-              extendedSexualCompatibility={currentReport.extendedSexualCompatibility}
-              partnerAName={currentReport.chartA.name}
-              partnerBName={currentReport.chartB.name}
-              chartA={currentReport.chartA}
-              chartB={currentReport.chartB}
-            />
-          )}
-
-          {activeTab === 'spouse' && (
-            <div>
-              <div className="space-y-4 sm:space-y-8">
+          {/* 2. SPOUSE & DESTINY */}
+          {activeTheme === 'spouse' && (
+            <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <div id="prediction">
                 <SpousePredictionWidget
                   prediction={currentReport.spousePrediction}
                   partnerPrediction={currentReport.partnerSpousePrediction}
@@ -228,35 +295,139 @@ export const ReportPage: React.FC = () => {
                   userName={currentReport.chartA.name}
                   partnerName={currentReport.chartB.name}
                 />
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mt-4 sm:mt-6">
-                  <div className="space-y-3 sm:space-y-4">
-                    <h3 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-gray-100 px-2 sm:px-4">
-                      {currentReport.chartA.name}&apos;s 7th House
-                    </h3>
-                    <SeventhHousePlacementWidget chart={currentReport.chartA} />
-                  </div>
-                  <div className="space-y-3 sm:space-y-4">
-                    <h3 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-gray-100 px-2 sm:px-4">
-                      {currentReport.chartB.name}&apos;s 7th House
-                    </h3>
-                    <SeventhHousePlacementWidget chart={currentReport.chartB} />
-                  </div>
+              </div>
+              <div id="7thhouse" className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mt-4 sm:mt-6">
+                <div className="space-y-3 sm:space-y-4">
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-gray-100 px-2 sm:px-4">
+                    {currentReport.chartA.name}&apos;s 7th House
+                  </h3>
+                  <SeventhHousePlacementWidget chart={currentReport.chartA} />
+                </div>
+                <div className="space-y-3 sm:space-y-4">
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-gray-100 px-2 sm:px-4">
+                    {currentReport.chartB.name}&apos;s 7th House
+                  </h3>
+                  <SeventhHousePlacementWidget chart={currentReport.chartB} />
                 </div>
               </div>
+              <div id="navamsa">
+                <DivisionalChartWidget
+                  divisionalAnalysis={currentReport.divisionalAnalysis}
+                  nameA={currentReport.chartA.name}
+                  nameB={currentReport.chartB.name}
+                  chartA={currentReport.chartA}
+                  chartB={currentReport.chartB}
+                />
+              </div>
+              {currentReport.charaKarakas && currentReport.charaDasha && currentReport.upapadaLagna && currentReport.vivahSaham && (
+                <div id="jaimini">
+                  <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 sm:p-6 transition-colors mb-4">
+                    <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2 transition-colors">Jaimini Soul Connection</h2>
+                    <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 transition-colors">Chara Karakas, Chara Dasha, Upapada Lagna & Vivah Saham</p>
+                  </div>
+                  <CharaKarakasWidget
+                    partnerA={{
+                      charaKarakas: currentReport.charaKarakas.partnerA,
+                      charaDasha: currentReport.charaDasha.partnerA,
+                      upapadaLagna: currentReport.upapadaLagna.partnerA,
+                      vivahSaham: currentReport.vivahSaham.partnerA
+                    }}
+                    partnerB={{
+                      charaKarakas: currentReport.charaKarakas.partnerB,
+                      charaDasha: currentReport.charaDasha.partnerB,
+                      upapadaLagna: currentReport.upapadaLagna.partnerB,
+                      vivahSaham: currentReport.vivahSaham.partnerB
+                    }}
+                    nameA={currentReport.chartA.name}
+                    nameB={currentReport.chartB.name}
+                  />
+                </div>
+              )}
             </div>
           )}
 
-          {activeTab === 'synastry' && (
-            <div>
-              <div className="space-y-4 sm:space-y-6">
+          {/* 3. CHEMISTRY & INTIMACY */}
+          {activeTheme === 'chemistry' && (
+            <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <div id="sexual">
+                <SexualCompatibilityWidget
+                  sexualCompatibility={currentReport.sexualCompatibility}
+                  extendedSexualCompatibility={currentReport.extendedSexualCompatibility}
+                  partnerAName={currentReport.chartA.name}
+                  partnerBName={currentReport.chartB.name}
+                  chartA={currentReport.chartA}
+                  chartB={currentReport.chartB}
+                />
+              </div>
+              <div id="health">
+                <SexualHealthWidget
+                  sexualHealth={currentReport.sexualHealth}
+                  partnerAName={currentReport.chartA.name}
+                  partnerBName={currentReport.chartB.name}
+                />
+              </div>
+              <div id="synastry">
                 <SynastryWidget
                   synastry={currentReport.synastry}
                   chartAName={currentReport.chartA.name}
                   chartBName={currentReport.chartB.name}
                 />
+              </div>
+            </div>
+          )}
+
+          {/* 4. RED FLAGS & RISKS */}
+          {activeTheme === 'risks' && (
+            <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <div id="radar">
+                <RiskRadarWidget
+                  riskAssessment={currentReport.riskAssessment}
+                  partnerAName={currentReport.chartA.name}
+                  partnerBName={currentReport.chartB.name}
+                />
+              </div>
+              <div id="conflict"><ConflictZoneWidget report={currentReport} /></div>
+              {currentReport.addictionRiskAnalysis && (
+                <div id="addiction">
+                  <AddictionRiskWidget
+                    partnerA={currentReport.addictionRiskAnalysis.partnerA}
+                    partnerB={currentReport.addictionRiskAnalysis.partnerB}
+                    nameA={currentReport.chartA.name}
+                    nameB={currentReport.chartB.name}
+                  />
+                </div>
+              )}
+              {currentReport.mentalHealthAnalysis && (
+                <div id="mental">
+                  <MentalHealthWidget
+                    mentalHealthA={currentReport.mentalHealthAnalysis.partnerA}
+                    mentalHealthB={currentReport.mentalHealthAnalysis.partnerB}
+                    chartAName={currentReport.chartA.name}
+                    chartBName={currentReport.chartB.name}
+                  />
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* 5. MIND & EMOTIONS */}
+          {activeTheme === 'mind' && (
+            <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <div id="psychology"><PsychologicalProfileWidget report={currentReport as any} /></div>
+              {currentReport.relationshipPatternAnalysis && (
+                <div id="patterns">
+                  <RelationshipPatternWidget
+                    patternA={currentReport.relationshipPatternAnalysis.partnerA}
+                    patternB={currentReport.relationshipPatternAnalysis.partnerB}
+                    nameA={currentReport.chartA.name}
+                    nameB={currentReport.chartB.name}
+                  />
+                </div>
+              )}
+              <div id="modern">
                 <ModernInsightsWidget
-                  modernPlanets={currentReport.modernPlanets}
-                  modernChallenges={currentReport.modernChallenges}
+                  modernPlanets={currentReport.modernPlanets!}
+                  modernChallenges={currentReport.modernChallenges!}
                   chartA={currentReport.chartA}
                   chartB={currentReport.chartB}
                   enhancedInsights={currentReport.modernInsightsEnhanced}
@@ -265,135 +436,27 @@ export const ReportPage: React.FC = () => {
             </div>
           )}
 
-          {activeTab === 'divisional' && (
-            <DivisionalChartWidget
-              divisionalAnalysis={currentReport.divisionalAnalysis}
-              nameA={currentReport.chartA.name}
-              nameB={currentReport.chartB.name}
-              chartA={currentReport.chartA}
-              chartB={currentReport.chartB}
-            />
-          )}
-
-          {activeTab === 'kp' && currentReport.kpAnalysis && (
-            <div className="space-y-4 sm:space-y-6">
-              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 sm:p-6 transition-colors">
-                <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2 transition-colors">KP Astrology Analysis</h2>
-                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 transition-colors">Krishnamurti Paddhati (KP) System - Precision predictive astrology</p>
+          {/* 6. TIMING & ACTION */}
+          {activeTheme === 'timing' && (
+            <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <div id="timeline"><TimingWidget timing={currentReport.timing} /></div>
+              {currentReport.vulnerabilityTimeline && (
+                <div id="vulnerable"><VulnerabilityTimelineWidget timeline={currentReport.vulnerabilityTimeline} /></div>
+              )}
+              <div id="remedies">
+                <RemediesWidget
+                  remedies={currentReport.remedies}
+                  extendedRemedies={currentReport.extendedRemedies!}
+                  doshas={currentReport.ashtakoot.doshas}
+                  partnerAName={currentReport.chartA.name}
+                  partnerBName={currentReport.chartB.name}
+                  dashaInfo={(() => {
+                    const getDasha = (dashas: any[]) => dashas.find(d => d.isCurrent)?.planet || 'Unknown';
+                    return `${currentReport.chartA.name}: ${getDasha(currentReport.chartA.dashas)} Dasha | ${currentReport.chartB.name}: ${getDasha(currentReport.chartB.dashas)} Dasha`;
+                  })()}
+                />
               </div>
-              <KPAnalysisWidget
-                partnerA={currentReport.kpAnalysis.partnerA}
-                partnerB={currentReport.kpAnalysis.partnerB}
-                nameA={currentReport.chartA.name}
-                nameB={currentReport.chartB.name}
-              />
             </div>
-          )}
-
-          {activeTab === 'chara' && currentReport.charaKarakas && currentReport.charaDasha && currentReport.upapadaLagna && currentReport.vivahSaham && (
-            <div className="space-y-4 sm:space-y-6">
-              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 sm:p-6 transition-colors">
-                <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2 transition-colors">Jaimini Analysis</h2>
-                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 transition-colors">Chara Karakas, Chara Dasha, Upapada Lagna & Vivah Saham</p>
-              </div>
-              <CharaKarakasWidget
-                partnerA={{
-                  charaKarakas: currentReport.charaKarakas.partnerA,
-                  charaDasha: currentReport.charaDasha.partnerA,
-                  upapadaLagna: currentReport.upapadaLagna.partnerA,
-                  vivahSaham: currentReport.vivahSaham.partnerA
-                }}
-                partnerB={{
-                  charaKarakas: currentReport.charaKarakas.partnerB,
-                  charaDasha: currentReport.charaDasha.partnerB,
-                  upapadaLagna: currentReport.upapadaLagna.partnerB,
-                  vivahSaham: currentReport.vivahSaham.partnerB
-                }}
-                nameA={currentReport.chartA.name}
-                nameB={currentReport.chartB.name}
-              />
-            </div>
-          )}
-
-          {activeTab === 'yogas' && currentReport.yogaDoshaAnalysis && (
-            <YogaDoshaWidget
-              partnerA={currentReport.yogaDoshaAnalysis.partnerA}
-              partnerB={currentReport.yogaDoshaAnalysis.partnerB}
-              nameA={currentReport.chartA.name}
-              nameB={currentReport.chartB.name}
-            />
-          )}
-
-          {activeTab === 'addiction' && currentReport.addictionRiskAnalysis && (
-            <AddictionRiskWidget
-              partnerA={currentReport.addictionRiskAnalysis.partnerA}
-              partnerB={currentReport.addictionRiskAnalysis.partnerB}
-              nameA={currentReport.chartA.name}
-              nameB={currentReport.chartB.name}
-            />
-          )}
-
-          {activeTab === 'mental' && currentReport.mentalHealthAnalysis && (
-            <MentalHealthWidget
-              mentalHealthA={currentReport.mentalHealthAnalysis.partnerA}
-              mentalHealthB={currentReport.mentalHealthAnalysis.partnerB}
-              chartAName={currentReport.chartA.name}
-              chartBName={currentReport.chartB.name}
-            />
-          )}
-
-          {activeTab === 'patterns' && currentReport.relationshipPatternAnalysis && (
-            <RelationshipPatternWidget
-              patternA={currentReport.relationshipPatternAnalysis.partnerA}
-              patternB={currentReport.relationshipPatternAnalysis.partnerB}
-              nameA={currentReport.chartA.name}
-              nameB={currentReport.chartB.name}
-            />
-          )}
-
-          {activeTab === 'psychology' && (
-            <PsychologicalProfileWidget report={currentReport} />
-          )}
-
-          {activeTab === 'conflicts' && (
-            <ConflictZoneWidget report={currentReport} />
-          )}
-
-          {activeTab === 'risks' && (
-            <div className="space-y-4 sm:space-y-6">
-              <RiskRadarWidget
-                riskAssessment={currentReport.riskAssessment}
-                partnerAName={currentReport.chartA.name}
-                partnerBName={currentReport.chartB.name}
-              />
-              <SexualHealthWidget
-                sexualHealth={currentReport.sexualHealth}
-                partnerAName={currentReport.chartA.name}
-                partnerBName={currentReport.chartB.name}
-              />
-            </div>
-          )}
-
-          {activeTab === 'timing' && (
-            <TimingWidget timing={currentReport.timing} />
-          )}
-
-          {activeTab === 'vulnerability' && currentReport.vulnerabilityTimeline && (
-            <VulnerabilityTimelineWidget timeline={currentReport.vulnerabilityTimeline} />
-          )}
-
-          {activeTab === 'remedies' && (
-            <RemediesWidget
-              remedies={currentReport.remedies}
-              extendedRemedies={currentReport.extendedRemedies}
-              doshas={currentReport.ashtakoot.doshas}
-              partnerAName={currentReport.chartA.name}
-              partnerBName={currentReport.chartB.name}
-              dashaInfo={(() => {
-                const getDasha = (dashas: any[]) => dashas.find(d => d.isCurrent)?.planet || 'Unknown';
-                return `${currentReport.chartA.name}: ${getDasha(currentReport.chartA.dashas)} Dasha | ${currentReport.chartB.name}: ${getDasha(currentReport.chartB.dashas)} Dasha`;
-              })()}
-            />
           )}
         </div>
       </div>

@@ -28,6 +28,7 @@ import {
 } from 'lucide-react';
 import { ThemeToggle } from '../components/ui/ThemeToggle';
 import { Logo } from '../components/ui/Logo';
+import { CosmicNavigator, ThemeId, ThemeConfig } from '../components/widgets/CosmicNavigator';
 import { SelfOverviewWidget } from '../components/widgets/SelfOverviewWidget';
 import SpousePredictionWidget from '../components/widgets/SpousePredictionWidget';
 import SeventhHousePlacementWidget from '../components/widgets/SeventhHousePlacementWidget';
@@ -57,7 +58,7 @@ export const SelfReportPage: React.FC = () => {
     setSelfBirthData
   } = useUserProfileStore();
 
-  const [activeTab, setActiveTab] = useState<string>('overview');
+  const [activeTheme, setActiveTheme] = useState<ThemeId>('match');
   const [showChat, setShowChat] = useState(false);
   const [kpDataMissing, setKpDataMissing] = useState(false);
 
@@ -109,21 +110,97 @@ export const SelfReportPage: React.FC = () => {
     );
   }
 
-  const tabs = [
-    { id: 'overview', label: 'Overview', icon: Sparkles },
-    { id: 'charts', label: 'Charts', icon: MapIcon },
-    { id: 'divisional', label: 'Divisional Charts', icon: User },
-    { id: 'spouse', label: 'Spouse', icon: Heart },
-    { id: 'sexual', label: 'Physical', icon: Activity },
-    { id: 'timing', label: 'Timing', icon: Clock },
-    { id: 'psychology', label: 'Psychology', icon: Brain },
-    { id: 'doshas', label: 'Doshas', icon: Shield },
-    { id: 'remedies', label: 'Remedies', icon: Sparkles },
-    { id: 'kp', label: 'KP', icon: Zap },
-    { id: 'chara', label: 'Jaimini', icon: Users },
-    { id: 'mental', label: 'Mental', icon: Brain },
-    { id: 'patterns', label: 'Patterns', icon: MessageCircle },
+  // --- Dynamic Theme Configuration ---
+  const themes: ThemeConfig[] = [
+    {
+      id: 'match',
+      icon: '🧬',
+      title: 'Core Foundations',
+      question: 'Who am I essentially?',
+      color: 'purple',
+      gradient: 'from-purple-500 to-indigo-600',
+      widgets: [
+        { id: 'overview', label: 'Overall Core Potential' },
+        { id: 'doshas', label: 'Yogas & Doshas' },
+        { id: 'kp', label: 'KP Promise Analysis' },
+      ],
+      dynamicData: {
+        badge: `${selfReport.marriagePotential?.score || 0}/100`,
+        status: (selfReport.marriagePotential?.score || 0) >= 60 ? 'good' : 'warning',
+        highlight: selfReport.marriagePotential?.verdict?.replace('_', ' ') || 'Analyzed'
+      }
+    },
+    {
+      id: 'spouse',
+      icon: '👤',
+      title: 'Spouse & Destiny',
+      question: 'Who are they to me?',
+      color: 'blue',
+      gradient: 'from-blue-500 to-cyan-600',
+      widgets: [
+        { id: 'prediction', label: 'Spouse Prediction Details' },
+        { id: '7thhouse', label: '7th House Placement' },
+        { id: 'navamsa', label: 'D9 Navamsa (Marriage Chart)' },
+        { id: 'chara', label: 'Jaimini Soul Connection' },
+      ],
+      dynamicData: {
+        highlight: selfReport.spousePrediction?.meetingPrediction?.marriageType?.type
+          ? `Predicted: ${selfReport.spousePrediction.meetingPrediction.marriageType.type} Marriage`
+          : 'Spouse traits analyzed'
+      }
+    },
+    {
+      id: 'chemistry',
+      icon: '🔥',
+      title: 'Physical & Health',
+      question: 'What is my vitality?',
+      color: 'rose',
+      gradient: 'from-rose-500 to-pink-600',
+      widgets: [
+        { id: 'sexual', label: 'Physical Profile' },
+      ],
+      dynamicData: {
+        badge: 'Health Profile',
+        status: 'neutral'
+      }
+    },
+    {
+      id: 'mind',
+      icon: '🧠',
+      title: 'Mind & Emotions',
+      question: 'How do I behave?',
+      color: 'emerald',
+      gradient: 'from-emerald-500 to-teal-600',
+      widgets: [
+        { id: 'psychology', label: 'Psychological Profile' },
+        { id: 'patterns', label: 'Relationship Behaviors' },
+        { id: 'mental', label: 'Mental Health Impact' }
+      ],
+      dynamicData: {
+        highlight: `Attachment: ${selfReport.psychologicalProfile?.attachmentStyle?.type || 'analyzed'}`
+      }
+    },
+    {
+      id: 'timing',
+      icon: '⏰',
+      title: 'Timing & Action',
+      question: 'When to act & how to fix?',
+      color: 'indigo',
+      gradient: 'from-indigo-500 to-violet-600',
+      widgets: [
+        { id: 'timing', label: 'Life Timeline' },
+        { id: 'remedies', label: 'Actionable Remedies' },
+      ]
+    }
   ];
+
+  const handleScrollToWidget = (widgetId: string) => {
+    const el = document.getElementById(widgetId);
+    if (el) {
+      const y = el.getBoundingClientRect().top + window.pageYOffset - 100;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
@@ -219,187 +296,221 @@ export const SelfReportPage: React.FC = () => {
 
         {/* Main Content */}
         <div>
-          {/* Navigation Tabs */}
-          <div className="mb-6 overflow-x-auto scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
-            <div className="flex gap-2 pb-2">
-              {tabs.map((tab) => {
-                const Icon = tab.icon;
-                return (
-                  <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id)}
-                    className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg font-medium whitespace-nowrap transition-all text-sm sm:text-base ${activeTab === tab.id
-                      ? 'bg-purple-600 text-white shadow-md'
-                      : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-                      }`}
-                  >
-                    <Icon className="w-3 h-3 sm:w-4 sm:h-4" />
-                    {tab.label}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
+          {/* Cosmic Navigator */}
+          <CosmicNavigator
+            themes={themes}
+            activeTheme={activeTheme}
+            onSelectTheme={setActiveTheme}
+            onScrollToWidget={handleScrollToWidget}
+          />
 
           {/* Tab Content */}
-          <div className="space-y-6">
-            {activeTab === 'overview' && (
-              <ErrorBoundary>
-                <SelfOverviewWidget report={selfReport} />
-              </ErrorBoundary>
-            )}
+          <div className="space-y-6 sm:space-y-8 pb-32">
 
-            {activeTab === 'charts' && selfChart && (
-              <ErrorBoundary>
-                <ChartDetailsWidget
-                  boyChart={selfChart}
-                  girlChart={null}
-                />
-              </ErrorBoundary>
-            )}
-
-            {activeTab === 'spouse' && selfReport.spousePrediction && (
-              <ErrorBoundary>
-                <div className="space-y-6">
-                  <SpousePredictionWidget
-                    prediction={selfReport.spousePrediction}
-                    gender={selfChart?.gender || 'other'}
-                    userName={selfChart?.name}
+            {/* Always visible at the top: Basic Info */}
+            <div className="mb-8 pl-4 pr-4 sm:pl-0 sm:pr-0 -mx-4 sm:mx-0 overflow-x-hidden w-screen sm:w-auto">
+              {selfChart && (
+                <ErrorBoundary>
+                  <ChartDetailsWidget
+                    boyChart={selfChart}
+                    girlChart={null}
                   />
-                  {selfChart && (
-                    <SeventhHousePlacementWidget chart={selfChart} />
-                  )}
+                </ErrorBoundary>
+              )}
+            </div>
+
+            {/* 1. FOUNDATIONS */}
+            {activeTheme === 'match' && (
+              <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <div id="overview">
+                  <ErrorBoundary>
+                    <SelfOverviewWidget report={selfReport} />
+                  </ErrorBoundary>
                 </div>
-              </ErrorBoundary>
-            )}
 
-            {activeTab === 'timing' && (
-              <ErrorBoundary>
-                <SelfTimingWidget
-                  timing={selfReport.timing}
-                  timingForecast={selfReport.timingForecast}
-                />
-              </ErrorBoundary>
-            )}
+                <div id="doshas">
+                  <ErrorBoundary>
+                    <YogaDoshaWidget
+                      partnerA={selfReport.doshaAnalysis}
+                      partnerB={selfReport.doshaAnalysis}
+                      nameA={selfChart?.name || 'You'}
+                      nameB=""
+                    />
+                  </ErrorBoundary>
+                </div>
 
-            {activeTab === 'remedies' && selfReport.remedies && (
-              <ErrorBoundary>
-                <SelfRemediesWidget
-                  remedies={selfReport.remedies}
-                  doshaAnalysis={selfReport.doshaAnalysis}
-                />
-              </ErrorBoundary>
-            )}
-
-            {activeTab === 'psychology' && (
-              <ErrorBoundary>
-                <PsychologyWidget profile={selfReport.psychologicalProfile} />
-              </ErrorBoundary>
-            )}
-
-            {activeTab === 'doshas' && (
-              <ErrorBoundary>
-                <YogaDoshaWidget
-                  partnerA={selfReport.doshaAnalysis}
-                  partnerB={selfReport.doshaAnalysis}
-                  nameA={selfChart?.name || 'You'}
-                  nameB=""
-                />
-              </ErrorBoundary>
-            )}
-
-            {activeTab === 'divisional' && selfChart && (
-              <ErrorBoundary>
-                <DivisionalChartWidget
-                  chartA={selfChart}
-                  nameA={selfChart.name}
-                  divisionalAnalysis={selfReport.divisionalAnalysis}
-                />
-              </ErrorBoundary>
-            )}
-
-            {activeTab === 'kp' && selfChart && (
-              <ErrorBoundary>
-                {selfReport.kpAnalysis ? (
-                  <KPAnalysisWidget
-                    partnerA={selfReport.kpAnalysis.partnerA}
-                    partnerB={selfReport.kpAnalysis.partnerB || selfReport.kpAnalysis.partnerA}
-                    nameA={selfReport.kpAnalysis.nameA}
-                    nameB={selfReport.kpAnalysis.nameB}
-                  />
-                ) : (
-                  <div className="p-8 text-center bg-white dark:bg-gray-800 rounded-2xl shadow-sm transition-colors">
-                    <p className="text-gray-500 transition-colors">KP Analysis data not available.</p>
+                {selfChart && (
+                  <div id="kp">
+                    <ErrorBoundary>
+                      {selfReport.kpAnalysis ? (
+                        <KPAnalysisWidget
+                          partnerA={selfReport.kpAnalysis.partnerA}
+                          partnerB={selfReport.kpAnalysis.partnerB || selfReport.kpAnalysis.partnerA}
+                          nameA={selfReport.kpAnalysis.nameA}
+                          nameB={selfReport.kpAnalysis.nameB}
+                        />
+                      ) : (
+                        <div className="p-8 text-center bg-white dark:bg-gray-800 rounded-2xl shadow-sm transition-colors">
+                          <p className="text-gray-500 transition-colors">KP Analysis data not available.</p>
+                        </div>
+                      )}
+                    </ErrorBoundary>
                   </div>
                 )}
-              </ErrorBoundary>
+              </div>
             )}
 
-            {activeTab === 'chara' && selfChart && (
-              <ErrorBoundary>
-                {selfReport.jaiminiAnalysis ? (
-                  <CharaKarakasWidget
-                    partnerA={{
-                      charaKarakas: selfReport.jaiminiAnalysis.charaKarakas,
-                      charaDasha: selfReport.jaiminiAnalysis.charaDasha,
-                      upapadaLagna: selfReport.jaiminiAnalysis.ul,
-                      vivahSaham: selfReport.jaiminiAnalysis.vivahSaham || {
-                        longitude: 0,
-                        sign: 'Aries',
-                        degree: 0,
-                        interpretation: 'Data not available',
-                        activationPeriods: []
-                      }
-                    }}
-                    partnerB={{
-                      charaKarakas: selfReport.jaiminiAnalysis.charaKarakas,
-                      charaDasha: selfReport.jaiminiAnalysis.charaDasha,
-                      upapadaLagna: selfReport.jaiminiAnalysis.ul,
-                      vivahSaham: {
-                        longitude: 0,
-                        sign: 'Aries',
-                        degree: 0,
-                        interpretation: '',
-                        activationPeriods: []
-                      }
-                    }}
-                    nameA={selfChart?.name}
-                    nameB=""
-                  />
-                ) : (
-                  <div className="p-8 text-center bg-white dark:bg-gray-800 rounded-2xl shadow-sm transition-colors">
-                    <p className="text-gray-500 transition-colors">Jaimini analysis data not available.</p>
+            {/* 2. SPOUSE & DESTINY */}
+            {activeTheme === 'spouse' && (
+              <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                {selfReport.spousePrediction && (
+                  <div id="prediction">
+                    <ErrorBoundary>
+                      <SpousePredictionWidget
+                        prediction={selfReport.spousePrediction}
+                        gender={selfChart?.gender || 'other'}
+                        userName={selfChart?.name}
+                      />
+                    </ErrorBoundary>
                   </div>
                 )}
-              </ErrorBoundary>
+
+                {selfChart && (
+                  <div id="7thhouse">
+                    <ErrorBoundary>
+                      <SeventhHousePlacementWidget chart={selfChart} />
+                    </ErrorBoundary>
+                  </div>
+                )}
+
+                {selfChart && (
+                  <div id="navamsa">
+                    <ErrorBoundary>
+                      <DivisionalChartWidget
+                        chartA={selfChart}
+                        nameA={selfChart.name}
+                        divisionalAnalysis={selfReport.divisionalAnalysis}
+                      />
+                    </ErrorBoundary>
+                  </div>
+                )}
+
+                {selfChart && (
+                  <div id="chara">
+                    <ErrorBoundary>
+                      {selfReport.jaiminiAnalysis ? (
+                        <CharaKarakasWidget
+                          partnerA={{
+                            charaKarakas: selfReport.jaiminiAnalysis.charaKarakas,
+                            charaDasha: selfReport.jaiminiAnalysis.charaDasha,
+                            upapadaLagna: selfReport.jaiminiAnalysis.ul,
+                            vivahSaham: selfReport.jaiminiAnalysis.vivahSaham || {
+                              longitude: 0,
+                              sign: 'Aries',
+                              degree: 0,
+                              interpretation: 'Data not available',
+                              activationPeriods: []
+                            }
+                          }}
+                          partnerB={{
+                            charaKarakas: selfReport.jaiminiAnalysis.charaKarakas,
+                            charaDasha: selfReport.jaiminiAnalysis.charaDasha,
+                            upapadaLagna: selfReport.jaiminiAnalysis.ul,
+                            vivahSaham: {
+                              longitude: 0,
+                              sign: 'Aries',
+                              degree: 0,
+                              interpretation: '',
+                              activationPeriods: []
+                            }
+                          }}
+                          nameA={selfChart?.name}
+                          nameB=""
+                        />
+                      ) : (
+                        <div className="p-8 text-center bg-white dark:bg-gray-800 rounded-2xl shadow-sm transition-colors">
+                          <p className="text-gray-500 transition-colors">Jaimini analysis data not available.</p>
+                        </div>
+                      )}
+                    </ErrorBoundary>
+                  </div>
+                )}
+              </div>
             )}
 
-            {activeTab === 'sexual' && selfChart && selfReport.sexualHealth && (
-              <ErrorBoundary>
-                <SelfSexualProfileWidget
-                  sexualHealth={selfReport.sexualHealth}
-                  chart={selfChart}
-                  extendedCompatibility={selfReport.extendedSexualCompatibility}
-                />
-              </ErrorBoundary>
+            {/* 3. CHEMISTRY & PHYSICAL */}
+            {activeTheme === 'chemistry' && (
+              <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                {selfChart && selfReport.sexualHealth && (
+                  <div id="sexual">
+                    <ErrorBoundary>
+                      <SelfSexualProfileWidget
+                        sexualHealth={selfReport.sexualHealth}
+                        chart={selfChart}
+                        extendedCompatibility={selfReport.extendedSexualCompatibility}
+                      />
+                    </ErrorBoundary>
+                  </div>
+                )}
+              </div>
             )}
 
-            {activeTab === 'mental' && selfReport.mentalHealth && (
-              <ErrorBoundary>
-                <MentalHealthWidget
-                  mentalHealthA={selfReport.mentalHealth}
-                  chartAName={selfChart?.name}
-                />
-              </ErrorBoundary>
+            {/* 4. MIND & EMOTIONS */}
+            {activeTheme === 'mind' && (
+              <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <div id="psychology">
+                  <ErrorBoundary>
+                    <PsychologyWidget profile={selfReport.psychologicalProfile} />
+                  </ErrorBoundary>
+                </div>
+
+                {selfReport.relationshipPatterns && (
+                  <div id="patterns">
+                    <ErrorBoundary>
+                      <RelationshipPatternWidget
+                        patternA={selfReport.relationshipPatterns}
+                        nameA={selfChart?.name || 'You'}
+                      />
+                    </ErrorBoundary>
+                  </div>
+                )}
+
+                {selfReport.mentalHealth && (
+                  <div id="mental">
+                    <ErrorBoundary>
+                      <MentalHealthWidget
+                        mentalHealthA={selfReport.mentalHealth}
+                        chartAName={selfChart?.name}
+                      />
+                    </ErrorBoundary>
+                  </div>
+                )}
+              </div>
             )}
 
-            {activeTab === 'patterns' && selfReport.relationshipPatterns && (
-              <ErrorBoundary>
-                <RelationshipPatternWidget
-                  patternA={selfReport.relationshipPatterns}
-                  nameA={selfChart?.name || 'You'}
-                />
-              </ErrorBoundary>
+            {/* 5. TIMING & ACTION */}
+            {activeTheme === 'timing' && (
+              <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <div id="timing">
+                  <ErrorBoundary>
+                    <SelfTimingWidget
+                      timing={selfReport.timing}
+                      timingForecast={selfReport.timingForecast}
+                    />
+                  </ErrorBoundary>
+                </div>
+
+                {selfReport.remedies && (
+                  <div id="remedies">
+                    <ErrorBoundary>
+                      <SelfRemediesWidget
+                        remedies={selfReport.remedies}
+                        doshaAnalysis={selfReport.doshaAnalysis}
+                      />
+                    </ErrorBoundary>
+                  </div>
+                )}
+              </div>
             )}
           </div>
         </div>

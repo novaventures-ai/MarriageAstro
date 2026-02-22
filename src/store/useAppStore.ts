@@ -4,6 +4,7 @@
  */
 
 import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
 import { Chart, CompatibilityReport, BirthDataInput } from '@types';
 import { generateFullCompatibilityReport } from '@lib/reportGenerator';
 import { saveReport } from '../lib/supabaseService';
@@ -30,68 +31,96 @@ interface AppState {
   setActiveTab: (tab: AppState['activeTab']) => void;
   setViewMode: (mode: AppState['viewMode']) => void;
   clearError: () => void;
+  syncToCloud: () => Promise<void>;
 }
 
-export const useAppStore = create<AppState>((set, get) => ({
-  // Initial states
-  chartA: null,
-  chartB: null,
-  currentReport: null,
-  isLoading: false,
-  error: null,
-  activeTab: 'overview',
-  viewMode: 'detailed',
+export const useAppStore = create<AppState>()(
+  persist(
+    (set, get) => ({
+      // Initial states
+      chartA: null,
+      chartB: null,
+      currentReport: null,
+      isLoading: false,
+      error: null,
+      activeTab: 'overview',
+      viewMode: 'detailed',
 
-  // Actions
-  setChartA: (chart) => set({ chartA: chart }),
+      // Actions
+      setChartA: (chart) => set({ chartA: chart }),
 
-  setChartB: (chart) => set({ chartB: chart }),
+      setChartB: (chart) => set({ chartB: chart }),
 
-  setCurrentReport: (report) => set({
-    currentReport: report,
-    chartA: report.chartA,
-    chartB: report.chartB,
-  }),
-
-  generateReport: async (birthDataA, birthDataB) => {
-    set({ isLoading: true, error: null });
-
-    try {
-      const report = await generateFullCompatibilityReport(birthDataA, birthDataB);
-      set({
+      setCurrentReport: (report) => set({
         currentReport: report,
-        isLoading: false,
         chartA: report.chartA,
-        chartB: report.chartB
-      });
+        chartB: report.chartB,
+      }),
 
-      // Auto-save to Supabase if user is logged in
-      try {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (session?.user?.id) {
-          await saveReport(session.user.id, report);
+      generateReport: async (birthDataA, birthDataB) => {
+        set({ isLoading: true, error: null });
+
+        try {
+          const report = await generateFullCompatibilityReport(birthDataA, birthDataB);
+          set({
+            currentReport: report,
+            isLoading: false,
+            chartA: report.chartA,
+            chartB: report.chartB
+          });
+
+          // Auto-save to Supabase if user is logged in
+          try {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session?.user?.id) {
+              await saveReport(session.user.id, report);
+            }
+          } catch (saveError) {
+            // Don't fail the report generation if save fails
+            console.warn('Auto-save to Supabase failed:', saveError);
+          }
+        } catch (err) {
+          set({
+            error: err instanceof Error ? err.message : 'Failed to generate report',
+            isLoading: false
+          });
         }
-      } catch (saveError) {
-        // Don't fail the report generation if save fails
-        console.warn('Auto-save to Supabase failed:', saveError);
-      }
-    } catch (err) {
-      set({
-        error: err instanceof Error ? err.message : 'Failed to generate report',
-        isLoading: false
-      });
+      },
+
+      clearReport: () => set({
+        currentReport: null,
+        chartA: null,
+        chartB: null
+      }),
+
+      setActiveTab: (tab) => set({ activeTab: tab }),
+
+      setViewMode: (mode) => set({ viewMode: mode }),
+
+      clearError: () => set({ error: null }),
+
+      syncToCloud: async () => {
+        const { currentReport } = get();
+        if (!currentReport) return;
+        try {
+          const { data: { session } } = await supabase.auth.getSession();
+          if (session?.user?.id) {
+            await saveReport(session.user.id, currentReport);
+          }
+        } catch (err) {
+          console.warn('Failed to sync report to cloud:', err);
+        }
+      },
+    }),
+    {
+      name: 'app-store',
+      storage: createJSONStorage(() => localStorage),
+      partialize: (state) => ({
+        chartA: state.chartA,
+        chartB: state.chartB,
+        currentReport: state.currentReport,
+        viewMode: state.viewMode,
+      }),
     }
-  },
-
-  clearReport: () => set({
-    currentReport: null,
-    chartA: null,
-    chartB: null
-  }),
-
-  setActiveTab: (tab) => set({ activeTab: tab }),
-
-  setViewMode: (mode) => set({ viewMode: mode }),
-
-  clearError: () => set({ error: null }),
-}));
+  )
+);
