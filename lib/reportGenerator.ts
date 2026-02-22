@@ -695,6 +695,7 @@ export async function generateCompatibilityReport(
     ashtakoot,
     navamsaMatching,
     sexualCompatibility,
+    extendedSexualCompatibility,
     spousePrediction: spousePredictionA,
     partnerSpousePrediction: spousePredictionB,
     divisionalAnalysis,

@@ -1430,23 +1430,53 @@ export function calculateExtendedSexualCompatibility(chartA: Chart, chartB: Char
   const dataA = (yoniData.yoni_system.yonis as any)[yoniAKey];
   const dataB = (yoniData.yoni_system.yonis as any)[yoniBKey];
 
-  const getYoniDepth = (data: any) => ({
-    animal: data?.name || 'Unknown',
-    drive: data?.sexual_nature?.description || 'Balanced',
-    stamina: data?.sexual_nature?.characteristics?.[0] || 'Moderate',
-    sessionDuration: data?.sexual_nature?.characteristics?.[2] || 'Normal',
-    bodyElement: data?.element || 'Earth',
-    characteristics: data?.sexual_nature?.characteristics || [],
-    anatomy: {
-      opening: data?.sexual_nature?.yoni_features?.opening || 'soft',
-      passage: data?.sexual_nature?.yoni_features?.passage || 'normal',
-      base: data?.sexual_nature?.yoni_features?.base || 'deep',
-      foreskin: data?.sexual_nature?.lingam_features?.foreskin,
-      girth: data?.sexual_nature?.lingam_features?.girth,
-      glans: data?.sexual_nature?.lingam_features?.glans,
-      lingamType: data?.gender // Added lingamType/Gender context
-    }
-  });
+  const getYoniDepth = (data: any) => {
+    const characteristics = data?.sexual_nature?.characteristics || [];
+    const driveDesc = data?.sexual_nature?.description || 'Balanced nature';
+    const detailedDrive = characteristics.length > 0
+      ? `${driveDesc} This manifests as ${characteristics.join(', ').toLowerCase()}.`
+      : driveDesc;
+
+    const elementMeanings: Record<string, string> = {
+      'Fire': 'High intensity, passion, and transformative energy.',
+      'Water': 'Emotional depth, fluidity, and intuitive connection.',
+      'Air': 'Mental stimulation, variety, and lightness.',
+      'Earth': 'Grounded, sensual, and physically present.',
+      'Spirit': 'Transcendent, deep soulful connection.'
+    };
+
+    const staminaMeanings: Record<string, string> = {
+      'High': 'Exceptional physical endurance and sustained energy.',
+      'Medium': 'Balanced energy levels with moderate recovery needs.',
+      'Low': 'Focused, intense energy that requires rest between sessions.',
+      'Very High': 'Maximum endurance capable of multiple intense sessions.'
+    };
+
+    return {
+      animal: data?.name || 'Unknown',
+      drive: driveDesc,
+      detailedDrive,
+      stamina: data?.stamina || characteristics[0]?.includes('stamina') ? characteristics[0] : 'Moderate',
+      staminaElaboration: staminaMeanings[data?.stamina] || 'Standard human endurance levels.',
+      sessionDuration: data?.duration || 'Normal',
+      durationElaboration: 'Consistent and focused session lengths.',
+      bodyElement: data?.element || 'Earth',
+      elementElaboration: elementMeanings[data?.element?.split(' ')[0]] || 'Stable physical foundation.',
+      characteristics: characteristics,
+      compatibilityNotes: data?.compatibility_notes || '',
+      bestMatches: data?.best_matches || [],
+      worstMatches: data?.worst_matches || [],
+      anatomy: {
+        opening: data?.sexual_nature?.yoni_features?.opening || 'soft',
+        passage: data?.sexual_nature?.yoni_features?.passage || 'normal',
+        base: data?.sexual_nature?.yoni_features?.base || 'deep',
+        foreskin: data?.sexual_nature?.lingam_features?.foreskin,
+        girth: data?.sexual_nature?.lingam_features?.girth,
+        glans: data?.sexual_nature?.lingam_features?.glans,
+        lingamType: data?.gender
+      }
+    };
+  };
 
   const getYoniPhysical = (data: any) => ({
     height: 'Average to tall',

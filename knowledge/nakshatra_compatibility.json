@@ -121,11 +121,13 @@
       },
       "best_match": [
         "Bharani",
-        "Pushya"
+        "Pushya",
+        "Ashwini"
       ],
       "worst_match": [
-        "Hasta",
-        "Uttara Phalguni"
+        "Uttara Phalguni",
+        "Mula",
+        "Hasta"
       ]
     },
     "Bharani": {
@@ -249,11 +251,13 @@
       },
       "best_match": [
         "Ashwini",
-        "Swati"
+        "Swati",
+        "Bharani"
       ],
       "worst_match": [
-        "Uttara Bhadrapada",
-        "Dhanishta"
+        "Dhanishta",
+        "Chitra",
+        "Uttara Bhadrapada"
       ]
     },
     "Krittika": {
@@ -376,12 +380,14 @@
         }
       },
       "best_match": [
+        "Uttara Ashadha",
+        "Uttara Phalguni",
         "Jyeshta"
       ],
       "worst_match": [
-        "Rohini",
-        "Shravana",
-        "Swati"
+        "Mula",
+        "Swati",
+        "Rohini"
       ]
     },
     "Rohini": {
@@ -505,11 +511,13 @@
       },
       "best_match": [
         "Anuradha",
-        "Mrigashirsha"
+        "Mrigashirsha",
+        "Shatabhisha"
       ],
       "worst_match": [
-        "Magha",
-        "Krittika"
+        "Krittika",
+        "Vishakha",
+        "Magha"
       ]
     },
     "Mrigashirsha": {
@@ -632,10 +640,12 @@
         }
       },
       "best_match": [
-        "Ardra",
-        "Rohini"
+        "Hasta",
+        "Rohini",
+        "Shravana"
       ],
       "worst_match": [
+        "Bharani",
         "Chitra",
         "Dhanishta"
       ]
@@ -760,10 +770,13 @@
         }
       },
       "best_match": [
+        "Swati",
         "Mrigashirsha",
-        "Swati"
+        "Shatabhisha"
       ],
       "worst_match": [
+        "Hasta",
+        "Ashwini",
         "Jyeshta"
       ]
     },
@@ -887,13 +900,14 @@
         }
       },
       "best_match": [
-        "Bharani",
-        "Pushya"
+        "Revati",
+        "Purva Bhadrapada",
+        "Shravana"
       ],
       "worst_match": [
-        "Jyeshta",
         "Mula",
-        "Shatabhisha"
+        "Shatabhisha",
+        "Jyeshta"
       ]
     },
     "Pushya": {
@@ -1016,11 +1030,14 @@
         }
       },
       "best_match": [
-        "Ashwini"
+        "Uttara Bhadrapada",
+        "Ashwini",
+        "Shravana"
       ],
       "worst_match": [
+        "Mula",
         "Dhanishta",
-        "Purva Ashadha"
+        "Shatabhisha"
       ]
     },
     "Ashlesha": {
@@ -1143,11 +1160,14 @@
         }
       },
       "best_match": [
-        "Pushya"
+        "Revati",
+        "Ashwini",
+        "Chitra"
       ],
       "worst_match": [
-        "Uttara Ashadha",
-        "Swati"
+        "Krittika",
+        "Magha",
+        "Rohini"
       ]
     },
     "Magha": {
@@ -1271,11 +1291,13 @@
       },
       "best_match": [
         "Jyeshta",
-        "Purva Phalguni"
+        "Purva Phalguni",
+        "Magha"
       ],
       "worst_match": [
-        "Shravana",
-        "Uttara Ashadha"
+        "Swati",
+        "Uttara Ashadha",
+        "Shravana"
       ]
     },
     "Purva Phalguni": {
@@ -1398,11 +1420,13 @@
         }
       },
       "best_match": [
-        "Magha",
         "Uttara Phalguni",
-        "Jyeshta"
+        "Magha",
+        "Purva Ashadha"
       ],
       "worst_match": [
+        "Ashlesha",
+        "Bharani",
         "Dhanishta"
       ]
     },
@@ -1526,13 +1550,14 @@
         }
       },
       "best_match": [
+        "Uttara Ashadha",
         "Purva Phalguni",
-        "Anuradha"
+        "Hasta"
       ],
       "worst_match": [
-        "Ashwini",
+        "Shatabhisha",
         "Jyeshta",
-        "Mula"
+        "Ashwini"
       ]
     },
     "Hasta": {
@@ -1655,11 +1680,14 @@
         }
       },
       "best_match": [
+        "Shravana",
+        "Revati",
         "Mrigashirsha"
       ],
       "worst_match": [
-        "Ashwini",
-        "Shatabhisha"
+        "Magha",
+        "Jyeshta",
+        "Ashwini"
       ]
     },
     "Chitra": {
@@ -1782,11 +1810,13 @@
         }
       },
       "best_match": [
-        "Hasta"
+        "Hasta",
+        "Ashlesha",
+        "Dhanishta"
       ],
       "worst_match": [
-        "Uttara Bhadrapada",
-        "Purva Phalguni",
+        "Mrigashirsha",
+        "Anuradha",
         "Bharani"
       ]
     },
@@ -1910,11 +1940,13 @@
         }
       },
       "best_match": [
+        "Shatabhisha",
         "Bharani",
         "Ardra"
       ],
       "worst_match": [
-        "Revati",
+        "Jyeshta",
+        "Krittika",
         "Magha"
       ]
     },
@@ -2038,10 +2070,13 @@
         }
       },
       "best_match": [
-        "Chitra"
+        "Purva Bhadrapada",
+        "Revati",
+        "Uttara Bhadrapada"
       ],
       "worst_match": [
-        "Revati",
+        "Mrigashirsha",
+        "Bharani",
         "Rohini"
       ]
     },
@@ -2166,9 +2201,12 @@
       },
       "best_match": [
         "Jyeshta",
-        "Rohini"
+        "Rohini",
+        "Uttara Phalguni"
       ],
       "worst_match": [
+        "Purva Ashadha",
+        "Dhanishta",
         "Chitra"
       ]
     },
@@ -2293,12 +2331,13 @@
       },
       "best_match": [
         "Magha",
-        "Anuradha"
+        "Anuradha",
+        "Jyeshta"
       ],
       "worst_match": [
-        "Ardra",
+        "Purva Bhadrapada",
         "Punarvasu",
-        "Purva Bhadrapada"
+        "Ardra"
       ]
     },
     "Mula": {
@@ -2421,12 +2460,14 @@
         }
       },
       "best_match": [
-        "Revati",
-        "Mula",
-        "Purva Ashadha"
+        "Purva Bhadrapada",
+        "Shatabhisha",
+        "Uttara Bhadrapada"
       ],
       "worst_match": [
-        "Punarvasu"
+        "Punarvasu",
+        "Bharani",
+        "Ashwini"
       ]
     },
     "Purva Ashadha": {
@@ -2549,10 +2590,14 @@
         }
       },
       "best_match": [
-        "Revati"
+        "Purva Phalguni",
+        "Uttara Ashadha",
+        "Purva Ashadha"
       ],
       "worst_match": [
-        "Dhanishta"
+        "Bharani",
+        "Jyeshta",
+        "Anuradha"
       ]
     },
     "Uttara Ashadha": {
@@ -2675,11 +2720,14 @@
         }
       },
       "best_match": [
-        "Uttara Bhadrapada"
+        "Uttara Phalguni",
+        "Shravana",
+        "Krittika"
       ],
       "worst_match": [
-        "Magha",
-        "Ashlesha"
+        "Ashlesha",
+        "Rohini",
+        "Magha"
       ]
     },
     "Shravana": {
@@ -2802,10 +2850,13 @@
         }
       },
       "best_match": [
-        "Uttara Bhadrapada",
-        "Bharani"
+        "Hasta",
+        "Revati",
+        "Uttara Bhadrapada"
       ],
       "worst_match": [
+        "Ardra",
+        "Rohini",
         "Magha"
       ]
     },
@@ -2929,10 +2980,14 @@
         }
       },
       "best_match": [
-        "Shatabhisha"
+        "Shatabhisha",
+        "Dhanishta",
+        "Jyeshta"
       ],
       "worst_match": [
-        "Uttara Bhadrapada"
+        "Bharani",
+        "Uttara Bhadrapada",
+        "Mrigashirsha"
       ]
     },
     "Shatabhisha": {
@@ -3056,11 +3111,13 @@
       },
       "best_match": [
         "Dhanishta",
-        "Rohini"
+        "Swati",
+        "Purva Bhadrapada"
       ],
       "worst_match": [
-        "Punarvasu",
-        "Hasta"
+        "Ashwini",
+        "Pushya",
+        "Punarvasu"
       ]
     },
     "Purva Bhadrapada": {
@@ -3183,9 +3240,13 @@
         }
       },
       "best_match": [
-        "Uttara Bhadrapada"
+        "Vishakha",
+        "Uttara Bhadrapada",
+        "Punarvasu"
       ],
       "worst_match": [
+        "Magha",
+        "Ashwini",
         "Jyeshta"
       ]
     },
@@ -3309,12 +3370,14 @@
         }
       },
       "best_match": [
-        "Revati"
+        "Pushya",
+        "Revati",
+        "Shravana"
       ],
       "worst_match": [
-        "Bharani",
-        "Chitra",
-        "Dhanishta"
+        "Ashlesha",
+        "Dhanishta",
+        "Bharani"
       ]
     },
     "Revati": {
@@ -3437,10 +3500,14 @@
         }
       },
       "best_match": [
-        "Uttara Bhadrapada"
+        "Shravana",
+        "Uttara Bhadrapada",
+        "Punarvasu"
       ],
       "worst_match": [
-        "Vishakha"
+        "Jyeshta",
+        "Rohini",
+        "Magha"
       ]
     }
   },
