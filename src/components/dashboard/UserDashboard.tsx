@@ -271,10 +271,33 @@ export const UserDashboard: React.FC = () => {
                       }
 
                       try {
-                        await savePartner(session.user.id, partnerToSave);
-                        successCount++;
+                        const { error: supaErr } = await supabase
+                          .from('partners')
+                          .upsert({
+                            id: partnerToSave.id,
+                            user_id: session.user.id,
+                            name: partnerToSave.name,
+                            gender: partnerToSave.gender,
+                            date_of_birth: partnerToSave.dateOfBirth,
+                            time_of_birth: partnerToSave.timeOfBirth,
+                            location: partnerToSave.location,
+                            latitude: partnerToSave.latitude,
+                            longitude: partnerToSave.longitude,
+                            timezone: partnerToSave.timezone,
+                            chart: partnerToSave.chart || null,
+                            notes: partnerToSave.notes || null,
+                            updated_at: new Date().toISOString()
+                          }, {
+                            onConflict: 'id'
+                          });
+
+                        if (supaErr) {
+                          errors.push(`${p.name} Supabase Reject: ${JSON.stringify(supaErr)}`);
+                        } else {
+                          successCount++;
+                        }
                       } catch (err: any) {
-                        errors.push(`${p.name}: ${err.message || JSON.stringify(err)}`);
+                        errors.push(`${p.name} Execution Error: ${err.message || JSON.stringify(err)}`);
                       }
                     }
 
