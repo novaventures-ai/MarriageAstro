@@ -196,6 +196,9 @@ function assessSexAddictionRisk(chart: Chart): AddictionCategory {
 
 function assessAlcoholSubstanceRisk(chart: Chart): AddictionCategory {
     const indicators: AddictionIndicator[] = [];
+    const mars = getPos(chart, 'Mars');
+    const rahu = getPos(chart, 'Rahu');
+    const saturn = getPos(chart, 'Saturn');
 
     // 1. 2nd house (consumption) → 6th house (disease) → 12th house (escape) chain
     const secondLord = chart.houses[1]?.lord;
@@ -242,7 +245,6 @@ function assessAlcoholSubstanceRisk(chart: Chart): AddictionCategory {
     });
 
     // 3. Rahu involvement with 2nd house (intoxicants)
-    const rahu = getPos(chart, 'Rahu');
     const rahuIn2nd = rahu && rahu.house === 2;
     const rahuWith2ndLord = secondLord ? isConjunct(chart, 'Rahu', secondLord) : false;
     const rahuInvolvement = rahuIn2nd || rahuWith2ndLord;
@@ -262,7 +264,6 @@ function assessAlcoholSubstanceRisk(chart: Chart): AddictionCategory {
     });
 
     // 4. Saturn in watery signs aspecting Moon (depression-driven drinking)
-    const saturn = getPos(chart, 'Saturn');
     const waterySigns: Sign[] = ['Cancer', 'Scorpio', 'Pisces'];
     const saturnWatery = saturn && waterySigns.includes(saturn.sign);
     const saturnMoonAspect = hasAspect(chart, 'Saturn', 'Moon');
@@ -280,6 +281,59 @@ function assessAlcoholSubstanceRisk(chart: Chart): AddictionCategory {
             'Saturn aspecting Moon (chronic emotional heaviness)'
         ] : [],
         involvedPlanets: ['Saturn', 'Moon']
+    });
+
+    // 5. 5th House Affliction (Mental Discrimination)
+    const fifthLord = chart.houses[4]?.lord;
+    const fifthLordPos = fifthLord ? getPos(chart, fifthLord) : null;
+    const fifthLordAfflicted = fifthLordPos && [6, 8, 12].includes(fifthLordPos.house);
+    const rahuAspectFifth = hasAspect(chart, 'Rahu', fifthLord || 'Sun' as Planet);
+    const saturnAspectFifth = hasAspect(chart, 'Saturn', fifthLord || 'Sun' as Planet);
+    const discriminationWeak = fifthLordAfflicted || rahuAspectFifth || saturnAspectFifth;
+
+    indicators.push({
+        name: 'Weakened Mental Discrimination (5th House)',
+        category: 'alcohol_substance',
+        present: !!discriminationWeak,
+        severity: fifthLordAfflicted ? 'high' : 'moderate',
+        description: discriminationWeak
+            ? 'Affliction to the 5th house/lord reduces ability to exercise self-control and discriminate between healthy and harmful habits.'
+            : '5th house/lord is stable, indicating good faculty for self-regulation.',
+        contributingFactors: [
+            ...(fifthLordAfflicted ? [`5th lord ${fifthLord} in ${fifthLordPos!.house}h (Weak resilience)`] : []),
+            ...(rahuAspectFifth ? ['Rahu afflicting 5th lord (Obsessive tendencies)'] : []),
+            ...(saturnAspectFifth ? ['Saturn afflicting 5th lord (Chronic mental pressure)'] : [])
+        ],
+        involvedPlanets: [fifthLord || 'Sun', 'Rahu', 'Saturn']
+    });
+
+    // 6. Moon + Rahu in 2nd House (Potent Alcoholism Indicator)
+    const moonIn2 = getPos(chart, 'Moon')?.house === 2;
+    const moonRahu2nd = moonIn2 && rahu && rahu.house === 2;
+    indicators.push({
+        name: 'Moon-Rahu 2nd House Axis',
+        category: 'alcohol_substance',
+        present: !!moonRahu2nd,
+        severity: 'high',
+        description: moonRahu2nd
+            ? 'Moon and Rahu together in the 2nd house (intake) — a potent indicator for compulsive consumption of intoxicants.'
+            : 'Moon-Rahu pattern in 2nd house not present.',
+        contributingFactors: moonRahu2nd ? ['Moon (Mind) and Rahu (Obsession) in the house of oral consumption'] : [],
+        involvedPlanets: ['Moon', 'Rahu']
+    });
+
+    // 7. Mars in 2nd House (Impulsive Consumption)
+    const marsIn2 = mars && mars.house === 2;
+    indicators.push({
+        name: 'Mars in 2nd House (Impulsiveness)',
+        category: 'alcohol_substance',
+        present: !!marsIn2,
+        severity: 'moderate',
+        description: marsIn2
+            ? 'Mars in the 2nd house can lead to impulsive or binge-style consumption habits.'
+            : 'Mars is not in the 2nd house.',
+        contributingFactors: marsIn2 ? ['Mars (Impulse/Heat) in the house of intake'] : [],
+        involvedPlanets: ['Mars']
     });
 
     const activeIndicators = indicators.filter(i => i.present);
@@ -603,6 +657,22 @@ function assessProtectiveFactors(chart: Chart): AddictionProtectiveFactor[] {
             ? `Moon in ${moon!.sign} (${moon!.dignity}) with good house placement — emotional resilience reduces addiction vulnerability`
             : 'Moon is not optimally placed — emotional stability requires conscious effort and support',
         planet: 'Moon'
+    });
+
+    // 5. Jupiter Protection on Mind/Discrimination
+    const fifthHouseLord = chart.houses[4]?.lord;
+    const jupiterAspectMoon = hasAspect(chart, 'Jupiter', 'Moon');
+    const jupiterAspect5thLord = fifthHouseLord ? hasAspect(chart, 'Jupiter', fifthHouseLord) : false;
+    const spiritualProtection = jupiterAspectMoon || jupiterAspect5thLord;
+
+    factors.push({
+        name: 'Jupiter Aspect (Divine Protection)',
+        present: !!spiritualProtection,
+        strength: 'moderate',
+        description: spiritualProtection
+            ? 'Jupiter is aspecting the Moon or 5th house lord, providing a strong moral anchor and mental resilience against compulsions.'
+            : 'No direct Jupiter aspect on mind/discrimination centers — self-control relies more on inner discipline.',
+        planet: 'Jupiter'
     });
 
     return factors;
