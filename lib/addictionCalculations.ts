@@ -173,6 +173,62 @@ function assessSexAddictionRisk(chart: Chart): AddictionCategory {
         involvedPlanets: ['Venus', 'Rahu']
     });
 
+    // 5. Afflicted Venus in Mars Sign
+    const venusInMarsSign = venus && ['Aries', 'Scorpio'].includes(venus.sign);
+    const venusAfflictedByNodes = venus && (isConjunct(chart, 'Venus', 'Rahu') || isConjunct(chart, 'Venus', 'Ketu') || isConjunct(chart, 'Venus', 'Saturn'));
+    const venusMarsSignAfflicted = venusInMarsSign && venusAfflictedByNodes;
+    indicators.push({
+        name: 'Afflicted Venus in Mars Sign',
+        category: 'sex_addiction',
+        present: !!venusMarsSignAfflicted,
+        severity: 'high',
+        description: venusMarsSignAfflicted
+            ? `Venus in ${venus?.sign} (Mars-ruled) heavily afflicted — raw passion amplified and boundaries removed.`
+            : 'Venus is not afflicted in a Mars-ruled sign.',
+        contributingFactors: venusMarsSignAfflicted ? [
+            `Venus in ${venus?.sign} creates high passion/intensity`,
+            'Malefic affliction removes healthy boundaries'
+        ] : [],
+        involvedPlanets: ['Venus', ...(isConjunct(chart, 'Venus', 'Rahu') ? ['Rahu'] : []), ...(isConjunct(chart, 'Venus', 'Ketu') ? ['Ketu'] : []), ...(isConjunct(chart, 'Venus', 'Saturn') ? ['Saturn'] : [])]
+    });
+
+    // 6. Rahu in 8th or 12th House
+    indicators.push({
+        name: 'Rahu in 8th/12th House',
+        category: 'sex_addiction',
+        present: !!rahuIn812,
+        severity: 'moderate',
+        description: rahuIn812
+            ? `Rahu (node of obsession) in the ${rahu?.house}th house — deep, hidden, or unconventional desires.`
+            : 'Rahu is not in the 8th or 12th house.',
+        contributingFactors: rahuIn812 ? [`Rahu in ${rahu?.house}th house (hidden secrets/bed pleasures)`] : [],
+        involvedPlanets: ['Rahu']
+    });
+
+    // 7. 7th Lord Heavily Afflicted
+    const seventhLord = chart.houses[6]?.lord;
+    const seventhLordPos = seventhLord ? getPos(chart, seventhLord) : null;
+    const seventhLordAfflicted = seventhLordPos && (
+        [6, 8, 12].includes(seventhLordPos.house) ||
+        isConjunct(chart, seventhLord, 'Rahu') ||
+        isConjunct(chart, seventhLord, 'Ketu') ||
+        isConjunct(chart, seventhLord, 'Saturn')
+    );
+    indicators.push({
+        name: 'Afflicted 7th Lord',
+        category: 'sex_addiction',
+        present: !!seventhLordAfflicted,
+        severity: 'moderate',
+        description: seventhLordAfflicted
+            ? 'The lord of partnership is weakened or afflicted — tendency to seek fulfillment outside committed boundaries.'
+            : '7th lord is stable and well-placed.',
+        contributingFactors: seventhLordAfflicted ? [
+            ...(seventhLordPos && [6, 8, 12].includes(seventhLordPos.house) ? [`7th lord ${seventhLord} weak in ${seventhLordPos.house}th house`] : []),
+            ...(seventhLordPos && (isConjunct(chart, seventhLord, 'Rahu') || isConjunct(chart, seventhLord, 'Ketu') || isConjunct(chart, seventhLord, 'Saturn')) ? [`7th lord ${seventhLord} afflicted by malefic`] : [])
+        ] : [],
+        involvedPlanets: [seventhLord || 'Sun']
+    });
+
     const activeIndicators = indicators.filter(i => i.present);
     const score = Math.min(100, activeIndicators.reduce((s, i) => s + (i.severity === 'high' ? 35 : i.severity === 'moderate' ? 20 : 5), 0));
     const riskLevel = score >= 70 ? 'very_high' : score >= 50 ? 'high' : score >= 30 ? 'moderate' : score >= 10 ? 'low' : 'very_low';
@@ -426,6 +482,60 @@ function assessDrugAddictionRisk(chart: Chart): AddictionCategory {
         involvedPlanets: ['Mercury']
     });
 
+    // 4. Moon Severely Afflicted by Ketu (The Void)
+    const moon = getPos(chart, 'Moon');
+    const moonKetu = moon && ketu && isConjunct(chart, 'Moon', 'Ketu');
+    indicators.push({
+        name: 'Moon-Ketu Conjunction (The Void)',
+        category: 'drug_addiction',
+        present: !!moonKetu,
+        severity: 'high',
+        description: moonKetu
+            ? 'Moon (mind) eclipsed by Ketu (detachment) — creates a deep sense of emptiness or desire to escape reality (hallucinogens, heavy escapism).'
+            : 'Moon is not conjunct Ketu.',
+        contributingFactors: moonKetu ? ['Moon and Ketu conjunct (emotional void/detachment from worldly reality)'] : [],
+        involvedPlanets: ['Moon', 'Ketu']
+    });
+
+    // 5. 12th Lord in 1st or 2nd House
+    const twelfthLord = chart.houses[11]?.lord;
+    const twelfthLordPos = twelfthLord ? getPos(chart, twelfthLord) : null;
+    const twelfthLordIn1_2 = twelfthLordPos && [1, 2].includes(twelfthLordPos.house);
+    indicators.push({
+        name: '12th Lord in 1st/2nd House',
+        category: 'drug_addiction',
+        present: !!twelfthLordIn1_2,
+        severity: 'moderate',
+        description: twelfthLordIn1_2
+            ? 'Ruler of hospitals and escapism (12th) heavily influencing the physical self (1st) or oral consumption (2nd).'
+            : '12th lord neither in 1st nor 2nd house.',
+        contributingFactors: twelfthLordIn1_2 ? [`12th lord ${twelfthLord} in ${twelfthLordPos?.house === 1 ? '1st house (self)' : '2nd house (intake)'}`] : [],
+        involvedPlanets: [twelfthLord || 'Sun']
+    });
+
+    // 6. Weak Sun (Lack of Vitality)
+    const sun = getPos(chart, 'Sun');
+    const sunAfflicted = sun && (
+        sun.dignity === 'debilitated' ||
+        isConjunct(chart, 'Sun', 'Rahu') ||
+        isConjunct(chart, 'Sun', 'Ketu') ||
+        isConjunct(chart, 'Sun', 'Saturn')
+    );
+    indicators.push({
+        name: 'Weak Sun (Lack of Vitality)',
+        category: 'drug_addiction',
+        present: !!sunAfflicted,
+        severity: 'moderate',
+        description: sunAfflicted
+            ? 'Debilitated or heavily afflicted Sun — lack of soul-purpose or baseline vitality, leading to reliance on chemical stimulation.'
+            : 'Sun is relatively strong, providing baseline soul-vitality.',
+        contributingFactors: sunAfflicted ? [
+            ...(sun?.dignity === 'debilitated' ? ['Sun is debilitated in Libra'] : []),
+            ...((isConjunct(chart, 'Sun', 'Rahu') || isConjunct(chart, 'Sun', 'Ketu') || isConjunct(chart, 'Sun', 'Saturn')) ? ['Sun is afflicted by malefic nodes/Saturn'] : [])
+        ] : [],
+        involvedPlanets: ['Sun']
+    });
+
     const activeIndicators = indicators.filter(i => i.present);
     const score = Math.min(100, activeIndicators.reduce((s, i) => s + (i.severity === 'high' ? 35 : i.severity === 'moderate' ? 20 : 5), 0));
     const riskLevel = score >= 70 ? 'very_high' : score >= 50 ? 'high' : score >= 30 ? 'moderate' : score >= 10 ? 'low' : 'very_low';
@@ -507,6 +617,58 @@ function assessCompulsiveBehaviorRisk(chart: Chart): AddictionCategory {
             `Dual sign ${moon?.sign} creates oscillating thoughts`
         ] : [],
         involvedPlanets: ['Moon', 'Rahu']
+    });
+
+    // 4. Jupiter Debilitated or Afflicted (Loss of Wisdom)
+    const jupiter = getPos(chart, 'Jupiter');
+    const jupiterAfflicted = jupiter && (
+        jupiter.dignity === 'debilitated' ||
+        isConjunct(chart, 'Jupiter', 'Rahu') ||
+        isConjunct(chart, 'Jupiter', 'Ketu') ||
+        isConjunct(chart, 'Jupiter', 'Saturn')
+    );
+    indicators.push({
+        name: 'Afflicted Jupiter (Loss of Wisdom)',
+        category: 'compulsive_behavior',
+        present: !!jupiterAfflicted,
+        severity: 'moderate',
+        description: jupiterAfflicted
+            ? 'Jupiter (moderation and higher judgment) is heavily afflicted or debilitated, leading to unchecked and repetitive habits.'
+            : 'Jupiter is relatively strong, providing natural moderation.',
+        contributingFactors: jupiterAfflicted ? [
+            ...(jupiter?.dignity === 'debilitated' ? ['Jupiter is debilitated in Capricorn'] : []),
+            ...((isConjunct(chart, 'Jupiter', 'Rahu') || isConjunct(chart, 'Jupiter', 'Ketu') || isConjunct(chart, 'Jupiter', 'Saturn')) ? ['Jupiter is afflicted by malefic nodes/Saturn'] : [])
+        ] : [],
+        involvedPlanets: ['Jupiter']
+    });
+
+    // 5. Mars-Rahu Conjunction (Angaraka Yoga)
+    const marsRahu = isConjunct(chart, 'Mars', 'Rahu');
+    indicators.push({
+        name: 'Mars-Rahu Conjunction (Angaraka)',
+        category: 'compulsive_behavior',
+        present: !!marsRahu,
+        severity: 'high',
+        description: marsRahu
+            ? 'Mars and Rahu conjunction (Angaraka Yoga) creates explosive, impulsive energy that is extremely difficult to control consciously.'
+            : 'Mars and Rahu are not conjunct.',
+        contributingFactors: marsRahu ? ['Mars (Impulse) + Rahu (Obsession) = highly volatile actions'] : [],
+        involvedPlanets: ['Mars', 'Rahu']
+    });
+
+    // 6. Saturn in 6th or 8th House (Chronic Pressure)
+    const saturn = getPos(chart, 'Saturn');
+    const saturn6or8 = saturn && [6, 8].includes(saturn.house);
+    indicators.push({
+        name: 'Saturn in 6th/8th House',
+        category: 'compulsive_behavior',
+        present: !!saturn6or8,
+        severity: 'moderate',
+        description: saturn6or8
+            ? `Saturn in the ${saturn?.house}th house generates chronic internal pressure or subconscious fears that find release through rigid routines (OCD-like).`
+            : 'Saturn is not located in the 6th or 8th house.',
+        contributingFactors: saturn6or8 ? [`Saturn placement in ${saturn?.house}th house creates constant underlying stress`] : [],
+        involvedPlanets: ['Saturn']
     });
 
     const activeIndicators = indicators.filter(i => i.present);

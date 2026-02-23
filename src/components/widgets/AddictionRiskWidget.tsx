@@ -111,10 +111,10 @@ export const AddictionRiskWidget: React.FC<AddictionRiskWidgetProps> = ({
         const activeIndicators = cat.indicators.filter(i => i.present);
 
         return (
-            <div key={cat.category} className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden transition-colors">
+            <div key={cat.category} className="bg-white dark:bg-gray-800 rounded-xl shadow-md transition-colors relative z-0">
                 <button
                     onClick={() => setExpandedCategory(isExpanded ? null : cat.category)}
-                    className="w-full p-4 flex items-center gap-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+                    className={`w-full p-4 flex items-center gap-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors relative z-10 ${isExpanded ? 'rounded-t-xl' : 'rounded-xl'}`}
                 >
                     <span className="text-2xl">{cat.icon}</span>
                     <div className="flex-1 text-left">
