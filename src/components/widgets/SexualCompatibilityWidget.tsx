@@ -311,7 +311,7 @@ export const SexualCompatibilityWidget: React.FC<Props> = ({
                     className="px-5 py-2 bg-pink-500 text-white rounded-lg font-bold shadow-lg hover:bg-pink-400 transition-colors disabled:opacity-75 disabled:cursor-not-allowed flex items-center gap-2 text-sm"
                   >
                     {loading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-                    {insight ? 'Reveal Again' : 'Analyze Erotic Chemistry'}
+                    {loading ? 'Analyzing Chemistry...' : (insight ? 'Reveal Again' : 'Analyze Erotic Chemistry')}
                   </button>
                 </div>
 
@@ -324,7 +324,7 @@ export const SexualCompatibilityWidget: React.FC<Props> = ({
 
                 {insight && (
                   <div className="mt-4 p-4 bg-white/10 rounded-lg border border-white/20 animate-in fade-in slide-in-from-top-2 backdrop-blur-sm max-h-[500px] overflow-y-auto custom-scrollbar">
-                    <div className="prose prose-sm prose-invert max-w-none">
+                    <div className="prose prose-sm prose-invert max-w-none whitespace-pre-wrap">
                       <ReactMarkdown>{insight}</ReactMarkdown>
                     </div>
                   </div>
