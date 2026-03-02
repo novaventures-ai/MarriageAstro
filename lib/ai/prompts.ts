@@ -151,10 +151,49 @@ CORE INSTRUCTION:
 - Provide specific "Realistic Behavioral Outcomes".
 - Avoid: Astrological jargon. Use psychological archetypes.
 CRITICAL: Always use the actual name provided. Never say "Partner A" or generic labels.
-Use plain text formatting — no markdown symbols.`
+Use plain text formatting — no markdown symbols.`,
+
+    DEEP_EROTIC_ASTROLOGY: `You are "The Astrological Sexologist" (Kama Sutra & Synastry Expert).
+Input: Mars (Drive), Venus (Pleasure), 5th/8th/12th Houses, D9 Navamsa intimacies, and KP Cusp Sublords.
+Goal: Provide a deeply analytical, discrete, yet comprehensive analysis of physical intimacy, sexual chemistry, and erotic potential.
+Tone: Professional, Psychological, Sensual, and Deeply Investigative.
+Focus:
+- Climax triggers and Turn-ons based on complex planetary yoga combinations.
+- Psychological fantasies linked to the 8th/12th house and KP sublords.
+- Safe, discrete language but highly accurate to the astrological data.
+CRITICAL: Always use the actual partner names provided. Never say "Partner A" or generic labels.
+FORMATTING RULES (STRICT):
+- Use a blockquote (> ) for the introductory paragraph.
+- Use extensive emojis in ALL headings (e.g., 🔥, 👅, 💦, 🔗, 🎯).
+- Separate major sections with horizontal rules (---).
+- Create distinct sections for each partner (e.g., "## 🐯 [Name]: The Erotic Profile"), followed by subsections "### Astrological Wiring", "### 👅 Deepest Turn-Ons & Fantasies", and "### 💦 Climax Triggers & Best Acts".
+- Include a "## 🔗 The Chemistry: How You Actually Mix" section evaluating their synastry.
+- End with a "## 🎯 Highly Recommended Acts & Explorations" numbered list.
+- Use bold text heavily to emphasize planets, signs, and key themes. Keep it highly insightful.
+CRITICAL COMPLETENESS CHECK: Ensure your response is fully complete, never ends mid-sentence, and provides a satisfying conclusion.`,
+
+    DEEP_PSYCHOLOGICAL_PROFILE: `You are "The Psychological Astrologer" (Jungian Shadow Worker).
+Input: Moon (Mind), Mercury (Intellect), Ascendant (Self), Jaimini Atmakaraka (Soul Planet), Yogas, and D60 Karmic data.
+Goal: Decode the subconscious mind, emotional patterns, attachment styles, and core psychological drivers.
+Tone: Empathetic, Analytical, Deep, and Transformative.
+Focus:
+- Analyze root emotional security needs using Moon/4th House.
+- Decode communication styles and mental loops via Mercury.
+- Explore shadow traits and psychological complexes.
+- Connect these to their Karmic Soul Purpose (Atmakaraka) and Past Life patterns (D60/Yogas).
+CRITICAL: Always use the actual person's name provided. Never say "Partner A" or generic labels.
+FORMATTING RULES (STRICT):
+- Use a blockquote (> ) for the introductory paragraph.
+- Use extensive emojis in ALL headings (e.g., 🧠, 🪞, 🌊, 🕳️, 🔑).
+- Separate major sections with horizontal rules (---).
+- Create numbered thematic headings (e.g., "## 1. 🪞 The Ascendant" or "## 2. 🌊 The Emotional Core").
+- Include a "## 🕳️ The Subconscious Architecture" section breaking down houses 4, 8, and 12 with emojis for each house.
+- End with a "## 🔑 A Psychological 'Cheat Sheet' for [Partner]" with bulleted actionable advice.
+- Use bold text heavily to emphasize planets, signs, and psychological terms. Keep it highly insightful.
+CRITICAL COMPLETENESS CHECK: Ensure your response is fully complete, never ends mid-sentence, and provides a satisfying conclusion.`
 };
 
-export type InsightType = 'GLOBAL_VERDICT' | 'RISK_MITIGATION' | 'ASHTAKOOT_ANALYSIS' | 'REMEDY_PRIORITY' | 'SYNASTRY_DEEP_DIVE' | 'ASTRO_MIND' | 'DIVISIONAL_ANALYSIS' | 'KP_PREDICTION' | 'JAIMINI_ANALYSIS' | 'SPOUSE_PROFILE' | 'PHYSICAL_VITALITY_ANALYSIS' | 'TIMING_ANALYSIS' | 'PATTERN_ANALYSIS';
+export type InsightType = 'GLOBAL_VERVerdict' | 'RISK_MITIGATION' | 'ASHTAKOOT_ANALYSIS' | 'REMEDY_PRIORITY' | 'SYNASTRY_DEEP_DIVE' | 'ASTRO_MIND' | 'DIVISIONAL_ANALYSIS' | 'KP_PREDICTION' | 'JAIMINI_ANALYSIS' | 'SPOUSE_PROFILE' | 'PHYSICAL_VITALITY_ANALYSIS' | 'TIMING_ANALYSIS' | 'PATTERN_ANALYSIS' | 'GLOBAL_VERDICT' | 'DEEP_EROTIC_ASTROLOGY' | 'DEEP_PSYCHOLOGICAL_PROFILE';
 
 export const generateVerdictPrompt = (context: AIContext) => {
     return `
@@ -295,6 +334,31 @@ Your Goal: Provide a "Psychological & Real-World" translation of these patterns.
 - Focus on the "Social & Environmental Triggers" (Workplace, Online, etc.)
 - Give a specific "Probability Scenarios" (e.g., "High chance of emotional affair with a colleague during overtime").
 - Tone: Direct, modern, slightly cautionary but empowering.
+`;
+        case 'DEEP_EROTIC_ASTROLOGY':
+            return `
+ANALYSIS FOR: ${context.nameA} ${context.nameB ? `and ${context.nameB}` : ''}
+Mars Placements: ${JSON.stringify(context.mars)}
+Venus Placements: ${JSON.stringify(context.venus)}
+Key Houses (5th, 8th, 12th): ${JSON.stringify(context.houses)}
+D9 Navamsa Data: ${JSON.stringify(context.d9Data || 'Not provided')}
+KP Sublords (5th, 8th, 12th): ${JSON.stringify(context.kpData || 'Not provided')}
+Yogas/Special Combinations: ${JSON.stringify(context.yogas || 'None')}
+
+Provide a deep erotic astrology and sexual compatibility analysis synthesizing these complex variables. Ensure you strictly obey the structural FORMATTING RULES defined in your system instructions.
+`;
+        case 'DEEP_PSYCHOLOGICAL_PROFILE':
+            return `
+ANALYSIS FOR: ${context.name}
+Moon (Mind): ${JSON.stringify(context.moon)}
+Mercury (Intellect): ${JSON.stringify(context.mercury)}
+Ascendant/Lagna: ${JSON.stringify(context.ascendant)}
+Key Houses (4th, 8th): ${JSON.stringify(context.houses)}
+Jaimini Karakas (AK, AmK): ${JSON.stringify(context.jaiminiData || 'Not provided')}
+D60 Past Life / Karmic Data: ${JSON.stringify(context.d60Data || 'Not provided')}
+Psychological Yogas: ${JSON.stringify(context.yogas || 'None')}
+
+Provide a deep psychological profile, uncovering the subconscious, emotional patterns, and karmic drivers. Ensure you strictly obey the structural FORMATTING RULES defined in your system instructions.
 `;
         default:
             return '';

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { SexualCompatibility, Chart } from '../../types';
 import { ExtendedSexualCompatibility } from '../../types/extendedTypes';
-import { Heart, Sparkles, Star, AlertTriangle, HelpCircle, BookOpen, MapPin, Eye, EyeOff, Zap, Activity, Clock, Shield } from 'lucide-react';
+import { Heart, Sparkles, Star, AlertTriangle, HelpCircle, BookOpen, MapPin, Eye, EyeOff, Zap, Activity, Clock, Shield, RefreshCw, AlertCircle } from 'lucide-react';
+import { useGeminiInsight } from '../../hooks/useGeminiInsight';
+import ReactMarkdown from 'react-markdown';
 import {
   resolveYoniKey, getFullYoniData, FullYoniData,
   getNakshatraDetails, getNakshatraCompat, getTopMatches, getBottomMatches,
@@ -18,7 +20,7 @@ interface Props {
 }
 
 export const SexualCompatibilityWidget: React.FC<Props> = ({
-  sexualCompatibility, partnerAName = 'Partner A', partnerBName = 'Partner B', chartA, chartB
+  sexualCompatibility, extendedSexualCompatibility, partnerAName = 'Partner A', partnerBName = 'Partner B', chartA, chartB
 }) => {
   const { yoniMatch, nakshatraMatch, overallScore, recommendations } = sexualCompatibility;
   const getMoonNakshatra = (chart?: Chart) => chart?.planetaryPositions?.find(p => p.planet === 'Moon')?.nakshatra;
@@ -29,6 +31,8 @@ export const SexualCompatibilityWidget: React.FC<Props> = ({
   const [activeTab, setActiveTab] = useState<'overview' | 'yoni' | 'nakshatra'>('overview');
   const [showSensitive, setShowSensitive] = useState(false);
   const [revealedAnatomy, setRevealedAnatomy] = useState<Record<string, boolean>>({});
+
+  const { loading, insight, error, triggerAnalysis } = useGeminiInsight();
 
   const scoreColor = (s: number) => s >= 80 ? 'text-green-600 dark:text-green-400' : s >= 60 ? 'text-blue-600 dark:text-blue-400' : s >= 40 ? 'text-yellow-600 dark:text-yellow-400' : 'text-red-600 dark:text-red-400';
   const scoreBg = (s: number) => s >= 80 ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800/30' : s >= 60 ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800/30' : s >= 40 ? 'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-800/30' : 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800/30';
@@ -262,6 +266,72 @@ export const SexualCompatibilityWidget: React.FC<Props> = ({
                 <p className="text-xs text-indigo-600 mt-2">Click for detailed analysis &rarr;</p>
               </div>
             </div>
+
+            {/* AI Deep Erotic Astrology Reveal */}
+            <div className="bg-gradient-to-r from-purple-900 to-pink-900 rounded-2xl shadow-lg p-6 text-white relative overflow-hidden transition-all mt-6">
+              <div className="absolute top-0 right-0 p-4 opacity-10">
+                <Heart className="w-32 h-32 text-white" />
+              </div>
+
+              <div className="relative z-10">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                  <div>
+                    <h3 className="text-xl font-bold flex items-center gap-2">
+                      <Sparkles className="w-6 h-6 text-pink-300" />
+                      Deep Erotic Astrology Analysis
+                    </h3>
+                    <p className="text-purple-200 text-sm mt-1">
+                      Ask "The Astrological Sexologist" to analyze deep physical intimacy, sexual chemistry, and erotic potential based on Mars, Venus, D9, and KP data.
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      const getPlanetData = (c?: Chart, pName?: string) => c?.planetaryPositions?.find(p => p.planet === pName);
+                      const marsA = getPlanetData(chartA, 'Mars');
+                      const venusA = getPlanetData(chartA, 'Venus');
+                      const marsB = getPlanetData(chartB, 'Mars');
+                      const venusB = getPlanetData(chartB, 'Venus');
+
+                      // Simulate extracting deep data if directly available, or passing empty string to let AI use prompt Context
+                      triggerAnalysis('DEEP_EROTIC_ASTROLOGY', {
+                        nameA: partnerAName,
+                        nameB: partnerBName,
+                        mars: { partnerA: marsA, partnerB: marsB },
+                        venus: { partnerA: venusA, partnerB: venusB },
+                        houses: {
+                          partnerA: { '5th': chartA?.houses?.[4], '8th': chartA?.houses?.[7], '12th': chartA?.houses?.[11] },
+                          partnerB: { '5th': chartB?.houses?.[4], '8th': chartB?.houses?.[7], '12th': chartB?.houses?.[11] }
+                        },
+                        d9Data: extendedSexualCompatibility?.d9NavamsaInsights || 'Analyze D9 Navamsa intimacy connections automatically.',
+                        kpData: extendedSexualCompatibility?.kpSublords || 'Analyze KP 5th/8th/12th Cusp Sublords automatically.',
+                        yogas: extendedSexualCompatibility?.yogas || 'Identify relevant sexual or passionate yogas.'
+                      });
+                    }}
+                    disabled={loading}
+                    className="px-5 py-2 bg-pink-500 text-white rounded-lg font-bold shadow-lg hover:bg-pink-400 transition-colors disabled:opacity-75 disabled:cursor-not-allowed flex items-center gap-2 text-sm"
+                  >
+                    {loading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+                    {insight ? 'Reveal Again' : 'Analyze Erotic Chemistry'}
+                  </button>
+                </div>
+
+                {error && (
+                  <div className="mt-4 p-4 bg-red-500/20 border border-red-500/30 rounded-lg flex items-center gap-3 animate-in fade-in slide-in-from-top-2">
+                    <AlertCircle className="w-5 h-5 text-red-200 flex-shrink-0" />
+                    <p className="text-sm text-white">{error}</p>
+                  </div>
+                )}
+
+                {insight && (
+                  <div className="mt-4 p-4 bg-white/10 rounded-lg border border-white/20 animate-in fade-in slide-in-from-top-2 backdrop-blur-sm max-h-[500px] overflow-y-auto custom-scrollbar">
+                    <div className="prose prose-sm prose-invert max-w-none">
+                      <ReactMarkdown>{insight}</ReactMarkdown>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
           </div>
         )}
 

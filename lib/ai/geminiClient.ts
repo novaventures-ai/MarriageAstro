@@ -17,7 +17,7 @@ export const getGeminiModel = (systemInstruction?: string) => {
         model: 'gemini-2.5-flash',
         systemInstruction,
         generationConfig: {
-            maxOutputTokens: 4000,
+            maxOutputTokens: 8192,
             temperature: 0.7,
         },
         safetySettings: [

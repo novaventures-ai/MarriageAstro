@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { CompatibilityReport, PsychologicalProfile } from '../../types';
-import { Brain, Heart, MessageCircle, Shield, Eye, RefreshCw, Compass, ChevronDown, Users } from 'lucide-react';
+import { Brain, Heart, MessageCircle, Shield, Eye, RefreshCw, Compass, ChevronDown, Users, Sparkles, AlertCircle } from 'lucide-react';
+import { useGeminiInsight } from '../../hooks/useGeminiInsight';
+import ReactMarkdown from 'react-markdown';
 
 interface PsychologicalProfileWidgetProps {
     report: CompatibilityReport;
@@ -245,6 +247,7 @@ export const PsychologicalProfileWidget: React.FC<PsychologicalProfileWidgetProp
     const profileA = report.psychologicalProfileA;
     const profileB = report.psychologicalProfileB;
     const [viewMode, setViewMode] = useState<'both' | 'partnerA' | 'partnerB'>('both');
+    const { loading, insight, error, triggerAnalysis } = useGeminiInsight();
 
     if (!profileA && !profileB) {
         return (
@@ -301,12 +304,12 @@ export const PsychologicalProfileWidget: React.FC<PsychologicalProfileWidgetProp
                                 key={opt.id}
                                 onClick={() => setViewMode(opt.id)}
                                 className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all duration-300 whitespace-nowrap ${viewMode === opt.id
-                                        ? opt.id === 'partnerA'
-                                            ? 'bg-gradient-to-r from-indigo-500 to-blue-600 text-white shadow-md shadow-indigo-500/25'
-                                            : opt.id === 'partnerB'
-                                                ? 'bg-gradient-to-r from-purple-500 to-pink-600 text-white shadow-md shadow-purple-500/25'
-                                                : 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md shadow-indigo-500/25'
-                                        : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-white/50 dark:hover:bg-gray-600/50'
+                                    ? opt.id === 'partnerA'
+                                        ? 'bg-gradient-to-r from-indigo-500 to-blue-600 text-white shadow-md shadow-indigo-500/25'
+                                        : opt.id === 'partnerB'
+                                            ? 'bg-gradient-to-r from-purple-500 to-pink-600 text-white shadow-md shadow-purple-500/25'
+                                            : 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md shadow-indigo-500/25'
+                                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-white/50 dark:hover:bg-gray-600/50'
                                     }`}
                             >
                                 {opt.id === 'both' ? (
@@ -379,6 +382,88 @@ export const PsychologicalProfileWidget: React.FC<PsychologicalProfileWidgetProp
                     />
                 </div>
             ) : null}
+
+            {/* AI Deep Psychological Profile Reveal */}
+            <div className="bg-gradient-to-r from-indigo-900 to-blue-900 rounded-2xl shadow-lg p-6 text-white relative overflow-hidden transition-all mt-6">
+                <div className="absolute top-0 right-0 p-4 opacity-10">
+                    <Brain className="w-32 h-32 text-white" />
+                </div>
+
+                <div className="relative z-10">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                        <div>
+                            <h3 className="text-xl font-bold flex items-center gap-2">
+                                <Sparkles className="w-6 h-6 text-blue-300" />
+                                Deep Psychological Profile Analysis
+                            </h3>
+                            <p className="text-indigo-200 text-sm mt-1">
+                                Ask "The Psychological Astrologer" to decode subconscious patterns, shadow traits, and karmic drivers based on Moon, Mercury, D60, and Jaimini data.
+                            </p>
+                        </div>
+                        <button
+                            onClick={() => {
+                                const getPlanetData = (c: any, pName: string) => c?.planetaryPositions?.find((p: any) => p.planet === pName);
+
+                                // Determine which partner(s) to analyze based on viewMode
+                                let nameContext = nameA + ' and ' + nameB;
+                                let moonContext: any = { partnerA: getPlanetData(report.chartA, 'Moon'), partnerB: getPlanetData(report.chartB, 'Moon') };
+                                let mercuryContext: any = { partnerA: getPlanetData(report.chartA, 'Mercury'), partnerB: getPlanetData(report.chartB, 'Mercury') };
+                                let ascContext: any = { partnerA: report.chartA?.ascendant, partnerB: report.chartB?.ascendant };
+                                let houseContext: any = {
+                                    partnerA: { '4th': report.chartA?.houses?.[3], '8th': report.chartA?.houses?.[7] },
+                                    partnerB: { '4th': report.chartB?.houses?.[3], '8th': report.chartB?.houses?.[7] }
+                                };
+
+                                if (viewMode === 'partnerA') {
+                                    nameContext = nameA;
+                                    moonContext = getPlanetData(report.chartA, 'Moon');
+                                    mercuryContext = getPlanetData(report.chartA, 'Mercury');
+                                    ascContext = report.chartA?.ascendant;
+                                    houseContext = { '4th': report.chartA?.houses?.[3], '8th': report.chartA?.houses?.[7] };
+                                } else if (viewMode === 'partnerB') {
+                                    nameContext = nameB;
+                                    moonContext = getPlanetData(report.chartB, 'Moon');
+                                    mercuryContext = getPlanetData(report.chartB, 'Mercury');
+                                    ascContext = report.chartB?.ascendant;
+                                    houseContext = { '4th': report.chartB?.houses?.[3], '8th': report.chartB?.houses?.[7] };
+                                }
+
+                                triggerAnalysis('DEEP_PSYCHOLOGICAL_PROFILE', {
+                                    name: nameContext,
+                                    moon: moonContext,
+                                    mercury: mercuryContext,
+                                    ascendant: ascContext,
+                                    houses: houseContext,
+                                    d60Data: 'Analyze D60 Past Life Karma automatically.',
+                                    jaiminiData: 'Analyze Jaimini Atmakaraka and Amatyakaraka automatically.',
+                                    yogas: 'Identify relevant psychological yogas like Kemadruma or Grahan.'
+                                });
+                            }}
+                            disabled={loading}
+                            className="px-5 py-2 bg-blue-500 text-white rounded-lg font-bold shadow-lg hover:bg-blue-400 transition-colors disabled:opacity-75 disabled:cursor-not-allowed flex items-center gap-2 text-sm z-20"
+                        >
+                            {loading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+                            {insight ? 'Reveal Again' : 'Analyze Subconscious Mind'}
+                        </button>
+                    </div>
+
+                    {error && (
+                        <div className="mt-4 p-4 bg-red-500/20 border border-red-500/30 rounded-lg flex items-center gap-3 animate-in fade-in slide-in-from-top-2">
+                            <AlertCircle className="w-5 h-5 text-red-200 flex-shrink-0" />
+                            <p className="text-sm text-white">{error}</p>
+                        </div>
+                    )}
+
+                    {insight && (
+                        <div className="mt-4 p-4 bg-white/10 rounded-lg border border-white/20 animate-in fade-in slide-in-from-top-2 backdrop-blur-sm max-h-[500px] overflow-y-auto custom-scrollbar">
+                            <div className="prose prose-sm prose-invert max-w-none">
+                                <ReactMarkdown>{insight}</ReactMarkdown>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
+
         </div>
     );
 };
