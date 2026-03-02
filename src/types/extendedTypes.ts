@@ -417,6 +417,9 @@ export interface ExtendedSexualCompatibility {
     partnerA: YoniDepthDetail;
     partnerB: YoniDepthDetail;
   };
+  d9NavamsaInsights?: string;
+  kpSublords?: string;
+  yogas?: string;
 }
 
 export interface YoniDepthDetail {

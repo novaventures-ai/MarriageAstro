@@ -430,6 +430,9 @@ export interface SexualCompatibility {
       glans?: string;
     };
   };
+  d9NavamsaInsights?: string;
+  kpSublords?: string;
+  yogas?: string;
 }
 
 export interface SpousePrediction {

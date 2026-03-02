@@ -1,0 +1,99 @@
+{
+  "asc": "Aquarius",
+  "moon": {
+    "planet": "Moon",
+    "longitude": 248.10232213988814,
+    "latitude": 0,
+    "speed": 13.248649971876876,
+    "house": 11,
+    "sign": "Sagittarius",
+    "signDegree": 8.1,
+    "nakshatra": "Mula",
+    "nakshatraPada": 3,
+    "isRetrograde": false,
+    "isCombust": false,
+    "dignity": "neutral"
+  },
+  "mercury": {
+    "planet": "Mercury",
+    "longitude": 309.18346731745703,
+    "latitude": 0,
+    "speed": 1.836723486553339,
+    "house": 1,
+    "sign": "Aquarius",
+    "signDegree": 9.183333333333334,
+    "nakshatra": "Shatabhisha",
+    "nakshatraPada": 1,
+    "isRetrograde": false,
+    "isCombust": false,
+    "dignity": "neutral"
+  },
+  "sun": {
+    "planet": "Sun",
+    "longitude": 309.40790365663935,
+    "latitude": 0,
+    "speed": 1.007428509191742,
+    "house": 1,
+    "sign": "Aquarius",
+    "signDegree": 9.4,
+    "nakshatra": "Shatabhisha",
+    "nakshatraPada": 1,
+    "isRetrograde": false,
+    "isCombust": false,
+    "dignity": "neutral"
+  },
+  "jupiter": {
+    "planet": "Jupiter",
+    "longitude": 310.39267997841847,
+    "latitude": 0,
+    "speed": 0.2409395997550993,
+    "house": 1,
+    "sign": "Aquarius",
+    "signDegree": 10.383333333333333,
+    "nakshatra": "Shatabhisha",
+    "nakshatraPada": 2,
+    "isRetrograde": false,
+    "isCombust": false,
+    "dignity": "neutral"
+  },
+  "chart4h": {
+    "houseNumber": 4,
+    "sign": "Taurus",
+    "cuspLongitude": 30,
+    "planets": [],
+    "lord": "Venus"
+  },
+  "chart8h": {
+    "houseNumber": 8,
+    "sign": "Virgo",
+    "cuspLongitude": 150,
+    "planets": [],
+    "lord": "Mercury"
+  },
+  "chart12h": {
+    "houseNumber": 12,
+    "sign": "Capricorn",
+    "cuspLongitude": 270,
+    "planets": [
+      "Uranus",
+      "Neptune"
+    ],
+    "lord": "Saturn"
+  },
+  "navamsaAsc": "Aquarius",
+  "navamsaMoon": {
+    "planet": "Moon",
+    "longitude": 72.9208992589933,
+    "latitude": 0,
+    "speed": 13.248649971876876,
+    "house": 5,
+    "sign": "Gemini",
+    "signDegree": 12.916666666666666,
+    "nakshatra": "Mula",
+    "nakshatraPada": 3,
+    "isRetrograde": false,
+    "isCombust": false,
+    "dignity": "neutral"
+  },
+  "sun_moon_angle": 61.305581516751204
+}

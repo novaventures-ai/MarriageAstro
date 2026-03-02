@@ -16,27 +16,46 @@ export class SwissEphemeris {
                 // Note: Vite serves files in 'public' at the root path
                 let wasmBinary: ArrayBuffer;
                 let lastError: Error | null = null;
-                
-                // Try multiple times with different paths
-                const paths = ['/swisseph.wasm', './swisseph.wasm', 'swisseph.wasm'];
-                
-                for (const path of paths) {
-                    try {
-                        console.log(`[SwissEph] Trying to load WASM from: ${path}`);
-                        const response = await fetch(path);
-                        if (response.ok) {
-                            wasmBinary = await response.arrayBuffer();
-                            console.log(`[SwissEph] Successfully loaded WASM from: ${path} (${wasmBinary.byteLength} bytes)`);
-                            break;
-                        }
-                    } catch (e: any) {
-                        lastError = e;
-                        console.warn(`[SwissEph] Failed to load from ${path}:`, e.message);
+                if (typeof window === 'undefined') {
+                    // Node.js environment
+                    const fs = await import('fs');
+                    const path = await import('path');
+                    // In vite-node or tsx, process.cwd() is the project root
+                    const originalCwd = process.cwd();
+                    const wasmPath = path.resolve(originalCwd, 'public', 'swisseph.wasm');
+
+                    if (fs.existsSync(wasmPath)) {
+                        console.log(`[SwissEph] Loading WASM from disk: ${wasmPath}`);
+                        const buffer = fs.readFileSync(wasmPath);
+                        wasmBinary = new Uint8Array(buffer).buffer;
+                    } else {
+                        // try fallback to one level up if not in root
+                        lastError = new Error(`WASM not found on disk at: ${wasmPath}`);
                     }
                 }
-                
+
                 if (!wasmBinary!) {
-                    throw lastError || new Error('Failed to load swisseph.wasm from all attempted paths');
+                    // Browser environment or fallback
+                    const paths = ['/swisseph.wasm', './swisseph.wasm', 'swisseph.wasm'];
+
+                    for (const p of paths) {
+                        try {
+                            console.log(`[SwissEph] Trying to load WASM from: ${p}`);
+                            const response = await fetch(p);
+                            if (response.ok) {
+                                wasmBinary = await response.arrayBuffer();
+                                console.log(`[SwissEph] Successfully loaded WASM from: ${p} (${wasmBinary.byteLength} bytes)`);
+                                break;
+                            }
+                        } catch (e: any) {
+                            lastError = e;
+                            console.warn(`[SwissEph] Failed to load from ${p}:`, e.message);
+                        }
+                    }
+                }
+
+                if (!wasmBinary!) {
+                    throw lastError || new Error('Failed to load swisseph.wasm from all attempted paths or disk');
                 }
 
                 const module = await initSwisseph({
@@ -148,7 +167,7 @@ export class SwissEphemeris {
             };
         } catch (error) {
             console.warn('Swiss Ephemeris house calculation failed, using fallback:', error);
-            
+
             // Fallback: Calculate houses using simple algorithm
             return this.calculateHousesFallback(jd, lat, lon);
         }
@@ -163,31 +182,31 @@ export class SwissEphemeris {
         cusps: number[];
     }> {
         const swe = await this.getInstance();
-        
+
         // Set Lahiri ayanamsa
         swe.swe_set_sid_mode(1, 0, 0);
         const ayanamsa = swe.swe_get_ayanamsa_ut(jd);
-        
+
         // Get Sun position to approximate ascendant
         // In sidereal system, we can approximate based on time
         const sunResult = swe.swe_calc_ut(jd, 0, 65536); // Sun in sidereal
         const sunLongitude = sunResult[0];
-        
+
         // Rough approximation: Ascendant moves ~1 degree every 4 minutes
         // At sunrise (6 AM), ascendant ≈ sun position
         // Adjust based on time of day
         const jd2000 = 2451545.0;
         const daysSince2000 = jd - jd2000;
         const centuries = daysSince2000 / 36525;
-        
+
         // Sidereal time approximation
         const gmst = 6.697374558 + 0.06570982441908 * daysSince2000 + 1.00273790935 * ((jd % 1) * 24);
         const lst = (gmst + lon / 15) % 24;
-        
+
         // Calculate ascendant from LST and latitude
         const lstDegrees = lst * 15;
         const ascendant = (lstDegrees - ayanamsa + 360) % 360;
-        
+
         // Generate 12 house cusps (simplified Placidus approximation)
         const cusps: number[] = [];
         for (let i = 1; i <= 12; i++) {
@@ -196,7 +215,7 @@ export class SwissEphemeris {
             const cuspDegree = (ascendant + (i - 1) * 30) % 360;
             cusps.push(cuspDegree);
         }
-        
+
         return {
             ascendant,
             cusps

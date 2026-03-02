@@ -1,0 +1,1682 @@
+{
+  "chartA_ketu": {
+    "planet": "Ketu",
+    "longitude": 3.6797974535269304,
+    "latitude": 0,
+    "speed": -0.05299202931858891,
+    "house": 11,
+    "sign": "Aries",
+    "signDegree": 3.6666666666666665,
+    "nakshatra": "Ashwini",
+    "nakshatraPada": 2,
+    "isRetrograde": true,
+    "isCombust": false,
+    "dignity": "neutral"
+  },
+  "chartA_rahu": {
+    "planet": "Rahu",
+    "longitude": 183.67979745352696,
+    "latitude": 0,
+    "speed": -0.05299202931858891,
+    "house": 5,
+    "sign": "Libra",
+    "signDegree": 3.6666666666666665,
+    "nakshatra": "Chitra",
+    "nakshatraPada": 4,
+    "isRetrograde": true,
+    "isCombust": false,
+    "dignity": "neutral"
+  },
+  "chartA_saturn": {
+    "planet": "Saturn",
+    "longitude": 326.5383523394629,
+    "latitude": 0,
+    "speed": -0.07363650657161364,
+    "house": 9,
+    "sign": "Aquarius",
+    "signDegree": 26.533333333333335,
+    "nakshatra": "Purva Bhadrapada",
+    "nakshatraPada": 2,
+    "isRetrograde": true,
+    "isCombust": false,
+    "dignity": "own"
+  },
+  "chartB_ketu": {
+    "planet": "Ketu",
+    "longitude": 317.1380881531722,
+    "latitude": 0,
+    "speed": -0.05299202086778316,
+    "house": 1,
+    "sign": "Aquarius",
+    "signDegree": 17.133333333333333,
+    "nakshatra": "Shatabhisha",
+    "nakshatraPada": 4,
+    "isRetrograde": true,
+    "isCombust": false,
+    "dignity": "neutral"
+  },
+  "chartB_rahu": {
+    "planet": "Rahu",
+    "longitude": 137.1380881531722,
+    "latitude": 0,
+    "speed": -0.05299202086778316,
+    "house": 7,
+    "sign": "Leo",
+    "signDegree": 17.133333333333333,
+    "nakshatra": "Purva Phalguni",
+    "nakshatraPada": 2,
+    "isRetrograde": true,
+    "isCombust": false,
+    "dignity": "neutral"
+  },
+  "chartB_saturn": {
+    "planet": "Saturn",
+    "longitude": 353.53052256935064,
+    "latitude": 0,
+    "speed": 0.10264304283663706,
+    "house": 2,
+    "sign": "Pisces",
+    "signDegree": 23.516666666666666,
+    "nakshatra": "Revati",
+    "nakshatraPada": 3,
+    "isRetrograde": false,
+    "isCombust": false,
+    "dignity": "neutral"
+  },
+  "chartA_special": {
+    "atmakaraka": "Saturn",
+    "darakaraka": "Sun",
+    "upapadaLagna": "Taurus",
+    "vivahSaham": 4
+  },
+  "chartB_special": {
+    "atmakaraka": "Venus",
+    "darakaraka": "Moon",
+    "upapadaLagna": "Capricorn",
+    "vivahSaham": 1
+  },
+  "chartA_asc": "Gemini",
+  "chartA_moon": {
+    "planet": "Moon",
+    "longitude": 200.20549466052162,
+    "latitude": 0,
+    "speed": 14.072725781847325,
+    "house": 5,
+    "sign": "Libra",
+    "signDegree": 20.2,
+    "nakshatra": "Vishakha",
+    "nakshatraPada": 1,
+    "isRetrograde": false,
+    "isCombust": false,
+    "dignity": "neutral"
+  },
+  "chartB_asc": "Aquarius",
+  "chartB_moon": {
+    "planet": "Moon",
+    "longitude": 248.10232213988814,
+    "latitude": 0,
+    "speed": 13.248649971876876,
+    "house": 11,
+    "sign": "Sagittarius",
+    "signDegree": 8.1,
+    "nakshatra": "Mula",
+    "nakshatraPada": 3,
+    "isRetrograde": false,
+    "isCombust": false,
+    "dignity": "neutral"
+  },
+  "chartB_venus": {
+    "planet": "Venus",
+    "longitude": 269.3186451564362,
+    "latitude": 0,
+    "speed": 0.5339553118107272,
+    "house": 11,
+    "sign": "Sagittarius",
+    "signDegree": 29.316666666666666,
+    "nakshatra": "Uttara Ashadha",
+    "nakshatraPada": 1,
+    "isRetrograde": false,
+    "isCombust": false,
+    "dignity": "neutral"
+  },
+  "chartA_venus": {
+    "planet": "Venus",
+    "longitude": 170.6223626858912,
+    "latitude": 0,
+    "speed": 1.24418218285452,
+    "house": 4,
+    "sign": "Virgo",
+    "signDegree": 20.616666666666667,
+    "nakshatra": "Hasta",
+    "nakshatraPada": 4,
+    "isRetrograde": false,
+    "isCombust": false,
+    "dignity": "debilitated"
+  },
+  "chartA_jupiter": {
+    "planet": "Jupiter",
+    "longitude": 226.1760285509114,
+    "latitude": 0,
+    "speed": 0.14777109174667236,
+    "house": 6,
+    "sign": "Scorpio",
+    "signDegree": 16.166666666666668,
+    "nakshatra": "Anuradha",
+    "nakshatraPada": 4,
+    "isRetrograde": false,
+    "isCombust": false,
+    "dignity": "neutral"
+  },
+  "chartB_jupiter": {
+    "planet": "Jupiter",
+    "longitude": 310.39267997841847,
+    "latitude": 0,
+    "speed": 0.2409395997550993,
+    "house": 1,
+    "sign": "Aquarius",
+    "signDegree": 10.383333333333333,
+    "nakshatra": "Shatabhisha",
+    "nakshatraPada": 2,
+    "isRetrograde": false,
+    "isCombust": false,
+    "dignity": "neutral"
+  },
+  "chartA_mars": {
+    "planet": "Mars",
+    "longitude": 200.02344863490387,
+    "latitude": 0,
+    "speed": 0.6872227863999659,
+    "house": 5,
+    "sign": "Libra",
+    "signDegree": 20.016666666666666,
+    "nakshatra": "Vishakha",
+    "nakshatraPada": 1,
+    "isRetrograde": false,
+    "isCombust": false,
+    "dignity": "neutral"
+  },
+  "chartB_mars": {
+    "planet": "Mars",
+    "longitude": 327.923406523802,
+    "latitude": 0,
+    "speed": 0.7808118256951577,
+    "house": 1,
+    "sign": "Aquarius",
+    "signDegree": 27.916666666666668,
+    "nakshatra": "Purva Bhadrapada",
+    "nakshatraPada": 3,
+    "isRetrograde": false,
+    "isCombust": false,
+    "dignity": "neutral"
+  },
+  "jaimini": {
+    "darakarakaContact": {
+      "type": "kendra",
+      "description": "Darakaraka Kendra (1/4/7/10): This is a dynamic and industrious soul connection. You challenge each other to become the highest versions of yourselves, building a solid and active life together."
+    },
+    "soulLink": {
+      "hasLink": false,
+      "description": ""
+    }
+  },
+  "vulnerablePeriods": [
+    {
+      "startDate": "2025-02-09T10:53:38.041Z",
+      "endDate": "2027-12-17T09:59:38.041Z",
+      "description": "Rahu Antardasha triggers specific risk factors",
+      "riskLevel": "moderate",
+      "profileName": "Rahul"
+    },
+    {
+      "startDate": "2032-11-25T08:38:38.041Z",
+      "endDate": "2033-11-22T13:35:38.041Z",
+      "description": "Ketu Antardasha triggers specific risk factors",
+      "riskLevel": "moderate",
+      "profileName": "Rahul"
+    },
+    {
+      "startDate": "2039-12-26T13:08:38.041Z",
+      "endDate": "2042-07-14T22:26:38.041Z",
+      "description": "Rahu Antardasha triggers specific risk factors",
+      "riskLevel": "moderate",
+      "profileName": "Rahul"
+    },
+    {
+      "startDate": "2047-06-29T23:11:38.041Z",
+      "endDate": "2047-11-26T02:38:38.041Z",
+      "description": "Ketu Mahadasha activates separative influences. Ketu Antardasha triggers specific risk factors. Intense Rahu-Ketu nodal axis activation",
+      "riskLevel": "high",
+      "profileName": "Rahul"
+    },
+    {
+      "startDate": "2047-11-26T02:38:38.041Z",
+      "endDate": "2049-01-25T05:38:38.041Z",
+      "description": "Ketu Mahadasha activates separative influences",
+      "riskLevel": "high",
+      "profileName": "Rahul"
+    },
+    {
+      "startDate": "2049-01-25T05:38:38.041Z",
+      "endDate": "2049-06-02T01:44:38.041Z",
+      "description": "Ketu Mahadasha activates separative influences",
+      "riskLevel": "high",
+      "profileName": "Rahul"
+    },
+    {
+      "startDate": "2049-06-02T01:44:38.041Z",
+      "endDate": "2050-01-01T03:14:38.041Z",
+      "description": "Ketu Mahadasha activates separative influences",
+      "riskLevel": "high",
+      "profileName": "Rahul"
+    },
+    {
+      "startDate": "2050-01-01T03:14:38.041Z",
+      "endDate": "2050-05-30T06:41:38.041Z",
+      "description": "Ketu Mahadasha activates separative influences",
+      "riskLevel": "high",
+      "profileName": "Rahul"
+    },
+    {
+      "startDate": "2050-05-30T06:41:38.041Z",
+      "endDate": "2051-06-17T18:59:38.041Z",
+      "description": "Ketu Mahadasha activates separative influences. Rahu Antardasha triggers specific risk factors. Intense Rahu-Ketu nodal axis activation",
+      "riskLevel": "high",
+      "profileName": "Rahul"
+    },
+    {
+      "startDate": "2051-06-17T18:59:38.041Z",
+      "endDate": "2052-05-23T16:35:38.041Z",
+      "description": "Ketu Mahadasha activates separative influences",
+      "riskLevel": "high",
+      "profileName": "Rahul"
+    },
+    {
+      "startDate": "2052-05-23T16:35:38.041Z",
+      "endDate": "2053-07-02T12:14:38.041Z",
+      "description": "Ketu Mahadasha activates separative influences",
+      "riskLevel": "high",
+      "profileName": "Rahul"
+    },
+    {
+      "startDate": "2053-07-02T12:14:38.041Z",
+      "endDate": "2054-06-29T17:11:38.041Z",
+      "description": "Ketu Mahadasha activates separative influences",
+      "riskLevel": "high",
+      "profileName": "Rahul"
+    },
+    {
+      "startDate": "2061-08-29T08:11:38.041Z",
+      "endDate": "2064-08-29T02:11:38.041Z",
+      "description": "Rahu Antardasha triggers specific risk factors",
+      "riskLevel": "moderate",
+      "profileName": "Rahul"
+    },
+    {
+      "startDate": "2073-04-29T14:11:38.041Z",
+      "endDate": "2074-06-29T17:11:38.041Z",
+      "description": "Ketu Antardasha triggers specific risk factors",
+      "riskLevel": "moderate",
+      "profileName": "Rahul"
+    },
+    {
+      "startDate": "2075-08-23T18:05:38.041Z",
+      "endDate": "2076-07-17T11:29:38.041Z",
+      "description": "Rahu Antardasha triggers specific risk factors",
+      "riskLevel": "moderate",
+      "profileName": "Rahul"
+    },
+    {
+      "startDate": "2079-02-22T03:05:38.041Z",
+      "endDate": "2079-06-29T23:11:38.041Z",
+      "description": "Ketu Antardasha triggers specific risk factors",
+      "riskLevel": "moderate",
+      "profileName": "Rahul"
+    },
+    {
+      "startDate": "2081-11-28T15:41:38.041Z",
+      "endDate": "2083-05-30T12:41:38.041Z",
+      "description": "Rahu Antardasha triggers specific risk factors",
+      "riskLevel": "moderate",
+      "profileName": "Rahul"
+    },
+    {
+      "startDate": "2087-09-29T06:41:38.041Z",
+      "endDate": "2088-04-29T08:11:38.041Z",
+      "description": "Ketu Antardasha triggers specific risk factors",
+      "riskLevel": "moderate",
+      "profileName": "Rahul"
+    },
+    {
+      "startDate": "2090-11-25T20:38:38.041Z",
+      "endDate": "2091-12-14T08:56:38.041Z",
+      "description": "Rahu Antardasha triggers specific risk factors",
+      "riskLevel": "moderate",
+      "profileName": "Rahul"
+    },
+    {
+      "startDate": "2094-12-26T07:08:38.041Z",
+      "endDate": "2095-05-24T10:35:38.041Z",
+      "description": "Ketu Antardasha triggers specific risk factors",
+      "riskLevel": "moderate",
+      "profileName": "Rahul"
+    },
+    {
+      "startDate": "2097-06-29T11:11:38.041Z",
+      "endDate": "2100-03-12T15:23:38.041Z",
+      "description": "Rahu Mahadasha activates separative influences. Rahu Antardasha triggers specific risk factors. Intense Rahu-Ketu nodal axis activation",
+      "riskLevel": "high",
+      "profileName": "Rahul"
+    },
+    {
+      "startDate": "2100-03-12T15:23:38.041Z",
+      "endDate": "2102-08-06T05:47:38.041Z",
+      "description": "Rahu Mahadasha activates separative influences",
+      "riskLevel": "high",
+      "profileName": "Rahul"
+    },
+    {
+      "startDate": "2102-08-06T05:47:38.041Z",
+      "endDate": "2105-06-12T04:53:38.041Z",
+      "description": "Rahu Mahadasha activates separative influences",
+      "riskLevel": "high",
+      "profileName": "Rahul"
+    },
+    {
+      "startDate": "2105-06-12T04:53:38.041Z",
+      "endDate": "2107-12-30T14:11:38.041Z",
+      "description": "Rahu Mahadasha activates separative influences",
+      "riskLevel": "high",
+      "profileName": "Rahul"
+    },
+    {
+      "startDate": "2107-12-30T14:11:38.041Z",
+      "endDate": "2109-01-17T02:29:38.041Z",
+      "description": "Rahu Mahadasha activates separative influences. Ketu Antardasha triggers specific risk factors. Intense Rahu-Ketu nodal axis activation",
+      "riskLevel": "high",
+      "profileName": "Rahul"
+    },
+    {
+      "startDate": "2109-01-17T02:29:38.041Z",
+      "endDate": "2112-01-17T20:29:38.041Z",
+      "description": "Rahu Mahadasha activates separative influences",
+      "riskLevel": "high",
+      "profileName": "Rahul"
+    },
+    {
+      "startDate": "2112-01-17T20:29:38.041Z",
+      "endDate": "2112-12-11T13:53:38.041Z",
+      "description": "Rahu Mahadasha activates separative influences",
+      "riskLevel": "high",
+      "profileName": "Rahul"
+    },
+    {
+      "startDate": "2112-12-11T13:53:38.041Z",
+      "endDate": "2114-06-12T10:53:38.041Z",
+      "description": "Rahu Mahadasha activates separative influences",
+      "riskLevel": "high",
+      "profileName": "Rahul"
+    },
+    {
+      "startDate": "2114-06-12T10:53:38.041Z",
+      "endDate": "2115-06-30T23:11:38.041Z",
+      "description": "Rahu Mahadasha activates separative influences",
+      "riskLevel": "high",
+      "profileName": "Rahul"
+    },
+    {
+      "startDate": "2025-07-16T19:17:53.390Z",
+      "endDate": "2025-11-21T15:23:53.390Z",
+      "description": "Ketu Antardasha triggers specific risk factors",
+      "riskLevel": "moderate",
+      "profileName": "Ashwini"
+    },
+    {
+      "startDate": "2028-04-22T07:53:53.390Z",
+      "endDate": "2029-10-22T04:53:53.390Z",
+      "description": "Rahu Antardasha triggers specific risk factors",
+      "riskLevel": "moderate",
+      "profileName": "Ashwini"
+    },
+    {
+      "startDate": "2034-02-20T22:53:53.390Z",
+      "endDate": "2034-09-22T00:23:53.390Z",
+      "description": "Ketu Antardasha triggers specific risk factors",
+      "riskLevel": "moderate",
+      "profileName": "Ashwini"
+    },
+    {
+      "startDate": "2037-04-19T12:50:53.390Z",
+      "endDate": "2038-05-08T01:08:53.390Z",
+      "description": "Rahu Antardasha triggers specific risk factors",
+      "riskLevel": "moderate",
+      "profileName": "Ashwini"
+    },
+    {
+      "startDate": "2041-05-19T23:20:53.390Z",
+      "endDate": "2041-10-16T02:47:53.390Z",
+      "description": "Ketu Antardasha triggers specific risk factors",
+      "riskLevel": "moderate",
+      "profileName": "Ashwini"
+    },
+    {
+      "startDate": "2043-11-22T03:23:53.390Z",
+      "endDate": "2046-08-04T07:35:53.390Z",
+      "description": "Rahu Mahadasha activates separative influences. Rahu Antardasha triggers specific risk factors. Intense Rahu-Ketu nodal axis activation",
+      "riskLevel": "high",
+      "profileName": "Ashwini"
+    },
+    {
+      "startDate": "2046-08-04T07:35:53.390Z",
+      "endDate": "2048-12-27T21:59:53.390Z",
+      "description": "Rahu Mahadasha activates separative influences",
+      "riskLevel": "high",
+      "profileName": "Ashwini"
+    },
+    {
+      "startDate": "2048-12-27T21:59:53.390Z",
+      "endDate": "2051-11-03T21:05:53.390Z",
+      "description": "Rahu Mahadasha activates separative influences",
+      "riskLevel": "high",
+      "profileName": "Ashwini"
+    },
+    {
+      "startDate": "2051-11-03T21:05:53.390Z",
+      "endDate": "2054-05-23T06:23:53.390Z",
+      "description": "Rahu Mahadasha activates separative influences",
+      "riskLevel": "high",
+      "profileName": "Ashwini"
+    },
+    {
+      "startDate": "2054-05-23T06:23:53.390Z",
+      "endDate": "2055-06-10T18:41:53.390Z",
+      "description": "Rahu Mahadasha activates separative influences. Ketu Antardasha triggers specific risk factors. Intense Rahu-Ketu nodal axis activation",
+      "riskLevel": "high",
+      "profileName": "Ashwini"
+    },
+    {
+      "startDate": "2055-06-10T18:41:53.390Z",
+      "endDate": "2058-06-10T12:41:53.390Z",
+      "description": "Rahu Mahadasha activates separative influences",
+      "riskLevel": "high",
+      "profileName": "Ashwini"
+    },
+    {
+      "startDate": "2058-06-10T12:41:53.390Z",
+      "endDate": "2059-05-05T06:05:53.390Z",
+      "description": "Rahu Mahadasha activates separative influences",
+      "riskLevel": "high",
+      "profileName": "Ashwini"
+    },
+    {
+      "startDate": "2059-05-05T06:05:53.390Z",
+      "endDate": "2060-11-03T03:05:53.390Z",
+      "description": "Rahu Mahadasha activates separative influences",
+      "riskLevel": "high",
+      "profileName": "Ashwini"
+    },
+    {
+      "startDate": "2060-11-03T03:05:53.390Z",
+      "endDate": "2061-11-21T15:23:53.390Z",
+      "description": "Rahu Mahadasha activates separative influences",
+      "riskLevel": "high",
+      "profileName": "Ashwini"
+    },
+    {
+      "startDate": "2068-10-28T00:59:53.390Z",
+      "endDate": "2069-10-03T22:35:53.390Z",
+      "description": "Ketu Antardasha triggers specific risk factors",
+      "riskLevel": "moderate",
+      "profileName": "Ashwini"
+    },
+    {
+      "startDate": "2075-06-29T00:59:53.390Z",
+      "endDate": "2077-11-21T15:23:53.390Z",
+      "description": "Rahu Antardasha triggers specific risk factors",
+      "riskLevel": "moderate",
+      "profileName": "Ashwini"
+    },
+    {
+      "startDate": "2083-08-04T13:35:53.390Z",
+      "endDate": "2084-09-12T09:14:53.390Z",
+      "description": "Ketu Antardasha triggers specific risk factors",
+      "riskLevel": "moderate",
+      "profileName": "Ashwini"
+    },
+    {
+      "startDate": "2091-07-05T03:05:53.390Z",
+      "endDate": "2094-05-11T02:11:53.390Z",
+      "description": "Rahu Antardasha triggers specific risk factors",
+      "riskLevel": "moderate",
+      "profileName": "Ashwini"
+    },
+    {
+      "startDate": "2099-04-20T00:50:53.390Z",
+      "endDate": "2100-04-17T05:47:53.390Z",
+      "description": "Ketu Antardasha triggers specific risk factors",
+      "riskLevel": "moderate",
+      "profileName": "Ashwini"
+    },
+    {
+      "startDate": "2106-05-21T05:20:53.390Z",
+      "endDate": "2108-12-07T14:38:53.390Z",
+      "description": "Rahu Antardasha triggers specific risk factors",
+      "riskLevel": "moderate",
+      "profileName": "Ashwini"
+    }
+  ],
+  "navamsaA": {
+    "ascendant": "Aries",
+    "houses": [
+      {
+        "houseNumber": 1,
+        "sign": "Aries",
+        "cuspLongitude": 0,
+        "planets": [
+          "Sun",
+          "Moon",
+          "Mars"
+        ],
+        "lord": "Mars"
+      },
+      {
+        "houseNumber": 2,
+        "sign": "Taurus",
+        "cuspLongitude": 30,
+        "planets": [
+          "Saturn",
+          "Ketu"
+        ],
+        "lord": "Venus"
+      },
+      {
+        "houseNumber": 3,
+        "sign": "Gemini",
+        "cuspLongitude": 60,
+        "planets": [],
+        "lord": "Mercury"
+      },
+      {
+        "houseNumber": 4,
+        "sign": "Cancer",
+        "cuspLongitude": 90,
+        "planets": [
+          "Venus"
+        ],
+        "lord": "Moon"
+      },
+      {
+        "houseNumber": 5,
+        "sign": "Leo",
+        "cuspLongitude": 120,
+        "planets": [
+          "Mercury",
+          "Pluto"
+        ],
+        "lord": "Sun"
+      },
+      {
+        "houseNumber": 6,
+        "sign": "Virgo",
+        "cuspLongitude": 150,
+        "planets": [],
+        "lord": "Mercury"
+      },
+      {
+        "houseNumber": 7,
+        "sign": "Libra",
+        "cuspLongitude": 180,
+        "planets": [],
+        "lord": "Venus"
+      },
+      {
+        "houseNumber": 8,
+        "sign": "Scorpio",
+        "cuspLongitude": 210,
+        "planets": [
+          "Jupiter",
+          "Rahu"
+        ],
+        "lord": "Mars"
+      },
+      {
+        "houseNumber": 9,
+        "sign": "Sagittarius",
+        "cuspLongitude": 240,
+        "planets": [
+          "Neptune"
+        ],
+        "lord": "Jupiter"
+      },
+      {
+        "houseNumber": 10,
+        "sign": "Capricorn",
+        "cuspLongitude": 270,
+        "planets": [
+          "Uranus"
+        ],
+        "lord": "Saturn"
+      },
+      {
+        "houseNumber": 11,
+        "sign": "Aquarius",
+        "cuspLongitude": 300,
+        "planets": [],
+        "lord": "Saturn"
+      },
+      {
+        "houseNumber": 12,
+        "sign": "Pisces",
+        "cuspLongitude": 330,
+        "planets": [],
+        "lord": "Jupiter"
+      }
+    ],
+    "planetaryPositions": [
+      {
+        "planet": "Sun",
+        "longitude": 3.7070418025910215,
+        "latitude": 0,
+        "speed": 0.9813355799081247,
+        "house": 1,
+        "sign": "Aries",
+        "signDegree": 3.7,
+        "nakshatra": "Hasta",
+        "nakshatraPada": 1,
+        "isRetrograde": false,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Moon",
+        "longitude": 1.8494519446946072,
+        "latitude": 0,
+        "speed": 14.072725781847325,
+        "house": 1,
+        "sign": "Aries",
+        "signDegree": 1.8333333333333335,
+        "nakshatra": "Vishakha",
+        "nakshatraPada": 1,
+        "isRetrograde": false,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Mars",
+        "longitude": 0.2110377141348465,
+        "latitude": 0,
+        "speed": 0.6872227863999659,
+        "house": 1,
+        "sign": "Aries",
+        "signDegree": 0.2,
+        "nakshatra": "Vishakha",
+        "nakshatraPada": 1,
+        "isRetrograde": false,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Mercury",
+        "longitude": 131.99459207137852,
+        "latitude": 0,
+        "speed": -0.6463150283919616,
+        "house": 5,
+        "sign": "Leo",
+        "signDegree": 11.983333333333333,
+        "nakshatra": "Chitra",
+        "nakshatraPada": 1,
+        "isRetrograde": true,
+        "isCombust": false,
+        "dignity": "exalted"
+      },
+      {
+        "planet": "Jupiter",
+        "longitude": 235.5842569582027,
+        "latitude": 0,
+        "speed": 0.14777109174667236,
+        "house": 8,
+        "sign": "Scorpio",
+        "signDegree": 25.583333333333332,
+        "nakshatra": "Anuradha",
+        "nakshatraPada": 4,
+        "isRetrograde": false,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Venus",
+        "longitude": 95.60126417302084,
+        "latitude": 0,
+        "speed": 1.24418218285452,
+        "house": 4,
+        "sign": "Cancer",
+        "signDegree": 5.6,
+        "nakshatra": "Hasta",
+        "nakshatraPada": 4,
+        "isRetrograde": false,
+        "isCombust": false,
+        "dignity": "debilitated"
+      },
+      {
+        "planet": "Saturn",
+        "longitude": 58.845171055166134,
+        "latitude": 0,
+        "speed": -0.07363650657161364,
+        "house": 2,
+        "sign": "Taurus",
+        "signDegree": 28.833333333333332,
+        "nakshatra": "Purva Bhadrapada",
+        "nakshatraPada": 2,
+        "isRetrograde": true,
+        "isCombust": false,
+        "dignity": "own"
+      },
+      {
+        "planet": "Rahu",
+        "longitude": 213.11817708174263,
+        "latitude": 0,
+        "speed": -0.05299202931858891,
+        "house": 8,
+        "sign": "Scorpio",
+        "signDegree": 3.1166666666666667,
+        "nakshatra": "Chitra",
+        "nakshatraPada": 4,
+        "isRetrograde": true,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Uranus",
+        "longitude": 294.8217608286332,
+        "latitude": 0,
+        "speed": -0.007292696572491922,
+        "house": 10,
+        "sign": "Capricorn",
+        "signDegree": 24.816666666666666,
+        "nakshatra": "Uttara Ashadha",
+        "nakshatraPada": 2,
+        "isRetrograde": true,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Neptune",
+        "longitude": 260.9036898243165,
+        "latitude": 0,
+        "speed": -0.004049759436137395,
+        "house": 9,
+        "sign": "Sagittarius",
+        "signDegree": 20.9,
+        "nakshatra": "Uttara Ashadha",
+        "nakshatraPada": 1,
+        "isRetrograde": true,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Pluto",
+        "longitude": 132.3514867715171,
+        "latitude": 0,
+        "speed": 0.026440193906354794,
+        "house": 5,
+        "sign": "Leo",
+        "signDegree": 12.35,
+        "nakshatra": "Anuradha",
+        "nakshatraPada": 1,
+        "isRetrograde": false,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Ketu",
+        "longitude": 33.118177081742374,
+        "latitude": 0,
+        "speed": -0.05299202931858891,
+        "house": 2,
+        "sign": "Taurus",
+        "signDegree": 3.1166666666666667,
+        "nakshatra": "Ashwini",
+        "nakshatraPada": 2,
+        "isRetrograde": true,
+        "isCombust": false,
+        "dignity": "neutral"
+      }
+    ]
+  },
+  "navamsaB": {
+    "ascendant": "Aquarius",
+    "houses": [
+      {
+        "houseNumber": 1,
+        "sign": "Aquarius",
+        "cuspLongitude": 300,
+        "planets": [
+          "Saturn"
+        ],
+        "lord": "Saturn"
+      },
+      {
+        "houseNumber": 2,
+        "sign": "Pisces",
+        "cuspLongitude": 330,
+        "planets": [
+          "Neptune",
+          "Ketu"
+        ],
+        "lord": "Jupiter"
+      },
+      {
+        "houseNumber": 3,
+        "sign": "Aries",
+        "cuspLongitude": 0,
+        "planets": [],
+        "lord": "Mars"
+      },
+      {
+        "houseNumber": 4,
+        "sign": "Taurus",
+        "cuspLongitude": 30,
+        "planets": [
+          "Uranus"
+        ],
+        "lord": "Venus"
+      },
+      {
+        "houseNumber": 5,
+        "sign": "Gemini",
+        "cuspLongitude": 60,
+        "planets": [
+          "Moon",
+          "Mars"
+        ],
+        "lord": "Mercury"
+      },
+      {
+        "houseNumber": 6,
+        "sign": "Cancer",
+        "cuspLongitude": 90,
+        "planets": [],
+        "lord": "Moon"
+      },
+      {
+        "houseNumber": 7,
+        "sign": "Leo",
+        "cuspLongitude": 120,
+        "planets": [],
+        "lord": "Sun"
+      },
+      {
+        "houseNumber": 8,
+        "sign": "Virgo",
+        "cuspLongitude": 150,
+        "planets": [
+          "Rahu"
+        ],
+        "lord": "Mercury"
+      },
+      {
+        "houseNumber": 9,
+        "sign": "Libra",
+        "cuspLongitude": 180,
+        "planets": [],
+        "lord": "Venus"
+      },
+      {
+        "houseNumber": 10,
+        "sign": "Scorpio",
+        "cuspLongitude": 210,
+        "planets": [
+          "Pluto"
+        ],
+        "lord": "Mars"
+      },
+      {
+        "houseNumber": 11,
+        "sign": "Sagittarius",
+        "cuspLongitude": 240,
+        "planets": [
+          "Sun",
+          "Mercury",
+          "Venus"
+        ],
+        "lord": "Jupiter"
+      },
+      {
+        "houseNumber": 12,
+        "sign": "Capricorn",
+        "cuspLongitude": 270,
+        "planets": [
+          "Jupiter"
+        ],
+        "lord": "Saturn"
+      }
+    ],
+    "planetaryPositions": [
+      {
+        "planet": "Sun",
+        "longitude": 264.67113290975414,
+        "latitude": 0,
+        "speed": 1.007428509191742,
+        "house": 11,
+        "sign": "Sagittarius",
+        "signDegree": 24.666666666666668,
+        "nakshatra": "Shatabhisha",
+        "nakshatraPada": 1,
+        "isRetrograde": false,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Moon",
+        "longitude": 72.9208992589933,
+        "latitude": 0,
+        "speed": 13.248649971876876,
+        "house": 5,
+        "sign": "Gemini",
+        "signDegree": 12.916666666666666,
+        "nakshatra": "Mula",
+        "nakshatraPada": 3,
+        "isRetrograde": false,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Mars",
+        "longitude": 71.31065871421788,
+        "latitude": 0,
+        "speed": 0.7808118256951577,
+        "house": 5,
+        "sign": "Gemini",
+        "signDegree": 11.3,
+        "nakshatra": "Purva Bhadrapada",
+        "nakshatraPada": 3,
+        "isRetrograde": false,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Mercury",
+        "longitude": 262.65120585711327,
+        "latitude": 0,
+        "speed": 1.836723486553339,
+        "house": 11,
+        "sign": "Sagittarius",
+        "signDegree": 22.65,
+        "nakshatra": "Shatabhisha",
+        "nakshatraPada": 1,
+        "isRetrograde": false,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Jupiter",
+        "longitude": 273.53411980576624,
+        "latitude": 0,
+        "speed": 0.2409395997550993,
+        "house": 12,
+        "sign": "Capricorn",
+        "signDegree": 3.533333333333333,
+        "nakshatra": "Shatabhisha",
+        "nakshatraPada": 2,
+        "isRetrograde": false,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Venus",
+        "longitude": 263.86780640792597,
+        "latitude": 0,
+        "speed": 0.5339553118107272,
+        "house": 11,
+        "sign": "Sagittarius",
+        "signDegree": 23.866666666666667,
+        "nakshatra": "Uttara Ashadha",
+        "nakshatraPada": 1,
+        "isRetrograde": false,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Saturn",
+        "longitude": 301.77470312415574,
+        "latitude": 0,
+        "speed": 0.10264304283663706,
+        "house": 1,
+        "sign": "Aquarius",
+        "signDegree": 1.7666666666666666,
+        "nakshatra": "Revati",
+        "nakshatraPada": 3,
+        "isRetrograde": false,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Rahu",
+        "longitude": 154.24279337854972,
+        "latitude": 0,
+        "speed": -0.05299202086778316,
+        "house": 8,
+        "sign": "Virgo",
+        "signDegree": 4.233333333333333,
+        "nakshatra": "Purva Phalguni",
+        "nakshatraPada": 2,
+        "isRetrograde": true,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Uranus",
+        "longitude": 56.37670174638333,
+        "latitude": 0,
+        "speed": 0.05492210623928784,
+        "house": 4,
+        "sign": "Taurus",
+        "signDegree": 26.366666666666667,
+        "nakshatra": "Shravana",
+        "nakshatraPada": 2,
+        "isRetrograde": false,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Neptune",
+        "longitude": 333.26092429373887,
+        "latitude": 0,
+        "speed": 0.03324936917646641,
+        "house": 2,
+        "sign": "Pisces",
+        "signDegree": 3.25,
+        "nakshatra": "Uttara Ashadha",
+        "nakshatraPada": 4,
+        "isRetrograde": false,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Pluto",
+        "longitude": 217.33386826432337,
+        "latitude": 0,
+        "speed": 0.009939249889809123,
+        "house": 10,
+        "sign": "Scorpio",
+        "signDegree": 7.333333333333333,
+        "nakshatra": "Anuradha",
+        "nakshatraPada": 4,
+        "isRetrograde": false,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Ketu",
+        "longitude": 334.2427933785497,
+        "latitude": 0,
+        "speed": -0.05299202086778316,
+        "house": 2,
+        "sign": "Pisces",
+        "signDegree": 4.233333333333333,
+        "nakshatra": "Shatabhisha",
+        "nakshatraPada": 4,
+        "isRetrograde": true,
+        "isCombust": false,
+        "dignity": "neutral"
+      }
+    ]
+  },
+  "d60A": {
+    "ascendant": "Aquarius",
+    "houses": [
+      {
+        "houseNumber": 1,
+        "sign": "Aquarius",
+        "cuspLongitude": 300,
+        "planets": [
+          "Moon",
+          "Mars",
+          "Venus"
+        ],
+        "lord": "Saturn"
+      },
+      {
+        "houseNumber": 2,
+        "sign": "Pisces",
+        "cuspLongitude": 330,
+        "planets": [],
+        "lord": "Jupiter"
+      },
+      {
+        "houseNumber": 3,
+        "sign": "Aries",
+        "cuspLongitude": 0,
+        "planets": [],
+        "lord": "Mars"
+      },
+      {
+        "houseNumber": 4,
+        "sign": "Taurus",
+        "cuspLongitude": 30,
+        "planets": [
+          "Sun",
+          "Rahu"
+        ],
+        "lord": "Venus"
+      },
+      {
+        "houseNumber": 5,
+        "sign": "Gemini",
+        "cuspLongitude": 60,
+        "planets": [
+          "Uranus"
+        ],
+        "lord": "Mercury"
+      },
+      {
+        "houseNumber": 6,
+        "sign": "Cancer",
+        "cuspLongitude": 90,
+        "planets": [
+          "Jupiter",
+          "Saturn"
+        ],
+        "lord": "Moon"
+      },
+      {
+        "houseNumber": 7,
+        "sign": "Leo",
+        "cuspLongitude": 120,
+        "planets": [
+          "Pluto"
+        ],
+        "lord": "Sun"
+      },
+      {
+        "houseNumber": 8,
+        "sign": "Virgo",
+        "cuspLongitude": 150,
+        "planets": [
+          "Neptune"
+        ],
+        "lord": "Mercury"
+      },
+      {
+        "houseNumber": 9,
+        "sign": "Libra",
+        "cuspLongitude": 180,
+        "planets": [
+          "Mercury"
+        ],
+        "lord": "Venus"
+      },
+      {
+        "houseNumber": 10,
+        "sign": "Scorpio",
+        "cuspLongitude": 210,
+        "planets": [
+          "Ketu"
+        ],
+        "lord": "Mars"
+      },
+      {
+        "houseNumber": 11,
+        "sign": "Sagittarius",
+        "cuspLongitude": 240,
+        "planets": [],
+        "lord": "Jupiter"
+      },
+      {
+        "houseNumber": 12,
+        "sign": "Capricorn",
+        "cuspLongitude": 270,
+        "planets": [],
+        "lord": "Saturn"
+      }
+    ],
+    "planetaryPositions": [
+      {
+        "planet": "Sun",
+        "longitude": 54.713612017273476,
+        "latitude": 0,
+        "speed": 0.9813355799081247,
+        "house": 4,
+        "sign": "Taurus",
+        "signDegree": 24.7,
+        "nakshatra": "Hasta",
+        "nakshatraPada": 1,
+        "isRetrograde": false,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Moon",
+        "longitude": 312.3296796312975,
+        "latitude": 0,
+        "speed": 14.072725781847325,
+        "house": 1,
+        "sign": "Aquarius",
+        "signDegree": 12.316666666666666,
+        "nakshatra": "Vishakha",
+        "nakshatraPada": 1,
+        "isRetrograde": false,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Mars",
+        "longitude": 301.4069180942324,
+        "latitude": 0,
+        "speed": 0.6872227863999659,
+        "house": 1,
+        "sign": "Aquarius",
+        "signDegree": 1.4,
+        "nakshatra": "Vishakha",
+        "nakshatraPada": 1,
+        "isRetrograde": false,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Mercury",
+        "longitude": 189.96394714252347,
+        "latitude": 0,
+        "speed": -0.6463150283919616,
+        "house": 9,
+        "sign": "Libra",
+        "signDegree": 9.95,
+        "nakshatra": "Chitra",
+        "nakshatraPada": 1,
+        "isRetrograde": true,
+        "isCombust": false,
+        "dignity": "exalted"
+      },
+      {
+        "planet": "Jupiter",
+        "longitude": 100.56171305468467,
+        "latitude": 0,
+        "speed": 0.14777109174667236,
+        "house": 6,
+        "sign": "Cancer",
+        "signDegree": 10.55,
+        "nakshatra": "Anuradha",
+        "nakshatraPada": 4,
+        "isRetrograde": false,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Venus",
+        "longitude": 307.34176115347236,
+        "latitude": 0,
+        "speed": 1.24418218285452,
+        "house": 1,
+        "sign": "Aquarius",
+        "signDegree": 7.333333333333333,
+        "nakshatra": "Hasta",
+        "nakshatraPada": 4,
+        "isRetrograde": false,
+        "isCombust": false,
+        "dignity": "debilitated"
+      },
+      {
+        "planet": "Saturn",
+        "longitude": 92.30114036777422,
+        "latitude": 0,
+        "speed": -0.07363650657161364,
+        "house": 6,
+        "sign": "Cancer",
+        "signDegree": 2.3,
+        "nakshatra": "Purva Bhadrapada",
+        "nakshatraPada": 2,
+        "isRetrograde": true,
+        "isCombust": false,
+        "dignity": "own"
+      },
+      {
+        "planet": "Rahu",
+        "longitude": 40.78784721161753,
+        "latitude": 0,
+        "speed": -0.05299202931858891,
+        "house": 4,
+        "sign": "Taurus",
+        "signDegree": 10.783333333333333,
+        "nakshatra": "Chitra",
+        "nakshatraPada": 4,
+        "isRetrograde": true,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Uranus",
+        "longitude": 75.47840552422144,
+        "latitude": 0,
+        "speed": -0.007292696572491922,
+        "house": 5,
+        "sign": "Gemini",
+        "signDegree": 15.466666666666667,
+        "nakshatra": "Uttara Ashadha",
+        "nakshatraPada": 2,
+        "isRetrograde": true,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Neptune",
+        "longitude": 179.35793216210982,
+        "latitude": 0,
+        "speed": -0.004049759436137395,
+        "house": 8,
+        "sign": "Virgo",
+        "signDegree": 29.35,
+        "nakshatra": "Uttara Ashadha",
+        "nakshatraPada": 1,
+        "isRetrograde": true,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Pluto",
+        "longitude": 132.34324514344735,
+        "latitude": 0,
+        "speed": 0.026440193906354794,
+        "house": 7,
+        "sign": "Leo",
+        "signDegree": 12.333333333333334,
+        "nakshatra": "Anuradha",
+        "nakshatraPada": 1,
+        "isRetrograde": false,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Ketu",
+        "longitude": 220.78784721161583,
+        "latitude": 0,
+        "speed": -0.05299202931858891,
+        "house": 10,
+        "sign": "Scorpio",
+        "signDegree": 10.783333333333333,
+        "nakshatra": "Ashwini",
+        "nakshatraPada": 2,
+        "isRetrograde": true,
+        "isCombust": false,
+        "dignity": "neutral"
+      }
+    ]
+  },
+  "d60B": {
+    "ascendant": "Libra",
+    "houses": [
+      {
+        "houseNumber": 1,
+        "sign": "Libra",
+        "cuspLongitude": 180,
+        "planets": [
+          "Jupiter",
+          "Venus"
+        ],
+        "lord": "Venus"
+      },
+      {
+        "houseNumber": 2,
+        "sign": "Scorpio",
+        "cuspLongitude": 210,
+        "planets": [],
+        "lord": "Mars"
+      },
+      {
+        "houseNumber": 3,
+        "sign": "Sagittarius",
+        "cuspLongitude": 240,
+        "planets": [
+          "Ketu"
+        ],
+        "lord": "Jupiter"
+      },
+      {
+        "houseNumber": 4,
+        "sign": "Capricorn",
+        "cuspLongitude": 270,
+        "planets": [],
+        "lord": "Saturn"
+      },
+      {
+        "houseNumber": 5,
+        "sign": "Aquarius",
+        "cuspLongitude": 300,
+        "planets": [
+          "Saturn"
+        ],
+        "lord": "Saturn"
+      },
+      {
+        "houseNumber": 6,
+        "sign": "Pisces",
+        "cuspLongitude": 330,
+        "planets": [
+          "Neptune",
+          "Pluto"
+        ],
+        "lord": "Jupiter"
+      },
+      {
+        "houseNumber": 7,
+        "sign": "Aries",
+        "cuspLongitude": 0,
+        "planets": [
+          "Moon"
+        ],
+        "lord": "Mars"
+      },
+      {
+        "houseNumber": 8,
+        "sign": "Taurus",
+        "cuspLongitude": 30,
+        "planets": [],
+        "lord": "Venus"
+      },
+      {
+        "houseNumber": 9,
+        "sign": "Gemini",
+        "cuspLongitude": 60,
+        "planets": [
+          "Rahu"
+        ],
+        "lord": "Mercury"
+      },
+      {
+        "houseNumber": 10,
+        "sign": "Cancer",
+        "cuspLongitude": 90,
+        "planets": [],
+        "lord": "Moon"
+      },
+      {
+        "houseNumber": 11,
+        "sign": "Leo",
+        "cuspLongitude": 120,
+        "planets": [
+          "Sun",
+          "Mercury"
+        ],
+        "lord": "Sun"
+      },
+      {
+        "houseNumber": 12,
+        "sign": "Virgo",
+        "cuspLongitude": 150,
+        "planets": [
+          "Mars",
+          "Uranus"
+        ],
+        "lord": "Mercury"
+      }
+    ],
+    "planetaryPositions": [
+      {
+        "planet": "Sun",
+        "longitude": 144.4742193983609,
+        "latitude": 0,
+        "speed": 1.007428509191742,
+        "house": 11,
+        "sign": "Leo",
+        "signDegree": 24.466666666666665,
+        "nakshatra": "Shatabhisha",
+        "nakshatraPada": 1,
+        "isRetrograde": false,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Moon",
+        "longitude": 6.139328393288679,
+        "latitude": 0,
+        "speed": 13.248649971876876,
+        "house": 7,
+        "sign": "Aries",
+        "signDegree": 6.133333333333334,
+        "nakshatra": "Mula",
+        "nakshatraPada": 3,
+        "isRetrograde": false,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Mars",
+        "longitude": 175.4043914281192,
+        "latitude": 0,
+        "speed": 0.7808118256951577,
+        "house": 12,
+        "sign": "Virgo",
+        "signDegree": 25.4,
+        "nakshatra": "Purva Bhadrapada",
+        "nakshatraPada": 3,
+        "isRetrograde": false,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Mercury",
+        "longitude": 131.0080390474218,
+        "latitude": 0,
+        "speed": 1.836723486553339,
+        "house": 11,
+        "sign": "Leo",
+        "signDegree": 11,
+        "nakshatra": "Shatabhisha",
+        "nakshatraPada": 1,
+        "isRetrograde": false,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Jupiter",
+        "longitude": 203.56079870510825,
+        "latitude": 0,
+        "speed": 0.2409395997550993,
+        "house": 1,
+        "sign": "Libra",
+        "signDegree": 23.55,
+        "nakshatra": "Shatabhisha",
+        "nakshatraPada": 2,
+        "isRetrograde": false,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Venus",
+        "longitude": 199.11870938617312,
+        "latitude": 0,
+        "speed": 0.5339553118107272,
+        "house": 1,
+        "sign": "Libra",
+        "signDegree": 19.116666666666667,
+        "nakshatra": "Uttara Ashadha",
+        "nakshatraPada": 1,
+        "isRetrograde": false,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Saturn",
+        "longitude": 301.83135416103823,
+        "latitude": 0,
+        "speed": 0.10264304283663706,
+        "house": 5,
+        "sign": "Aquarius",
+        "signDegree": 1.8166666666666667,
+        "nakshatra": "Revati",
+        "nakshatraPada": 3,
+        "isRetrograde": false,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Rahu",
+        "longitude": 68.28528919033147,
+        "latitude": 0,
+        "speed": -0.05299202086778316,
+        "house": 9,
+        "sign": "Gemini",
+        "signDegree": 8.283333333333333,
+        "nakshatra": "Purva Phalguni",
+        "nakshatraPada": 2,
+        "isRetrograde": true,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Uranus",
+        "longitude": 165.84467830922222,
+        "latitude": 0,
+        "speed": 0.05492210623928784,
+        "house": 12,
+        "sign": "Virgo",
+        "signDegree": 15.833333333333334,
+        "nakshatra": "Shravana",
+        "nakshatraPada": 2,
+        "isRetrograde": false,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Neptune",
+        "longitude": 331.73949529159245,
+        "latitude": 0,
+        "speed": 0.03324936917646641,
+        "house": 6,
+        "sign": "Pisces",
+        "signDegree": 1.7333333333333334,
+        "nakshatra": "Uttara Ashadha",
+        "nakshatraPada": 4,
+        "isRetrograde": false,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Pluto",
+        "longitude": 338.89245509548914,
+        "latitude": 0,
+        "speed": 0.009939249889809123,
+        "house": 6,
+        "sign": "Pisces",
+        "signDegree": 8.883333333333333,
+        "nakshatra": "Anuradha",
+        "nakshatraPada": 4,
+        "isRetrograde": false,
+        "isCombust": false,
+        "dignity": "neutral"
+      },
+      {
+        "planet": "Ketu",
+        "longitude": 248.28528919033147,
+        "latitude": 0,
+        "speed": -0.05299202086778316,
+        "house": 3,
+        "sign": "Sagittarius",
+        "signDegree": 8.283333333333333,
+        "nakshatra": "Shatabhisha",
+        "nakshatraPada": 4,
+        "isRetrograde": true,
+        "isCombust": false,
+        "dignity": "neutral"
+      }
+    ]
+  }
+}

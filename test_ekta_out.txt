@@ -1,0 +1,116 @@
+[SwissEph] Loading WASM from disk: C:\Users\Rahul.Govalkar\Documents\Personal\MarriageAstro-main\MarriageAstro-main\public\swisseph.wasm
+[SwissEph] Initialization successful!
+Overall Score: 43
+Verdict: challenging
+Promise A (Self): complicated
+Promise B (Partner): denied
+Pillars: {
+  "stability": {
+    "score": 71,
+    "label": "Stability & Foundation",
+    "explanation": "Synthesizes Divorce Risks, Infidelity vulnerabilities, Mental Health patterns, Addiction indicators, In-Law stress, and Modern challenges.",
+    "status": "neutral",
+    "breakdown": [
+      {
+        "name": "Marital Stability",
+        "score": 40
+      },
+      {
+        "name": "Fidelity & Loyalty",
+        "score": 76
+      },
+      {
+        "name": "Emotional Resilience",
+        "score": 95
+      },
+      {
+        "name": "Lifestyle Stability",
+        "score": 84
+      },
+      {
+        "name": "In-Law Harmony",
+        "score": 50
+      },
+      {
+        "name": "Modern Adaptability",
+        "score": 100
+      }
+    ]
+  },
+  "interaction": {
+    "score": 60,
+    "label": "Dynamics & Interaction",
+    "explanation": "Analyzes Planet-to-Planet Synastry, House Overlays, and Sexual/Biological Compatibility.",
+    "status": "neutral",
+    "breakdown": [
+      {
+        "name": "Synastry (Aspects)",
+        "score": 40
+      },
+      {
+        "name": "House Overlays",
+        "score": 100
+      },
+      {
+        "name": "Sexual Vitality",
+        "score": 50
+      }
+    ]
+  },
+  "soul": {
+    "score": 58,
+    "label": "Soul & Destiny Bond",
+    "explanation": "Synthesis of KP Promise, Jaimini Soul resonance, and Yoga/Dosha strength.",
+    "status": "neutral",
+    "breakdown": [
+      {
+        "name": "KP Marriage Promise",
+        "score": 35
+      },
+      {
+        "name": "Jaimini Soul Contact",
+        "score": 90
+      },
+      {
+        "name": "Yoga/Dosha Strength",
+        "score": 50
+      }
+    ]
+  },
+  "tradition": {
+    "score": 51,
+    "label": "Tradition",
+    "explanation": "Ashtakoot Milan & Manglik Analysis (Aushadha/Porutham vibrational matching).",
+    "status": "neutral",
+    "breakdown": [
+      {
+        "name": "Guna Milan (36 Points)",
+        "score": 46
+      },
+      {
+        "name": "Manglik Compatibility",
+        "score": 50
+      },
+      {
+        "name": "Porutham (11 Params)",
+        "score": 62
+      }
+    ]
+  },
+  "promise": {
+    "score": 35,
+    "label": "Promise",
+    "explanation": "KP Sub-Lord analysis of the 7th Cusp determining the fixed structural success of the bond.",
+    "status": "challenging",
+    "breakdown": [
+      {
+        "name": "Self Promise (7th CSL)",
+        "score": 50
+      },
+      {
+        "name": "Partner Promise (7th CSL)",
+        "score": 20
+      }
+    ]
+  }
+}

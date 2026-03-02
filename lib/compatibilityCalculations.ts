@@ -120,7 +120,11 @@ export function calculateAshtakootMilan(chartA: Chart, chartB: Chart): Ashtakoot
     manglikAnalysis: {
       partnerA: manglikA,
       partnerB: manglikB,
-      compatibility: (manglikA.isManglik === manglikB.isManglik) ? 'High (Balanced)' : 'Low (Potential Clash)'
+      compatibility: (() => {
+        if (manglikA.isManglik === manglikB.isManglik) return 'High (Balanced)';
+        if ((manglikA.isManglik && manglikA.isCancelled) || (manglikB.isManglik && manglikB.isCancelled)) return 'Moderate (Dosha Cancelled)';
+        return 'Low (Potential Clash)';
+      })()
     }
   };
 }
