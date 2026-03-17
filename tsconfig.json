@@ -55,7 +55,8 @@
   },
   "include": [
     "src",
-    "lib"
+    "lib",
+    "scripts"
   ],
   "exclude": [
     "**/*.test.ts",
