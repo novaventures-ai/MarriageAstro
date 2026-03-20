@@ -65,6 +65,13 @@ CREATE TABLE IF NOT EXISTS partner_comparisons (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- Performance Indexes
+CREATE INDEX IF NOT EXISTS idx_partners_user_id ON partners(user_id);
+CREATE INDEX IF NOT EXISTS idx_compatibility_reports_user_id ON compatibility_reports(user_id);
+CREATE INDEX IF NOT EXISTS idx_compatibility_reports_created_at ON compatibility_reports(user_id, created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_birth_charts_user_id ON birth_charts(user_id);
+CREATE INDEX IF NOT EXISTS idx_partner_comparisons_user_id ON partner_comparisons(user_id);
+
 -- Enable RLS (Row Level Security)
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE partners ENABLE ROW LEVEL SECURITY;
