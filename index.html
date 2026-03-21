@@ -235,7 +235,187 @@
     </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Static content for crawlers & AI engines. React replaces this on mount. -->
+      <div style="max-width:960px;margin:0 auto;padding:2rem 1.5rem;font-family:system-ui,-apple-system,sans-serif;color:#1f2937;line-height:1.7">
+
+        <header style="text-align:center;padding:3rem 0 2rem">
+          <h1 style="font-size:2.5rem;background:linear-gradient(135deg,#4f46e5,#9333ea,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:0">Astro Marriage</h1>
+          <p style="font-size:1.25rem;color:#6b7280;margin:0.5rem 0 0">Free Vedic Kundali Matching &amp; Marriage Compatibility Analysis</p>
+        </header>
+
+        <!-- What is Astro Marriage -->
+        <section>
+          <h2>What is Astro Marriage?</h2>
+          <p>Astro Marriage is a <strong>free, privacy-first Vedic astrology platform</strong> that analyzes birth charts (Kundali / Janam Patri) to assess marriage compatibility, predict marriage timing, describe future spouse characteristics, and provide personalized remedies. Unlike basic matching tools, it combines <strong>four classical Vedic systems</strong> — Parashari, KP (Krishnamurti Paddhati), Jaimini, and Bhrigu Nandi Nadi — for deeply accurate analysis. All planetary calculations use the <strong>Swiss Ephemeris (JPL DE431 accuracy)</strong> compiled to WebAssembly and run entirely in your browser — no birth data is ever sent to a server.</p>
+        </section>
+
+        <!-- Two Analysis Modes -->
+        <section>
+          <h2>Two Analysis Modes</h2>
+          <h3>1. Self Analysis — Individual Marriage Report</h3>
+          <p>Enter your birth details (date, time, place) to receive a comprehensive marriage readiness report covering:</p>
+          <ul>
+            <li><strong>Marriage Timing Prediction</strong> — Favorable marriage windows identified using Vimshottari Dasha, Jupiter-Saturn transits, KP sub-lord 2-7-11 rule, Jaimini Chara Dasha, and Navamsa (D9) confirmation. When 3+ systems converge, a high-probability window is identified.</li>
+            <li><strong>Spouse Characteristics Prediction</strong> — Physical traits, personality, profession, and likely direction of spouse predicted from the 7th house lord, Darakaraka (Jaimini), and Upapada Lagna analysis.</li>
+            <li><strong>Mangal Dosha Assessment</strong> — Triple-check from Lagna, Moon, and Venus across houses 1, 4, 7, 8, 12 with 15+ cancellation rules applied automatically. Only ~10-15% of charts have truly active dosha after all rules.</li>
+            <li><strong>Marriage Readiness Score</strong> — 7th house strength, Navamsa quality, Dasha support, expected marriage age range, and marriage quality prediction.</li>
+            <li><strong>Psychological Profile</strong> — Emotional intelligence, attachment patterns, communication style, conflict resolution tendency, and love language assessment.</li>
+            <li><strong>Personalized Remedies</strong> — Gemstone recommendations (based on planetary weakness), Lal Kitab remedies, mantra suggestions, and lifestyle guidance.</li>
+          </ul>
+
+          <h3>2. Compatibility Check — Kundali Matching for Two People</h3>
+          <p>Enter birth details of both partners to receive a full compatibility report with 15+ analysis widgets:</p>
+          <ul>
+            <li><strong>Ashtakoot Milan (36-point scoring)</strong> — All 8 Kootas evaluated with dosha detection and cancellation rules.</li>
+            <li><strong>Synastry Analysis</strong> — Cross-chart planet aspects: Venus-Mars (passion), Moon-Moon (emotional bond), Jupiter-Moon (soulmate indicators), Saturn connections (karmic bonds), and house overlays.</li>
+            <li><strong>Sexual Compatibility</strong> — 14 Yoni animal types with compatibility matrix, drive assessment, and intimacy compatibility scoring.</li>
+            <li><strong>Risk Radar</strong> — Divorce probability (0-100 scale), infidelity risk, multiple marriage indicators, and protective buffers.</li>
+            <li><strong>Psychological Compatibility</strong> — Personality matching, conflict zone prediction, and vulnerability timeline.</li>
+            <li><strong>AI-Powered Insights</strong> — Google Gemini generates natural language interpretation of every analysis section.</li>
+          </ul>
+        </section>
+
+        <!-- Ashtakoot Milan Explained -->
+        <section>
+          <h2>Ashtakoot Milan — The 36-Point Compatibility System</h2>
+          <p>Ashtakoot Milan (also called Gun Milan) is the traditional Vedic method for evaluating marriage compatibility. It scores 8 dimensions (Kootas) based on the Moon's Nakshatra placement in each partner's chart:</p>
+          <table style="width:100%;border-collapse:collapse;margin:1rem 0">
+            <thead><tr style="background:#f3f4f6;text-align:left">
+              <th style="padding:0.75rem;border:1px solid #e5e7eb">Koota</th>
+              <th style="padding:0.75rem;border:1px solid #e5e7eb">Points</th>
+              <th style="padding:0.75rem;border:1px solid #e5e7eb">What It Measures</th>
+            </tr></thead>
+            <tbody>
+              <tr><td style="padding:0.75rem;border:1px solid #e5e7eb">Varna</td><td style="padding:0.75rem;border:1px solid #e5e7eb">1</td><td style="padding:0.75rem;border:1px solid #e5e7eb">Spiritual and ego compatibility — Brahmin, Kshatriya, Vaishya, Shudra classification</td></tr>
+              <tr><td style="padding:0.75rem;border:1px solid #e5e7eb">Vashya</td><td style="padding:0.75rem;border:1px solid #e5e7eb">2</td><td style="padding:0.75rem;border:1px solid #e5e7eb">Mutual attraction and dominance — who influences whom in the relationship</td></tr>
+              <tr><td style="padding:0.75rem;border:1px solid #e5e7eb">Tara</td><td style="padding:0.75rem;border:1px solid #e5e7eb">3</td><td style="padding:0.75rem;border:1px solid #e5e7eb">Destiny and health compatibility — based on Nakshatra count (9 Taras cycle)</td></tr>
+              <tr><td style="padding:0.75rem;border:1px solid #e5e7eb">Yoni</td><td style="padding:0.75rem;border:1px solid #e5e7eb">4</td><td style="padding:0.75rem;border:1px solid #e5e7eb">Physical and sexual compatibility — 14 animal Yoni types with compatibility matrix</td></tr>
+              <tr><td style="padding:0.75rem;border:1px solid #e5e7eb">Graha Maitri</td><td style="padding:0.75rem;border:1px solid #e5e7eb">5</td><td style="padding:0.75rem;border:1px solid #e5e7eb">Mental and intellectual compatibility — friendship between Moon sign lords</td></tr>
+              <tr><td style="padding:0.75rem;border:1px solid #e5e7eb">Gana</td><td style="padding:0.75rem;border:1px solid #e5e7eb">6</td><td style="padding:0.75rem;border:1px solid #e5e7eb">Temperament matching — Deva (divine), Manushya (human), Rakshasa (demon)</td></tr>
+              <tr><td style="padding:0.75rem;border:1px solid #e5e7eb">Bhakoot</td><td style="padding:0.75rem;border:1px solid #e5e7eb">7</td><td style="padding:0.75rem;border:1px solid #e5e7eb">Emotional compatibility, love, prosperity, and family happiness</td></tr>
+              <tr><td style="padding:0.75rem;border:1px solid #e5e7eb">Nadi</td><td style="padding:0.75rem;border:1px solid #e5e7eb">8</td><td style="padding:0.75rem;border:1px solid #e5e7eb">Genetic and health compatibility — Vata, Pitta, Kapha constitution matching</td></tr>
+            </tbody>
+          </table>
+          <p><strong>Score interpretation:</strong> Below 18/36 — not recommended. 18-24 — acceptable. 25-30 — good match. 31-36 — excellent compatibility. Astro Marriage also applies <strong>Nadi Dosha, Bhakoot Dosha, and Gana Dosha cancellation rules</strong> that reduce false negatives by up to 40% compared to basic calculators.</p>
+        </section>
+
+        <!-- Marriage Timing -->
+        <section>
+          <h2>Marriage Timing Prediction — 5 Methods Combined</h2>
+          <p>Astro Marriage uses a <strong>multi-system convergence approach</strong> — when 3 or more methods agree on a time period, it creates a high-probability marriage window:</p>
+          <ol>
+            <li><strong>Vimshottari Dasha (120-year planetary cycle)</strong> — Venus Mahadasha/Antardasha, 7th lord activation, and marriage-triggering planetary periods like Rahu-Venus or Jupiter-Venus combinations.</li>
+            <li><strong>Jupiter-Saturn Transits</strong> — Jupiter's 12-year cycle over natal Venus and 7th house opens possibility; Saturn's 29.5-year transit aspects materialize it.</li>
+            <li><strong>KP Sub-Lord System (249-point precision)</strong> — 7th Cuspal Sub Lord signifying houses 2, 7, 11 confirms marriage is promised. Ruling planets narrow timing to specific months.</li>
+            <li><strong>Jaimini Chara Dasha</strong> — Sign-based Dasha system activating Darakaraka and Upapada Lagna for an alternative timing lens.</li>
+            <li><strong>Navamsa (D9) Confirmation</strong> — The marriage divisional chart validates D1 timing indicators.</li>
+          </ol>
+        </section>
+
+        <!-- Mangal Dosha -->
+        <section>
+          <h2>Mangal Dosha (Manglik) — Beyond the Myth</h2>
+          <p>Mangal Dosha occurs when Mars is in the 1st, 4th, 7th, 8th, or 12th house from the Ascendant, Moon, or Venus. While ~40% of people have some form, Astro Marriage applies <strong>15+ classical cancellation rules</strong> automatically — only 10-15% have truly active dosha after analysis. Cancellations include: Mars in own sign (Aries/Scorpio), Mars exalted (Capricorn), Jupiter aspecting Mars, both partners being Manglik (mutual cancellation), and house-specific exceptions from Brihat Parashara Hora Shastra.</p>
+        </section>
+
+        <!-- Advanced Analysis -->
+        <section>
+          <h2>Advanced Analysis Features</h2>
+          <ul>
+            <li><strong>Divisional Charts</strong> — Rashi (D1), Navamsa (D9), Saptamsa (D7 — children), Dasamsa (D10 — career impact on marriage), and more.</li>
+            <li><strong>KP Astrology Widget</strong> — 7th Cuspal Sub Lord analysis, 4-fold significator chain (Planet → Star lord → Sub lord → Sign lord), and 2-7-11 rule validation.</li>
+            <li><strong>Jaimini System</strong> — Darakaraka (lowest-degree planet = spouse significator), Upapada Lagna for marriage stability, Chara Dasha timing, and Vivah Saham activation.</li>
+            <li><strong>Partner Comparison Tool</strong> — Add multiple potential partners and compare all compatibility reports side-by-side with AI-powered ranking across 13+ analysis dimensions.</li>
+            <li><strong>AI Matchmaking Engine</strong> — Weighted scoring: Dosha Analysis (20%), Risk Profile (35%), Ashtakoot (12%), Sexual Compatibility (10%), Psychological (8%), Extended Analysis (7%), Timing (5%), Remedies (3%).</li>
+            <li><strong>AstroMind Chat</strong> — AI chatbot (Google Gemini) answers personalized questions about your chart in real time.</li>
+            <li><strong>Mental Health &amp; Wellness</strong> — Depression/anxiety indicators, addiction risk assessment, emotional stability scoring, and relationship pattern analysis from the birth chart.</li>
+          </ul>
+        </section>
+
+        <!-- How It Works -->
+        <section>
+          <h2>How It Works</h2>
+          <ol>
+            <li><strong>Enter Birth Details</strong> — Date, time, and place of birth. Google Maps autocomplete helps find your exact location, and timezone is auto-detected.</li>
+            <li><strong>Instant Chart Calculation</strong> — Swiss Ephemeris (WASM) calculates precise planetary positions for all 9 Vedic planets and 27 Nakshatras in under 500ms, entirely in your browser.</li>
+            <li><strong>Multi-System Analysis</strong> — Parashari, KP, Jaimini, and Bhrigu Nandi Nadi systems run simultaneously to produce 15+ analysis widgets.</li>
+            <li><strong>AI-Generated Insights</strong> — Google Gemini interprets raw calculations into clear, actionable guidance in natural language.</li>
+            <li><strong>Save &amp; Compare</strong> — Dashboard lets you save profiles, manage partners, archive reports, and compare multiple matches.</li>
+          </ol>
+        </section>
+
+        <!-- Key Facts -->
+        <section>
+          <h2>Key Facts</h2>
+          <ul>
+            <li><strong>9 Vedic Planets</strong> — Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn, Rahu, Ketu (Navagraha)</li>
+            <li><strong>27 Nakshatras</strong> — All lunar mansions analyzed with 108 Padas and 14 animal Yoni types</li>
+            <li><strong>12 Houses</strong> — Complete Bhava analysis with 7th house (marriage) as primary focus</li>
+            <li><strong>4 Vedic Systems</strong> — Parashari + KP Astrology + Jaimini + Bhrigu Nandi Nadi</li>
+            <li><strong>Swiss Ephemeris</strong> — JPL DE431-grade planetary precision (arc-second accuracy, 5400 BC to 5400 AD)</li>
+            <li><strong>100% Free</strong> — Self analysis, compatibility matching, partner comparison, all free</li>
+            <li><strong>100% Private</strong> — All calculations run client-side in WebAssembly, no birth data sent to servers</li>
+          </ul>
+        </section>
+
+        <!-- FAQ Section -->
+        <section>
+          <h2>Frequently Asked Questions</h2>
+
+          <h3>What is Kundali matching (Gun Milan)?</h3>
+          <p class="faq-answer">Kundali matching, also known as Gun Milan or Ashtakoot Milan, is a Vedic astrology method that compares two birth charts to assess marriage compatibility. It scores 8 aspects (gunas) across 36 points covering temperament (Varna), dominance (Vashya), destiny (Tara), sexual compatibility (Yoni), mental compatibility (Graha Maitri), nature (Gana), health/wealth (Bhakoot), and genetic compatibility (Nadi).</p>
+
+          <h3>How many points are needed for a good Kundali match?</h3>
+          <p class="faq-answer">In Ashtakoot Milan, a score of 18 or above out of 36 is considered acceptable for marriage. Scores above 24 are good, and above 30 is excellent. However, overall compatibility also depends on Mangal Dosha status, Nadi Dosha cancellation, synastry aspects, and timing alignment.</p>
+
+          <h3>Can astrology predict marriage timing?</h3>
+          <p class="faq-answer">Vedic astrology uses multiple systems to predict favorable marriage periods. The Vimshottari Dasha system (120-year planetary cycle) identifies when Venus, the 7th house lord, or Jupiter are active. Jupiter-Saturn transits over marriage houses open windows. KP Astrology's sub-lord system can narrow timing to specific months. When 3+ methods converge, the prediction confidence is highest.</p>
+
+          <h3>What is Mangal Dosha and does it really matter?</h3>
+          <p class="faq-answer">Mangal Dosha (Kuja Dosha) occurs when Mars is placed in the 1st, 4th, 7th, 8th, or 12th house from the Ascendant, Moon, or Venus. While ~40% of people have some form, 15+ cancellation rules exist — Mars in own sign, Mars exalted, Jupiter aspecting Mars, both partners being Manglik, and many more. After applying all rules, only ~10-15% have truly active dosha.</p>
+
+          <h3>What makes Astro Marriage different from other Kundali matching tools?</h3>
+          <p class="faq-answer">Astro Marriage combines 4 Vedic systems (Parashari, KP, Jaimini, Bhrigu Nandi Nadi) instead of just basic Ashtakoot matching. It provides AI-generated insights, spouse prediction using Darakaraka analysis, multi-system marriage timing convergence, 15+ Mangal Dosha cancellation rules, sexual compatibility analysis, divorce/infidelity risk assessment, psychological profiling, and a partner comparison tool — all using Swiss Ephemeris (JPL DE431 accuracy) running entirely in your browser.</p>
+
+          <h3>Is Astro Marriage free to use?</h3>
+          <p class="faq-answer">Yes, Astro Marriage is completely free. You can generate birth charts, check marriage compatibility using Ashtakoot Milan, get marriage timing predictions, compare multiple partner charts, and receive AI-powered insights at no cost. No sign-up is required for basic analysis.</p>
+
+          <h3>Is my birth data safe?</h3>
+          <p class="faq-answer">Yes. All astrological calculations run client-side in your browser using Swiss Ephemeris compiled to WebAssembly. Your birth data is never sent to any server for calculations. If you create an account to save reports, data is stored securely in Supabase with encryption.</p>
+        </section>
+
+        <!-- Classical References -->
+        <section>
+          <h2>Classical References</h2>
+          <ul>
+            <li><em>Brihat Parashara Hora Shastra</em> — Maharishi Parashara (foundation of Parashari astrology)</li>
+            <li><em>Jataka Parijata</em> — Vaidyanatha Dikshita (marriage compatibility principles)</li>
+            <li><em>Muhurta Chintamani</em> — Daivagna Rama (electional astrology for marriage timing)</li>
+            <li><em>Krishnamurti Paddhati Reader</em> — Prof. K.S. Krishnamurti (KP sub-lord system)</li>
+            <li><em>Jaimini Sutras</em> — Maharishi Jaimini (Chara Karakas, Upapada Lagna)</li>
+            <li><em>Lal Kitab</em> — Pt. Roop Chand Joshi (remedial measures)</li>
+          </ul>
+        </section>
+
+        <!-- Guides -->
+        <section>
+          <h2>In-Depth Guides</h2>
+          <ul>
+            <li><a href="/how-it-works">How Vedic Kundali Matching Works — Methodology &amp; Calculations</a></li>
+            <li><a href="/guides/ashtakoot-milan">Ashtakoot Milan — Complete Guide to 36-Point Kundali Matching</a></li>
+            <li><a href="/guides/marriage-timing">Marriage Timing Prediction in Vedic Astrology</a></li>
+            <li><a href="/guides/mangal-dosha">Mangal Dosha — Meaning, Cancellation Rules &amp; Remedies</a></li>
+          </ul>
+        </section>
+
+        <footer style="text-align:center;padding:2rem 0;color:#9ca3af;font-size:0.875rem;border-top:1px solid #e5e7eb;margin-top:2rem">
+          <p>Built by NovaVentures AI &middot; Swiss Ephemeris (WASM) &middot; React 18 &middot; TypeScript &middot; Google Gemini AI</p>
+          <p>&copy; 2025 Astro Marriage. All rights reserved.</p>
+        </footer>
+
+      </div>
+    </div>
     <!-- Google Translate - hidden container, controlled by React component -->
     <div id="google_translate_element" class="notranslate" style="display:none;"></div>
     <script>
