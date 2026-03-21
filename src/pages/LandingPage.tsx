@@ -43,8 +43,8 @@ export const LandingPage: React.FC = () => {
         <Logo size="sm" className="sm:hidden" />
         <Logo size="md" className="hidden sm:block" />
         <div className="flex items-center gap-2 sm:gap-3">
-          {/* Dashboard button for logged-in users who haven't been redirected */}
-          {user && selfChart && (
+          {/* Dashboard button for logged-in users */}
+          {user && (
             <button
               onClick={() => navigate('/dashboard')}
               className="inline-flex items-center gap-2 px-3 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 transition-colors"
