@@ -1,10 +1,26 @@
 /**
  * Google Translate Widget
  * Shows/hides the Google Translate dropdown initialized in index.html
+ * Includes "Back to English" and dark-mode styling fixes
  */
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Languages } from 'lucide-react';
+import { Languages, RotateCcw } from 'lucide-react';
+
+function restoreEnglish() {
+  // Google Translate stores the language in a cookie
+  document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+  document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.' + window.location.hostname;
+  // Remove the Google Translate frame bar
+  const frame = document.querySelector('.skiptranslate') as HTMLElement | null;
+  if (frame) frame.style.display = 'none';
+  document.body.style.top = '0px';
+  window.location.reload();
+}
+
+function isTranslated(): boolean {
+  return document.cookie.includes('googtrans=/en/');
+}
 
 export const GoogleTranslate: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -20,7 +36,6 @@ export const GoogleTranslate: React.FC = () => {
       widgetRef.current.appendChild(gtEl);
     }
     return () => {
-      // Move it back to body when closing (so it doesn't get unmounted)
       const gtEl = document.getElementById('google_translate_element');
       if (gtEl) {
         gtEl.style.display = 'none';
@@ -28,6 +43,50 @@ export const GoogleTranslate: React.FC = () => {
       }
     };
   }, [open]);
+
+  // Inject styles to fix Google Translate dropdown in dark mode
+  useEffect(() => {
+    const styleId = 'gt-dark-fix';
+    if (document.getElementById(styleId)) return;
+    const style = document.createElement('style');
+    style.id = styleId;
+    style.textContent = `
+      /* Fix Google Translate select dropdown styling */
+      #google_translate_element select {
+        background: white !important;
+        color: #1a1a1a !important;
+        border: 1px solid #d1d5db !important;
+        border-radius: 8px !important;
+        padding: 6px 10px !important;
+        font-size: 14px !important;
+        width: 100% !important;
+        cursor: pointer !important;
+        outline: none !important;
+      }
+      .dark #google_translate_element select {
+        background: #374151 !important;
+        color: #f3f4f6 !important;
+        border-color: #4b5563 !important;
+      }
+      /* Hide Google branding inside our widget */
+      #google_translate_element .goog-logo-link,
+      #google_translate_element .goog-te-gadget > span {
+        display: none !important;
+      }
+      #google_translate_element .goog-te-gadget {
+        color: transparent !important;
+        font-size: 0 !important;
+      }
+      /* Hide the Google Translate top bar - we have our own back button */
+      .skiptranslate.goog-te-banner-frame {
+        display: none !important;
+      }
+      body {
+        top: 0px !important;
+      }
+    `;
+    document.head.appendChild(style);
+  }, []);
 
   // Close on outside click
   useEffect(() => {
@@ -40,6 +99,8 @@ export const GoogleTranslate: React.FC = () => {
     document.addEventListener('mousedown', handleClick);
     return () => document.removeEventListener('mousedown', handleClick);
   }, [open]);
+
+  const translated = isTranslated();
 
   return (
     <div className="relative" ref={containerRef}>
@@ -58,6 +119,19 @@ export const GoogleTranslate: React.FC = () => {
             Translate to
           </p>
           <div ref={widgetRef} />
+
+          {translated && (
+            <button
+              onClick={() => {
+                setOpen(false);
+                restoreEnglish();
+              }}
+              className="mt-3 w-full flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white transition-colors"
+            >
+              <RotateCcw className="w-4 h-4" />
+              Back to English
+            </button>
+          )}
         </div>
       )}
     </div>
