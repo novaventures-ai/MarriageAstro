@@ -55,9 +55,9 @@ export default defineConfig({
       output: {
         manualChunks: {
           'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          'vendor-ui': ['framer-motion', 'recharts', 'lucide-react', 'react-markdown'],
+          'vendor-ui': ['recharts', 'lucide-react', 'react-markdown'],
           'vendor-supabase': ['@supabase/supabase-js'],
-          'vendor-state': ['zustand', '@reduxjs/toolkit', 'react-redux'],
+          'vendor-state': ['zustand'],
         },
       },
     },
