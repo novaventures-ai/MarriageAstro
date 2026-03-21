@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { Logo } from '../ui/Logo';
 import { ThemeToggle } from '../ui/ThemeToggle';
+import { GoogleTranslate } from '../ui/GoogleTranslate';
 import { useAuth } from '../../context/AuthContext';
 import { useUserProfileStore } from '../../store/useUserProfileStore';
 
@@ -180,6 +181,7 @@ export const DashboardLayout: React.FC = () => {
             <Menu className="w-5 h-5" />
           </button>
           <div className="flex-1" />
+          <GoogleTranslate />
           <ThemeToggle />
         </header>
 
