@@ -6,7 +6,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
-const SITE_URL = 'https://astro-marriage.vercel.app';
+const SITE_URL = 'https://marriage-astro.vercel.app';
 const SITE_NAME = 'Astro Marriage';
 const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.png`;
 

@@ -1,52 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://astro-marriage.vercel.app/</loc>
+    <loc>https://marriage-astro.vercel.app/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://astro-marriage.vercel.app/how-it-works</loc>
+    <loc>https://marriage-astro.vercel.app/how-it-works</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://astro-marriage.vercel.app/guides/ashtakoot-milan</loc>
+    <loc>https://marriage-astro.vercel.app/guides/ashtakoot-milan</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://astro-marriage.vercel.app/guides/marriage-timing</loc>
+    <loc>https://marriage-astro.vercel.app/guides/marriage-timing</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://astro-marriage.vercel.app/guides/mangal-dosha</loc>
+    <loc>https://marriage-astro.vercel.app/guides/mangal-dosha</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://astro-marriage.vercel.app/self-calculator</loc>
+    <loc>https://marriage-astro.vercel.app/self-calculator</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://astro-marriage.vercel.app/calculator</loc>
+    <loc>https://marriage-astro.vercel.app/calculator</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://astro-marriage.vercel.app/dashboard</loc>
+    <loc>https://marriage-astro.vercel.app/dashboard</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://astro-marriage.vercel.app/comparison</loc>
+    <loc>https://marriage-astro.vercel.app/comparison</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://astro-marriage.vercel.app/add-partner</loc>
+    <loc>https://marriage-astro.vercel.app/add-partner</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
