@@ -6,10 +6,16 @@
 import React from 'react';
 import { FileText } from 'lucide-react';
 import { SavedReportsPanel } from '../../components/ui/SavedReportsPanel';
+import { SEOHead } from '../../components/SEOHead';
 
 export const DashboardReportsPage: React.FC = () => {
   return (
     <div className="max-w-6xl mx-auto space-y-6">
+      <SEOHead
+        title="Saved Reports - Compatibility History"
+        description="View your saved Vedic astrology compatibility reports and marriage analysis history."
+        path="/dashboard/reports"
+      />
       <div>
         <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
           <FileText className="w-6 h-6 text-amber-600" />

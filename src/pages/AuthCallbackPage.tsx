@@ -8,6 +8,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
+import { SEOHead } from '../components/SEOHead';
 
 export const AuthCallbackPage: React.FC = () => {
     const navigate = useNavigate();
@@ -24,6 +25,11 @@ export const AuthCallbackPage: React.FC = () => {
 
     return (
         <div className="min-h-screen flex items-center justify-center">
+            <SEOHead
+                title="Signing In"
+                description="Authenticating your account with Astro Marriage."
+                path="/auth/callback"
+            />
             <div className="text-center">
                 <Loader2 className="w-10 h-10 text-indigo-600 dark:text-indigo-400 animate-spin mx-auto mb-4" />
                 <p className="text-gray-600 dark:text-gray-400 text-lg">

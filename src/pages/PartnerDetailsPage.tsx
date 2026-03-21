@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useUserProfileStore } from '../store/useUserProfileStore';
 import { PartnerProfile } from '../types/selfAnalysis';
 import { User, Calendar, MapPin, Clock, Scale, ArrowLeft, Trash2, Heart, Sparkles, Activity } from 'lucide-react';
+import { SEOHead } from '../components/SEOHead';
 
 export const PartnerDetailsPage: React.FC = () => {
     const { partnerId } = useParams<{ partnerId: string }>();
@@ -43,6 +44,11 @@ export const PartnerDetailsPage: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-12 transition-colors">
+            <SEOHead
+                title={`${partner.name} - Partner Details`}
+                description="View partner birth details and run compatibility analysis with Vedic astrology insights."
+                path={`/partner/${partnerId}`}
+            />
             {/* Header */}
             <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
                 <div className="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">

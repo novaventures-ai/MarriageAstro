@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useUserProfileStore } from '../store/useUserProfileStore';
 import { useAppStore } from '../store/useAppStore';
 import { Loader2, AlertCircle, ArrowLeft } from 'lucide-react';
+import { SEOHead } from '../components/SEOHead';
 import { BirthDataInput } from '@types';
 
 export const QuickComparePage: React.FC = () => {
@@ -132,6 +133,11 @@ export const QuickComparePage: React.FC = () => {
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-900 transition-colors">
+            <SEOHead
+                title="Quick Compatibility Check"
+                description="Instant marriage compatibility analysis between your birth chart and a partner using Vedic astrology."
+                path={`/quick-compare/${partnerId}`}
+            />
             <div className="text-center">
                 <div className="relative w-24 h-24 mx-auto mb-6">
                     <div className="absolute inset-0 border-4 border-indigo-100 dark:border-indigo-900/30 rounded-full"></div>

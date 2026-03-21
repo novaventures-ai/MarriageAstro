@@ -7,6 +7,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Heart, ArrowRight, Sparkles } from 'lucide-react';
 import { useUserProfileStore } from '../../store/useUserProfileStore';
+import { SEOHead } from '../../components/SEOHead';
 import { CosmicMatchWidget } from '../../components/dashboard/CosmicMatchWidget';
 
 export const DashboardCompatibilityPage: React.FC = () => {
@@ -15,6 +16,11 @@ export const DashboardCompatibilityPage: React.FC = () => {
 
   return (
     <div className="max-w-6xl mx-auto space-y-6">
+      <SEOHead
+        title="Compatibility Insights - AI Match Analysis"
+        description="AI-powered marriage compatibility insights with Vedic astrology. View match scores, cosmic connections, and detailed partner analysis."
+        path="/dashboard/compatibility"
+      />
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">

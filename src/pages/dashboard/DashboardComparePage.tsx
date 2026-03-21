@@ -7,6 +7,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Scale, ArrowRight, Users } from 'lucide-react';
 import { useUserProfileStore } from '../../store/useUserProfileStore';
+import { SEOHead } from '../../components/SEOHead';
 
 export const DashboardComparePage: React.FC = () => {
   const navigate = useNavigate();
@@ -14,6 +15,11 @@ export const DashboardComparePage: React.FC = () => {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
+      <SEOHead
+        title="Compare Partners - Side-by-Side Analysis"
+        description="Compare multiple partners side-by-side with Vedic astrology compatibility scores, strengths, and relationship insights."
+        path="/dashboard/compare"
+      />
       <div>
         <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
           <Scale className="w-6 h-6 text-indigo-600" />

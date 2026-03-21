@@ -26,6 +26,7 @@ import { ComparisonResultsPanel } from '../components/ui/ComparisonResultsPanel'
 import { ThemeToggle } from '../components/ui/ThemeToggle';
 import { AuthButton } from '../components/ui/AuthButton';
 import { useComparisonStore } from '../store/useComparisonStore';
+import { SEOHead } from '../components/SEOHead';
 import { BirthDataInput } from '@types';
 
 type PageStep = 'profile' | 'partners' | 'results';
@@ -73,6 +74,11 @@ export const ComparisonPage: React.FC = () => {
 
     return (
         <div className="min-h-screen flex flex-col transition-colors duration-500">
+            <SEOHead
+                title="Partner Compatibility Comparison"
+                description="Compare marriage compatibility between multiple partners using Ashtakoot Milan scoring, Mangal Dosha analysis, and Vedic astrology insights."
+                path="/comparison"
+            />
             {/* Header */}
             <header className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-6 py-4 bg-white/10 backdrop-blur-md dark:bg-black/10 transition-colors duration-500">
                 <button
