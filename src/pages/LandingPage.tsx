@@ -4,9 +4,9 @@
  * Redirects users with existing profiles to the dashboard
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Heart, Stars, Sparkles, ArrowRight, User, ChevronRight, LayoutDashboard } from 'lucide-react';
+import { Heart, Stars, Sparkles, ArrowRight, User, ChevronRight, LayoutDashboard, ChevronDown, ChevronUp } from 'lucide-react';
 import { ThemeToggle } from '../components/ui/ThemeToggle';
 import { AuthButton } from '../components/ui/AuthButton';
 import { useUserProfileStore } from '../store/useUserProfileStore';
@@ -119,6 +119,28 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
+      {/* Stats Banner - citable facts for AI engines */}
+      <section className="py-8 sm:py-12 px-3 sm:px-4 bg-white/30 dark:bg-black/10 border-y border-gray-200/50 dark:border-gray-700/50 safe-area-x">
+        <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-8 text-center">
+          <div>
+            <p className="text-2xl sm:text-3xl font-bold text-indigo-600 dark:text-indigo-400">9</p>
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Vedic Planets Analyzed</p>
+          </div>
+          <div>
+            <p className="text-2xl sm:text-3xl font-bold text-purple-600 dark:text-purple-400">27</p>
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Nakshatras Mapped</p>
+          </div>
+          <div>
+            <p className="text-2xl sm:text-3xl font-bold text-pink-600 dark:text-pink-400">8</p>
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Kootas Evaluated</p>
+          </div>
+          <div>
+            <p className="text-2xl sm:text-3xl font-bold text-amber-600 dark:text-amber-400">36</p>
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Points Compatibility Score</p>
+          </div>
+        </div>
+      </section>
+
       {/* Features Section */}
       <section className="py-12 sm:py-20 px-3 sm:px-4 bg-white/50 dark:bg-black/20 transition-colors duration-500 safe-area-x">
         <div className="max-w-6xl mx-auto">
@@ -173,6 +195,41 @@ export const LandingPage: React.FC = () => {
               number="3"
               description="Follow personalized remedies and compare with partners for compatibility"
               title="Take Action"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section - visible content for AI engines and SEO */}
+      <section className="py-12 sm:py-20 px-3 sm:px-4 bg-white/50 dark:bg-black/20 safe-area-x">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-gray-100 mb-8 sm:mb-12">
+            Frequently Asked Questions
+          </h2>
+          <div className="space-y-3">
+            <FAQItem
+              question="What is Kundali matching for marriage?"
+              answer="Kundali matching (also called Gun Milan or Ashtakoot Milan) is a Vedic astrology method that compares two birth charts to assess marriage compatibility. It evaluates 8 aspects (gunas) across 36 points — Varna (temperament), Vashya (dominance), Tara (destiny), Yoni (sexual compatibility), Graha Maitri (mental compatibility), Gana (nature), Bhakoot (health & wealth), and Nadi (genetic compatibility)."
+            />
+            <FAQItem
+              question="How many points are needed for a good Kundali match?"
+              answer="In Ashtakoot Milan, a score of 18 or above out of 36 is considered acceptable for marriage. Scores above 24 are considered good, and above 30 is excellent. However, the overall compatibility also depends on Mangal Dosha, Nadi Dosha cancellation rules, and planetary aspects between both charts."
+            />
+            <FAQItem
+              question="Can astrology predict marriage timing?"
+              answer="Vedic astrology uses the Vimshottari Dasha system (planetary periods) and transits of Jupiter and Saturn to predict favorable periods for marriage. The 7th house lord activation, Venus Dasha/Antardasha, and Navamsa (D9) chart analysis are key factors. Multiple favorable transits intersecting create 'marriage windows.'"
+            />
+            <FAQItem
+              question="What is Mangal Dosha and does it affect marriage?"
+              answer="Mangal Dosha (Kuja Dosha) occurs when Mars is placed in the 1st, 4th, 7th, 8th, or 12th house. It is believed to cause delays or difficulties in marriage. However, many cancellation rules exist — if both partners have Mangal Dosha, if Jupiter aspects Mars, or if Mars is in its own sign, the dosha is considered neutralized."
+            />
+            <FAQItem
+              question="Is Astro Marriage free to use?"
+              answer="Yes, Astro Marriage is completely free. You can generate your birth chart, check marriage compatibility using Ashtakoot Milan (36-point scoring), get marriage timing predictions, analyze spouse characteristics, and compare multiple partner charts — all at no cost."
+            />
+            <FAQItem
+              question="What astrology systems does Astro Marriage use?"
+              answer="Astro Marriage combines multiple Vedic systems for accuracy: Parashari (traditional), KP Astrology (Krishnamurti Paddhati), Jaimini (Chara Karakas for spouse prediction), and Bhrigu Nandi Nadi. It analyzes Rashi (D1), Navamsa (D9), and Dasamsa (D10) divisional charts using Swiss Ephemeris for precise planetary calculations."
             />
           </div>
         </div>
@@ -241,5 +298,34 @@ const StepCard: React.FC<{
     <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">{description}</p>
   </div>
 );
+
+const FAQItem: React.FC<{
+  question: string;
+  answer: string;
+}> = ({ question, answer }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full flex items-center justify-between px-5 py-4 text-left"
+      >
+        <h3 className="text-sm sm:text-base font-semibold text-gray-800 dark:text-gray-100 pr-4">
+          {question}
+        </h3>
+        {isOpen ? (
+          <ChevronUp className="w-5 h-5 text-gray-400 flex-shrink-0" />
+        ) : (
+          <ChevronDown className="w-5 h-5 text-gray-400 flex-shrink-0" />
+        )}
+      </button>
+      {isOpen && (
+        <p className="faq-answer px-5 pb-4 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+          {answer}
+        </p>
+      )}
+    </div>
+  );
+};
 
 export default LandingPage;

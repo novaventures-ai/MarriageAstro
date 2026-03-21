@@ -1,19 +1,64 @@
-# Astro Marriage - Vedic Astrology Marriage Compatibility Analysis
+# Astro Marriage - Free Vedic Astrology Marriage Compatibility Platform
 
-## About
-Astro Marriage is a web application that provides advanced Vedic astrology marriage compatibility analysis. It uses traditional Ashtakoot Milan, KP Astrology, Jaimini system, and modern psychological profiling to analyze marriage potential and partner compatibility.
+> Astro Marriage is a free web application for Vedic astrology marriage analysis. It provides Kundali matching (Ashtakoot Milan), marriage timing predictions, spouse characteristics analysis, and personalized remedies based on authentic Vedic calculations.
 
-## Features
-- Self Analysis: Individual marriage potential score, spouse prediction, timing analysis
-- Compatibility Analysis: Full partner comparison with Ashtakoot Milan scoring
-- AI-Powered Insights: Gemini AI integration for personalized astrological guidance
-- Risk Assessment: Divorce probability, infidelity risk, vulnerability timeline
-- Psychological Profiling: Attachment styles, love languages, conflict tendencies
-- Remedies: Personalized gemstone, mantra, and lifestyle recommendations
+## What Astro Marriage Does
 
-## Technology
-Built with React, TypeScript, Vite, Zustand, Supabase, and Swiss Ephemeris (WASM).
-Vedic calculations include: Ashtakoot Milan, Navamsa (D9), KP System, Chara Karakas, Upapada Lagna, and transit analysis.
+Astro Marriage analyzes birth charts (Kundali/Janam Patri) using multiple Vedic astrology systems to provide:
+
+### Self Analysis (Individual Marriage Report)
+- **Marriage Timing Prediction**: Uses Vimshottari Dasha system, Jupiter-Saturn transits, and 7th house activation to identify favorable marriage windows
+- **Spouse Characteristics**: Predicts physical traits, personality, profession, and direction of spouse using 7th house lord, Darakaraka (Jaimini), and Upapada Lagna analysis
+- **Mangal Dosha Assessment**: Checks Mars placement across all 12 houses with intensity scoring and cancellation rules (Bhrigu Nandi Nadi exceptions)
+- **Personalized Remedies**: Gemstone recommendations, mantra suggestions, and lifestyle guidance based on planetary positions
+
+### Compatibility Analysis (Kundali Matching)
+- **Ashtakoot Milan (36-point system)**: Evaluates 8 Kootas — Varna (1pt), Vashya (2pts), Tara (3pts), Yoni (4pts), Graha Maitri (5pts), Gana (6pts), Bhakoot (7pts), Nadi (8pts)
+- **Dosha Cancellation Rules**: Implements Nadi Dosha exceptions (same Rashi different Nakshatra), Bhakoot exceptions (mutual sign lords), and Gana Dosha mitigations
+- **Physical & Mental Compatibility**: Beyond traditional matching — analyzes Venus-Mars interplay, Moon-Moon harmony, and 5th/8th house connections
+
+### Technical Methodology
+- **Planetary Calculations**: Swiss Ephemeris (WASM) for precise planetary positions of Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn, Rahu, Ketu
+- **Chart Systems**: Rashi (D1), Navamsa (D9), Dasamsa (D10) divisional charts
+- **Astrology Systems Used**: Parashari, KP (Krishnamurti Paddhati), Jaimini (Chara Karakas), Bhrigu Nandi Nadi
+- **27 Nakshatras**: Full Nakshatra-based analysis including Nakshatra lord, sub-lord, and Pada
+- **12 Houses (Bhavas)**: Complete house-based analysis with special emphasis on 1st, 5th, 7th, 8th, and 12th houses for marriage
+- **AI Integration**: Google Gemini AI for generating natural language insights and personalized guidance
+
+## Key Facts
+- **Scoring System**: Ashtakoot Milan uses 36 maximum points across 8 matching criteria (Kootas)
+- **Minimum Score**: 18/36 is considered acceptable for marriage compatibility
+- **Good Score**: 24/36 or above is considered favorable
+- **Excellent Score**: 30/36 or above is considered highly compatible
+- **Planets Analyzed**: 9 Vedic planets (Navagraha) — Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn, Rahu, Ketu
+- **Nakshatras**: All 27 lunar mansions used for matching
+- **Houses**: All 12 astrological houses analyzed, with 7th house (marriage) as primary focus
+- **Free to Use**: All features including self-analysis, compatibility matching, and partner comparison are completely free
+
+## Frequently Asked Questions
+
+**Q: What is Kundali matching (Gun Milan)?**
+A: Kundali matching, also known as Gun Milan or Ashtakoot Milan, is a Vedic astrology method that compares two birth charts to assess marriage compatibility. It scores 8 aspects (gunas) across 36 points covering temperament (Varna), dominance (Vashya), destiny (Tara), sexual compatibility (Yoni), mental compatibility (Graha Maitri), nature (Gana), health/wealth (Bhakoot), and genetic compatibility (Nadi).
+
+**Q: How does marriage timing prediction work?**
+A: Marriage timing is predicted using the Vimshottari Dasha system (120-year planetary period cycle). Key indicators include: activation of 7th house lord's Dasha/Antardasha, Venus Mahadasha or Antardasha, Jupiter's transit over natal Venus or 7th house, and Saturn's transit aspects to the 7th house. The intersection of multiple favorable transits creates "marriage windows."
+
+**Q: What is Mangal Dosha and does it matter?**
+A: Mangal Dosha (Kuja Dosha) occurs when Mars is placed in the 1st, 4th, 7th, 8th, or 12th house from the Ascendant, Moon, or Venus. It is believed to cause delays or difficulties in marriage. However, many cancellation rules exist — for example, if both partners have Mangal Dosha, or if Jupiter aspects Mars, the dosha is considered neutralized.
+
+**Q: What makes Astro Marriage different from other Kundali matching tools?**
+A: Astro Marriage combines multiple Vedic systems (Parashari, KP, Jaimini) rather than just basic Ashtakoot matching. It also provides AI-generated natural language insights, spouse characteristic predictions using Darakaraka analysis, and a partner comparison tool to evaluate multiple potential matches side by side.
+
+## Technology Stack
+- Frontend: React 18, TypeScript, Vite, Tailwind CSS
+- State: Zustand with localStorage persistence + Supabase cloud sync
+- Astrology Engine: Swiss Ephemeris compiled to WebAssembly (swisseph.wasm)
+- AI: Google Gemini for natural language astrological insights
+- Authentication: Supabase Auth (Google OAuth)
+- Hosting: Vercel with PWA support
 
 ## URL
 https://astro-marriage.vercel.app
+
+## Contact
+Built by NovaVentures AI

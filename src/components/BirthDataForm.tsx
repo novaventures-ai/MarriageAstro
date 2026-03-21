@@ -19,7 +19,7 @@ export const BirthDataForm: React.FC<BirthDataFormProps> = ({
     location: defaultValues?.location || '',
     latitude: defaultValues?.latitude || 0,
     longitude: defaultValues?.longitude || 0,
-    timezone: defaultValues?.timezone || 'Asia/Kolkata',
+    timezone: defaultValues?.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone || 'Asia/Kolkata',
   });
 
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
@@ -208,15 +208,45 @@ export const BirthDataForm: React.FC<BirthDataFormProps> = ({
           required
           className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-gray-100 transition-colors text-sm sm:text-base"
         >
-          <option value="Asia/Kolkata">India (IST)</option>
-          <option value="America/New_York">Eastern Time (ET)</option>
-          <option value="America/Chicago">Central Time (CT)</option>
-          <option value="America/Denver">Mountain Time (MT)</option>
-          <option value="America/Los_Angeles">Pacific Time (PT)</option>
-          <option value="Europe/London">London (GMT)</option>
-          <option value="Europe/Paris">Paris (CET)</option>
-          <option value="Asia/Tokyo">Tokyo (JST)</option>
-          <option value="Australia/Sydney">Sydney (AEST)</option>
+          <optgroup label="Asia">
+            <option value="Asia/Kolkata">India (IST)</option>
+            <option value="Asia/Dubai">Dubai / UAE (GST)</option>
+            <option value="Asia/Muscat">Oman (GST)</option>
+            <option value="Asia/Qatar">Qatar (AST)</option>
+            <option value="Asia/Riyadh">Saudi Arabia (AST)</option>
+            <option value="Asia/Kuwait">Kuwait (AST)</option>
+            <option value="Asia/Singapore">Singapore (SGT)</option>
+            <option value="Asia/Kuala_Lumpur">Malaysia (MYT)</option>
+            <option value="Asia/Bangkok">Thailand (ICT)</option>
+            <option value="Asia/Jakarta">Indonesia (WIB)</option>
+            <option value="Asia/Tokyo">Japan (JST)</option>
+            <option value="Asia/Seoul">South Korea (KST)</option>
+            <option value="Asia/Hong_Kong">Hong Kong (HKT)</option>
+            <option value="Asia/Kathmandu">Nepal (NPT)</option>
+            <option value="Asia/Dhaka">Bangladesh (BST)</option>
+            <option value="Asia/Colombo">Sri Lanka (IST)</option>
+          </optgroup>
+          <optgroup label="Americas">
+            <option value="America/New_York">Eastern Time (ET)</option>
+            <option value="America/Chicago">Central Time (CT)</option>
+            <option value="America/Denver">Mountain Time (MT)</option>
+            <option value="America/Los_Angeles">Pacific Time (PT)</option>
+            <option value="America/Toronto">Canada - Toronto (ET)</option>
+            <option value="America/Vancouver">Canada - Vancouver (PT)</option>
+          </optgroup>
+          <optgroup label="Europe">
+            <option value="Europe/London">London (GMT)</option>
+            <option value="Europe/Paris">Paris / Berlin (CET)</option>
+            <option value="Europe/Moscow">Moscow (MSK)</option>
+          </optgroup>
+          <optgroup label="Africa & Oceania">
+            <option value="Africa/Nairobi">East Africa (EAT)</option>
+            <option value="Africa/Lagos">West Africa (WAT)</option>
+            <option value="Australia/Sydney">Sydney (AEST)</option>
+            <option value="Australia/Perth">Perth (AWST)</option>
+            <option value="Pacific/Auckland">New Zealand (NZST)</option>
+            <option value="Pacific/Fiji">Fiji (FJT)</option>
+          </optgroup>
         </select>
       </div>
 
