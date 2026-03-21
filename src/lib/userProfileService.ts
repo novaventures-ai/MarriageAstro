@@ -40,7 +40,7 @@ export async function saveUserProfile(
     });
 
   if (error) {
-    console.error('Error saving user profile:', error);
+    console.error('Error saving user profile:', error instanceof Error ? error.message : 'Unknown error');
     throw new Error('Failed to save user profile');
   }
 }
@@ -64,7 +64,7 @@ export async function getUserProfile(userId: string): Promise<{
       // No profile found
       return null;
     }
-    console.error('Error getting user profile:', error);
+    console.error('Error getting user profile:', error instanceof Error ? error.message : 'Unknown error');
     throw new Error('Failed to get user profile');
   }
 
@@ -108,7 +108,7 @@ export async function savePartner(
     });
 
   if (error) {
-    console.error('Error saving partner:', error);
+    console.error('Error saving partner:', error instanceof Error ? error.message : 'Unknown error');
     throw new Error('Failed to save partner');
   }
 }
@@ -124,7 +124,7 @@ export async function getUserPartners(userId: string): Promise<PartnerProfile[]>
     .order('created_at', { ascending: false });
 
   if (error) {
-    console.error('Error getting partners:', error);
+    console.error('Error getting partners:', error instanceof Error ? error.message : 'Unknown error');
     throw new Error('Failed to get partners');
   }
 
@@ -155,7 +155,7 @@ export async function deletePartner(partnerId: string): Promise<void> {
     .eq('id', partnerId);
 
   if (error) {
-    console.error('Error deleting partner:', error);
+    console.error('Error deleting partner:', error instanceof Error ? error.message : 'Unknown error');
     throw new Error('Failed to delete partner');
   }
 }
@@ -188,7 +188,7 @@ export async function updatePartner(
     .eq('id', partnerId);
 
   if (error) {
-    console.error('Error updating partner:', error);
+    console.error('Error updating partner:', error instanceof Error ? error.message : 'Unknown error');
     throw new Error('Failed to update partner');
   }
 }
@@ -207,7 +207,7 @@ export async function getPartnerById(partnerId: string): Promise<PartnerProfile 
     if (error.code === 'PGRST116') {
       return null;
     }
-    console.error('Error getting partner:', error);
+    console.error('Error getting partner:', error instanceof Error ? error.message : 'Unknown error');
     throw new Error('Failed to get partner');
   }
 
@@ -241,7 +241,7 @@ export async function deleteUserProfile(userId: string): Promise<void> {
     .eq('user_id', userId);
 
   if (partnersError) {
-    console.error('Error deleting partners:', partnersError);
+    console.error('Error deleting partners:', partnersError instanceof Error ? partnersError.message : 'Unknown error');
     throw new Error('Failed to delete partners');
   }
 
@@ -252,7 +252,7 @@ export async function deleteUserProfile(userId: string): Promise<void> {
     .eq('user_id', userId);
 
   if (profileError) {
-    console.error('Error deleting user profile:', profileError);
+    console.error('Error deleting user profile:', profileError instanceof Error ? profileError.message : 'Unknown error');
     throw new Error('Failed to delete user profile');
   }
 }

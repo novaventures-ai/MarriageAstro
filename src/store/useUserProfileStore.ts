@@ -126,7 +126,7 @@ export const useUserProfileStore = create<UserProfileState>()(
             await saveUserProfile(session.user.id, data, chart);
           }
         } catch (error) {
-          console.error('Failed to generate chart:', error);
+          console.error('Failed to generate chart:', error instanceof Error ? error.message : 'Unknown error');
           set({ generationError: 'Failed to generate chart. Please check your birth data.' });
         }
       },
@@ -148,7 +148,7 @@ export const useUserProfileStore = create<UserProfileState>()(
             await saveUserProfile(session.user.id, selfBirthData, chart);
           }
         } catch (error) {
-          console.error('Failed to generate chart:', error);
+          console.error('Failed to generate chart:', error instanceof Error ? error.message : 'Unknown error');
           set({ generationError: 'Failed to generate chart' });
         }
       },
@@ -173,7 +173,7 @@ export const useUserProfileStore = create<UserProfileState>()(
             await saveUserProfile(session.user.id, selfBirthData, selfChart, report);
           }
         } catch (error) {
-          console.error('Failed to generate report:', error);
+          console.error('Failed to generate report:', error instanceof Error ? error.message : 'Unknown error');
           set({
             generationError: 'Failed to generate report. Please try again.',
             isGeneratingReport: false
@@ -229,7 +229,7 @@ export const useUserProfileStore = create<UserProfileState>()(
             await savePartner(session.user.id, newPartner);
           }
         } catch (error) {
-          console.error('Failed to save partner to cloud:', error);
+          console.error('Failed to save partner to cloud:', error instanceof Error ? error.message : 'Unknown error');
         }
 
         return partnerId;
@@ -246,7 +246,7 @@ export const useUserProfileStore = create<UserProfileState>()(
         try {
           await deletePartner(id);
         } catch (error) {
-          console.error('Failed to delete partner:', error);
+          console.error('Failed to delete partner:', error instanceof Error ? error.message : 'Unknown error');
         }
       },
 
@@ -261,7 +261,7 @@ export const useUserProfileStore = create<UserProfileState>()(
           try {
             await deletePartner(partner.id);
           } catch (error) {
-            console.error(`Failed to delete partner ${partner.id}:`, error);
+            console.error('Failed to delete partner:', error instanceof Error ? error.message : 'Unknown error');
           }
         }
       },
@@ -283,7 +283,7 @@ export const useUserProfileStore = create<UserProfileState>()(
             }
           }
         } catch (error) {
-          console.error('Failed to update partner:', error);
+          console.error('Failed to update partner:', error instanceof Error ? error.message : 'Unknown error');
         }
       },
 
@@ -303,7 +303,7 @@ export const useUserProfileStore = create<UserProfileState>()(
             set({ isLoadingPartners: false });
           }
         } catch (error) {
-          console.error('Failed to load partners:', error);
+          console.error('Failed to load partners:', error instanceof Error ? error.message : 'Unknown error');
           set({ isLoadingPartners: false });
         }
       },
@@ -329,7 +329,7 @@ export const useUserProfileStore = create<UserProfileState>()(
           // Update partner with chart
           await get().updatePartner(partnerId, { chart });
         } catch (error) {
-          console.error('Failed to generate partner chart:', error);
+          console.error('Failed to generate partner chart:', error instanceof Error ? error.message : 'Unknown error');
         }
       },
 
@@ -357,7 +357,7 @@ export const useUserProfileStore = create<UserProfileState>()(
           const result = await performQuickCompare(selfChart, updatedPartner);
           set({ quickCompareResult: result, isComparing: false });
         } catch (error) {
-          console.error('Quick compare failed:', error);
+          console.error('Quick compare failed:', error instanceof Error ? error.message : 'Unknown error');
           set({ isComparing: false });
         }
       },
@@ -384,7 +384,7 @@ export const useUserProfileStore = create<UserProfileState>()(
             await savePartner(session.user.id, partner);
           }
         } catch (error) {
-          console.error('Failed to save to cloud:', error);
+          console.error('Failed to save to cloud:', error instanceof Error ? error.message : 'Unknown error');
         }
       },
 
@@ -411,7 +411,7 @@ export const useUserProfileStore = create<UserProfileState>()(
                 try {
                   await saveUserProfile(session.user.id, state.selfBirthData, state.selfChart, state.selfReport || undefined);
                 } catch (saveProfileErr) {
-                  console.warn('Failed to push local self profile to cloud:', saveProfileErr);
+                  console.warn('Failed to push local self profile to cloud');
                 }
               }
             } else if (profile) {
@@ -423,7 +423,7 @@ export const useUserProfileStore = create<UserProfileState>()(
               });
             }
           } catch (profileErr) {
-            console.error('Error fetching user profile from cloud:', profileErr);
+            console.error('Error fetching user profile from cloud:', profileErr instanceof Error ? profileErr.message : 'Unknown error');
           }
 
           // 2. Safely push any local guest partners to cloud
@@ -446,7 +446,7 @@ export const useUserProfileStore = create<UserProfileState>()(
               try {
                 await savePartner(session.user.id, partner);
               } catch (savePartnerErr) {
-                console.warn(`Failed to push local partner (${partner.id}) to cloud:`, savePartnerErr);
+                console.warn('Failed to push local partner to cloud');
               }
             }
 
@@ -472,7 +472,7 @@ export const useUserProfileStore = create<UserProfileState>()(
           }
 
         } catch (error) {
-          console.error('Critical failure in loadFromCloud:', error);
+          console.error('Critical failure in loadFromCloud:', error instanceof Error ? error.message : 'Unknown error');
           set({ isLoadingPartners: false });
         }
       },

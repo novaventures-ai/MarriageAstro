@@ -276,7 +276,7 @@ export async function generateComprehensiveMatchInsight(
         return { insight, fullAnalysis };
 
     } catch (error) {
-        console.error('Error generating comprehensive insight:', error);
+        console.error('Error generating comprehensive insight:', error instanceof Error ? error.message : 'Unknown error');
 
         // Fallback to simple insight
         const simpleInsight = await generateMatchInsight(selfChart, partnerChart, partnerName, partnerId);
@@ -320,11 +320,7 @@ export async function generateMatchInsight(
             aiAnalysis: analysis
         };
     } catch (error) {
-        console.error('Error generating AI match insight (dashboard path):', error);
-        // Specifically log the stack trace to identify where the engine crashed
-        if (error instanceof Error) {
-            console.error('Stack trace:', error.stack);
-        }
+        console.error('Error generating AI match insight (dashboard path):', error instanceof Error ? error.message : 'Unknown error');
 
         // Fallback to basic calculation if engine fails
         const ashtakoot = calculateAshtakootMilan(selfChart, partnerChart);
@@ -384,7 +380,7 @@ export async function analyzeBestMatch(
         return { bestMatch, allMatches, aiResult };
 
     } catch (error) {
-        console.error('Error in comprehensive analysis:', error);
+        console.error('Error in comprehensive analysis:', error instanceof Error ? error.message : 'Unknown error');
 
         // Fallback to simple analysis
         let bestMatch: MatchInsight | null = null;

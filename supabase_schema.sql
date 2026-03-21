@@ -2,11 +2,13 @@
 -- Run these in your Supabase SQL Editor to create the necessary tables.
 
 -- 1. Profiles Table (Self Data)
+-- NOTE: Actual DB schema has id (PK, FK to auth.users), email, full_name, avatar_url, user_id (nullable/unused)
 CREATE TABLE IF NOT EXISTS profiles (
-  user_id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
-  self_birth_data JSONB NOT NULL,
-  self_chart JSONB NOT NULL,
-  self_report JSONB,
+  id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+  email TEXT UNIQUE,
+  full_name TEXT,
+  avatar_url TEXT,
+  user_id UUID,
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
@@ -40,7 +42,7 @@ CREATE TABLE IF NOT EXISTS compatibility_reports (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- 4. Birth Charts Table (Optional / Legacy)
+-- 4. Birth Charts Table (LEGACY — 0 rows, saveChart/loadCharts never called. Safe to drop.)
 CREATE TABLE IF NOT EXISTS birth_charts (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
@@ -65,6 +67,14 @@ CREATE TABLE IF NOT EXISTS partner_comparisons (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- Performance Indexes
+CREATE INDEX IF NOT EXISTS idx_partners_user_id ON partners(user_id);
+CREATE INDEX IF NOT EXISTS idx_compatibility_reports_user_id ON compatibility_reports(user_id);
+CREATE INDEX IF NOT EXISTS idx_compatibility_reports_created_at ON compatibility_reports(user_id, created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_birth_charts_user_id ON birth_charts(user_id);
+CREATE INDEX IF NOT EXISTS idx_partner_comparisons_user_id ON partner_comparisons(user_id);
+CREATE INDEX IF NOT EXISTS idx_partner_comparisons_updated_at ON partner_comparisons(user_id, updated_at DESC);
+
 -- Enable RLS (Row Level Security)
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE partners ENABLE ROW LEVEL SECURITY;
@@ -73,8 +83,9 @@ ALTER TABLE birth_charts ENABLE ROW LEVEL SECURITY;
 ALTER TABLE partner_comparisons ENABLE ROW LEVEL SECURITY;
 
 -- Create Policies (User can only see their own data)
-CREATE POLICY "Users can manage their own profile" ON profiles 
-  FOR ALL USING (auth.uid() = user_id);
+CREATE POLICY "Users can manage their own profile" ON profiles
+  FOR ALL USING (auth.uid() = id)
+  WITH CHECK (auth.uid() = id);
 
 CREATE POLICY "Users can manage their own partners" ON partners 
   FOR ALL USING (auth.uid() = user_id);

@@ -3,18 +3,21 @@
  * Shows personalized remedies for self analysis
  */
 
-import React from 'react';
-import { Sparkles, Gem, BookOpen, Heart, Activity } from 'lucide-react';
+import React, { useState } from 'react';
+import { Sparkles, Gem, BookOpen, Heart, Activity, Filter, ChevronDown, ChevronUp, Shield, AlertTriangle } from 'lucide-react';
 
 interface SelfRemediesWidgetProps {
   remedies: any;
   doshaAnalysis?: any;
 }
 
-export const SelfRemediesWidget: React.FC<SelfRemediesWidgetProps> = ({ 
+export const SelfRemediesWidget: React.FC<SelfRemediesWidgetProps> = ({
   remedies,
   doshaAnalysis
 }) => {
+  const [activeFilter, setActiveFilter] = useState<string>('all');
+  const [expandedDosha, setExpandedDosha] = useState<string | null>(null);
+
   if (!remedies) {
     return (
       <div className="p-6 bg-gray-50 dark:bg-gray-800 rounded-xl text-center">
@@ -23,19 +26,77 @@ export const SelfRemediesWidget: React.FC<SelfRemediesWidgetProps> = ({
     );
   }
 
+  // Extract active doshas for filtering
+  const activeDoshas = doshaAnalysis?.doshas?.filter((d: any) => d.present) || [];
+  const filters = ['all', ...activeDoshas.map((d: any) => d.name)];
+
   return (
     <div className="space-y-6">
-      <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl shadow-lg p-6 text-white">
-        <div className="flex items-center gap-3">
-          <Sparkles className="w-8 h-8" />
-          <div>
-            <h2 className="text-2xl font-bold">Personalized Remedies</h2>
-            <p className="text-purple-100">
-              Recommended actions to improve your marriage prospects
-            </p>
+      <div className="bg-gradient-to-r from-purple-900 via-violet-900 to-pink-900 rounded-2xl shadow-xl p-8 text-white relative overflow-hidden border border-white/5">
+        <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
+          <Sparkles className="w-48 h-48" />
+        </div>
+        <div className="relative z-10">
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-white/10 rounded-xl border border-white/10">
+              <Sparkles className="w-10 h-10 text-purple-300" />
+            </div>
+            <div>
+              <h2 className="text-3xl font-bold tracking-tight">Personalized Remedies</h2>
+              <p className="text-purple-200/80">Dosha-specific actions to improve your marriage prospects</p>
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Dosha-Specific Remedy Cards */}
+      {activeDoshas.length > 0 && (
+        <div className="space-y-3">
+          <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 flex items-center gap-2">
+            <Shield className="w-5 h-5 text-amber-500" />
+            Active Dosha Remedies
+          </h3>
+          {activeDoshas.map((dosha: any) => (
+            <div key={dosha.name} className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
+              <button
+                onClick={() => setExpandedDosha(expandedDosha === dosha.name ? null : dosha.name)}
+                className="w-full flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors"
+              >
+                <div className="flex items-center gap-3">
+                  <div className={`p-2 rounded-lg ${dosha.severity === 'severe' ? 'bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300' : dosha.severity === 'moderate' ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300' : 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300'}`}>
+                    <AlertTriangle className="w-5 h-5" />
+                  </div>
+                  <div className="text-left">
+                    <h4 className="font-semibold text-gray-800 dark:text-gray-100">{dosha.name}</h4>
+                    <span className={`text-xs px-2 py-0.5 rounded-full ${dosha.severity === 'severe' ? 'bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300' : 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300'}`}>
+                      {dosha.severity}
+                    </span>
+                  </div>
+                </div>
+                {expandedDosha === dosha.name ? <ChevronUp className="w-4 h-4 text-gray-400" /> : <ChevronDown className="w-4 h-4 text-gray-400" />}
+              </button>
+              {expandedDosha === dosha.name && (
+                <div className="px-4 pb-4 border-t border-gray-100 dark:border-gray-700 space-y-3">
+                  {dosha.description && (
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-3">{dosha.description}</p>
+                  )}
+                  {dosha.remedies && dosha.remedies.length > 0 && (
+                    <div className="space-y-2 mt-2">
+                      <p className="text-xs font-semibold text-purple-600 dark:text-purple-400 uppercase">Specific Remedies</p>
+                      {dosha.remedies.map((r: string, i: number) => (
+                        <div key={i} className="flex items-start gap-2 text-sm">
+                          <Sparkles className="w-4 h-4 text-purple-500 mt-0.5 shrink-0" />
+                          <span className="text-gray-700 dark:text-gray-300">{r}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Top 3 Actions */}
       {remedies.prioritizedActions && remedies.prioritizedActions.length > 0 && (

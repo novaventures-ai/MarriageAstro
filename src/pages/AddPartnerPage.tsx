@@ -79,7 +79,7 @@ export const AddPartnerPage: React.FC = () => {
       // Navigate back to dashboard
       navigate('/');
     } catch (error) {
-      console.error('Failed to add partner:', error);
+      console.error('Failed to add partner:', error instanceof Error ? error.message : 'Unknown error');
       alert('Failed to add partner. Please try again.');
     } finally {
       setIsSubmitting(false);

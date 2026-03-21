@@ -69,7 +69,7 @@ export const UserDashboard: React.FC = () => {
             try {
               partnerChart = await generateChartFromBirthData(birthData);
             } catch (e) {
-              console.error("Error generating chart for", partner.name, e);
+              console.error("Error generating chart:", e instanceof Error ? e.message : 'Unknown error');
               continue;
             }
           }
@@ -87,11 +87,11 @@ export const UserDashboard: React.FC = () => {
                 verdict: insight.verdict
               };
             } catch (e) {
-              console.error("Error calculating score for", partner.name, e);
+              console.error("Error calculating score:", e instanceof Error ? e.message : 'Unknown error');
             }
           }
         } catch (err) {
-          console.error(err);
+          console.error('Partner analysis error:', err instanceof Error ? err.message : 'Unknown error');
         }
       }
       setPartnerScores(newScores);

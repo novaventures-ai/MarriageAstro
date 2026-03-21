@@ -912,7 +912,7 @@ export const CosmicMatchWidget: React.FC<CosmicMatchWidgetProps> = ({ selfChart,
                         partnerAnalysis.error = 'Failed to generate chart';
                     }
                 } catch (error) {
-                    console.error(`Error generating chart for ${partner.name}:`, error);
+                    console.error(`Error generating chart for ${partner.name}:`, error instanceof Error ? error.message : 'Unknown error');
                     partnerAnalysis.error = error instanceof Error ? error.message : 'Unknown error';
                 }
 
@@ -952,7 +952,7 @@ export const CosmicMatchWidget: React.FC<CosmicMatchWidgetProps> = ({ selfChart,
                 }
 
             } catch (error) {
-                console.error("Batch Analysis failed", error);
+                console.error("Batch Analysis failed:", error instanceof Error ? error.message : 'Unknown error');
                 setPartnerAnalyses(analyses.map(a => ({
                     ...a,
                     isLoading: false,
@@ -1024,7 +1024,7 @@ export const CosmicMatchWidget: React.FC<CosmicMatchWidgetProps> = ({ selfChart,
                 ));
             }
         } catch (error) {
-            console.error(`Error analyzing partner ${partner.name}:`, error);
+            console.error(`Error analyzing partner ${partner.name}:`, error instanceof Error ? error.message : 'Unknown error');
             setPartnerAnalyses(prev => prev.map(p =>
                 p.id === partnerId ? { ...p, error: 'Analysis failed', isLoading: false } : p
             ));
@@ -1164,7 +1164,7 @@ export const CosmicMatchWidget: React.FC<CosmicMatchWidgetProps> = ({ selfChart,
                                                         partnerAnalysis.error = 'Failed to generate chart';
                                                     }
                                                 } catch (error) {
-                                                    console.error(`Error analyzing partner ${partner.name}:`, error);
+                                                    console.error(`Error analyzing partner ${partner.name}:`, error instanceof Error ? error.message : 'Unknown error');
                                                     partnerAnalysis.error = error instanceof Error ? error.message : 'Unknown error';
                                                 } finally {
                                                     partnerAnalysis.isLoading = false;

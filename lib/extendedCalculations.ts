@@ -64,7 +64,6 @@ export function calculateKPAnalysis(chart: Chart): KPAnalysis {
   const fallbackSignificators = generateFallbackSignificators(chart);
 
   if (!seventhCusp) {
-    console.warn('KP Analysis: 7th cusp not found in chart. Available cusps:', chart.kp?.cusps?.map(c => c.cuspNumber));
 
     // Calculate actual 7th house sub-lord from chart data (not hardcoded)
     const seventhHouse = chart.houses.find(h => h.houseNumber === 7);
