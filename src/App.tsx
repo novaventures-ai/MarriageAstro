@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { LandingPage } from './pages/LandingPage';
 import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 // Lazy-loaded pages (code-split per route)
 const CalculatorPage = lazy(() => import('./pages/CalculatorPage').then(m => ({ default: m.CalculatorPage })));
@@ -38,6 +39,7 @@ function App() {
       <AuthProvider>
         <Router>
           <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-indigo-950 transition-colors duration-500">
+            <ErrorBoundary>
             <Suspense fallback={<LoadingFallback />}>
               <Routes>
                 {/* Public Routes */}
@@ -59,6 +61,7 @@ function App() {
                 <Route path="/auth/callback" element={<AuthCallbackPage />} />
               </Routes>
             </Suspense>
+            </ErrorBoundary>
           </div>
         </Router>
       </AuthProvider>
