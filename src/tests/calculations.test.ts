@@ -282,7 +282,7 @@ describe('Jaimini Calculation Tests', () => {
 
     expect(result).toHaveProperty('atmakaraka');
     expect(result).toHaveProperty('darakaraka');
-    expect(result.atmakaraka).toBe('Saturn'); // Highest degree
-    expect(result.darakaraka).toBe('Sun'); // Lowest degree
+    expect(result.atmakaraka.planet).toBe('Saturn'); // Highest degree
+    expect(result.darakaraka.planet).toBe('Sun'); // Lowest degree
   });
 });

@@ -26,9 +26,9 @@ export const IdealPartnerProfileWidget: React.FC<IdealPartnerProfileWidgetProps>
 
   // Build personality traits from spouse prediction
   const personalityTraits: string[] = [];
-  if (spouse?.characteristics) {
-    if (Array.isArray(spouse.characteristics)) {
-      personalityTraits.push(...spouse.characteristics.map((c: any) => typeof c === 'string' ? c : c.trait || String(c)));
+  if (spouse?.seventhHouse?.spouseTraits) {
+    if (Array.isArray(spouse.seventhHouse.spouseTraits)) {
+      personalityTraits.push(...spouse.seventhHouse.spouseTraits.map((c: string) => c));
     }
   }
   if (detailedProfile?.personality?.keyTraits) {
@@ -41,11 +41,11 @@ export const IdealPartnerProfileWidget: React.FC<IdealPartnerProfileWidgetProps>
 
   // Career from detailed profile or spouse prediction
   const career = detailedProfile?.career;
-  const profession = spouse?.profession || career?.field || '';
+  const profession = spouse?.profession?.field || career?.field || '';
 
   // Meeting info
   const meeting = detailedProfile?.meetingCircumstances;
-  const direction = meeting?.direction || spouse?.direction || '';
+  const direction = meeting?.direction || spouse?.meetingPrediction?.direction?.primary || '';
 
   // Relationship dynamic
   const dynamic = detailedProfile?.relationshipDynamic;

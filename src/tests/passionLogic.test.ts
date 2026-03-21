@@ -88,8 +88,10 @@ describe('Passion & Commitment Logic (Harmonized)', () => {
         // Capacity: 25 + 30 = 55.
         // Opportunity: 30 (12th house).
         // Stabilizer: 30 (Exalted Jupiter).
-        // Final: (55 * 0.5) + (30 * 0.5) - 30 + 5 = 27.5 + 15 - 30 + 5 = 17.5 -> 18.
-        expect(result.score).toBe(18);
+        // Protection Buffer: 15 (Exalted Jupiter in assessInfidelityProtections).
+        // Raw: (55 * 0.5) + (30 * 0.5) + 5 = 47.5
+        // Final: 47.5 - 30 - 15 = 2.5, clamped to min 10.
+        expect(result.score).toBe(10);
         expect(result.level).toBe('low');
     });
 

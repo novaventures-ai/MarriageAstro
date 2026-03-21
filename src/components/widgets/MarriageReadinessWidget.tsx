@@ -103,8 +103,8 @@ export const MarriageReadinessWidget: React.FC<MarriageReadinessWidgetProps> = (
       id: 'low-addiction',
       category: 'Psychological',
       label: 'Low Addiction Risk',
-      description: `Risk level: ${addictionRisk?.levels?.overall || 'unknown'}`,
-      passed: addictionRisk?.levels?.overall === 'low' || addictionRisk?.levels?.overall === 'moderate',
+      description: `Risk level: ${addictionRisk?.overallRisk || 'unknown'}`,
+      passed: addictionRisk?.overallRisk === 'low' || addictionRisk?.overallRisk === 'moderate',
       weight: 7,
       icon: <Shield className="w-4 h-4" />
     },

@@ -108,14 +108,14 @@ export function calculatePlanetaryConjunctions(chartA: Chart, chartB: Chart): Pl
 
                             // Get Description
                             // Try A-B key, then B-A key
-                            const key1 = `${posA.planet} -${posB.planet} `;
-                            const key2 = `${posB.planet} -${posA.planet} `;
+                            const key1 = `${posA.planet}-${posB.planet}`;
+                            const key2 = `${posB.planet}-${posA.planet}`;
 
                             let description = (synastryData.conjunctions as any)[key1] || (synastryData.conjunctions as any)[key2];
 
                             if (!description) {
                                 // Generic fallback if not in JSON
-                                description = `${posA.planet} and ${posB.planet} energies merge.This creates a strong bond and mutual understanding in the areas ruled by these planets.`;
+                                description = `${posA.planet} and ${posB.planet} energies merge. This creates a strong bond and mutual understanding in the areas ruled by these planets.`;
                             }
 
                             conjunctions.push({
