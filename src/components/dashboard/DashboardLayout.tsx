@@ -122,14 +122,16 @@ export const DashboardLayout: React.FC = () => {
               <Plus className="w-5 h-5" />
               Add Partner
             </NavLink>
-            <NavLink
-              to="/"
-              className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              onClick={() => setSidebarOpen(false)}
+            <button
+              onClick={() => {
+                setSidebarOpen(false);
+                navigate('/', { state: { fromDashboard: true } });
+              }}
+              className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors w-full"
             >
               <Home className="w-5 h-5" />
               Back to Home
-            </NavLink>
+            </button>
           </div>
         </nav>
 

@@ -195,7 +195,7 @@ const BirthDataForm: React.FC<{
           </label>
           <input
             type="number"
-            step="0.000001"
+            step="any"
             min="-90"
             max="90"
             value={formData.latitude || ''}
@@ -211,7 +211,7 @@ const BirthDataForm: React.FC<{
           </label>
           <input
             type="number"
-            step="0.000001"
+            step="any"
             min="-180"
             max="180"
             value={formData.longitude || ''}
