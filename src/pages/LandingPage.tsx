@@ -5,7 +5,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { Heart, Stars, Sparkles, ArrowRight, User, ChevronRight, LayoutDashboard, ChevronDown, ChevronUp } from 'lucide-react';
 import { ThemeToggle } from '../components/ui/ThemeToggle';
 import { AuthButton } from '../components/ui/AuthButton';
@@ -265,10 +265,37 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
+      {/* Guides Section - internal links for GEO crawlability */}
+      <section className="py-8 sm:py-12 px-3 sm:px-4 bg-white/30 dark:bg-black/10 safe-area-x">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-xl sm:text-2xl font-bold text-center text-gray-800 dark:text-gray-100 mb-6">
+            Learn Vedic Astrology
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+            <Link to="/how-it-works" className="group p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-indigo-400 dark:hover:border-indigo-500 transition-colors">
+              <h3 className="font-semibold text-gray-800 dark:text-gray-100 text-sm mb-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400">How It Works</h3>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Our methodology & calculation systems</p>
+            </Link>
+            <Link to="/guides/ashtakoot-milan" className="group p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-indigo-400 dark:hover:border-indigo-500 transition-colors">
+              <h3 className="font-semibold text-gray-800 dark:text-gray-100 text-sm mb-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400">Ashtakoot Milan Guide</h3>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Complete 36-point matching explained</p>
+            </Link>
+            <Link to="/guides/marriage-timing" className="group p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-indigo-400 dark:hover:border-indigo-500 transition-colors">
+              <h3 className="font-semibold text-gray-800 dark:text-gray-100 text-sm mb-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400">Marriage Timing</h3>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Dasha, transits & KP methods</p>
+            </Link>
+            <Link to="/guides/mangal-dosha" className="group p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-indigo-400 dark:hover:border-indigo-500 transition-colors">
+              <h3 className="font-semibold text-gray-800 dark:text-gray-100 text-sm mb-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400">Mangal Dosha Guide</h3>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Meaning, cancellations & remedies</p>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="py-6 sm:py-8 px-3 sm:px-4 border-t border-gray-200 dark:border-gray-800 safe-area-x">
         <div className="max-w-6xl mx-auto text-center text-gray-500 dark:text-gray-400 text-xs sm:text-sm">
-          <p> 2024 Astro Marriage. Discover your cosmic destiny.</p>
+          <p>&copy; 2025 Astro Marriage by NovaVentures AI. Discover your cosmic destiny.</p>
         </div>
       </footer>
     </div>

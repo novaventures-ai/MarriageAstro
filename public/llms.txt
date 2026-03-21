@@ -7,23 +7,25 @@
 Astro Marriage analyzes birth charts (Kundali/Janam Patri) using multiple Vedic astrology systems to provide:
 
 ### Self Analysis (Individual Marriage Report)
-- **Marriage Timing Prediction**: Uses Vimshottari Dasha system, Jupiter-Saturn transits, and 7th house activation to identify favorable marriage windows
+- **Marriage Timing Prediction**: Uses Vimshottari Dasha system, Jupiter-Saturn transits, KP sub-lords, Jaimini Chara Dasha, and Navamsa (D9) chart to identify favorable marriage windows through multi-system convergence
 - **Spouse Characteristics**: Predicts physical traits, personality, profession, and direction of spouse using 7th house lord, Darakaraka (Jaimini), and Upapada Lagna analysis
-- **Mangal Dosha Assessment**: Checks Mars placement across all 12 houses with intensity scoring and cancellation rules (Bhrigu Nandi Nadi exceptions)
-- **Personalized Remedies**: Gemstone recommendations, mantra suggestions, and lifestyle guidance based on planetary positions
+- **Mangal Dosha Assessment**: Checks Mars placement from Lagna, Moon, and Venus (triple-check) across houses 1, 4, 7, 8, 12 with 15+ cancellation rules applied automatically
+- **Personalized Remedies**: Gemstone recommendations (based on planetary weakness), Lal Kitab remedies, mantra suggestions, and lifestyle guidance
 
 ### Compatibility Analysis (Kundali Matching)
 - **Ashtakoot Milan (36-point system)**: Evaluates 8 Kootas — Varna (1pt), Vashya (2pts), Tara (3pts), Yoni (4pts), Graha Maitri (5pts), Gana (6pts), Bhakoot (7pts), Nadi (8pts)
-- **Dosha Cancellation Rules**: Implements Nadi Dosha exceptions (same Rashi different Nakshatra), Bhakoot exceptions (mutual sign lords), and Gana Dosha mitigations
-- **Physical & Mental Compatibility**: Beyond traditional matching — analyzes Venus-Mars interplay, Moon-Moon harmony, and 5th/8th house connections
+- **Dosha Cancellation Rules**: Nadi Dosha exceptions (5+ methods including same-Rashi-different-Nakshatra), Bhakoot exceptions (mutual sign lords), Gana Dosha mitigations, and Mangal Dosha cancellations (15+ rules)
+- **Physical & Mental Compatibility**: Venus-Mars interplay analysis, Moon-Moon harmony, 5th/8th house connections, and Yoni-based sexual compatibility
+- **Synastry Analysis**: Jupiter-Moon aspects (soulmate indicators), Saturn connections (karmic bonds), and cross-chart house overlays
 
 ### Technical Methodology
-- **Planetary Calculations**: Swiss Ephemeris (WASM) for precise planetary positions of Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn, Rahu, Ketu
-- **Chart Systems**: Rashi (D1), Navamsa (D9), Dasamsa (D10) divisional charts
-- **Astrology Systems Used**: Parashari, KP (Krishnamurti Paddhati), Jaimini (Chara Karakas), Bhrigu Nandi Nadi
-- **27 Nakshatras**: Full Nakshatra-based analysis including Nakshatra lord, sub-lord, and Pada
-- **12 Houses (Bhavas)**: Complete house-based analysis with special emphasis on 1st, 5th, 7th, 8th, and 12th houses for marriage
+- **Planetary Calculations**: Swiss Ephemeris (WASM, JPL DE431 accuracy) for precise positions of Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn, Rahu, Ketu
+- **Chart Systems**: Rashi (D1), Navamsa (D9), Dasamsa (D10) divisional charts with Placidus house system
+- **Astrology Systems Used**: Parashari (traditional), KP (Krishnamurti Paddhati, 249-point sub-lord system), Jaimini (Chara Karakas, Chara Dasha, Upapada Lagna), Bhrigu Nandi Nadi
+- **27 Nakshatras**: Full Nakshatra-based analysis including lord, sub-lord, Pada, and 14x14 Yoni compatibility matrix
+- **12 Houses (Bhavas)**: Complete house analysis with emphasis on 1st, 2nd, 5th, 7th, 8th, 11th, and 12th for marriage
 - **AI Integration**: Google Gemini AI for generating natural language insights and personalized guidance
+- **Privacy**: All calculations run client-side in the browser — no birth data sent to servers
 
 ## Key Facts
 - **Scoring System**: Ashtakoot Milan uses 36 maximum points across 8 matching criteria (Kootas)
@@ -31,9 +33,28 @@ Astro Marriage analyzes birth charts (Kundali/Janam Patri) using multiple Vedic 
 - **Good Score**: 24/36 or above is considered favorable
 - **Excellent Score**: 30/36 or above is considered highly compatible
 - **Planets Analyzed**: 9 Vedic planets (Navagraha) — Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn, Rahu, Ketu
-- **Nakshatras**: All 27 lunar mansions used for matching
+- **Nakshatras**: All 27 lunar mansions used for matching with 14 animal Yonis
 - **Houses**: All 12 astrological houses analyzed, with 7th house (marriage) as primary focus
+- **Mangal Dosha**: ~40% of people have some form, but only ~10-15% have active uncancelled dosha after applying all rules
 - **Free to Use**: All features including self-analysis, compatibility matching, and partner comparison are completely free
+
+## In-Depth Guides
+
+### How Vedic Kundali Matching Works
+URL: https://astro-marriage.vercel.app/how-it-works
+Explains the complete methodology: Ashtakoot Milan scoring, Swiss Ephemeris planetary calculations, KP Astrology sub-lord system, Jaimini Chara Karakas for spouse prediction, marriage timing convergence method, and Navamsa matching. References classical texts including Brihat Parashara Hora Shastra, Jataka Parijata, Muhurta Chintamani, and Krishnamurti Paddhati Reader.
+
+### Ashtakoot Milan — Complete 36-Point Guide
+URL: https://astro-marriage.vercel.app/guides/ashtakoot-milan
+Deep dive into all 8 Kootas with scoring rules, what each measures (Varna=spiritual compatibility, Vashya=attraction, Tara=destiny, Yoni=sexual chemistry, Graha Maitri=mental connection, Gana=temperament, Bhakoot=prosperity, Nadi=genetic health), dosha cancellation methods, and score interpretation (0-17 not recommended, 18-24 acceptable, 25-30 good, 31-36 excellent).
+
+### Marriage Timing Prediction
+URL: https://astro-marriage.vercel.app/guides/marriage-timing
+Covers 5 methods for predicting marriage timing: (1) Vimshottari Dasha — Venus/7th lord periods, (2) Jupiter-Saturn transits over marriage houses, (3) KP sub-lord 2-7-11 rule with ruling planets, (4) Jaimini Chara Dasha — Darakaraka/Upapada activation, (5) Navamsa (D9) confirmation. The convergence of 3+ methods creates high-probability marriage windows.
+
+### Mangal Dosha (Manglik) Guide
+URL: https://astro-marriage.vercel.app/guides/mangal-dosha
+Complete guide to Mars affliction in marriage: what Mangal Dosha is (Mars in houses 1, 4, 7, 8, 12), effects on marriage, 15+ cancellation rules (house-specific + general), triple-check from Lagna/Moon/Venus, remedies (Kumbh Vivah, red coral, Hanuman Chalisa, Lal Kitab methods), and common myths debunked (age-28 expiry, double Manglik).
 
 ## Frequently Asked Questions
 
@@ -41,13 +62,25 @@ Astro Marriage analyzes birth charts (Kundali/Janam Patri) using multiple Vedic 
 A: Kundali matching, also known as Gun Milan or Ashtakoot Milan, is a Vedic astrology method that compares two birth charts to assess marriage compatibility. It scores 8 aspects (gunas) across 36 points covering temperament (Varna), dominance (Vashya), destiny (Tara), sexual compatibility (Yoni), mental compatibility (Graha Maitri), nature (Gana), health/wealth (Bhakoot), and genetic compatibility (Nadi).
 
 **Q: How does marriage timing prediction work?**
-A: Marriage timing is predicted using the Vimshottari Dasha system (120-year planetary period cycle). Key indicators include: activation of 7th house lord's Dasha/Antardasha, Venus Mahadasha or Antardasha, Jupiter's transit over natal Venus or 7th house, and Saturn's transit aspects to the 7th house. The intersection of multiple favorable transits creates "marriage windows."
+A: Marriage timing is predicted using the Vimshottari Dasha system (120-year planetary period cycle). Key indicators include: activation of 7th house lord's Dasha/Antardasha, Venus Mahadasha or Antardasha, Jupiter's transit over natal Venus or 7th house, and Saturn's transit aspects to the 7th house. The intersection of multiple favorable transits creates "marriage windows." KP Astrology's sub-lord system can narrow timing to specific months.
 
 **Q: What is Mangal Dosha and does it matter?**
-A: Mangal Dosha (Kuja Dosha) occurs when Mars is placed in the 1st, 4th, 7th, 8th, or 12th house from the Ascendant, Moon, or Venus. It is believed to cause delays or difficulties in marriage. However, many cancellation rules exist — for example, if both partners have Mangal Dosha, or if Jupiter aspects Mars, the dosha is considered neutralized.
+A: Mangal Dosha (Kuja Dosha) occurs when Mars is placed in the 1st, 4th, 7th, 8th, or 12th house from the Ascendant, Moon, or Venus. It is believed to cause delays or difficulties in marriage. However, 15+ cancellation rules exist — for example, Mars in own sign (Aries, Scorpio), Mars exalted (Capricorn), Jupiter aspecting Mars, both partners being Manglik, or Mars in specific signs per house. After applying all rules, only ~10-15% of "Manglik" individuals have truly active dosha.
 
 **Q: What makes Astro Marriage different from other Kundali matching tools?**
-A: Astro Marriage combines multiple Vedic systems (Parashari, KP, Jaimini) rather than just basic Ashtakoot matching. It also provides AI-generated natural language insights, spouse characteristic predictions using Darakaraka analysis, and a partner comparison tool to evaluate multiple potential matches side by side.
+A: Astro Marriage combines 4 Vedic systems (Parashari, KP, Jaimini, Bhrigu Nandi Nadi) rather than just basic Ashtakoot matching. It provides AI-generated natural language insights, spouse characteristic predictions using Darakaraka analysis, Upapada Lagna for marriage stability, multi-system marriage timing convergence, and 15+ Mangal Dosha cancellation rules. All calculations use Swiss Ephemeris (JPL DE431 accuracy) and run entirely in your browser for privacy.
+
+**Q: How accurate is Vedic astrology for marriage?**
+A: Vedic astrology has been practiced for over 5,000 years as a compatibility and timing assessment tool. While no system is 100% predictive, Ashtakoot Milan provides a structured framework for evaluating compatibility across 8 dimensions. The multi-system convergence approach (Parashari + KP + Jaimini) significantly improves timing accuracy by cross-validating predictions. The system is best used as one input in a holistic marriage decision.
+
+## Classical References
+- Brihat Parashara Hora Shastra — Maharishi Parashara (foundation of Parashari astrology)
+- Jataka Parijata — Vaidyanatha Dikshita (marriage compatibility principles)
+- Muhurta Chintamani — Daivagna Rama (electional astrology for marriage timing)
+- Krishnamurti Paddhati Reader — Prof. K.S. Krishnamurti (KP sub-lord system)
+- Jaimini Sutras — Maharishi Jaimini (Chara Karakas, Upapada Lagna)
+- Lal Kitab — Pt. Roop Chand Joshi (remedial measures)
+- Swiss Ephemeris — Astrodienst AG (JPL DE431 planetary computation)
 
 ## Technology Stack
 - Frontend: React 18, TypeScript, Vite, Tailwind CSS

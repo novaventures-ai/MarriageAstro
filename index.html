@@ -10,7 +10,8 @@
     <title>Astro Marriage - Free Kundali Matching & Vedic Marriage Compatibility Online</title>
     <meta name="description" content="Free online Kundali matching & Vedic marriage compatibility analysis. Ashtakoot Milan (36 points), marriage timing prediction, spouse characteristics & personalized remedies. Try now!" />
     <meta name="keywords" content="kundali matching, kundali milan, marriage compatibility, vedic astrology, ashtakoot milan, horoscope matching, marriage prediction, spouse prediction, gun milan, vivah jyotish, marriage timing, compatibility score, free kundali matching online" />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    <meta name="bingbot" content="index, follow" />
 
     <!-- Hreflang for language/region targeting -->
     <link rel="alternate" hreflang="en" href="https://astro-marriage.vercel.app" />
@@ -145,9 +146,74 @@
       "@type": "BreadcrumbList",
       "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://astro-marriage.vercel.app"},
-        {"@type": "ListItem", "position": 2, "name": "Birth Chart Calculator", "item": "https://astro-marriage.vercel.app/calculator"},
-        {"@type": "ListItem", "position": 3, "name": "Dashboard", "item": "https://astro-marriage.vercel.app/dashboard"},
-        {"@type": "ListItem", "position": 4, "name": "Partner Comparison", "item": "https://astro-marriage.vercel.app/comparison"}
+        {"@type": "ListItem", "position": 2, "name": "How It Works", "item": "https://astro-marriage.vercel.app/how-it-works"},
+        {"@type": "ListItem", "position": 3, "name": "Ashtakoot Milan Guide", "item": "https://astro-marriage.vercel.app/guides/ashtakoot-milan"},
+        {"@type": "ListItem", "position": 4, "name": "Marriage Timing Guide", "item": "https://astro-marriage.vercel.app/guides/marriage-timing"},
+        {"@type": "ListItem", "position": 5, "name": "Mangal Dosha Guide", "item": "https://astro-marriage.vercel.app/guides/mangal-dosha"},
+        {"@type": "ListItem", "position": 6, "name": "Birth Chart Calculator", "item": "https://astro-marriage.vercel.app/calculator"},
+        {"@type": "ListItem", "position": 7, "name": "Dashboard", "item": "https://astro-marriage.vercel.app/dashboard"}
+      ]
+    }
+    </script>
+
+    <!-- Article Schema for guide pages (helps Bing Copilot & Google AI Overviews) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": "Vedic Astrology Marriage Guides",
+      "description": "Comprehensive guides on Vedic astrology marriage compatibility, timing prediction, and dosha analysis",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "item": {
+            "@type": "Article",
+            "name": "How Vedic Kundali Matching Works — Methodology & Calculations",
+            "url": "https://astro-marriage.vercel.app/how-it-works",
+            "author": {"@type": "Organization", "name": "Astro Marriage by NovaVentures AI"},
+            "publisher": {"@type": "Organization", "name": "Astro Marriage", "logo": {"@type": "ImageObject", "url": "https://astro-marriage.vercel.app/icon.svg"}},
+            "description": "Learn how Astro Marriage calculates Vedic marriage compatibility using Ashtakoot Milan, Swiss Ephemeris, KP Astrology, and Jaimini Chara Karakas.",
+            "about": ["Vedic Astrology", "Kundali Matching", "Ashtakoot Milan", "KP Astrology", "Jaimini System"],
+            "citation": ["Brihat Parashara Hora Shastra", "Jataka Parijata", "Muhurta Chintamani", "Krishnamurti Paddhati Reader"]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "item": {
+            "@type": "Article",
+            "name": "Ashtakoot Milan — Complete Guide to 36-Point Kundali Matching",
+            "url": "https://astro-marriage.vercel.app/guides/ashtakoot-milan",
+            "author": {"@type": "Organization", "name": "Astro Marriage by NovaVentures AI"},
+            "description": "Complete guide to all 8 Kootas — Varna, Vashya, Tara, Yoni, Graha Maitri, Gana, Bhakoot, Nadi — scoring rules, dosha cancellations, and interpretation.",
+            "about": ["Ashtakoot Milan", "Gun Milan", "Kundali Matching", "Marriage Compatibility"]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "item": {
+            "@type": "Article",
+            "name": "Marriage Timing Prediction in Vedic Astrology",
+            "url": "https://astro-marriage.vercel.app/guides/marriage-timing",
+            "author": {"@type": "Organization", "name": "Astro Marriage by NovaVentures AI"},
+            "description": "How Vedic astrology predicts marriage timing using Vimshottari Dasha, Jupiter-Saturn transits, KP sub-lords, and Jaimini Chara Dasha.",
+            "about": ["Marriage Timing", "Vimshottari Dasha", "Jupiter Transit", "KP Astrology"]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "item": {
+            "@type": "Article",
+            "name": "Mangal Dosha — Meaning, Cancellation Rules & Remedies",
+            "url": "https://astro-marriage.vercel.app/guides/mangal-dosha",
+            "author": {"@type": "Organization", "name": "Astro Marriage by NovaVentures AI"},
+            "description": "Complete guide to Mangal Dosha (Kuja Dosha) — what makes you Manglik, 15+ cancellation rules, effects on marriage, and proven remedies.",
+            "about": ["Mangal Dosha", "Manglik", "Kuja Dosha", "Mars in Marriage"]
+          }
+        }
       ]
     }
     </script>
