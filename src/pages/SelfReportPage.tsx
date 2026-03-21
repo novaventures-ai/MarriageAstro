@@ -44,6 +44,12 @@ import { RelationshipPatternWidget } from '../components/widgets/RelationshipPat
 import { SelfAstroMindWidget } from '../components/ai/SelfAstroMindWidget';
 import { SelfRemediesWidget } from '../components/widgets/SelfRemediesWidget';
 import { SelfSexualProfileWidget } from '../components/widgets/SelfSexualProfileWidget';
+import { SelfRiskRadarWidget } from '../components/widgets/SelfRiskRadarWidget';
+import { SelfVulnerabilityTimelineWidget } from '../components/widgets/SelfVulnerabilityTimelineWidget';
+import { SelfPsychologicalProfileWidget } from '../components/widgets/SelfPsychologicalProfileWidget';
+import { SelfConflictTendencyWidget } from '../components/widgets/SelfConflictTendencyWidget';
+import { IdealPartnerProfileWidget } from '../components/widgets/IdealPartnerProfileWidget';
+import { MarriageReadinessWidget } from '../components/widgets/MarriageReadinessWidget';
 import { UserDashboard } from '../components/dashboard/UserDashboard';
 import { ErrorBoundary } from '../components/ErrorBoundary';
 
@@ -121,6 +127,7 @@ export const SelfReportPage: React.FC = () => {
       gradient: 'from-purple-500 to-indigo-600',
       widgets: [
         { id: 'overview', label: 'Overall Core Potential' },
+        { id: 'readiness', label: 'Marriage Readiness' },
         { id: 'doshas', label: 'Yogas & Doshas' },
         { id: 'kp', label: 'KP Promise Analysis' },
       ],
@@ -139,6 +146,7 @@ export const SelfReportPage: React.FC = () => {
       gradient: 'from-blue-500 to-cyan-600',
       widgets: [
         { id: 'prediction', label: 'Spouse Prediction Details' },
+        { id: 'ideal-partner', label: 'Ideal Partner Profile' },
         { id: '7thhouse', label: '7th House Placement' },
         { id: 'navamsa', label: 'D9 Navamsa (Marriage Chart)' },
         { id: 'chara', label: 'Jaimini Soul Connection' },
@@ -173,8 +181,10 @@ export const SelfReportPage: React.FC = () => {
       gradient: 'from-emerald-500 to-teal-600',
       widgets: [
         { id: 'psychology', label: 'Psychological Profile' },
+        { id: 'conflict', label: 'Conflict Tendencies' },
         { id: 'patterns', label: 'Relationship Behaviors' },
-        { id: 'mental', label: 'Mental Health Impact' }
+        { id: 'mental', label: 'Mental Health Impact' },
+        { id: 'risk-radar', label: 'Risk Radar' }
       ],
       dynamicData: {
         highlight: `Attachment: ${selfReport.psychologicalProfile?.attachmentStyle?.type || 'analyzed'}`
@@ -189,6 +199,7 @@ export const SelfReportPage: React.FC = () => {
       gradient: 'from-indigo-500 to-violet-600',
       widgets: [
         { id: 'timing', label: 'Life Timeline' },
+        { id: 'vulnerability', label: 'Vulnerability Timeline' },
         { id: 'remedies', label: 'Actionable Remedies' },
       ]
     }
@@ -328,6 +339,12 @@ export const SelfReportPage: React.FC = () => {
                   </ErrorBoundary>
                 </div>
 
+                <div id="readiness">
+                  <ErrorBoundary>
+                    <MarriageReadinessWidget report={selfReport} />
+                  </ErrorBoundary>
+                </div>
+
                 <div id="doshas">
                   <ErrorBoundary>
                     <YogaDoshaWidget
@@ -374,6 +391,12 @@ export const SelfReportPage: React.FC = () => {
                     </ErrorBoundary>
                   </div>
                 )}
+
+                <div id="ideal-partner">
+                  <ErrorBoundary>
+                    <IdealPartnerProfileWidget report={selfReport} />
+                  </ErrorBoundary>
+                </div>
 
                 {selfChart && (
                   <div id="7thhouse">
@@ -460,7 +483,13 @@ export const SelfReportPage: React.FC = () => {
               <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
                 <div id="psychology">
                   <ErrorBoundary>
-                    <PsychologyWidget profile={selfReport.psychologicalProfile} />
+                    <SelfPsychologicalProfileWidget report={selfReport} />
+                  </ErrorBoundary>
+                </div>
+
+                <div id="conflict">
+                  <ErrorBoundary>
+                    <SelfConflictTendencyWidget report={selfReport} />
                   </ErrorBoundary>
                 </div>
 
@@ -485,6 +514,12 @@ export const SelfReportPage: React.FC = () => {
                     </ErrorBoundary>
                   </div>
                 )}
+
+                <div id="risk-radar">
+                  <ErrorBoundary>
+                    <SelfRiskRadarWidget report={selfReport} />
+                  </ErrorBoundary>
+                </div>
               </div>
             )}
 
@@ -497,6 +532,12 @@ export const SelfReportPage: React.FC = () => {
                       timing={selfReport.timing}
                       timingForecast={selfReport.timingForecast}
                     />
+                  </ErrorBoundary>
+                </div>
+
+                <div id="vulnerability">
+                  <ErrorBoundary>
+                    <SelfVulnerabilityTimelineWidget report={selfReport} />
                   </ErrorBoundary>
                 </div>
 

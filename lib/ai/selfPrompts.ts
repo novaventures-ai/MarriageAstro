@@ -19,7 +19,12 @@ export type SelfAIType =
   | 'PERSONAL_REMEDIES'
   | 'ASTRO_MIND_SELF'
   | 'QUICK_COMPATIBILITY'
-  | 'MARRIAGE_POTENTIAL_DEEP_DIVE';
+  | 'MARRIAGE_POTENTIAL_DEEP_DIVE'
+  | 'RISK_RADAR_ANALYSIS'
+  | 'CONFLICT_TENDENCY'
+  | 'IDEAL_PARTNER_DEEP'
+  | 'MARRIAGE_READINESS'
+  | 'VULNERABILITY_TIMELINE';
 
 export const SELF_SYSTEM_PROMPTS: Record<SelfAIType, string> = {
   SELF_GUIDE: `You are "The Self-Astrologer" - A wise Vedic Astrology guide specializing in individual marriage potential.
@@ -358,6 +363,75 @@ SECTIONS:
 - Positive indicators
 - Natural advantages
 - How to maximize them`,
+
+  RISK_RADAR_ANALYSIS: `You are "The Risk Analyst" - A Vedic astrology expert specializing in identifying personal red flags that affect marriage.
+You analyze: Mars placement, dosha severity, addiction susceptibility, emotional volatility, and relationship instability patterns.
+
+ROLE: Provide an honest but compassionate assessment of the person's risk profile for marriage.
+TONE: Direct yet supportive. Frame risks as areas for growth, not condemnation.
+OUTPUT FORMAT: Plain text only. Use emoji section headers. No markdown formatting.
+
+SECTIONS:
+🔴 Critical Risks (if any)
+🟡 Moderate Concerns
+🟢 Protective Factors
+💡 Growth Plan (specific actions to reduce each risk)
+🛡️ Overall Risk Mitigation Strategy`,
+
+  CONFLICT_TENDENCY: `You are "The Conflict Coach" - A Vedic astrology expert who analyzes Mars, Saturn, Mercury, and Moon to understand how a person handles anger, stress, and compromise in relationships.
+
+ROLE: Analyze the person's conflict patterns and provide actionable advice for better relationship harmony.
+TONE: Understanding and practical. No judgment.
+OUTPUT FORMAT: Plain text only. Use emoji section headers. No markdown formatting.
+
+SECTIONS:
+🔥 Anger Triggers & Patterns
+🌊 Stress Response Style
+💬 Communication Under Pressure
+🤝 Compromise Capacity
+🧘 Personalized De-escalation Techniques
+📋 30-Day Conflict Management Plan`,
+
+  IDEAL_PARTNER_DEEP: `You are "The Matchmaker Sage" - A Vedic astrology expert who paints a vivid portrait of the user's ideal partner based on their 7th house, Venus, Darakaraka, and Navamsa.
+
+ROLE: Describe the ideal partner in rich, specific detail — personality, appearance, career, values, and how they'll meet.
+TONE: Vivid, personal, and engaging. Make it feel like a glimpse into their future.
+OUTPUT FORMAT: Plain text only. Use emoji section headers. No markdown formatting.
+
+SECTIONS:
+✨ First Impression (what they look and feel like)
+💼 Career & Ambitions
+🧠 Mind & Values
+💕 How Love Unfolds Between You
+🗺️ Where & When You Meet
+🔮 The Relationship Dynamic`,
+
+  MARRIAGE_READINESS: `You are "The Readiness Coach" - A Vedic astrology expert who assesses whether someone is truly ready for marriage based on planetary maturity, dasha cycles, and psychological indicators.
+
+ROLE: Evaluate the person's readiness across emotional, spiritual, financial, and astrological dimensions.
+TONE: Encouraging but honest. Celebrate what's ready, coach what needs work.
+OUTPUT FORMAT: Plain text only. Use emoji section headers. No markdown formatting.
+
+SECTIONS:
+📊 Readiness Score Interpretation
+✅ What's Ready
+⚠️ What Needs Work
+📅 Optimal Timeline
+🎯 5-Step Preparation Plan
+💫 Affirmation & Encouragement`,
+
+  VULNERABILITY_TIMELINE: `You are "The Timeline Oracle" - A Vedic astrology expert who maps favorable and vulnerable periods across a person's life for marriage decisions.
+
+ROLE: Analyze dasha periods, transits, and planetary cycles to identify windows of opportunity and caution.
+TONE: Precise and practical. Give specific date ranges when possible.
+OUTPUT FORMAT: Plain text only. Use emoji section headers. No markdown formatting.
+
+SECTIONS:
+🟢 Current Window Assessment
+📅 Next 5 Years: Month-by-Month Outlook
+⚡ High-Energy Windows (best for meeting/deciding)
+🛑 Caution Periods (avoid major decisions)
+🎯 Strategic Recommendation`,
 };
 
 // Helper to get moon sign safely
@@ -539,6 +613,97 @@ Provide a comprehensive deep-dive analysis of ${chart.name}'s marriage potential
 
     case 'ASTRO_MIND_SELF':
       return `${basicInfo}\nPLANETARY POSITIONS: ${simplifiedPlanets}\n\nAnswer ${chart.name}'s question based on their chart data.`;
+
+    case 'RISK_RADAR_ANALYSIS':
+      const riskPatterns = selfReport.relationshipPatterns;
+      const mhRisk = selfReport.mentalHealth;
+      const addRisk = selfReport.addictionRisk;
+      return `
+${basicInfo}
+RISK INDICATORS:
+Marriage Delay Indicators: ${marriagePotential.delayIndicators.join(', ') || 'None'}
+Relationship Pattern Risk: ${riskPatterns?.overallRiskLevel || 'unknown'}
+Mental Health: ${mhRisk?.overallWellbeing || 'unknown'} (Risk Score: ${mhRisk?.totalRiskScore || 0})
+Addiction Risk: ${(addRisk as any)?.levels?.overall || 'unknown'}
+Doshas Present: ${doshaAnalysis.doshas.filter(d => d.present).map(d => `${d.name} (${d.severity})`).join(', ') || 'None'}
+Challenges: ${marriagePotential.challenges.join(', ')}
+
+PLANETARY POSITIONS: ${simplifiedPlanets}
+
+Analyze ${chart.name}'s personal risk profile across all dimensions. Be specific about which planets cause which risks.
+`;
+
+    case 'CONFLICT_TENDENCY':
+      const mars = chart.planetaryPositions.find(p => p.planet === 'Mars');
+      const saturn = chart.planetaryPositions.find(p => p.planet === 'Saturn');
+      const mercury = chart.planetaryPositions.find(p => p.planet === 'Mercury');
+      return `
+${basicInfo}
+CONFLICT INDICATORS:
+Mars: ${mars?.sign || 'Unknown'} in House ${mars?.house || '?'} ${mars?.isRetrograde ? '(Retrograde)' : ''}
+Saturn: ${saturn?.sign || 'Unknown'} in House ${saturn?.house || '?'} ${saturn?.isRetrograde ? '(Retrograde)' : ''}
+Mercury: ${mercury?.sign || 'Unknown'} in House ${mercury?.house || '?'} ${mercury?.isRetrograde ? '(Retrograde)' : ''}
+Moon: ${getMoonSign(chart)} in House ${chart.planetaryPositions.find(p => p.planet === 'Moon')?.house || '?'}
+
+EXISTING CHALLENGES: ${marriagePotential.challenges.join(', ')}
+
+Analyze ${chart.name}'s conflict tendencies in relationships — anger, stress, communication friction, and compromise ability.
+`;
+
+    case 'IDEAL_PARTNER_DEEP':
+      const spouseP = selfReport.spousePrediction;
+      const detailedP = selfReport.spouseDetailedProfile;
+      return `
+${basicInfo}
+7TH HOUSE DATA:
+Venus: ${chart.planetaryPositions.find(p => p.planet === 'Venus')?.sign || 'Unknown'} in House ${chart.planetaryPositions.find(p => p.planet === 'Venus')?.house || '?'}
+7th Lord in: House ${chart.houses?.find(h => h.houseNumber === 7)?.planets?.join(', ') || 'None'}
+
+SPOUSE PREDICTION:
+${spouseP ? `Direction: ${(spouseP as any).direction || 'Unknown'}, Profession: ${(spouseP as any).profession || 'Unknown'}` : 'Basic prediction available'}
+${detailedP ? `Appearance: ${detailedP.physicalAppearance?.height || ''} ${detailedP.physicalAppearance?.build || ''}, Career: ${detailedP.career?.field || ''}` : ''}
+
+PLANETARY POSITIONS: ${simplifiedPlanets}
+
+Paint a vivid, detailed portrait of ${chart.name}'s ideal life partner — who they are, what they look like, their career, values, and how they'll meet.
+`;
+
+    case 'MARRIAGE_READINESS':
+      return `
+${basicInfo}
+READINESS INDICATORS:
+Marriage Score: ${marriagePotential.score}/100 (${marriagePotential.verdict})
+7th House: ${marriagePotential.seventhHouseStrength}%, Navamsa: ${marriagePotential.navamsaQuality}%, Dasha: ${marriagePotential.dashaSupport}%
+Quality: ${marriagePotential.marriageQuality}
+Strengths: ${marriagePotential.strengths.join(', ')}
+Challenges: ${marriagePotential.challenges.join(', ')}
+Delays: ${marriagePotential.delayIndicators.join(', ') || 'None'}
+Mental Health: ${selfReport.mentalHealth?.overallWellbeing || 'unknown'}
+Severe Doshas: ${doshaAnalysis.doshas.filter(d => d.severity === 'severe' && d.present).map(d => d.name).join(', ') || 'None'}
+
+Evaluate ${chart.name}'s marriage readiness. Score each dimension and provide a preparation plan.
+`;
+
+    case 'VULNERABILITY_TIMELINE':
+      const favP = timingForecast?.favorablePeriods || [];
+      const cautP = timingForecast?.cautionaryPeriods || [];
+      return `
+${basicInfo}
+TIMING DATA:
+Current Dasha: ${selfReport.timing.partnerA.currentDasha || 'Unknown'}
+Next Window: ${timingForecast?.nextMarriageWindow?.yearRange || 'Calculating...'}
+Current Phase: ${timingForecast?.currentPhase?.name || 'Unknown'}
+
+FAVORABLE PERIODS:
+${favP.slice(0, 5).map((p: any) => `- ${p.dates}: ${p.dashaPeriod} (${p.confidence}% confidence)`).join('\n') || 'None identified'}
+
+CAUTIONARY PERIODS:
+${cautP.slice(0, 5).map((p: any) => `- ${p.dates}: ${p.reason}`).join('\n') || 'None identified'}
+
+PLANETARY POSITIONS: ${simplifiedPlanets}
+
+Provide a detailed timeline analysis for ${chart.name}'s marriage journey — when to act, when to wait.
+`;
 
     default:
       return `${basicInfo}\nPLANETARY POSITIONS: ${simplifiedPlanets}\n\nAnalyze ${chart.name}'s chart regarding: ${type}`;
