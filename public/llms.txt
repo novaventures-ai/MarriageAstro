@@ -1,0 +1,19 @@
+# Astro Marriage - Vedic Astrology Marriage Compatibility Analysis
+
+## About
+Astro Marriage is a web application that provides advanced Vedic astrology marriage compatibility analysis. It uses traditional Ashtakoot Milan, KP Astrology, Jaimini system, and modern psychological profiling to analyze marriage potential and partner compatibility.
+
+## Features
+- Self Analysis: Individual marriage potential score, spouse prediction, timing analysis
+- Compatibility Analysis: Full partner comparison with Ashtakoot Milan scoring
+- AI-Powered Insights: Gemini AI integration for personalized astrological guidance
+- Risk Assessment: Divorce probability, infidelity risk, vulnerability timeline
+- Psychological Profiling: Attachment styles, love languages, conflict tendencies
+- Remedies: Personalized gemstone, mantra, and lifestyle recommendations
+
+## Technology
+Built with React, TypeScript, Vite, Zustand, Supabase, and Swiss Ephemeris (WASM).
+Vedic calculations include: Ashtakoot Milan, Navamsa (D9), KP System, Chara Karakas, Upapada Lagna, and transit analysis.
+
+## URL
+https://astro-marriage.vercel.app
