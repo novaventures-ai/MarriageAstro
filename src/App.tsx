@@ -23,6 +23,15 @@ const AddPartnerPage = lazy(() => import('./pages/AddPartnerPage').then(m => ({ 
 const QuickComparePage = lazy(() => import('./pages/QuickComparePage').then(m => ({ default: m.QuickComparePage })));
 const PartnerDetailsPage = lazy(() => import('./pages/PartnerDetailsPage').then(m => ({ default: m.PartnerDetailsPage })));
 
+// Dashboard
+const DashboardLayout = lazy(() => import('./components/dashboard/DashboardLayout').then(m => ({ default: m.DashboardLayout })));
+const DashboardPage = lazy(() => import('./pages/DashboardPage').then(m => ({ default: m.DashboardPage })));
+const DashboardSelfAnalysisPage = lazy(() => import('./pages/dashboard/DashboardSelfAnalysisPage').then(m => ({ default: m.DashboardSelfAnalysisPage })));
+const DashboardPartnersPage = lazy(() => import('./pages/dashboard/DashboardPartnersPage').then(m => ({ default: m.DashboardPartnersPage })));
+const DashboardCompatibilityPage = lazy(() => import('./pages/dashboard/DashboardCompatibilityPage').then(m => ({ default: m.DashboardCompatibilityPage })));
+const DashboardComparePage = lazy(() => import('./pages/dashboard/DashboardComparePage').then(m => ({ default: m.DashboardComparePage })));
+const DashboardReportsPage = lazy(() => import('./pages/dashboard/DashboardReportsPage').then(m => ({ default: m.DashboardReportsPage })));
+
 function LoadingFallback() {
   return (
     <div className="min-h-screen flex items-center justify-center">
@@ -38,31 +47,75 @@ function App() {
     <ThemeProvider>
       <AuthProvider>
         <Router>
-          <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-indigo-950 transition-colors duration-500">
-            <ErrorBoundary>
-            <Suspense fallback={<LoadingFallback />}>
-              <Routes>
-                {/* Public Routes */}
-                <Route path="/" element={<LandingPage />} />
+          <ErrorBoundary>
+          <Suspense fallback={<LoadingFallback />}>
+            <Routes>
+              {/* Public Routes */}
+              <Route path="/" element={
+                <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-indigo-950 transition-colors duration-500">
+                  <LandingPage />
+                </div>
+              } />
 
-                {/* Compatibility Mode */}
-                <Route path="/calculator" element={<CalculatorPage />} />
-                <Route path="/report" element={<ReportPage />} />
-                <Route path="/comparison" element={<ComparisonPage />} />
+              {/* Dashboard (own layout, no outer gradient wrapper) */}
+              <Route path="/dashboard" element={<DashboardLayout />}>
+                <Route index element={<DashboardPage />} />
+                <Route path="self-analysis" element={<DashboardSelfAnalysisPage />} />
+                <Route path="partners" element={<DashboardPartnersPage />} />
+                <Route path="compatibility" element={<DashboardCompatibilityPage />} />
+                <Route path="compare" element={<DashboardComparePage />} />
+                <Route path="reports" element={<DashboardReportsPage />} />
+              </Route>
 
-                {/* Self Mode */}
-                <Route path="/self-calculator" element={<SelfCalculatorPage />} />
-                <Route path="/self-report" element={<SelfReportPage />} />
-                <Route path="/add-partner" element={<AddPartnerPage />} />
-                <Route path="/quick-compare/:partnerId" element={<QuickComparePage />} />
-                <Route path="/partner/:partnerId" element={<PartnerDetailsPage />} />
+              {/* Standalone pages (keep gradient wrapper) */}
+              <Route path="/calculator" element={
+                <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-indigo-950 transition-colors duration-500">
+                  <CalculatorPage />
+                </div>
+              } />
+              <Route path="/report" element={
+                <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-indigo-950 transition-colors duration-500">
+                  <ReportPage />
+                </div>
+              } />
+              <Route path="/comparison" element={
+                <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-indigo-950 transition-colors duration-500">
+                  <ComparisonPage />
+                </div>
+              } />
 
-                {/* Auth */}
-                <Route path="/auth/callback" element={<AuthCallbackPage />} />
-              </Routes>
-            </Suspense>
-            </ErrorBoundary>
-          </div>
+              {/* Self Mode */}
+              <Route path="/self-calculator" element={
+                <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-indigo-950 transition-colors duration-500">
+                  <SelfCalculatorPage />
+                </div>
+              } />
+              <Route path="/self-report" element={
+                <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-indigo-950 transition-colors duration-500">
+                  <SelfReportPage />
+                </div>
+              } />
+              <Route path="/add-partner" element={
+                <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-indigo-950 transition-colors duration-500">
+                  <AddPartnerPage />
+                </div>
+              } />
+              <Route path="/quick-compare/:partnerId" element={
+                <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-indigo-950 transition-colors duration-500">
+                  <QuickComparePage />
+                </div>
+              } />
+              <Route path="/partner/:partnerId" element={
+                <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-indigo-950 transition-colors duration-500">
+                  <PartnerDetailsPage />
+                </div>
+              } />
+
+              {/* Auth */}
+              <Route path="/auth/callback" element={<AuthCallbackPage />} />
+            </Routes>
+          </Suspense>
+          </ErrorBoundary>
         </Router>
       </AuthProvider>
     </ThemeProvider>

@@ -1,35 +1,53 @@
 /**
  * Landing Page
- * Updated with Self Mode and User Dashboard - Mobile Optimized
+ * Marketing/onboarding page for new/logged-out users
+ * Redirects users with existing profiles to the dashboard
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Heart, Stars, Sparkles, ArrowRight, Scale, User, ChevronRight } from 'lucide-react';
+import { Heart, Stars, Sparkles, ArrowRight, User, ChevronRight, LayoutDashboard } from 'lucide-react';
 import { ThemeToggle } from '../components/ui/ThemeToggle';
 import { AuthButton } from '../components/ui/AuthButton';
-import { SavedReportsPanel } from '../components/ui/SavedReportsPanel';
-import { UserDashboard } from '../components/dashboard/UserDashboard';
 import { useUserProfileStore } from '../store/useUserProfileStore';
+import { useAuth } from '../context/AuthContext';
 import { Logo } from '../components/ui/Logo';
 
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate();
   const { selfChart } = useUserProfileStore();
+  const { user, isLoading } = useAuth();
+
+  // Auto-redirect logged-in users with a profile to dashboard
+  useEffect(() => {
+    if (!isLoading && user && selfChart) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [user, selfChart, isLoading, navigate]);
 
   return (
     <div className="min-h-screen flex flex-col transition-colors duration-500">
-      {/* Header - Mobile Optimized */}
+      {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-3 sm:px-6 py-3 sm:py-4 bg-white/10 backdrop-blur-md dark:bg-black/10 transition-colors duration-500 safe-area-x">
         <Logo size="sm" className="sm:hidden" />
         <Logo size="md" className="hidden sm:block" />
         <div className="flex items-center gap-2 sm:gap-3">
+          {/* Dashboard button for logged-in users who haven't been redirected */}
+          {user && selfChart && (
+            <button
+              onClick={() => navigate('/dashboard')}
+              className="inline-flex items-center gap-2 px-3 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 transition-colors"
+            >
+              <LayoutDashboard className="w-4 h-4" />
+              <span className="hidden sm:inline">Dashboard</span>
+            </button>
+          )}
           <AuthButton />
           <ThemeToggle />
         </div>
       </header>
 
-      {/* Hero Section - Mobile Optimized */}
+      {/* Hero Section */}
       <section className="flex-1 flex flex-col items-center justify-center px-4 py-20 sm:py-24 md:py-32 text-center safe-area-x">
         <div className="max-w-5xl mx-auto w-full">
           <div className="flex justify-center mb-6 sm:mb-8">
@@ -45,7 +63,7 @@ export const LandingPage: React.FC = () => {
             Unlock the secrets of your marriage timing, spouse characteristics, and relationship potential through Vedic astrology
           </p>
 
-          {/* Mode Selection Cards - Mobile Optimized */}
+          {/* Mode Selection Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 max-w-4xl mx-auto mb-8 sm:mb-12 px-2 sm:px-0">
             {/* Self Analysis Card */}
             <div
@@ -87,45 +105,10 @@ export const LandingPage: React.FC = () => {
               </button>
             </div>
           </div>
-
-          {/* Quick Actions for Existing Users - Mobile Optimized */}
-          {selfChart && (
-            <div className="flex flex-wrap justify-center gap-2 sm:gap-3 px-2 sm:px-0">
-              <button
-                onClick={() => navigate('/self-report')}
-                className="px-4 sm:px-6 py-2.5 sm:py-3 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-purple-600 dark:text-purple-400 font-semibold rounded-full shadow-md hover:shadow-lg border border-purple-200 dark:border-purple-700 transition-all text-xs sm:text-sm"
-              >
-                View My Analysis
-              </button>
-              <button
-                onClick={() => navigate('/add-partner')}
-                className="px-4 sm:px-6 py-2.5 sm:py-3 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-pink-600 dark:text-pink-400 font-semibold rounded-full shadow-md hover:shadow-lg border border-pink-200 dark:border-pink-700 transition-all text-xs sm:text-sm"
-              >
-                Add Partner
-              </button>
-              <button
-                onClick={() => navigate('/comparison')}
-                className="inline-flex items-center gap-1.5 sm:gap-2 px-4 sm:px-6 py-2.5 sm:py-3 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-indigo-600 dark:text-indigo-400 font-semibold rounded-full shadow-md hover:shadow-lg border border-indigo-200 dark:border-indigo-700 transition-all text-xs sm:text-sm"
-              >
-                <Scale className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
-                Compare Partners
-              </button>
-            </div>
-          )}
         </div>
       </section>
 
-      {/* User Dashboard - Shows if user has profile */}
-      <UserDashboard />
-
-      {/* Saved Reports (only visible for logged-in users) */}
-      <section className="px-3 sm:px-4 py-6 sm:py-8 safe-area-x">
-        <div className="max-w-6xl mx-auto">
-          <SavedReportsPanel />
-        </div>
-      </section>
-
-      {/* Features Section - Mobile Optimized */}
+      {/* Features Section */}
       <section className="py-12 sm:py-20 px-3 sm:px-4 bg-white/50 dark:bg-black/20 transition-colors duration-500 safe-area-x">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-gray-100 mb-10 sm:mb-16 transition-colors duration-500">
@@ -157,7 +140,7 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* How It Works Section - Mobile Optimized */}
+      {/* How It Works Section */}
       <section className="py-12 sm:py-20 px-3 sm:px-4 safe-area-x">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-gray-100 mb-10 sm:mb-16">
@@ -184,7 +167,7 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* CTA Section - Mobile Optimized */}
+      {/* CTA Section */}
       <section className="py-12 sm:py-20 px-3 sm:px-4 text-center bg-gradient-to-b from-transparent to-purple-50 dark:to-purple-900/10 safe-area-x">
         <div className="max-w-2xl mx-auto">
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-gray-100 mb-4 sm:mb-6 transition-colors duration-500">
@@ -212,7 +195,7 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Footer - Mobile Optimized */}
+      {/* Footer */}
       <footer className="py-6 sm:py-8 px-3 sm:px-4 border-t border-gray-200 dark:border-gray-800 safe-area-x">
         <div className="max-w-6xl mx-auto text-center text-gray-500 dark:text-gray-400 text-xs sm:text-sm">
           <p> 2024 Astro Marriage. Discover your cosmic destiny.</p>
