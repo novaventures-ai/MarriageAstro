@@ -10,6 +10,7 @@ import { ArrowLeft, Loader2, Sparkles, User } from 'lucide-react';
 import { ThemeToggle } from '../components/ui/ThemeToggle';
 import PlaceAutocomplete from '../components/PlaceAutocomplete';
 import { Logo } from '../components/ui/Logo';
+import { SEOHead } from '../components/SEOHead';
 
 // Birth data form component with Google Maps autocomplete
 const BirthDataForm: React.FC<{
@@ -302,6 +303,11 @@ export const SelfCalculatorPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+      <SEOHead
+        title="Marriage Analysis - Enter Birth Details"
+        description="Enter your birth details to get a complete Vedic astrology marriage analysis. Marriage timing prediction, spouse characteristics, Mangal Dosha check & personalized remedies."
+        path="/self-calculator"
+      />
       {/* Header */}
       <header className="sticky top-0 z-50 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
