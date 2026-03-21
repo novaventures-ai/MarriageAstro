@@ -23,6 +23,12 @@ const AddPartnerPage = lazy(() => import('./pages/AddPartnerPage').then(m => ({ 
 const QuickComparePage = lazy(() => import('./pages/QuickComparePage').then(m => ({ default: m.QuickComparePage })));
 const PartnerDetailsPage = lazy(() => import('./pages/PartnerDetailsPage').then(m => ({ default: m.PartnerDetailsPage })));
 
+// GEO Content Pages
+const HowItWorksPage = lazy(() => import('./pages/HowItWorksPage').then(m => ({ default: m.HowItWorksPage })));
+const AshtakootMilanGuide = lazy(() => import('./pages/guides/AshtakootMilanGuide').then(m => ({ default: m.AshtakootMilanGuide })));
+const MarriageTimingGuide = lazy(() => import('./pages/guides/MarriageTimingGuide').then(m => ({ default: m.MarriageTimingGuide })));
+const MangalDoshaGuide = lazy(() => import('./pages/guides/MangalDoshaGuide').then(m => ({ default: m.MangalDoshaGuide })));
+
 // 404
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
 
@@ -113,6 +119,12 @@ function App() {
                   <PartnerDetailsPage />
                 </div>
               } />
+
+              {/* GEO Content Pages (static, crawlable by AI engines) */}
+              <Route path="/how-it-works" element={<HowItWorksPage />} />
+              <Route path="/guides/ashtakoot-milan" element={<AshtakootMilanGuide />} />
+              <Route path="/guides/marriage-timing" element={<MarriageTimingGuide />} />
+              <Route path="/guides/mangal-dosha" element={<MangalDoshaGuide />} />
 
               {/* Auth */}
               <Route path="/auth/callback" element={<AuthCallbackPage />} />

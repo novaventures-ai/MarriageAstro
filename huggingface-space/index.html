@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Astro Marriage - Free Vedic Kundali Matching</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #eef2ff 0%, #f3e8ff 50%, #fce7f3 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .container {
+      max-width: 720px;
+      width: 100%;
+      background: white;
+      border-radius: 1.5rem;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+      padding: 3rem;
+      text-align: center;
+    }
+    .logo { font-size: 3rem; margin-bottom: 1rem; }
+    h1 {
+      font-size: 2rem;
+      background: linear-gradient(135deg, #4f46e5, #9333ea, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+    .subtitle { color: #6b7280; font-size: 1.1rem; margin-bottom: 2rem; }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: #f9fafb;
+      border-radius: 1rem;
+    }
+    .stat-num { font-size: 1.8rem; font-weight: 700; color: #4f46e5; }
+    .stat-label { font-size: 0.75rem; color: #6b7280; margin-top: 0.25rem; }
+    .features {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+      text-align: left;
+    }
+    .feature {
+      padding: 1rem;
+      background: #f9fafb;
+      border-radius: 0.75rem;
+      border: 1px solid #e5e7eb;
+    }
+    .feature h3 { font-size: 0.9rem; color: #1f2937; margin-bottom: 0.25rem; }
+    .feature p { font-size: 0.8rem; color: #6b7280; line-height: 1.4; }
+    .cta {
+      display: inline-block;
+      padding: 1rem 2.5rem;
+      background: linear-gradient(135deg, #4f46e5, #9333ea);
+      color: white;
+      text-decoration: none;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-bottom: 1.5rem;
+    }
+    .cta:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(79,70,229,0.3); }
+    .guides { margin-top: 1.5rem; }
+    .guides a {
+      display: inline-block;
+      margin: 0.3rem 0.5rem;
+      color: #4f46e5;
+      text-decoration: none;
+      font-size: 0.85rem;
+      border-bottom: 1px solid transparent;
+    }
+    .guides a:hover { border-bottom-color: #4f46e5; }
+    .footer { margin-top: 2rem; color: #9ca3af; font-size: 0.75rem; }
+    @media (max-width: 600px) {
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .features { grid-template-columns: 1fr; }
+      .container { padding: 2rem 1.5rem; }
+      h1 { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">🔮</div>
+    <h1>Astro Marriage</h1>
+    <p class="subtitle">Free Vedic Kundali Matching & Marriage Compatibility Analysis</p>
+
+    <div class="stats">
+      <div><div class="stat-num">9</div><div class="stat-label">Vedic Planets</div></div>
+      <div><div class="stat-num">27</div><div class="stat-label">Nakshatras</div></div>
+      <div><div class="stat-num">8</div><div class="stat-label">Kootas</div></div>
+      <div><div class="stat-num">36</div><div class="stat-label">Max Score</div></div>
+    </div>
+
+    <div class="features">
+      <div class="feature">
+        <h3>Ashtakoot Milan</h3>
+        <p>36-point compatibility scoring with Nadi, Bhakoot, and Gana dosha cancellation rules</p>
+      </div>
+      <div class="feature">
+        <h3>Marriage Timing</h3>
+        <p>Multi-system convergence: Vimshottari Dasha + KP sub-lords + Jaimini Chara Dasha</p>
+      </div>
+      <div class="feature">
+        <h3>Mangal Dosha</h3>
+        <p>Triple-check from Lagna, Moon & Venus with 15+ cancellation rules applied</p>
+      </div>
+      <div class="feature">
+        <h3>Spouse Prediction</h3>
+        <p>7th house lord, Darakaraka (Jaimini), Upapada Lagna & Navamsa analysis</p>
+      </div>
+    </div>
+
+    <a class="cta" href="https://astro-marriage.vercel.app" target="_blank" rel="noopener">
+      Try Astro Marriage Free →
+    </a>
+
+    <div class="guides">
+      <strong style="font-size: 0.85rem; color: #374151;">Learn More:</strong><br/>
+      <a href="https://astro-marriage.vercel.app/how-it-works" target="_blank">How It Works</a>
+      <a href="https://astro-marriage.vercel.app/guides/ashtakoot-milan" target="_blank">Ashtakoot Milan Guide</a>
+      <a href="https://astro-marriage.vercel.app/guides/marriage-timing" target="_blank">Marriage Timing</a>
+      <a href="https://astro-marriage.vercel.app/guides/mangal-dosha" target="_blank">Mangal Dosha Guide</a>
+    </div>
+
+    <div class="footer">
+      Built by NovaVentures AI · Swiss Ephemeris (WASM) · React 18 · TypeScript<br/>
+      All calculations run client-side — no birth data sent to servers
+    </div>
+  </div>
+</body>
+</html>

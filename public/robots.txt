@@ -1,5 +1,30 @@
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /auth/
+
+# AI Crawlers
+User-agent: GPTBot
+Allow: /
+Allow: /how-it-works
+Allow: /guides/
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
 
 Sitemap: https://astro-marriage.vercel.app/sitemap.xml
+
+# LLM-readable content
+# https://astro-marriage.vercel.app/llms.txt
