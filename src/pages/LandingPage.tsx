@@ -12,6 +12,7 @@ import { AuthButton } from '../components/ui/AuthButton';
 import { useUserProfileStore } from '../store/useUserProfileStore';
 import { useAuth } from '../context/AuthContext';
 import { Logo } from '../components/ui/Logo';
+import { GoogleTranslate } from '../components/ui/GoogleTranslate';
 import { SEOHead } from '../components/SEOHead';
 
 export const LandingPage: React.FC = () => {
@@ -54,6 +55,7 @@ export const LandingPage: React.FC = () => {
             </button>
           )}
           <AuthButton />
+          <GoogleTranslate />
           <ThemeToggle />
         </div>
       </header>
