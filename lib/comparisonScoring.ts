@@ -129,12 +129,15 @@ function scoreTraditional(report: CompatibilityReport): number {
 function scoreRelationship(report: CompatibilityReport): number {
     let score = 50; // baseline
     let dataPoints = 0;
+    const hasSynastryData = report.synastry != null;
 
     // ── Soulmate connections (harmonious aspects)
     const soulmate = report.synastry?.soulmateConnections || [];
     if (soulmate.length > 0) {
         score += Math.min(soulmate.length * 7, 25);
         dataPoints++;
+    } else if (hasSynastryData) {
+        score -= 5; // No soulmate connections despite having synastry data
     }
 
     // ── Karmic bonds
@@ -142,6 +145,8 @@ function scoreRelationship(report: CompatibilityReport): number {
     if (karmic.length > 0) {
         score += Math.min(karmic.length * 4, 12);
         dataPoints++;
+    } else if (hasSynastryData) {
+        score -= 3; // No karmic bonds despite having synastry data
     }
 
     // ── House overlays (planet-in-house synastry)
@@ -149,6 +154,8 @@ function scoreRelationship(report: CompatibilityReport): number {
     if (overlays.length > 0) {
         score += Math.min(overlays.length * 1.5, 8);
         dataPoints++;
+    } else if (hasSynastryData) {
+        score -= 3; // No house overlays despite having synastry data
     }
 
     // ── D9 Navamsa overlays
@@ -214,7 +221,7 @@ function scoreRelationship(report: CompatibilityReport): number {
  * Higher score = LOWER risk = BETTER
  */
 function scoreRisk(report: CompatibilityReport): number {
-    let score = 80; // start optimistic
+    let score = 70; // neutral baseline
 
     // ── Divorce probability
     if (report.riskAssessment?.divorceProbability) {
@@ -421,21 +428,11 @@ function scoreAdvanced(report: CompatibilityReport): number {
     // ── Upapada Lagna
     if (report.upapadaLagna) {
         // Having UL analysis itself is informative; bonus for details
-        score += 3;
+        score += 5;
         dataPoints++;
     }
 
-    // ── Vivah Saham (marriage sensitive point)
-    if (report.vivahSaham) {
-        const vsA = report.vivahSaham.partnerA as { activationPeriods?: string[] } | undefined;
-        const vsB = report.vivahSaham.partnerB as { activationPeriods?: string[] } | undefined;
-
-        // More activation periods = more marriage windows = positive
-        const periodsA = vsA?.activationPeriods?.length || 0;
-        const periodsB = vsB?.activationPeriods?.length || 0;
-        score += Math.min((periodsA + periodsB) * 2, 8);
-        dataPoints++;
-    }
+    // NOTE: Vivah Saham scored only in scoreTiming() to avoid double-counting
 
     // ── Divisional charts (D9 vargottama + pushkar + extended analysis)
     if (report.divisionalAnalysis?.d9) {
@@ -549,7 +546,7 @@ function scoreTiming(report: CompatibilityReport): number {
  * ✅ modernPlanets         → Risk
  * ✅ modernChallenges      → Risk
  * ✅ upapadaLagna          → Advanced + Risk (multiple marriage indication)
- * ✅ vivahSaham            → Advanced + Timing (activation periods)
+ * ✅ vivahSaham            → Timing only (activation periods)
  * ✅ extendedSexual        → Intimacy
  */
 export function calculateComparisonScore(report: CompatibilityReport): ComparisonScore {

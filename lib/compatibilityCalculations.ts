@@ -36,6 +36,7 @@ import {
 import yoniData from '../knowledge/yoni_sexual_compatibility.json';
 import spouseData from '../knowledge/spouse_indicators.json';
 import nakshatraCompatData from '../knowledge/nakshatra_compatibility.json';
+import yoniMatrixData from '../knowledge/yoni_matrix.json';
 
 // ============================================================================
 // ASHTAKOOT MILAN (36 POINTS)
@@ -214,20 +215,21 @@ function calculateYoni(nakshatraA: Nakshatra, nakshatraB: Nakshatra): AshtakootP
   const yoniA = metaA.yoni;
   const yoniB = metaB.yoni;
 
-  // Standard Yoni Matrix scoring (0-4)
-  // 4: Swabhav (Same), 3: Friend, 2: Neutral, 1: Enemy, 0: Bitter Enemy
-  let points = 2; // Default Neutral
+  // Use yoni_matrix.json for accurate 14x14 compatibility scoring (0-4)
+  // Map nakshatras directly to English animal names via yoni_matrix.json
+  const yoniAnimalA = (yoniMatrixData.nakshatra_to_yoni as any)[nakshatraA];
+  const yoniAnimalB = (yoniMatrixData.nakshatra_to_yoni as any)[nakshatraB];
 
-  if (yoniA === yoniB) {
-    points = 4;
-  } else if (YONI_BITTER_ENEMIES[yoniA] === yoniB || YONI_BITTER_ENEMIES[yoniB] === yoniA) {
-    points = 0;
+  let points = 2; // Default Neutral
+  if (yoniAnimalA && yoniAnimalB) {
+    points = (yoniMatrixData.compatibility_matrix as any)[yoniAnimalA]?.[yoniAnimalB] ?? 2;
   } else {
-    // Check for friendship/enmities based on animal type
-    // Simplified for now but much better than modulo 2
-    const friends = ['Ashwa', 'Gaja', 'Mriga', 'Vanar', 'Sarpa'];
-    if (friends.includes(yoniA) && friends.includes(yoniB)) points = 3;
-    else points = 2;
+    // Fallback to basic same/enemy check if nakshatra not in matrix
+    if (yoniA === yoniB) {
+      points = 4;
+    } else if (YONI_BITTER_ENEMIES[yoniA] === yoniB || YONI_BITTER_ENEMIES[yoniB] === yoniA) {
+      points = 0;
+    }
   }
 
   return {
@@ -422,10 +424,15 @@ export function calculateManglikDosha(chart: Chart, otherChart?: Chart): {
     }
   }
 
+  // Graduated cancellation: 3+ reasons = fully cancelled, 2 = mostly, 1 = partial
+  const graduatedScore = cancellationReasons.length >= 3 ? 0 :
+    cancellationReasons.length === 2 ? 0.25 :
+    cancellationReasons.length === 1 ? 0.5 : 1;
+
   return {
     isManglik: true,
-    score: cancellationReasons.length > 0 ? 0 : 1, // Final decision: Fully cancelled if reasons found
-    isCancelled: cancellationReasons.length > 0,
+    score: graduatedScore,
+    isCancelled: cancellationReasons.length >= 3,
     cancellationReasons
   };
 }
@@ -444,10 +451,9 @@ export function checkNadiCancellation(
   // Rule 2: Same nakshatra different rashi (Charan diff)
   if (nakshatraA === nakshatraB && signA !== signB) return true;
 
-  // Rule 3: Exception nakshatras - Comprehensive traditional list
+  // Rule 3: Exception nakshatras - Traditional Vedic texts (6 classically accepted)
   const exceptionNakshatras = [
-    'Rohini', 'Ardra', 'Punarvasu', 'Vishakha', 'Shravana', 'Revati',
-    'Mrigashirsha', 'Hasta', 'Pushya', 'Anuradha', 'Ashwini', 'Krittika'
+    'Rohini', 'Ardra', 'Pushya', 'Hasta', 'Shravana', 'Revati'
   ];
   if (exceptionNakshatras.includes(nakshatraA) && exceptionNakshatras.includes(nakshatraB)) {
     return true;
@@ -480,18 +486,8 @@ export function checkBhakootCancellation(signA: string, signB: string): boolean 
   // Rule 1: Same rashi lords
   if (lordA === lordB) return true;
 
-  // Rule 2: Friendly lords
-  const friends: Record<string, string[]> = {
-    'Sun': ['Moon', 'Mars', 'Jupiter'],
-    'Moon': ['Sun', 'Mercury'],
-    'Mars': ['Sun', 'Moon', 'Jupiter'],
-    'Mercury': ['Sun', 'Venus'],
-    'Jupiter': ['Sun', 'Moon', 'Mars'],
-    'Venus': ['Mercury', 'Saturn'],
-    'Saturn': ['Mercury', 'Venus']
-  };
-
-  if (friends[lordA]?.includes(lordB) && friends[lordB]?.includes(lordA)) return true;
+  // Rule 2: Mutually friendly lords (uses single source of truth from coreCalculations)
+  if (areFriends(lordA, lordB)) return true;
 
   // Rule 3: Specific Rashi Pairs (Aries-Scorpio, Taurus-Libra, Capricorn-Aquarius)
   const pairs = [['Aries', 'Scorpio'], ['Taurus', 'Libra'], ['Capricorn', 'Aquarius']];
@@ -507,17 +503,8 @@ export function checkGanaCancellation(signA: string, signB: string): boolean {
 
   if (lordA === lordB) return true;
 
-  const friends: Record<string, string[]> = {
-    'Sun': ['Moon', 'Mars', 'Jupiter'],
-    'Moon': ['Sun', 'Mercury'],
-    'Mars': ['Sun', 'Moon', 'Jupiter'],
-    'Mercury': ['Sun', 'Venus'],
-    'Jupiter': ['Sun', 'Moon', 'Mars'],
-    'Venus': ['Mercury', 'Saturn'],
-    'Saturn': ['Mercury', 'Venus']
-  };
-
-  return (friends[lordA]?.includes(lordB) && friends[lordB]?.includes(lordA)) || false;
+  // Uses single source of truth from coreCalculations
+  return areFriends(lordA, lordB);
 }
 
 // getSignLord and areFriends imported from coreCalculations.ts as single source of truth

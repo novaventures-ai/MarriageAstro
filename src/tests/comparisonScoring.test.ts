@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { calculateComparisonScore, ComparisonScore } from '../../lib/comparisonScoring';
 import { CompatibilityReport } from '../../types';
 
-// Minimal mock report with enough data to score
+// Minimal mock report with field names matching real CompatibilityReport types
 function createMockReport(overrides: Partial<CompatibilityReport> = {}): CompatibilityReport {
     return {
         ashtakoot: {
@@ -15,15 +15,25 @@ function createMockReport(overrides: Partial<CompatibilityReport> = {}): Compati
             score: 70,
         },
         synastry: {
-            overallScore: 65,
-            aspects: [],
-            soulmate: { score: 60 },
-            karmic: { score: 55 },
-            sexual: { score: 70 },
+            soulmateConnections: [
+                { planet1: 'Venus', planet2: 'Moon', aspect: 'trine', orb: 2, description: 'Harmonious bond' },
+            ],
+            karmicBonds: [
+                { planet1: 'Saturn', planet2: 'Moon', aspect: 'conjunction', orb: 3, description: 'Karmic link' },
+            ],
+            sexualChemistry: [
+                { planet1: 'Mars', planet2: 'Venus', aspect: 'conjunction', orb: 1, description: 'Passion' },
+            ],
+            allAspects: [],
+            houseOverlays: [
+                { planet: 'Venus', house: 7, description: 'Love in partnership', direction: 'A_in_B' },
+            ],
+            d9Overlays: [],
+            planetaryConjunctions: [],
         },
         riskAssessment: {
-            divorceRisk: { score: 25, level: 'low' },
-            infidelityRisk: { score: 15, level: 'low' },
+            divorceProbability: { score: 25, rawScore: 25, level: 'low', indicators: [], mitigation: [] },
+            infidelityRisk: { score: 15, rawScore: 15, level: 'low', indicators: [], warning: [] },
         },
         sexualCompatibility: {
             overallScore: 72,
@@ -95,5 +105,51 @@ describe('Comparison Scoring Engine', () => {
         expect(result.overall).toBeGreaterThanOrEqual(0);
         expect(result.overall).toBeLessThanOrEqual(100);
         expect(result.categories).toBeDefined();
+    });
+
+    it('should penalize relationship score when synastry has no soulmate connections', () => {
+        const noSoulmateReport = createMockReport({
+            synastry: {
+                soulmateConnections: [],
+                karmicBonds: [],
+                sexualChemistry: [],
+                allAspects: [],
+                houseOverlays: [],
+                d9Overlays: [],
+                planetaryConjunctions: [],
+            },
+        } as any);
+        const goodReport = createMockReport();
+
+        const noSoulmateResult = calculateComparisonScore(noSoulmateReport);
+        const goodResult = calculateComparisonScore(goodReport);
+
+        expect(noSoulmateResult.categories.relationship).toBeLessThan(goodResult.categories.relationship);
+    });
+
+    it('should use risk baseline of 70 (not 80)', () => {
+        // An empty report should yield risk score near 70, not 80
+        const emptyReport = {} as CompatibilityReport;
+        const result = calculateComparisonScore(emptyReport);
+
+        // With no risk data, score should be around 70 (the baseline)
+        expect(result.categories.risk).toBeLessThanOrEqual(75);
+    });
+
+    it('should not double-count Vivah Saham in both advanced and timing', () => {
+        const withVivah = createMockReport({
+            vivahSaham: {
+                partnerA: { activationPeriods: ['2025', '2026', '2027'] },
+                partnerB: { activationPeriods: ['2025', '2026'] },
+            },
+        } as any);
+        const withoutVivah = createMockReport();
+
+        const withResult = calculateComparisonScore(withVivah);
+        const withoutResult = calculateComparisonScore(withoutVivah);
+
+        // Vivah Saham should only boost timing, not advanced
+        expect(withResult.categories.timing).toBeGreaterThan(withoutResult.categories.timing);
+        expect(withResult.categories.advanced).toBe(withoutResult.categories.advanced);
     });
 });
