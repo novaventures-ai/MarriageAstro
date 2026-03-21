@@ -59,7 +59,7 @@ export const useGeminiChat = (reportContext: string) => {
             setMessages(prev => [...prev, aiMsg]);
 
         } catch (err: any) {
-            console.error("AstroMind Chat Error:", err);
+            console.error("AstroMind Chat Error:", err instanceof Error ? err.message : 'Unknown error');
             setError("The stars are clouded right now. Please try again.");
 
             // Optional: Remove user message if failed? Or keep it with error indicator? 

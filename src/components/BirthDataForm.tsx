@@ -22,8 +22,36 @@ export const BirthDataForm: React.FC<BirthDataFormProps> = ({
     timezone: defaultValues?.timezone || 'Asia/Kolkata',
   });
 
+  const [validationErrors, setValidationErrors] = useState<string[]>([]);
+
+  const validateForm = (): string[] => {
+    const errors: string[] = [];
+    if (!formData.name.trim() || formData.name.trim().length > 100) {
+      errors.push('Name must be between 1 and 100 characters.');
+    }
+    if (formData.latitude < -90 || formData.latitude > 90) {
+      errors.push('Latitude must be between -90 and 90.');
+    }
+    if (formData.longitude < -180 || formData.longitude > 180) {
+      errors.push('Longitude must be between -180 and 180.');
+    }
+    if (!formData.dateOfBirth) {
+      errors.push('Date of birth is required.');
+    }
+    if (!formData.timeOfBirth) {
+      errors.push('Time of birth is required.');
+    }
+    return errors;
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const errors = validateForm();
+    if (errors.length > 0) {
+      setValidationErrors(errors);
+      return;
+    }
+    setValidationErrors([]);
     onSubmit(formData);
   };
 
@@ -37,6 +65,13 @@ export const BirthDataForm: React.FC<BirthDataFormProps> = ({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+      {validationErrors.length > 0 && (
+        <div className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+          {validationErrors.map((err, i) => (
+            <p key={i} className="text-red-700 dark:text-red-400 text-sm">{err}</p>
+          ))}
+        </div>
+      )}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
         {/* Name */}
         <div>
@@ -134,6 +169,8 @@ export const BirthDataForm: React.FC<BirthDataFormProps> = ({
             value={formData.latitude}
             onChange={handleChange}
             step="0.0001"
+            min="-90"
+            max="90"
             required
             className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-gray-100 transition-colors text-sm sm:text-base"
             placeholder="e.g., 19.0760"
@@ -150,6 +187,8 @@ export const BirthDataForm: React.FC<BirthDataFormProps> = ({
             value={formData.longitude}
             onChange={handleChange}
             step="0.0001"
+            min="-180"
+            max="180"
             required
             className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-gray-100 transition-colors text-sm sm:text-base"
             placeholder="e.g., 72.8777"

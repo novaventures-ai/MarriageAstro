@@ -88,7 +88,7 @@ export const SelfAstroMindWidget: React.FC<SelfAstroMindWidgetProps> = ({
 
       setMessages(prev => [...prev, assistantMessage]);
     } catch (error) {
-      console.error('Failed to get AI response:', error);
+      console.error('Failed to get AI response:', error instanceof Error ? error.message : 'Unknown error');
 
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),

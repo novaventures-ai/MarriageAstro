@@ -43,7 +43,7 @@ Avoid astrology jargon. Speak in terms of psychology, habits, and subconscious d
 
             setInsight(text);
         } catch (err: any) {
-            console.error("AI Generation Error:", err);
+            console.error("AI Generation Error:", err instanceof Error ? err.message : 'Unknown error');
             setError(`Failed to generate: ${err.message || "Unknown error"}`);
         } finally {
             setLoading(false);

@@ -33,7 +33,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 setSession(currentSession);
                 setUser(currentSession?.user ?? null);
             } catch (error) {
-                console.error('Error getting initial session:', error);
+                console.error('Error getting initial session:', error instanceof Error ? error.message : 'Unknown error');
             } finally {
                 setIsLoading(false);
             }

@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS compatibility_reports (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- 4. Birth Charts Table (Optional / Legacy)
+-- 4. Birth Charts Table (LEGACY — 0 rows, saveChart/loadCharts never called. Safe to drop.)
 CREATE TABLE IF NOT EXISTS birth_charts (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
@@ -71,6 +71,7 @@ CREATE INDEX IF NOT EXISTS idx_compatibility_reports_user_id ON compatibility_re
 CREATE INDEX IF NOT EXISTS idx_compatibility_reports_created_at ON compatibility_reports(user_id, created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_birth_charts_user_id ON birth_charts(user_id);
 CREATE INDEX IF NOT EXISTS idx_partner_comparisons_user_id ON partner_comparisons(user_id);
+CREATE INDEX IF NOT EXISTS idx_partner_comparisons_updated_at ON partner_comparisons(user_id, updated_at DESC);
 
 -- Enable RLS (Row Level Security)
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;

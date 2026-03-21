@@ -39,7 +39,7 @@ export const AIVerdictGenerator: React.FC<AIVerdictGeneratorProps> = ({ report }
 
             setInsight(text);
         } catch (err: any) {
-            console.error("AI Generation Error:", err);
+            console.error("AI Generation Error:", err instanceof Error ? err.message : 'Unknown error');
             const errorMessage = err.message || "Unknown error";
             setError(`Failed to generate: ${errorMessage}. Please check your key or quota.`);
         } finally {

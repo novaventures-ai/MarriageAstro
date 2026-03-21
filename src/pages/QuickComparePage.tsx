@@ -96,7 +96,7 @@ export const QuickComparePage: React.FC = () => {
                 }
 
             } catch (err: any) {
-                console.error('Quick Compare Error:', err);
+                console.error('Quick Compare Error:', err instanceof Error ? err.message : 'Unknown error');
                 setError(err.message || 'Failed to generate comparison');
             } finally {
                 setIsProcessing(false);

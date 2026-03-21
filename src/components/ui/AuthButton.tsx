@@ -30,7 +30,7 @@ export const AuthButton: React.FC = () => {
         try {
             await signInWithGoogle();
         } catch (error) {
-            console.error('Sign in failed:', error);
+            console.error('Sign in failed:', error instanceof Error ? error.message : 'Unknown error');
             setIsSigningIn(false);
         }
     };
@@ -40,7 +40,7 @@ export const AuthButton: React.FC = () => {
         try {
             await signOut();
         } catch (error) {
-            console.error('Sign out failed:', error);
+            console.error('Sign out failed:', error instanceof Error ? error.message : 'Unknown error');
         }
     };
 

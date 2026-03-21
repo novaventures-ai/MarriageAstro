@@ -47,7 +47,7 @@ export const useSelfAI = (
 
       setInsight(output);
     } catch (err: any) {
-      console.error('Self AI Insight Error:', err);
+      console.error('Self AI Insight Error:', err instanceof Error ? err.message : 'Unknown error');
 
       // Handle specific errors
       if (err.message?.includes('SAFETY')) {

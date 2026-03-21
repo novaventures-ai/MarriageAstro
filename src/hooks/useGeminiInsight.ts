@@ -16,13 +16,11 @@ export const useGeminiInsight = (): UseGeminiInsightResult => {
     const [insight, setInsight] = useState<string | null>(null);
 
     const triggerAnalysis = useCallback(async (type: InsightType, context: any) => {
-        console.log("Triggering AI Analysis...", type, context);
         setLoading(true);
         setError(null);
         setInsight(null);
 
         try {
-            console.log("Selecting system prompt for type:", type);
             // 1. Select the correct System Prompt (Persona)
             const systemInstruction = SYSTEM_PROMPTS[type];
 
@@ -40,7 +38,7 @@ export const useGeminiInsight = (): UseGeminiInsightResult => {
 
             setInsight(output);
         } catch (err: any) {
-            console.error("Gemini Insight Error:", err);
+            console.error("Gemini Insight Error:", err instanceof Error ? err.message : 'Unknown error');
             // Nice user-facing error message
             if (err.message.includes('SAFETY')) {
                 setError("Analysis blocked by safety filters. Please try a less sensitive context.");

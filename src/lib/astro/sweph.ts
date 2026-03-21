@@ -25,7 +25,6 @@ export class SwissEphemeris {
                     const wasmPath = path.resolve(originalCwd, 'public', 'swisseph.wasm');
 
                     if (fs.existsSync(wasmPath)) {
-                        console.log(`[SwissEph] Loading WASM from disk: ${wasmPath}`);
                         const buffer = fs.readFileSync(wasmPath);
                         wasmBinary = new Uint8Array(buffer).buffer;
                     } else {
@@ -40,16 +39,13 @@ export class SwissEphemeris {
 
                     for (const p of paths) {
                         try {
-                            console.log(`[SwissEph] Trying to load WASM from: ${p}`);
                             const response = await fetch(p);
                             if (response.ok) {
                                 wasmBinary = await response.arrayBuffer();
-                                console.log(`[SwissEph] Successfully loaded WASM from: ${p} (${wasmBinary.byteLength} bytes)`);
                                 break;
                             }
                         } catch (e: any) {
                             lastError = e;
-                            console.warn(`[SwissEph] Failed to load from ${p}:`, e.message);
                         }
                     }
                 }
@@ -65,9 +61,8 @@ export class SwissEphemeris {
 
                 // @ts-ignore - The constructor is public but not well-typed in the default export
                 SwissEphemeris.instance = new SwissEPH(module);
-                console.log("[SwissEph] Initialization successful!");
             } catch (error) {
-                console.error("[SwissEph] Initialization failed:", error);
+                console.error("[SwissEph] Initialization failed:", error instanceof Error ? error.message : 'Unknown error');
                 throw error;
             }
         }
@@ -166,7 +161,7 @@ export class SwissEphemeris {
                 cusps: siderealCusps
             };
         } catch (error) {
-            console.warn('Swiss Ephemeris house calculation failed, using fallback:', error);
+            console.warn('Swiss Ephemeris house calculation failed, using fallback');
 
             // Fallback: Calculate houses using simple algorithm
             return this.calculateHousesFallback(jd, lat, lon);

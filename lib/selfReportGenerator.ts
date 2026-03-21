@@ -81,7 +81,7 @@ function getCurrentDashaFromChart(chart: Chart): { planet: string; mahadasha: st
       };
     }
   } catch (e) {
-    console.warn('Failed to calculate dasha:', e);
+    // Dasha calculation failed - using fallback
   }
 
   return null;
@@ -128,7 +128,7 @@ export async function generateSelfAnalysisReport(
       Promise.resolve(calculateRelationshipPatterns(chart, chart.name || 'You')).catch(() => null),
       calculateExtendedDivisionalAnalysis(chart),
       Promise.resolve(calculateKPAnalysis(chart)).catch((err) => {
-        console.error('KP Analysis calculation failed:', err);
+        console.error('KP Analysis calculation failed:', err instanceof Error ? err.message : 'Unknown error');
         return null;
       }),
       Promise.resolve(calculateCharaKarakas(chart)).catch(() => null),
@@ -188,7 +188,7 @@ export async function generateSelfAnalysisReport(
           }
         }
       } catch (e) {
-        console.warn('Failed to refine marriage age from timing:', e);
+        // Marriage age refinement failed - using default
       }
     }
 
@@ -257,7 +257,7 @@ export async function generateSelfAnalysisReport(
       executiveSummary
     };
   } catch (error) {
-    console.error('Error generating self analysis report:', error);
+    console.error('Error generating self analysis report:', error instanceof Error ? error.message : 'Unknown error');
     throw new Error(`Failed to generate report: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }

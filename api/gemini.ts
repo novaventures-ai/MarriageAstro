@@ -74,8 +74,7 @@ export default async function handler(req: any, res: any) {
         }
 
         return res.status(500).json({
-            error: 'AI generation failed',
-            details: err.message || 'Unknown error',
+            error: 'AI generation failed. Please try again.',
         });
     }
 }

@@ -285,7 +285,7 @@ export async function generateChartFromBirthData(birthData: BirthDataInput): Pro
       significators: kpSignificators
     };
   } catch (e) {
-    console.error("KP Calculation failed with error:", e);
+    console.error("KP Calculation failed:", e instanceof Error ? e.message : 'Unknown error');
   }
 
   // 5. Construct Final Chart Object
@@ -389,12 +389,12 @@ export async function generateCompatibilityReport(
 
   // Analyze Divisional Charts
   let basicDivisionalAnalysis: any = { d9: null, d7: null, d60: null };
-  try { basicDivisionalAnalysis = analyzeDivisionalCharts(chartA, chartB); } catch (e) { console.error('Basic Divisional failed', e); }
+  try { basicDivisionalAnalysis = analyzeDivisionalCharts(chartA, chartB); } catch (e) { console.error('Basic Divisional failed:', e instanceof Error ? e.message : 'Unknown error'); }
 
   let extendedDivisionalA: any = null;
   let extendedDivisionalB: any = null;
-  try { extendedDivisionalA = calculateExtendedDivisionalAnalysis(chartA); } catch (e) { console.error('Ext Divisional A failed', e); }
-  try { extendedDivisionalB = calculateExtendedDivisionalAnalysis(chartB); } catch (e) { console.error('Ext Divisional B failed', e); }
+  try { extendedDivisionalA = calculateExtendedDivisionalAnalysis(chartA); } catch (e) { console.error('Ext Divisional A failed:', e instanceof Error ? e.message : 'Unknown error'); }
+  try { extendedDivisionalB = calculateExtendedDivisionalAnalysis(chartB); } catch (e) { console.error('Ext Divisional B failed:', e instanceof Error ? e.message : 'Unknown error'); }
 
   const divisionalAnalysis = {
     ...basicDivisionalAnalysis,
@@ -406,13 +406,13 @@ export async function generateCompatibilityReport(
 
   // Calculate Synastry (Pass D60 info)
   let synastryData: any = { score: 70, aspects: [], interpretation: '' };
-  try { synastryData = calculateSynastry(chartA, chartB, divisionalAnalysis.d60); } catch (e) { console.error('Synastry failed', e); }
+  try { synastryData = calculateSynastry(chartA, chartB, divisionalAnalysis.d60); } catch (e) { console.error('Synastry failed:', e instanceof Error ? e.message : 'Unknown error'); }
 
   // Analyze In-Laws
   let inLawAnalysis: any = { inLawHarmony: 70, indicators: [] };
   let partnerInLawAnalysis: any = { inLawHarmony: 70, indicators: [] };
-  try { inLawAnalysis = analyzeInLaws(chartA, chartB); } catch (e) { console.error('In-Laws A failed', e); }
-  try { partnerInLawAnalysis = analyzeInLaws(chartB, chartA); } catch (e) { console.error('In-Laws B failed', e); }
+  try { inLawAnalysis = analyzeInLaws(chartA, chartB); } catch (e) { console.error('In-Laws A failed:', e instanceof Error ? e.message : 'Unknown error'); }
+  try { partnerInLawAnalysis = analyzeInLaws(chartB, chartA); } catch (e) { console.error('In-Laws B failed:', e instanceof Error ? e.message : 'Unknown error'); }
 
   // Analyze Sexual Health
   let sexualHealth: any = {
@@ -431,7 +431,7 @@ export async function generateCompatibilityReport(
       chartA.gender === 'male' ? 'male' : 'female',
       chartB.gender === 'male' ? 'male' : 'female'
     );
-  } catch (e) { console.error('Sexual Health failed', e); }
+  } catch (e) { console.error('Sexual Health failed:', e instanceof Error ? e.message : 'Unknown error'); }
 
   // Assess Risk
   let riskAssessment: any = {
@@ -445,20 +445,20 @@ export async function generateCompatibilityReport(
   try {
     riskAssessment = assessRisk(chartA, chartB);
     riskAssessment.manglikAnalysis = ashtakoot.manglikAnalysis;
-  } catch (e) { console.error('Risk Assessment failed', e); }
+  } catch (e) { console.error('Risk Assessment failed:', e instanceof Error ? e.message : 'Unknown error'); }
 
   // Calculate Infidelity Protections (Moral Anchors) - Distinct from Divorce Protections
   try {
     const infidelityProtectionsA = assessInfidelityProtections(chartA, chartA.name);
     const infidelityProtectionsB = assessInfidelityProtections(chartB, chartB.name);
     riskAssessment.infidelityProtections = [...(infidelityProtectionsA || []), ...(infidelityProtectionsB || [])];
-  } catch (e) { console.error('Infidelity Protections failed', e); }
+  } catch (e) { console.error('Infidelity Protections failed:', e instanceof Error ? e.message : 'Unknown error'); }
 
   // Analyze Modern Planets
   let modernPlanetsA: any = { uranus: { house: 0, aspects: [], interpretation: '', challenges: [] }, neptune: { house: 0, aspects: [], interpretation: '', challenges: [] }, pluto: { house: 0, aspects: [], interpretation: '', challenges: [] } };
   let modernPlanetsB: any = { uranus: { house: 0, aspects: [], interpretation: '', challenges: [] }, neptune: { house: 0, aspects: [], interpretation: '', challenges: [] }, pluto: { house: 0, aspects: [], interpretation: '', challenges: [] } };
-  try { modernPlanetsA = analyzeModernPlanets(chartA); } catch (e) { console.error('Modern Planets A failed', e); }
-  try { modernPlanetsB = analyzeModernPlanets(chartB); } catch (e) { console.error('Modern Planets B failed', e); }
+  try { modernPlanetsA = analyzeModernPlanets(chartA); } catch (e) { console.error('Modern Planets A failed:', e instanceof Error ? e.message : 'Unknown error'); }
+  try { modernPlanetsB = analyzeModernPlanets(chartB); } catch (e) { console.error('Modern Planets B failed:', e instanceof Error ? e.message : 'Unknown error'); }
 
   // Helper to combine interpretations without semicolons
   const combineInterpretations = (interpA: string, interpB: string): string => {
@@ -494,8 +494,8 @@ export async function generateCompatibilityReport(
   // Analyze Modern Challenges
   let challengesA: any = { digitalAge: [], careerStress: [], mentalHealth: [], communicationIssues: [] };
   let challengesB: any = { digitalAge: [], careerStress: [], mentalHealth: [], communicationIssues: [] };
-  try { challengesA = analyzeModernChallenges(chartA); } catch (e) { console.error('Modern Challenges A failed', e); }
-  try { challengesB = analyzeModernChallenges(chartB); } catch (e) { console.error('Modern Challenges B failed', e); }
+  try { challengesA = analyzeModernChallenges(chartA); } catch (e) { console.error('Modern Challenges A failed:', e instanceof Error ? e.message : 'Unknown error'); }
+  try { challengesB = analyzeModernChallenges(chartB); } catch (e) { console.error('Modern Challenges B failed:', e instanceof Error ? e.message : 'Unknown error'); }
   const modernChallenges = {
     digitalAge: [...new Set([...challengesA.digitalAge, ...challengesB.digitalAge])],
     careerStress: [...new Set([...challengesA.careerStress, ...challengesB.careerStress])],
@@ -508,7 +508,7 @@ export async function generateCompatibilityReport(
   try {
     timing = calculateTiming(chartA, chartB);
   } catch (e) {
-    console.error('Timing analysis failed', e);
+    console.error('Timing analysis failed:', e instanceof Error ? e.message : 'Unknown error');
   }
 
   // Extended Calculations (new widgets)
@@ -531,43 +531,43 @@ export async function generateCompatibilityReport(
   let extendedRemediesA: any = { planetSpecific: [], afflictionBased: [], relationshipSpecific: [] };
   let extendedRemediesB: any = { planetSpecific: [], afflictionBased: [], relationshipSpecific: [] };
 
-  try { kpAnalysisA = calculateKPAnalysis(chartA); } catch (e) { console.error('KP A failed', e); }
-  try { kpAnalysisB = calculateKPAnalysis(chartB); } catch (e) { console.error('KP B failed', e); }
+  try { kpAnalysisA = calculateKPAnalysis(chartA); } catch (e) { console.error('KP A failed:', e instanceof Error ? e.message : 'Unknown error'); }
+  try { kpAnalysisB = calculateKPAnalysis(chartB); } catch (e) { console.error('KP B failed:', e instanceof Error ? e.message : 'Unknown error'); }
 
-  try { charaKarakasA = calculateCharaKarakas(chartA); } catch (e) { console.error('Chara Karakas A failed', e); }
-  try { charaKarakasB = calculateCharaKarakas(chartB); } catch (e) { console.error('Chara Karakas B failed', e); }
+  try { charaKarakasA = calculateCharaKarakas(chartA); } catch (e) { console.error('Chara Karakas A failed:', e instanceof Error ? e.message : 'Unknown error'); }
+  try { charaKarakasB = calculateCharaKarakas(chartB); } catch (e) { console.error('Chara Karakas B failed:', e instanceof Error ? e.message : 'Unknown error'); }
 
-  try { charaDashaA = calculateCharaDasha(chartA); } catch (e) { console.error('Chara Dasha A failed', e); }
-  try { charaDashaB = calculateCharaDasha(chartB); } catch (e) { console.error('Chara Dasha B failed', e); }
+  try { charaDashaA = calculateCharaDasha(chartA); } catch (e) { console.error('Chara Dasha A failed:', e instanceof Error ? e.message : 'Unknown error'); }
+  try { charaDashaB = calculateCharaDasha(chartB); } catch (e) { console.error('Chara Dasha B failed:', e instanceof Error ? e.message : 'Unknown error'); }
 
-  try { upapadaLagnaA = calculateUpapadaLagna(chartA); } catch (e) { console.error('UL A failed', e); }
-  try { upapadaLagnaB = calculateUpapadaLagna(chartB); } catch (e) { console.error('UL B failed', e); }
+  try { upapadaLagnaA = calculateUpapadaLagna(chartA); } catch (e) { console.error('UL A failed:', e instanceof Error ? e.message : 'Unknown error'); }
+  try { upapadaLagnaB = calculateUpapadaLagna(chartB); } catch (e) { console.error('UL B failed:', e instanceof Error ? e.message : 'Unknown error'); }
 
-  try { vivahSahamA = calculateVivahSaham(chartA); } catch (e) { console.error('Vivah Saham A failed', e); }
-  try { vivahSahamB = calculateVivahSaham(chartB); } catch (e) { console.error('Vivah Saham B failed', e); }
+  try { vivahSahamA = calculateVivahSaham(chartA); } catch (e) { console.error('Vivah Saham A failed:', e instanceof Error ? e.message : 'Unknown error'); }
+  try { vivahSahamB = calculateVivahSaham(chartB); } catch (e) { console.error('Vivah Saham B failed:', e instanceof Error ? e.message : 'Unknown error'); }
 
   // Advanced Astrological Features (New)
-  try { extendedSexualCompatibility = calculateExtendedSexualCompatibility(chartA, chartB); } catch (e) { console.error('Ext Sexual Compat failed', e); }
-  try { extendedRemediesA = calculateExtendedRemedies(chartA); } catch (e) { console.error('Ext Remedies A failed', e); }
-  try { extendedRemediesB = calculateExtendedRemedies(chartB); } catch (e) { console.error('Ext Remedies B failed', e); }
+  try { extendedSexualCompatibility = calculateExtendedSexualCompatibility(chartA, chartB); } catch (e) { console.error('Ext Sexual Compat failed:', e instanceof Error ? e.message : 'Unknown error'); }
+  try { extendedRemediesA = calculateExtendedRemedies(chartA); } catch (e) { console.error('Ext Remedies A failed:', e instanceof Error ? e.message : 'Unknown error'); }
+  try { extendedRemediesB = calculateExtendedRemedies(chartB); } catch (e) { console.error('Ext Remedies B failed:', e instanceof Error ? e.message : 'Unknown error'); }
 
   // Yoga & Dosha Analysis
   let yogaDoshaA: any = { yogas: [], doshas: [] };
   let yogaDoshaB: any = { yogas: [], doshas: [] };
-  try { yogaDoshaA = analyzeYogaDoshas(chartA); } catch (e) { console.error('YogaDosha A failed', e); }
-  try { yogaDoshaB = analyzeYogaDoshas(chartB); } catch (e) { console.error('YogaDosha B failed', e); }
+  try { yogaDoshaA = analyzeYogaDoshas(chartA); } catch (e) { console.error('YogaDosha A failed:', e instanceof Error ? e.message : 'Unknown error'); }
+  try { yogaDoshaB = analyzeYogaDoshas(chartB); } catch (e) { console.error('YogaDosha B failed:', e instanceof Error ? e.message : 'Unknown error'); }
 
   // Calculate Transit Analysis
   let transitAnalysisA: any = { jupiterTransits: [], saturnTransits: [], favorableWindows: [] };
   let transitAnalysisB: any = { jupiterTransits: [], saturnTransits: [], favorableWindows: [] };
-  try { transitAnalysisA = calculateTransitAnalysis(chartA); } catch (e) { console.error('Transit A failed', e); }
-  try { transitAnalysisB = calculateTransitAnalysis(chartB); } catch (e) { console.error('Transit B failed', e); }
+  try { transitAnalysisA = calculateTransitAnalysis(chartA); } catch (e) { console.error('Transit A failed:', e instanceof Error ? e.message : 'Unknown error'); }
+  try { transitAnalysisB = calculateTransitAnalysis(chartB); } catch (e) { console.error('Transit B failed:', e instanceof Error ? e.message : 'Unknown error'); }
 
   // Calculate Joint Destiny Sync
   let jointDestinySync: any = { syncScore: 70, synchronizedWindows: [], timeline: [] };
   try {
     jointDestinySync = calculateJointDestinySync(timing.favorablePeriods, charaDashaA, charaDashaB, vivahSahamA, vivahSahamB);
-  } catch (e) { console.error('Joint Destiny Sync failed', e); }
+  } catch (e) { console.error('Joint Destiny Sync failed:', e instanceof Error ? e.message : 'Unknown error'); }
 
   // Extend Timing Analysis
   timing.extended = {
@@ -587,18 +587,18 @@ export async function generateCompatibilityReport(
 
   // Generate Remedies (Classic)
   let remedies: any = { general: [], gemstone: [], mantra: [], ritual: [] };
-  try { remedies = generateRemedies(chartA, chartB, ashtakoot.doshas); } catch (e) { console.error('Remedies failed', e); }
+  try { remedies = generateRemedies(chartA, chartB, ashtakoot.doshas); } catch (e) { console.error('Remedies failed:', e instanceof Error ? e.message : 'Unknown error'); }
 
   // Calculate Advanced Score Breakdown
   let mentalHealthA: any = { categories: [], emotionalStrengths: [], overallWellbeing: 'strong', totalRiskScore: 0, summary: '', disclaimer: '' };
   let mentalHealthB: any = { categories: [], emotionalStrengths: [], overallWellbeing: 'strong', totalRiskScore: 0, summary: '', disclaimer: '' };
-  try { mentalHealthA = analyzeMentalHealth(chartA); } catch (e) { console.error('Mental Health A failed', e); }
-  try { mentalHealthB = analyzeMentalHealth(chartB); } catch (e) { console.error('Mental Health B failed', e); }
+  try { mentalHealthA = analyzeMentalHealth(chartA); } catch (e) { console.error('Mental Health A failed:', e instanceof Error ? e.message : 'Unknown error'); }
+  try { mentalHealthB = analyzeMentalHealth(chartB); } catch (e) { console.error('Mental Health B failed:', e instanceof Error ? e.message : 'Unknown error'); }
 
   let addictionRiskA: any = { levels: { overall: 'low' }, indicators: [] };
   let addictionRiskB: any = { levels: { overall: 'low' }, indicators: [] };
-  try { addictionRiskA = analyzeAddictionRisk(chartA); } catch (e) { console.error('Addiction Risk A failed', e); }
-  try { addictionRiskB = analyzeAddictionRisk(chartB); } catch (e) { console.error('Addiction Risk B failed', e); }
+  try { addictionRiskA = analyzeAddictionRisk(chartA); } catch (e) { console.error('Addiction Risk A failed:', e instanceof Error ? e.message : 'Unknown error'); }
+  try { addictionRiskB = analyzeAddictionRisk(chartB); } catch (e) { console.error('Addiction Risk B failed:', e instanceof Error ? e.message : 'Unknown error'); }
 
   let advancedBreakdown: any = {
     stability: { score: 60, label: 'Stability', explanation: '', status: 'neutral', breakdown: [] },
@@ -624,7 +624,7 @@ export async function generateCompatibilityReport(
       poruthamAnalysis
     });
   } catch (e) {
-    console.error('Advanced Breakdown failed', e);
+    console.error('Advanced Breakdown failed:', e instanceof Error ? e.message : 'Unknown error');
   }
 
   // Calculate Overall Score (Weighted modular synthesis)
@@ -644,7 +644,7 @@ export async function generateCompatibilityReport(
       addictionRisk: { partnerA: addictionRiskA, partnerB: addictionRiskB }
     });
   } catch (e) {
-    console.error('Overall Score calculation failed', e);
+    console.error('Overall Score calculation failed:', e instanceof Error ? e.message : 'Unknown error');
   }
 
   // Determine Verdict
@@ -652,7 +652,7 @@ export async function generateCompatibilityReport(
   try {
     overallVerdict = determineVerdict(overallScore, ashtakoot.totalScore, riskAssessment);
   } catch (e) {
-    console.error('Verdict determination failed', e);
+    console.error('Verdict determination failed:', e instanceof Error ? e.message : 'Unknown error');
   }
 
   // Generate Executive Summary
@@ -666,26 +666,26 @@ export async function generateCompatibilityReport(
       { kpAnalysis: { partnerA: kpAnalysisA, partnerB: kpAnalysisB }, synastry: synastryData }
     );
   } catch (e) {
-    console.error('Executive Summary failed', e);
+    console.error('Executive Summary failed:', e instanceof Error ? e.message : 'Unknown error');
   }
 
   // 17. Psychological Profiles
   let psychologicalProfileA: any = { traits: [], nature: '', behavior: '' };
   let psychologicalProfileB: any = { traits: [], nature: '', behavior: '' };
-  try { psychologicalProfileA = calculatePsychologicalProfile(chartA); } catch (e) { console.error('Psych Profile A failed', e); }
-  try { psychologicalProfileB = calculatePsychologicalProfile(chartB); } catch (e) { console.error('Psych Profile B failed', e); }
+  try { psychologicalProfileA = calculatePsychologicalProfile(chartA); } catch (e) { console.error('Psych Profile A failed:', e instanceof Error ? e.message : 'Unknown error'); }
+  try { psychologicalProfileB = calculatePsychologicalProfile(chartB); } catch (e) { console.error('Psych Profile B failed:', e instanceof Error ? e.message : 'Unknown error'); }
 
   // 18. Relationship Pattern Analysis
   let relationshipPatternA: any = { patterns: [], overallRiskLevel: 'low' };
   let relationshipPatternB: any = { patterns: [], overallRiskLevel: 'low' };
-  try { relationshipPatternA = calculateRelationshipPatterns(chartA, chartA.name); } catch (e) { console.error('RelationshipPattern A failed', e); }
-  try { relationshipPatternB = calculateRelationshipPatterns(chartB, chartB.name); } catch (e) { console.error('RelationshipPattern B failed', e); }
+  try { relationshipPatternA = calculateRelationshipPatterns(chartA, chartA.name); } catch (e) { console.error('RelationshipPattern A failed:', e instanceof Error ? e.message : 'Unknown error'); }
+  try { relationshipPatternB = calculateRelationshipPatterns(chartB, chartB.name); } catch (e) { console.error('RelationshipPattern B failed:', e instanceof Error ? e.message : 'Unknown error'); }
 
   let vulnerabilityTimeline: any = { periods: [], conclusion: '', score: 100 };
   try {
     vulnerabilityTimeline = await calculateVulnerabilityTimeline(chartA, chartB);
   } catch (e) {
-    console.error('Vulnerability Timeline failed', e);
+    console.error('Vulnerability Timeline failed:', e instanceof Error ? e.message : 'Unknown error');
   }
 
   const report: any = {

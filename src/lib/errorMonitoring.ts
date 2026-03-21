@@ -91,9 +91,6 @@ export function initErrorMonitoring() {
         }));
     });
 
-    if (import.meta.env.DEV) {
-        console.log('[ErrorMonitor] Initialized (development mode)');
-    }
 }
 
 /**

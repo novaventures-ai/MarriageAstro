@@ -265,7 +265,7 @@ export const useComparisonStore = create<ComparisonState>((set, get) => ({
                             const saved = await saveReport(userId, report);
                             reportId = saved?.id ?? null;
                         } catch (e) {
-                            console.warn('Failed to save partner report:', e);
+                            console.warn('Failed to save partner report');
                         }
                     }
 
@@ -322,7 +322,7 @@ export const useComparisonStore = create<ComparisonState>((set, get) => ({
                     await updateComparison(updatedProfile.id, { partners: finalPartners });
                 }
             } catch (e) {
-                console.warn('Failed to save comparison to Supabase:', e);
+                console.warn('Failed to save comparison to Supabase');
             }
         }
 

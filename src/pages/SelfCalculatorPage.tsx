@@ -59,8 +59,34 @@ const BirthDataForm: React.FC<{
     return '';
   };
 
+  const [validationErrors, setValidationErrors] = useState<string[]>([]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const errors: string[] = [];
+    if (!formData.name.trim() || formData.name.trim().length > 100) {
+      errors.push('Name must be between 1 and 100 characters.');
+    }
+    if (formData.latitude < -90 || formData.latitude > 90) {
+      errors.push('Latitude must be between -90 and 90.');
+    }
+    if (formData.longitude < -180 || formData.longitude > 180) {
+      errors.push('Longitude must be between -180 and 180.');
+    }
+    if (!formData.dateOfBirth) {
+      errors.push('Date of birth is required.');
+    }
+    if (!formData.timeOfBirth) {
+      errors.push('Time of birth is required.');
+    }
+    if (!formData.timezone) {
+      errors.push('Timezone is required.');
+    }
+    if (errors.length > 0) {
+      setValidationErrors(errors);
+      return;
+    }
+    setValidationErrors([]);
     onSubmit({
       ...formData,
       dateOfBirth: new Date(formData.dateOfBirth)
@@ -69,6 +95,13 @@ const BirthDataForm: React.FC<{
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {validationErrors.length > 0 && (
+        <div className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+          {validationErrors.map((err, i) => (
+            <p key={i} className="text-red-700 dark:text-red-400 text-sm">{err}</p>
+          ))}
+        </div>
+      )}
       {/* Name */}
       <div>
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -80,6 +113,7 @@ const BirthDataForm: React.FC<{
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
           placeholder="Enter your full name"
+          maxLength={100}
           required
         />
       </div>
@@ -162,6 +196,8 @@ const BirthDataForm: React.FC<{
           <input
             type="number"
             step="0.000001"
+            min="-90"
+            max="90"
             value={formData.latitude || ''}
             onChange={(e) => setFormData({ ...formData, latitude: parseFloat(e.target.value) })}
             className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
@@ -176,6 +212,8 @@ const BirthDataForm: React.FC<{
           <input
             type="number"
             step="0.000001"
+            min="-180"
+            max="180"
             value={formData.longitude || ''}
             onChange={(e) => setFormData({ ...formData, longitude: parseFloat(e.target.value) })}
             className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
@@ -257,7 +295,7 @@ export const SelfCalculatorPage: React.FC = () => {
       // Navigate to report page
       navigate('/self-report');
     } catch (error: any) {
-      console.error('Failed to generate report:', error);
+      console.error('Failed to generate report:', error instanceof Error ? error.message : 'Unknown error');
       setSubmitError(error.message || 'Failed to generate report. Please check your birth data and try again.');
     }
   };

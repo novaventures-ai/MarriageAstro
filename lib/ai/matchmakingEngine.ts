@@ -342,7 +342,7 @@ export class AIMatchmakingEngine {
         const analysis = await this.analyzePartner(partner);
         this.analyses.set(partner.id, analysis);
       } catch (error) {
-        console.error(`Analysis failed for partner ${partner.name}:`, error);
+        console.error('Analysis failed for partner:', error instanceof Error ? error.message : 'Unknown error');
         // We could create a minimal "failed" analysis here if we want to avoid skipping the partner entirely
       }
     }
@@ -374,7 +374,7 @@ export class AIMatchmakingEngine {
         const report = await generateCompatibilityReport(this.selfChart, partner.chart);
         this.reports.set(partner.id, report);
       } catch (error) {
-        console.error(`Failed to generate report for ${partner.name}:`, error);
+        console.error('Failed to generate report:', error instanceof Error ? error.message : 'Unknown error');
       }
     });
 

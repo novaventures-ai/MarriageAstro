@@ -77,7 +77,7 @@ export const useAppStore = create<AppState>()(
             }
           } catch (saveError) {
             // Don't fail the report generation if save fails
-            console.warn('Auto-save to Supabase failed:', saveError);
+            console.warn('Auto-save to Supabase failed');
           }
         } catch (err) {
           set({
@@ -108,7 +108,7 @@ export const useAppStore = create<AppState>()(
             await saveReport(session.user.id, currentReport);
           }
         } catch (err) {
-          console.warn('Failed to sync report to cloud:', err);
+          console.warn('Failed to sync report to cloud');
         }
       },
     }),
