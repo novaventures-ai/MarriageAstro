@@ -18,12 +18,14 @@ export const LandingPage: React.FC = () => {
   const { selfChart } = useUserProfileStore();
   const { user, isLoading } = useAuth();
 
-  // Auto-redirect logged-in users with a profile to dashboard
+  const { partners } = useUserProfileStore();
+
+  // Auto-redirect logged-in users with any profile data to dashboard
   useEffect(() => {
-    if (!isLoading && user && selfChart) {
+    if (!isLoading && user && (selfChart || partners.length > 0)) {
       navigate('/dashboard', { replace: true });
     }
-  }, [user, selfChart, isLoading, navigate]);
+  }, [user, selfChart, partners, isLoading, navigate]);
 
   return (
     <div className="min-h-screen flex flex-col transition-colors duration-500">
