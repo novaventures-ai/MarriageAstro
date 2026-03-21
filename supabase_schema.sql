@@ -2,11 +2,13 @@
 -- Run these in your Supabase SQL Editor to create the necessary tables.
 
 -- 1. Profiles Table (Self Data)
+-- NOTE: Actual DB schema has id (PK, FK to auth.users), email, full_name, avatar_url, user_id (nullable/unused)
 CREATE TABLE IF NOT EXISTS profiles (
-  user_id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
-  self_birth_data JSONB NOT NULL,
-  self_chart JSONB NOT NULL,
-  self_report JSONB,
+  id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+  email TEXT UNIQUE,
+  full_name TEXT,
+  avatar_url TEXT,
+  user_id UUID,
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
@@ -81,8 +83,9 @@ ALTER TABLE birth_charts ENABLE ROW LEVEL SECURITY;
 ALTER TABLE partner_comparisons ENABLE ROW LEVEL SECURITY;
 
 -- Create Policies (User can only see their own data)
-CREATE POLICY "Users can manage their own profile" ON profiles 
-  FOR ALL USING (auth.uid() = user_id);
+CREATE POLICY "Users can manage their own profile" ON profiles
+  FOR ALL USING (auth.uid() = id)
+  WITH CHECK (auth.uid() = id);
 
 CREATE POLICY "Users can manage their own partners" ON partners 
   FOR ALL USING (auth.uid() = user_id);

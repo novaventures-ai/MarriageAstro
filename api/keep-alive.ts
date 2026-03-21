@@ -20,14 +20,13 @@ export default async function handler(req: any, res: any) {
 
         if (error) {
             console.error('Error pinging Supabase:', error);
-            return res.status(500).json({ error: 'Failed to ping Supabase database', details: error.message });
+            return res.status(500).json({ error: 'Failed to ping Supabase database' });
         }
 
-        console.log('Successfully pinged Supabase database');
-        return res.status(200).json({ status: 'ok', message: 'Database pinged successfully', data });
+        return res.status(200).json({ status: 'ok', message: 'Database pinged successfully' });
 
     } catch (err: any) {
-        console.error('Unexpected error in keep-alive cron job:', err);
-        return res.status(500).json({ error: 'Unexpected error', details: err.message });
+        console.error('Unexpected error in keep-alive cron job:', err instanceof Error ? err.message : 'Unknown error');
+        return res.status(500).json({ error: 'Unexpected error' });
     }
 }
