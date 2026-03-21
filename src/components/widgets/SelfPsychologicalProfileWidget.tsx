@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { SelfAnalysisReport } from '../../types/selfAnalysis';
 import { PsychologicalProfile } from '../../types';
 import {
-  Brain, Heart, MessageCircle, Shield, Zap, Eye, ChevronDown, ChevronUp,
-  Lightbulb, Users, Compass, Star, BookOpen
+  Brain, Heart, MessageCircle, Shield, Zap, ChevronDown, ChevronUp,
+  Lightbulb, Users, Compass, Star, BookOpen, Eye
 } from 'lucide-react';
 
 interface SelfPsychologicalProfileWidgetProps {
@@ -23,150 +23,241 @@ export const SelfPsychologicalProfileWidget: React.FC<SelfPsychologicalProfileWi
     );
   }
 
-  const traits = (profile as any).traits || [];
-  const nature = (profile as any).nature || '';
-  const behavior = (profile as any).behavior || '';
-  const emotionalStyle = (profile as any).emotionalStyle || (profile as any).emotionalNature || '';
-  const communicationStyle = (profile as any).communicationStyle || '';
-  const conflictStyle = (profile as any).conflictStyle || '';
-  const attachmentStyle = (profile as any).attachmentStyle || '';
-  const loveLanguage = (profile as any).loveLanguage || '';
-  const strengths = (profile as any).strengths || [];
-  const challenges = (profile as any).challenges || (profile as any).weaknesses || [];
+  // Map from actual PsychologicalProfile structure
+  const attachmentStyle = profile.attachmentStyle;
+  const communicationStyle = profile.communicationStyle;
+  const loveLanguage = profile.loveLanguage;
+  const coreFears = profile.coreFears;
+  const defenseMechanisms = profile.defenseMechanisms;
+  const repeatingPatterns = profile.repeatingPatterns;
+  const mentalLandscape = profile.mentalLandscape;
 
   const sections = [
     {
-      key: 'traits',
-      icon: <Star className="w-5 h-5" />,
-      title: 'Core Personality Traits',
-      color: 'violet',
-      content: () => (
-        <div className="space-y-3">
-          {traits.length > 0 ? (
-            <div className="flex flex-wrap gap-2">
-              {traits.map((trait: any, i: number) => {
-                const traitStr = typeof trait === 'string' ? trait : trait.trait || trait.name || String(trait);
-                const desc = typeof trait === 'object' ? (trait.description || trait.influence || '') : '';
-                return (
-                  <div key={i} className="bg-violet-50 dark:bg-violet-900/20 border border-violet-200 dark:border-violet-800/50 rounded-xl px-4 py-3 flex-1 min-w-[200px]">
-                    <p className="font-semibold text-violet-800 dark:text-violet-200">{traitStr}</p>
-                    {desc && <p className="text-sm text-violet-600 dark:text-violet-400 mt-1">{desc}</p>}
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            <p className="text-gray-500 dark:text-gray-400 text-sm">No specific traits data available</p>
-          )}
-        </div>
-      )
-    },
-    {
-      key: 'nature',
-      icon: <Compass className="w-5 h-5" />,
-      title: 'Inner Nature & Behavior',
-      color: 'blue',
-      content: () => (
-        <div className="space-y-4">
-          {nature && (
-            <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4 border border-blue-200 dark:border-blue-800/50">
-              <p className="text-xs font-medium text-blue-600 dark:text-blue-400 uppercase tracking-wide mb-1">Fundamental Nature</p>
-              <p className="text-blue-800 dark:text-blue-200">{nature}</p>
-            </div>
-          )}
-          {behavior && (
-            <div className="bg-sky-50 dark:bg-sky-900/20 rounded-xl p-4 border border-sky-200 dark:border-sky-800/50">
-              <p className="text-xs font-medium text-sky-600 dark:text-sky-400 uppercase tracking-wide mb-1">Behavioral Patterns</p>
-              <p className="text-sky-800 dark:text-sky-200">{behavior}</p>
-            </div>
-          )}
-          {!nature && !behavior && <p className="text-gray-500 dark:text-gray-400 text-sm">Nature data not available</p>}
-        </div>
-      )
-    },
-    {
-      key: 'emotional',
+      key: 'attachment',
       icon: <Heart className="w-5 h-5" />,
-      title: 'Emotional & Love Style',
+      title: 'Attachment & Love Style',
       color: 'pink',
       content: () => (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {emotionalStyle && (
-            <div className="bg-pink-50 dark:bg-pink-900/20 rounded-xl p-4 border border-pink-200 dark:border-pink-800/50">
-              <p className="text-xs font-medium text-pink-600 dark:text-pink-400 uppercase tracking-wide mb-1">Emotional Style</p>
-              <p className="text-pink-800 dark:text-pink-200 font-medium">{emotionalStyle}</p>
-            </div>
+          {attachmentStyle && (
+            <>
+              <div className="bg-pink-50 dark:bg-pink-900/20 rounded-xl p-4 border border-pink-200 dark:border-pink-800/50">
+                <p className="text-xs font-medium text-pink-600 dark:text-pink-400 uppercase tracking-wide mb-1">Attachment Type</p>
+                <p className="text-pink-800 dark:text-pink-200 font-medium capitalize">{attachmentStyle.type}</p>
+                {attachmentStyle.description && (
+                  <p className="text-sm text-pink-600 dark:text-pink-400 mt-2">{attachmentStyle.description}</p>
+                )}
+              </div>
+              {attachmentStyle.fourthHouseAnalysis && (
+                <div className="bg-fuchsia-50 dark:bg-fuchsia-900/20 rounded-xl p-4 border border-fuchsia-200 dark:border-fuchsia-800/50">
+                  <p className="text-xs font-medium text-fuchsia-600 dark:text-fuchsia-400 uppercase tracking-wide mb-1">4th House Influence</p>
+                  <p className="text-fuchsia-800 dark:text-fuchsia-200">{attachmentStyle.fourthHouseAnalysis}</p>
+                </div>
+              )}
+            </>
           )}
           {loveLanguage && (
-            <div className="bg-rose-50 dark:bg-rose-900/20 rounded-xl p-4 border border-rose-200 dark:border-rose-800/50">
-              <p className="text-xs font-medium text-rose-600 dark:text-rose-400 uppercase tracking-wide mb-1">Love Language</p>
-              <p className="text-rose-800 dark:text-rose-200 font-medium">{loveLanguage}</p>
-            </div>
+            <>
+              <div className="bg-rose-50 dark:bg-rose-900/20 rounded-xl p-4 border border-rose-200 dark:border-rose-800/50">
+                <p className="text-xs font-medium text-rose-600 dark:text-rose-400 uppercase tracking-wide mb-1">Love Language</p>
+                <p className="text-rose-800 dark:text-rose-200 font-medium">{loveLanguage.primary}</p>
+                {loveLanguage.secondary && (
+                  <p className="text-sm text-rose-600 dark:text-rose-400 mt-1">Secondary: {loveLanguage.secondary}</p>
+                )}
+              </div>
+              {loveLanguage.description && (
+                <div className="bg-rose-50 dark:bg-rose-900/20 rounded-xl p-4 border border-rose-200 dark:border-rose-800/50 sm:col-span-2">
+                  <p className="text-xs font-medium text-rose-600 dark:text-rose-400 uppercase tracking-wide mb-1">Description</p>
+                  <p className="text-rose-800 dark:text-rose-200">{loveLanguage.description}</p>
+                </div>
+              )}
+            </>
           )}
-          {attachmentStyle && (
-            <div className="bg-fuchsia-50 dark:bg-fuchsia-900/20 rounded-xl p-4 border border-fuchsia-200 dark:border-fuchsia-800/50">
-              <p className="text-xs font-medium text-fuchsia-600 dark:text-fuchsia-400 uppercase tracking-wide mb-1">Attachment Style</p>
-              <p className="text-fuchsia-800 dark:text-fuchsia-200 font-medium">{attachmentStyle}</p>
-            </div>
-          )}
-          {communicationStyle && (
-            <div className="bg-purple-50 dark:bg-purple-900/20 rounded-xl p-4 border border-purple-200 dark:border-purple-800/50">
-              <p className="text-xs font-medium text-purple-600 dark:text-purple-400 uppercase tracking-wide mb-1">Communication</p>
-              <p className="text-purple-800 dark:text-purple-200 font-medium">{communicationStyle}</p>
-            </div>
+          {!attachmentStyle && !loveLanguage && (
+            <p className="text-gray-500 dark:text-gray-400 text-sm">Attachment & love style data not available</p>
           )}
         </div>
       )
     },
     {
-      key: 'conflict',
-      icon: <Zap className="w-5 h-5" />,
-      title: 'Conflict & Stress Response',
+      key: 'communication',
+      icon: <MessageCircle className="w-5 h-5" />,
+      title: 'Communication Style',
+      color: 'blue',
+      content: () => (
+        <div className="space-y-4">
+          {communicationStyle ? (
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4 border border-blue-200 dark:border-blue-800/50">
+                  <p className="text-xs font-medium text-blue-600 dark:text-blue-400 uppercase tracking-wide mb-1">Style</p>
+                  <p className="text-blue-800 dark:text-blue-200 font-medium">{communicationStyle.style}</p>
+                </div>
+                {communicationStyle.expressionMethod && (
+                  <div className="bg-sky-50 dark:bg-sky-900/20 rounded-xl p-4 border border-sky-200 dark:border-sky-800/50">
+                    <p className="text-xs font-medium text-sky-600 dark:text-sky-400 uppercase tracking-wide mb-1">Expression Method</p>
+                    <p className="text-sky-800 dark:text-sky-200">{communicationStyle.expressionMethod}</p>
+                  </div>
+                )}
+                {communicationStyle.mercuryPlacement && (
+                  <div className="bg-indigo-50 dark:bg-indigo-900/20 rounded-xl p-4 border border-indigo-200 dark:border-indigo-800/50">
+                    <p className="text-xs font-medium text-indigo-600 dark:text-indigo-400 uppercase tracking-wide mb-1">Mercury Placement</p>
+                    <p className="text-indigo-800 dark:text-indigo-200">{communicationStyle.mercuryPlacement}</p>
+                  </div>
+                )}
+                {communicationStyle.conflictResolution && (
+                  <div className="bg-amber-50 dark:bg-amber-900/20 rounded-xl p-4 border border-amber-200 dark:border-amber-800/50">
+                    <p className="text-xs font-medium text-amber-600 dark:text-amber-400 uppercase tracking-wide mb-1">Conflict Resolution</p>
+                    <p className="text-amber-800 dark:text-amber-200">{communicationStyle.conflictResolution}</p>
+                  </div>
+                )}
+              </div>
+              {communicationStyle.triggers && communicationStyle.triggers.length > 0 && (
+                <div className="bg-orange-50 dark:bg-orange-900/20 rounded-xl p-4 border border-orange-200 dark:border-orange-800/50">
+                  <p className="text-xs font-medium text-orange-600 dark:text-orange-400 uppercase tracking-wide mb-2">Communication Triggers</p>
+                  <div className="flex flex-wrap gap-2">
+                    {communicationStyle.triggers.map((trigger: string, i: number) => (
+                      <span key={i} className="bg-orange-100 dark:bg-orange-800/30 text-orange-700 dark:text-orange-300 px-3 py-1 rounded-full text-sm">
+                        {trigger}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </>
+          ) : (
+            <p className="text-gray-500 dark:text-gray-400 text-sm">Communication style data not available</p>
+          )}
+        </div>
+      )
+    },
+    {
+      key: 'fears',
+      icon: <Eye className="w-5 h-5" />,
+      title: 'Core Fears & Defense Mechanisms',
+      color: 'violet',
+      content: () => (
+        <div className="space-y-4">
+          {coreFears && (
+            <div className="bg-violet-50 dark:bg-violet-900/20 rounded-xl p-4 border border-violet-200 dark:border-violet-800/50">
+              <p className="text-xs font-medium text-violet-600 dark:text-violet-400 uppercase tracking-wide mb-2">Primary Fear</p>
+              <p className="text-violet-800 dark:text-violet-200 font-medium">{coreFears.primaryFear}</p>
+              {coreFears.rahuInfluence && (
+                <div className="mt-3">
+                  <p className="text-xs font-medium text-violet-600 dark:text-violet-400 uppercase tracking-wide mb-1">Rahu Influence</p>
+                  <p className="text-sm text-violet-700 dark:text-violet-300">{coreFears.rahuInfluence}</p>
+                </div>
+              )}
+              {coreFears.howItManifests && (
+                <div className="mt-3">
+                  <p className="text-xs font-medium text-violet-600 dark:text-violet-400 uppercase tracking-wide mb-1">How It Manifests</p>
+                  <p className="text-sm text-violet-700 dark:text-violet-300">{coreFears.howItManifests}</p>
+                </div>
+              )}
+            </div>
+          )}
+          {defenseMechanisms && (
+            <div className="bg-purple-50 dark:bg-purple-900/20 rounded-xl p-4 border border-purple-200 dark:border-purple-800/50">
+              <p className="text-xs font-medium text-purple-600 dark:text-purple-400 uppercase tracking-wide mb-2">Defense Mechanism</p>
+              <p className="text-purple-800 dark:text-purple-200 font-medium">{defenseMechanisms.mechanism}</p>
+              {defenseMechanisms.ketuInfluence && (
+                <div className="mt-3">
+                  <p className="text-xs font-medium text-purple-600 dark:text-purple-400 uppercase tracking-wide mb-1">Ketu Influence</p>
+                  <p className="text-sm text-purple-700 dark:text-purple-300">{defenseMechanisms.ketuInfluence}</p>
+                </div>
+              )}
+              {defenseMechanisms.impactOnRelationships && (
+                <div className="mt-3">
+                  <p className="text-xs font-medium text-purple-600 dark:text-purple-400 uppercase tracking-wide mb-1">Impact on Relationships</p>
+                  <p className="text-sm text-purple-700 dark:text-purple-300">{defenseMechanisms.impactOnRelationships}</p>
+                </div>
+              )}
+            </div>
+          )}
+          {!coreFears && !defenseMechanisms && (
+            <p className="text-gray-500 dark:text-gray-400 text-sm">Core fears data not available</p>
+          )}
+        </div>
+      )
+    },
+    {
+      key: 'patterns',
+      icon: <Compass className="w-5 h-5" />,
+      title: 'Repeating Patterns',
       color: 'amber',
       content: () => (
         <div>
-          {conflictStyle ? (
-            <div className="bg-amber-50 dark:bg-amber-900/20 rounded-xl p-4 border border-amber-200 dark:border-amber-800/50">
-              <p className="text-amber-800 dark:text-amber-200">{conflictStyle}</p>
+          {repeatingPatterns ? (
+            <div className="bg-amber-50 dark:bg-amber-900/20 rounded-xl p-4 border border-amber-200 dark:border-amber-800/50 space-y-3">
+              <div>
+                <p className="text-xs font-medium text-amber-600 dark:text-amber-400 uppercase tracking-wide mb-1">Pattern</p>
+                <p className="text-amber-800 dark:text-amber-200 font-medium">{repeatingPatterns.pattern}</p>
+              </div>
+              {repeatingPatterns.fifthHouseInfluence && (
+                <div>
+                  <p className="text-xs font-medium text-amber-600 dark:text-amber-400 uppercase tracking-wide mb-1">5th House Influence</p>
+                  <p className="text-sm text-amber-700 dark:text-amber-300">{repeatingPatterns.fifthHouseInfluence}</p>
+                </div>
+              )}
+              {repeatingPatterns.venusCycles && (
+                <div>
+                  <p className="text-xs font-medium text-amber-600 dark:text-amber-400 uppercase tracking-wide mb-1">Venus Cycles</p>
+                  <p className="text-sm text-amber-700 dark:text-amber-300">{repeatingPatterns.venusCycles}</p>
+                </div>
+              )}
+              {repeatingPatterns.howToBreakIt && (
+                <div className="bg-emerald-50 dark:bg-emerald-900/20 rounded-xl p-3 border border-emerald-200 dark:border-emerald-800/50 mt-2">
+                  <p className="text-xs font-medium text-emerald-600 dark:text-emerald-400 uppercase tracking-wide mb-1">How to Break the Pattern</p>
+                  <p className="text-sm text-emerald-700 dark:text-emerald-300">{repeatingPatterns.howToBreakIt}</p>
+                </div>
+              )}
             </div>
           ) : (
-            <p className="text-gray-500 dark:text-gray-400 text-sm">Conflict style data not available</p>
+            <p className="text-gray-500 dark:text-gray-400 text-sm">Pattern data not available</p>
           )}
         </div>
       )
     },
     {
-      key: 'strengths',
+      key: 'mental',
       icon: <Shield className="w-5 h-5" />,
-      title: 'Strengths & Growth Areas',
+      title: 'Mental Landscape & Growth',
       color: 'emerald',
       content: () => (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {strengths.length > 0 && (
-            <div>
-              <h4 className="text-sm font-semibold text-emerald-700 dark:text-emerald-300 mb-2">Strengths</h4>
-              <div className="space-y-2">
-                {strengths.map((s: string, i: number) => (
-                  <div key={i} className="flex items-start gap-2 text-sm">
-                    <Star className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" />
-                    <span className="text-gray-700 dark:text-gray-300">{s}</span>
+        <div>
+          {mentalLandscape ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {mentalLandscape.coreFear && (
+                <div className="bg-red-50 dark:bg-red-900/20 rounded-xl p-4 border border-red-200 dark:border-red-800/50">
+                  <p className="text-xs font-medium text-red-600 dark:text-red-400 uppercase tracking-wide mb-1">Core Fear</p>
+                  <p className="text-red-800 dark:text-red-200">{mentalLandscape.coreFear}</p>
+                </div>
+              )}
+              {mentalLandscape.defenseMechanism && (
+                <div className="bg-amber-50 dark:bg-amber-900/20 rounded-xl p-4 border border-amber-200 dark:border-amber-800/50">
+                  <p className="text-xs font-medium text-amber-600 dark:text-amber-400 uppercase tracking-wide mb-1">Defense Mechanism</p>
+                  <p className="text-amber-800 dark:text-amber-200">{mentalLandscape.defenseMechanism}</p>
+                </div>
+              )}
+              {mentalLandscape.blindSpot && (
+                <div className="bg-orange-50 dark:bg-orange-900/20 rounded-xl p-4 border border-orange-200 dark:border-orange-800/50">
+                  <p className="text-xs font-medium text-orange-600 dark:text-orange-400 uppercase tracking-wide mb-1">Blind Spot</p>
+                  <p className="text-orange-800 dark:text-orange-200">{mentalLandscape.blindSpot}</p>
+                </div>
+              )}
+              {mentalLandscape.growthArea && (
+                <div className="bg-emerald-50 dark:bg-emerald-900/20 rounded-xl p-4 border border-emerald-200 dark:border-emerald-800/50">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Lightbulb className="w-4 h-4 text-emerald-500" />
+                    <p className="text-xs font-medium text-emerald-600 dark:text-emerald-400 uppercase tracking-wide">Growth Area</p>
                   </div>
-                ))}
-              </div>
+                  <p className="text-emerald-800 dark:text-emerald-200">{mentalLandscape.growthArea}</p>
+                </div>
+              )}
             </div>
-          )}
-          {challenges.length > 0 && (
-            <div>
-              <h4 className="text-sm font-semibold text-amber-700 dark:text-amber-300 mb-2">Growth Areas</h4>
-              <div className="space-y-2">
-                {challenges.map((c: string, i: number) => (
-                  <div key={i} className="flex items-start gap-2 text-sm">
-                    <Lightbulb className="w-4 h-4 text-amber-500 mt-0.5 shrink-0" />
-                    <span className="text-gray-700 dark:text-gray-300">{c}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+          ) : (
+            <p className="text-gray-500 dark:text-gray-400 text-sm">Mental landscape data not available</p>
           )}
         </div>
       )
