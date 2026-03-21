@@ -579,22 +579,24 @@ const DetailedAnalysisModal: React.FC<DetailedAnalysisModalProps> = ({
     partnerChart,
     allMatches
 }) => {
-    if (!isOpen || !match || !selfChart || !partnerChart) return null;
-
-    const analysis = match.aiAnalysis;
     const [activeTab, setActiveTab] = useState<'overview' | 'counselor' | 'strengths' | 'challenges' | 'evidence'>('counselor');
 
     // Generate counselor explanation
     const counselorData = React.useMemo(() => {
+        if (!match || !selfChart || !partnerChart) return null;
         return generateCounselorExplanation(
             selfChart,
             partnerChart,
             match.partnerName,
             match,
             allMatches,
-            analysis?.rankingFactors || []
+            match.aiAnalysis?.rankingFactors || []
         );
-    }, [selfChart, partnerChart, match, allMatches, analysis]);
+    }, [selfChart, partnerChart, match, allMatches]);
+
+    if (!isOpen || !match || !selfChart || !partnerChart) return null;
+
+    const analysis = match.aiAnalysis;
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
@@ -654,7 +656,7 @@ const DetailedAnalysisModal: React.FC<DetailedAnalysisModalProps> = ({
 
                 {/* Content */}
                 <div className="p-6 overflow-y-auto max-h-[60vh]">
-                    {activeTab === 'counselor' && (
+                    {activeTab === 'counselor' && counselorData && (
                         <CounselorContent counselorData={counselorData} match={match} />
                     )}
 

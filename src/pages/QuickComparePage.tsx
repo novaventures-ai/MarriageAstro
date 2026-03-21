@@ -104,6 +104,7 @@ export const QuickComparePage: React.FC = () => {
         };
 
         processComparison();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [partnerId, isHydrated, navigate, generateReport, selfBirthData]); // Depend on primary stable references
 
 
