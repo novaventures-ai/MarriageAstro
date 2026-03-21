@@ -168,7 +168,7 @@ export const BirthDataForm: React.FC<BirthDataFormProps> = ({
             name="latitude"
             value={formData.latitude}
             onChange={handleChange}
-            step="0.0001"
+            step="any"
             min="-90"
             max="90"
             required
@@ -186,7 +186,7 @@ export const BirthDataForm: React.FC<BirthDataFormProps> = ({
             name="longitude"
             value={formData.longitude}
             onChange={handleChange}
-            step="0.0001"
+            step="any"
             min="-180"
             max="180"
             required

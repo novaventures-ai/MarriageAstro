@@ -5,7 +5,7 @@
  */
 
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Heart, Stars, Sparkles, ArrowRight, User, ChevronRight, LayoutDashboard } from 'lucide-react';
 import { ThemeToggle } from '../components/ui/ThemeToggle';
 import { AuthButton } from '../components/ui/AuthButton';
@@ -15,17 +15,20 @@ import { Logo } from '../components/ui/Logo';
 
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { selfChart } = useUserProfileStore();
   const { user, isLoading } = useAuth();
 
   const { partners } = useUserProfileStore();
 
   // Auto-redirect logged-in users with any profile data to dashboard
+  // Skip redirect if user explicitly navigated here (e.g. "Back to Home")
+  const skipRedirect = (location.state as { fromDashboard?: boolean })?.fromDashboard === true;
   useEffect(() => {
-    if (!isLoading && user && (selfChart || partners.length > 0)) {
+    if (!skipRedirect && !isLoading && user && (selfChart || partners.length > 0)) {
       navigate('/dashboard', { replace: true });
     }
-  }, [user, selfChart, partners, isLoading, navigate]);
+  }, [user, selfChart, partners, isLoading, navigate, skipRedirect]);
 
   return (
     <div className="min-h-screen flex flex-col transition-colors duration-500">
