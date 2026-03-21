@@ -138,8 +138,9 @@ export async function generateSelfAnalysisReport(
       Promise.resolve(calculateTransitAnalysis(chart)).catch(() => null),
       // 17. Sexual Health Analysis (New)
       Promise.resolve().then(() => {
-        const maleHealth = chart.gender.toLowerCase() === 'male' ? analyzeMaleSexualHealth(chart) : { pmeRisk: 'Low' as const, edRisk: 'Low' as const, indicators: [], recommendations: [] };
-        const femaleHealth = chart.gender.toLowerCase() === 'female' ? analyzeFemaleSexualHealth(chart) : { frigidityRisk: 'Low' as const, physicalPainRisk: 'Low' as const, indicators: [], recommendations: [] };
+        const genderLower = (chart.gender || '').toLowerCase();
+        const maleHealth = genderLower === 'male' ? analyzeMaleSexualHealth(chart) : { pmeRisk: 'Low' as const, edRisk: 'Low' as const, indicators: [], recommendations: [] };
+        const femaleHealth = genderLower === 'female' ? analyzeFemaleSexualHealth(chart) : { frigidityRisk: 'Low' as const, physicalPainRisk: 'Low' as const, indicators: [], recommendations: [] };
 
         const libido = analyzeLibido(chart);
         const orientation = analyzeSexualOrientation(chart);

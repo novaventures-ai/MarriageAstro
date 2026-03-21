@@ -57,7 +57,7 @@ export const SelfRiskRadarWidget: React.FC<SelfRiskRadarWidgetProps> = ({ report
     score: patternScore,
     level: getLevel(patternScore),
     icon: <Heart className="w-5 h-5" />,
-    indicators: patterns?.patterns?.map(p => p.pattern || p.description || String(p)) || [],
+    indicators: patterns?.patterns?.map((p: { name: string; description: string }) => p.name || p.description || String(p)) || [],
     description: 'Risk patterns in relationship behavior'
   });
 
@@ -76,15 +76,15 @@ export const SelfRiskRadarWidget: React.FC<SelfRiskRadarWidgetProps> = ({ report
 
   // 4. Addiction Susceptibility
   const addiction = report.addictionRisk;
-  const addictionLevel = addiction?.levels?.overall || 'low';
-  const addictionScore = addictionLevel === 'high' ? 75 : addictionLevel === 'elevated' ? 55 : addictionLevel === 'moderate' ? 35 : 15;
+  const addictionLevel = addiction?.overallRisk || 'low';
+  const addictionScore = addictionLevel === 'high' ? 75 : addictionLevel === 'moderate' ? 35 : 15;
   dimensions.push({
     key: 'addiction',
     label: 'Addiction Risk',
     score: addictionScore,
     level: getLevel(addictionScore),
     icon: <Wine className="w-5 h-5" />,
-    indicators: addiction?.indicators?.map(i => typeof i === 'string' ? i : i.description || String(i)) || [],
+    indicators: addiction?.categories?.flatMap((c: { label: string; indicators: { description: string }[] }) => c.indicators.map((i: { description: string }) => `${c.label}: ${i.description}`)) || [],
     description: 'Susceptibility to addictive behaviors'
   });
 
@@ -203,7 +203,7 @@ export const SelfRiskRadarWidget: React.FC<SelfRiskRadarWidgetProps> = ({ report
               strokeWidth={2}
             />
             <Tooltip
-              formatter={(value: number) => [`${value}/100`, 'Risk Score']}
+              formatter={(value: number | string) => [`${value}/100`, 'Risk Score']}
               contentStyle={{ backgroundColor: '#1f2937', border: 'none', borderRadius: '8px', color: '#f3f4f6' }}
             />
           </RadarChart>
