@@ -24,7 +24,7 @@ Allow: /
 User-agent: ClaudeBot
 Allow: /
 
-Sitemap: https://astro-marriage.vercel.app/sitemap.xml
+Sitemap: https://marriage-astro.vercel.app/sitemap.xml
 
 # LLM-readable content
-# https://astro-marriage.vercel.app/llms.txt
+# https://marriage-astro.vercel.app/llms.txt

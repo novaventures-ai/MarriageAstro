@@ -41,19 +41,19 @@ Astro Marriage analyzes birth charts (Kundali/Janam Patri) using multiple Vedic 
 ## In-Depth Guides
 
 ### How Vedic Kundali Matching Works
-URL: https://astro-marriage.vercel.app/how-it-works
+URL: https://marriage-astro.vercel.app/how-it-works
 Explains the complete methodology: Ashtakoot Milan scoring, Swiss Ephemeris planetary calculations, KP Astrology sub-lord system, Jaimini Chara Karakas for spouse prediction, marriage timing convergence method, and Navamsa matching. References classical texts including Brihat Parashara Hora Shastra, Jataka Parijata, Muhurta Chintamani, and Krishnamurti Paddhati Reader.
 
 ### Ashtakoot Milan — Complete 36-Point Guide
-URL: https://astro-marriage.vercel.app/guides/ashtakoot-milan
+URL: https://marriage-astro.vercel.app/guides/ashtakoot-milan
 Deep dive into all 8 Kootas with scoring rules, what each measures (Varna=spiritual compatibility, Vashya=attraction, Tara=destiny, Yoni=sexual chemistry, Graha Maitri=mental connection, Gana=temperament, Bhakoot=prosperity, Nadi=genetic health), dosha cancellation methods, and score interpretation (0-17 not recommended, 18-24 acceptable, 25-30 good, 31-36 excellent).
 
 ### Marriage Timing Prediction
-URL: https://astro-marriage.vercel.app/guides/marriage-timing
+URL: https://marriage-astro.vercel.app/guides/marriage-timing
 Covers 5 methods for predicting marriage timing: (1) Vimshottari Dasha — Venus/7th lord periods, (2) Jupiter-Saturn transits over marriage houses, (3) KP sub-lord 2-7-11 rule with ruling planets, (4) Jaimini Chara Dasha — Darakaraka/Upapada activation, (5) Navamsa (D9) confirmation. The convergence of 3+ methods creates high-probability marriage windows.
 
 ### Mangal Dosha (Manglik) Guide
-URL: https://astro-marriage.vercel.app/guides/mangal-dosha
+URL: https://marriage-astro.vercel.app/guides/mangal-dosha
 Complete guide to Mars affliction in marriage: what Mangal Dosha is (Mars in houses 1, 4, 7, 8, 12), effects on marriage, 15+ cancellation rules (house-specific + general), triple-check from Lagna/Moon/Venus, remedies (Kumbh Vivah, red coral, Hanuman Chalisa, Lal Kitab methods), and common myths debunked (age-28 expiry, double Manglik).
 
 ## Frequently Asked Questions
@@ -91,7 +91,7 @@ A: Vedic astrology has been practiced for over 5,000 years as a compatibility an
 - Hosting: Vercel with PWA support
 
 ## URL
-https://astro-marriage.vercel.app
+https://marriage-astro.vercel.app
 
 ## Contact
 Built by NovaVentures AI

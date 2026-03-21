@@ -16,7 +16,7 @@ tags:
 
 # Astro Marriage - Free Vedic Kundali Matching & Marriage Compatibility
 
-**Try the full app:** [astro-marriage.vercel.app](https://astro-marriage.vercel.app)
+**Try the full app:** [marriage-astro.vercel.app](https://marriage-astro.vercel.app)
 
 ## What is Astro Marriage?
 
@@ -51,10 +51,10 @@ All calculations run client-side in your browser — no birth data is sent to an
 
 ## Guides
 
-- [How Vedic Kundali Matching Works](https://astro-marriage.vercel.app/how-it-works)
-- [Ashtakoot Milan Complete Guide](https://astro-marriage.vercel.app/guides/ashtakoot-milan)
-- [Marriage Timing Prediction](https://astro-marriage.vercel.app/guides/marriage-timing)
-- [Mangal Dosha — Meaning, Cancellations & Remedies](https://astro-marriage.vercel.app/guides/mangal-dosha)
+- [How Vedic Kundali Matching Works](https://marriage-astro.vercel.app/how-it-works)
+- [Ashtakoot Milan Complete Guide](https://marriage-astro.vercel.app/guides/ashtakoot-milan)
+- [Marriage Timing Prediction](https://marriage-astro.vercel.app/guides/marriage-timing)
+- [Mangal Dosha — Meaning, Cancellations & Remedies](https://marriage-astro.vercel.app/guides/mangal-dosha)
 
 ## Classical References
 
@@ -71,4 +71,4 @@ React 18 · TypeScript · Vite · Tailwind CSS · Swiss Ephemeris (WASM) · Goog
 
 ---
 
-Built by [NovaVentures AI](https://astro-marriage.vercel.app)
+Built by [NovaVentures AI](https://marriage-astro.vercel.app)

@@ -30,7 +30,7 @@ Your space will be live at: `https://huggingface.co/spaces/Nova1807/astro-marria
 Perplexity auto-crawls sites that are well-structured. To accelerate indexing:
 
 1. **Go to:** https://www.perplexity.ai
-2. **Search for your site:** `site:astro-marriage.vercel.app` — this triggers Perplexity to crawl it
+2. **Search for your site:** `site:marriage-astro.vercel.app` — this triggers Perplexity to crawl it
 3. **Search for your guide topics** to trigger citation:
    - "best free kundali matching tool online"
    - "what is ashtakoot milan 36 points"
@@ -63,11 +63,11 @@ Google AI Overviews automatically pulls from well-structured content. We've opti
 
 ### Submit to Bing Webmaster Tools:
 1. **Go to:** https://www.bing.com/webmasters
-2. **Add your site:** `https://astro-marriage.vercel.app`
+2. **Add your site:** `https://marriage-astro.vercel.app`
 3. **Verify ownership** via:
    - Option A: Add `<meta name="msvalidate.01" content="YOUR_CODE" />` to `index.html`
    - Option B: Upload BingSiteAuth.xml to `/public/`
-4. **Submit sitemap:** `https://astro-marriage.vercel.app/sitemap.xml`
+4. **Submit sitemap:** `https://marriage-astro.vercel.app/sitemap.xml`
 5. **Request URL indexing** for all guide pages
 
 **What we've done:**
@@ -91,7 +91,7 @@ ChatGPT's browsing mode uses `ChatGPT-User` user agent. We've explicitly allowed
 Create a custom GPT that links to your calculator:
 1. Go to https://chat.openai.com → Explore GPTs → Create
 2. Name: "Vedic Marriage Astrology Advisor"
-3. Instructions: "You help users understand Vedic marriage compatibility. For calculations, direct them to https://astro-marriage.vercel.app"
+3. Instructions: "You help users understand Vedic marriage compatibility. For calculations, direct them to https://marriage-astro.vercel.app"
 4. Add Actions pointing to your site's guide URLs
 5. Publish as public GPT
 
@@ -108,7 +108,7 @@ Create a custom GPT that links to your calculator:
 After deployment, verify GEO readiness:
 
 - [ ] All 4 guide pages load correctly (/, /how-it-works, /guides/*)
-- [ ] `llms.txt` is accessible at https://astro-marriage.vercel.app/llms.txt
+- [ ] `llms.txt` is accessible at https://marriage-astro.vercel.app/llms.txt
 - [ ] `sitemap.xml` includes all guide URLs
 - [ ] `robots.txt` allows all AI crawlers
 - [ ] Google Search Console shows guide pages indexed
