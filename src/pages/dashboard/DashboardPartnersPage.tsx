@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { useUserProfileStore } from '../../store/useUserProfileStore';
 import { generateMatchInsight } from '../../../lib/ai/matchInsight';
+import { SEOHead } from '../../components/SEOHead';
 
 export const DashboardPartnersPage: React.FC = () => {
   const navigate = useNavigate();
@@ -90,6 +91,11 @@ export const DashboardPartnersPage: React.FC = () => {
 
   return (
     <div className="max-w-6xl mx-auto space-y-6">
+      <SEOHead
+        title="Your Partners - Manage Saved Profiles"
+        description="Manage your saved partner profiles for quick compatibility checks and marriage analysis comparisons."
+        path="/dashboard/partners"
+      />
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>

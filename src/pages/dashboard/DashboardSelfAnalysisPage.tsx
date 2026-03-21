@@ -7,6 +7,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, User, Edit2 } from 'lucide-react';
 import { useUserProfileStore } from '../../store/useUserProfileStore';
+import { SEOHead } from '../../components/SEOHead';
 
 export const DashboardSelfAnalysisPage: React.FC = () => {
   const navigate = useNavigate();
@@ -36,6 +37,11 @@ export const DashboardSelfAnalysisPage: React.FC = () => {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
+      <SEOHead
+        title="Self Analysis - Personal Marriage Predictions"
+        description="Your personalized Vedic astrology self-analysis with marriage timing, spouse predictions, and birth chart insights."
+        path="/dashboard/self-analysis"
+      />
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Self Analysis</h1>

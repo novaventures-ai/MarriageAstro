@@ -38,8 +38,8 @@ export const CalculatorPage: React.FC = () => {
   return (
     <div className="min-h-screen py-6 sm:py-8 md:py-12 px-3 sm:px-4 transition-colors duration-500 safe-area-x">
       <SEOHead
-        title="Kundali Matching - Marriage Compatibility Check"
-        description="Free Kundali matching with Ashtakoot Milan 36-point scoring. Compare two birth charts for marriage compatibility, Gun Milan score & detailed Vedic analysis."
+        title="Free Kundali Calculator - Birth Chart & Marriage Timing"
+        description="Generate your free Vedic birth chart with Kundali calculator. Get marriage timing predictions, spouse characteristics, and personalized astrological remedies."
         path="/calculator"
       />
       <div className="max-w-4xl mx-auto">

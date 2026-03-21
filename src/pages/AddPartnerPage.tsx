@@ -9,6 +9,7 @@ import { useUserProfileStore } from '../store/useUserProfileStore';
 import { ArrowLeft, Loader2, UserPlus, Heart } from 'lucide-react';
 import { ThemeToggle } from '../components/ui/ThemeToggle';
 import PlaceAutocomplete from '../components/PlaceAutocomplete';
+import { SEOHead } from '../components/SEOHead';
 
 export const AddPartnerPage: React.FC = () => {
   const navigate = useNavigate();
@@ -88,6 +89,11 @@ export const AddPartnerPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+      <SEOHead
+        title="Add Partner for Compatibility Check"
+        description="Add your partner's birth details for comprehensive Kundali matching and marriage compatibility analysis."
+        path="/add-partner"
+      />
       {/* Header */}
       <header className="sticky top-0 z-50 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">

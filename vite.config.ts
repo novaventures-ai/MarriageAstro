@@ -14,16 +14,19 @@ export default defineConfig({
         maximumFileSizeToCacheInBytes: 8 * 1024 * 1024, // 8MB - bundle is large due to astro calculations
       },
       manifest: {
-        name: 'Astro Marriage',
-        short_name: 'AstroMarriage',
-        description: 'Advanced Vedic Astrology Marriage Compatibility Analysis',
-        theme_color: '#4f46e5',
-        background_color: '#ffffff',
+        name: 'Astro Marriage - Kundali Matching & Marriage Compatibility',
+        short_name: 'Astro Marriage',
+        description: 'Free Vedic astrology marriage compatibility analysis with Ashtakoot Milan',
+        start_url: '/',
         display: 'standalone',
+        background_color: '#0f0d1a',
+        theme_color: '#4f46e5',
         orientation: 'portrait',
+        categories: ['lifestyle', 'utilities'],
+        lang: 'en-IN',
         icons: [
           {
-            src: 'icon.svg',
+            src: '/icon.svg',
             sizes: 'any',
             type: 'image/svg+xml',
             purpose: 'any maskable'

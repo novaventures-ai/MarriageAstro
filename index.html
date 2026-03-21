@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/icon.svg" />
     <link rel="apple-touch-icon" href="/icon.svg" />
+    <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#4f46e5" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Astro Marriage - Free Kundali Matching & Vedic Marriage Compatibility Online</title>
@@ -11,10 +12,26 @@
     <meta name="keywords" content="kundali matching, kundali milan, marriage compatibility, vedic astrology, ashtakoot milan, horoscope matching, marriage prediction, spouse prediction, gun milan, vivah jyotish, marriage timing, compatibility score, free kundali matching online" />
     <meta name="robots" content="index, follow" />
 
+    <!-- Hreflang for language/region targeting -->
+    <link rel="alternate" hreflang="en" href="https://astro-marriage.vercel.app" />
+    <link rel="alternate" hreflang="hi" href="https://astro-marriage.vercel.app" />
+    <link rel="alternate" hreflang="x-default" href="https://astro-marriage.vercel.app" />
+
     <!-- Geo targeting for India (primary audience) -->
     <meta name="geo.region" content="IN" />
     <meta name="geo.placename" content="India" />
     <meta name="content-language" content="en-IN" />
+
+    <!-- Google Analytics 4 - Replace G-XXXXXXXXXX with your Measurement ID -->
+    <!--
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+    -->
 
     <!-- Open Graph -->
     <meta property="og:title" content="Astro Marriage - Free Kundali Matching & Marriage Prediction" />
@@ -120,6 +137,35 @@
         "cssSelector": ["h1", "h2", ".faq-answer"]
       },
       "url": "https://astro-marriage.vercel.app"
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://astro-marriage.vercel.app"},
+        {"@type": "ListItem", "position": 2, "name": "Birth Chart Calculator", "item": "https://astro-marriage.vercel.app/calculator"},
+        {"@type": "ListItem", "position": 3, "name": "Dashboard", "item": "https://astro-marriage.vercel.app/dashboard"},
+        {"@type": "ListItem", "position": 4, "name": "Partner Comparison", "item": "https://astro-marriage.vercel.app/comparison"}
+      ]
+    }
+    </script>
+
+    <!-- Organization Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Astro Marriage",
+      "url": "https://astro-marriage.vercel.app",
+      "logo": "https://astro-marriage.vercel.app/icon.svg",
+      "description": "Free Vedic astrology marriage compatibility platform offering Kundali matching, marriage timing predictions, and AI-powered spouse analysis.",
+      "sameAs": [],
+      "foundingDate": "2025",
+      "knowsAbout": ["Vedic Astrology", "Kundali Matching", "Ashtakoot Milan", "Marriage Compatibility", "Birth Chart Analysis"]
     }
     </script>
   </head>

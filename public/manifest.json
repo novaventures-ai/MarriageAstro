@@ -1,0 +1,20 @@
+{
+  "name": "Astro Marriage - Kundali Matching & Marriage Compatibility",
+  "short_name": "Astro Marriage",
+  "description": "Free Vedic astrology marriage compatibility analysis with Ashtakoot Milan",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f0d1a",
+  "theme_color": "#4f46e5",
+  "orientation": "portrait",
+  "categories": ["lifestyle", "utilities"],
+  "lang": "en-IN",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

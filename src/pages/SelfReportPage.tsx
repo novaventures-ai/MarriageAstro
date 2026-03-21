@@ -52,6 +52,7 @@ import { IdealPartnerProfileWidget } from '../components/widgets/IdealPartnerPro
 import { MarriageReadinessWidget } from '../components/widgets/MarriageReadinessWidget';
 import { UserDashboard } from '../components/dashboard/UserDashboard';
 import { ErrorBoundary } from '../components/ErrorBoundary';
+import { SEOHead } from '../components/SEOHead';
 
 export const SelfReportPage: React.FC = () => {
   const navigate = useNavigate();
@@ -215,6 +216,11 @@ export const SelfReportPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+      <SEOHead
+        title="Your Marriage Analysis Report"
+        description="Your personalized Vedic astrology marriage analysis with timing predictions, spouse characteristics, psychological profile, and actionable remedies."
+        path="/self-report"
+      />
       {/* Header */}
       <header className="sticky top-0 z-40 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-7xl mx-auto px-4 py-4">

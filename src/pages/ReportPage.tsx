@@ -28,6 +28,7 @@ import { AuthButton } from '../components/ui/AuthButton';
 import { AstroMindWidget } from '../components/chat/AstroMindWidget';
 import SeventhHousePlacementWidget from '../components/widgets/SeventhHousePlacementWidget';
 import { Logo } from '../components/ui/Logo';
+import { SEOHead } from '../components/SEOHead';
 import { CosmicNavigator, ThemeId, ThemeConfig } from '../components/widgets/CosmicNavigator';
 
 export const ReportPage: React.FC = () => {
@@ -177,6 +178,11 @@ export const ReportPage: React.FC = () => {
 
   return (
     <div className="min-h-screen py-8 px-4 transition-colors duration-500">
+      <SEOHead
+        title="Compatibility Report - Vedic Marriage Analysis"
+        description="Detailed Vedic astrology compatibility report with Ashtakoot Milan scoring, Mangal Dosha analysis, marriage timing, and personalized remedies."
+        path="/report"
+      />
       <div className="max-w-7xl mx-auto">
         {/* Header - Mobile Optimized */}
         <div className="flex flex-col gap-3 sm:gap-4 mb-6 sm:mb-8">
