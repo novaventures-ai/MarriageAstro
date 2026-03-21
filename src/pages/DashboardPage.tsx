@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { useUserProfileStore } from '../store/useUserProfileStore';
 import { useAuth } from '../context/AuthContext';
+import { SEOHead } from '../components/SEOHead';
 
 export const DashboardPage: React.FC = () => {
   const navigate = useNavigate();
@@ -39,6 +40,7 @@ export const DashboardPage: React.FC = () => {
 
   return (
     <div className="max-w-6xl mx-auto space-y-6">
+      <SEOHead title="Dashboard" description="Your Vedic astrology marriage dashboard. View your birth chart, partner compatibility, and marriage analysis reports." path="/dashboard" />
       {/* Welcome header */}
       <div>
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">

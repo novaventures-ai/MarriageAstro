@@ -23,6 +23,9 @@ const AddPartnerPage = lazy(() => import('./pages/AddPartnerPage').then(m => ({ 
 const QuickComparePage = lazy(() => import('./pages/QuickComparePage').then(m => ({ default: m.QuickComparePage })));
 const PartnerDetailsPage = lazy(() => import('./pages/PartnerDetailsPage').then(m => ({ default: m.PartnerDetailsPage })));
 
+// 404
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
+
 // Dashboard
 const DashboardLayout = lazy(() => import('./components/dashboard/DashboardLayout').then(m => ({ default: m.DashboardLayout })));
 const DashboardPage = lazy(() => import('./pages/DashboardPage').then(m => ({ default: m.DashboardPage })));
@@ -113,6 +116,9 @@ function App() {
 
               {/* Auth */}
               <Route path="/auth/callback" element={<AuthCallbackPage />} />
+
+              {/* 404 Catch-all */}
+              <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </Suspense>
           </ErrorBoundary>

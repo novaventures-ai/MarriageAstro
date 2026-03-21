@@ -12,6 +12,7 @@ import { AuthButton } from '../components/ui/AuthButton';
 import { useUserProfileStore } from '../store/useUserProfileStore';
 import { useAuth } from '../context/AuthContext';
 import { Logo } from '../components/ui/Logo';
+import { SEOHead } from '../components/SEOHead';
 
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate();
@@ -32,6 +33,11 @@ export const LandingPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col transition-colors duration-500">
+      <SEOHead
+        title="Free Kundali Matching & Vedic Marriage Compatibility Online"
+        description="Free online Kundali matching & marriage compatibility analysis. Ashtakoot Milan 36-point scoring, marriage timing prediction, spouse characteristics & personalized remedies."
+        path="/"
+      />
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-3 sm:px-6 py-3 sm:py-4 bg-white/10 backdrop-blur-md dark:bg-black/10 transition-colors duration-500 safe-area-x">
         <Logo size="sm" className="sm:hidden" />

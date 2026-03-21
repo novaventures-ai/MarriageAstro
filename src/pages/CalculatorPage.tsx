@@ -6,6 +6,7 @@ import { ArrowRight, Loader2, ArrowLeft } from 'lucide-react';
 import { ThemeToggle } from '../components/ui/ThemeToggle';
 import { AuthButton } from '../components/ui/AuthButton';
 import { Logo } from '../components/ui/Logo';
+import { SEOHead } from '../components/SEOHead';
 
 export const CalculatorPage: React.FC = () => {
   const navigate = useNavigate();
@@ -36,6 +37,11 @@ export const CalculatorPage: React.FC = () => {
 
   return (
     <div className="min-h-screen py-6 sm:py-8 md:py-12 px-3 sm:px-4 transition-colors duration-500 safe-area-x">
+      <SEOHead
+        title="Kundali Matching - Marriage Compatibility Check"
+        description="Free Kundali matching with Ashtakoot Milan 36-point scoring. Compare two birth charts for marriage compatibility, Gun Milan score & detailed Vedic analysis."
+        path="/calculator"
+      />
       <div className="max-w-4xl mx-auto">
         {/* Header Navigation - Mobile Optimized */}
         <div className="flex justify-between items-center mb-6 sm:mb-8">

@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e1b4b"/>
+      <stop offset="50%" style="stop-color:#312e81"/>
+      <stop offset="100%" style="stop-color:#4c1d95"/>
+    </linearGradient>
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#818cf8"/>
+      <stop offset="50%" style="stop-color:#a78bfa"/>
+      <stop offset="100%" style="stop-color:#f472b6"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <!-- Stars decoration -->
+  <circle cx="100" cy="80" r="2" fill="#818cf8" opacity="0.6"/>
+  <circle cx="300" cy="120" r="1.5" fill="#c084fc" opacity="0.5"/>
+  <circle cx="500" cy="60" r="2.5" fill="#f472b6" opacity="0.4"/>
+  <circle cx="700" cy="100" r="1.5" fill="#818cf8" opacity="0.6"/>
+  <circle cx="900" cy="70" r="2" fill="#c084fc" opacity="0.5"/>
+  <circle cx="1100" cy="110" r="1.5" fill="#f472b6" opacity="0.4"/>
+  <circle cx="150" cy="500" r="2" fill="#818cf8" opacity="0.3"/>
+  <circle cx="1050" cy="520" r="2" fill="#c084fc" opacity="0.3"/>
+  <!-- Heart icon -->
+  <text x="600" y="200" text-anchor="middle" font-size="80" fill="url(#textGrad)">&#x2764;</text>
+  <!-- Title -->
+  <text x="600" y="320" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="64" font-weight="bold" fill="url(#textGrad)">Astro Marriage</text>
+  <!-- Subtitle -->
+  <text x="600" y="400" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="28" fill="#c4b5fd">Free Kundali Matching &amp; Marriage Compatibility</text>
+  <!-- Features -->
+  <text x="600" y="470" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="20" fill="#9ca3af">Ashtakoot Milan  |  Marriage Timing  |  Spouse Prediction  |  AI Insights</text>
+  <!-- URL -->
+  <text x="600" y="560" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="18" fill="#6366f1">astro-marriage.vercel.app</text>
+</svg>
