@@ -166,7 +166,10 @@ export const SelfReportPage: React.FC = () => {
       color: 'rose',
       gradient: 'from-rose-500 to-pink-600',
       widgets: [
-        { id: 'sexual', label: 'Physical Profile' },
+        { id: 'sexual', label: 'Vitality & Risk Analysis' },
+        { id: 'sexual', label: 'Yoni Physical Nature' },
+        { id: 'sexual', label: 'Nakshatra Profile' },
+        { id: 'sexual', label: 'Vedic Doctor Consult' },
       ],
       dynamicData: {
         badge: 'Health Profile',
