@@ -30,7 +30,8 @@ export const DashboardPartnersPage: React.FC = () => {
     removeAllPartners,
     selectPartner,
     loadFromCloud,
-    isHydrated
+    isHydrated,
+    isDemoMode
   } = useUserProfileStore();
 
   const [partnerScores, setPartnerScores] = useState<Record<string, { score: number; verdict: string }>>({});
@@ -40,10 +41,10 @@ export const DashboardPartnersPage: React.FC = () => {
   const PARTNERS_PER_PAGE = 12;
 
   useEffect(() => {
-    if (isHydrated) {
+    if (isHydrated && !isDemoMode) {
       loadFromCloud();
     }
-  }, [isHydrated, loadFromCloud]);
+  }, [isHydrated, isDemoMode, loadFromCloud]);
 
   useEffect(() => {
     const calculateScores = async () => {

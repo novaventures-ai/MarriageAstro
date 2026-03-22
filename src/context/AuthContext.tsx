@@ -60,10 +60,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
                     // If user has local self data, they likely just created it as guest.
                     // Save it to cloud to prevent wiping it. Otherwise, load cloud data.
-                    if (userProfileState.selfBirthData) {
-                        userProfileState.saveToCloud();
-                    } else {
-                        userProfileState.loadFromCloud();
+                    // Skip cloud sync entirely in demo mode.
+                    if (!userProfileState.isDemoMode) {
+                        if (userProfileState.selfBirthData) {
+                            userProfileState.saveToCloud();
+                        } else {
+                            userProfileState.loadFromCloud();
+                        }
                     }
 
                     // If user has a local Match Report, save it to cloud

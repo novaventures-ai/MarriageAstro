@@ -45,6 +45,22 @@ export const DemoPage: React.FC = () => {
       const appStore = useAppStore.getState();
 
       try {
+        // Step 0 (implicit): Clear any existing data so demo starts fresh
+        // Set isDemoMode to prevent cloud data from overwriting demo data
+        useUserProfileStore.setState({
+          partners: [],
+          selectedPartnerId: null,
+          selfChart: null,
+          selfBirthData: {
+            name: '', gender: 'male', dateOfBirth: '', timeOfBirth: '',
+            location: '', latitude: 0, longitude: 0, timezone: '',
+          },
+          selfReport: null,
+          quickCompareResult: null,
+          isDemoMode: true,
+        });
+        useAppStore.setState({ currentReport: null, chartA: null, chartB: null });
+
         // Step 1: Set self birth data (auto-generates chart)
         updateStep(0, { status: 'loading' });
         await profileStore.setSelfBirthData(DEMO_SELF);
