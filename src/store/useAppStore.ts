@@ -8,6 +8,7 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 import { Chart, CompatibilityReport, BirthDataInput } from '@types';
 import { generateFullCompatibilityReport } from '@lib/reportGenerator';
 import { saveReport } from '../lib/supabaseService';
+import { useUserProfileStore } from './useUserProfileStore';
 import { supabase } from '../lib/supabase';
 
 interface AppState {
@@ -58,6 +59,13 @@ export const useAppStore = create<AppState>()(
       }),
 
       generateReport: async (birthDataA, birthDataB) => {
+        // Consume an AI credit for free users (admins/premium have unlimited)
+        const creditUsed = useUserProfileStore.getState().useAiCredit();
+        if (!creditUsed) {
+          set({ error: 'Daily free analysis limit reached (3/day). Upgrade to Premium for unlimited reports.' });
+          return;
+        }
+
         set({ isLoading: true, error: null });
 
         try {

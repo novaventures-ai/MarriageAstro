@@ -251,6 +251,13 @@ export const useUserProfileStore = create<UserProfileState>()(
           return;
         }
 
+        // Consume an AI credit for free users (admins/premium have unlimited)
+        const creditUsed = get().useAiCredit();
+        if (!creditUsed) {
+          set({ generationError: 'Daily free analysis limit reached (3/day). Upgrade to Premium for unlimited reports.' });
+          return;
+        }
+
         set({ isGeneratingReport: true, generationError: null });
 
         try {
