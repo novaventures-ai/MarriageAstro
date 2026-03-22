@@ -242,13 +242,13 @@ export const SelfTimingWidget: React.FC<SelfTimingWidgetProps> = ({
 
                   <div className="flex flex-wrap gap-2 text-xs">
                     {/* System Badges */}
-                    <span className="px-2 py-1 bg-blue-50 text-blue-700 border border-blue-100 rounded flex items-center gap-1">
+                    <span className="px-2 py-1 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border border-blue-100 dark:border-blue-800 rounded flex items-center gap-1">
                       ✓ Vimshottari
                     </span>
-                    <span className={`px-2 py-1 rounded flex items-center gap-1 border ${item.charaDashaActive ? 'bg-green-50 text-green-700 border-green-100' : 'bg-gray-50 text-gray-400 border-gray-100'}`}>
+                    <span className={`px-2 py-1 rounded flex items-center gap-1 border ${item.charaDashaActive ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border-green-100 dark:border-green-800' : 'bg-gray-50 dark:bg-gray-700 text-gray-400 border-gray-100 dark:border-gray-600'}`}>
                       {item.charaDashaActive ? '✓' : '✗'} Chara Dasha
                     </span>
-                    <span className={`px-2 py-1 rounded flex items-center gap-1 border ${item.vivahSahamActive ? 'bg-purple-50 text-purple-700 border-purple-100' : 'bg-gray-50 text-gray-400 border-gray-100'}`}>
+                    <span className={`px-2 py-1 rounded flex items-center gap-1 border ${item.vivahSahamActive ? 'bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 border-purple-100 dark:border-purple-800' : 'bg-gray-50 dark:bg-gray-700 text-gray-400 border-gray-100 dark:border-gray-600'}`}>
                       {item.vivahSahamActive ? '✓' : '✗'} Vivah Saham
                     </span>
                   </div>

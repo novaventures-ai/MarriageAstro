@@ -58,15 +58,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                         newSession.user.email || ''
                     );
 
-                    // If user has local self data, they likely just created it as guest.
-                    // Save it to cloud to prevent wiping it. Otherwise, load cloud data.
-                    // Skip cloud sync entirely in demo mode.
-                    if (!userProfileState.isDemoMode) {
-                        if (userProfileState.selfBirthData) {
-                            userProfileState.saveToCloud();
-                        } else {
-                            userProfileState.loadFromCloud();
-                        }
+                    // If demo mode was active, clear it and load real data from cloud.
+                    // Otherwise, if user has local self data (created as guest), save to cloud.
+                    // If no local data, load from cloud.
+                    if (userProfileState.isDemoMode) {
+                        // Clear demo data, reset flag, then load real profile
+                        userProfileState.reset();
+                        userProfileState.loadFromCloud();
+                    } else if (userProfileState.selfBirthData?.name) {
+                        userProfileState.saveToCloud();
+                    } else {
+                        userProfileState.loadFromCloud();
                     }
 
                     // If user has a local Match Report, save it to cloud

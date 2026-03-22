@@ -117,6 +117,7 @@ export const useUserProfileStore = create<UserProfileState>()(
           aiCreditsRemaining: 3,
           aiCreditsResetAt: null,
           isAdmin: false,
+          isDemoMode: false,
           // keep isHydrated true to avoid hydration issues
         });
       },
