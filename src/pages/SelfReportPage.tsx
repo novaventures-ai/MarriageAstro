@@ -137,9 +137,9 @@ export const SelfReportPage: React.FC = () => {
         { id: 'kp', label: 'KP Promise Analysis' },
       ],
       dynamicData: {
-        badge: `${selfReport.marriagePotential?.score || 0}/100`,
-        status: (selfReport.marriagePotential?.score || 0) >= 60 ? 'good' : 'warning',
-        highlight: selfReport.marriagePotential?.verdict?.replace('_', ' ') || 'Analyzed'
+        badge: `${selfReport?.marriagePotential?.score ?? 0}/100`,
+        status: (selfReport?.marriagePotential?.score ?? 0) >= 60 ? 'good' : 'warning',
+        highlight: selfReport?.marriagePotential?.verdict?.replace('_', ' ') || 'Analyzed'
       }
     },
     {
@@ -260,7 +260,7 @@ export const SelfReportPage: React.FC = () => {
                   {selfChart?.name}&apos;s Analysis
                 </h1>
                 <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 truncate">
-                  Score: {selfReport.marriagePotential.score}/100 • {selfReport.marriagePotential.verdict.replace('_', ' ')}
+                  Score: {selfReport?.marriagePotential?.score ?? '?'}/100 • {selfReport?.marriagePotential?.verdict?.replace('_', ' ') ?? 'Analyzing'}
                 </p>
               </div>
             </div>
@@ -436,14 +436,18 @@ export const SelfReportPage: React.FC = () => {
 
                 <div id="ideal-partner">
                   <ErrorBoundary>
-                    <IdealPartnerProfileWidget report={selfReport} />
+                    <PremiumGate section="full_self_report" label="Ideal Partner Profile">
+                      <IdealPartnerProfileWidget report={selfReport} />
+                    </PremiumGate>
                   </ErrorBoundary>
                 </div>
 
                 {selfChart && (
                   <div id="7thhouse">
                     <ErrorBoundary>
-                      <SeventhHousePlacementWidget chart={selfChart} />
+                      <PremiumGate section="full_self_report" label="7th House Placement">
+                        <SeventhHousePlacementWidget chart={selfChart} />
+                      </PremiumGate>
                     </ErrorBoundary>
                   </div>
                 )}
@@ -451,11 +455,13 @@ export const SelfReportPage: React.FC = () => {
                 {selfChart && (
                   <div id="navamsa">
                     <ErrorBoundary>
-                      <DivisionalChartWidget
-                        chartA={selfChart}
-                        nameA={selfChart.name}
-                        divisionalAnalysis={selfReport.divisionalAnalysis}
-                      />
+                      <PremiumGate section="divisional_advanced" label="Navamsa D9 Marriage Chart">
+                        <DivisionalChartWidget
+                          chartA={selfChart}
+                          nameA={selfChart.name}
+                          divisionalAnalysis={selfReport.divisionalAnalysis}
+                        />
+                      </PremiumGate>
                     </ErrorBoundary>
                   </div>
                 )}
@@ -463,40 +469,42 @@ export const SelfReportPage: React.FC = () => {
                 {selfChart && (
                   <div id="chara">
                     <ErrorBoundary>
-                      {selfReport.jaiminiAnalysis ? (
-                        <CharaKarakasWidget
-                          partnerA={{
-                            charaKarakas: selfReport.jaiminiAnalysis.charaKarakas,
-                            charaDasha: selfReport.jaiminiAnalysis.charaDasha,
-                            upapadaLagna: selfReport.jaiminiAnalysis.ul,
-                            vivahSaham: selfReport.jaiminiAnalysis.vivahSaham || {
-                              longitude: 0,
-                              sign: 'Aries',
-                              degree: 0,
-                              interpretation: 'Data not available',
-                              activationPeriods: []
-                            }
-                          }}
-                          partnerB={{
-                            charaKarakas: selfReport.jaiminiAnalysis.charaKarakas,
-                            charaDasha: selfReport.jaiminiAnalysis.charaDasha,
-                            upapadaLagna: selfReport.jaiminiAnalysis.ul,
-                            vivahSaham: {
-                              longitude: 0,
-                              sign: 'Aries',
-                              degree: 0,
-                              interpretation: '',
-                              activationPeriods: []
-                            }
-                          }}
-                          nameA={selfChart?.name}
-                          nameB=""
-                        />
-                      ) : (
-                        <div className="p-8 text-center bg-white dark:bg-gray-800 rounded-2xl shadow-sm transition-colors">
-                          <p className="text-gray-500 transition-colors">Jaimini analysis data not available.</p>
-                        </div>
-                      )}
+                      <PremiumGate section="full_self_report" label="Jaimini Soul Connection">
+                        {selfReport.jaiminiAnalysis ? (
+                          <CharaKarakasWidget
+                            partnerA={{
+                              charaKarakas: selfReport.jaiminiAnalysis.charaKarakas,
+                              charaDasha: selfReport.jaiminiAnalysis.charaDasha,
+                              upapadaLagna: selfReport.jaiminiAnalysis.ul,
+                              vivahSaham: selfReport.jaiminiAnalysis.vivahSaham || {
+                                longitude: 0,
+                                sign: 'Aries',
+                                degree: 0,
+                                interpretation: 'Data not available',
+                                activationPeriods: []
+                              }
+                            }}
+                            partnerB={{
+                              charaKarakas: selfReport.jaiminiAnalysis.charaKarakas,
+                              charaDasha: selfReport.jaiminiAnalysis.charaDasha,
+                              upapadaLagna: selfReport.jaiminiAnalysis.ul,
+                              vivahSaham: {
+                                longitude: 0,
+                                sign: 'Aries',
+                                degree: 0,
+                                interpretation: '',
+                                activationPeriods: []
+                              }
+                            }}
+                            nameA={selfChart?.name}
+                            nameB=""
+                          />
+                        ) : (
+                          <div className="p-8 text-center bg-white dark:bg-gray-800 rounded-2xl shadow-sm transition-colors">
+                            <p className="text-gray-500 transition-colors">Jaimini analysis data not available.</p>
+                          </div>
+                        )}
+                      </PremiumGate>
                     </ErrorBoundary>
                   </div>
                 )}
@@ -527,23 +535,29 @@ export const SelfReportPage: React.FC = () => {
               <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
                 <div id="psychology">
                   <ErrorBoundary>
-                    <SelfPsychologicalProfileWidget report={selfReport} />
+                    <PremiumGate section="full_self_report" label="Psychological Profile">
+                      <SelfPsychologicalProfileWidget report={selfReport} />
+                    </PremiumGate>
                   </ErrorBoundary>
                 </div>
 
                 <div id="conflict">
                   <ErrorBoundary>
-                    <SelfConflictTendencyWidget report={selfReport} />
+                    <PremiumGate section="full_self_report" label="Conflict Tendencies">
+                      <SelfConflictTendencyWidget report={selfReport} />
+                    </PremiumGate>
                   </ErrorBoundary>
                 </div>
 
                 {selfReport.relationshipPatterns && (
                   <div id="patterns">
                     <ErrorBoundary>
-                      <RelationshipPatternWidget
-                        patternA={selfReport.relationshipPatterns}
-                        nameA={selfChart?.name || 'You'}
-                      />
+                      <PremiumGate section="full_self_report" label="Relationship Patterns">
+                        <RelationshipPatternWidget
+                          patternA={selfReport.relationshipPatterns}
+                          nameA={selfChart?.name || 'You'}
+                        />
+                      </PremiumGate>
                     </ErrorBoundary>
                   </div>
                 )}
