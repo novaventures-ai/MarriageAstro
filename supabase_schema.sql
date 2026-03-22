@@ -9,6 +9,9 @@ CREATE TABLE IF NOT EXISTS profiles (
   full_name TEXT,
   avatar_url TEXT,
   user_id UUID,
+  self_birth_data JSONB,
+  self_chart JSONB,
+  self_report JSONB,
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 

@@ -19,7 +19,7 @@ export async function saveUserProfile(
   const { error } = await supabase
     .from('profiles')
     .upsert({
-      user_id: userId,
+      id: userId,
       self_birth_data: {
         name: birthData.name,
         gender: birthData.gender,
@@ -36,7 +36,7 @@ export async function saveUserProfile(
       self_report: report || null,
       updated_at: new Date().toISOString()
     }, {
-      onConflict: 'user_id'
+      onConflict: 'id'
     });
 
   if (error) {
@@ -56,7 +56,7 @@ export async function getUserProfile(userId: string): Promise<{
   const { data, error } = await supabase
     .from('profiles')
     .select('*')
-    .eq('user_id', userId)
+    .eq('id', userId)
     .single();
 
   if (error) {
@@ -68,7 +68,7 @@ export async function getUserProfile(userId: string): Promise<{
     throw new Error('Failed to get user profile');
   }
 
-  if (!data) return null;
+  if (!data || !data.self_birth_data || !data.self_chart) return null;
 
   return {
     birthData: {
@@ -249,7 +249,7 @@ export async function deleteUserProfile(userId: string): Promise<void> {
   const { error: profileError } = await supabase
     .from('profiles')
     .delete()
-    .eq('user_id', userId);
+    .eq('id', userId);
 
   if (profileError) {
     console.error('Error deleting user profile:', profileError instanceof Error ? profileError.message : 'Unknown error');
