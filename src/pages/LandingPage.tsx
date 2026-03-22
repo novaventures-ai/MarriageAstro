@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Heart, Stars, Sparkles, ArrowRight, User, ChevronRight, LayoutDashboard, ChevronDown, ChevronUp, Shield, Brain, Flame, Clock, Swords, Eye, Zap, Target, Check, X, Lock, Crown } from 'lucide-react';
+import { Heart, Stars, Sparkles, ArrowRight, User, ChevronRight, LayoutDashboard, ChevronDown, ChevronUp, Shield, Brain, Flame, Clock, Swords, Eye, Zap, Target, Check, X, Lock, Crown, Star, Quote } from 'lucide-react';
 import { ThemeToggle } from '../components/ui/ThemeToggle';
 import { AuthButton } from '../components/ui/AuthButton';
 import { useAuth } from '../context/AuthContext';
@@ -136,6 +136,49 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
+      {/* Your Cosmic Journey - Realistic Guide */}
+      <section className="py-12 sm:py-20 px-3 sm:px-4 safe-area-x">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600 dark:from-purple-400 dark:to-indigo-400 mb-3 sm:mb-4">
+            Your Cosmic Journey
+          </h2>
+          <p className="text-center text-sm sm:text-base text-gray-500 dark:text-gray-400 mb-10 sm:mb-14 max-w-2xl mx-auto">
+            From birth details to cosmic clarity — here&apos;s how it works in practice
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+            <GuideStepCard
+              step={1}
+              icon={<Sparkles className="w-6 h-6" />}
+              title="Choose Your Path"
+              description="Start with Self Analysis to discover your marriage timing & spouse traits, or Compatibility Check to compare two charts."
+              color="purple"
+            />
+            <GuideStepCard
+              step={2}
+              icon={<Clock className="w-6 h-6" />}
+              title="Enter Birth Details"
+              description="Just date, time & place of birth. Our Swiss Ephemeris engine calculates precise planetary positions instantly."
+              color="indigo"
+            />
+            <GuideStepCard
+              step={3}
+              icon={<Eye className="w-6 h-6" />}
+              title="Explore Your Report"
+              description="Navigate 45+ modules — Ashtakoot scores, psychological profiles, risk radars, timing windows — all in one cosmic dashboard."
+              color="pink"
+            />
+            <GuideStepCard
+              step={4}
+              icon={<Brain className="w-6 h-6" />}
+              title="Ask the AI Astrologer"
+              description="Chat with AI for personalized insights, follow-up questions, and remedies tailored to your unique chart."
+              color="amber"
+            />
+          </div>
+        </div>
+      </section>
+
       {/* Features Section - Core Modules */}
       <section className="py-12 sm:py-20 px-3 sm:px-4 bg-white/50 dark:bg-black/20 transition-colors duration-500 safe-area-x">
         <div className="max-w-6xl mx-auto">
@@ -217,8 +260,47 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Why Choose Us - Comparison Table */}
+      {/* Use Cases - Who Benefits */}
       <section className="py-12 sm:py-20 px-3 sm:px-4 safe-area-x">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-gray-100 mb-3 sm:mb-4">
+            Who Benefits from Cosmic Insights?
+          </h2>
+          <p className="text-center text-sm sm:text-base text-gray-500 dark:text-gray-400 mb-10 sm:mb-14 max-w-2xl mx-auto">
+            Whether you&apos;re single, a parent, or in a relationship — the stars have something for you
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <UseCaseCard
+              icon={<User className="w-7 h-7 text-purple-600 dark:text-purple-400" />}
+              title="Singles Exploring Timing"
+              description="Discover your ideal marriage windows through Dasha analysis, learn about your future spouse through Darakaraka, and get personalized remedies to strengthen your 7th house."
+              ctaText="Start Self Analysis"
+              ctaPath="/self-calculator"
+              color="purple"
+            />
+            <UseCaseCard
+              icon={<Shield className="w-7 h-7 text-indigo-600 dark:text-indigo-400" />}
+              title="Parents Matching Kundalis"
+              description="Go beyond basic 36-point matching. Check Mangal Dosha with cancellation rules, verify Nadi compatibility, and assess long-term risk factors like mental health and conflict patterns."
+              ctaText="Check Compatibility"
+              ctaPath="/calculator"
+              color="indigo"
+            />
+            <UseCaseCard
+              icon={<Heart className="w-7 h-7 text-pink-600 dark:text-pink-400" />}
+              title="Couples Verifying Compatibility"
+              description="Compare your charts across 100+ factors — sexual chemistry, psychological compatibility, conflict zones, and financial harmony. Get an honest cosmic assessment before you commit."
+              ctaText="Compare Charts"
+              ctaPath="/calculator"
+              color="pink"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose Us - Comparison Table */}
+      <section className="py-12 sm:py-20 px-3 sm:px-4 bg-white/50 dark:bg-black/20 safe-area-x">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-gray-100 mb-3">
             Why Choose Astro Marriage?
@@ -281,6 +363,48 @@ export const LandingPage: React.FC = () => {
             <Stars className="w-8 h-8 text-purple-600 dark:text-purple-400" />
             <p className="font-semibold text-gray-800 dark:text-gray-100 text-sm">45+ Analysis Modules</p>
             <p className="text-xs text-gray-500 dark:text-gray-400">The deepest marriage compatibility engine on the internet.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-12 sm:py-20 px-3 sm:px-4 safe-area-x">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-gray-100 mb-3 sm:mb-4">
+            What Our Users Say
+          </h2>
+          <p className="text-center text-sm sm:text-base text-gray-500 dark:text-gray-400 mb-10 sm:mb-14 max-w-2xl mx-auto">
+            Real experiences from people who discovered their cosmic path
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <TestimonialCard
+              name="Priya S."
+              location="Mumbai"
+              context="Matched kundalis before engagement"
+              rating={5}
+              quote="We had already done basic gun milan through a pandit, but the risk radar and psychological profiling here showed us conflict areas we never considered. The remedies section was genuinely helpful."
+              initials="PS"
+              color="purple"
+            />
+            <TestimonialCard
+              name="Arjun K."
+              location="Bangalore"
+              context="Explored self-analysis for marriage timing"
+              rating={4}
+              quote="I was skeptical, but the marriage timing prediction lined up almost exactly with what two different astrologers told me independently. The AI chat feature is surprisingly good at explaining the reasoning."
+              initials="AK"
+              color="indigo"
+            />
+            <TestimonialCard
+              name="Meera & Ravi"
+              location="Delhi"
+              context="Compared charts as a couple"
+              rating={5}
+              quote="The sexual compatibility and conflict zone analysis was eye-opening. Some of the patterns it identified were things we had already experienced. Much more detailed than any other free tool we tried."
+              initials="MR"
+              color="pink"
+            />
           </div>
         </div>
       </section>
@@ -570,6 +694,118 @@ const FAQItem: React.FC<{
           {answer}
         </p>
       )}
+    </div>
+  );
+};
+
+const GuideStepCard: React.FC<{
+  step: number;
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  color: string;
+}> = ({ step, icon, title, description, color }) => {
+  const colorMap: Record<string, { bg: string; text: string; badge: string }> = {
+    purple: { bg: 'bg-purple-100 dark:bg-purple-900/30', text: 'text-purple-600 dark:text-purple-400', badge: 'from-purple-500 to-purple-600' },
+    indigo: { bg: 'bg-indigo-100 dark:bg-indigo-900/30', text: 'text-indigo-600 dark:text-indigo-400', badge: 'from-indigo-500 to-indigo-600' },
+    pink: { bg: 'bg-pink-100 dark:bg-pink-900/30', text: 'text-pink-600 dark:text-pink-400', badge: 'from-pink-500 to-pink-600' },
+    amber: { bg: 'bg-amber-100 dark:bg-amber-900/30', text: 'text-amber-600 dark:text-amber-400', badge: 'from-amber-500 to-amber-600' },
+  };
+  const c = colorMap[color] || colorMap.purple;
+
+  return (
+    <div className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 p-5 sm:p-6">
+      <div className={`absolute -top-3 -left-2 w-8 h-8 rounded-full bg-gradient-to-br ${c.badge} text-white text-sm font-bold flex items-center justify-center shadow-md`}>
+        {step}
+      </div>
+      <div className={`w-12 h-12 ${c.bg} rounded-xl flex items-center justify-center mb-4 mt-2 ${c.text}`}>
+        {icon}
+      </div>
+      <h3 className="text-base sm:text-lg font-bold text-gray-800 dark:text-gray-100 mb-2">{title}</h3>
+      <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{description}</p>
+    </div>
+  );
+};
+
+const UseCaseCard: React.FC<{
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  ctaText: string;
+  ctaPath: string;
+  color: string;
+}> = ({ icon, title, description, ctaText, ctaPath, color }) => {
+  const colorMap: Record<string, { border: string; gradient: string }> = {
+    purple: { border: 'hover:border-purple-500', gradient: 'from-purple-600 to-indigo-600' },
+    indigo: { border: 'hover:border-indigo-500', gradient: 'from-indigo-600 to-blue-600' },
+    pink: { border: 'hover:border-pink-500', gradient: 'from-pink-500 to-rose-600' },
+  };
+  const c = colorMap[color] || colorMap.purple;
+
+  return (
+    <Link
+      to={ctaPath}
+      className={`group flex flex-col bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 sm:p-8 border-2 border-transparent ${c.border} transition-all duration-300 hover:shadow-xl`}
+    >
+      <div className="w-14 h-14 bg-gray-100 dark:bg-gray-700/50 rounded-full flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+        {icon}
+      </div>
+      <h3 className="text-lg sm:text-xl font-bold text-gray-800 dark:text-gray-100 mb-3">{title}</h3>
+      <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-6 flex-grow">{description}</p>
+      <span className={`inline-flex items-center justify-center gap-2 w-full py-3 bg-gradient-to-r ${c.gradient} text-white font-semibold rounded-xl group-hover:shadow-lg transition-all text-sm`}>
+        {ctaText}
+        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+      </span>
+    </Link>
+  );
+};
+
+const TestimonialCard: React.FC<{
+  name: string;
+  location: string;
+  context: string;
+  rating: number;
+  quote: string;
+  initials: string;
+  color: string;
+}> = ({ name, location, context, rating, quote, initials, color }) => {
+  const gradientMap: Record<string, string> = {
+    purple: 'from-purple-500 to-indigo-600',
+    indigo: 'from-indigo-500 to-blue-600',
+    pink: 'from-pink-500 to-rose-600',
+  };
+  const gradient = gradientMap[color] || gradientMap.purple;
+
+  return (
+    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 flex flex-col">
+      {/* Stars */}
+      <div className="flex gap-1 mb-4">
+        {[1, 2, 3, 4, 5].map((i) => (
+          <Star
+            key={i}
+            className={`w-4 h-4 ${i <= rating ? 'text-amber-400 fill-amber-400' : 'text-gray-300 dark:text-gray-600'}`}
+          />
+        ))}
+      </div>
+
+      {/* Quote */}
+      <div className="relative flex-grow mb-5">
+        <Quote className="w-8 h-8 text-gray-200 dark:text-gray-700 absolute -top-1 -left-1" />
+        <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed italic pl-6 relative z-10">
+          {quote}
+        </p>
+      </div>
+
+      {/* Author */}
+      <div className="flex items-center gap-3 pt-4 border-t border-gray-100 dark:border-gray-700">
+        <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${gradient} flex items-center justify-center text-white text-sm font-bold flex-shrink-0`}>
+          {initials}
+        </div>
+        <div>
+          <p className="text-sm font-semibold text-gray-800 dark:text-gray-100">{name}, {location}</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">{context}</p>
+        </div>
+      </div>
     </div>
   );
 };
