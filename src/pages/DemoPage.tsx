@@ -45,9 +45,10 @@ export const DemoPage: React.FC = () => {
       const appStore = useAppStore.getState();
 
       try {
-        // Step 0 (implicit): Clear any existing data so demo starts fresh
-        // Set isDemoMode to prevent cloud data from overwriting demo data
+        // Step 0: Save real user state before entering demo mode
+        const { selfChart, selfBirthData, selfReport, partners } = profileStore;
         useUserProfileStore.setState({
+          _preDemoState: { selfChart, selfBirthData, selfReport, partners },
           partners: [],
           selectedPartnerId: null,
           selfChart: null,

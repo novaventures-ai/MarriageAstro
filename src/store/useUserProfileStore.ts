@@ -55,6 +55,12 @@ interface UserProfileState {
 
   // Demo mode (skip cloud loads)
   isDemoMode: boolean;
+  _preDemoState: {
+    selfChart: Chart | null;
+    selfBirthData: BirthDataInput | null;
+    selfReport: SelfAnalysisReport | null;
+    partners: PartnerProfile[];
+  } | null;
 
   // Actions - Premium
   setPlanTier: (tier: PlanTier, expiresAt?: string | null) => void;
@@ -118,6 +124,7 @@ export const useUserProfileStore = create<UserProfileState>()(
           aiCreditsResetAt: null,
           isAdmin: false,
           isDemoMode: false,
+          _preDemoState: null,
           // keep isHydrated true to avoid hydration issues
         });
       },
@@ -146,6 +153,7 @@ export const useUserProfileStore = create<UserProfileState>()(
 
       isHydrated: false,
       isDemoMode: false,
+      _preDemoState: null,
 
       // Premium Actions
       setPlanTier: (tier: PlanTier, expiresAt?: string | null) => {
@@ -561,7 +569,7 @@ export const useUserProfileStore = create<UserProfileState>()(
         // In demo mode, don't persist demo data to localStorage
         // so it doesn't leak into real profile on next login
         if (state.isDemoMode) {
-          return { isDemoMode: true };
+          return { isDemoMode: true, _preDemoState: state._preDemoState };
         }
         return {
           selfBirthData: state.selfBirthData,
@@ -585,7 +593,20 @@ export const useUserProfileStore = create<UserProfileState>()(
           // If demo mode was active when browser closed, clear it on rehydration
           // so user gets their real data on next visit
           if (state.isDemoMode) {
-            state.reset();
+            // Restore pre-demo state if available before resetting
+            const saved = state._preDemoState;
+            if (saved) {
+              useUserProfileStore.setState({
+                selfChart: saved.selfChart,
+                selfBirthData: saved.selfBirthData,
+                selfReport: saved.selfReport,
+                partners: saved.partners,
+                isDemoMode: false,
+                _preDemoState: null,
+              });
+            } else {
+              state.reset();
+            }
           }
           state.setHydrated(true);
         }
