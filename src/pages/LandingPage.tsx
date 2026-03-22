@@ -6,7 +6,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { Heart, Stars, Sparkles, ArrowRight, User, ChevronRight, LayoutDashboard, ChevronDown, ChevronUp } from 'lucide-react';
+import { Heart, Stars, Sparkles, ArrowRight, User, ChevronRight, LayoutDashboard, ChevronDown, ChevronUp, Shield, Brain, Flame, Clock, Swords, Eye, Zap, Target } from 'lucide-react';
 import { ThemeToggle } from '../components/ui/ThemeToggle';
 import { AuthButton } from '../components/ui/AuthButton';
 import { useUserProfileStore } from '../store/useUserProfileStore';
@@ -73,7 +73,7 @@ export const LandingPage: React.FC = () => {
           </h1>
 
           <p className="text-base sm:text-xl md:text-2xl text-gray-700 dark:text-gray-300 mb-6 sm:mb-8 max-w-3xl mx-auto transition-colors duration-500 px-2 sm:px-0">
-            Unlock the secrets of your marriage timing, spouse characteristics, and relationship potential through Vedic astrology
+            The world&apos;s most comprehensive marriage compatibility engine — Vedic, KP, Jaimini astrology fused with modern psychology
           </p>
 
           {/* Mode Selection Cards */}
@@ -123,53 +123,110 @@ export const LandingPage: React.FC = () => {
 
       {/* Stats Banner - citable facts for AI engines */}
       <section className="py-8 sm:py-12 px-3 sm:px-4 bg-white/30 dark:bg-black/10 border-y border-gray-200/50 dark:border-gray-700/50 safe-area-x">
-        <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-8 text-center">
+        <div className="max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-6 text-center">
           <div>
-            <p className="text-2xl sm:text-3xl font-bold text-indigo-600 dark:text-indigo-400">9</p>
-            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Vedic Planets Analyzed</p>
+            <p className="text-2xl sm:text-3xl font-bold text-indigo-600 dark:text-indigo-400">12</p>
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Planets Analyzed</p>
           </div>
           <div>
             <p className="text-2xl sm:text-3xl font-bold text-purple-600 dark:text-purple-400">27</p>
             <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Nakshatras Mapped</p>
           </div>
           <div>
-            <p className="text-2xl sm:text-3xl font-bold text-pink-600 dark:text-pink-400">8</p>
-            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Kootas Evaluated</p>
+            <p className="text-2xl sm:text-3xl font-bold text-pink-600 dark:text-pink-400">36</p>
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Points Compatibility</p>
           </div>
           <div>
-            <p className="text-2xl sm:text-3xl font-bold text-amber-600 dark:text-amber-400">36</p>
-            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Points Compatibility Score</p>
+            <p className="text-2xl sm:text-3xl font-bold text-amber-600 dark:text-amber-400">7</p>
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Divisional Charts</p>
+          </div>
+          <div>
+            <p className="text-2xl sm:text-3xl font-bold text-emerald-600 dark:text-emerald-400">14</p>
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Yoni Types Profiled</p>
+          </div>
+          <div>
+            <p className="text-2xl sm:text-3xl font-bold text-rose-600 dark:text-rose-400">5</p>
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Astrology Systems</p>
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* Features Section - Core Modules */}
       <section className="py-12 sm:py-20 px-3 sm:px-4 bg-white/50 dark:bg-black/20 transition-colors duration-500 safe-area-x">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-gray-100 mb-10 sm:mb-16 transition-colors duration-500">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-gray-100 mb-3 sm:mb-4 transition-colors duration-500">
             Comprehensive Analysis
           </h2>
+          <p className="text-center text-sm sm:text-base text-gray-500 dark:text-gray-400 mb-10 sm:mb-16 max-w-2xl mx-auto">
+            The deepest marriage compatibility engine — combining Vedic, KP, Jaimini & modern psychology
+          </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             <FeatureCard
               icon={<User className="w-6 h-6 sm:w-8 text-purple-600 dark:text-purple-400" />}
               title="Self Analysis"
-              description="Discover your marriage timing, spouse prediction, and personal remedies"
+              description="Marriage timing prediction, spouse characteristics via Darakaraka, and personalized Vedic remedies"
             />
             <FeatureCard
               icon={<Stars className="w-6 h-6 sm:w-8 text-indigo-600 dark:text-indigo-400" />}
               title="Ashtakoot Milan"
-              description="Traditional 36-point compatibility scoring with cancellation rules"
+              description="36-point Vedic scoring across 8 Kootas with Nadi & Bhakoot dosha cancellation rules"
             />
             <FeatureCard
               icon={<Heart className="w-6 h-6 sm:w-8 text-pink-500 dark:text-pink-400" />}
-              title="Physical Health & Vitality"
-              description="In-depth analysis of physical compatibility and vitality"
+              title="Synastry Analysis"
+              description="Soulmate connections, karmic bonds, house overlays in D1 & D9, and AI soul purpose decoding"
             />
             <FeatureCard
-              icon={<Sparkles className="w-6 h-6 sm:w-8 text-amber-500 dark:text-amber-400" />}
-              title="Timing Prediction"
-              description="Favorable marriage windows using Dasha and transit analysis"
+              icon={<Clock className="w-6 h-6 sm:w-8 text-amber-500 dark:text-amber-400" />}
+              title="Marriage Timing"
+              description="Vimshottari & Chara Dasha windows with Jupiter/Venus transit analysis and confidence scores"
+            />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mt-4 sm:mt-6">
+            <FeatureCard
+              icon={<Shield className="w-6 h-6 sm:w-8 text-red-500 dark:text-red-400" />}
+              title="Divorce Risk Radar"
+              description="Risk scoring with Manglik analysis, modern challenges, and protective factor buffers"
+            />
+            <FeatureCard
+              icon={<Eye className="w-6 h-6 sm:w-8 text-orange-500 dark:text-orange-400" />}
+              title="Infidelity Analysis"
+              description="Venus-Rahu, 5th-12th house, afflicted 7th lord indicators with KP affair formula detection"
+            />
+            <FeatureCard
+              icon={<Flame className="w-6 h-6 sm:w-8 text-rose-500 dark:text-rose-400" />}
+              title="Sexual Compatibility"
+              description="14 Yoni types with drive/stamina profiling, Nakshatra lord analysis, and health assessments"
+            />
+            <FeatureCard
+              icon={<Swords className="w-6 h-6 sm:w-8 text-slate-500 dark:text-slate-400" />}
+              title="Conflict Zones"
+              description="Partner-attributed conflicts across family, finance, ideology & behavior with severity mapping"
+            />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mt-4 sm:mt-6">
+            <FeatureCard
+              icon={<Brain className="w-6 h-6 sm:w-8 text-cyan-500 dark:text-cyan-400" />}
+              title="Mental Health Profiling"
+              description="Depression, anxiety & personality pattern detection — Borderline, Narcissistic, Dissociative"
+            />
+            <FeatureCard
+              icon={<Zap className="w-6 h-6 sm:w-8 text-yellow-500 dark:text-yellow-400" />}
+              title="KP Astrology"
+              description="7th cusp sub lord analysis, 2-7-11 marriage promise rule, and significator chain mapping"
+            />
+            <FeatureCard
+              icon={<Sparkles className="w-6 h-6 sm:w-8 text-violet-500 dark:text-violet-400" />}
+              title="Divisional Charts"
+              description="D1, D7, D9, D10, D12, D60 analysis with Vargottama, Pushkar Navamsa & Vimsopaka scoring"
+            />
+            <FeatureCard
+              icon={<Target className="w-6 h-6 sm:w-8 text-emerald-500 dark:text-emerald-400" />}
+              title="Addiction & Risk"
+              description="Alcohol, substance, sexual addiction and compulsive behavior risk assessment from chart indicators"
             />
           </div>
         </div>
@@ -185,18 +242,18 @@ export const LandingPage: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
             <StepCard
               number="1"
-              title="Create Your Profile"
-              description="Enter your birth details to generate your complete Vedic birth chart"
+              title="Enter Birth Details"
+              description="Provide date, time & place of birth — we calculate positions across 12 planets, 27 Nakshatras, and 7 divisional charts"
             />
             <StepCard
               number="2"
-              description="Get detailed analysis of your marriage timing, spouse characteristics, and potential challenges"
-              title="Get Analysis"
+              description="Get 100+ compatibility factors analyzed — synastry, Ashtakoot Milan, sexual chemistry, risk radar, KP cusp analysis & conflict mapping"
+              title="Deep Analysis"
             />
             <StepCard
               number="3"
-              description="Follow personalized remedies and compare with partners for compatibility"
-              title="Take Action"
+              description="AI-powered insights, Vedic remedies, marriage timing windows, and partner comparison across every dimension"
+              title="Actionable Results"
             />
           </div>
         </div>
