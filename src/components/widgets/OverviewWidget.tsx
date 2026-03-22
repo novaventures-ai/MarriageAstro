@@ -119,7 +119,7 @@ export const OverviewWidget: React.FC<OverviewWidgetProps> = ({ report, viewMode
               positive: 'text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20',
               neutral: 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20',
               challenging: 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20'
-            }[pillar.status as 'positive' | 'neutral' | 'challenging'] || 'text-gray-600 bg-gray-50';
+            }[pillar.status as 'positive' | 'neutral' | 'challenging'] || 'text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800';
 
             const isExpanded = expandedPillar === key;
 

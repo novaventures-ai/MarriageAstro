@@ -55,7 +55,7 @@ export const ConflictZoneWidget: React.FC<ConflictZoneWidgetProps> = ({ report }
             case 'High': return 'text-red-500 bg-red-50 dark:bg-red-900/20 px-2 py-0.5 rounded text-[10px] font-bold uppercase';
             case 'Medium': return 'text-amber-500 bg-amber-50 dark:bg-amber-900/20 px-2 py-0.5 rounded text-[10px] font-bold uppercase';
             case 'Low': return 'text-blue-500 bg-blue-50 dark:bg-blue-900/20 px-2 py-0.5 rounded text-[10px] font-bold uppercase';
-            default: return 'text-gray-500 bg-gray-50 px-2 py-0.5 rounded text-[10px] font-bold uppercase';
+            default: return 'text-gray-500 bg-gray-50 dark:bg-gray-700 dark:text-gray-400 px-2 py-0.5 rounded text-[10px] font-bold uppercase';
         }
     };
 

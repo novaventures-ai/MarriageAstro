@@ -40,7 +40,7 @@ export const UserDashboard: React.FC = () => {
     if (isHydrated && !isDemoMode) {
       loadFromCloud();
     }
-  }, [isHydrated, loadFromCloud]);
+  }, [isHydrated, isDemoMode, loadFromCloud]);
 
   // Calculate scores on the fly
   useEffect(() => {
