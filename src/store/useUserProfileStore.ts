@@ -523,10 +523,21 @@ export const useUserProfileStore = create<UserProfileState>()(
             console.error('Error fetching user profile from cloud:', profileErr instanceof Error ? profileErr.message : 'Unknown error');
           }
 
-          // 2. Load partners from cloud
+          // 2. Load partners from cloud (filter out any leftover demo partners)
           try {
             const cloudPartners = await getUserPartners(session.user.id);
-            set({ partners: cloudPartners, isLoadingPartners: false });
+            const { DEMO_PARTNER_NAMES: demoNames } = await import('../lib/demoData');
+            const realPartners = cloudPartners.filter(p => !demoNames.has(p.name));
+
+            // Delete leftover demo partners from cloud in the background
+            const demoLeftovers = cloudPartners.filter(p => demoNames.has(p.name));
+            if (demoLeftovers.length > 0) {
+              for (const dp of demoLeftovers) {
+                try { await deletePartner(dp.id); } catch { /* ignore */ }
+              }
+            }
+
+            set({ partners: realPartners, isLoadingPartners: false });
           } catch (cloudPartnersErr) {
             console.error('Error fetching partners from cloud:', cloudPartnersErr);
             set({ isLoadingPartners: false });

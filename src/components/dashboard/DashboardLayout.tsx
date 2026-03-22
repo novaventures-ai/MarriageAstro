@@ -24,6 +24,9 @@ import { ThemeToggle } from '../ui/ThemeToggle';
 import { GoogleTranslate } from '../ui/GoogleTranslate';
 import { useAuth } from '../../context/AuthContext';
 import { useUserProfileStore } from '../../store/useUserProfileStore';
+import { DEMO_PARTNER_NAMES } from '../../lib/demoData';
+import { deletePartner } from '../../lib/userProfileService';
+import { supabase } from '../../lib/supabase';
 
 const navItems = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Overview', end: true },
@@ -45,8 +48,20 @@ export const DashboardLayout: React.FC = () => {
     : (user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User');
   const avatarUrl = isDemoMode ? undefined : user?.user_metadata?.avatar_url;
 
-  const exitDemoMode = () => {
+  const exitDemoMode = async () => {
     const store = useUserProfileStore.getState();
+
+    // Clean up demo partners from cloud if they were accidentally saved
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        const demoPartners = store.partners.filter(p => DEMO_PARTNER_NAMES.has(p.name));
+        for (const p of demoPartners) {
+          try { await deletePartner(p.id); } catch { /* ignore */ }
+        }
+      }
+    } catch { /* ignore cleanup errors */ }
+
     store.reset();
     // Load real user data from cloud
     store.loadFromCloud();

@@ -51,3 +51,7 @@ export const DEMO_PARTNERS: BirthDataInput[] = [
     timezone: 'Asia/Kolkata',
   },
 ];
+
+// Names used for cleanup — to remove demo partners that were accidentally saved to cloud
+export const DEMO_PARTNER_NAMES = new Set(DEMO_PARTNERS.map(p => p.name));
+export const DEMO_SELF_NAME = DEMO_SELF.name;
