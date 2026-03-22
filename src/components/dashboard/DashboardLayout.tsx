@@ -50,6 +50,7 @@ export const DashboardLayout: React.FC = () => {
 
   const exitDemoMode = async () => {
     const store = useUserProfileStore.getState();
+    const saved = store._preDemoState;
 
     // Clean up demo partners from cloud if they were accidentally saved
     try {
@@ -62,8 +63,21 @@ export const DashboardLayout: React.FC = () => {
       }
     } catch { /* ignore cleanup errors */ }
 
-    store.reset();
-    // Load real user data from cloud
+    // Restore pre-demo state if available, then load from cloud
+    if (saved) {
+      useUserProfileStore.setState({
+        selfChart: saved.selfChart,
+        selfBirthData: saved.selfBirthData,
+        selfReport: saved.selfReport,
+        partners: saved.partners,
+        isDemoMode: false,
+        _preDemoState: null,
+      });
+    } else {
+      store.reset();
+    }
+
+    // Load real user data from cloud (will merge/override if available)
     store.loadFromCloud();
   };
 
