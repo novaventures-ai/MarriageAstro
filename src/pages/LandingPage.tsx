@@ -1,15 +1,13 @@
 /**
  * Landing Page
- * Marketing/onboarding page for new/logged-out users
- * Redirects users with existing profiles to the dashboard
+ * Marketing/onboarding page — always accessible to all users
  */
 
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { Heart, Stars, Sparkles, ArrowRight, User, ChevronRight, LayoutDashboard, ChevronDown, ChevronUp, Shield, Brain, Flame, Clock, Swords, Eye, Zap, Target, Check, X, Lock, Crown } from 'lucide-react';
 import { ThemeToggle } from '../components/ui/ThemeToggle';
 import { AuthButton } from '../components/ui/AuthButton';
-import { useUserProfileStore } from '../store/useUserProfileStore';
 import { useAuth } from '../context/AuthContext';
 import { Logo } from '../components/ui/Logo';
 import { GoogleTranslate } from '../components/ui/GoogleTranslate';
@@ -17,20 +15,7 @@ import { SEOHead } from '../components/SEOHead';
 
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const { selfChart } = useUserProfileStore();
-  const { user, isLoading } = useAuth();
-
-  const { partners } = useUserProfileStore();
-
-  // Auto-redirect logged-in users with any profile data to dashboard
-  // Skip redirect if user explicitly navigated here (e.g. "Back to Home")
-  const skipRedirect = (location.state as { fromDashboard?: boolean })?.fromDashboard === true;
-  useEffect(() => {
-    if (!skipRedirect && !isLoading && user && (selfChart || partners.length > 0)) {
-      navigate('/dashboard', { replace: true });
-    }
-  }, [user, selfChart, partners, isLoading, navigate, skipRedirect]);
+  const { user } = useAuth();
 
   return (
     <div className="min-h-screen flex flex-col transition-colors duration-500">
