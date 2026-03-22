@@ -595,23 +595,36 @@ export const useUserProfileStore = create<UserProfileState>()(
     {
       name: 'user-profile-storage',
       storage: createJSONStorage(() => localStorage),
-      partialize: (state) => ({
-        selfBirthData: state.selfBirthData,
-        selfChart: state.selfChart,
-        selfReport: state.selfReport,
-        partners: state.partners,
-        selectedPartnerId: state.selectedPartnerId,
-        planTier: state.planTier,
-        planExpiresAt: state.planExpiresAt,
-        unlockedSections: state.unlockedSections,
-        aiCreditsRemaining: state.aiCreditsRemaining,
-        aiCreditsResetAt: state.aiCreditsResetAt,
-        // NOTE: isAdmin is intentionally NOT persisted to prevent
-        // privilege leakage between accounts on the same browser.
-        // It is always re-derived from the user's email via loadPlanFromCloud.
-      }),
+      partialize: (state) => {
+        // In demo mode, don't persist demo data to localStorage
+        // so it doesn't leak into real profile on next login
+        if (state.isDemoMode) {
+          return { isDemoMode: true };
+        }
+        return {
+          selfBirthData: state.selfBirthData,
+          selfChart: state.selfChart,
+          selfReport: state.selfReport,
+          partners: state.partners,
+          selectedPartnerId: state.selectedPartnerId,
+          planTier: state.planTier,
+          planExpiresAt: state.planExpiresAt,
+          unlockedSections: state.unlockedSections,
+          aiCreditsRemaining: state.aiCreditsRemaining,
+          aiCreditsResetAt: state.aiCreditsResetAt,
+          isDemoMode: false,
+          // NOTE: isAdmin is intentionally NOT persisted to prevent
+          // privilege leakage between accounts on the same browser.
+          // It is always re-derived from the user's email via loadPlanFromCloud.
+        };
+      },
       onRehydrateStorage: () => (state) => {
         if (state) {
+          // If demo mode was active when browser closed, clear it on rehydration
+          // so user gets their real data on next visit
+          if (state.isDemoMode) {
+            state.reset();
+          }
           state.setHydrated(true);
         }
       }

@@ -232,7 +232,7 @@ export const MarriageReadinessWidget: React.FC<MarriageReadinessWidgetProps> = (
           const categoryPassed = categoryItems.filter(i => i.passed).length;
           return (
             <div key={category} className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
-              <div className="px-4 py-3 bg-gray-50 dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
+              <div className="px-4 py-3 bg-gray-50 dark:bg-gray-700/50 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
                 <h3 className="font-semibold text-gray-800 dark:text-gray-100">{category}</h3>
                 <span className="text-sm text-gray-500 dark:text-gray-400">{categoryPassed}/{categoryItems.length}</span>
               </div>
