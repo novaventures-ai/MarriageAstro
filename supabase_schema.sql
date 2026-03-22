@@ -70,6 +70,15 @@ CREATE TABLE IF NOT EXISTS partner_comparisons (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- 6. Premium / Monetization Columns on Profiles
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS plan_tier TEXT DEFAULT 'free';
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS plan_expires_at TIMESTAMPTZ;
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS unlocked_sections JSONB DEFAULT '[]';
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS ai_credits_remaining INTEGER DEFAULT 3;
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS ai_credits_reset_at TIMESTAMPTZ;
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS razorpay_customer_id TEXT;
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS razorpay_subscription_id TEXT;
+
 -- Performance Indexes
 CREATE INDEX IF NOT EXISTS idx_partners_user_id ON partners(user_id);
 CREATE INDEX IF NOT EXISTS idx_compatibility_reports_user_id ON compatibility_reports(user_id);

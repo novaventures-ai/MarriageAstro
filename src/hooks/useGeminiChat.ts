@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { getGeminiModel } from '../../lib/ai/geminiClient';
 import { SYSTEM_PROMPTS, generatePrompt } from '../../lib/ai/prompts';
+import { useUserProfileStore } from '../store/useUserProfileStore';
 
 export interface ChatMessage {
     id: string;
@@ -18,9 +19,19 @@ export const useGeminiChat = (reportContext: string) => {
     ]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [aiLimited, setAiLimited] = useState(false);
 
     const sendMessage = useCallback(async (userQuestion: string) => {
         if (!userQuestion.trim()) return;
+
+        // Check AI credits
+        const state = useUserProfileStore.getState();
+        const isPremium = state.isAdmin || state.planTier === 'premium' || state.planTier === 'astrologer';
+        if (!isPremium && state.aiCreditsRemaining <= 0) {
+            setAiLimited(true);
+            setError("You've used all 3 free AI queries today. Upgrade to Premium for unlimited AI chat.");
+            return;
+        }
 
         // Add User Message
         const userMsg: ChatMessage = {
@@ -31,6 +42,7 @@ export const useGeminiChat = (reportContext: string) => {
         setMessages(prev => [...prev, userMsg]);
         setLoading(true);
         setError(null);
+        setAiLimited(false);
 
         try {
             // 1. Prepare System Prompt (The Guru Persona)
@@ -58,6 +70,11 @@ export const useGeminiChat = (reportContext: string) => {
             };
             setMessages(prev => [...prev, aiMsg]);
 
+            // Deduct AI credit for free users
+            if (!isPremium) {
+                useUserProfileStore.getState().useAiCredit();
+            }
+
         } catch (err: any) {
             console.error("AstroMind Chat Error:", err instanceof Error ? err.message : 'Unknown error');
             setError("The stars are clouded right now. Please try again.");
@@ -77,5 +94,5 @@ export const useGeminiChat = (reportContext: string) => {
         }]);
     }, []);
 
-    return { messages, sendMessage, loading, error, clearChat };
+    return { messages, sendMessage, loading, error, clearChat, aiLimited };
 };

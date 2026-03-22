@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { getGeminiModel } from '../../lib/ai/geminiClient';
 import { SYSTEM_PROMPTS, generatePrompt, InsightType } from '../../lib/ai/prompts';
+import { useUserProfileStore } from '../store/useUserProfileStore';
 
 interface UseGeminiInsightResult {
     loading: boolean;
@@ -8,17 +9,29 @@ interface UseGeminiInsightResult {
     insight: string | null;
     triggerAnalysis: (type: InsightType, context: any) => Promise<void>;
     reset: () => void;
+    aiLimited: boolean;
 }
 
 export const useGeminiInsight = (): UseGeminiInsightResult => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [insight, setInsight] = useState<string | null>(null);
+    const [aiLimited, setAiLimited] = useState(false);
 
     const triggerAnalysis = useCallback(async (type: InsightType, context: any) => {
+        // Check AI credits
+        const state = useUserProfileStore.getState();
+        const isPremium = state.isAdmin || state.planTier === 'premium' || state.planTier === 'astrologer';
+        if (!isPremium && state.aiCreditsRemaining <= 0) {
+            setAiLimited(true);
+            setError("You've used all 3 free AI queries today. Upgrade to Premium for unlimited AI insights.");
+            return;
+        }
+
         setLoading(true);
         setError(null);
         setInsight(null);
+        setAiLimited(false);
 
         try {
             // 1. Select the correct System Prompt (Persona)
@@ -37,6 +50,11 @@ export const useGeminiInsight = (): UseGeminiInsightResult => {
             const output = result.response.text();
 
             setInsight(output);
+
+            // Deduct AI credit for free users
+            if (!isPremium) {
+                useUserProfileStore.getState().useAiCredit();
+            }
         } catch (err: any) {
             console.error("Gemini Insight Error:", err instanceof Error ? err.message : 'Unknown error');
             // Nice user-facing error message
@@ -56,7 +74,8 @@ export const useGeminiInsight = (): UseGeminiInsightResult => {
         setLoading(false);
         setError(null);
         setInsight(null);
+        setAiLimited(false);
     }, []);
 
-    return { loading, error, insight, triggerAnalysis, reset };
+    return { loading, error, insight, triggerAnalysis, reset, aiLimited };
 };

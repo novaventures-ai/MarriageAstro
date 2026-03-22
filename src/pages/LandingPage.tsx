@@ -6,7 +6,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { Heart, Stars, Sparkles, ArrowRight, User, ChevronRight, LayoutDashboard, ChevronDown, ChevronUp, Shield, Brain, Flame, Clock, Swords, Eye, Zap, Target } from 'lucide-react';
+import { Heart, Stars, Sparkles, ArrowRight, User, ChevronRight, LayoutDashboard, ChevronDown, ChevronUp, Shield, Brain, Flame, Clock, Swords, Eye, Zap, Target, Check, X, Lock, Crown } from 'lucide-react';
 import { ThemeToggle } from '../components/ui/ThemeToggle';
 import { AuthButton } from '../components/ui/AuthButton';
 import { useUserProfileStore } from '../store/useUserProfileStore';
@@ -232,6 +232,143 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
+      {/* Why Choose Us - Comparison Table */}
+      <section className="py-12 sm:py-20 px-3 sm:px-4 safe-area-x">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-gray-100 mb-3">
+            Why Choose Astro Marriage?
+          </h2>
+          <p className="text-center text-sm sm:text-base text-gray-500 dark:text-gray-400 mb-8 sm:mb-12 max-w-2xl mx-auto">
+            Most apps give you a basic Ashtakoot score. We go 10x deeper.
+          </p>
+          <div className="overflow-x-auto rounded-2xl border border-gray-200 dark:border-gray-700">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="bg-gray-50 dark:bg-gray-800/80">
+                  <th className="text-left px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">Feature</th>
+                  <th className="text-center px-4 py-3 font-bold text-indigo-600 dark:text-indigo-400">Astro Marriage</th>
+                  <th className="text-center px-4 py-3 font-semibold text-gray-500 dark:text-gray-400">Others</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+                {[
+                  ['Ashtakoot Milan (36 pts)', true, true],
+                  ['KP + Jaimini + Nadi Systems', true, false],
+                  ['Divorce & Infidelity Risk Analysis', true, false],
+                  ['Sexual Compatibility (14 Yoni)', true, false],
+                  ['Mental Health & Addiction Profiling', true, false],
+                  ['AI-Powered Insights Chat', true, false],
+                  ['Vulnerability Timeline', true, false],
+                  ['7 Divisional Charts (D1-D60)', true, false],
+                  ['Privacy: Client-Side Calculations', true, false],
+                  ['Completely Free Core Features', true, false],
+                ].map(([feature, us, others], i) => (
+                  <tr key={i} className="bg-white dark:bg-gray-900/50">
+                    <td className="px-4 py-2.5 text-gray-700 dark:text-gray-300">{feature as string}</td>
+                    <td className="text-center px-4 py-2.5">
+                      {us ? <Check className="w-5 h-5 text-emerald-500 mx-auto" /> : <X className="w-5 h-5 text-gray-300 mx-auto" />}
+                    </td>
+                    <td className="text-center px-4 py-2.5">
+                      {others ? <Check className="w-5 h-5 text-emerald-500 mx-auto" /> : <X className="w-5 h-5 text-gray-300 dark:text-gray-600 mx-auto" />}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      {/* Trust Signals */}
+      <section className="py-8 sm:py-10 px-3 sm:px-4 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/10 dark:to-purple-900/10 border-y border-indigo-100 dark:border-indigo-800/30 safe-area-x">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 text-center">
+          <div className="flex flex-col items-center gap-2">
+            <Shield className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
+            <p className="font-semibold text-gray-800 dark:text-gray-100 text-sm">100% Private</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">Birth data calculated client-side. Nothing leaves your browser.</p>
+          </div>
+          <div className="flex flex-col items-center gap-2">
+            <Zap className="w-8 h-8 text-amber-500 dark:text-amber-400" />
+            <p className="font-semibold text-gray-800 dark:text-gray-100 text-sm">NASA-Grade Accuracy</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">Swiss Ephemeris engine — same accuracy as professional astrologers.</p>
+          </div>
+          <div className="flex flex-col items-center gap-2">
+            <Stars className="w-8 h-8 text-purple-600 dark:text-purple-400" />
+            <p className="font-semibold text-gray-800 dark:text-gray-100 text-sm">45+ Analysis Modules</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">The deepest marriage compatibility engine on the internet.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Preview */}
+      <section className="py-12 sm:py-20 px-3 sm:px-4 bg-white/50 dark:bg-black/20 safe-area-x">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-gray-100 mb-3">
+            Simple, Transparent Pricing
+          </h2>
+          <p className="text-center text-sm sm:text-base text-gray-500 dark:text-gray-400 mb-8 sm:mb-12 max-w-2xl mx-auto">
+            Core features are free forever. Unlock detailed breakdowns when you need them.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Free */}
+            <div className="rounded-2xl border-2 border-gray-200 dark:border-gray-700 p-6 bg-white dark:bg-gray-900">
+              <Sparkles className="w-8 h-8 text-gray-500 dark:text-gray-400 mb-3" />
+              <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">Free</h3>
+              <p className="text-3xl font-bold text-gray-800 dark:text-gray-100 mt-2">₹0</p>
+              <p className="text-sm text-gray-500 mb-4">forever</p>
+              <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500 flex-shrink-0" /> Full Ashtakoot Milan (36 pts)</li>
+                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500 flex-shrink-0" /> Marriage Potential Score</li>
+                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500 flex-shrink-0" /> Psychological Profile</li>
+                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500 flex-shrink-0" /> Basic Spouse Prediction</li>
+                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500 flex-shrink-0" /> 3 AI Queries / Day</li>
+              </ul>
+            </div>
+            {/* Premium */}
+            <div className="rounded-2xl border-2 border-amber-400 dark:border-amber-500 p-6 bg-white dark:bg-gray-900 shadow-lg shadow-amber-500/10 relative">
+              <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 bg-amber-500 text-white text-xs font-bold rounded-full">Most Popular</span>
+              <Crown className="w-8 h-8 text-amber-500 mb-3" />
+              <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">Premium</h3>
+              <p className="text-3xl font-bold text-gray-800 dark:text-gray-100 mt-2">₹399<span className="text-sm font-normal text-gray-500">/mo</span></p>
+              <p className="text-sm text-gray-500 mb-4">or ₹49/section one-time</p>
+              <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500 flex-shrink-0" /> Everything in Free</li>
+                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500 flex-shrink-0" /> Risk & Infidelity Details</li>
+                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500 flex-shrink-0" /> Sexual Compatibility Deep Dive</li>
+                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500 flex-shrink-0" /> Mental Health Analysis</li>
+                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500 flex-shrink-0" /> Unlimited AI Chat</li>
+              </ul>
+              <button
+                onClick={() => navigate('/pricing')}
+                className="w-full mt-5 py-2.5 bg-amber-500 text-white font-semibold rounded-lg hover:bg-amber-600 transition-colors text-sm"
+              >
+                Coming Soon
+              </button>
+            </div>
+            {/* Astrologer */}
+            <div className="rounded-2xl border-2 border-gray-200 dark:border-gray-700 p-6 bg-white dark:bg-gray-900">
+              <Shield className="w-8 h-8 text-purple-500 dark:text-purple-400 mb-3" />
+              <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">Astrologer</h3>
+              <p className="text-3xl font-bold text-gray-800 dark:text-gray-100 mt-2">₹1,499<span className="text-sm font-normal text-gray-500">/mo</span></p>
+              <p className="text-sm text-gray-500 mb-4">for professionals</p>
+              <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500 flex-shrink-0" /> Everything in Premium</li>
+                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500 flex-shrink-0" /> Unlimited Profiles</li>
+                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500 flex-shrink-0" /> Branded PDF Reports</li>
+                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500 flex-shrink-0" /> API Access</li>
+                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500 flex-shrink-0" /> Client Management</li>
+              </ul>
+              <button
+                onClick={() => navigate('/pricing')}
+                className="w-full mt-5 py-2.5 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 font-semibold rounded-lg text-sm"
+              >
+                Contact Us
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* How It Works Section */}
       <section className="py-12 sm:py-20 px-3 sm:px-4 safe-area-x">
         <div className="max-w-6xl mx-auto">
@@ -284,7 +421,7 @@ export const LandingPage: React.FC = () => {
             />
             <FAQItem
               question="Is Astro Marriage free to use?"
-              answer="Yes, Astro Marriage is completely free. You can generate your birth chart, check marriage compatibility using Ashtakoot Milan (36-point scoring), get marriage timing predictions, analyze spouse characteristics, and compare multiple partner charts — all at no cost."
+              answer="Astro Marriage's core features are free forever — including Ashtakoot Milan (36-point scoring), marriage timing, spouse prediction, psychological profiling, and 3 AI queries per day. Premium unlocks detailed breakdowns for risk analysis, sexual compatibility, mental health, and unlimited AI chat starting at ₹49 per section."
             />
             <FAQItem
               question="What astrology systems does Astro Marriage use?"

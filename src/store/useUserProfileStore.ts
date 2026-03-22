@@ -5,12 +5,14 @@
 
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { Chart, BirthDataInput } from '../types';
+import { Chart, BirthDataInput, PlanTier, UnlockableSection } from '../types';
 import {
   SelfAnalysisReport,
   PartnerProfile,
   QuickCompareResult
 } from '../types/selfAnalysis';
+import { loadPlanTier } from '../lib/premiumService';
+import { isAdminEmail } from '../lib/adminConfig';
 import { generateChartFromBirthData } from '../../lib/reportGenerator';
 import { generateSelfAnalysisReport } from '../../lib/selfReportGenerator';
 import {
@@ -40,8 +42,23 @@ interface UserProfileState {
   quickCompareResult: QuickCompareResult | null;
   isComparing: boolean;
 
+  // Premium
+  planTier: PlanTier;
+  planExpiresAt: string | null;
+  unlockedSections: UnlockableSection[];
+  aiCreditsRemaining: number;
+  aiCreditsResetAt: string | null;
+  isAdmin: boolean;
+
   // Hydration
   isHydrated: boolean;
+
+  // Actions - Premium
+  setPlanTier: (tier: PlanTier, expiresAt?: string | null) => void;
+  unlockSection: (section: UnlockableSection) => void;
+  useAiCredit: () => boolean;
+  resetAiCredits: () => void;
+  loadPlanFromCloud: (userId: string, email: string) => Promise<void>;
 
   // Actions - Self Profile
   setSelfBirthData: (data: BirthDataInput) => Promise<void>;
@@ -91,6 +108,12 @@ export const useUserProfileStore = create<UserProfileState>()(
           isLoadingPartners: false,
           quickCompareResult: null,
           isComparing: false,
+          planTier: 'free' as PlanTier,
+          planExpiresAt: null,
+          unlockedSections: [],
+          aiCreditsRemaining: 3,
+          aiCreditsResetAt: null,
+          isAdmin: false,
           // keep isHydrated true to avoid hydration issues
         });
       },
@@ -109,7 +132,74 @@ export const useUserProfileStore = create<UserProfileState>()(
       quickCompareResult: null,
       isComparing: false,
 
+      // Premium State
+      planTier: 'free' as PlanTier,
+      planExpiresAt: null,
+      unlockedSections: [] as UnlockableSection[],
+      aiCreditsRemaining: 3,
+      aiCreditsResetAt: null,
+      isAdmin: false,
+
       isHydrated: false,
+
+      // Premium Actions
+      setPlanTier: (tier: PlanTier, expiresAt?: string | null) => {
+        set({ planTier: tier, planExpiresAt: expiresAt ?? null });
+      },
+
+      unlockSection: (section: UnlockableSection) => {
+        const current = get().unlockedSections;
+        if (!current.includes(section)) {
+          set({ unlockedSections: [...current, section] });
+        }
+      },
+
+      useAiCredit: (): boolean => {
+        const { isAdmin, planTier, aiCreditsRemaining } = get();
+        // Admins and premium users have unlimited
+        if (isAdmin || planTier === 'premium' || planTier === 'astrologer') return true;
+        if (aiCreditsRemaining <= 0) return false;
+        set({ aiCreditsRemaining: aiCreditsRemaining - 1 });
+        return true;
+      },
+
+      resetAiCredits: () => {
+        set({ aiCreditsRemaining: 3, aiCreditsResetAt: new Date().toISOString() });
+      },
+
+      loadPlanFromCloud: async (userId: string, email: string) => {
+        // Admin emails always get full access
+        if (isAdminEmail(email)) {
+          set({ isAdmin: true, planTier: 'astrologer' as PlanTier, planExpiresAt: null });
+          return;
+        }
+
+        try {
+          const plan = await loadPlanTier(userId);
+
+          // Reset AI credits daily
+          const now = new Date();
+          let credits = plan.aiCreditsRemaining;
+          if (plan.aiCreditsResetAt) {
+            const resetDate = new Date(plan.aiCreditsResetAt);
+            if (now.getTime() - resetDate.getTime() > 24 * 60 * 60 * 1000) {
+              credits = 3; // Reset to 3 free daily
+            }
+          }
+
+          set({
+            planTier: plan.planTier,
+            planExpiresAt: plan.planExpiresAt,
+            unlockedSections: plan.unlockedSections,
+            aiCreditsRemaining: credits,
+            aiCreditsResetAt: plan.aiCreditsResetAt,
+            isAdmin: false,
+          });
+        } catch {
+          // Default to free on error
+          set({ planTier: 'free' as PlanTier, isAdmin: false });
+        }
+      },
 
       // Self Profile Actions
       setSelfBirthData: async (data: BirthDataInput) => {
@@ -490,7 +580,13 @@ export const useUserProfileStore = create<UserProfileState>()(
         selfChart: state.selfChart,
         selfReport: state.selfReport,
         partners: state.partners,
-        selectedPartnerId: state.selectedPartnerId
+        selectedPartnerId: state.selectedPartnerId,
+        planTier: state.planTier,
+        planExpiresAt: state.planExpiresAt,
+        unlockedSections: state.unlockedSections,
+        aiCreditsRemaining: state.aiCreditsRemaining,
+        aiCreditsResetAt: state.aiCreditsResetAt,
+        isAdmin: state.isAdmin,
       }),
       onRehydrateStorage: () => (state) => {
         if (state) {
