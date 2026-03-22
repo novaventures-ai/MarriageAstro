@@ -48,7 +48,17 @@ export const PremiumGate: React.FC<PremiumGateProps> = ({
         {/* Blurred content with gradient fade */}
         <div className="relative overflow-hidden">
           <div className="blur-[6px] opacity-50 pointer-events-none select-none max-h-72">
-            {children}
+            {/* Render a static placeholder instead of children to prevent crashes
+                when child widgets access undefined data */}
+            <div className="space-y-4 p-6">
+              <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded-lg w-3/4" />
+              <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full" />
+              <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-5/6" />
+              <div className="h-32 bg-gray-200 dark:bg-gray-700 rounded-xl" />
+              <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-2/3" />
+              <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-4/5" />
+              <div className="h-24 bg-gray-200 dark:bg-gray-700 rounded-xl" />
+            </div>
           </div>
 
           {/* Gradient overlay */}

@@ -22,12 +22,21 @@ interface ReadinessItem {
 export const MarriageReadinessWidget: React.FC<MarriageReadinessWidgetProps> = ({ report }) => {
   const [showDetails, setShowDetails] = useState(true);
 
-  const mp = report.marriagePotential;
-  const timing = report.timingForecast;
-  const psych = report.psychologicalProfile;
-  const mh = report.mentalHealth;
-  const doshas = report.doshaAnalysis;
-  const addictionRisk = report.addictionRisk;
+  const mp = report?.marriagePotential;
+  const timing = report?.timingForecast;
+  const psych = report?.psychologicalProfile;
+  const mh = report?.mentalHealth;
+  const doshas = report?.doshaAnalysis;
+  const addictionRisk = report?.addictionRisk;
+
+  // If marriagePotential is missing, show fallback
+  if (!mp) {
+    return (
+      <div className="p-8 text-center bg-white dark:bg-gray-800 rounded-2xl shadow-sm">
+        <p className="text-gray-500 dark:text-gray-400">Marriage readiness data not available. Please regenerate your report.</p>
+      </div>
+    );
+  }
 
   // Build checklist from report data
   const items: ReadinessItem[] = [
@@ -36,8 +45,8 @@ export const MarriageReadinessWidget: React.FC<MarriageReadinessWidgetProps> = (
       id: 'score',
       category: 'Core',
       label: 'Marriage Potential Score Above 50',
-      description: `Your score: ${mp.score}/100`,
-      passed: mp.score >= 50,
+      description: `Your score: ${mp.score ?? 0}/100`,
+      passed: (mp.score ?? 0) >= 50,
       weight: 15,
       icon: <Star className="w-4 h-4" />
     },
@@ -45,8 +54,8 @@ export const MarriageReadinessWidget: React.FC<MarriageReadinessWidgetProps> = (
       id: '7th-house',
       category: 'Core',
       label: '7th House Strength Above 50',
-      description: `7th House: ${mp.seventhHouseStrength}/100`,
-      passed: mp.seventhHouseStrength >= 50,
+      description: `7th House: ${mp.seventhHouseStrength ?? 0}/100`,
+      passed: (mp.seventhHouseStrength ?? 0) >= 50,
       weight: 12,
       icon: <Target className="w-4 h-4" />
     },
@@ -54,8 +63,8 @@ export const MarriageReadinessWidget: React.FC<MarriageReadinessWidgetProps> = (
       id: 'navamsa',
       category: 'Core',
       label: 'Navamsa Quality Above 50',
-      description: `Navamsa: ${mp.navamsaQuality}/100`,
-      passed: mp.navamsaQuality >= 50,
+      description: `Navamsa: ${mp.navamsaQuality ?? 0}/100`,
+      passed: (mp.navamsaQuality ?? 0) >= 50,
       weight: 10,
       icon: <Gem className="w-4 h-4" />
     },
@@ -63,8 +72,8 @@ export const MarriageReadinessWidget: React.FC<MarriageReadinessWidgetProps> = (
       id: 'dasha',
       category: 'Core',
       label: 'Favorable Dasha Period Active',
-      description: `Dasha support: ${mp.dashaSupport}/100`,
-      passed: mp.dashaSupport >= 50,
+      description: `Dasha support: ${mp.dashaSupport ?? 0}/100`,
+      passed: (mp.dashaSupport ?? 0) >= 50,
       weight: 12,
       icon: <Clock className="w-4 h-4" />
     },
@@ -83,8 +92,8 @@ export const MarriageReadinessWidget: React.FC<MarriageReadinessWidgetProps> = (
       id: 'no-delays',
       category: 'Timing',
       label: 'No Major Delay Indicators',
-      description: `${mp.delayIndicators.length} delay indicator(s) found`,
-      passed: mp.delayIndicators.length <= 1,
+      description: `${(mp.delayIndicators || []).length} delay indicator(s) found`,
+      passed: (mp.delayIndicators || []).length <= 1,
       weight: 8,
       icon: <TrendingUp className="w-4 h-4" />
     },
@@ -123,8 +132,8 @@ export const MarriageReadinessWidget: React.FC<MarriageReadinessWidgetProps> = (
       id: 'marriage-quality',
       category: 'Core',
       label: 'Marriage Quality Not Low',
-      description: `Quality: ${mp.marriageQuality}`,
-      passed: mp.marriageQuality !== 'low',
+      description: `Quality: ${mp.marriageQuality || 'unknown'}`,
+      passed: mp.marriageQuality ? mp.marriageQuality !== 'low' : false,
       weight: 10,
       icon: <Heart className="w-4 h-4" />
     },
