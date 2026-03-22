@@ -25,6 +25,7 @@ export const UserDashboard: React.FC = () => {
     selectPartner,
     loadFromCloud,
     isHydrated,
+    isDemoMode,
     clearSelfProfile
   } = useUserProfileStore();
 
@@ -34,9 +35,9 @@ export const UserDashboard: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const PARTNERS_PER_PAGE = 10;
 
-  // Load profile and partners on mount
+  // Load profile and partners on mount (skip in demo mode)
   useEffect(() => {
-    if (isHydrated) {
+    if (isHydrated && !isDemoMode) {
       loadFromCloud();
     }
   }, [isHydrated, loadFromCloud]);

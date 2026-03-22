@@ -77,15 +77,18 @@ export const useAppStore = create<AppState>()(
             chartB: report.chartB
           });
 
-          // Auto-save to Supabase if user is logged in
-          try {
-            const { data: { session } } = await supabase.auth.getSession();
-            if (session?.user?.id) {
-              await saveReport(session.user.id, report);
+          // Auto-save to Supabase if user is logged in (skip in demo mode)
+          const isDemoMode = useUserProfileStore.getState().isDemoMode;
+          if (!isDemoMode) {
+            try {
+              const { data: { session } } = await supabase.auth.getSession();
+              if (session?.user?.id) {
+                await saveReport(session.user.id, report);
+              }
+            } catch (saveError) {
+              // Don't fail the report generation if save fails
+              console.warn('Auto-save to Supabase failed');
             }
-          } catch (saveError) {
-            // Don't fail the report generation if save fails
-            console.warn('Auto-save to Supabase failed');
           }
         } catch (err) {
           set({
@@ -108,6 +111,7 @@ export const useAppStore = create<AppState>()(
       clearError: () => set({ error: null }),
 
       syncToCloud: async () => {
+        if (useUserProfileStore.getState().isDemoMode) return;
         const { currentReport } = get();
         if (!currentReport) return;
         try {

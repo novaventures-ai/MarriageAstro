@@ -23,16 +23,18 @@ import { SEOHead } from '../components/SEOHead';
 export const DashboardPage: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { selfChart, selfBirthData, partners, isHydrated, loadFromCloud } = useUserProfileStore();
+  const { selfChart, selfBirthData, partners, isHydrated, isDemoMode, loadFromCloud } = useUserProfileStore();
 
-  // Ensure cloud data is loaded when dashboard mounts
+  // Ensure cloud data is loaded when dashboard mounts (skip in demo mode)
   useEffect(() => {
-    if (isHydrated && user && !selfChart) {
+    if (isHydrated && user && !selfChart && !isDemoMode) {
       loadFromCloud();
     }
-  }, [isHydrated, user, selfChart, loadFromCloud]);
+  }, [isHydrated, user, selfChart, isDemoMode, loadFromCloud]);
 
-  const displayName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User';
+  const displayName = isDemoMode
+    ? (selfBirthData?.name || 'Demo User')
+    : (user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User');
 
   // Derive moon/sun sign from planetary positions
   const moonSign = selfChart?.planetaryPositions?.find(p => p.planet === 'Moon')?.sign || '--';

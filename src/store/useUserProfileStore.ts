@@ -53,6 +53,9 @@ interface UserProfileState {
   // Hydration
   isHydrated: boolean;
 
+  // Demo mode (skip cloud loads)
+  isDemoMode: boolean;
+
   // Actions - Premium
   setPlanTier: (tier: PlanTier, expiresAt?: string | null) => void;
   unlockSection: (section: UnlockableSection) => void;
@@ -141,6 +144,7 @@ export const useUserProfileStore = create<UserProfileState>()(
       isAdmin: false,
 
       isHydrated: false,
+      isDemoMode: false,
 
       // Premium Actions
       setPlanTier: (tier: PlanTier, expiresAt?: string | null) => {
@@ -210,10 +214,12 @@ export const useUserProfileStore = create<UserProfileState>()(
           const chart = await generateChartFromBirthData(data);
           set({ selfChart: chart });
 
-          // Auto-save to cloud if logged in
-          const { data: { session } } = await supabase.auth.getSession();
-          if (session?.user) {
-            await saveUserProfile(session.user.id, data, chart);
+          // Auto-save to cloud if logged in (skip in demo mode)
+          if (!get().isDemoMode) {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session?.user) {
+              await saveUserProfile(session.user.id, data, chart);
+            }
           }
         } catch (error) {
           console.error('Failed to generate chart:', error instanceof Error ? error.message : 'Unknown error');
@@ -264,10 +270,12 @@ export const useUserProfileStore = create<UserProfileState>()(
           const report = await generateSelfAnalysisReport(selfBirthData, selfChart);
           set({ selfReport: report, isGeneratingReport: false });
 
-          // Save report to cloud
-          const { data: { session } } = await supabase.auth.getSession();
-          if (session?.user) {
-            await saveUserProfile(session.user.id, selfBirthData, selfChart, report);
+          // Save report to cloud (skip in demo mode)
+          if (!get().isDemoMode) {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session?.user) {
+              await saveUserProfile(session.user.id, selfBirthData, selfChart, report);
+            }
           }
         } catch (error) {
           console.error('Failed to generate report:', error instanceof Error ? error.message : 'Unknown error');
@@ -319,14 +327,16 @@ export const useUserProfileStore = create<UserProfileState>()(
           partners: [...state.partners, newPartner]
         }));
 
-        // Save to cloud
-        try {
-          const { data: { session } } = await supabase.auth.getSession();
-          if (session?.user) {
-            await savePartner(session.user.id, newPartner);
+        // Save to cloud (skip in demo mode)
+        if (!get().isDemoMode) {
+          try {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session?.user) {
+              await savePartner(session.user.id, newPartner);
+            }
+          } catch (error) {
+            console.error('Failed to save partner to cloud:', error instanceof Error ? error.message : 'Unknown error');
           }
-        } catch (error) {
-          console.error('Failed to save partner to cloud:', error instanceof Error ? error.message : 'Unknown error');
         }
 
         return partnerId;
@@ -465,6 +475,8 @@ export const useUserProfileStore = create<UserProfileState>()(
 
       // Persistence Actions
       saveToCloud: async () => {
+        if (get().isDemoMode) return; // Skip cloud saves in demo mode
+
         const { selfBirthData, selfChart, selfReport, partners } = get();
 
         try {
