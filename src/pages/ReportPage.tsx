@@ -92,6 +92,7 @@ export const ReportPage: React.FC = () => {
       icon: '👤',
       title: 'Spouse & Destiny',
       question: 'Who are they to me?',
+      premiumRequired: !isPremium,
       color: 'blue',
       gradient: 'from-blue-500 to-cyan-600',
       widgets: [
@@ -148,6 +149,7 @@ export const ReportPage: React.FC = () => {
       icon: '🧠',
       title: 'Mind & Emotions',
       question: 'How will we behave?',
+      premiumRequired: !isPremium,
       color: 'emerald',
       gradient: 'from-emerald-500 to-teal-600',
       widgets: [
@@ -329,36 +331,40 @@ export const ReportPage: React.FC = () => {
                 </div>
               </div>
               <div id="navamsa">
-                <DivisionalChartWidget
-                  divisionalAnalysis={currentReport.divisionalAnalysis}
-                  nameA={currentReport.chartA.name}
-                  nameB={currentReport.chartB.name}
-                  chartA={currentReport.chartA}
-                  chartB={currentReport.chartB}
-                />
+                <PremiumGate section="divisional_advanced" label="Navamsa D9 Marriage Chart">
+                  <DivisionalChartWidget
+                    divisionalAnalysis={currentReport.divisionalAnalysis}
+                    nameA={currentReport.chartA.name}
+                    nameB={currentReport.chartB.name}
+                    chartA={currentReport.chartA}
+                    chartB={currentReport.chartB}
+                  />
+                </PremiumGate>
               </div>
               {currentReport.charaKarakas && currentReport.charaDasha && currentReport.upapadaLagna && currentReport.vivahSaham && (
                 <div id="jaimini">
-                  <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 sm:p-6 transition-colors mb-4">
-                    <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2 transition-colors">Jaimini Soul Connection</h2>
-                    <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 transition-colors">Chara Karakas, Chara Dasha, Upapada Lagna & Vivah Saham</p>
-                  </div>
-                  <CharaKarakasWidget
-                    partnerA={{
-                      charaKarakas: currentReport.charaKarakas.partnerA,
-                      charaDasha: currentReport.charaDasha.partnerA,
-                      upapadaLagna: currentReport.upapadaLagna.partnerA,
-                      vivahSaham: currentReport.vivahSaham.partnerA
-                    }}
-                    partnerB={{
-                      charaKarakas: currentReport.charaKarakas.partnerB,
-                      charaDasha: currentReport.charaDasha.partnerB,
-                      upapadaLagna: currentReport.upapadaLagna.partnerB,
-                      vivahSaham: currentReport.vivahSaham.partnerB
-                    }}
-                    nameA={currentReport.chartA.name}
-                    nameB={currentReport.chartB.name}
-                  />
+                  <PremiumGate section="full_compat_report" label="Jaimini Soul Connection">
+                    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 sm:p-6 transition-colors mb-4">
+                      <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2 transition-colors">Jaimini Soul Connection</h2>
+                      <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 transition-colors">Chara Karakas, Chara Dasha, Upapada Lagna & Vivah Saham</p>
+                    </div>
+                    <CharaKarakasWidget
+                      partnerA={{
+                        charaKarakas: currentReport.charaKarakas.partnerA,
+                        charaDasha: currentReport.charaDasha.partnerA,
+                        upapadaLagna: currentReport.upapadaLagna.partnerA,
+                        vivahSaham: currentReport.vivahSaham.partnerA
+                      }}
+                      partnerB={{
+                        charaKarakas: currentReport.charaKarakas.partnerB,
+                        charaDasha: currentReport.charaDasha.partnerB,
+                        upapadaLagna: currentReport.upapadaLagna.partnerB,
+                        vivahSaham: currentReport.vivahSaham.partnerB
+                      }}
+                      nameA={currentReport.chartA.name}
+                      nameB={currentReport.chartB.name}
+                    />
+                  </PremiumGate>
                 </div>
               )}
             </div>
@@ -389,11 +395,13 @@ export const ReportPage: React.FC = () => {
                 </PremiumGate>
               </div>
               <div id="synastry">
-                <SynastryWidget
-                  synastry={currentReport.synastry}
-                  chartAName={currentReport.chartA.name}
-                  chartBName={currentReport.chartB.name}
-                />
+                <PremiumGate section="sexual_detail" label="Synastry Connections">
+                  <SynastryWidget
+                    synastry={currentReport.synastry}
+                    chartAName={currentReport.chartA.name}
+                    chartBName={currentReport.chartB.name}
+                  />
+                </PremiumGate>
               </div>
             </div>
           )}
@@ -410,7 +418,11 @@ export const ReportPage: React.FC = () => {
                   />
                 </PremiumGate>
               </div>
-              <div id="conflict"><ConflictZoneWidget report={currentReport} /></div>
+              <div id="conflict">
+                <PremiumGate section="divorce_risk" label="Conflict Zone Analysis">
+                  <ConflictZoneWidget report={currentReport} />
+                </PremiumGate>
+              </div>
               {currentReport.addictionRiskAnalysis && (
                 <div id="addiction">
                   <PremiumGate section="addiction_risk" label="Addiction Risk Analysis">
@@ -441,25 +453,33 @@ export const ReportPage: React.FC = () => {
           {/* 5. MIND & EMOTIONS */}
           {activeTheme === 'mind' && (
             <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <div id="psychology"><PsychologicalProfileWidget report={currentReport as any} /></div>
+              <div id="psychology">
+                <PremiumGate section="full_compat_report" label="Psychological Profile">
+                  <PsychologicalProfileWidget report={currentReport as any} />
+                </PremiumGate>
+              </div>
               {currentReport.relationshipPatternAnalysis && (
                 <div id="patterns">
-                  <RelationshipPatternWidget
-                    patternA={currentReport.relationshipPatternAnalysis.partnerA}
-                    patternB={currentReport.relationshipPatternAnalysis.partnerB}
-                    nameA={currentReport.chartA.name}
-                    nameB={currentReport.chartB.name}
-                  />
+                  <PremiumGate section="full_compat_report" label="Relationship Patterns">
+                    <RelationshipPatternWidget
+                      patternA={currentReport.relationshipPatternAnalysis.partnerA}
+                      patternB={currentReport.relationshipPatternAnalysis.partnerB}
+                      nameA={currentReport.chartA.name}
+                      nameB={currentReport.chartB.name}
+                    />
+                  </PremiumGate>
                 </div>
               )}
               <div id="modern">
-                <ModernInsightsWidget
-                  modernPlanets={currentReport.modernPlanets!}
-                  modernChallenges={currentReport.modernChallenges!}
-                  chartA={currentReport.chartA}
-                  chartB={currentReport.chartB}
-                  enhancedInsights={currentReport.modernInsightsEnhanced}
-                />
+                <PremiumGate section="full_compat_report" label="Modern Western Insights">
+                  <ModernInsightsWidget
+                    modernPlanets={currentReport.modernPlanets!}
+                    modernChallenges={currentReport.modernChallenges!}
+                    chartA={currentReport.chartA}
+                    chartB={currentReport.chartB}
+                    enhancedInsights={currentReport.modernInsightsEnhanced}
+                  />
+                </PremiumGate>
               </div>
             </div>
           )}

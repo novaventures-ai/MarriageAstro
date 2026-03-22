@@ -586,7 +586,9 @@ export const useUserProfileStore = create<UserProfileState>()(
         unlockedSections: state.unlockedSections,
         aiCreditsRemaining: state.aiCreditsRemaining,
         aiCreditsResetAt: state.aiCreditsResetAt,
-        isAdmin: state.isAdmin,
+        // NOTE: isAdmin is intentionally NOT persisted to prevent
+        // privilege leakage between accounts on the same browser.
+        // It is always re-derived from the user's email via loadPlanFromCloud.
       }),
       onRehydrateStorage: () => (state) => {
         if (state) {
