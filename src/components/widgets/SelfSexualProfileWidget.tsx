@@ -1,11 +1,12 @@
 
 import React, { useState } from 'react';
 import { SexualHealthAnalysis } from '../../types';
-import { Heart, Activity, AlertCircle, CheckCircle, Stethoscope, RefreshCw, Sparkles, HelpCircle, Eye, EyeOff, Star, BookOpen } from 'lucide-react';
+import { Heart, Activity, AlertCircle, CheckCircle, Stethoscope, RefreshCw, Sparkles, HelpCircle, Eye, EyeOff, Star, BookOpen, Zap, Clock, Shield } from 'lucide-react';
 import { useGeminiInsight } from '../../hooks/useGeminiInsight';
 import { Chart } from '../../types';
 import ReactMarkdown from 'react-markdown';
 import { ExtendedSexualCompatibility } from '../../types/extendedTypes';
+import { resolveYoniKey, getFullYoniData, FullYoniData } from './sexualCompatHelpers';
 
 import nakshatraCompatData from '../../../knowledge/nakshatra_compatibility.json';
 import yoniCompatData from '../../../knowledge/yoni_sexual_compatibility.json';
@@ -76,6 +77,15 @@ export const SelfSexualProfileWidget: React.FC<SelfSexualProfileWidgetProps> = (
     };
 
     const yoniDetails = getYoniDetails();
+
+    // Get full yoni data using same helper as compatibility module
+    const getFullYoni = (): FullYoniData | null => {
+        const rawAnimalName = yoniDepth?.animal || (sexualHealth as any).yoniType?.animal;
+        if (!rawAnimalName) return null;
+        // Try resolving from the raw name (handles "Vyaghra (Tiger)" format etc.)
+        return getFullYoniData(rawAnimalName);
+    };
+    const fullYoni = getFullYoni();
 
     // Get detailed Nakshatra details
     const getNakshatraDetails = () => {
@@ -270,83 +280,108 @@ export const SelfSexualProfileWidget: React.FC<SelfSexualProfileWidgetProps> = (
 
                 {activeTab === 'yoni' && (
                     <div className={`space-y-6`}>
-                        {/* Yoni Detailed Profile */}
+                        {/* Yoni Detailed Profile - Enhanced like Compatibility Module */}
                         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 transition-colors no-break">
                             <h3 className="text-xl font-bold text-rose-800 dark:text-rose-200 mb-6 flex items-center gap-2 transition-colors">
                                 <Sparkles className="w-6 h-6 text-rose-500 dark:text-rose-400" />
                                 Your Physical Nature (Yoni)
                             </h3>
 
-                            <div className="grid md:grid-cols-2 gap-8 mb-8">
-                                <div className="p-6 bg-rose-50 dark:bg-rose-900/10 rounded-2xl border border-rose-100 dark:border-rose-800/30 transition-colors">
-                                    <div className="flex items-center gap-4 mb-4">
-                                        <div className="w-16 h-16 bg-rose-600 dark:bg-rose-500 rounded-full flex items-center justify-center text-white font-bold text-2xl shadow-md">
-                                            {chart.name.charAt(0)}
-                                        </div>
-                                        <div>
-                                            <p className="text-sm text-rose-600 dark:text-rose-400">Your Physical Type</p>
-                                            <h4 className="text-3xl font-bold text-gray-800 dark:text-gray-100 uppercase tracking-tight">{yoniDepth?.animal}</h4>
-                                        </div>
+                            {/* Yoni Type Header */}
+                            <div className="p-6 bg-rose-50 dark:bg-rose-900/10 rounded-2xl border border-rose-100 dark:border-rose-800/30 transition-colors mb-6">
+                                <div className="flex items-center gap-4 mb-4">
+                                    <div className="w-16 h-16 bg-rose-600 dark:bg-rose-500 rounded-full flex items-center justify-center text-white font-bold text-2xl shadow-md">
+                                        {chart.name.charAt(0)}
                                     </div>
-
-                                    {yoniDetails ? (
-                                        <div className="space-y-4">
-                                            <div className="p-3 bg-white/60 dark:bg-gray-900/40 rounded-xl">
-                                                <p className="text-sm font-semibold text-rose-700 dark:text-rose-300 uppercase tracking-widest text-[10px] mb-1">Natural Description</p>
-                                                <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed italic">"{yoniDetails.description}"</p>
-                                            </div>
-                                            <div>
-                                                <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Core Characteristics:</p>
-                                                <ul className="space-y-1.5">
-                                                    {yoniDetails.desires.map((desire: string, idx: number) => (
-                                                        <li key={idx} className="text-sm text-gray-700 dark:text-gray-300 flex items-start gap-2">
-                                                            <span className="text-rose-500 mt-1 uppercase text-lg leading-none">•</span>
-                                                            {desire}
-                                                        </li>
-                                                    ))}
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        <p className="text-gray-500 italic">Animal nature details loading...</p>
-                                    )}
+                                    <div>
+                                        <p className="text-sm text-rose-600 dark:text-rose-400">Your Physical Type</p>
+                                        <h4 className="text-3xl font-bold text-gray-800 dark:text-gray-100 uppercase tracking-tight">{fullYoni?.name || yoniDepth?.animal}</h4>
+                                        {fullYoni && <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{fullYoni.gender} • {fullYoni.element}</p>}
+                                    </div>
                                 </div>
-
-                                <div className="space-y-6">
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div className="p-4 bg-indigo-50 dark:bg-indigo-900/10 rounded-xl transition-colors border border-indigo-100 dark:border-indigo-800/20">
-                                            <p className="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-1 italic">Drive Intensity</p>
-                                            <p className="font-bold text-indigo-700 dark:text-indigo-300">{yoniDepth?.drive || 'Moderate'}</p>
-                                        </div>
-                                        <div className="p-4 bg-indigo-50 dark:bg-indigo-900/10 rounded-xl transition-colors border border-indigo-100 dark:border-indigo-800/20">
-                                            <p className="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-1 italic">Stamina Level</p>
-                                            <p className="font-bold text-indigo-700 dark:text-indigo-300">{yoniDepth?.stamina || 'Standard'}</p>
-                                        </div>
-                                        <div className="p-4 bg-indigo-50 dark:bg-indigo-900/10 rounded-xl transition-colors border border-indigo-100 dark:border-indigo-800/20">
-                                            <p className="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-1 italic">Vibe Duration</p>
-                                            <p className="font-bold text-indigo-700 dark:text-indigo-300">{yoniDepth?.sessionDuration || 'Balanced'}</p>
-                                        </div>
-                                        <div className="p-4 bg-indigo-50 dark:bg-indigo-900/10 rounded-xl transition-colors border border-indigo-100 dark:border-indigo-800/20">
-                                            <p className="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-1 italic">Core Element</p>
-                                            <p className="font-bold text-indigo-700 dark:text-indigo-300">{yoniDepth?.bodyElement || 'Earth'}</p>
-                                        </div>
+                                {(fullYoni?.description || yoniDetails?.description) && (
+                                    <div className="p-3 bg-white/60 dark:bg-gray-900/40 rounded-xl">
+                                        <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed italic">"{fullYoni?.description || yoniDetails?.description}"</p>
                                     </div>
+                                )}
+                            </div>
 
-                                    <div className="p-4 bg-rose-50 dark:bg-rose-900/10 rounded-xl border border-rose-100 dark:border-rose-800/20">
-                                        <h5 className="text-xs font-bold text-rose-700 dark:text-rose-300 uppercase tracking-wider mb-2 flex items-center gap-2">
-                                            <Heart className="w-3 h-3" />
-                                            Natural Affinities
-                                        </h5>
-                                        <div className="space-y-2">
-                                            <div>
-                                                <p className="text-[10px] text-gray-500 uppercase">Best Compatibility With:</p>
-                                                <p className="text-xs font-medium text-gray-700 dark:text-gray-300">{yoniDetails?.bestWith.join(', ') || 'Various natures'}</p>
-                                            </div>
-                                            <div>
-                                                <p className="text-[10px] text-gray-500 uppercase">Challenging Dynamics With:</p>
-                                                <p className="text-xs font-medium text-gray-700 dark:text-gray-300">{yoniDetails?.challengingWith.join(', ') || 'Opposing natures'}</p>
-                                            </div>
+                            {/* 4-Column Summary Grid - Matching Compatibility Module */}
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                                <div className="p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+                                    <div className="flex items-center gap-1 mb-1"><Zap className="w-4 h-4 text-yellow-500" /><span className="text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400">Drive</span></div>
+                                    <p className="font-bold text-rose-600 dark:text-rose-400">{fullYoni?.driveLevel || yoniDepth?.drive || 'Moderate'}</p>
+                                </div>
+                                <div className="p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+                                    <div className="flex items-center gap-1 mb-1"><Activity className="w-4 h-4 text-green-500" /><span className="text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400">Stamina</span></div>
+                                    <p className="font-bold text-rose-600 dark:text-rose-400">{fullYoni?.staminaLevel || yoniDepth?.stamina || 'Standard'}</p>
+                                </div>
+                                <div className="p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+                                    <div className="flex items-center gap-1 mb-1"><Clock className="w-4 h-4 text-blue-500" /><span className="text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400">Session Style</span></div>
+                                    <p className="font-bold text-rose-600 dark:text-rose-400">{fullYoni?.sessionLevel || yoniDepth?.sessionDuration || 'Balanced'}</p>
+                                </div>
+                                <div className="p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+                                    <div className="flex items-center gap-1 mb-1"><Shield className="w-4 h-4 text-purple-500" /><span className="text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400">Element</span></div>
+                                    <p className="font-bold text-rose-600 dark:text-rose-400">{fullYoni?.element || yoniDepth?.bodyElement || 'Earth'}</p>
+                                </div>
+                            </div>
+
+                            {/* Detailed Elaboration Cards - Matching Compatibility Module */}
+                            {fullYoni && (
+                                <div className="space-y-4 mb-6">
+                                    {[
+                                        { icon: <Zap className="w-5 h-5 text-yellow-500" />, label: 'Drive', text: fullYoni.driveDesc, color: 'border-yellow-400' },
+                                        { icon: <Activity className="w-5 h-5 text-green-500" />, label: 'Stamina', text: fullYoni.staminaDesc, color: 'border-green-400' },
+                                        { icon: <Clock className="w-5 h-5 text-blue-500" />, label: 'Session Style', text: fullYoni.sessionDesc, color: 'border-blue-400' },
+                                        { icon: <Shield className="w-5 h-5 text-purple-500" />, label: `Element (${fullYoni.element})`, text: fullYoni.elementDesc, color: 'border-purple-400' },
+                                    ].map(({ icon, label, text, color }) => (
+                                        <div key={label} className={`p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg border-l-4 ${color}`}>
+                                            <div className="flex items-center gap-2 mb-1">{icon}<span className="text-xs uppercase tracking-wider font-semibold text-gray-500 dark:text-gray-400">{label}</span></div>
+                                            <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">{text}</p>
                                         </div>
+                                    ))}
+                                </div>
+                            )}
+
+                            {/* Behavioral Signature */}
+                            {fullYoni && fullYoni.characteristics.length > 0 && (
+                                <div className="mb-6">
+                                    <p className="text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2">Behavioral Signature:</p>
+                                    <div className="space-y-2">
+                                        {fullYoni.characteristics.map((c, i) => (
+                                            <div key={i} className="flex items-start gap-2 p-2 bg-rose-50 dark:bg-rose-900/10 rounded-lg">
+                                                <span className="text-rose-500 mt-0.5">&bull;</span>
+                                                <p className="text-sm text-gray-700 dark:text-gray-300">{c}</p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Natural Affinities */}
+                            <div className="grid md:grid-cols-2 gap-4 mb-6">
+                                <div className="p-4 bg-green-50 dark:bg-green-900/10 rounded-xl border border-green-100 dark:border-green-800/20">
+                                    <h5 className="text-xs font-bold text-green-700 dark:text-green-300 uppercase tracking-wider mb-2 flex items-center gap-2">
+                                        <Heart className="w-3 h-3" />
+                                        Best Compatibility With
+                                    </h5>
+                                    <div className="flex flex-wrap gap-1.5">
+                                        {(fullYoni?.bestMatches || yoniDetails?.bestWith || []).map((m: string, i: number) => (
+                                            <span key={i} className="px-2 py-1 bg-white dark:bg-gray-800 text-xs font-bold text-green-600 dark:text-green-400 border border-green-100 dark:border-green-800/30 rounded shadow-sm">{m}</span>
+                                        ))}
+                                        {(fullYoni?.bestMatches || yoniDetails?.bestWith || []).length === 0 && <span className="text-xs text-gray-500">Various natures</span>}
+                                    </div>
+                                </div>
+                                <div className="p-4 bg-red-50 dark:bg-red-900/10 rounded-xl border border-red-100 dark:border-red-800/20">
+                                    <h5 className="text-xs font-bold text-red-700 dark:text-red-300 uppercase tracking-wider mb-2 flex items-center gap-2">
+                                        <AlertCircle className="w-3 h-3" />
+                                        Challenging Dynamics With
+                                    </h5>
+                                    <div className="flex flex-wrap gap-1.5">
+                                        {(fullYoni?.worstMatches || yoniDetails?.challengingWith || []).map((m: string, i: number) => (
+                                            <span key={i} className="px-2 py-1 bg-white dark:bg-gray-800 text-xs font-bold text-red-500 dark:text-red-400 border border-red-100 dark:border-red-800/30 rounded shadow-sm">{m}</span>
+                                        ))}
+                                        {(fullYoni?.worstMatches || yoniDetails?.challengingWith || []).length === 0 && <span className="text-xs text-gray-500">Opposing natures</span>}
                                     </div>
                                 </div>
                             </div>
@@ -377,7 +412,7 @@ export const SelfSexualProfileWidget: React.FC<SelfSexualProfileWidgetProps> = (
                                 )}
 
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                    {yoniDepth && Object.entries(yoniDepth.anatomy).map(([key, value]) => {
+                                    {(fullYoni?.anatomy || (yoniDepth && yoniDepth.anatomy)) && Object.entries(fullYoni?.anatomy || yoniDepth.anatomy).map(([key, value]) => {
                                         if (!value) return null;
 
                                         const isMaleTrait = ['foreskin', 'girth', 'glans'].includes(key);
