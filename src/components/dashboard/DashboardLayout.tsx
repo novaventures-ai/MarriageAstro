@@ -37,11 +37,20 @@ const navItems = [
 export const DashboardLayout: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { user, signOut } = useAuth();
-  const { selfChart } = useUserProfileStore();
+  const { selfChart, isDemoMode } = useUserProfileStore();
   const navigate = useNavigate();
 
-  const displayName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User';
-  const avatarUrl = user?.user_metadata?.avatar_url;
+  const displayName = isDemoMode
+    ? 'Demo Mode'
+    : (user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User');
+  const avatarUrl = isDemoMode ? undefined : user?.user_metadata?.avatar_url;
+
+  const exitDemoMode = () => {
+    const store = useUserProfileStore.getState();
+    store.reset();
+    // Load real user data from cloud
+    store.loadFromCloud();
+  };
 
   const handleSignOut = async () => {
     await signOut();
@@ -184,6 +193,21 @@ export const DashboardLayout: React.FC = () => {
           <GoogleTranslate />
           <ThemeToggle />
         </header>
+
+        {/* Demo mode banner */}
+        {isDemoMode && (
+          <div className="bg-amber-50 dark:bg-amber-900/20 border-b border-amber-200 dark:border-amber-800 px-4 sm:px-6 py-2.5 flex items-center justify-between">
+            <p className="text-sm text-amber-700 dark:text-amber-300">
+              <span className="font-semibold">Demo Mode</span> — You're viewing sample data. This is not your real profile.
+            </p>
+            <button
+              onClick={exitDemoMode}
+              className="px-3 py-1 bg-amber-600 text-white text-xs font-medium rounded-lg hover:bg-amber-700 transition-colors whitespace-nowrap"
+            >
+              Exit Demo
+            </button>
+          </div>
+        )}
 
         {/* Page content */}
         <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">

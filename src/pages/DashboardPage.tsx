@@ -25,12 +25,12 @@ export const DashboardPage: React.FC = () => {
   const { user } = useAuth();
   const { selfChart, selfBirthData, partners, isHydrated, isDemoMode, loadFromCloud } = useUserProfileStore();
 
-  // Ensure cloud data is loaded when dashboard mounts (skip in demo mode)
+  // Load cloud data when dashboard mounts (skip in demo mode)
   useEffect(() => {
-    if (isHydrated && user && !selfChart && !isDemoMode) {
+    if (isHydrated && user && !isDemoMode) {
       loadFromCloud();
     }
-  }, [isHydrated, user, selfChart, isDemoMode, loadFromCloud]);
+  }, [isHydrated, user, isDemoMode, loadFromCloud]);
 
   const displayName = isDemoMode
     ? (selfBirthData?.name || 'Demo User')
