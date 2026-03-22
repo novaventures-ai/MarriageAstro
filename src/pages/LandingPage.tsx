@@ -323,11 +323,14 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* Guides Section - internal links for GEO crawlability */}
-      <section className="py-8 sm:py-12 px-3 sm:px-4 bg-white/30 dark:bg-black/10 safe-area-x">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-xl sm:text-2xl font-bold text-center text-gray-800 dark:text-gray-100 mb-6">
+      <section className="py-10 sm:py-16 px-3 sm:px-4 bg-white/30 dark:bg-black/10 safe-area-x">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-xl sm:text-2xl font-bold text-center text-gray-800 dark:text-gray-100 mb-3">
             Learn Vedic Astrology
           </h2>
+          <p className="text-center text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-8 max-w-xl mx-auto">
+            Explore our in-depth guides to understand the science behind every analysis
+          </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             <Link to="/how-it-works" className="group p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-indigo-400 dark:hover:border-indigo-500 transition-colors">
               <h3 className="font-semibold text-gray-800 dark:text-gray-100 text-sm mb-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400">How It Works</h3>
@@ -350,9 +353,44 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-6 sm:py-8 px-3 sm:px-4 border-t border-gray-200 dark:border-gray-800 safe-area-x">
-        <div className="max-w-6xl mx-auto text-center text-gray-500 dark:text-gray-400 text-xs sm:text-sm">
-          <p>&copy; 2025 Astro Marriage by NovaVentures AI. Discover your cosmic destiny.</p>
+      <footer className="py-8 sm:py-12 px-3 sm:px-4 border-t border-gray-200 dark:border-gray-800 bg-white/20 dark:bg-black/20 safe-area-x">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-8">
+            {/* Brand */}
+            <div>
+              <Logo size="sm" className="mb-3" />
+              <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                The most comprehensive Vedic marriage compatibility engine. Combining Parashari, KP, Jaimini & Nadi astrology with modern psychology for deep relationship insights.
+              </p>
+            </div>
+            {/* Analysis */}
+            <div>
+              <h4 className="font-semibold text-sm text-gray-800 dark:text-gray-100 mb-3">Analysis Modules</h4>
+              <ul className="space-y-1.5 text-xs text-gray-500 dark:text-gray-400">
+                <li>Ashtakoot Milan (36-Point Matching)</li>
+                <li>Synastry & House Overlays</li>
+                <li>KP 7th Cusp Sub Lord Analysis</li>
+                <li>Divorce Risk & Infidelity Radar</li>
+                <li>Sexual Compatibility (14 Yoni Types)</li>
+                <li>Mental Health & Addiction Profiling</li>
+              </ul>
+            </div>
+            {/* Systems */}
+            <div>
+              <h4 className="font-semibold text-sm text-gray-800 dark:text-gray-100 mb-3">Astrology Systems</h4>
+              <ul className="space-y-1.5 text-xs text-gray-500 dark:text-gray-400">
+                <li>Parashari (Traditional Vedic)</li>
+                <li>KP (Krishnamurti Paddhati)</li>
+                <li>Jaimini (Chara Karakas)</li>
+                <li>Bhrigu Nandi Nadi</li>
+                <li>7 Divisional Charts (D1-D60)</li>
+                <li>Swiss Ephemeris Calculations</li>
+              </ul>
+            </div>
+          </div>
+          <div className="pt-6 border-t border-gray-200 dark:border-gray-700 text-center text-gray-500 dark:text-gray-400 text-xs">
+            <p>&copy; 2025 Astro Marriage by NovaVentures AI. Discover your cosmic destiny.</p>
+          </div>
         </div>
       </footer>
     </div>
