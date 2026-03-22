@@ -29,9 +29,10 @@ const AshtakootMilanGuide = lazy(() => import('./pages/guides/AshtakootMilanGuid
 const MarriageTimingGuide = lazy(() => import('./pages/guides/MarriageTimingGuide').then(m => ({ default: m.MarriageTimingGuide })));
 const MangalDoshaGuide = lazy(() => import('./pages/guides/MangalDoshaGuide').then(m => ({ default: m.MangalDoshaGuide })));
 
-// Admin & Pricing
+// Admin, Pricing & Demo
 const AdminPage = lazy(() => import('./pages/AdminPage').then(m => ({ default: m.AdminPage })));
 const PricingPage = lazy(() => import('./pages/PricingPage').then(m => ({ default: m.PricingPage })));
+const DemoPage = lazy(() => import('./pages/DemoPage').then(m => ({ default: m.DemoPage })));
 
 // 404
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
@@ -130,9 +131,10 @@ function App() {
               <Route path="/guides/marriage-timing" element={<MarriageTimingGuide />} />
               <Route path="/guides/mangal-dosha" element={<MangalDoshaGuide />} />
 
-              {/* Admin & Pricing */}
+              {/* Admin, Pricing & Demo */}
               <Route path="/admin" element={<AdminPage />} />
               <Route path="/pricing" element={<PricingPage />} />
+              <Route path="/demo" element={<DemoPage />} />
 
               {/* Auth */}
               <Route path="/auth/callback" element={<AuthCallbackPage />} />

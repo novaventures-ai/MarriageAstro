@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Heart, Stars, Sparkles, ArrowRight, User, ChevronRight, LayoutDashboard, ChevronDown, ChevronUp, Shield, Brain, Flame, Clock, Swords, Eye, Zap, Target, Check, X, Lock, Crown, Star, Quote } from 'lucide-react';
+import { Heart, Stars, Sparkles, ArrowRight, User, ChevronRight, LayoutDashboard, ChevronDown, ChevronUp, Shield, Brain, Flame, Clock, Swords, Eye, Zap, Target, Check, X, Lock, Crown, Star, Quote, Play } from 'lucide-react';
 import { ThemeToggle } from '../components/ui/ThemeToggle';
 import { AuthButton } from '../components/ui/AuthButton';
 import { useAuth } from '../context/AuthContext';
@@ -102,6 +102,17 @@ export const LandingPage: React.FC = () => {
                 <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
+          </div>
+
+          {/* Try Demo CTA */}
+          <div className="flex justify-center">
+            <button
+              onClick={() => navigate('/demo')}
+              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/20 rounded-full hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-colors border border-indigo-200 dark:border-indigo-800"
+            >
+              <Play className="w-4 h-4" />
+              Try Demo — Explore with Sample Profiles
+            </button>
           </div>
         </div>
       </section>
@@ -563,6 +574,13 @@ export const LandingPage: React.FC = () => {
             >
               Check Compatibility
               <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
+            </button>
+            <button
+              onClick={() => navigate('/demo')}
+              className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 text-indigo-600 dark:text-indigo-400 font-medium rounded-full hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-all duration-300 text-sm sm:text-base"
+            >
+              <Play className="w-4 h-4 sm:w-5 sm:h-5" />
+              Try Demo
             </button>
           </div>
         </div>
