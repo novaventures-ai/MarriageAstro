@@ -27,6 +27,17 @@ export const SelfOverviewWidget: React.FC<SelfOverviewWidgetProps> = ({ report }
   const [activeInsight, setActiveInsight] = useState<string | null>(null);
   const { insight, loading, error, generateInsight } = useSelfAI(report);
 
+  // Guard: if marriagePotential is missing, show fallback
+  if (!report?.marriagePotential) {
+    return (
+      <div className="p-8 text-center bg-white dark:bg-gray-800 rounded-2xl shadow-sm">
+        <AlertTriangle className="w-10 h-10 text-amber-500 mx-auto mb-3" />
+        <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">Report Data Incomplete</h3>
+        <p className="text-gray-500 dark:text-gray-400">Marriage potential data is missing. Please regenerate your self-analysis report.</p>
+      </div>
+    );
+  }
+
   const getAIInsight = async (type: any) => {
     setActiveInsight(type);
     await generateInsight(type);
@@ -162,7 +173,7 @@ export const SelfOverviewWidget: React.FC<SelfOverviewWidgetProps> = ({ report }
             </div>
 
             <p className="text-gray-600 dark:text-gray-400 mb-4">
-              {report.executiveSummary.oneLineSummary}
+              {report.executiveSummary?.oneLineSummary || 'Your marriage potential analysis'}
             </p>
 
             <div className="grid grid-cols-3 gap-4">
@@ -202,13 +213,13 @@ export const SelfOverviewWidget: React.FC<SelfOverviewWidgetProps> = ({ report }
             <div>
               <span className="text-sm text-gray-500 dark:text-gray-400">Best Window: </span>
               <span className="font-medium text-gray-800 dark:text-gray-100">
-                {report.timingForecast?.nextMarriageWindow.yearRange || 'Calculating...'}
+                {report.timingForecast?.nextMarriageWindow?.yearRange || 'Calculating...'}
               </span>
             </div>
             <div>
               <span className="text-sm text-gray-500 dark:text-gray-400">Expected Age: </span>
               <span className="font-medium text-gray-800 dark:text-gray-100">
-                {report.marriagePotential.expectedMarriageAge.min && !isNaN(report.marriagePotential.expectedMarriageAge.min)
+                {report.marriagePotential?.expectedMarriageAge?.min && !isNaN(report.marriagePotential.expectedMarriageAge.min)
                   ? `${report.marriagePotential.expectedMarriageAge.min}-${report.marriagePotential.expectedMarriageAge.max} years`
                   : 'Analyzing...'}
               </span>
@@ -239,19 +250,19 @@ export const SelfOverviewWidget: React.FC<SelfOverviewWidgetProps> = ({ report }
             <div>
               <span className="text-sm text-gray-500 dark:text-gray-400">Field: </span>
               <span className="font-medium text-gray-800 dark:text-gray-100">
-                {report.spouseDetailedProfile?.career.field || 'Analysis pending'}
+                {report.spouseDetailedProfile?.career?.field || 'Analysis pending'}
               </span>
             </div>
             <div>
               <span className="text-sm text-gray-500 dark:text-gray-400">Archetype: </span>
               <span className="font-medium text-gray-800 dark:text-gray-100">
-                {report.spouseDetailedProfile?.career.archetype || 'Analyzing...'}
+                {report.spouseDetailedProfile?.career?.archetype || 'Analyzing...'}
               </span>
             </div>
             <div>
               <span className="text-sm text-gray-500 dark:text-gray-400">Meeting: </span>
               <span className="font-medium text-gray-800 dark:text-gray-100">
-                {report.spouseDetailedProfile?.meetingCircumstances.how || 'TBD'}
+                {report.spouseDetailedProfile?.meetingCircumstances?.how || 'TBD'}
               </span>
             </div>
           </div>
@@ -271,7 +282,7 @@ export const SelfOverviewWidget: React.FC<SelfOverviewWidgetProps> = ({ report }
             </h3>
           </div>
           <ul className="space-y-2">
-            {report.marriagePotential.strengths.map((strength, index) => (
+            {(report.marriagePotential.strengths || []).map((strength, index) => (
               <li key={index} className="flex items-start gap-2 text-gray-700 dark:text-gray-300">
                 <TrendingUp className="w-4 h-4 text-green-500 mt-1 flex-shrink-0" />
                 {strength}
@@ -291,7 +302,7 @@ export const SelfOverviewWidget: React.FC<SelfOverviewWidgetProps> = ({ report }
             </h3>
           </div>
           <ul className="space-y-2">
-            {report.marriagePotential.challenges.map((challenge, index) => (
+            {(report.marriagePotential.challenges || []).map((challenge, index) => (
               <li key={index} className="flex items-start gap-2 text-gray-700 dark:text-gray-300">
                 <AlertTriangle className="w-4 h-4 text-yellow-500 mt-1 flex-shrink-0" />
                 {challenge}

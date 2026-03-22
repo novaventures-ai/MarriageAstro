@@ -387,16 +387,18 @@ export const SelfReportPage: React.FC = () => {
                   </ErrorBoundary>
                 </div>
 
-                <div id="doshas">
-                  <ErrorBoundary>
-                    <YogaDoshaWidget
-                      partnerA={selfReport.doshaAnalysis}
-                      partnerB={selfReport.doshaAnalysis}
-                      nameA={selfChart?.name || 'You'}
-                      nameB=""
-                    />
-                  </ErrorBoundary>
-                </div>
+                {selfReport.doshaAnalysis && (
+                  <div id="doshas">
+                    <ErrorBoundary>
+                      <YogaDoshaWidget
+                        partnerA={selfReport.doshaAnalysis}
+                        partnerB={selfReport.doshaAnalysis}
+                        nameA={selfChart?.name || 'You'}
+                        nameB=""
+                      />
+                    </ErrorBoundary>
+                  </div>
+                )}
 
                 {selfChart && (
                   <div id="kp">
