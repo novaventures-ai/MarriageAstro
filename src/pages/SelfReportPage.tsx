@@ -170,7 +170,12 @@ export const SelfReportPage: React.FC = () => {
       ],
       dynamicData: {
         badge: 'Health Profile',
-        status: 'neutral'
+        status: 'neutral',
+        highlight: selfReport.sexualHealth?.libidoA?.level
+          ? `Vitality: ${selfReport.sexualHealth.libidoA.level}`
+          : selfReport.sexualProfile?.sexualHealth?.vitality
+            ? `Vitality: ${selfReport.sexualProfile.sexualHealth.vitality}`
+            : 'Physical vitality assessed'
       }
     },
     {
@@ -202,7 +207,12 @@ export const SelfReportPage: React.FC = () => {
         { id: 'timing', label: 'Life Timeline' },
         { id: 'vulnerability', label: 'Vulnerability Timeline' },
         { id: 'remedies', label: 'Actionable Remedies' },
-      ]
+      ],
+      dynamicData: {
+        highlight: selfReport.timing?.favorablePeriods?.[0]
+          ? `Next window: ${selfReport.timing.favorablePeriods[0].description || 'Analyzed'}`
+          : 'Timing windows analyzed'
+      }
     }
   ];
 
