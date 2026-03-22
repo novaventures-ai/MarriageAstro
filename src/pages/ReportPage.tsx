@@ -22,6 +22,9 @@ import { ConflictZoneWidget } from '../components/widgets/ConflictZoneWidget';
 import { PsychologicalProfileWidget } from '../components/widgets/PsychologicalProfileWidget';
 import { VulnerabilityTimelineWidget } from '../components/widgets/VulnerabilityTimelineWidget';
 import { ArrowLeft, ChevronDown, Home } from 'lucide-react';
+import { PremiumGate } from '../components/premium/PremiumGate';
+import { ShareButton } from '../components/premium/ShareButton';
+import { usePremium } from '../hooks/usePremium';
 import ChartDetailsWidget from '../components/ChartDetailsWidget';
 import { ThemeToggle } from '../components/ui/ThemeToggle';
 import { AuthButton } from '../components/ui/AuthButton';
@@ -42,6 +45,7 @@ export const ReportPage: React.FC = () => {
     clearReport
   } = useAppStore();
 
+  const { isPremium } = usePremium();
   const [showMobileTabs, setShowMobileTabs] = useState(false);
   const [activeTheme, setActiveTheme] = useState<ThemeId>('match');
 
@@ -107,6 +111,7 @@ export const ReportPage: React.FC = () => {
       icon: '🔥',
       title: 'Chemistry & Intimacy',
       question: 'Are there sparks?',
+      premiumRequired: !isPremium,
       color: 'rose',
       gradient: 'from-rose-500 to-pink-600',
       widgets: [
@@ -124,6 +129,7 @@ export const ReportPage: React.FC = () => {
       icon: '⚠️',
       title: 'Red Flags & Risks',
       question: 'What could go wrong?',
+      premiumRequired: !isPremium,
       color: 'amber',
       gradient: 'from-amber-500 to-orange-600',
       widgets: [
@@ -158,6 +164,7 @@ export const ReportPage: React.FC = () => {
       icon: '⏰',
       title: 'Timing & Action',
       question: 'When to act & how to fix?',
+      premiumRequired: !isPremium,
       color: 'indigo',
       gradient: 'from-indigo-500 to-violet-600',
       widgets: [
@@ -217,6 +224,11 @@ export const ReportPage: React.FC = () => {
             </div>
 
             <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+              <ShareButton
+                title={`${currentReport.chartA.name} & ${currentReport.chartB.name} Compatibility`}
+                text={`Compatibility score: ${currentReport.ashtakoot?.totalScore || '?'}/36. Check yours at Astro Marriage!`}
+                iconOnly
+              />
               <button
                 onClick={() => navigate('/')}
                 className="p-1.5 sm:p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors text-gray-600 dark:text-gray-400"
@@ -356,21 +368,25 @@ export const ReportPage: React.FC = () => {
           {activeTheme === 'chemistry' && (
             <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
               <div id="sexual">
-                <SexualCompatibilityWidget
-                  sexualCompatibility={currentReport.sexualCompatibility}
-                  extendedSexualCompatibility={currentReport.extendedSexualCompatibility}
-                  partnerAName={currentReport.chartA.name}
-                  partnerBName={currentReport.chartB.name}
-                  chartA={currentReport.chartA}
-                  chartB={currentReport.chartB}
-                />
+                <PremiumGate section="sexual_detail" label="Sexual Compatibility">
+                  <SexualCompatibilityWidget
+                    sexualCompatibility={currentReport.sexualCompatibility}
+                    extendedSexualCompatibility={currentReport.extendedSexualCompatibility}
+                    partnerAName={currentReport.chartA.name}
+                    partnerBName={currentReport.chartB.name}
+                    chartA={currentReport.chartA}
+                    chartB={currentReport.chartB}
+                  />
+                </PremiumGate>
               </div>
               <div id="health">
-                <SexualHealthWidget
-                  sexualHealth={currentReport.sexualHealth}
-                  partnerAName={currentReport.chartA.name}
-                  partnerBName={currentReport.chartB.name}
-                />
+                <PremiumGate section="sexual_detail" label="Sexual Health Analysis">
+                  <SexualHealthWidget
+                    sexualHealth={currentReport.sexualHealth}
+                    partnerAName={currentReport.chartA.name}
+                    partnerBName={currentReport.chartB.name}
+                  />
+                </PremiumGate>
               </div>
               <div id="synastry">
                 <SynastryWidget
@@ -386,31 +402,37 @@ export const ReportPage: React.FC = () => {
           {activeTheme === 'risks' && (
             <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
               <div id="radar">
-                <RiskRadarWidget
-                  riskAssessment={currentReport.riskAssessment}
-                  partnerAName={currentReport.chartA.name}
-                  partnerBName={currentReport.chartB.name}
-                />
+                <PremiumGate section="divorce_risk" label="Risk Analysis Details">
+                  <RiskRadarWidget
+                    riskAssessment={currentReport.riskAssessment}
+                    partnerAName={currentReport.chartA.name}
+                    partnerBName={currentReport.chartB.name}
+                  />
+                </PremiumGate>
               </div>
               <div id="conflict"><ConflictZoneWidget report={currentReport} /></div>
               {currentReport.addictionRiskAnalysis && (
                 <div id="addiction">
-                  <AddictionRiskWidget
-                    partnerA={currentReport.addictionRiskAnalysis.partnerA}
-                    partnerB={currentReport.addictionRiskAnalysis.partnerB}
-                    nameA={currentReport.chartA.name}
-                    nameB={currentReport.chartB.name}
-                  />
+                  <PremiumGate section="addiction_risk" label="Addiction Risk Analysis">
+                    <AddictionRiskWidget
+                      partnerA={currentReport.addictionRiskAnalysis.partnerA}
+                      partnerB={currentReport.addictionRiskAnalysis.partnerB}
+                      nameA={currentReport.chartA.name}
+                      nameB={currentReport.chartB.name}
+                    />
+                  </PremiumGate>
                 </div>
               )}
               {currentReport.mentalHealthAnalysis && (
                 <div id="mental">
-                  <MentalHealthWidget
-                    mentalHealthA={currentReport.mentalHealthAnalysis.partnerA}
-                    mentalHealthB={currentReport.mentalHealthAnalysis.partnerB}
-                    chartAName={currentReport.chartA.name}
-                    chartBName={currentReport.chartB.name}
-                  />
+                  <PremiumGate section="mental_health" label="Mental Health Analysis">
+                    <MentalHealthWidget
+                      mentalHealthA={currentReport.mentalHealthAnalysis.partnerA}
+                      mentalHealthB={currentReport.mentalHealthAnalysis.partnerB}
+                      chartAName={currentReport.chartA.name}
+                      chartBName={currentReport.chartB.name}
+                    />
+                  </PremiumGate>
                 </div>
               )}
             </div>
@@ -447,20 +469,26 @@ export const ReportPage: React.FC = () => {
             <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
               <div id="timeline"><TimingWidget timing={currentReport.timing} /></div>
               {currentReport.vulnerabilityTimeline && (
-                <div id="vulnerable"><VulnerabilityTimelineWidget timeline={currentReport.vulnerabilityTimeline} /></div>
+                <div id="vulnerable">
+                  <PremiumGate section="vulnerability_timeline" label="Vulnerability Timeline">
+                    <VulnerabilityTimelineWidget timeline={currentReport.vulnerabilityTimeline} />
+                  </PremiumGate>
+                </div>
               )}
               <div id="remedies">
-                <RemediesWidget
-                  remedies={currentReport.remedies}
-                  extendedRemedies={currentReport.extendedRemedies!}
-                  doshas={currentReport.ashtakoot.doshas}
-                  partnerAName={currentReport.chartA.name}
-                  partnerBName={currentReport.chartB.name}
-                  dashaInfo={(() => {
-                    const getDasha = (dashas: any[]) => dashas.find(d => d.isCurrent)?.planet || 'Unknown';
-                    return `${currentReport.chartA.name}: ${getDasha(currentReport.chartA.dashas)} Dasha | ${currentReport.chartB.name}: ${getDasha(currentReport.chartB.dashas)} Dasha`;
-                  })()}
-                />
+                <PremiumGate section="remedies" label="Remedies & Solutions">
+                  <RemediesWidget
+                    remedies={currentReport.remedies}
+                    extendedRemedies={currentReport.extendedRemedies!}
+                    doshas={currentReport.ashtakoot.doshas}
+                    partnerAName={currentReport.chartA.name}
+                    partnerBName={currentReport.chartB.name}
+                    dashaInfo={(() => {
+                      const getDasha = (dashas: any[]) => dashas.find(d => d.isCurrent)?.planet || 'Unknown';
+                      return `${currentReport.chartA.name}: ${getDasha(currentReport.chartA.dashas)} Dasha | ${currentReport.chartB.name}: ${getDasha(currentReport.chartB.dashas)} Dasha`;
+                    })()}
+                  />
+                </PremiumGate>
               </div>
             </div>
           )}

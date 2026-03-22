@@ -1,4 +1,5 @@
 ﻿import React from 'react';
+import { PremiumBadge } from '../premium/PremiumBadge';
 
 export type ThemeId = 'match' | 'spouse' | 'chemistry' | 'risks' | 'mind' | 'timing';
 
@@ -10,6 +11,7 @@ export interface ThemeConfig {
     color: string;
     gradient: string;
     widgets: { id: string; label: string }[];
+    premiumRequired?: boolean;
     dynamicData?: {
         badge?: string;
         status?: 'good' | 'warning' | 'danger' | 'neutral';
@@ -88,8 +90,9 @@ export const CosmicNavigator: React.FC<CosmicNavigatorProps> = ({
                                     )}
                                 </div>
 
-                                <h3 className={`text-lg sm:text-xl font-bold mb-1 ${isActive ? `text-${theme.color}-700 dark:text-${theme.color}-300` : 'text-gray-800 dark:text-white'}`}>
+                                <h3 className={`text-lg sm:text-xl font-bold mb-1 flex items-center gap-2 ${isActive ? `text-${theme.color}-700 dark:text-${theme.color}-300` : 'text-gray-800 dark:text-white'}`}>
                                     {theme.title}
+                                    {theme.premiumRequired && <PremiumBadge />}
                                 </h3>
 
                                 <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-4 font-medium italic">

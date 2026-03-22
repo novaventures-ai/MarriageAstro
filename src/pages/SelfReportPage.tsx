@@ -28,6 +28,9 @@ import {
 } from 'lucide-react';
 import { ThemeToggle } from '../components/ui/ThemeToggle';
 import { Logo } from '../components/ui/Logo';
+import { usePremium } from '../hooks/usePremium';
+import { PremiumGate } from '../components/premium/PremiumGate';
+import { ShareButton } from '../components/premium/ShareButton';
 import { CosmicNavigator, ThemeId, ThemeConfig } from '../components/widgets/CosmicNavigator';
 import { SelfOverviewWidget } from '../components/widgets/SelfOverviewWidget';
 import SpousePredictionWidget from '../components/widgets/SpousePredictionWidget';
@@ -65,6 +68,7 @@ export const SelfReportPage: React.FC = () => {
     setSelfBirthData
   } = useUserProfileStore();
 
+  const { isAdmin, isPremium } = usePremium();
   const [activeTheme, setActiveTheme] = useState<ThemeId>('match');
   const [showChat, setShowChat] = useState(false);
   const [kpDataMissing, setKpDataMissing] = useState(false);
@@ -163,6 +167,7 @@ export const SelfReportPage: React.FC = () => {
       icon: '🔥',
       title: 'Physical & Health',
       question: 'What is my vitality?',
+      premiumRequired: !isPremium,
       color: 'rose',
       gradient: 'from-rose-500 to-pink-600',
       widgets: [
@@ -186,6 +191,7 @@ export const SelfReportPage: React.FC = () => {
       icon: '🧠',
       title: 'Mind & Emotions',
       question: 'How do I behave?',
+      premiumRequired: !isPremium,
       color: 'emerald',
       gradient: 'from-emerald-500 to-teal-600',
       widgets: [
@@ -204,6 +210,7 @@ export const SelfReportPage: React.FC = () => {
       icon: '⏰',
       title: 'Timing & Action',
       question: 'When to act & how to fix?',
+      premiumRequired: !isPremium,
       color: 'indigo',
       gradient: 'from-indigo-500 to-violet-600',
       widgets: [
@@ -259,6 +266,22 @@ export const SelfReportPage: React.FC = () => {
             </div>
 
             <div className="flex items-center gap-3">
+              {isAdmin && (
+                <button
+                  onClick={() => navigate('/admin')}
+                  className="p-2 hover:bg-purple-100 dark:hover:bg-purple-900/30 rounded-lg transition-colors text-purple-600"
+                  title="Admin Panel"
+                >
+                  <Shield className="w-5 h-5" />
+                </button>
+              )}
+
+              <ShareButton
+                title="My Vedic Marriage Analysis"
+                text={`My marriage potential score: ${selfReport?.marriagePotential?.score || '?'}/100. Check yours at Astro Marriage!`}
+                iconOnly
+              />
+
               <button
                 onClick={() => generateSelfReport()}
                 disabled={isGeneratingReport}
@@ -486,11 +509,13 @@ export const SelfReportPage: React.FC = () => {
                 {selfChart && selfReport.sexualHealth && (
                   <div id="sexual">
                     <ErrorBoundary>
-                      <SelfSexualProfileWidget
-                        sexualHealth={selfReport.sexualHealth}
-                        chart={selfChart}
-                        extendedCompatibility={selfReport.extendedSexualCompatibility}
-                      />
+                      <PremiumGate section="sexual_detail" label="Sexual & Physical Profile">
+                        <SelfSexualProfileWidget
+                          sexualHealth={selfReport.sexualHealth}
+                          chart={selfChart}
+                          extendedCompatibility={selfReport.extendedSexualCompatibility}
+                        />
+                      </PremiumGate>
                     </ErrorBoundary>
                   </div>
                 )}
@@ -526,17 +551,21 @@ export const SelfReportPage: React.FC = () => {
                 {selfReport.mentalHealth && (
                   <div id="mental">
                     <ErrorBoundary>
-                      <MentalHealthWidget
-                        mentalHealthA={selfReport.mentalHealth}
-                        chartAName={selfChart?.name}
-                      />
+                      <PremiumGate section="mental_health" label="Mental Health Analysis">
+                        <MentalHealthWidget
+                          mentalHealthA={selfReport.mentalHealth}
+                          chartAName={selfChart?.name}
+                        />
+                      </PremiumGate>
                     </ErrorBoundary>
                   </div>
                 )}
 
                 <div id="risk-radar">
                   <ErrorBoundary>
-                    <SelfRiskRadarWidget report={selfReport} />
+                    <PremiumGate section="divorce_risk" label="Risk & Vulnerability Analysis">
+                      <SelfRiskRadarWidget report={selfReport} />
+                    </PremiumGate>
                   </ErrorBoundary>
                 </div>
               </div>
@@ -556,17 +585,21 @@ export const SelfReportPage: React.FC = () => {
 
                 <div id="vulnerability">
                   <ErrorBoundary>
-                    <SelfVulnerabilityTimelineWidget report={selfReport} />
+                    <PremiumGate section="vulnerability_timeline" label="Vulnerability Timeline">
+                      <SelfVulnerabilityTimelineWidget report={selfReport} />
+                    </PremiumGate>
                   </ErrorBoundary>
                 </div>
 
                 {selfReport.remedies && (
                   <div id="remedies">
                     <ErrorBoundary>
-                      <SelfRemediesWidget
-                        remedies={selfReport.remedies}
-                        doshaAnalysis={selfReport.doshaAnalysis}
-                      />
+                      <PremiumGate section="remedies" label="Remedies & Solutions">
+                        <SelfRemediesWidget
+                          remedies={selfReport.remedies}
+                          doshaAnalysis={selfReport.doshaAnalysis}
+                        />
+                      </PremiumGate>
                     </ErrorBoundary>
                   </div>
                 )}

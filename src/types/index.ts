@@ -23,6 +23,21 @@ export type Gender = 'male' | 'female' | 'other';
 
 export type PlanTier = 'free' | 'premium' | 'astrologer';
 
+export type UnlockableSection =
+  | 'divorce_risk' | 'infidelity_risk' | 'sexual_detail'
+  | 'mental_health' | 'addiction_risk' | 'vulnerability_timeline'
+  | 'remedies' | 'kp_detail' | 'divisional_advanced'
+  | 'full_self_report' | 'full_compat_report';
+
+export interface PremiumState {
+  planTier: PlanTier;
+  planExpiresAt: string | null;
+  unlockedSections: UnlockableSection[];
+  aiCreditsRemaining: number;
+  aiCreditsResetAt: string | null;
+  isAdmin: boolean;
+}
+
 export type ReportStatus = 'saved' | 'archived';
 
 // ============================================================================

@@ -52,6 +52,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 if (newSession?.user && (event === 'SIGNED_IN' || event === 'INITIAL_SESSION')) {
                     const userProfileState = useUserProfileStore.getState();
 
+                    // Load premium plan tier (admin check happens inside)
+                    userProfileState.loadPlanFromCloud(
+                        newSession.user.id,
+                        newSession.user.email || ''
+                    );
+
                     // If user has local self data, they likely just created it as guest.
                     // Save it to cloud to prevent wiping it. Otherwise, load cloud data.
                     if (userProfileState.selfBirthData) {

@@ -8,6 +8,7 @@ import { getGeminiModel } from '../../lib/ai/geminiClient';
 import { SELF_SYSTEM_PROMPTS, generateSelfPrompt, SelfAIType } from '../../lib/ai/selfPrompts';
 import { SelfAnalysisReport } from '../types/selfAnalysis';
 import { Chart } from '../types';
+import { useUserProfileStore } from '../store/useUserProfileStore';
 
 interface UseSelfAIResult {
   loading: boolean;
@@ -15,6 +16,7 @@ interface UseSelfAIResult {
   insight: string | null;
   generateInsight: (type: SelfAIType) => Promise<void>;
   reset: () => void;
+  aiLimited: boolean;
 }
 
 /**
@@ -27,11 +29,22 @@ export const useSelfAI = (
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [insight, setInsight] = useState<string | null>(null);
+  const [aiLimited, setAiLimited] = useState(false);
 
   const generateInsight = useCallback(async (type: SelfAIType) => {
+    // Check AI credits
+    const state = useUserProfileStore.getState();
+    const isPremium = state.isAdmin || state.planTier === 'premium' || state.planTier === 'astrologer';
+    if (!isPremium && state.aiCreditsRemaining <= 0) {
+      setAiLimited(true);
+      setError("You've used all 3 free AI queries today. Upgrade to Premium for unlimited AI insights.");
+      return;
+    }
+
     setLoading(true);
     setError(null);
     setInsight(null);
+    setAiLimited(false);
 
     try {
       // 1. Get the appropriate system prompt
@@ -46,6 +59,11 @@ export const useSelfAI = (
       const output = result.response.text();
 
       setInsight(output);
+
+      // Deduct AI credit for free users
+      if (!isPremium) {
+        useUserProfileStore.getState().useAiCredit();
+      }
     } catch (err: any) {
       console.error('Self AI Insight Error:', err instanceof Error ? err.message : 'Unknown error');
 
@@ -68,9 +86,10 @@ export const useSelfAI = (
     setLoading(false);
     setError(null);
     setInsight(null);
+    setAiLimited(false);
   }, []);
 
-  return { loading, error, insight, generateInsight, reset };
+  return { loading, error, insight, generateInsight, reset, aiLimited };
 };
 
 export default useSelfAI;
