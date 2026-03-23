@@ -8,6 +8,8 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { SEOHead } from '../../components/SEOHead';
 
+import { AISummaryBox } from '../../components/ui/AISummaryBox';
+
 export const AshtakootMilanGuide: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-indigo-950 transition-colors duration-500">
@@ -36,6 +38,17 @@ export const AshtakootMilanGuide: React.FC = () => {
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-6 leading-tight">
           Ashtakoot Milan: The Complete Guide to Vedic Kundali Matching
         </h1>
+
+        <AISummaryBox
+          title="Ashtakoot Milan"
+          definition="Ashtakoot Milan is a traditional 36-point Vedic system that evaluates marriage compatibility by analyzing eight lunar dimensions (Kootas) between two birth charts."
+          points={[
+            "Scores range from 0 to 36 points",
+            "18+ is acceptable, 25+ is good",
+            "Nadi (8 pts) is most critical",
+            "Cancels doshas with specific rules"
+          ]}
+        />
 
         <p className="text-lg text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
           Ashtakoot Milan (literally "eight-group comparison") is the cornerstone of Vedic marriage compatibility. It systematically evaluates <strong>8 dimensions</strong> of a couple's compatibility by comparing the Moon's Nakshatra (lunar mansion) and Rashi (zodiac sign) in both birth charts, scoring a maximum of <strong>36 points</strong>.

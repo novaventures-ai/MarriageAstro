@@ -9,6 +9,8 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { SEOHead } from '../components/SEOHead';
 
+import { AISummaryBox } from '../components/ui/AISummaryBox';
+
 export const HowItWorksPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-indigo-950 transition-colors duration-500">
@@ -34,6 +36,18 @@ export const HowItWorksPage: React.FC = () => {
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-6 leading-tight">
           How Vedic Kundali Matching Works
         </h1>
+
+        <AISummaryBox
+          title="Methodology Overview"
+          definition="Astro Marriage uses a multi-layered Vedic engine that cross-validates marriage compatibility using four distinct systems: Parashari (Ashtakoot), KP Astrology, Jaimini, and division-level synastry."
+          points={[
+            "JPL DE431 Swiss Ephemeris accuracy",
+            "KP Sub-lord timing precision",
+            "Jaimini Darakaraka spouse profiling",
+            "16 divisional charts supported"
+          ]}
+        />
+
         <p className="text-lg text-gray-600 dark:text-gray-400 mb-10 leading-relaxed">
           Astro Marriage uses a multi-system approach combining <strong>Parashari</strong>, <strong>KP Astrology</strong>, and <strong>Jaimini</strong> methodologies to provide the most comprehensive Vedic marriage compatibility analysis available online — completely free.
         </p>
