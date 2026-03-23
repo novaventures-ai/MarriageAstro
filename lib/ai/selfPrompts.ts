@@ -467,10 +467,12 @@ Birth Date: ${new Date(chart.dateOfBirth).toLocaleDateString()}
     `${p.planet} in ${p.sign} (H${p.house}${p.isRetrograde ? ', R' : ''})`
   ).join(', ');
 
+  // Hoist shared variables above switch to avoid TS2454 (used before assigned)
+  const spousePData = selfReport.spousePrediction;
+  const phy = spousePData?.physique;
+
   switch (type) {
     case 'ASTRO_MIND_SELF':
-      const spousePData = selfReport.spousePrediction;
-      const phy = spousePData?.physique;
       return `
 ${basicInfo}
 CHART OVERVIEW:
