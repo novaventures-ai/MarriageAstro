@@ -37,7 +37,7 @@ export const SelfAstroMindWidget: React.FC<SelfAstroMindWidgetProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const { generateInsight } = useSelfAI(report);
+  const { generateInsight, loading, error, insight, reset, aiLimited } = useSelfAI(report);
 
   // Auto-scroll to bottom
   useEffect(() => {
@@ -60,7 +60,8 @@ export const SelfAstroMindWidget: React.FC<SelfAstroMindWidgetProps> = ({
     setIsLoading(true);
 
     try {
-      // Determine the type of insight needed based on the question
+      // Use real AI from hook
+      // Determine the type of insight needed based on keywords
       let insightType: any = 'ASTRO_MIND_SELF';
       const lowerContent = content.toLowerCase();
 
@@ -76,41 +77,47 @@ export const SelfAstroMindWidget: React.FC<SelfAstroMindWidgetProps> = ({
         insightType = 'PSYCHOLOGICAL_PROFILE';
       }
 
-      // Generate AI response
-      const response = await generateInsightWithContext(content, insightType);
-
-      const assistantMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        role: 'assistant',
-        content: response,
-        timestamp: new Date()
-      };
-
-      setMessages(prev => [...prev, assistantMessage]);
-    } catch (error) {
-      console.error('Failed to get AI response:', error instanceof Error ? error.message : 'Unknown error');
-
+      await generateInsight(insightType, content);
+    } catch (err) {
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: 'I apologize, but I encountered an issue processing your question. Please try again or ask something else.',
+        content: "I'm having trouble connecting to my astrological systems. Please try again in a moment.",
         timestamp: new Date()
       };
-
       setMessages(prev => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const generateInsightWithContext = async (question: string, type: any): Promise<string> => {
-    // Build context-rich prompt
-    const context = buildChatContext(report, partners, question);
+  // Effect to handle AI response from hook
+  React.useEffect(() => {
+    if (insight && !loading) {
+      const assistantMessage: Message = {
+        id: Date.now().toString(),
+        role: 'assistant',
+        content: insight,
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, assistantMessage]);
+      reset(); // Clear insight for next query
+    }
+  }, [insight, loading, reset]);
 
-    // Simulate AI response (in real implementation, this would call Gemini)
-    // For now, return contextual response based on report data
-    return generateContextualResponse(report, question, type);
-  };
+  // Effect to handle AI errors
+  React.useEffect(() => {
+    if (error && !loading) {
+       const errorMessage: Message = {
+        id: Date.now().toString(),
+        role: 'assistant',
+        content: error + (aiLimited ? "\n\n[Upgrade to Premium](/pricing)" : ""),
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, errorMessage]);
+      reset();
+    }
+  }, [error, loading, aiLimited, reset]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -216,156 +223,6 @@ export const SelfAstroMindWidget: React.FC<SelfAstroMindWidgetProps> = ({
   );
 };
 
-// Helper functions
-function buildChatContext(
-  report: SelfAnalysisReport,
-  partners: PartnerProfile[],
-  question: string
-): string {
-  return `
-Context for answering: "${question}"
 
-User: ${report.chart.name}
-Ascendant: ${report.chart.ascendant}
-Moon: ${report.chart.planetaryPositions.find(p => p.planet === 'Moon')?.sign} in ${report.chart.planetaryPositions.find(p => p.planet === 'Moon')?.house}
-7th House: ${report.chart.houses.find(h => h.houseNumber === 7)?.sign}
-7th Lord: ${report.chart.houses.find(h => h.houseNumber === 7)?.lord}
-Marriage Score: ${report.marriagePotential.score}/100
-Best Timing: ${report.timingForecast?.nextMarriageWindow.yearRange}
-
-${partners.length > 0 ? `Saved partners: ${partners.map(p => p.name).join(', ')}` : ''}
-`;
-}
-
-function generateContextualResponse(
-  report: SelfAnalysisReport,
-  question: string,
-  type: string
-): string {
-  const lowerQuestion = question.toLowerCase();
-
-  // Timing questions
-  if (lowerQuestion.includes('when') || lowerQuestion.includes('marry') || lowerQuestion.includes('marriage')) {
-    return `Based on your chart analysis, here are the key timing indicators:
-
-**Next Marriage Window:** ${report.timingForecast?.nextMarriageWindow.yearRange}
-
-**Current Dasha:** ${report.timing.currentDasha?.planet} Mahadasha
-- This period is ${report.marriagePotential.dashaSupport > 60 ? 'favorable' : 'building phase'} for marriage
-
-**Favorable Periods:**
-${report.timingForecast?.favorablePeriods.slice(0, 3).map(p => `- ${p.period}: ${p.dates}`).join('\n') || 'Analyzing dasha periods...'}
-
-**Advice:** ${report.timingForecast?.delayAnalysis?.hasDelays
-        ? 'There are some delay indicators, but following remedies can help.'
-        : 'Your timing looks favorable. Stay open to opportunities!'}
-
-Would you like me to analyze a specific year or compare with a partner?`;
-  }
-
-  // Spouse questions
-  if (lowerQuestion.includes('spouse') || lowerQuestion.includes('partner') || lowerQuestion.includes('husband') || lowerQuestion.includes('wife')) {
-    return `Here's what your chart reveals about your future spouse:
-
-**Physical Profile:**
-- Build: ${report.spouseDetailedProfile?.physicalAppearance.build}
-- Style: ${report.spouseDetailedProfile?.physicalAppearance.styleOfDressing}
-- First impression: ${report.spouseDetailedProfile?.physicalAppearance.firstImpression}
-
-**Career & Status:**
-- Field: ${report.spouseDetailedProfile?.career.field}
-- Archetype: ${report.spouseDetailedProfile?.career.archetype}
-- Ambition level: ${report.spouseDetailedProfile?.career.ambitionLevel}
-
-**How You'll Meet:**
-${report.spouseDetailedProfile?.meetingCircumstances.how}
-Direction from your birthplace: ${report.spouseDetailedProfile?.meetingCircumstances.direction}
-
-**Key Personality Traits:**
-${report.spouseDetailedProfile?.personality.keyTraits.slice(0, 3).map(trait => `- ${trait}`).join('\n')}
-
-Would you like more details about their personality or your relationship dynamic?`;
-  }
-
-  // Dosha questions
-  if (lowerQuestion.includes('dosha') || lowerQuestion.includes('manglik') || lowerQuestion.includes('problem')) {
-    const doshas = report.doshaAnalysis.doshas.filter(d => d.present);
-
-    if (doshas.length === 0) {
-      return `Great news! Your chart shows **no significant doshas** affecting marriage.
-
-Your 7th house is well-supported, and you have a clean slate for a happy married life. The main focus should be on:
-- Timing your marriage well
-- Finding a compatible partner
-- Following general strengthening remedies
-
-**Strengths:**
-${report.marriagePotential.strengths.slice(0, 3).map(s => `- ${s}`).join('\n')}
-
-Would you like to know about your best timing or spouse characteristics?`;
-    }
-
-    return `Here are the doshas identified in your chart:
-
-${doshas.map(d => `**${d.name}** (${d.severity})
-- Effect: ${d.effects}
-- Remedy: ${d.remedies.length > 0 ? d.remedies.join(', ') : 'General remedies recommended'}`).join('\n\n')}
-
-**Don't worry!** Doshas are common and can be managed through:
-1. Specific remedies (see Remedies tab)
-2. Matching with compatible charts
-3. Timing marriage appropriately
-
-Your overall marriage potential is still ${report.marriagePotential.score}/100.
-
-Would you like specific remedies for these doshas?`;
-  }
-
-  // Remedy questions
-  if (lowerQuestion.includes('remedy') || lowerQuestion.includes('solution') || lowerQuestion.includes('what should i do')) {
-    return `Here are your **Top 3 Prioritized Remedies:**
-
-**1. ${report.remedies.prioritizedActions[0]?.title}**
-${report.remedies.prioritizedActions[0]?.description}
-- Start: ${report.remedies.prioritizedActions[0]?.whenToStart}
-- Duration: ${report.remedies.prioritizedActions[0]?.duration}
-
-**2. ${report.remedies.prioritizedActions[1]?.title}**
-${report.remedies.prioritizedActions[1]?.description}
-
-**3. ${report.remedies.prioritizedActions[2]?.title}**
-${report.remedies.prioritizedActions[2]?.description}
-
-**Gemstone Recommendation:**
-- Stone: ${report.remedies.gemstone.stone}
-- Metal: ${report.remedies.gemstone.metal}
-- Wear on: ${report.remedies.gemstone.day}
-
-**Daily Mantra:**
-${report.remedies.mantras.primary.mantra}
-- Chant ${report.remedies.mantras.primary.count} times
-- Best time: ${report.remedies.mantras.primary.bestTime}
-
-Would you like more details on any specific remedy?`;
-  }
-
-  // Default response
-  return `Based on your chart with ${report.marriagePotential.score}/100 marriage potential, here's what I can tell you:
-
-**Your Strengths:**
-${report.marriagePotential.strengths.slice(0, 3).map(s => `- ${s}`).join('\n')}
-
-**Best Marriage Window:** ${report.timingForecast?.nextMarriageWindow.yearRange}
-
-**Spouse Field:** ${report.spouseDetailedProfile?.career.field}
-
-You can ask me specifically about:
-- Marriage timing and dasha periods
-- Detailed spouse characteristics
-- Dosha analysis and remedies
-- Compatibility with saved partners
-
-What would you like to know more about?`;
-}
 
 export default SelfAstroMindWidget;

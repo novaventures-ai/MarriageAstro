@@ -100,6 +100,7 @@ CRITICAL RULES:
 - Use plain text formatting. No markdown (**, ##, *).
 - Be specific and vivid. Make it feel personal.
 - Reference meeting prediction data if available (direction, distance, medium, circumstances).
+- GROUNDING: You MUST use the specific Height, Build, and Complexion provided in the 'SPOUSE PREDICTION DATA' section. You may add secondary details (hair, eyes, style), but do NOT contradict the basic physical markers.
 
 OUTPUT SECTIONS:
 
@@ -443,7 +444,8 @@ const getMoonSign = (chart: Chart): string => {
 export function generateSelfPrompt(
   type: SelfAIType,
   selfReport: SelfAnalysisReport,
-  partnerChart?: Chart
+  partnerChart?: Chart,
+  question?: string
 ): string {
   const { chart, marriagePotential, spouseDetailedProfile, timingForecast, remedies, doshaAnalysis } = selfReport;
 
@@ -466,6 +468,28 @@ Birth Date: ${new Date(chart.dateOfBirth).toLocaleDateString()}
   ).join(', ');
 
   switch (type) {
+    case 'ASTRO_MIND_SELF':
+      const spousePData = selfReport.spousePrediction;
+      return `
+${basicInfo}
+CHART OVERVIEW:
+7th House: ${chart.houses.find(h => h.houseNumber === 7)?.sign} (Lord: ${chart.houses.find(h => h.houseNumber === 7)?.lord})
+Marriage Potential Score: ${marriagePotential.score}/100
+Best Timing: ${timingForecast?.nextMarriageWindow.yearRange || 'Calculating...'}
+Current Dasha: ${selfReport.timing.partnerA.currentDasha || 'Unknown'}
+
+SPOUSE INDICATORS (Grounding Data):
+Height: ${spousePData?.seventhHouse.spouseAppearance.split(', ')[0] || 'Average'}
+Build: ${spousePData?.seventhHouse.spouseAppearance.split(', ')[1] || 'Average'}
+Complexion: ${spousePData?.seventhHouse.spouseAppearance.split(', ')[2] || 'Fair'}
+Vedic Appearance: ${spousePData?.seventhHouse.spouseAppearance}
+Detailed Career: ${spouseDetailedProfile?.career?.field || 'Unknown'}
+
+USER'S SPECIFIC QUESTION: "${question || 'Tell me about my marriage.'}"
+
+Analyze ${chart.name}'s chart to answer the specific question above. Reference their planets and timing exactly.
+`;
+
     case 'SELF_GUIDE':
       return `
 ${basicInfo}

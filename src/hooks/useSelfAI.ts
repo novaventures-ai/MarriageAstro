@@ -14,7 +14,7 @@ interface UseSelfAIResult {
   loading: boolean;
   error: string | null;
   insight: string | null;
-  generateInsight: (type: SelfAIType) => Promise<void>;
+  generateInsight: (type: SelfAIType, question?: string) => Promise<void>;
   reset: () => void;
   aiLimited: boolean;
 }
@@ -31,7 +31,7 @@ export const useSelfAI = (
   const [insight, setInsight] = useState<string | null>(null);
   const [aiLimited, setAiLimited] = useState(false);
 
-  const generateInsight = useCallback(async (type: SelfAIType) => {
+  const generateInsight = useCallback(async (type: SelfAIType, question?: string) => {
     // Check AI credits
     const state = useUserProfileStore.getState();
     const isPremium = state.isAdmin || state.planTier === 'premium' || state.planTier === 'astrologer';
@@ -50,8 +50,8 @@ export const useSelfAI = (
       // 1. Get the appropriate system prompt
       const systemInstruction = SELF_SYSTEM_PROMPTS[type];
 
-      // 2. Generate user prompt with context
-      const userPrompt = generateSelfPrompt(type, selfReport, partnerChart);
+      // 2. Generate user prompt with context (now including question)
+      const userPrompt = generateSelfPrompt(type, selfReport, partnerChart, question);
 
       // 3. Call Gemini
       const model = getGeminiModel(systemInstruction);
