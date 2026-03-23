@@ -574,7 +574,7 @@ export function calculateSpousePrediction(chart: Chart): SpousePrediction {
       lord: seventhLord,
       planets: planetsIn7th,
       spouseNature: getSpouseNature(seventhSign, planetsIn7th),
-      spouseAppearance: getSpouseAppearance(seventhLord, planetsIn7th),
+      spouseAppearance: getSpouseAppearance(seventhLord, planetsIn7th, seventhSign),
       spouseTraits: getSpouseTraits(seventhSign, planetsIn7th),
       element: getElementFromSign(seventhSign),
       seventhLordDetails: {
@@ -722,11 +722,15 @@ function getSpouseNature(sign: Sign, planets: Planet[]): string {
   return `${signNature} personality.`;
 }
 
-function getSpouseAppearance(lord: Planet, planets: Planet[]): string {
-  if (planets.includes('Neptune')) return 'Mystical aura with dreamy, expressive eyes and a glamorous look.';
-  if (planets.includes('Venus')) return 'Attractive personality with a charming smile and refined features.';
-  if (planets.includes('Jupiter')) return 'Dignified and graceful appearance with a broad forehead.';
-  return 'Pleasant and balanced physical appearance.';
+function getSpouseAppearance(lord: Planet, planets: Planet[], sign: Sign): string {
+  const phys = getSpousePhysique(lord, planets, sign)!;
+  const base = `${phys.height} height, ${phys.build} build with a ${phys.complexion} complexion.`;
+  
+  if (planets.includes('Neptune')) return `${base} Mystical aura with dreamy, expressive eyes.`;
+  if (planets.includes('Venus')) return `${base} Attractive personality with a charming smile and refined features.`;
+  if (planets.includes('Jupiter')) return `${base} Dignified and graceful appearance with a broad forehead.`;
+  
+  return `${base} Pleasant and balanced features.`;
 }
 
 function getSpouseTraits(sign: Sign, planets: Planet[]): string[] {
@@ -773,6 +777,55 @@ function getSpousePhysique(lord: Planet, planets: Planet[], sign: Sign): SpouseP
     faceShape: getFaceShape(sign),
     skinTexture: getSkinTexture(sign)
   };
+
+  // Refine base values based on 7th lord (Source of Truth)
+  switch (lord) {
+    case 'Sun':
+      base.height = 'average';
+      base.build = 'athletic'; // Matches 'Average to Athletic' in UI
+      base.complexion = 'wheatish';
+      base.notableFeatures.push('Strong presence', 'Commanding eyes', 'Royal bearing');
+      break;
+    case 'Moon':
+      base.height = 'average';
+      base.build = 'average';
+      base.complexion = 'fair';
+      base.notableFeatures.push('Soft features', 'Expressive eyes', 'Round face');
+      break;
+    case 'Mars':
+      base.height = 'tall';
+      base.build = 'athletic';
+      base.complexion = 'reddish';
+      base.notableFeatures.push('Athletic frame', 'Sharp features', 'Energetic look');
+      break;
+    case 'Mercury':
+      base.height = 'average';
+      base.build = 'slim';
+      base.complexion = 'fair';
+      base.notableFeatures.push('Youthful appearance', 'Expressive face', 'Intelligent eyes');
+      break;
+    case 'Jupiter':
+      base.height = 'tall';
+      base.build = 'heavy';
+      base.complexion = 'fair';
+      base.notableFeatures.push('Large frame', 'Dignified bearing', 'Broad forehead');
+      break;
+    case 'Venus':
+      base.height = 'average';
+      base.build = 'average';
+      base.complexion = 'fair';
+      base.notableFeatures.push('Beautiful features', 'Attractive eyes', 'Charming smile');
+      break;
+    case 'Saturn':
+      base.height = 'average';
+      base.build = 'slim';
+      base.complexion = 'wheatish';
+      base.notableFeatures.push('Mature appearance', 'Serious expression', 'Dignified look');
+      break;
+    default:
+      // Keep defaults if somehow a non-traditional planet is lord
+      break;
+  }
 
   if (planets.includes('Neptune')) {
     base.notableFeatures.push('Dreamy eyes');

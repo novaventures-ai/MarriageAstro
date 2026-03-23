@@ -107,16 +107,37 @@ export const IdealPartnerProfileWidget: React.FC<IdealPartnerProfileWidgetProps>
       gradient: 'from-amber-500 to-orange-500',
       content: () => {
         const vedicAppearance = spouse?.seventhHouse?.spouseAppearance || '';
-        const isHeightAligned = appearance?.height && vedicAppearance.toLowerCase().includes(appearance.height.toLowerCase());
-        const isBuildAligned = appearance?.build && vedicAppearance.toLowerCase().includes(appearance.build.toLowerCase());
-        const isComplexionAligned = appearance?.complexion && vedicAppearance.toLowerCase().includes(appearance.complexion.toLowerCase());
+        
+        // Try to match against structured physique data first, fallback to prose string
+        const isHeightAligned = appearance?.height && (
+          (spouse?.physique?.height && spouse.physique.height === appearance.height) ||
+          vedicAppearance.toLowerCase().includes(appearance.height.toLowerCase())
+        );
+        
+        const isBuildAligned = appearance?.build && (
+          (spouse?.physique?.build && spouse.physique.build === appearance.build) ||
+          vedicAppearance.toLowerCase().includes(appearance.build.toLowerCase())
+        );
+        
+        const isComplexionAligned = appearance?.complexion && (
+          (spouse?.physique?.complexion && spouse.physique.complexion.toLowerCase() === appearance.complexion.toLowerCase()) ||
+          vedicAppearance.toLowerCase().includes(appearance.complexion.toLowerCase())
+        );
+
+        // Calculate Alignment %
+        const totalChecked = [appearance?.height, appearance?.build, appearance?.complexion].filter(Boolean).length;
+        const matches = [isHeightAligned, isBuildAligned, isComplexionAligned].filter(Boolean).length;
+        const alignmentPct = totalChecked > 0 ? Math.round((matches / totalChecked) * 100) : 100;
+        const isCleanMatch = alignmentPct === 100;
 
         return (
           <div className="space-y-4">
             {/* Vedic Alignment Badge */}
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-green-500/10 border border-green-500/20 rounded-lg">
-              <Sparkles className="w-4 h-4 text-green-500" />
-              <span className="text-xs font-semibold text-green-600 dark:text-green-400">Astrologically Grounded: 100% Alignment with Vedic Logic</span>
+            <div className={`flex items-center gap-2 px-3 py-1.5 border rounded-lg transition-all ${isCleanMatch ? 'bg-green-500/10 border-green-500/20' : 'bg-amber-500/10 border-amber-500/20'}`}>
+              <Sparkles className={`w-4 h-4 ${isCleanMatch ? 'text-green-500' : 'text-amber-500'}`} />
+              <span className={`text-xs font-semibold ${isCleanMatch ? 'text-green-600 dark:text-green-400' : 'text-amber-600 dark:text-amber-400'}`}>
+                Astrologically Grounded: {alignmentPct}% Alignment with Vedic Logic
+              </span>
             </div>
 
             {appearance ? (

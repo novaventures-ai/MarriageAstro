@@ -505,63 +505,15 @@ function generateDetailedSpouseProfile(
   const seventhLord = chart.planetaryPositions.find((p: PlanetaryPosition) => p.planet === seventhHouse?.lord);
   const darakaraka = chart.specialPoints?.darakaraka;
 
-  // Physical appearance based on 7th lord and planets in 7th
+  // Physical appearance based on already calculated physique data
   const physicalAppearance: SpouseDetailedProfile['physicalAppearance'] = {
-    height: 'average',
-    build: 'average',
-    complexion: 'fair',
-    distinguishingFeatures: [],
+    height: basicPrediction.physique?.height || 'average',
+    build: basicPrediction.physique?.build || 'average',
+    complexion: basicPrediction.physique?.complexion || 'fair',
+    distinguishingFeatures: basicPrediction.physique?.notableFeatures || [],
     styleOfDressing: 'modern and professional',
     firstImpression: 'confident and approachable'
   };
-
-  // Determine physical traits based on 7th lord
-  if (seventhLord) {
-    switch (seventhLord.planet) {
-      case 'Sun':
-        physicalAppearance.height = 'average';
-        physicalAppearance.build = 'athletic';
-        physicalAppearance.complexion = 'wheatish';
-        physicalAppearance.distinguishingFeatures = ['Strong presence', 'Commanding eyes'];
-        break;
-      case 'Moon':
-        physicalAppearance.height = 'average';
-        physicalAppearance.build = 'average';
-        physicalAppearance.complexion = 'fair';
-        physicalAppearance.distinguishingFeatures = ['Soft features', 'Expressive eyes'];
-        break;
-      case 'Mars':
-        physicalAppearance.height = 'tall';
-        physicalAppearance.build = 'athletic';
-        physicalAppearance.complexion = 'reddish';
-        physicalAppearance.distinguishingFeatures = ['Athletic build', 'Sharp features'];
-        break;
-      case 'Mercury':
-        physicalAppearance.height = 'average';
-        physicalAppearance.build = 'slim';
-        physicalAppearance.complexion = 'fair';
-        physicalAppearance.distinguishingFeatures = ['Youthful appearance', 'Expressive face'];
-        break;
-      case 'Jupiter':
-        physicalAppearance.height = 'tall';
-        physicalAppearance.build = 'heavy';
-        physicalAppearance.complexion = 'fair';
-        physicalAppearance.distinguishingFeatures = ['Large frame', 'Dignified bearing'];
-        break;
-      case 'Venus':
-        physicalAppearance.height = 'average';
-        physicalAppearance.build = 'average';
-        physicalAppearance.complexion = 'fair';
-        physicalAppearance.distinguishingFeatures = ['Beautiful features', 'Attractive eyes'];
-        break;
-      case 'Saturn':
-        physicalAppearance.height = 'average';
-        physicalAppearance.build = 'slim';
-        physicalAppearance.complexion = 'wheatish';
-        physicalAppearance.distinguishingFeatures = ['Mature appearance', 'Serious expression'];
-        break;
-    }
-  }
 
   // Career prediction
   const career: SpouseDetailedProfile['career'] = {

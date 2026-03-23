@@ -470,6 +470,7 @@ Birth Date: ${new Date(chart.dateOfBirth).toLocaleDateString()}
   switch (type) {
     case 'ASTRO_MIND_SELF':
       const spousePData = selfReport.spousePrediction;
+      const phy = spousePData?.physique;
       return `
 ${basicInfo}
 CHART OVERVIEW:
@@ -479,10 +480,10 @@ Best Timing: ${timingForecast?.nextMarriageWindow.yearRange || 'Calculating...'}
 Current Dasha: ${selfReport.timing.partnerA.currentDasha || 'Unknown'}
 
 SPOUSE INDICATORS (Grounding Data):
-Height: ${spousePData?.seventhHouse.spouseAppearance.split(', ')[0] || 'Average'}
-Build: ${spousePData?.seventhHouse.spouseAppearance.split(', ')[1] || 'Average'}
-Complexion: ${spousePData?.seventhHouse.spouseAppearance.split(', ')[2] || 'Fair'}
-Vedic Appearance: ${spousePData?.seventhHouse.spouseAppearance}
+Height: ${phy?.height || 'Average'}
+Build: ${phy?.build || 'Average'}
+Complexion: ${phy?.complexion || 'Fair'}
+Vedic Appearance: ${spousePData?.seventhHouse.spouseAppearance || 'Not available'}
 Detailed Career: ${spouseDetailedProfile?.career?.field || 'Unknown'}
 
 USER'S SPECIFIC QUESTION: "${question || 'Tell me about my marriage.'}"
@@ -544,7 +545,7 @@ Spouse Attraction: ${meetingData.spouseAttraction?.genderSpecific || 'Not calcul
       return `
 ${basicInfo}
 SPOUSE PREDICTION DATA:
-Physical: ${spouseDetailedProfile.physicalAppearance.height}, ${spouseDetailedProfile.physicalAppearance.build}, ${spouseDetailedProfile.physicalAppearance.complexion}
+Physical: ${spousePData?.physique?.height || 'Average'}, ${spousePData?.physique?.build || 'Average'}, ${spousePData?.physique?.complexion || 'Fair'}
 Career Field: ${spouseDetailedProfile.career.field}
 Personality: ${spouseDetailedProfile.personality.keyTraits.join(', ')}
 Direction: ${spouseDetailedProfile.meetingCircumstances.direction}

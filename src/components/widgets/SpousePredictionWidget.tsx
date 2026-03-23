@@ -22,43 +22,43 @@ const seventhHousePlanetInterpretations: Record<string, { qualities: string[]; n
   Sun: {
     qualities: ["Authoritative", "Proud", "Regal aura", "Princess-like", "Leadership qualities", "Dominant but caring"],
     nature: "Dominant and authoritative spouse who takes charge. They have a royal bearing and expect respect. Very protective but can be egoistic.",
-    appearance: "Athletic build, strong features, well-built physique, commanding presence, radiant complexion",
+    appearance: "Average height, athletic build, wheatish complexion, strong presence, commanding eyes",
     bestMatch: "Needs a partner who respects their authority and doesn't challenge their dominance"
   },
   Moon: {
     qualities: ["Emotional", "Caring", "Attached", "Beautiful", "Nurturing", "Mood-dependent"],
     nature: "Emotionally nurturing spouse who is deeply attached. Their mood affects the relationship quality. Very caring and motherly/fatherly.",
-    appearance: "Soft features, round face, watery expressive eyes, fair to wheatish complexion, gentle demeanor",
+    appearance: "Average height, average build, fair complexion, soft features, expressive eyes",
     bestMatch: "Needs a partner who understands their emotional needs and provides stability"
   },
   Mars: {
     qualities: ["Athletic", "Strong", "Assertive", "Energetic", "Passionate", "Quick-tempered"],
     nature: "Active and energetic spouse with strong physical presence. Passionate but can be argumentative. Very protective and courageous.",
-    appearance: "Athletic body, muscular build, reddish or ruddy complexion, sharp features, energetic gait",
+    appearance: "Tall, athletic build, reddish complexion, sharp features, energetic gait",
     bestMatch: "Needs a partner who can match their energy and doesn't mind occasional conflicts"
   },
   Mercury: {
     qualities: ["Young looking", "Fair", "Intelligent", "Communicative", "Youthful", "Witty"],
     nature: "Intellectual and communicative spouse who stays young at heart. Very adaptable and humorous. May lack emotional depth at times.",
-    appearance: "Youthful appearance, fair skin, expressive eyes, medium build, graceful movements",
+    appearance: "Average height, slim build, fair complexion, youthful appearance, expressive face",
     bestMatch: "Needs a partner who values communication and intellectual stimulation"
   },
   Jupiter: {
     qualities: ["Pious", "Devoted", "Chubby cheeks", "Big-hearted", "Spiritual", "Traditional"],
     nature: "Spiritual and traditional spouse who values dharma. Very generous and wise. Can be overweight or have a large presence.",
-    appearance: "Chubby cheeks, large body frame, fair to yellowish complexion, big expressive eyes, dignified bearing",
+    appearance: "Tall, heavy build, fair complexion, large frame, dignified bearing",
     bestMatch: "Needs a partner who shares traditional values and respects wisdom"
   },
   Venus: {
     qualities: ["Beautiful", "Charming", "Appealing feminine/masculine looks", "Romantic", "Artistic", "Luxury-loving"],
     nature: "Romantic and aesthetically inclined spouse who loves beauty and comfort. Very charming and attractive. Can be indulgent.",
-    appearance: "Beautiful features, well-proportioned body, attractive eyes, fair complexion, graceful mannerisms",
+    appearance: "Average height, average build, fair complexion, beautiful features, attractive eyes",
     bestMatch: "Needs a partner who appreciates romance and provides a comfortable lifestyle"
   },
   Saturn: {
     qualities: ["Mature looks", "Older appearance", "Dignified", "Serious", "Responsible", "Hardworking"],
     nature: "Serious and mature spouse who values responsibility. May be older or appear older. Very loyal but can be emotionally reserved.",
-    appearance: "Mature features, dark or wheatish complexion, lean body, serious expression, slow graceful movements",
+    appearance: "Average height, slim build, wheatish complexion, mature appearance, serious expression",
     bestMatch: "Needs a patient partner who values stability and long-term commitment"
   },
   Rahu: {
@@ -99,49 +99,49 @@ const navamsaPlanetAppearance: Record<string, { breastType: string[]; lingamType
     breastType: ["Athletic", "Firm"],
     lingamType: ["Full", "Strong"],
     beautyIndicators: ["Radiant skin", "Commanding presence", "Royal bearing", "Strong bone structure"],
-    size: "Medium to Athletic",
+    size: "Average to Athletic",
     attractiveness: "High - commanding and regal"
   },
   Moon: {
     breastType: ["Tear Drop", "Bell", "Side Set", "Relaxed"],
     lingamType: ["Soft", "Average", "Sensitive"],
     beautyIndicators: ["Variable beauty", "Soft features", "Expressive eyes", "Attached to partner"],
-    size: "Variable - depends on sign",
+    size: "Average",
     attractiveness: "Variable - peaks and valleys"
   },
   Mars: {
     breastType: ["Athletic", "Firm", "Toned"],
     lingamType: ["Long", "Muscular", "Vibrant"],
     beautyIndicators: ["Athletic body", "Hard/toned physique", "Energetic appearance", "Sharp features"],
-    size: "Athletic",
+    size: "Tall and Athletic",
     attractiveness: "Medium to High - fit and active"
   },
   Mercury: {
     breastType: ["Combination of types", "Proportionate"],
     lingamType: ["Youthful", "Medium", "Agile"],
     beautyIndicators: ["Youthful appearance", "Fair skin", "Intelligent eyes", "Graceful movements"],
-    size: "Medium",
+    size: "Average and Slim",
     attractiveness: "Medium - youthful charm"
   },
   Jupiter: {
     breastType: ["Bell", "Teardrop", "Round"],
     lingamType: ["Thick", "Large", "Healthy"],
     beautyIndicators: ["Chubby cheeks", "Big-hearted appearance", "Pious looks", "Dignified bearing"],
-    size: "Large",
+    size: "Tall and Strong",
     attractiveness: "High if well placed - benevolent beauty"
   },
   Venus: {
     breastType: ["Round", "Tear Drop", "Perfectly proportioned"],
     lingamType: ["Beautiful", "Sensitive", "Symmetric"],
     beautyIndicators: ["Perfect symmetry", "Beautiful features", "Charming smile", "Graceful posture"],
-    size: "Medium to Large",
+    size: "Average to Tall",
     attractiveness: "Very High - classic beauty"
   },
   Saturn: {
     breastType: ["Slender", "Relaxed", "Lean"],
     lingamType: ["Lean", "Long", "Mature"],
     beautyIndicators: ["Mature looks", "Dignified appearance", "Older but elegant", "Serious charm"],
-    size: "Small to Medium",
+    size: "Average and Slim",
     attractiveness: "Mature charm - elegance over youth"
   },
   Rahu: {
