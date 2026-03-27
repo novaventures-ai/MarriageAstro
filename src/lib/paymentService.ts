@@ -1,23 +1,21 @@
 /**
  * Payment Service
  * Client-side helpers for checkout flow.
- * Currently mock — swap with Razorpay when ready.
  *
- * Razorpay swap checklist:
- * 1. Add <script src="https://checkout.razorpay.com/v1/checkout.js"></script> to index.html
- * 2. Replace initiateCheckout() with real Razorpay.open() call
- * 3. Replace verifyPayment() with real server-side verification
+ * Razorpay modal opens when VITE_RAZORPAY_KEY_ID is set.
+ * Falls back to "coming soon" toast when the key is absent (local dev / staging).
  */
 
 import { UnlockableSection } from '../types';
 
 interface CheckoutOptions {
   userId: string;
-  planType: 'section_unlock' | 'premium_monthly' | 'astrologer_monthly';
+  planType: 'section_unlock' | 'full_report_unlock' | 'premium_monthly' | 'astrologer_monthly';
   sectionToUnlock?: UnlockableSection;
+  userEmail?: string;
 }
 
-interface CheckoutResult {
+export interface CheckoutResult {
   success: boolean;
   orderId?: string;
   mock: boolean;
@@ -26,10 +24,12 @@ interface CheckoutResult {
 
 /**
  * Initiate a checkout session.
- * Currently returns a mock — will open Razorpay modal when live.
+ * Opens the Razorpay modal when the key is configured; otherwise returns mock.
+ * Resolves when the user completes OR dismisses payment.
  */
 export async function initiateCheckout(options: CheckoutOptions): Promise<CheckoutResult> {
   try {
+    // 1. Create order server-side
     const response = await fetch('/api/create-checkout', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -37,48 +37,123 @@ export async function initiateCheckout(options: CheckoutOptions): Promise<Checko
     });
 
     if (!response.ok) {
-      throw new Error('Failed to create checkout');
+      throw new Error('Failed to create checkout session');
     }
 
     const data = await response.json();
 
-    // TODO: When Razorpay is live, open the checkout modal:
-    // const razorpay = new (window as any).Razorpay({
-    //   key: import.meta.env.VITE_RAZORPAY_KEY_ID,
-    //   amount: data.amount,
-    //   currency: data.currency,
-    //   name: 'Astro Marriage',
-    //   description: `${options.planType} - ${options.sectionToUnlock || 'Full Access'}`,
-    //   order_id: data.orderId,
-    //   handler: (response: any) => verifyPayment(response),
-    //   prefill: { email: '' },
-    //   theme: { color: '#F59E0B' },
-    // });
-    // razorpay.open();
+    // 2. Mock mode — no Razorpay key configured
+    if (data.mock || !import.meta.env.VITE_RAZORPAY_KEY_ID) {
+      return {
+        success: false,
+        orderId: data.orderId,
+        mock: true,
+        message: 'Payments launching soon! Your interest has been noted.',
+      };
+    }
 
-    return {
-      success: true,
+    // 3. Open Razorpay modal and wait for result
+    const result = await openRazorpayModal({
+      keyId: import.meta.env.VITE_RAZORPAY_KEY_ID,
       orderId: data.orderId,
-      mock: data.mock || false,
-      message: data.message || 'Checkout session created',
-    };
+      amount: data.amount,
+      currency: data.currency,
+      planType: options.planType,
+      sectionToUnlock: options.sectionToUnlock,
+      userEmail: options.userEmail,
+    });
+
+    return result;
   } catch (error: any) {
     console.error('Checkout error:', error);
     return {
       success: false,
-      mock: true,
+      mock: false,
       message: error.message || 'Failed to initiate checkout',
     };
   }
 }
 
+interface RazorpayModalOptions {
+  keyId: string;
+  orderId: string;
+  amount: number;
+  currency: string;
+  planType: string;
+  sectionToUnlock?: string;
+  userEmail?: string;
+}
+
+function openRazorpayModal(opts: RazorpayModalOptions): Promise<CheckoutResult> {
+  return new Promise((resolve) => {
+    const description = opts.sectionToUnlock
+      ? `Unlock: ${opts.sectionToUnlock.replace(/_/g, ' ')}`
+      : opts.planType.replace(/_/g, ' ');
+
+    const rzp = new window.Razorpay({
+      key: opts.keyId,
+      amount: opts.amount,
+      currency: opts.currency,
+      name: 'Astro Marriage',
+      description,
+      order_id: opts.orderId,
+      handler: async (response: { razorpay_payment_id: string; razorpay_order_id: string; razorpay_signature: string }) => {
+        // Payment captured — webhook will update the DB; verify signature client-side for UX
+        const verified = await verifyPayment(response);
+        resolve({
+          success: verified,
+          orderId: opts.orderId,
+          mock: false,
+          message: verified ? 'Payment successful! Your content is being unlocked.' : 'Payment completed but verification pending.',
+        });
+      },
+      prefill: {
+        email: opts.userEmail || '',
+      },
+      theme: { color: '#F59E0B' },
+      modal: {
+        ondismiss: () => {
+          resolve({
+            success: false,
+            orderId: opts.orderId,
+            mock: false,
+            message: 'Payment cancelled.',
+          });
+        },
+      },
+    });
+
+    rzp.on('payment.failed', (_response: any) => {
+      resolve({
+        success: false,
+        orderId: opts.orderId,
+        mock: false,
+        message: 'Payment failed. Please try again.',
+      });
+    });
+
+    rzp.open();
+  });
+}
+
 /**
- * Verify a completed payment.
- * Currently a no-op mock.
+ * Verify a completed Razorpay payment signature via the server.
  */
-export async function verifyPayment(_razorpayResponse: any): Promise<boolean> {
-  // TODO: Send razorpay_payment_id, razorpay_order_id, razorpay_signature
-  // to a server endpoint for verification
-  console.log('Payment verification (mock):', _razorpayResponse);
-  return false; // Will return true when Razorpay is integrated
+export async function verifyPayment(razorpayResponse: {
+  razorpay_payment_id: string;
+  razorpay_order_id: string;
+  razorpay_signature: string;
+}): Promise<boolean> {
+  try {
+    const res = await fetch('/api/verify-payment', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(razorpayResponse),
+    });
+    const data = await res.json();
+    return data.valid === true;
+  } catch {
+    // Webhook will still process and update the DB even if client-side verify fails
+    return false;
+  }
 }

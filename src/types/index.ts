@@ -3,6 +3,13 @@
  * Phase 1.2: Type Definitions
  */
 
+// Razorpay checkout modal loaded via script tag in index.html
+declare global {
+  interface Window {
+    Razorpay: new (options: Record<string, any>) => { open(): void; on(event: string, cb: (resp: any) => void): void };
+  }
+}
+
 // ============================================================================
 // ENUMERATIONS
 // ============================================================================

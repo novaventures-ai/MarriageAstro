@@ -1,7 +1,8 @@
 /**
  * Admin Service
- * Operations for admin users to manage other users' premium access.
- * Only callable by admin-email users (enforced at UI level + RLS).
+ * Routes all admin operations through the /api/admin-users serverless function,
+ * which uses the Supabase service role key to bypass RLS for cross-user access.
+ * The serverless function independently verifies the caller's JWT.
  */
 
 import { supabase } from './supabase';
@@ -16,18 +17,24 @@ export interface UserRecord {
   updated_at: string;
 }
 
-export async function listAllUsers(): Promise<UserRecord[]> {
-  const { data, error } = await supabase
-    .from('profiles')
-    .select('id, email, full_name, plan_tier, plan_expires_at, updated_at')
-    .order('updated_at', { ascending: false });
+async function getAuthHeader(): Promise<string> {
+  const { data: { session } } = await supabase.auth.getSession();
+  return session?.access_token ? `Bearer ${session.access_token}` : '';
+}
 
-  if (error) {
-    console.error('Admin: failed to list users', error.message);
+export async function listAllUsers(): Promise<UserRecord[]> {
+  const auth = await getAuthHeader();
+  const res = await fetch('/api/admin-users', {
+    headers: { Authorization: auth },
+  });
+
+  if (!res.ok) {
+    console.error('Admin: failed to list users', res.status);
     return [];
   }
 
-  return (data || []).map(row => ({
+  const { users } = await res.json();
+  return (users || []).map((row: any) => ({
     id: row.id,
     email: row.email || '',
     full_name: row.full_name || null,
@@ -42,33 +49,30 @@ export async function grantPremium(
   tier: PlanTier,
   expiresAt?: string | null
 ): Promise<boolean> {
-  const { error } = await supabase
-    .from('profiles')
-    .update({
-      plan_tier: tier,
-      plan_expires_at: expiresAt ?? null,
-    })
-    .eq('id', userId);
+  const auth = await getAuthHeader();
+  const res = await fetch('/api/admin-users', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: auth },
+    body: JSON.stringify({ action: 'grant', userId, tier, expiresAt: expiresAt ?? null }),
+  });
 
-  if (error) {
-    console.error('Admin: failed to grant premium', error.message);
+  if (!res.ok) {
+    console.error('Admin: failed to grant premium', res.status);
     return false;
   }
   return true;
 }
 
 export async function revokePremium(userId: string): Promise<boolean> {
-  const { error } = await supabase
-    .from('profiles')
-    .update({
-      plan_tier: 'free',
-      plan_expires_at: null,
-      unlocked_sections: [],
-    })
-    .eq('id', userId);
+  const auth = await getAuthHeader();
+  const res = await fetch('/api/admin-users', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: auth },
+    body: JSON.stringify({ action: 'revoke', userId }),
+  });
 
-  if (error) {
-    console.error('Admin: failed to revoke premium', error.message);
+  if (!res.ok) {
+    console.error('Admin: failed to revoke premium', res.status);
     return false;
   }
   return true;

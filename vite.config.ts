@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
+import { sentryVitePlugin } from '@sentry/vite-plugin'
 import path from 'path'
 
 // https://vitejs.dev/config/
@@ -11,7 +12,7 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['icon.svg', 'apple-touch-icon.png'],
       workbox: {
-        maximumFileSizeToCacheInBytes: 8 * 1024 * 1024, // 8MB - bundle is large due to astro calculations
+        maximumFileSizeToCacheInBytes: 8 * 1024 * 1024,
       },
       manifest: {
         name: 'Astro Marriage - Kundali Matching & Marriage Compatibility',
@@ -33,7 +34,17 @@ export default defineConfig({
           }
         ]
       }
-    })
+    }),
+    // Sentry source-map upload — only active when SENTRY_AUTH_TOKEN is set in CI/Vercel
+    ...(process.env.SENTRY_AUTH_TOKEN ? [
+      sentryVitePlugin({
+        org: process.env.SENTRY_ORG,
+        project: process.env.SENTRY_PROJECT || 'marriage-astro',
+        authToken: process.env.SENTRY_AUTH_TOKEN,
+        sourcemaps: { assets: './dist/**' },
+        release: { name: process.env.VITE_APP_VERSION },
+      }),
+    ] : []),
   ],
   resolve: {
     alias: {
@@ -53,7 +64,8 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    sourcemap: false,
+    // Sourcemaps enabled only when Sentry uploads them (deleted from CDN post-deploy)
+    sourcemap: Boolean(process.env.SENTRY_AUTH_TOKEN),
     rollupOptions: {
       output: {
         manualChunks: {

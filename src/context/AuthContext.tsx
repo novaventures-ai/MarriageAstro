@@ -9,6 +9,8 @@ import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '../lib/supabase';
 import { useUserProfileStore } from '../store/useUserProfileStore';
 import { useAppStore } from '../store/useAppStore';
+import { setSentryUser, clearSentryUser } from '../lib/errorMonitoring';
+import { identifyUser, resetUser as resetAnalyticsUser, trackEvent } from '../lib/analytics';
 
 interface AuthContextType {
     user: User | null;
@@ -47,6 +49,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 setSession(newSession);
                 setUser(newSession?.user ?? null);
                 setIsLoading(false);
+
+                // Identify user in Sentry + PostHog
+                if (newSession?.user) {
+                    setSentryUser(newSession.user.id, newSession.user.email);
+                    identifyUser(newSession.user.id, { email: newSession.user.email });
+                    if (event === 'SIGNED_IN') trackEvent('user_signed_in');
+                } else if (event === 'SIGNED_OUT') {
+                    clearSentryUser();
+                    resetAnalyticsUser();
+                }
 
                 // If user just signed in or session was restored, handle data sync
                 if (newSession?.user && (event === 'SIGNED_IN' || event === 'INITIAL_SESSION')) {
@@ -101,6 +113,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     const signOut = async () => {
+        trackEvent('user_signed_out');
         // Clear local store first
         useUserProfileStore.getState().reset();
 
