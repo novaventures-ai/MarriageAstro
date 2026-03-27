@@ -21,10 +21,13 @@ import { RelationshipPatternWidget } from '../components/widgets/RelationshipPat
 import { ConflictZoneWidget } from '../components/widgets/ConflictZoneWidget';
 import { PsychologicalProfileWidget } from '../components/widgets/PsychologicalProfileWidget';
 import { VulnerabilityTimelineWidget } from '../components/widgets/VulnerabilityTimelineWidget';
-import { ArrowLeft, ChevronDown, Home } from 'lucide-react';
+import { ArrowLeft, ChevronDown, Home, FileDown, Loader2 } from 'lucide-react';
 import { PremiumGate } from '../components/premium/PremiumGate';
 import { ShareButton } from '../components/premium/ShareButton';
 import { usePremium } from '../hooks/usePremium';
+import { usePdfExport } from '../hooks/usePdfExport';
+import { CharaDashaWidget } from '../components/widgets/CharaDashaWidget';
+import { AdvancedKPWidget } from '../components/widgets/AdvancedKPWidget';
 import ChartDetailsWidget from '../components/ChartDetailsWidget';
 import { ThemeToggle } from '../components/ui/ThemeToggle';
 import { AuthButton } from '../components/ui/AuthButton';
@@ -46,6 +49,7 @@ export const ReportPage: React.FC = () => {
   } = useAppStore();
 
   const { isPremium } = usePremium();
+  const { exportPdf, status: pdfStatus } = usePdfExport();
   const [showMobileTabs, setShowMobileTabs] = useState(false);
   const [activeTheme, setActiveTheme] = useState<ThemeId>('match');
 
@@ -79,6 +83,7 @@ export const ReportPage: React.FC = () => {
         { id: 'ashtakoot', label: 'Ashtakoot Guna Milan' },
         { id: 'porutham', label: 'South Indian Porutham' },
         { id: 'kp', label: 'KP Promise Analysis' },
+        { id: 'kp-advanced', label: 'Advanced KP Significators' },
         { id: 'yogadosha', label: 'Yogas & Doshas' },
       ],
       dynamicData: {
@@ -171,6 +176,7 @@ export const ReportPage: React.FC = () => {
       gradient: 'from-indigo-500 to-violet-600',
       widgets: [
         { id: 'timeline', label: 'Vimshottari Timeline' },
+        { id: 'charadasha', label: 'Chara Dasha (Jaimini)' },
         { id: 'vulnerable', label: 'Vulnerability Periods' },
         { id: 'remedies', label: 'Actionable Remedies' },
       ]
@@ -231,6 +237,18 @@ export const ReportPage: React.FC = () => {
                 text={`Compatibility score: ${currentReport.ashtakoot?.totalScore || '?'}/36. Check yours at Astro Marriage!`}
                 iconOnly
               />
+              {isPremium && (
+                <button
+                  onClick={() => exportPdf(currentReport)}
+                  disabled={pdfStatus === 'generating'}
+                  title="Export PDF Report"
+                  className="p-1.5 sm:p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors text-gray-600 dark:text-gray-400 disabled:opacity-50"
+                >
+                  {pdfStatus === 'generating'
+                    ? <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
+                    : <FileDown className="w-4 h-4 sm:w-5 sm:h-5" />}
+                </button>
+              )}
               <button
                 onClick={() => navigate('/')}
                 className="p-1.5 sm:p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors text-gray-600 dark:text-gray-400"
@@ -286,6 +304,18 @@ export const ReportPage: React.FC = () => {
                     nameA={currentReport.chartA.name}
                     nameB={currentReport.chartB.name}
                   />
+                </div>
+              )}
+              {currentReport.kpAnalysis && (
+                <div id="kp-advanced">
+                  <PremiumGate section="kp_detail" label="Advanced KP Significators">
+                    <AdvancedKPWidget
+                      partnerA={currentReport.kpAnalysis.partnerA}
+                      partnerB={currentReport.kpAnalysis.partnerB}
+                      nameA={currentReport.chartA.name}
+                      nameB={currentReport.chartB.name}
+                    />
+                  </PremiumGate>
                 </div>
               )}
               {currentReport.yogaDoshaAnalysis && (
@@ -488,6 +518,18 @@ export const ReportPage: React.FC = () => {
           {activeTheme === 'timing' && (
             <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
               <div id="timeline"><TimingWidget timing={currentReport.timing} /></div>
+              {currentReport.charaDasha && (
+                <div id="charadasha">
+                  <PremiumGate section="kp_detail" label="Chara Dasha Timeline">
+                    <CharaDashaWidget
+                      partnerA={currentReport.charaDasha.partnerA}
+                      partnerB={currentReport.charaDasha.partnerB}
+                      nameA={currentReport.chartA.name}
+                      nameB={currentReport.chartB.name}
+                    />
+                  </PremiumGate>
+                </div>
+              )}
               {currentReport.vulnerabilityTimeline && (
                 <div id="vulnerable">
                   <PremiumGate section="vulnerability_timeline" label="Vulnerability Timeline">
