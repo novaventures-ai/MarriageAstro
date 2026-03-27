@@ -41,6 +41,24 @@ export const CalculatorPage: React.FC = () => {
         title="Free Kundali Calculator - Birth Chart & Marriage Timing"
         description="Generate your free Vedic birth chart with Kundali calculator. Get marriage timing predictions, spouse characteristics, and personalized astrological remedies."
         path="/calculator"
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'SoftwareApplication',
+          name: 'Kundali Matching Calculator',
+          url: 'https://marriage-astro.vercel.app/calculator',
+          applicationCategory: 'UtilitiesApplication',
+          operatingSystem: 'Web',
+          description: 'Free Vedic kundali matching calculator. Enter birth details of both partners to get Ashtakoot Milan score, KP analysis, marriage timing, and spouse predictions.',
+          featureList: [
+            'Ashtakoot Milan (36 point scoring)',
+            'KP Krishnamurti Paddhati analysis',
+            'Vimshottari Dasha timeline',
+            'Marriage timing windows',
+            'Spouse characteristics prediction',
+            'AI-powered compatibility insights',
+          ],
+          offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
+        }}
       />
       <div className="max-w-4xl mx-auto">
         {/* Header Navigation - Mobile Optimized */}

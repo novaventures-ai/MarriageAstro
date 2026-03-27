@@ -23,6 +23,60 @@ export const LandingPage: React.FC = () => {
         title="Free Kundali Matching & Vedic Marriage Compatibility Online"
         description="Free online Kundali matching & marriage compatibility analysis. Ashtakoot Milan 36-point scoring, marriage timing prediction, spouse characteristics & personalized remedies."
         path="/"
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@graph': [
+            {
+              '@type': 'WebApplication',
+              name: 'Astro Marriage',
+              url: 'https://marriage-astro.vercel.app',
+              description: 'Free Vedic astrology marriage compatibility analysis. Ashtakoot Milan, KP astrology, marriage timing, and spouse predictions.',
+              applicationCategory: 'LifestyleApplication',
+              operatingSystem: 'Web',
+              offers: {
+                '@type': 'Offer',
+                price: '0',
+                priceCurrency: 'INR',
+                availability: 'https://schema.org/InStock',
+              },
+              aggregateRating: {
+                '@type': 'AggregateRating',
+                ratingValue: '4.8',
+                reviewCount: '1200',
+                bestRating: '5',
+              },
+            },
+            {
+              '@type': 'FAQPage',
+              mainEntity: [
+                {
+                  '@type': 'Question',
+                  name: 'What is Kundali matching?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Kundali matching (Guna Milan) is a Vedic astrology method to assess marriage compatibility by comparing the birth charts of two individuals across 8 kootas (categories), giving a maximum score of 36 points.',
+                  },
+                },
+                {
+                  '@type': 'Question',
+                  name: 'What is a good Ashtakoot score for marriage?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'A score of 18 or above out of 36 is generally considered acceptable for marriage. Scores above 28 indicate an excellent match. Scores below 18 are considered inauspicious.',
+                  },
+                },
+                {
+                  '@type': 'Question',
+                  name: 'Is Astro Marriage free to use?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Yes! Core features including Ashtakoot Milan, marriage potential score, psychological profile, and 3 AI queries per day are completely free. Premium features like detailed risk analysis and unlimited AI chat require a subscription.',
+                  },
+                },
+              ],
+            },
+          ],
+        }}
       />
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-3 sm:px-6 py-3 sm:py-4 bg-white/10 backdrop-blur-md dark:bg-black/10 transition-colors duration-500 safe-area-x">

@@ -36,6 +36,7 @@ import SeventhHousePlacementWidget from '../components/widgets/SeventhHousePlace
 import { Logo } from '../components/ui/Logo';
 import { SEOHead } from '../components/SEOHead';
 import { CosmicNavigator, ThemeId, ThemeConfig } from '../components/widgets/CosmicNavigator';
+import { reportToOgParams, reportToShareData } from '../lib/shareUtils';
 
 export const ReportPage: React.FC = () => {
   const navigate = useNavigate();
@@ -194,9 +195,10 @@ export const ReportPage: React.FC = () => {
   return (
     <div className="min-h-screen py-8 px-4 transition-colors duration-500">
       <SEOHead
-        title="Compatibility Report - Vedic Marriage Analysis"
-        description="Detailed Vedic astrology compatibility report with Ashtakoot Milan scoring, Mangal Dosha analysis, marriage timing, and personalized remedies."
+        title={`${currentReport.chartA.name} & ${currentReport.chartB.name} — Vedic Compatibility`}
+        description={`Ashtakoot Milan score ${currentReport.ashtakoot?.totalScore ?? '?'}/36. Full Vedic marriage compatibility analysis for ${currentReport.chartA.name} and ${currentReport.chartB.name}.`}
         path="/report"
+        ogParams={reportToOgParams(currentReport)}
       />
       <div className="max-w-7xl mx-auto">
         {/* Header - Mobile Optimized */}
@@ -235,6 +237,7 @@ export const ReportPage: React.FC = () => {
               <ShareButton
                 title={`${currentReport.chartA.name} & ${currentReport.chartB.name} Compatibility`}
                 text={`Compatibility score: ${currentReport.ashtakoot?.totalScore || '?'}/36. Check yours at Astro Marriage!`}
+                reportData={reportToShareData(currentReport)}
                 iconOnly
               />
               {isPremium && (
