@@ -53,7 +53,6 @@ export default async function handler(req: Request) {
   const scorePct = Math.round((score / 36) * 100);
 
   return new ImageResponse(
-    // @ts-expect-error — JSX used directly in edge runtime
     <div
       style={{
         width: '1200px',
