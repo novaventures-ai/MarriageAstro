@@ -9,9 +9,12 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
+      strategies: 'injectManifest',
+      srcDir: 'src',
+      filename: 'sw.ts',
       registerType: 'autoUpdate',
       includeAssets: ['icon.svg', 'apple-touch-icon.png'],
-      workbox: {
+      injectManifest: {
         maximumFileSizeToCacheInBytes: 8 * 1024 * 1024,
       },
       manifest: {

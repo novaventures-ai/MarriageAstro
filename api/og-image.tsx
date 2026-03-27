@@ -47,10 +47,74 @@ export default async function handler(req: Request) {
   const risk = searchParams.get('risk') || 'Unknown';
   const moonA = searchParams.get('moonA') || '';
   const moonB = searchParams.get('moonB') || '';
+  const format = searchParams.get('format') || 'og'; // 'og' | 'story'
   const scoreLabel = getScoreLabel(score);
   const scoreColor = getScoreColor(score);
   const riskColor = getRiskColor(risk);
   const scorePct = Math.round((score / 36) * 100);
+
+  // Instagram Story format (1080×1920 vertical)
+  if (format === 'story') {
+    return new ImageResponse(
+      <div
+        style={{
+          width: '1080px',
+          height: '1920px',
+          background: 'linear-gradient(180deg, #0f0d1a 0%, #1a1535 45%, #0d1128 100%)',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontFamily: 'sans-serif',
+          position: 'relative',
+          overflow: 'hidden',
+        }}
+      >
+        {/* Background glows */}
+        <div style={{ position: 'absolute', top: '100px', left: '50%', marginLeft: '-250px', width: '500px', height: '500px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(99,102,241,0.18) 0%, transparent 70%)' }} />
+        <div style={{ position: 'absolute', bottom: '200px', right: '-100px', width: '400px', height: '400px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(245,158,11,0.12) 0%, transparent 70%)' }} />
+
+        {/* Brand */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '80px' }}>
+          <div style={{ width: '52px', height: '52px', borderRadius: '12px', background: 'linear-gradient(135deg, #6366f1, #8b5cf6)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '28px' }}>✨</div>
+          <span style={{ fontSize: '26px', fontWeight: '700', color: '#a5b4fc', letterSpacing: '3px', textTransform: 'uppercase' }}>Astro Marriage</span>
+        </div>
+
+        {/* Score ring */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', background: 'rgba(255,255,255,0.06)', borderRadius: '32px', padding: '60px 80px', border: `3px solid ${scoreColor}40`, marginBottom: '60px' }}>
+          <span style={{ fontSize: '22px', color: '#94a3b8', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '16px' }}>Ashtakoot Milan</span>
+          <span style={{ fontSize: '120px', fontWeight: '900', color: scoreColor, lineHeight: 1 }}>{score}</span>
+          <span style={{ fontSize: '32px', color: '#64748b', marginBottom: '20px' }}>out of 36</span>
+          <div style={{ width: '200px', height: '10px', background: 'rgba(255,255,255,0.1)', borderRadius: '5px' }}>
+            <div style={{ width: `${scorePct}%`, height: '10px', background: scoreColor, borderRadius: '5px' }} />
+          </div>
+          <span style={{ fontSize: '28px', fontWeight: '800', color: scoreColor, marginTop: '20px' }}>{scoreLabel}</span>
+        </div>
+
+        {/* Names */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '28px', marginBottom: '40px' }}>
+          <span style={{ fontSize: '52px', fontWeight: '800', color: '#f1f5f9' }}>{nameA}</span>
+          <span style={{ fontSize: '44px' }}>💍</span>
+          <span style={{ fontSize: '52px', fontWeight: '800', color: '#f1f5f9' }}>{nameB}</span>
+        </div>
+
+        {/* Risk badge */}
+        {risk && risk !== 'Unknown' && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', background: `${riskColor}20`, border: `2px solid ${riskColor}60`, borderRadius: '24px', padding: '12px 28px', marginBottom: '60px' }}>
+            <span style={{ fontSize: '20px', color: riskColor, fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1px' }}>Risk: {risk}</span>
+          </div>
+        )}
+
+        {/* CTA */}
+        <div style={{ position: 'absolute', bottom: '100px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
+          <span style={{ fontSize: '22px', color: '#64748b' }}>Check yours free at</span>
+          <span style={{ fontSize: '30px', fontWeight: '700', color: '#a5b4fc' }}>marriage-astro.vercel.app</span>
+          <span style={{ fontSize: '36px' }}>🔮</span>
+        </div>
+      </div>,
+      { width: 1080, height: 1920 }
+    );
+  }
 
   return new ImageResponse(
     <div

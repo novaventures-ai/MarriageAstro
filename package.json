@@ -35,12 +35,14 @@
     "sweph-wasm": "^2.6.9",
     "tailwind-merge": "^2.6.1",
     "uuid": "^13.0.0",
+    "web-push": "^3.6.7",
     "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
     "@types/uuid": "^10.0.0",
+    "@types/web-push": "^3.6.4",
     "@typescript-eslint/eslint-plugin": "^6.10.0",
     "@typescript-eslint/parser": "^6.10.0",
     "@vercel/node": "^5.6.21",
@@ -55,6 +57,8 @@
     "typescript": "^5.2.2",
     "vite": "^5.0.0",
     "vite-plugin-pwa": "^1.2.0",
-    "vitest": "^0.34.6"
+    "vitest": "^0.34.6",
+    "workbox-core": "^7.4.0",
+    "workbox-precaching": "^7.4.0"
   }
 }

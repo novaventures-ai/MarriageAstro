@@ -5,14 +5,16 @@
  */
 
 import React, { useState } from 'react';
-import { Share2, Check, Copy, MessageCircle, Twitter } from 'lucide-react';
-import { ReportShareData, buildShareText, buildWhatsAppText, buildTwitterText } from '../../lib/shareUtils';
+import { Share2, Check, Copy, MessageCircle, Twitter, Download } from 'lucide-react';
+import { ReportShareData, OgImageParams, buildShareText, buildWhatsAppText, buildTwitterText, buildStoryImageUrl } from '../../lib/shareUtils';
 
 interface ShareButtonProps {
   title: string;
   text: string;
   /** Structured report data for richer platform-specific text */
   reportData?: ReportShareData;
+  /** OG image params used to build a Story Card download */
+  ogParams?: OgImageParams;
   /** Optional custom URL; defaults to current page */
   url?: string;
   className?: string;
@@ -23,12 +25,14 @@ export const ShareButton: React.FC<ShareButtonProps> = ({
   title,
   text,
   reportData,
+  ogParams,
   url,
   className = '',
   iconOnly = false,
 }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [downloadingStory, setDownloadingStory] = useState(false);
 
   const shareUrl = url || window.location.href;
   const siteUrl = 'https://marriage-astro.vercel.app';
@@ -78,6 +82,30 @@ export const ShareButton: React.FC<ShareButtonProps> = ({
     setShowMenu(false);
   };
 
+  const handleDownloadStory = async () => {
+    if (!ogParams) return;
+    setDownloadingStory(true);
+    setShowMenu(false);
+    try {
+      const storyUrl = buildStoryImageUrl(ogParams);
+      const res = await fetch(storyUrl);
+      const blob = await res.blob();
+      const objectUrl = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = objectUrl;
+      a.download = `${ogParams.nameA}-${ogParams.nameB}-kundali-story.png`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(objectUrl);
+    } catch {
+      // fallback: open in new tab
+      if (ogParams) window.open(buildStoryImageUrl(ogParams), '_blank');
+    } finally {
+      setDownloadingStory(false);
+    }
+  };
+
   return (
     <div className="relative">
       <button
@@ -121,6 +149,16 @@ export const ShareButton: React.FC<ShareButtonProps> = ({
               <Twitter className="w-4 h-4 text-sky-500" />
               Share on X / Twitter
             </button>
+            {ogParams && (
+              <button
+                onClick={handleDownloadStory}
+                disabled={downloadingStory}
+                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors disabled:opacity-50"
+              >
+                <Download className="w-4 h-4 text-pink-500" />
+                {downloadingStory ? 'Downloading…' : 'Download Story Card'}
+              </button>
+            )}
           </div>
         </>
       )}

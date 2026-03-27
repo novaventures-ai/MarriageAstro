@@ -37,6 +37,7 @@ import { Logo } from '../components/ui/Logo';
 import { SEOHead } from '../components/SEOHead';
 import { CosmicNavigator, ThemeId, ThemeConfig } from '../components/widgets/CosmicNavigator';
 import { reportToOgParams, reportToShareData } from '../lib/shareUtils';
+import { PushPrompt } from '../components/PushPrompt';
 
 export const ReportPage: React.FC = () => {
   const navigate = useNavigate();
@@ -238,6 +239,7 @@ export const ReportPage: React.FC = () => {
                 title={`${currentReport.chartA.name} & ${currentReport.chartB.name} Compatibility`}
                 text={`Compatibility score: ${currentReport.ashtakoot?.totalScore || '?'}/36. Check yours at Astro Marriage!`}
                 reportData={reportToShareData(currentReport)}
+                ogParams={reportToOgParams(currentReport)}
                 iconOnly
               />
               {isPremium && (
@@ -562,6 +564,9 @@ export const ReportPage: React.FC = () => {
 
       {/* AstroMind Chat Widget */}
       <AstroMindWidget report={currentReport} />
+
+      {/* Push notification opt-in prompt — shown after report loads */}
+      <PushPrompt />
     </div>
   );
 };

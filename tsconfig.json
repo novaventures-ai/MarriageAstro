@@ -60,7 +60,8 @@
   ],
   "exclude": [
     "**/*.test.ts",
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    "src/sw.ts"
   ],
   "references": [
     {
