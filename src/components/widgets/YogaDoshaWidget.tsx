@@ -21,6 +21,7 @@ export const YogaDoshaWidget: React.FC<YogaDoshaWidgetProps> = ({
     const allItems = [...active.doshas, ...active.yogas];
     const presentItems = allItems.filter(i => i.present);
     const absentItems = allItems.filter(i => !i.present);
+    const presentAuspicious = (active.auspiciousYogas || []).filter(y => y.present);
 
     const getSeverityColor = (severity: string) => {
         switch (severity) {
@@ -52,6 +53,57 @@ export const YogaDoshaWidget: React.FC<YogaDoshaWidgetProps> = ({
 
     const toggleCard = (name: string) => {
         setExpandedCard(expandedCard === name ? null : name);
+    };
+
+    const renderAuspiciousCard = (item: YogaDosha) => {
+        const isExpanded = expandedCard === item.name;
+        return (
+            <div key={item.name} className="rounded-xl border border-amber-200 dark:border-amber-800/40 bg-white dark:bg-gray-800 overflow-hidden">
+                <button
+                    onClick={() => toggleCard(item.name)}
+                    className="w-full p-4 flex items-center justify-between text-left hover:bg-amber-50/50 dark:hover:bg-amber-900/10 transition-colors"
+                >
+                    <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400">
+                            <Star className="w-4 h-4" />
+                        </div>
+                        <div>
+                            <div className="flex items-center gap-2">
+                                <span className="font-semibold text-gray-800 dark:text-gray-100 text-sm">{item.name}</span>
+                                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 border border-amber-300 dark:border-amber-700">
+                                    {item.severity}
+                                </span>
+                            </div>
+                            <div className="flex items-center gap-2 mt-0.5">
+                                <span className="text-[10px] text-gray-400 uppercase tracking-wider flex items-center gap-1">
+                                    {getTypeIcon(item.type)} {item.type}
+                                </span>
+                                <span className="text-[10px] font-bold uppercase text-amber-500">AUSPICIOUS</span>
+                            </div>
+                        </div>
+                    </div>
+                    {isExpanded ? <ChevronUp className="w-4 h-4 text-gray-400" /> : <ChevronDown className="w-4 h-4 text-gray-400" />}
+                </button>
+                {isExpanded && (
+                    <div className="px-4 pb-4 space-y-3 border-t border-amber-100 dark:border-amber-800/30 pt-3">
+                        <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">{item.description}</p>
+                        {item.effects && (
+                            <div className="p-3 bg-amber-50 dark:bg-amber-900/10 rounded-lg border border-amber-200 dark:border-amber-800/30">
+                                <p className="text-sm text-amber-800 dark:text-amber-200 font-medium">
+                                    ✨ {item.effects}
+                                </p>
+                            </div>
+                        )}
+                        <div className="flex items-center gap-2">
+                            <span className="text-xs text-gray-400">Planets:</span>
+                            {item.involvedPlanets.map(p => (
+                                <span key={p} className="px-2 py-0.5 bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 rounded text-xs font-medium">{p}</span>
+                            ))}
+                        </div>
+                    </div>
+                )}
+            </div>
+        );
     };
 
     const renderCard = (item: YogaDosha) => {
@@ -194,14 +246,27 @@ export const YogaDoshaWidget: React.FC<YogaDoshaWidgetProps> = ({
                     <div className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider mt-1">Clear</div>
                 </div>
                 <div className="bg-white dark:bg-gray-800 rounded-xl p-4 text-center shadow-sm border border-gray-100 dark:border-gray-700 transition-colors">
-                    <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">{active.yogas.filter(y => y.present).length}</div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider mt-1">Yogas</div>
+                    <div className="text-2xl font-bold text-amber-500">{(active.auspiciousYogas || []).filter(y => y.present).length}</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider mt-1">Auspicious</div>
                 </div>
                 <div className="bg-white dark:bg-gray-800 rounded-xl p-4 text-center shadow-sm border border-gray-100 dark:border-gray-700 transition-colors">
                     <div className="text-2xl font-bold text-orange-600 dark:text-orange-400">{active.doshas.filter(d => d.present).length}</div>
                     <div className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider mt-1">Doshas</div>
                 </div>
             </div>
+
+            {/* Auspicious Yogas Section */}
+            {active.auspiciousYogas && active.auspiciousYogas.some(y => y.present) && (
+                <div>
+                    <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-3 flex items-center gap-2">
+                        <Star className="w-5 h-5 text-amber-500" />
+                        Auspicious Yogas Detected
+                    </h3>
+                    <div className="space-y-3">
+                        {active.auspiciousYogas.filter(y => y.present).map(item => renderAuspiciousCard(item))}
+                    </div>
+                </div>
+            )}
 
             {/* Detected Items */}
             {presentItems.length > 0 && (

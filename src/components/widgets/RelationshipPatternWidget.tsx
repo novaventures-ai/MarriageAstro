@@ -24,7 +24,7 @@ export const RelationshipPatternWidget: React.FC<RelationshipPatternWidgetProps>
     nameB
 }) => {
     const [activePartner, setActivePartner] = useState<'A' | 'B'>('A');
-    const [expandedPatterns, setExpandedPatterns] = useState<Set<number>>(new Set());
+    const [expandedPatterns, setExpandedPatterns] = useState<Set<number>>(new Set([0, 1]));
 
     const data = activePartner === 'A' ? patternA : patternB;
     const name = activePartner === 'A' ? nameA : nameB;
@@ -101,7 +101,7 @@ export const RelationshipPatternWidget: React.FC<RelationshipPatternWidgetProps>
             {nameB && (
                 <div className="flex bg-gray-100 dark:bg-gray-700 p-1 rounded-xl w-fit">
                     <button
-                        onClick={() => { setActivePartner('A'); setExpandedPatterns(new Set()); }}
+                        onClick={() => { setActivePartner('A'); setExpandedPatterns(new Set([0, 1])); }}
                         className={`px-5 py-2 text-sm font-bold rounded-lg transition-all ${activePartner === 'A'
                             ? 'bg-white dark:bg-gray-600 text-rose-600 dark:text-rose-300 shadow-sm'
                             : 'text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
@@ -110,7 +110,7 @@ export const RelationshipPatternWidget: React.FC<RelationshipPatternWidgetProps>
                         {nameA}
                     </button>
                     <button
-                        onClick={() => { setActivePartner('B'); setExpandedPatterns(new Set()); }}
+                        onClick={() => { setActivePartner('B'); setExpandedPatterns(new Set([0, 1])); }}
                         className={`px-5 py-2 text-sm font-bold rounded-lg transition-all ${activePartner === 'B'
                             ? 'bg-white dark:bg-gray-600 text-rose-600 dark:text-rose-300 shadow-sm'
                             : 'text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
@@ -120,6 +120,36 @@ export const RelationshipPatternWidget: React.FC<RelationshipPatternWidgetProps>
                     </button>
                 </div>
             )}
+
+            {/* Karma Summary Cards */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-100 dark:border-gray-700 shadow-sm">
+                    <p className="text-[10px] text-gray-400 uppercase tracking-wider mb-1">Pattern Count</p>
+                    <p className="text-2xl font-bold text-rose-500">{data.patterns.length}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        {data.patterns.filter(p => p.severity === 'severe').length > 0 ? `${data.patterns.filter(p => p.severity === 'severe').length} severe` : 'No severe patterns'}
+                    </p>
+                </div>
+                <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-100 dark:border-gray-700 shadow-sm">
+                    <p className="text-[10px] text-gray-400 uppercase tracking-wider mb-1">Risk Level</p>
+                    <p className={`text-2xl font-bold capitalize ${data.overallRiskLevel === 'high' ? 'text-red-500' : data.overallRiskLevel === 'elevated' ? 'text-amber-500' : data.overallRiskLevel === 'moderate' ? 'text-yellow-500' : 'text-green-500'}`}>
+                        {data.overallRiskLevel}
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Overall assessment</p>
+                </div>
+                <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-100 dark:border-gray-700 shadow-sm">
+                    <p className="text-[10px] text-gray-400 uppercase tracking-wider mb-1">Primary Driver</p>
+                    <p className="text-sm font-bold text-pink-600 dark:text-pink-400 leading-tight">
+                        {data.patterns.find(p => p.severity === 'severe' || p.severity === 'moderate')?.category.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) || 'Balanced'}
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Dominant pattern type</p>
+                </div>
+                <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-100 dark:border-gray-700 shadow-sm">
+                    <p className="text-[10px] text-gray-400 uppercase tracking-wider mb-1">Stabilizers</p>
+                    <p className="text-2xl font-bold text-indigo-500">{data.patterns.filter(p => p.counterBalance).length}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Patterns with counter</p>
+                </div>
+            </div>
 
             {/* Overall Risk & Narrative */}
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 transition-colors">
@@ -198,6 +228,7 @@ export const RelationshipPatternWidget: React.FC<RelationshipPatternWidgetProps>
                                             <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold uppercase text-white ${pat.severity === 'severe' ? 'bg-red-500' : pat.severity === 'moderate' ? 'bg-amber-500' : 'bg-green-500'
                                                 }`}>{pat.severity}</span>
                                         </div>
+                                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 text-left leading-snug line-clamp-1">{pat.description}</p>
                                     </div>
                                 </div>
                                 {expandedPatterns.has(i) ? <ChevronUp className="w-5 h-5 text-gray-400" /> : <ChevronDown className="w-5 h-5 text-gray-400" />}
@@ -213,10 +244,9 @@ export const RelationshipPatternWidget: React.FC<RelationshipPatternWidgetProps>
                                             </div>
                                         ))}
                                     </div>
-                                    <div className="p-3 bg-emerald-50 dark:bg-emerald-900/10 rounded-lg border-l-4 border-emerald-400 transition-colors">
-                                        <p className="text-xs text-emerald-800 dark:text-emerald-200 transition-colors">
-                                            <strong>Guidance:</strong> {pat.advice}
-                                        </p>
+                                    <div className="p-4 bg-emerald-50 dark:bg-emerald-900/10 rounded-xl border border-emerald-200 dark:border-emerald-800/30 transition-colors">
+                                        <p className="text-xs font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider mb-2">💡 How to Break This Pattern</p>
+                                        <p className="text-sm text-emerald-800 dark:text-emerald-200 leading-relaxed transition-colors">{pat.advice}</p>
                                     </div>
 
                                     {/* Stabilizing Influence Section (Always Visible) */}
