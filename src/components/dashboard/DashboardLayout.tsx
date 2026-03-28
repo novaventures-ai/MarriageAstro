@@ -17,7 +17,9 @@ import {
   X,
   LogOut,
   Home,
-  Plus
+  Plus,
+  Banknote,
+  ShieldCheck
 } from 'lucide-react';
 import { Logo } from '../ui/Logo';
 import { ThemeToggle } from '../ui/ThemeToggle';
@@ -40,7 +42,7 @@ const navItems = [
 export const DashboardLayout: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { user, signOut } = useAuth();
-  const { selfChart, isDemoMode } = useUserProfileStore();
+  const { selfChart, isDemoMode, isAdmin } = useUserProfileStore();
   const navigate = useNavigate();
 
   const displayName = isDemoMode
@@ -161,6 +163,14 @@ export const DashboardLayout: React.FC = () => {
               <Plus className="w-5 h-5" />
               Add Partner
             </NavLink>
+            <NavLink
+              to="/affiliate"
+              className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-amber-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20 transition-colors"
+              onClick={() => setSidebarOpen(false)}
+            >
+              <Banknote className="w-5 h-5" />
+              Earn with Us
+            </NavLink>
             <button
               onClick={() => {
                 setSidebarOpen(false);
@@ -197,6 +207,16 @@ export const DashboardLayout: React.FC = () => {
                 {user?.email}
               </p>
             </div>
+            {isAdmin && (
+              <NavLink
+                to="/admin"
+                className="p-1.5 text-indigo-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-colors"
+                title="Admin Panel"
+                onClick={() => setSidebarOpen(false)}
+              >
+                <ShieldCheck className="w-4 h-4" />
+              </NavLink>
+            )}
             <button
               onClick={handleSignOut}
               className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
