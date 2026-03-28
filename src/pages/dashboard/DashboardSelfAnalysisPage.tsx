@@ -5,13 +5,25 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, User, Edit2 } from 'lucide-react';
+import { ArrowRight, User, Edit2, Loader2 } from 'lucide-react';
 import { useUserProfileStore } from '../../store/useUserProfileStore';
+import { useAuth } from '../../context/AuthContext';
 import { SEOHead } from '../../components/SEOHead';
 
 export const DashboardSelfAnalysisPage: React.FC = () => {
   const navigate = useNavigate();
-  const { selfChart, selfBirthData, selfReport } = useUserProfileStore();
+  const { selfChart, selfBirthData, selfReport, isLoadingPartners } = useUserProfileStore();
+  const { isLoading: isAuthLoading } = useAuth();
+
+  // Show skeleton while auth session or cloud profile is loading
+  if (isAuthLoading || isLoadingPartners) {
+    return (
+      <div className="max-w-2xl mx-auto text-center py-20">
+        <Loader2 className="w-10 h-10 text-purple-400 animate-spin mx-auto mb-4" />
+        <p className="text-gray-500 dark:text-gray-400">Loading your profile…</p>
+      </div>
+    );
+  }
 
   if (!selfChart) {
     return (
