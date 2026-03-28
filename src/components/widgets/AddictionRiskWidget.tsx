@@ -227,6 +227,83 @@ export const AddictionRiskWidget: React.FC<AddictionRiskWidgetProps> = ({
                 </div>
             </div>
 
+            {/* Quick Summary Cards */}
+            {(() => {
+                const alcoholCat = analysis.categories.find(c => c.category === 'alcohol_substance');
+                const drugCat = analysis.categories.find(c => c.category === 'drug_addiction');
+                const compulsiveCat = analysis.categories.find(c => c.category === 'compulsive_behavior');
+                const activeProtective = analysis.protectiveFactors.filter(f => f.present);
+
+                const cardBg = (level: string) => {
+                    switch (level) {
+                        case 'very_high': return 'bg-red-900/20 border-red-700/40';
+                        case 'high': return 'bg-orange-900/20 border-orange-700/40';
+                        case 'moderate': return 'bg-amber-900/20 border-amber-700/40';
+                        case 'low': return 'bg-green-900/20 border-green-700/40';
+                        case 'very_low': return 'bg-emerald-900/20 border-emerald-700/40';
+                        default: return 'bg-gray-800 border-gray-700';
+                    }
+                };
+
+                const levelLabel = (level: string) => ({
+                    very_high: 'Very High', high: 'High', moderate: 'Moderate', low: 'Low', very_low: 'Very Low'
+                }[level] || level);
+
+                return (
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        {/* Alcohol Risk */}
+                        <div className={`rounded-xl border p-4 ${cardBg(alcoholCat?.riskLevel || 'low')}`}>
+                            <div className="text-2xl mb-2">🍷</div>
+                            <p className="text-[10px] text-gray-400 uppercase tracking-wider">Alcohol Risk</p>
+                            <p className={`text-lg font-bold mt-1 ${getRiskColor(alcoholCat?.riskLevel || 'low')}`}>
+                                {levelLabel(alcoholCat?.riskLevel || 'low')}
+                            </p>
+                            <p className="text-[11px] text-gray-400 mt-1 leading-tight line-clamp-2">
+                                {alcoholCat?.interpretation?.split('.')[0] || 'No significant indicators'}
+                            </p>
+                        </div>
+
+                        {/* Substance Risk */}
+                        <div className={`rounded-xl border p-4 ${cardBg(drugCat?.riskLevel || 'very_low')}`}>
+                            <div className="text-2xl mb-2">💊</div>
+                            <p className="text-[10px] text-gray-400 uppercase tracking-wider">Substance Risk</p>
+                            <p className={`text-lg font-bold mt-1 ${getRiskColor(drugCat?.riskLevel || 'very_low')}`}>
+                                {levelLabel(drugCat?.riskLevel || 'very_low')}
+                            </p>
+                            <p className="text-[11px] text-gray-400 mt-1 leading-tight line-clamp-2">
+                                {drugCat?.interpretation?.split('.')[0] || 'No significant indicators'}
+                            </p>
+                        </div>
+
+                        {/* Compulsive Behavior */}
+                        <div className={`rounded-xl border p-4 ${cardBg(compulsiveCat?.riskLevel || 'low')}`}>
+                            <div className="text-2xl mb-2">🌀</div>
+                            <p className="text-[10px] text-gray-400 uppercase tracking-wider">Compulsive Behavior</p>
+                            <p className={`text-lg font-bold mt-1 ${getRiskColor(compulsiveCat?.riskLevel || 'low')}`}>
+                                {levelLabel(compulsiveCat?.riskLevel || 'low')}
+                            </p>
+                            <p className="text-[11px] text-gray-400 mt-1 leading-tight line-clamp-2">
+                                {compulsiveCat?.interpretation?.split('.')[0] || 'No significant indicators'}
+                            </p>
+                        </div>
+
+                        {/* Protective Factors */}
+                        <div className="rounded-xl border p-4 bg-blue-900/20 border-blue-700/40">
+                            <div className="text-2xl mb-2">🛡️</div>
+                            <p className="text-[10px] text-gray-400 uppercase tracking-wider">Protective Factors</p>
+                            <p className="text-lg font-bold mt-1 text-blue-400">
+                                {activeProtective.length} <span className="text-sm font-normal">Strong</span>
+                            </p>
+                            <p className="text-[11px] text-gray-400 mt-1 leading-tight">
+                                {activeProtective.length > 0
+                                    ? activeProtective[0].name
+                                    : 'No active protective factors'}
+                            </p>
+                        </div>
+                    </div>
+                );
+            })()}
+
             {/* Overall Risk Summary */}
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 transition-colors">
                 <div className="flex items-center justify-between mb-4">
@@ -256,8 +333,9 @@ export const AddictionRiskWidget: React.FC<AddictionRiskWidgetProps> = ({
 
             {/* Risk Categories */}
             <div className="space-y-3">
-                <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 transition-colors">
-                    Risk Categories — {activeName}
+                <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 transition-colors flex items-center gap-2">
+                    <ShieldAlert className="w-5 h-5 text-rose-500" />
+                    Risk Indicator Breakdown — {activeName}
                 </h3>
                 {analysis.categories.map(cat => renderCategory(cat))}
             </div>
