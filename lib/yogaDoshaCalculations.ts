@@ -302,16 +302,17 @@ function detectKalatraYoga(chart: Chart): YogaDosha {
     const venus = getPos(chart, 'Venus');
     const jupiter = getPos(chart, 'Jupiter');
 
-    const venusStrong = venus && (['Taurus', 'Libra', 'Pisces'].includes(venus.sign) || ['exalted', 'own'].includes(venus.dignity));
-    const venusIn7or9 = venus && [7, 9, 5].includes(venus.house);
+    const venusStrong = venus && (['Taurus', 'Libra', 'Pisces'].includes(venus.sign) || ['exalted', 'own', 'friendly', 'moolatrikona'].includes(venus.dignity));
+    const venusIn7or9 = venus && [7, 9, 5, 1, 4].includes(venus.house);
     const jupAspectsVenus = venus && jupiter && (
         Math.abs(venus.house - jupiter.house) === 3 ||
         Math.abs(venus.house - jupiter.house) === 4 ||
         Math.abs(venus.house - jupiter.house) === 6 ||
-        Math.abs(venus.house - jupiter.house) === 7
+        Math.abs(venus.house - jupiter.house) === 7 ||
+        Math.abs(venus.house - jupiter.house) === 0
     );
 
-    const present = !!(venusStrong && venusIn7or9) || !!(venusIn7or9 && jupAspectsVenus);
+    const present = !!venusStrong || !!(venusIn7or9 && jupAspectsVenus);
 
     return {
         name: 'Kalatra Yoga',
@@ -397,6 +398,74 @@ function detectGauriYoga(chart: Chart): YogaDosha {
     };
 }
 
+function detectGajakesariYoga(chart: Chart): YogaDosha {
+    const jupiter = getPos(chart, 'Jupiter');
+    const moon = getPos(chart, 'Moon');
+
+    // Gajakesari: Jupiter in kendra (1,4,7,10) from Moon
+    const kendraFromMoon = moon && jupiter && (() => {
+        const diff = ((jupiter.house - moon.house) + 12) % 12;
+        return [0, 3, 6, 9].includes(diff);
+    })();
+
+    const present = !!kendraFromMoon;
+
+    return {
+        name: 'Gajakesari Yoga',
+        category: 'yoga',
+        type: 'marriage',
+        auspicious: true,
+        present,
+        severity: present ? 'moderate' : 'mild',
+        description: present
+            ? `Jupiter in ${jupiter?.house}th house (${getCentraLabel(moon?.house ?? 1, jupiter?.house ?? 1)} from Moon in ${moon?.house}th) — one of the most powerful auspicious yogas for marriage and overall fortune`
+            : 'Gajakesari Yoga not formed — Jupiter is not in kendra from Moon',
+        effects: present ? 'Brings wisdom, prosperity, and a noble, educated spouse. Marriage is marked by mutual respect and social recognition. Highly protective of relationship stability.' : '',
+        remedies: [],
+        involvedPlanets: ['Jupiter', 'Moon']
+    };
+}
+
+function getCentraLabel(moonHouse: number, jupHouse: number): string {
+    const diff = ((jupHouse - moonHouse) + 12) % 12;
+    if (diff === 0) return 'conjunction';
+    if (diff === 3) return '4th';
+    if (diff === 6) return '7th';
+    if (diff === 9) return '10th';
+    return 'kendra';
+}
+
+function detectHamsaYoga(chart: Chart): YogaDosha {
+    const jupiter = getPos(chart, 'Jupiter');
+
+    // Hamsa Yoga: Jupiter in its own sign (Sagittarius/Pisces) or exalted (Cancer) AND in kendra (1,4,7,10)
+    const kendraHouses = [1, 4, 7, 10];
+    const hamsa = jupiter && (
+        ['Sagittarius', 'Pisces', 'Cancer'].includes(jupiter.sign) &&
+        kendraHouses.includes(jupiter.house)
+    );
+
+    // Also: Jupiter in friendly sign in kendra
+    const jupFriendlyKendra = jupiter && ['exalted', 'own', 'moolatrikona'].includes(jupiter.dignity) && kendraHouses.includes(jupiter.house);
+
+    const present = !!(hamsa || jupFriendlyKendra);
+
+    return {
+        name: 'Hamsa Yoga',
+        category: 'yoga',
+        type: 'karmic',
+        auspicious: true,
+        present,
+        severity: present ? 'moderate' : 'mild',
+        description: present
+            ? `Jupiter in ${jupiter?.sign} (${jupiter?.dignity}) in ${jupiter?.house}th house — Hamsa Yoga (Pancha Mahapurusha Yoga) indicating wisdom, spirituality, and excellent marital prospects`
+            : 'Hamsa Yoga not formed — Jupiter not in own/exalted sign in kendra',
+        effects: present ? 'Blesses marriage with wisdom, justice, and spiritual depth. The native and spouse share strong dharmic values. Excellent for long-term marital harmony and children.' : '',
+        remedies: [],
+        involvedPlanets: ['Jupiter']
+    };
+}
+
 // ============================================================================
 // MAIN ANALYSIS
 // ============================================================================
@@ -414,6 +483,8 @@ export function analyzeYogaDoshas(chart: Chart): YogaDoshaAnalysis {
     ];
 
     const auspiciousResults = [
+        detectGajakesariYoga(chart),
+        detectHamsaYoga(chart),
         detectKalatraYoga(chart),
         detectDharmaKarmadhipatiYoga(chart),
         detectGauriYoga(chart),

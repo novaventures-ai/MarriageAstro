@@ -24,12 +24,20 @@ export interface RelationshipPattern {
     };
 }
 
+export interface KarmaIndicator {
+    label: string;
+    value: string;
+    icon: string;
+    note: string;
+}
+
 export interface RelationshipPatternAnalysis {
     patterns: RelationshipPattern[];
     narrativeHistorySummary: string;
     opportunityTriggersSummary: string;
     capacityApproachSummary: string;
     overallRiskLevel: 'low' | 'moderate' | 'elevated' | 'high';
+    karmaIndicators: KarmaIndicator[];
 }
 
 // ============================================================================
@@ -436,6 +444,112 @@ function analyzeSpouseLongevity(chart: Chart, name: string): RelationshipPattern
 }
 
 // ============================================================================
+// KARMA INDICATORS COMPUTATION
+// ============================================================================
+
+function computeKarmaIndicators(chart: Chart): KarmaIndicator[] {
+    const ketu = getPos(chart, 'Ketu');
+    const venus = getPos(chart, 'Venus');
+    const saturn = getPos(chart, 'Saturn');
+    const jupiter = getPos(chart, 'Jupiter');
+    const rahu = getPos(chart, 'Rahu');
+
+    // 1. Past-Life Relationship Karma (Ketu position)
+    let pastLifeValue = 'Mild karmic signature';
+    let pastLifeNote = 'No strong past-life romantic indicators in key houses.';
+    if (ketu) {
+        if ([5, 7, 12].includes(ketu.house)) {
+            pastLifeValue = `Present (Ketu in ${ketu.house}${ketu.house === 1 ? 'st' : ketu.house === 2 ? 'nd' : ketu.house === 3 ? 'rd' : 'th'})`;
+            pastLifeNote = ketu.house === 5
+                ? `Ketu in 5th: intense romantic karma from previous life. Soul carries unresolved love energy, attracting emotionally unavailable partners.`
+                : ketu.house === 7
+                    ? `Ketu in 7th: deep soul contract with spouse energy. Marriage may feel fated but tests are severe.`
+                    : `Ketu in 12th: hidden romantic karma, often playing out in secret or spiritual contexts.`;
+        } else if ([1, 2, 4, 8].includes(ketu.house)) {
+            pastLifeValue = 'Moderate karmic signature';
+            pastLifeNote = `Ketu in ${ketu.house}th house brings karmic themes around ${ketu.house === 1 ? 'self-identity and independence' : ketu.house === 2 ? 'family values and speech' : ketu.house === 4 ? 'home and emotional security' : 'transformation and shared resources'} into relationships.`;
+        }
+    }
+
+    // 2. Pre-Marital Relationship Count (5th house planets)
+    const planetsIn5 = chart.planetaryPositions.filter(p => p.house === 5);
+    let preMaritalValue = 'Limited (0–1)';
+    let preMaritalNote = 'Minimal 5th house activity suggests few significant pre-marital connections.';
+    if (planetsIn5.length >= 3) {
+        preMaritalValue = '3+ indicated';
+        preMaritalNote = `${planetsIn5.map(p => p.planet).join(', ')} in 5th house — highly active romantic sector indicating multiple significant connections before marriage.`;
+    } else if (planetsIn5.length === 2) {
+        preMaritalValue = '2–3 indicated';
+        preMaritalNote = `${planetsIn5.map(p => p.planet).join(' and ')} in 5th house suggest 2–3 meaningful relationships before marriage.`;
+    } else if (planetsIn5.length === 1) {
+        preMaritalValue = '1–2 indicated';
+        preMaritalNote = `${planetsIn5[0].planet} in 5th house indicates 1–2 significant pre-marital romantic connections.`;
+    } else if (venus && venus.house === 5) {
+        preMaritalValue = '1–2 indicated';
+        preMaritalNote = 'Venus in 5th — naturally romantic; 1–2 deep connections likely before settling down.';
+    }
+
+    // 3. Venus Cycle Pattern (Venus sign + aspects)
+    const fireSignsV = ['Aries', 'Leo', 'Sagittarius'];
+    const waterSignsV = ['Cancer', 'Scorpio', 'Pisces'];
+    const earthSignsV = ['Taurus', 'Virgo', 'Capricorn'];
+    let venusCycleValue = 'Steady → Committed';
+    let venusCycleNote = 'Venus shows a grounded, reliable approach to love.';
+    if (venus) {
+        const venusRahuAspect = rahu && (
+            Math.abs(venus.house - rahu.house) === 0 ||
+            Math.abs(venus.house - rahu.house) === 6 ||
+            Math.abs(venus.house - rahu.house) === 7
+        );
+        const venusSaturnAspect = saturn && (
+            Math.abs(venus.house - saturn.house) === 0 ||
+            Math.abs(venus.house - saturn.house) === 6 ||
+            Math.abs(venus.house - saturn.house) === 7
+        );
+        if (venusRahuAspect || ['Scorpio', 'Aries'].includes(venus.sign)) {
+            venusCycleValue = 'Idealism → Disillusionment';
+            venusCycleNote = `Venus ${venusRahuAspect ? 'influenced by Rahu' : `in ${venus.sign}`}: intense initial idealization, followed by disappointment when partner\'s reality doesn\'t match the dream.`;
+        } else if (venusSaturnAspect || ['Capricorn', 'Virgo'].includes(venus.sign)) {
+            venusCycleValue = 'Caution → Commitment';
+            venusCycleNote = `Venus ${venusSaturnAspect ? 'aspected by Saturn' : `in ${venus.sign}`}: slow to open up, but once committed, fiercely loyal and stable.`;
+        } else if (fireSignsV.includes(venus.sign)) {
+            venusCycleValue = 'Intense → Burnout';
+            venusCycleNote = `Venus in ${venus.sign}: passionate and spontaneous in love; needs constant excitement to maintain interest.`;
+        } else if (waterSignsV.includes(venus.sign)) {
+            venusCycleValue = 'Deep Bonding → Clinging';
+            venusCycleNote = `Venus in ${venus.sign}: craves emotional depth and security; may struggle with letting go when relationships end.`;
+        } else if (earthSignsV.includes(venus.sign)) {
+            venusCycleValue = 'Steady → Practical';
+            venusCycleNote = `Venus in ${venus.sign}: values reliability and shared goals over romance; love expressed through acts of service.`;
+        } else {
+            venusCycleValue = 'Exploratory → Settled';
+            venusCycleNote = `Venus in ${venus.sign}: curious and communicative in love; needs intellectual connection alongside emotional depth.`;
+        }
+    }
+
+    // 4. Pattern Break Potential (Saturn/Jupiter influence)
+    let breakValue = 'Moderate (Through awareness)';
+    let breakNote = 'Conscious awareness of your patterns creates the most reliable window for change.';
+    if (saturn && [7, 5, 1].includes(saturn.house) && saturn.dignity !== 'debilitated') {
+        breakValue = `High (Saturn in ${saturn.house}th)`;
+        breakNote = `Saturn in ${saturn.house}th house creates a strong, dharmic framework for relationship discipline — patterns can break through structured self-work.`;
+    } else if (jupiter && [7, 5, 9].includes(jupiter.house) && ['exalted', 'own', 'friendly'].includes(jupiter.dignity)) {
+        breakValue = 'High (Jupiter protection)';
+        breakNote = `Jupiter in ${jupiter.house}th house offers wisdom and grace to transcend limiting patterns — especially during Jupiter mahadasha.`;
+    } else if (saturn) {
+        breakValue = 'High (After Saturn Return)';
+        breakNote = 'Saturn\'s maturation cycle (age 28–30, 57–60) creates natural pattern-break windows. Conscious choices during these periods are highly effective.';
+    }
+
+    return [
+        { label: 'Past-Life Relationship Karma', value: pastLifeValue, icon: '♾️', note: pastLifeNote },
+        { label: 'Pre-Marital Relationship Count', value: preMaritalValue, icon: '🌹', note: preMaritalNote },
+        { label: 'Venus Cycle Pattern', value: venusCycleValue, icon: '💫', note: venusCycleNote },
+        { label: 'Pattern Break Potential', value: breakValue, icon: '🌟', note: breakNote },
+    ];
+}
+
+// ============================================================================
 // MAIN FUNCTION
 // ============================================================================
 
@@ -470,7 +584,8 @@ export function calculateRelationshipPatterns(chart: Chart, name: string): Relat
         narrativeHistorySummary: summarizePatterns(preMarital, 'Narrative history'),
         opportunityTriggersSummary: summarizePatterns(affairContext, 'Opportunity triggers'),
         capacityApproachSummary: summarizePatterns(relationshipStyle, 'Capacity approach'),
-        overallRiskLevel: overallRisk
+        overallRiskLevel: overallRisk,
+        karmaIndicators: computeKarmaIndicators(chart)
     };
 }
 

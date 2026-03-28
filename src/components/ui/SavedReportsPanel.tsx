@@ -10,7 +10,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useAppStore } from '../../store/useAppStore';
 import { loadReportSummaries, loadFullReport, deleteReport, deleteAllReports } from '../../lib/supabaseService';
 import type { SavedReportSummary } from '../../lib/supabaseService';
-import { FileText, Trash2, Loader2, Star, Clock, ChevronRight } from 'lucide-react';
+import { FileText, Trash2, Loader2, Star, Clock, ChevronRight, PlusCircle } from 'lucide-react';
 
 export const SavedReportsPanel: React.FC = () => {
     const { user } = useAuth();
@@ -106,7 +106,28 @@ export const SavedReportsPanel: React.FC = () => {
             </div>
         );
     }
-    if (reports.length === 0) return null;
+    if (reports.length === 0) {
+        return (
+            <div className="mb-12">
+                <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4 transition-colors">
+                    Your Saved Reports
+                </h2>
+                <div className="flex flex-col items-center justify-center py-14 bg-white dark:bg-gray-800 rounded-2xl border border-dashed border-gray-300 dark:border-gray-600 text-center gap-4">
+                    <FileText className="w-12 h-12 text-gray-300 dark:text-gray-600" />
+                    <div>
+                        <p className="text-gray-700 dark:text-gray-300 font-semibold mb-1">No saved reports yet</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">Generate a compatibility report to see it here.</p>
+                    </div>
+                    <button
+                        onClick={() => window.location.href = '/calculator'}
+                        className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 text-white text-sm font-medium rounded-xl hover:bg-indigo-700 transition-colors"
+                    >
+                        <PlusCircle className="w-4 h-4" /> Generate Report
+                    </button>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="mb-12">
