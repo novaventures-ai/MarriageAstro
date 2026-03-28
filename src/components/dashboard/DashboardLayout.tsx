@@ -19,13 +19,15 @@ import {
   Home,
   Plus,
   Banknote,
-  ShieldCheck
+  ShieldCheck,
+  ScrollText
 } from 'lucide-react';
 import { Logo } from '../ui/Logo';
 import { ThemeToggle } from '../ui/ThemeToggle';
 import { GoogleTranslate } from '../ui/GoogleTranslate';
 import { useAuth } from '../../context/AuthContext';
 import { useUserProfileStore } from '../../store/useUserProfileStore';
+import { useAppStore } from '../../store/useAppStore';
 import { DEMO_PARTNER_NAMES } from '../../lib/demoData';
 import { deletePartner } from '../../lib/userProfileService';
 import { supabase } from '../../lib/supabase';
@@ -43,6 +45,7 @@ export const DashboardLayout: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { user, signOut } = useAuth();
   const { selfChart, isDemoMode, isAdmin } = useUserProfileStore();
+  const currentReport = useAppStore((s) => s.currentReport);
   const navigate = useNavigate();
 
   const displayName = isDemoMode
@@ -139,6 +142,19 @@ export const DashboardLayout: React.FC = () => {
               {item.label}
             </NavLink>
           ))}
+
+          {currentReport && (
+            <NavLink
+              to="/report"
+              className={navLinkClasses}
+              onClick={() => setSidebarOpen(false)}
+            >
+              <ScrollText className="w-5 h-5 flex-shrink-0" />
+              <span className="truncate">
+                {currentReport.chartA.name} &amp; {currentReport.chartB.name}
+              </span>
+            </NavLink>
+          )}
 
           {/* Quick Actions */}
           <div className="pt-4 mt-4 border-t border-gray-200 dark:border-gray-800">
