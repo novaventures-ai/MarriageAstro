@@ -77,3 +77,81 @@ export async function revokePremium(userId: string): Promise<boolean> {
   }
   return true;
 }
+
+// ─── Push Notification Admin ──────────────────────────────────────────────────
+
+export async function getPushStats(): Promise<{ count: number }> {
+  const auth = await getAuthHeader();
+  const res = await fetch('/api/admin-users', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: auth },
+    body: JSON.stringify({ action: 'push_stats' }),
+  });
+  if (!res.ok) return { count: 0 };
+  return res.json();
+}
+
+export async function sendPushBroadcast(
+  title: string,
+  body: string,
+  url: string,
+  targetTier?: string
+): Promise<{ sent: number; failed: number }> {
+  const auth = await getAuthHeader();
+  const res = await fetch('/api/admin-users', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: auth },
+    body: JSON.stringify({ action: 'push_broadcast', title, body, url, targetTier }),
+  });
+  if (!res.ok) return { sent: 0, failed: 0 };
+  return res.json();
+}
+
+// ─── Affiliate Admin ──────────────────────────────────────────────────────────
+
+export interface AffiliateRecord {
+  id: string;
+  affiliate_code: string;
+  affiliate_name: string;
+  bureau_name: string | null;
+  affiliate_email: string | null;
+  affiliate_whatsapp: string | null;
+  total_referrals: number;
+  total_conversions: number;
+  pending_payout_inr: number;
+  payout_status: string;
+  created_at: string;
+}
+
+export async function listAffiliates(): Promise<AffiliateRecord[]> {
+  const auth = await getAuthHeader();
+  const res = await fetch('/api/admin-affiliates', {
+    headers: { Authorization: auth },
+  });
+  if (!res.ok) {
+    console.error('Admin: failed to list affiliates', res.status);
+    return [];
+  }
+  const { affiliates } = await res.json();
+  return affiliates ?? [];
+}
+
+export async function markAffiliatePaid(affiliateId: string): Promise<boolean> {
+  const auth = await getAuthHeader();
+  const res = await fetch('/api/admin-affiliates', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: auth },
+    body: JSON.stringify({ action: 'markPaid', affiliateId }),
+  });
+  return res.ok;
+}
+
+export async function disableAffiliate(affiliateId: string): Promise<boolean> {
+  const auth = await getAuthHeader();
+  const res = await fetch('/api/admin-affiliates', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: auth },
+    body: JSON.stringify({ action: 'disable', affiliateId }),
+  });
+  return res.ok;
+}

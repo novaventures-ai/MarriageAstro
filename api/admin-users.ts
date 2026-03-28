@@ -5,6 +5,7 @@
  */
 
 import { createClient } from '@supabase/supabase-js';
+import webpush from 'web-push';
 
 const ADMIN_EMAILS = [
   'novaventures.contact@gmail.com',
@@ -108,6 +109,62 @@ export default async function handler(req: any, res: any) {
       }
 
       return res.status(200).json({ success: true });
+    }
+
+    // ── push_stats: count of active push subscribers ─────────────────────────
+    if (action === 'push_stats') {
+      const { count, error: cErr } = await db
+        .from('push_subscriptions')
+        .select('*', { count: 'exact', head: true });
+
+      if (cErr) return res.status(500).json({ error: cErr.message });
+      return res.status(200).json({ count: count ?? 0 });
+    }
+
+    // ── push_broadcast: send notification to subscribers ──────────────────────
+    if (action === 'push_broadcast') {
+      const { title, body: msgBody, url, targetTier } = req.body as {
+        title: string; body: string; url?: string; targetTier?: string;
+      };
+
+      if (!title || !msgBody) {
+        return res.status(400).json({ error: 'title and body required' });
+      }
+
+      // Fetch subscriptions — optionally filtered by plan tier via join
+      let query = db
+        .from('push_subscriptions')
+        .select(targetTier && targetTier !== 'all'
+          ? 'subscription, profiles!inner(plan_tier)'
+          : 'subscription');
+
+      if (targetTier && targetTier !== 'all') {
+        query = query.eq('profiles.plan_tier', targetTier);
+      }
+
+      const { data: rows, error: fetchErr } = await query;
+      if (fetchErr) return res.status(500).json({ error: fetchErr.message });
+
+      const vapidEmail = process.env.VAPID_EMAIL ?? 'mailto:admin@marriage-astro.vercel.app';
+      const vapidPub   = process.env.VAPID_PUBLIC_KEY ?? '';
+      const vapidPriv  = process.env.VAPID_PRIVATE_KEY ?? '';
+
+      if (!vapidPub || !vapidPriv) {
+        return res.status(503).json({ error: 'VAPID keys not configured' });
+      }
+
+      webpush.setVapidDetails(vapidEmail, vapidPub, vapidPriv);
+
+      const payload = JSON.stringify({ title, body: msgBody, url: url ?? '/' });
+      const results = await Promise.allSettled(
+        (rows ?? []).map((row: any) =>
+          webpush.sendNotification(row.subscription as webpush.PushSubscription, payload)
+        )
+      );
+
+      const sent   = results.filter((r) => r.status === 'fulfilled').length;
+      const failed = results.filter((r) => r.status === 'rejected').length;
+      return res.status(200).json({ sent, failed });
     }
 
     return res.status(400).json({ error: 'Unknown action' });
