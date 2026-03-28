@@ -30,6 +30,11 @@ const MarriageTimingGuide = lazy(() => import('./pages/guides/MarriageTimingGuid
 const MangalDoshaGuide = lazy(() => import('./pages/guides/MangalDoshaGuide').then(m => ({ default: m.MangalDoshaGuide })));
 
 // Feature Explanation Pages
+const FeaturesIndexPage = lazy(() => import('./pages/features/FeaturesIndexPage').then(m => ({ default: m.FeaturesIndexPage })));
+const DivorceRiskPage = lazy(() => import('./pages/features/DivorceRiskPage').then(m => ({ default: m.DivorceRiskPage })));
+const AshtakootPage = lazy(() => import('./pages/features/AshtakootPage').then(m => ({ default: m.AshtakootPage })));
+const MarriageTimingPage = lazy(() => import('./pages/features/MarriageTimingPage').then(m => ({ default: m.MarriageTimingPage })));
+const VulnerabilityTimelinePage = lazy(() => import('./pages/features/VulnerabilityTimelinePage').then(m => ({ default: m.VulnerabilityTimelinePage })));
 const SpousePredictionPage = lazy(() => import('./pages/features/SpousePredictionPage').then(m => ({ default: m.SpousePredictionPage })));
 const PsychologicalProfilePage = lazy(() => import('./pages/features/PsychologicalProfilePage').then(m => ({ default: m.PsychologicalProfilePage })));
 const ConflictZonesPage = lazy(() => import('./pages/features/ConflictZonesPage').then(m => ({ default: m.ConflictZonesPage })));
@@ -44,6 +49,14 @@ const AddictionRiskPage = lazy(() => import('./pages/features/AddictionRiskPage'
 const RelationshipPatternsPage = lazy(() => import('./pages/features/RelationshipPatternsPage').then(m => ({ default: m.RelationshipPatternsPage })));
 const DivisionalChartsPage = lazy(() => import('./pages/features/DivisionalChartsPage').then(m => ({ default: m.DivisionalChartsPage })));
 const SexualCompatibilityPage = lazy(() => import('./pages/features/SexualCompatibilityPage').then(m => ({ default: m.SexualCompatibilityPage })));
+
+// Blog Pages
+const BlogIndexPage = lazy(() => import('./pages/blog/BlogIndexPage').then(m => ({ default: m.BlogIndexPage })));
+const KundaliMatchingGuidePage = lazy(() => import('./pages/blog/KundaliMatchingGuidePage').then(m => ({ default: m.KundaliMatchingGuidePage })));
+const MangalDoshaMythsPage = lazy(() => import('./pages/blog/MangalDoshaMythsPage').then(m => ({ default: m.MangalDoshaMythsPage })));
+const MarriageTimingBlogPage = lazy(() => import('./pages/blog/MarriageTimingBlogPage').then(m => ({ default: m.MarriageTimingBlogPage })));
+const VedicVsWesternPage = lazy(() => import('./pages/blog/VedicVsWesternPage').then(m => ({ default: m.VedicVsWesternPage })));
+const NadiDoshaPage = lazy(() => import('./pages/blog/NadiDoshaPage').then(m => ({ default: m.NadiDoshaPage })));
 
 // Admin, Pricing, Demo & Affiliate
 const AdminPage = lazy(() => import('./pages/AdminPage').then(m => ({ default: m.AdminPage })));
@@ -149,6 +162,11 @@ function App() {
               <Route path="/guides/mangal-dosha" element={<MangalDoshaGuide />} />
 
               {/* Feature Explanation Pages */}
+              <Route path="/features" element={<FeaturesIndexPage />} />
+              <Route path="/features/divorce-risk" element={<DivorceRiskPage />} />
+              <Route path="/features/ashtakoot-milan" element={<AshtakootPage />} />
+              <Route path="/features/marriage-timing" element={<MarriageTimingPage />} />
+              <Route path="/features/vulnerability-timeline" element={<VulnerabilityTimelinePage />} />
               <Route path="/features/spouse-prediction" element={<SpousePredictionPage />} />
               <Route path="/features/psychological-profile" element={<PsychologicalProfilePage />} />
               <Route path="/features/conflict-zones" element={<ConflictZonesPage />} />
@@ -163,6 +181,14 @@ function App() {
               <Route path="/features/relationship-patterns" element={<RelationshipPatternsPage />} />
               <Route path="/features/divisional-charts" element={<DivisionalChartsPage />} />
               <Route path="/features/sexual-compatibility" element={<SexualCompatibilityPage />} />
+
+              {/* Blog Pages */}
+              <Route path="/blog" element={<BlogIndexPage />} />
+              <Route path="/blog/kundali-matching-complete-guide" element={<KundaliMatchingGuidePage />} />
+              <Route path="/blog/mangal-dosha-myths-facts" element={<MangalDoshaMythsPage />} />
+              <Route path="/blog/when-will-i-get-married-astrology" element={<MarriageTimingBlogPage />} />
+              <Route path="/blog/vedic-vs-western-astrology-marriage" element={<VedicVsWesternPage />} />
+              <Route path="/blog/nadi-dosha-complete-guide" element={<NadiDoshaPage />} />
 
               {/* Admin, Pricing, Demo & Affiliate */}
               <Route path="/admin" element={<AdminPage />} />
