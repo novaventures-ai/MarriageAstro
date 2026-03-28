@@ -29,6 +29,12 @@ const AshtakootMilanGuide = lazy(() => import('./pages/guides/AshtakootMilanGuid
 const MarriageTimingGuide = lazy(() => import('./pages/guides/MarriageTimingGuide').then(m => ({ default: m.MarriageTimingGuide })));
 const MangalDoshaGuide = lazy(() => import('./pages/guides/MangalDoshaGuide').then(m => ({ default: m.MangalDoshaGuide })));
 
+// Feature Explanation Pages
+const SpousePredictionPage = lazy(() => import('./pages/features/SpousePredictionPage').then(m => ({ default: m.SpousePredictionPage })));
+const PsychologicalProfilePage = lazy(() => import('./pages/features/PsychologicalProfilePage').then(m => ({ default: m.PsychologicalProfilePage })));
+const ConflictZonesPage = lazy(() => import('./pages/features/ConflictZonesPage').then(m => ({ default: m.ConflictZonesPage })));
+const SynastryPage = lazy(() => import('./pages/features/SynastryPage').then(m => ({ default: m.SynastryPage })));
+
 // Admin, Pricing, Demo & Affiliate
 const AdminPage = lazy(() => import('./pages/AdminPage').then(m => ({ default: m.AdminPage })));
 const PricingPage = lazy(() => import('./pages/PricingPage').then(m => ({ default: m.PricingPage })));
@@ -131,6 +137,12 @@ function App() {
               <Route path="/guides/ashtakoot-milan" element={<AshtakootMilanGuide />} />
               <Route path="/guides/marriage-timing" element={<MarriageTimingGuide />} />
               <Route path="/guides/mangal-dosha" element={<MangalDoshaGuide />} />
+
+              {/* Feature Explanation Pages */}
+              <Route path="/features/spouse-prediction" element={<SpousePredictionPage />} />
+              <Route path="/features/psychological-profile" element={<PsychologicalProfilePage />} />
+              <Route path="/features/conflict-zones" element={<ConflictZonesPage />} />
+              <Route path="/features/synastry" element={<SynastryPage />} />
 
               {/* Admin, Pricing, Demo & Affiliate */}
               <Route path="/admin" element={<AdminPage />} />
