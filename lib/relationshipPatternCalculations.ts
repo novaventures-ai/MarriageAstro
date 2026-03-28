@@ -29,6 +29,7 @@ export interface KarmaIndicator {
     value: string;
     icon: string;
     note: string;
+    severity: 'low' | 'moderate' | 'high';
 }
 
 export interface RelationshipPatternAnalysis {
@@ -444,108 +445,276 @@ function analyzeSpouseLongevity(chart: Chart, name: string): RelationshipPattern
 }
 
 // ============================================================================
-// KARMA INDICATORS COMPUTATION
+// KARMA INDICATORS COMPUTATION  (multi-factor — no single planet decides outcome)
 // ============================================================================
 
+/** Ordinal suffix helper */
+function ord(n: number): string {
+    if (n === 1) return '1st';
+    if (n === 2) return '2nd';
+    if (n === 3) return '3rd';
+    return `${n}th`;
+}
+
+/** House-difference (wraps at 12, shortest path) */
+function houseDiff(a: number, b: number): number {
+    const d = Math.abs(a - b);
+    return Math.min(d, 12 - d);
+}
+
 function computeKarmaIndicators(chart: Chart): KarmaIndicator[] {
-    const ketu = getPos(chart, 'Ketu');
-    const venus = getPos(chart, 'Venus');
-    const saturn = getPos(chart, 'Saturn');
+    const ketu    = getPos(chart, 'Ketu');
+    const rahu    = getPos(chart, 'Rahu');
+    const venus   = getPos(chart, 'Venus');
+    const saturn  = getPos(chart, 'Saturn');
     const jupiter = getPos(chart, 'Jupiter');
-    const rahu = getPos(chart, 'Rahu');
+    const moon    = getPos(chart, 'Moon');
+    const mars    = getPos(chart, 'Mars');
+    const sun     = getPos(chart, 'Sun');
 
-    // 1. Past-Life Relationship Karma (Ketu position)
-    let pastLifeValue = 'Mild karmic signature';
-    let pastLifeNote = 'No strong past-life romantic indicators in key houses.';
+    // ─────────────────────────────────────────────────────────────────────────
+    // 1. PAST-LIFE RELATIONSHIP KARMA
+    //    Factors: Ketu house, Rahu house, Saturn-Venus aspect, 12th-house load
+    // ─────────────────────────────────────────────────────────────────────────
+    let plScore = 0;
+    const plFactors: string[] = [];
+
+    // Factor A — Ketu house (primary, but only ONE of several signals)
     if (ketu) {
-        if ([5, 7, 12].includes(ketu.house)) {
-            pastLifeValue = `Present (Ketu in ${ketu.house}${ketu.house === 1 ? 'st' : ketu.house === 2 ? 'nd' : ketu.house === 3 ? 'rd' : 'th'})`;
-            pastLifeNote = ketu.house === 5
-                ? `Ketu in 5th: intense romantic karma from previous life. Soul carries unresolved love energy, attracting emotionally unavailable partners.`
-                : ketu.house === 7
-                    ? `Ketu in 7th: deep soul contract with spouse energy. Marriage may feel fated but tests are severe.`
-                    : `Ketu in 12th: hidden romantic karma, often playing out in secret or spiritual contexts.`;
-        } else if ([1, 2, 4, 8].includes(ketu.house)) {
-            pastLifeValue = 'Moderate karmic signature';
-            pastLifeNote = `Ketu in ${ketu.house}th house brings karmic themes around ${ketu.house === 1 ? 'self-identity and independence' : ketu.house === 2 ? 'family values and speech' : ketu.house === 4 ? 'home and emotional security' : 'transformation and shared resources'} into relationships.`;
-        }
+        if (ketu.house === 5)  { plScore += 3; plFactors.push(`Ketu in ${ord(ketu.house)} (intense romantic karma)`); }
+        else if (ketu.house === 7)  { plScore += 3; plFactors.push(`Ketu in ${ord(ketu.house)} (marriage soul-contract)`); }
+        else if (ketu.house === 12) { plScore += 2; plFactors.push(`Ketu in ${ord(ketu.house)} (hidden past-life bonds)`); }
+        else if (ketu.house === 9)  { plScore += 2; plFactors.push(`Ketu in ${ord(ketu.house)} (dharma-karma axis)`); }
+        else if ([1, 4, 8].includes(ketu.house)) { plScore += 1; plFactors.push(`Ketu in ${ord(ketu.house)}`); }
+        // Houses 2,3,6,10,11 = no significant past-life romantic karma
     }
 
-    // 2. Pre-Marital Relationship Count (5th house planets)
-    const planetsIn5 = chart.planetaryPositions.filter(p => p.house === 5);
-    let preMaritalValue = 'Limited (0–1)';
-    let preMaritalNote = 'Minimal 5th house activity suggests few significant pre-marital connections.';
-    if (planetsIn5.length >= 3) {
-        preMaritalValue = '3+ indicated';
-        preMaritalNote = `${planetsIn5.map(p => p.planet).join(', ')} in 5th house — highly active romantic sector indicating multiple significant connections before marriage.`;
-    } else if (planetsIn5.length === 2) {
-        preMaritalValue = '2–3 indicated';
-        preMaritalNote = `${planetsIn5.map(p => p.planet).join(' and ')} in 5th house suggest 2–3 meaningful relationships before marriage.`;
-    } else if (planetsIn5.length === 1) {
-        preMaritalValue = '1–2 indicated';
-        preMaritalNote = `${planetsIn5[0].planet} in 5th house indicates 1–2 significant pre-marital romantic connections.`;
-    } else if (venus && venus.house === 5) {
-        preMaritalValue = '1–2 indicated';
-        preMaritalNote = 'Venus in 5th — naturally romantic; 1–2 deep connections likely before settling down.';
+    // Factor B — Rahu in relationship houses
+    if (rahu) {
+        if (rahu.house === 7) { plScore += 2; plFactors.push(`Rahu in ${ord(rahu.house)} (obsessive partner pull)`); }
+        if (rahu.house === 5) { plScore += 1; plFactors.push(`Rahu in ${ord(rahu.house)} (romance amplification)`); }
     }
 
-    // 3. Venus Cycle Pattern (Venus sign + aspects)
-    const fireSignsV = ['Aries', 'Leo', 'Sagittarius'];
+    // Factor C — Saturn aspecting or conjunct Venus (karmic relationship debt)
+    if (saturn && venus) {
+        const d = houseDiff(saturn.house, venus.house);
+        if (d === 0) { plScore += 2; plFactors.push('Saturn conjunct Venus (karmic love debt)'); }
+        else if (d === 6) { plScore += 2; plFactors.push('Saturn opposite Venus (karmic tension)'); }
+        else if (d === 3 || d === 4) { plScore += 1; plFactors.push('Saturn aspecting Venus'); }
+    }
+
+    // Factor D — Heavily loaded 12th house (hidden/past-life bonds)
+    const planetsIn12 = chart.planetaryPositions.filter(
+        p => p.house === 12 && !['Uranus', 'Neptune', 'Pluto'].includes(p.planet)
+    );
+    if (planetsIn12.length >= 2) { plScore += 1; plFactors.push(`${planetsIn12.length} planets in 12th`); }
+
+    let pastLifeValue: string;
+    let pastLifeSeverity: 'low' | 'moderate' | 'high';
+    if (plScore >= 4) {
+        pastLifeSeverity = 'high';
+        const primary = plFactors[0] || '';
+        pastLifeValue = primary.includes('5th') ? 'Strong — unresolved romantic karma'
+            : primary.includes('7th') ? 'Strong — fated marriage lessons'
+            : 'Strong — multiple karmic threads';
+    } else if (plScore >= 2) {
+        pastLifeSeverity = 'moderate';
+        pastLifeValue = 'Moderate — some karmic themes present';
+    } else {
+        pastLifeSeverity = 'low';
+        pastLifeValue = 'Mild — relatively fresh soul in love';
+    }
+
+    const pastLifeNote = plFactors.length > 0
+        ? `Active indicators: ${plFactors.join('; ')}. These create recurring patterns until consciously resolved.`
+        : 'No strong past-life romantic indicators. You approach relationships with fewer karmic obligations.';
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 2. PRE-MARITAL RELATIONSHIP COUNT
+    //    Factors scored independently — not just planet count in 5th house
+    // ─────────────────────────────────────────────────────────────────────────
+    let pmScore = 0;
+    const pmFactors: string[] = [];
+    const pmProtections: string[] = [];
+
+    // Factor A — High-impact planets in 5th (weighted by planet nature)
+    // Ketu, Uranus, Neptune, Pluto excluded (generational / detachment energy)
+    const romantic5th = chart.planetaryPositions.filter(
+        p => p.house === 5 && !['Ketu', 'Uranus', 'Neptune', 'Pluto'].includes(p.planet)
+    );
+    for (const p of romantic5th) {
+        if (p.planet === 'Rahu')   { pmScore += 3; pmFactors.push('Rahu in 5th (amplified romance)'); }
+        else if (p.planet === 'Venus') { pmScore += 2; pmFactors.push('Venus in 5th (innate romantic nature)'); }
+        else if (p.planet === 'Mars')  { pmScore += 2; pmFactors.push('Mars in 5th (passion-driven bonds)'); }
+        else if (p.planet === 'Moon')  { pmScore += 1; pmFactors.push('Moon in 5th (emotional entanglement)'); }
+        else                           { pmScore += 1; pmFactors.push(`${p.planet} in 5th`); }
+    }
+
+    // Factor B — Rahu aspecting Venus (opposition or conjunction across houses)
+    if (rahu && venus && romantic5th.every(p => p.planet !== 'Rahu')) {
+        const d = houseDiff(rahu.house, venus.house);
+        if (d === 0 || d === 6) { pmScore += 2; pmFactors.push('Rahu–Venus conjunction/opposition (desire amplification)'); }
+        else if (d === 1)        { pmScore += 1; pmFactors.push('Rahu near Venus'); }
+    }
+
+    // Factor C — Venus-Mars combination (physical passion)
+    if (venus && mars && !romantic5th.some(p => ['Venus', 'Mars'].includes(p.planet))) {
+        const d = houseDiff(venus.house, mars.house);
+        if (d === 0) { pmScore += 1; pmFactors.push('Venus–Mars conjunction'); }
+    }
+
+    // Factor D — Venus dignity
+    if (venus) {
+        if (venus.dignity === 'debilitated') { pmScore += 2; pmFactors.push(`Venus debilitated in ${venus.sign} (seeks validation through many bonds)`); }
+        else if (['Scorpio', 'Aries'].includes(venus.sign)) { pmScore += 1; pmFactors.push(`Venus in ${venus.sign} (intense desire nature)`); }
+    }
+
+    // Factor E — Moon in romantic nakshatras
+    const romanticNaks = ['Rohini', 'Purva Phalguni', 'Swati', 'Purva Ashadha', 'Shatabhisha'];
+    if (moon && romanticNaks.includes(moon.nakshatra)) {
+        pmScore += 1;
+        pmFactors.push(`Moon in ${moon.nakshatra} nakshatra (romantic disposition)`);
+    }
+
+    // Protection: Jupiter well-placed reduces impulsive connections
+    if (jupiter && [5, 7, 9].includes(jupiter.house) &&
+        ['exalted', 'own_house', 'friendly', 'moolatrikona'].includes(jupiter.dignity)) {
+        pmScore -= 2;
+        pmProtections.push(`Jupiter in ${ord(jupiter.house)} (wisdom guards romantic choices)`);
+    }
+    pmScore = Math.max(0, pmScore);
+
+    let preMarValue: string;
+    let preMarSeverity: 'low' | 'moderate' | 'high';
+    if (pmScore >= 7) {
+        preMarSeverity = 'high';
+        preMarValue = '4 or more connections likely';
+    } else if (pmScore >= 5) {
+        preMarSeverity = 'high';
+        preMarValue = '3–4 connections indicated';
+    } else if (pmScore >= 3) {
+        preMarSeverity = 'moderate';
+        preMarValue = '2–3 connections indicated';
+    } else if (pmScore >= 1) {
+        preMarSeverity = 'low';
+        preMarValue = '1–2 connections indicated';
+    } else {
+        preMarSeverity = 'low';
+        preMarValue = '0–1 (few or no significant connections)';
+    }
+
+    const preMarNote = [
+        pmFactors.length > 0 ? `Contributing factors: ${pmFactors.join('; ')}.` : 'No major indicators of multiple connections.',
+        pmProtections.length > 0 ? ` Counter: ${pmProtections.join('; ')}.` : ''
+    ].join('');
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 3. VENUS CYCLE PATTERN
+    //    Factors: Venus sign, Venus aspects from Rahu/Saturn/Mars, Venus house
+    // ─────────────────────────────────────────────────────────────────────────
+    const fireSignsV  = ['Aries', 'Leo', 'Sagittarius'];
     const waterSignsV = ['Cancer', 'Scorpio', 'Pisces'];
     const earthSignsV = ['Taurus', 'Virgo', 'Capricorn'];
     let venusCycleValue = 'Steady → Committed';
-    let venusCycleNote = 'Venus shows a grounded, reliable approach to love.';
+    let venusCycleNote  = 'Venus shows a grounded, reliable approach to love.';
+    let venusCycleSeverity: 'low' | 'moderate' | 'high' = 'low';
+
     if (venus) {
-        const venusRahuAspect = rahu && (
-            Math.abs(venus.house - rahu.house) === 0 ||
-            Math.abs(venus.house - rahu.house) === 6 ||
-            Math.abs(venus.house - rahu.house) === 7
-        );
-        const venusSaturnAspect = saturn && (
-            Math.abs(venus.house - saturn.house) === 0 ||
-            Math.abs(venus.house - saturn.house) === 6 ||
-            Math.abs(venus.house - saturn.house) === 7
-        );
-        if (venusRahuAspect || ['Scorpio', 'Aries'].includes(venus.sign)) {
-            venusCycleValue = 'Idealism → Disillusionment';
-            venusCycleNote = `Venus ${venusRahuAspect ? 'influenced by Rahu' : `in ${venus.sign}`}: intense initial idealization, followed by disappointment when partner\'s reality doesn\'t match the dream.`;
-        } else if (venusSaturnAspect || ['Capricorn', 'Virgo'].includes(venus.sign)) {
-            venusCycleValue = 'Caution → Commitment';
-            venusCycleNote = `Venus ${venusSaturnAspect ? 'aspected by Saturn' : `in ${venus.sign}`}: slow to open up, but once committed, fiercely loyal and stable.`;
+        const venusRahuConj = rahu && houseDiff(venus.house, rahu.house) <= 1;
+        const venusRahuOpp  = rahu && houseDiff(venus.house, rahu.house) === 6;
+        const venusSaturnConj = saturn && houseDiff(venus.house, saturn.house) <= 1;
+        const venusMarsConj   = mars && houseDiff(venus.house, mars.house) <= 1;
+
+        if (venusRahuConj || venusRahuOpp || ['Scorpio', 'Aries'].includes(venus.sign)) {
+            venusCycleValue = 'Idealism → Disillusionment → Repeat';
+            venusCycleSeverity = 'high';
+            const why = (venusRahuConj || venusRahuOpp)
+                ? `Venus ${venusRahuConj ? 'conjunct' : 'opposite'} Rahu (amplified desire)`
+                : `Venus in ${venus.sign}`;
+            venusCycleNote = `${why}: Each relationship begins with intense idealization — they seem perfect. When reality sets in, disillusionment follows. Without conscious awareness, this cycle repeats with each new person.`;
+        } else if (venusMarsConj && fireSignsV.includes(venus.sign)) {
+            venusCycleValue = 'Passion → Burnout → New Spark';
+            venusCycleSeverity = 'high';
+            venusCycleNote = `Venus-Mars in ${venus.sign}: Love ignites fast and burns hot, but fades when daily routine sets in. You crave the "spark" — which requires active effort to maintain within one relationship.`;
+        } else if (venusSaturnConj || ['Capricorn', 'Virgo'].includes(venus.sign)) {
+            venusCycleValue = 'Cautious → Deeply Committed';
+            venusCycleSeverity = 'low';
+            const why = venusSaturnConj ? 'Venus with Saturn' : `Venus in ${venus.sign}`;
+            venusCycleNote = `${why}: Love takes time to develop but runs very deep. You are slow to open, critical of potential partners, but once committed — exceptionally steadfast and loyal.`;
         } else if (fireSignsV.includes(venus.sign)) {
-            venusCycleValue = 'Intense → Burnout';
-            venusCycleNote = `Venus in ${venus.sign}: passionate and spontaneous in love; needs constant excitement to maintain interest.`;
+            venusCycleValue = 'Intense Spark → Gradual Settling';
+            venusCycleSeverity = 'moderate';
+            venusCycleNote = `Venus in ${venus.sign}: Passionate and enthusiastic in early romance. Needs ongoing growth and shared adventure to stay engaged. Routine without renewal leads to restlessness.`;
         } else if (waterSignsV.includes(venus.sign)) {
-            venusCycleValue = 'Deep Bonding → Clinging';
-            venusCycleNote = `Venus in ${venus.sign}: craves emotional depth and security; may struggle with letting go when relationships end.`;
+            venusCycleValue = 'Deep Bonding → Attachment Risk';
+            venusCycleSeverity = 'moderate';
+            venusCycleNote = `Venus in ${venus.sign}: Forms intensely emotional bonds. Difficulty letting go when relationships end — healing requires full emotional processing before the next connection.`;
         } else if (earthSignsV.includes(venus.sign)) {
-            venusCycleValue = 'Steady → Practical';
-            venusCycleNote = `Venus in ${venus.sign}: values reliability and shared goals over romance; love expressed through acts of service.`;
+            venusCycleValue = 'Steady → Practical Partnership';
+            venusCycleSeverity = 'low';
+            venusCycleNote = `Venus in ${venus.sign}: Values stability and shared purpose over grand romantic gestures. Love is demonstrated through consistent support, reliability, and quality time.`;
         } else {
-            venusCycleValue = 'Exploratory → Settled';
-            venusCycleNote = `Venus in ${venus.sign}: curious and communicative in love; needs intellectual connection alongside emotional depth.`;
+            venusCycleValue = 'Exploratory → Intellectually Bonded';
+            venusCycleSeverity = 'low';
+            venusCycleNote = `Venus in ${venus.sign}: Needs mental connection as much as emotional. Curious and communicative in love — may take time to commit if not intellectually stimulated.`;
         }
     }
 
-    // 4. Pattern Break Potential (Saturn/Jupiter influence)
-    let breakValue = 'Moderate (Through awareness)';
-    let breakNote = 'Conscious awareness of your patterns creates the most reliable window for change.';
-    if (saturn && [7, 5, 1].includes(saturn.house) && saturn.dignity !== 'debilitated') {
-        breakValue = `High (Saturn in ${saturn.house}th)`;
-        breakNote = `Saturn in ${saturn.house}th house creates a strong, dharmic framework for relationship discipline — patterns can break through structured self-work.`;
-    } else if (jupiter && [7, 5, 9].includes(jupiter.house) && ['exalted', 'own', 'friendly'].includes(jupiter.dignity)) {
-        breakValue = 'High (Jupiter protection)';
-        breakNote = `Jupiter in ${jupiter.house}th house offers wisdom and grace to transcend limiting patterns — especially during Jupiter mahadasha.`;
-    } else if (saturn) {
-        breakValue = 'High (After Saturn Return)';
-        breakNote = 'Saturn\'s maturation cycle (age 28–30, 57–60) creates natural pattern-break windows. Conscious choices during these periods are highly effective.';
+    // ─────────────────────────────────────────────────────────────────────────
+    // 4. PATTERN BREAK POTENTIAL
+    //    Factors: Jupiter placement+dignity, Saturn placement, Sun strength, Ketu detachment
+    // ─────────────────────────────────────────────────────────────────────────
+    let bpScore = 0;
+    const bpFactors: string[] = [];
+
+    // Jupiter well-placed = wisdom to break patterns
+    if (jupiter) {
+        const jupGood = ['exalted', 'own_house', 'friendly', 'moolatrikona'].includes(jupiter.dignity);
+        if ([5, 7, 9, 1].includes(jupiter.house) && jupGood) {
+            bpScore += 3; bpFactors.push(`Jupiter in ${ord(jupiter.house)} (grace and wisdom)`);
+        } else if ([5, 7, 9].includes(jupiter.house)) {
+            bpScore += 1; bpFactors.push(`Jupiter in ${ord(jupiter.house)}`);
+        }
     }
 
+    // Saturn in relationship houses = structural discipline
+    if (saturn && [7, 5, 1, 9].includes(saturn.house) && saturn.dignity !== 'debilitated') {
+        bpScore += 2; bpFactors.push(`Saturn in ${ord(saturn.house)} (structured self-discipline)`);
+    }
+
+    // Strong Sun = willpower and self-awareness
+    if (sun && ['exalted', 'own_house', 'moolatrikona'].includes(sun.dignity)) {
+        bpScore += 1; bpFactors.push('Strong Sun (self-awareness and willpower)');
+    }
+
+    // Ketu in 7th/12th/9th = natural detachment from patterns
+    if (ketu && [7, 12, 9].includes(ketu.house)) {
+        bpScore += 1; bpFactors.push(`Ketu in ${ord(ketu.house)} (natural detachment)`);
+    }
+
+    let breakValue: string;
+    let breakSeverity: 'low' | 'moderate' | 'high';
+    if (bpScore >= 4) {
+        breakSeverity = 'low';   // Low severity = GOOD (high potential)
+        const label = bpFactors[0]?.split('(')[0].trim() || 'multiple factors';
+        breakValue = `High — ${label}`;
+    } else if (bpScore >= 2) {
+        breakSeverity = 'moderate';
+        breakValue = 'Moderate — intentional effort required';
+    } else {
+        breakSeverity = 'high';  // High severity = needs most work
+        breakValue = 'Challenging — deep patterns need structured work';
+    }
+
+    const breakNote = bpFactors.length > 0
+        ? `Supportive factors: ${bpFactors.join('; ')}. Saturn Return (ages 28–30, 57–60) and Jupiter Mahadasha are key transformation windows.`
+        : 'No strong natural break indicators. Structured therapy, Jyotish remedies, and Saturn-period discipline are most effective tools.';
+
     return [
-        { label: 'Past-Life Relationship Karma', value: pastLifeValue, icon: '♾️', note: pastLifeNote },
-        { label: 'Pre-Marital Relationship Count', value: preMaritalValue, icon: '🌹', note: preMaritalNote },
-        { label: 'Venus Cycle Pattern', value: venusCycleValue, icon: '💫', note: venusCycleNote },
-        { label: 'Pattern Break Potential', value: breakValue, icon: '🌟', note: breakNote },
+        { label: 'Past-Life Relationship Karma',   value: pastLifeValue,    icon: '♾️', note: pastLifeNote,  severity: pastLifeSeverity  },
+        { label: 'Pre-Marital Relationship Count',  value: preMarValue,       icon: '🌹', note: preMarNote,    severity: preMarSeverity    },
+        { label: 'Venus Cycle Pattern',             value: venusCycleValue,  icon: '💫', note: venusCycleNote, severity: venusCycleSeverity },
+        { label: 'Pattern Break Potential',         value: breakValue,       icon: '🌟', note: breakNote,      severity: breakSeverity     },
     ];
 }
 

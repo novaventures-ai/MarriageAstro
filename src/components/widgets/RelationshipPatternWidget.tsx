@@ -149,18 +149,44 @@ export const RelationshipPatternWidget: React.FC<RelationshipPatternWidgetProps>
             {/* Karma Indicator Cards (2x2 grid matching feature page) */}
             {karmaIndicators.length > 0 && (
                 <div className="grid sm:grid-cols-2 gap-3">
-                    {karmaIndicators.map(k => (
-                        <div key={k.label} className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4">
-                            <div className="flex items-start gap-3">
-                                <span className="text-xl flex-shrink-0">{k.icon}</span>
-                                <div>
-                                    <div className="text-[10px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-0.5">{k.label}</div>
-                                    <div className="font-bold text-gray-900 dark:text-gray-100 text-sm mb-1">{k.value}</div>
-                                    <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">{k.note}</p>
+                    {karmaIndicators.map(k => {
+                        const severityBorder = k.severity === 'high'
+                            ? 'border-l-4 border-l-red-400'
+                            : k.severity === 'moderate'
+                                ? 'border-l-4 border-l-amber-400'
+                                : 'border-l-4 border-l-green-400';
+                        const severityBadge = k.severity === 'high'
+                            ? { label: 'HIGH', cls: 'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300' }
+                            : k.severity === 'moderate'
+                                ? { label: 'MODERATE', cls: 'bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300' }
+                                : { label: 'LOW', cls: 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300' };
+                        // For Pattern Break Potential, severity is inverted: high score = low severity = GOOD
+                        const isBreakCard = k.label === 'Pattern Break Potential';
+                        const displayBadge = isBreakCard
+                            ? k.severity === 'low'
+                                ? { label: 'HIGH POTENTIAL', cls: 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300' }
+                                : k.severity === 'moderate'
+                                    ? { label: 'MODERATE', cls: 'bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300' }
+                                    : { label: 'NEEDS WORK', cls: 'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300' }
+                            : severityBadge;
+                        return (
+                            <div key={k.label} className={`bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 ${severityBorder}`}>
+                                <div className="flex items-start gap-3">
+                                    <span className="text-xl flex-shrink-0">{k.icon}</span>
+                                    <div className="flex-1 min-w-0">
+                                        <div className="flex items-center gap-2 mb-0.5 flex-wrap">
+                                            <div className="text-[10px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">{k.label}</div>
+                                            <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide ${displayBadge.cls}`}>
+                                                {displayBadge.label}
+                                            </span>
+                                        </div>
+                                        <div className="font-bold text-gray-900 dark:text-gray-100 text-sm mb-1">{k.value}</div>
+                                        <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">{k.note}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             )}
 
