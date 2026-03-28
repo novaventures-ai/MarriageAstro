@@ -34,6 +34,16 @@ const SpousePredictionPage = lazy(() => import('./pages/features/SpousePredictio
 const PsychologicalProfilePage = lazy(() => import('./pages/features/PsychologicalProfilePage').then(m => ({ default: m.PsychologicalProfilePage })));
 const ConflictZonesPage = lazy(() => import('./pages/features/ConflictZonesPage').then(m => ({ default: m.ConflictZonesPage })));
 const SynastryPage = lazy(() => import('./pages/features/SynastryPage').then(m => ({ default: m.SynastryPage })));
+const KPAnalysisPage = lazy(() => import('./pages/features/KPAnalysisPage').then(m => ({ default: m.KPAnalysisPage })));
+const MentalHealthPage = lazy(() => import('./pages/features/MentalHealthPage').then(m => ({ default: m.MentalHealthPage })));
+const RemediesPage = lazy(() => import('./pages/features/RemediesPage').then(m => ({ default: m.RemediesPage })));
+const CharaDashaPage = lazy(() => import('./pages/features/CharaDashaPage').then(m => ({ default: m.CharaDashaPage })));
+const PoruthamPage = lazy(() => import('./pages/features/PoruthamPage').then(m => ({ default: m.PoruthamPage })));
+const YogaDoshaPage = lazy(() => import('./pages/features/YogaDoshaPage').then(m => ({ default: m.YogaDoshaPage })));
+const AddictionRiskPage = lazy(() => import('./pages/features/AddictionRiskPage').then(m => ({ default: m.AddictionRiskPage })));
+const RelationshipPatternsPage = lazy(() => import('./pages/features/RelationshipPatternsPage').then(m => ({ default: m.RelationshipPatternsPage })));
+const DivisionalChartsPage = lazy(() => import('./pages/features/DivisionalChartsPage').then(m => ({ default: m.DivisionalChartsPage })));
+const SexualCompatibilityPage = lazy(() => import('./pages/features/SexualCompatibilityPage').then(m => ({ default: m.SexualCompatibilityPage })));
 
 // Admin, Pricing, Demo & Affiliate
 const AdminPage = lazy(() => import('./pages/AdminPage').then(m => ({ default: m.AdminPage })));
@@ -143,6 +153,16 @@ function App() {
               <Route path="/features/psychological-profile" element={<PsychologicalProfilePage />} />
               <Route path="/features/conflict-zones" element={<ConflictZonesPage />} />
               <Route path="/features/synastry" element={<SynastryPage />} />
+              <Route path="/features/kp-analysis" element={<KPAnalysisPage />} />
+              <Route path="/features/mental-health" element={<MentalHealthPage />} />
+              <Route path="/features/remedies" element={<RemediesPage />} />
+              <Route path="/features/chara-dasha" element={<CharaDashaPage />} />
+              <Route path="/features/porutham" element={<PoruthamPage />} />
+              <Route path="/features/yoga-dosha" element={<YogaDoshaPage />} />
+              <Route path="/features/addiction-risk" element={<AddictionRiskPage />} />
+              <Route path="/features/relationship-patterns" element={<RelationshipPatternsPage />} />
+              <Route path="/features/divisional-charts" element={<DivisionalChartsPage />} />
+              <Route path="/features/sexual-compatibility" element={<SexualCompatibilityPage />} />
 
               {/* Admin, Pricing, Demo & Affiliate */}
               <Route path="/admin" element={<AdminPage />} />
