@@ -187,6 +187,16 @@ export const DashboardLayout: React.FC = () => {
               <Banknote className="w-5 h-5" />
               Earn with Us
             </NavLink>
+            {isAdmin && (
+              <NavLink
+                to="/admin"
+                className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-colors"
+                onClick={() => setSidebarOpen(false)}
+              >
+                <ShieldCheck className="w-5 h-5" />
+                Admin Panel
+              </NavLink>
+            )}
             <button
               onClick={() => {
                 setSidebarOpen(false);

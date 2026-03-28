@@ -247,10 +247,15 @@ export const useUserProfileStore = create<UserProfileState>()(
           const chart = await generateChartFromBirthData(selfBirthData);
           set({ selfChart: chart, generationError: null });
 
-          // Save to cloud
-          const { data: { session } } = await supabase.auth.getSession();
-          if (session?.user) {
-            await saveUserProfile(session.user.id, selfBirthData, chart);
+          // Save to cloud if user is logged in
+          try {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session?.user) {
+              await saveUserProfile(session.user.id, selfBirthData, chart);
+            }
+          } catch (saveError) {
+            // Log but don't fail chart generation — chart is already in local state
+            console.error('Failed to save chart to cloud (will retry on next login):', saveError instanceof Error ? saveError.message : 'Unknown error');
           }
         } catch (error) {
           console.error('Failed to generate chart:', error instanceof Error ? error.message : 'Unknown error');
