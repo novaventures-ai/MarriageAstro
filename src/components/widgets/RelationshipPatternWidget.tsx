@@ -259,6 +259,11 @@ export const RelationshipPatternWidget: React.FC<RelationshipPatternWidgetProps>
                         const sourcePlanets = extractSourcePlanets(pat.indicators);
                         const emoji = getCategoryEmoji(pat.category);
                         const borderColor = getSeverityBorderColor(pat.severity);
+                        const severityBadge = pat.severity === 'severe'
+                            ? { label: 'SEVERE',   cls: 'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300' }
+                            : pat.severity === 'moderate'
+                                ? { label: 'MODERATE', cls: 'bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300' }
+                                : { label: 'MILD',     cls: 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300' };
                         return (
                             <div key={i} className={`bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 ${borderColor} transition-colors`}>
                                 <button onClick={() => togglePattern(i)} className="w-full p-6 text-left">
@@ -268,6 +273,7 @@ export const RelationshipPatternWidget: React.FC<RelationshipPatternWidgetProps>
                                             <div className="flex items-center gap-2 mb-1 flex-wrap">
                                                 <span className="font-bold text-gray-900 dark:text-gray-100">{pat.name}</span>
                                                 <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${badge.cls}`}>{badge.label}</span>
+                                                <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${severityBadge.cls}`}>{severityBadge.label}</span>
                                             </div>
                                             <div className="flex items-center gap-1.5 mb-2 flex-wrap">
                                                 <span className="text-xs text-gray-500 dark:text-gray-400">Source:</span>
@@ -288,6 +294,22 @@ export const RelationshipPatternWidget: React.FC<RelationshipPatternWidgetProps>
 
                                 {expandedPatterns.has(i) && (
                                     <div className="px-6 pb-6 space-y-3">
+                                        {/* Severity explanation bar */}
+                                        <div className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium ${
+                                            pat.severity === 'severe'
+                                                ? 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800/40'
+                                                : pat.severity === 'moderate'
+                                                    ? 'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800/40'
+                                                    : 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-800/40'
+                                        }`}>
+                                            <span className="font-bold uppercase tracking-wide">{pat.severity === 'severe' ? 'Severe' : pat.severity === 'moderate' ? 'Moderate' : 'Mild'} Risk —</span>
+                                            <span>{pat.severity === 'severe'
+                                                ? 'Requires active awareness and consistent management.'
+                                                : pat.severity === 'moderate'
+                                                    ? 'Worth monitoring; manageable with conscious effort.'
+                                                    : 'Low concern — you can feel relaxed about this pattern.'
+                                            }</span>
+                                        </div>
                                         <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{pat.description}</p>
                                         <div className="space-y-1">
                                             {pat.indicators.map((ind, j) => (
