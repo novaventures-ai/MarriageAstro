@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
     Heart,
-    AlertTriangle,
     ChevronDown,
     ChevronUp,
     Shield,
@@ -39,13 +38,13 @@ export const RelationshipPatternWidget: React.FC<RelationshipPatternWidgetProps>
         });
     };
 
-    const getCategoryColor = (cat: string) => {
+    const getCategoryDescription = (cat: string) => {
         switch (cat) {
-            case 'narrative_history': return 'bg-pink-50 dark:bg-pink-900/10 border-pink-200 dark:border-pink-800/30';
-            case 'opportunity_triggers': return 'bg-red-50 dark:bg-red-900/10 border-red-200 dark:border-red-800/30';
-            case 'spouse_longevity': return 'bg-blue-50 dark:bg-blue-900/10 border-blue-200 dark:border-blue-800/30';
-            case 'capacity_approach': return 'bg-indigo-50 dark:bg-indigo-900/10 border-indigo-200 dark:border-indigo-800/30';
-            default: return 'bg-gray-50 dark:bg-gray-900/10 border-gray-200 dark:border-gray-800/30';
+            case 'narrative_history': return 'Indicates romantic capacity and past relationship experiences (The Journey).';
+            case 'opportunity_triggers': return 'Specific environments where emotional connections are most likely to form (The Road).';
+            case 'spouse_longevity': return '8th house and Mangalya Bhava assessment focusing on long-term health.';
+            case 'capacity_approach': return 'Psychological approach to commitment, stability, and intensity (The Driver).';
+            default: return 'Core relationship pattern and psychological profile.';
         }
     };
 
@@ -59,25 +58,51 @@ export const RelationshipPatternWidget: React.FC<RelationshipPatternWidgetProps>
         }
     };
 
-    const getCategoryLabelColor = (cat: string) => {
-        switch (cat) {
-            case 'narrative_history': return 'bg-pink-500';
-            case 'opportunity_triggers': return 'bg-red-500';
-            case 'spouse_longevity': return 'bg-blue-500';
-            case 'capacity_approach': return 'bg-indigo-500';
-            default: return 'bg-gray-500';
+    // Left border color per severity
+    const getSeverityBorderColor = (severity: string) => {
+        switch (severity) {
+            case 'severe': return 'border-l-4 border-l-red-400';
+            case 'moderate': return 'border-l-4 border-l-amber-400';
+            default: return 'border-l-4 border-l-green-400';
         }
     };
 
-    const getCategoryDescription = (cat: string) => {
+    // Badge color for PRIMARY/SECONDARY
+    const getPatternBadge = (idx: number, severity: string) => {
+        if (idx === 0 || severity === 'severe') {
+            return { label: 'Primary Pattern', cls: 'bg-purple-100 dark:bg-purple-900/40 text-purple-800 dark:text-purple-200' };
+        }
+        if (idx === 1 || severity === 'moderate') {
+            return { label: 'Secondary Pattern', cls: 'bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-200' };
+        }
+        return { label: 'Mild Pattern', cls: 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300' };
+    };
+
+    // Heart emoji per category
+    const getCategoryEmoji = (cat: string) => {
         switch (cat) {
-            case 'narrative_history': return 'Indicates romantic capacity and past relationship experiences (The Journey).';
-            case 'opportunity_triggers': return 'Specific environments where emotional connections are most likely to form (The Road).';
-            case 'spouse_longevity': return '8th house and Mangalya Bhava assessment focusing on long-term health.';
-            case 'capacity_approach': return 'Psychological approach to commitment, stability, and intensity (The Driver).';
-            default: return 'Core relationship pattern and psychological profile.';
+            case 'narrative_history': return '💜';
+            case 'opportunity_triggers': return '🔴';
+            case 'spouse_longevity': return '💙';
+            case 'capacity_approach': return '💛';
+            default: return '💗';
         }
     };
+
+    // Extract source planet tags from indicators
+    const extractSourcePlanets = (indicators: string[]): string[] => {
+        const planets = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu'];
+        const houseRegex = /(\d+)(?:st|nd|rd|th)/g;
+        const tags: string[] = [];
+        indicators.forEach(ind => {
+            planets.forEach(p => { if (ind.includes(p) && !tags.includes(p)) tags.push(p); });
+            const matches = ind.match(houseRegex);
+            if (matches) matches.forEach(m => { const tag = `${m} House`; if (!tags.includes(tag)) tags.push(tag); });
+        });
+        return tags.slice(0, 4);
+    };
+
+    const karmaIndicators = data.karmaIndicators || [];
 
     return (
         <div className="space-y-6">
@@ -121,35 +146,23 @@ export const RelationshipPatternWidget: React.FC<RelationshipPatternWidgetProps>
                 </div>
             )}
 
-            {/* Karma Summary Cards */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-100 dark:border-gray-700 shadow-sm">
-                    <p className="text-[10px] text-gray-400 uppercase tracking-wider mb-1">Pattern Count</p>
-                    <p className="text-2xl font-bold text-rose-500">{data.patterns.length}</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                        {data.patterns.filter(p => p.severity === 'severe').length > 0 ? `${data.patterns.filter(p => p.severity === 'severe').length} severe` : 'No severe patterns'}
-                    </p>
+            {/* Karma Indicator Cards (2x2 grid matching feature page) */}
+            {karmaIndicators.length > 0 && (
+                <div className="grid sm:grid-cols-2 gap-3">
+                    {karmaIndicators.map(k => (
+                        <div key={k.label} className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4">
+                            <div className="flex items-start gap-3">
+                                <span className="text-xl flex-shrink-0">{k.icon}</span>
+                                <div>
+                                    <div className="text-[10px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-0.5">{k.label}</div>
+                                    <div className="font-bold text-gray-900 dark:text-gray-100 text-sm mb-1">{k.value}</div>
+                                    <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">{k.note}</p>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
                 </div>
-                <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-100 dark:border-gray-700 shadow-sm">
-                    <p className="text-[10px] text-gray-400 uppercase tracking-wider mb-1">Risk Level</p>
-                    <p className={`text-2xl font-bold capitalize ${data.overallRiskLevel === 'high' ? 'text-red-500' : data.overallRiskLevel === 'elevated' ? 'text-amber-500' : data.overallRiskLevel === 'moderate' ? 'text-yellow-500' : 'text-green-500'}`}>
-                        {data.overallRiskLevel}
-                    </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Overall assessment</p>
-                </div>
-                <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-100 dark:border-gray-700 shadow-sm">
-                    <p className="text-[10px] text-gray-400 uppercase tracking-wider mb-1">Primary Driver</p>
-                    <p className="text-sm font-bold text-pink-600 dark:text-pink-400 leading-tight">
-                        {data.patterns.find(p => p.severity === 'severe' || p.severity === 'moderate')?.category.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) || 'Balanced'}
-                    </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Dominant pattern type</p>
-                </div>
-                <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-100 dark:border-gray-700 shadow-sm">
-                    <p className="text-[10px] text-gray-400 uppercase tracking-wider mb-1">Stabilizers</p>
-                    <p className="text-2xl font-bold text-indigo-500">{data.patterns.filter(p => p.counterBalance).length}</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Patterns with counter</p>
-                </div>
-            </div>
+            )}
 
             {/* Overall Risk & Narrative */}
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 transition-colors">
@@ -212,59 +225,73 @@ export const RelationshipPatternWidget: React.FC<RelationshipPatternWidgetProps>
                 </div>
             </div>
 
-            {/* Pattern Cards */}
+            {/* Pattern Cards — feature-page demo style */}
             {data.patterns.length > 0 ? (
-                <div className="space-y-3">
-                    {data.patterns.map((pat, i) => (
-                        <div key={i} className={`rounded-xl border transition-colors ${getCategoryColor(pat.category)}`}>
-                            <button onClick={() => togglePattern(i)} className="w-full p-4 flex items-center justify-between">
-                                <div className="flex items-center gap-3">
-                                    <div className="text-left">
-                                        <p className="font-semibold text-gray-800 dark:text-gray-100 transition-colors">{pat.name}</p>
-                                        <div className="flex items-center gap-2 mt-1">
-                                            <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold uppercase text-white ${getCategoryLabelColor(pat.category)}`}>
-                                                {getCategoryLabel(pat.category)}
-                                            </span>
-                                            <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold uppercase text-white ${pat.severity === 'severe' ? 'bg-red-500' : pat.severity === 'moderate' ? 'bg-amber-500' : 'bg-green-500'
-                                                }`}>{pat.severity}</span>
-                                        </div>
-                                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 text-left leading-snug line-clamp-1">{pat.description}</p>
-                                    </div>
-                                </div>
-                                {expandedPatterns.has(i) ? <ChevronUp className="w-5 h-5 text-gray-400" /> : <ChevronDown className="w-5 h-5 text-gray-400" />}
-                            </button>
-                            {expandedPatterns.has(i) && (
-                                <div className="px-4 pb-4 space-y-3">
-                                    <p className="text-sm text-gray-700 dark:text-gray-300 transition-colors">{pat.description}</p>
-                                    <div className="space-y-1">
-                                        {pat.indicators.map((ind, j) => (
-                                            <div key={j} className="flex items-center gap-1.5 text-xs text-gray-600 dark:text-gray-400 transition-colors">
-                                                <span className="w-1.5 h-1.5 bg-gray-400 rounded-full flex-shrink-0"></span>
-                                                {ind}
+                <div className="space-y-4">
+                    {data.patterns.map((pat, i) => {
+                        const badge = getPatternBadge(i, pat.severity);
+                        const sourcePlanets = extractSourcePlanets(pat.indicators);
+                        const emoji = getCategoryEmoji(pat.category);
+                        const borderColor = getSeverityBorderColor(pat.severity);
+                        return (
+                            <div key={i} className={`bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 ${borderColor} transition-colors`}>
+                                <button onClick={() => togglePattern(i)} className="w-full p-6 text-left">
+                                    <div className="flex items-start gap-3 mb-2">
+                                        <span className="text-2xl flex-shrink-0">{emoji}</span>
+                                        <div className="flex-1">
+                                            <div className="flex items-center gap-2 mb-1 flex-wrap">
+                                                <span className="font-bold text-gray-900 dark:text-gray-100">{pat.name}</span>
+                                                <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${badge.cls}`}>{badge.label}</span>
                                             </div>
-                                        ))}
+                                            <div className="flex items-center gap-1.5 mb-2 flex-wrap">
+                                                <span className="text-xs text-gray-500 dark:text-gray-400">Source:</span>
+                                                {sourcePlanets.length > 0
+                                                    ? sourcePlanets.map(p => (
+                                                        <span key={p} className="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-xs text-gray-600 dark:text-gray-400 rounded">{p}</span>
+                                                    ))
+                                                    : <span className="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-xs text-gray-500 rounded capitalize">{getCategoryLabel(pat.category)}</span>
+                                                }
+                                            </div>
+                                            <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-1">{pat.description}</p>
+                                        </div>
+                                        <div className="flex-shrink-0 mt-1">
+                                            {expandedPatterns.has(i) ? <ChevronUp className="w-5 h-5 text-gray-400" /> : <ChevronDown className="w-5 h-5 text-gray-400" />}
+                                        </div>
                                     </div>
-                                    <div className="p-4 bg-emerald-50 dark:bg-emerald-900/10 rounded-xl border border-emerald-200 dark:border-emerald-800/30 transition-colors">
-                                        <p className="text-xs font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider mb-2">💡 How to Break This Pattern</p>
-                                        <p className="text-sm text-emerald-800 dark:text-emerald-200 leading-relaxed transition-colors">{pat.advice}</p>
-                                    </div>
+                                </button>
 
-                                    {/* Stabilizing Influence Section (Always Visible) */}
-                                    <div className={`p-3 rounded-lg border-l-4 transition-colors ${pat.counterBalance ? 'bg-indigo-50 dark:bg-indigo-900/10 border-indigo-400' : 'bg-slate-50 dark:bg-slate-900/10 border-slate-300 dark:border-slate-700'}`}>
-                                        <div className="flex items-center gap-2 mb-1">
-                                            <Shield className={`w-3 h-3 ${pat.counterBalance ? 'text-indigo-600 dark:text-indigo-400' : 'text-slate-400 dark:text-slate-500'}`} />
-                                            <p className={`text-xs font-bold uppercase tracking-tighter ${pat.counterBalance ? 'text-indigo-800 dark:text-indigo-200' : 'text-slate-500 dark:text-slate-400'}`}>
-                                                Stabilizing Influence: {pat.counterBalance ? pat.counterBalance.title : 'No Direct Counter Detected'}
+                                {expandedPatterns.has(i) && (
+                                    <div className="px-6 pb-6 space-y-3">
+                                        <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{pat.description}</p>
+                                        <div className="space-y-1">
+                                            {pat.indicators.map((ind, j) => (
+                                                <div key={j} className="flex items-center gap-1.5 text-xs text-gray-600 dark:text-gray-400">
+                                                    <span className="w-1.5 h-1.5 bg-gray-400 rounded-full flex-shrink-0"></span>
+                                                    {ind}
+                                                </div>
+                                            ))}
+                                        </div>
+                                        <div className="bg-gray-50 dark:bg-gray-700/40 rounded-xl p-4">
+                                            <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">How To Break This Pattern</p>
+                                            <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">{pat.advice}</p>
+                                        </div>
+                                        {/* Stabilizing Influence */}
+                                        <div className={`p-3 rounded-lg border-l-4 transition-colors ${pat.counterBalance ? 'bg-indigo-50 dark:bg-indigo-900/10 border-indigo-400' : 'bg-slate-50 dark:bg-slate-900/10 border-slate-300 dark:border-slate-700'}`}>
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <Shield className={`w-3 h-3 ${pat.counterBalance ? 'text-indigo-600 dark:text-indigo-400' : 'text-slate-400 dark:text-slate-500'}`} />
+                                                <p className={`text-xs font-bold uppercase tracking-tighter ${pat.counterBalance ? 'text-indigo-800 dark:text-indigo-200' : 'text-slate-500 dark:text-slate-400'}`}>
+                                                    Stabilizing Influence: {pat.counterBalance ? pat.counterBalance.title : 'No Direct Counter Detected'}
+                                                </p>
+                                            </div>
+                                            <p className={`text-[11px] leading-tight ${pat.counterBalance ? 'text-indigo-700 dark:text-indigo-300' : 'text-slate-500 dark:text-slate-400 italic'}`}>
+                                                {pat.counterBalance ? pat.counterBalance.text : 'No specific astrological neutralizer found for this pattern. The latent risk depends on personal values and environmental filters.'}
                                             </p>
                                         </div>
-                                        <p className={`text-[11px] leading-tight ${pat.counterBalance ? 'text-indigo-700 dark:text-indigo-300' : 'text-slate-500 dark:text-slate-400 italic'}`}>
-                                            {pat.counterBalance ? pat.counterBalance.text : 'No specific astrological neutralizer found for this pattern. The latent risk depends on personal values and environmental filters.'}
-                                        </p>
                                     </div>
-                                </div>
-                            )}
-                        </div>
-                    ))}
+                                )}
+                            </div>
+                        );
+                    })}
                 </div>
             ) : (
                 <div className="bg-green-50 dark:bg-green-900/10 rounded-2xl p-8 text-center border border-green-200 dark:border-green-800/30 transition-colors">
@@ -273,6 +300,7 @@ export const RelationshipPatternWidget: React.FC<RelationshipPatternWidgetProps>
                     <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 transition-colors">The chart shows a balanced approach to relationships.</p>
                 </div>
             )}
+
             {/* AI Deep Dive */}
             <AIPatternAnalyzer patterns={data.patterns} profileName={name || (activePartner === 'A' ? 'Partner A' : 'Partner B')} />
         </div>
