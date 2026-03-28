@@ -29,6 +29,11 @@ export function buildOgImageUrl(params: OgImageParams): string {
   return `${SITE_URL}/api/og-image?${p.toString()}`;
 }
 
+/** Returns a 1080×1920 vertical image URL for Instagram Stories */
+export function buildStoryImageUrl(params: OgImageParams): string {
+  return buildOgImageUrl(params) + '&format=story';
+}
+
 // ─── Dynamic share text ──────────────────────────────────────────────────────
 
 export interface ReportShareData {
