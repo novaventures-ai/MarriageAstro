@@ -15,6 +15,7 @@ export interface YogaDosha {
     name: string;
     category: 'yoga' | 'dosha';
     type: 'marriage' | 'character' | 'health' | 'karmic';
+    auspicious?: boolean;  // ADD THIS
     present: boolean;
     severity: 'mild' | 'moderate' | 'severe';
     description: string;
@@ -26,6 +27,7 @@ export interface YogaDosha {
 export interface YogaDoshaAnalysis {
     yogas: YogaDosha[];
     doshas: YogaDosha[];
+    auspiciousYogas: YogaDosha[];  // ADD THIS
     summary: string;
     overallSeverity: 'low' | 'moderate' | 'high';
 }
@@ -44,6 +46,13 @@ function isConjunct(chart: Chart, p1: Planet, p2: Planet, orb = 10): boolean {
 
 function getPos(chart: Chart, planet: Planet) {
     return chart.planetaryPositions.find((p: PlanetaryPosition) => p.planet === planet);
+}
+
+function getHouseLord(ascendant: Sign, houseNum: number): Planet {
+    const signs: Sign[] = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
+    const ascIndex = signs.indexOf(ascendant);
+    const houseSignIndex = (ascIndex + houseNum - 1) % 12;
+    return SIGN_LORDS[signs[houseSignIndex]];
 }
 
 // ============================================================================
@@ -286,6 +295,109 @@ function detectChanchalManasYoga(chart: Chart): YogaDosha {
 }
 
 // ============================================================================
+// AUSPICIOUS YOGA DETECTION
+// ============================================================================
+
+function detectKalatraYoga(chart: Chart): YogaDosha {
+    const venus = getPos(chart, 'Venus');
+    const jupiter = getPos(chart, 'Jupiter');
+
+    const venusStrong = venus && (['Taurus', 'Libra', 'Pisces'].includes(venus.sign) || ['exalted', 'own'].includes(venus.dignity));
+    const venusIn7or9 = venus && [7, 9, 5].includes(venus.house);
+    const jupAspectsVenus = venus && jupiter && (
+        Math.abs(venus.house - jupiter.house) === 3 ||
+        Math.abs(venus.house - jupiter.house) === 4 ||
+        Math.abs(venus.house - jupiter.house) === 6 ||
+        Math.abs(venus.house - jupiter.house) === 7
+    );
+
+    const present = !!(venusStrong && venusIn7or9) || !!(venusIn7or9 && jupAspectsVenus);
+
+    return {
+        name: 'Kalatra Yoga',
+        category: 'yoga',
+        type: 'marriage',
+        auspicious: true,
+        present,
+        severity: 'mild',
+        description: present
+            ? `Venus in ${venus?.house}th house (${venus?.sign}) ${venusStrong ? 'in strong dignity' : 'with Jupiter aspect'} — indicates a virtuous, learned spouse and harmonious marriage`
+            : 'Kalatra Yoga not formed in this chart',
+        effects: present ? 'Attracts a loyal, educated, and morally upright spouse. Marriage brings social respect and domestic harmony.' : '',
+        remedies: [],
+        involvedPlanets: present && jupAspectsVenus ? ['Venus', 'Jupiter'] : ['Venus']
+    };
+}
+
+function detectDharmaKarmadhipatiYoga(chart: Chart): YogaDosha {
+    if (!chart.ascendant) return { name: 'Dharma-Karmadhipati Yoga', category: 'yoga', type: 'karmic', auspicious: true, present: false, severity: 'mild', description: 'Ascendant not available', effects: '', remedies: [], involvedPlanets: [] };
+
+    const lord9 = getHouseLord(chart.ascendant, 9);
+    const lord10 = getHouseLord(chart.ascendant, 10);
+    const pos9 = getPos(chart, lord9);
+    const pos10 = getPos(chart, lord10);
+
+    // Parivartana (exchange) or conjunction
+    const exchange = pos9 && pos10 && (
+        (pos9.house === 10 && pos10.house === 9) ||
+        Math.abs(pos9.house - pos10.house) <= 1
+    );
+
+    // Also: Jupiter in 9th or 10th in good dignity
+    const jupiter = getPos(chart, 'Jupiter');
+    const jupInDharma = jupiter && [9, 10, 5].includes(jupiter.house) && ['exalted', 'own', 'friendly'].includes(jupiter.dignity);
+
+    const present = !!exchange || !!jupInDharma;
+
+    return {
+        name: 'Dharma-Karmadhipati Yoga',
+        category: 'yoga',
+        type: 'karmic',
+        auspicious: true,
+        present,
+        severity: present ? 'moderate' : 'mild',
+        description: present
+            ? exchange
+                ? `9th and 10th house lords in mutual exchange — powerful yoga for dharmic purpose and career-spirituality alignment`
+                : `Jupiter in ${jupiter?.house}th house in ${jupiter?.dignity} dignity — strong dharmic foundation supporting marriage`
+            : 'Dharma-Karmadhipati Yoga not present in this chart',
+        effects: present ? 'Marriage accelerates both partners\' spiritual and professional growth simultaneously. Strong alignment of life purpose.' : '',
+        remedies: [],
+        involvedPlanets: exchange ? [lord9, lord10] : ['Jupiter']
+    };
+}
+
+function detectGauriYoga(chart: Chart): YogaDosha {
+    const moon = getPos(chart, 'Moon');
+    const jupiter = getPos(chart, 'Jupiter');
+
+    const moonStrong = moon && (['Cancer', 'Taurus'].includes(moon.sign) || ['exalted', 'own'].includes(moon.dignity));
+    const jupAspectsMoon = moon && jupiter && (
+        Math.abs(moon.house - jupiter.house) === 4 ||
+        Math.abs(moon.house - jupiter.house) === 6 ||
+        Math.abs(moon.house - jupiter.house) === 7 ||
+        Math.abs(moon.house - jupiter.house) === 0
+    );
+
+    const present = !!(moonStrong && jupAspectsMoon);
+
+    return {
+        name: 'Gauri Yoga',
+        category: 'yoga',
+        type: 'marriage',
+        auspicious: true,
+        present,
+        severity: 'mild',
+        description: present
+            ? `Moon in ${moon?.sign} (${moon?.dignity}) with Jupiter aspect — exceptional emotional intelligence and nurturing capacity`
+            : 'Gauri Yoga not formed in this chart',
+        effects: present ? 'Strong emotional stability, compassionate nature, and ability to create deep marital harmony. Spouse benefits from native\'s emotional wisdom.' : '',
+        remedies: [],
+        involvedPlanets: ['Moon', 'Jupiter']
+    };
+}
+
+// ============================================================================
 // MAIN ANALYSIS
 // ============================================================================
 
@@ -301,10 +413,18 @@ export function analyzeYogaDoshas(chart: Chart): YogaDoshaAnalysis {
         detectChanchalManasYoga(chart)
     ];
 
+    const auspiciousResults = [
+        detectKalatraYoga(chart),
+        detectDharmaKarmadhipatiYoga(chart),
+        detectGauriYoga(chart),
+    ];
+
     const yogas = results.filter(r => r.category === 'yoga');
     const doshas = results.filter(r => r.category === 'dosha');
+    const auspiciousYogas = auspiciousResults;
 
     const presentItems = results.filter(r => r.present);
+    const presentAuspicious = auspiciousResults.filter(r => r.present);
     const severeCount = presentItems.filter(r => r.severity === 'severe').length;
     const moderateCount = presentItems.filter(r => r.severity === 'moderate').length;
 
@@ -312,9 +432,11 @@ export function analyzeYogaDoshas(chart: Chart): YogaDoshaAnalysis {
         severeCount >= 2 ? 'high' :
             severeCount >= 1 || moderateCount >= 2 ? 'moderate' : 'low';
 
-    const summary = presentItems.length === 0
-        ? 'No significant yogas or doshas detected — favorable for marriage'
-        : `${presentItems.length} yoga/dosha pattern(s) detected: ${presentItems.map(p => p.name).join(', ')}`;
+    const summary = presentAuspicious.length > 0 && presentItems.length === 0
+        ? `${presentAuspicious.length} auspicious yoga(s) detected — highly favourable for marriage`
+        : presentItems.length === 0
+            ? 'No significant yogas or doshas detected — favorable for marriage'
+            : `${presentItems.length} yoga/dosha pattern(s) detected: ${presentItems.map(p => p.name).join(', ')}`;
 
-    return { yogas, doshas, summary, overallSeverity };
+    return { yogas, doshas, auspiciousYogas, summary, overallSeverity };
 }
