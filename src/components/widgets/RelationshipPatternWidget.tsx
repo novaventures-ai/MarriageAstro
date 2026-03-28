@@ -149,18 +149,44 @@ export const RelationshipPatternWidget: React.FC<RelationshipPatternWidgetProps>
             {/* Karma Indicator Cards (2x2 grid matching feature page) */}
             {karmaIndicators.length > 0 && (
                 <div className="grid sm:grid-cols-2 gap-3">
-                    {karmaIndicators.map(k => (
-                        <div key={k.label} className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4">
-                            <div className="flex items-start gap-3">
-                                <span className="text-xl flex-shrink-0">{k.icon}</span>
-                                <div>
-                                    <div className="text-[10px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-0.5">{k.label}</div>
-                                    <div className="font-bold text-gray-900 dark:text-gray-100 text-sm mb-1">{k.value}</div>
-                                    <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">{k.note}</p>
+                    {karmaIndicators.map(k => {
+                        const severityBorder = k.severity === 'high'
+                            ? 'border-l-4 border-l-red-400'
+                            : k.severity === 'moderate'
+                                ? 'border-l-4 border-l-amber-400'
+                                : 'border-l-4 border-l-green-400';
+                        const severityBadge = k.severity === 'high'
+                            ? { label: 'HIGH', cls: 'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300' }
+                            : k.severity === 'moderate'
+                                ? { label: 'MODERATE', cls: 'bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300' }
+                                : { label: 'LOW', cls: 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300' };
+                        // For Pattern Break Potential, severity is inverted: high score = low severity = GOOD
+                        const isBreakCard = k.label === 'Pattern Break Potential';
+                        const displayBadge = isBreakCard
+                            ? k.severity === 'low'
+                                ? { label: 'HIGH POTENTIAL', cls: 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300' }
+                                : k.severity === 'moderate'
+                                    ? { label: 'MODERATE', cls: 'bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300' }
+                                    : { label: 'NEEDS WORK', cls: 'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300' }
+                            : severityBadge;
+                        return (
+                            <div key={k.label} className={`bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 ${severityBorder}`}>
+                                <div className="flex items-start gap-3">
+                                    <span className="text-xl flex-shrink-0">{k.icon}</span>
+                                    <div className="flex-1 min-w-0">
+                                        <div className="flex items-center gap-2 mb-0.5 flex-wrap">
+                                            <div className="text-[10px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">{k.label}</div>
+                                            <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide ${displayBadge.cls}`}>
+                                                {displayBadge.label}
+                                            </span>
+                                        </div>
+                                        <div className="font-bold text-gray-900 dark:text-gray-100 text-sm mb-1">{k.value}</div>
+                                        <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">{k.note}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             )}
 
@@ -233,6 +259,11 @@ export const RelationshipPatternWidget: React.FC<RelationshipPatternWidgetProps>
                         const sourcePlanets = extractSourcePlanets(pat.indicators);
                         const emoji = getCategoryEmoji(pat.category);
                         const borderColor = getSeverityBorderColor(pat.severity);
+                        const severityBadge = pat.severity === 'severe'
+                            ? { label: 'SEVERE',   cls: 'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300' }
+                            : pat.severity === 'moderate'
+                                ? { label: 'MODERATE', cls: 'bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300' }
+                                : { label: 'MILD',     cls: 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300' };
                         return (
                             <div key={i} className={`bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 ${borderColor} transition-colors`}>
                                 <button onClick={() => togglePattern(i)} className="w-full p-6 text-left">
@@ -242,6 +273,7 @@ export const RelationshipPatternWidget: React.FC<RelationshipPatternWidgetProps>
                                             <div className="flex items-center gap-2 mb-1 flex-wrap">
                                                 <span className="font-bold text-gray-900 dark:text-gray-100">{pat.name}</span>
                                                 <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${badge.cls}`}>{badge.label}</span>
+                                                <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${severityBadge.cls}`}>{severityBadge.label}</span>
                                             </div>
                                             <div className="flex items-center gap-1.5 mb-2 flex-wrap">
                                                 <span className="text-xs text-gray-500 dark:text-gray-400">Source:</span>
@@ -262,6 +294,22 @@ export const RelationshipPatternWidget: React.FC<RelationshipPatternWidgetProps>
 
                                 {expandedPatterns.has(i) && (
                                     <div className="px-6 pb-6 space-y-3">
+                                        {/* Severity explanation bar */}
+                                        <div className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium ${
+                                            pat.severity === 'severe'
+                                                ? 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800/40'
+                                                : pat.severity === 'moderate'
+                                                    ? 'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800/40'
+                                                    : 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-800/40'
+                                        }`}>
+                                            <span className="font-bold uppercase tracking-wide">{pat.severity === 'severe' ? 'Severe' : pat.severity === 'moderate' ? 'Moderate' : 'Mild'} Risk —</span>
+                                            <span>{pat.severity === 'severe'
+                                                ? 'Requires active awareness and consistent management.'
+                                                : pat.severity === 'moderate'
+                                                    ? 'Worth monitoring; manageable with conscious effort.'
+                                                    : 'Low concern — you can feel relaxed about this pattern.'
+                                            }</span>
+                                        </div>
                                         <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{pat.description}</p>
                                         <div className="space-y-1">
                                             {pat.indicators.map((ind, j) => (
