@@ -32,16 +32,19 @@ export const DashboardSelfAnalysisPage: React.FC = () => {
           <User className="w-10 h-10 text-purple-400" />
         </div>
         <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-3">
-          No Profile Yet
+          Profile Not Found in Cloud
         </h2>
-        <p className="text-gray-500 dark:text-gray-400 mb-6">
-          Create your birth profile to get your personalized marriage analysis
+        <p className="text-gray-500 dark:text-gray-400 mb-2">
+          Your birth profile wasn't saved to the cloud yet.
+        </p>
+        <p className="text-sm text-gray-400 dark:text-gray-500 mb-6">
+          Re-enter your birth details below — once generated while logged in, your profile will persist across all logins.
         </p>
         <button
           onClick={() => navigate('/self-calculator')}
           className="px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg hover:shadow-lg transition-all font-medium inline-flex items-center gap-2"
         >
-          Create Profile <ArrowRight className="w-5 h-5" />
+          Create / Restore Profile <ArrowRight className="w-5 h-5" />
         </button>
       </div>
     );
