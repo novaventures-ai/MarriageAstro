@@ -1,15 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Core pages -->
   <url>
     <loc>https://marriage-astro.vercel.app/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://marriage-astro.vercel.app/calculator</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://marriage-astro.vercel.app/self-calculator</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://marriage-astro.vercel.app/how-it-works</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
+  <url>
+    <loc>https://marriage-astro.vercel.app/pricing</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://marriage-astro.vercel.app/affiliate</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Dashboard -->
+  <url>
+    <loc>https://marriage-astro.vercel.app/dashboard</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://marriage-astro.vercel.app/comparison</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://marriage-astro.vercel.app/add-partner</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Guides -->
   <url>
     <loc>https://marriage-astro.vercel.app/guides/ashtakoot-milan</loc>
     <changefreq>monthly</changefreq>
@@ -25,29 +65,133 @@
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
+
+  <!-- Features index + 19 individual feature pages -->
   <url>
-    <loc>https://marriage-astro.vercel.app/self-calculator</loc>
+    <loc>https://marriage-astro.vercel.app/features</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://marriage-astro.vercel.app/features/divorce-risk</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://marriage-astro.vercel.app/calculator</loc>
+    <loc>https://marriage-astro.vercel.app/features/ashtakoot-milan</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://marriage-astro.vercel.app/dashboard</loc>
+    <loc>https://marriage-astro.vercel.app/features/marriage-timing</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://marriage-astro.vercel.app/features/vulnerability-timeline</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://marriage-astro.vercel.app/features/spouse-prediction</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://marriage-astro.vercel.app/features/psychological-profile</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://marriage-astro.vercel.app/features/conflict-zones</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://marriage-astro.vercel.app/features/synastry</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://marriage-astro.vercel.app/features/kp-analysis</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://marriage-astro.vercel.app/features/mental-health</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://marriage-astro.vercel.app/features/remedies</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://marriage-astro.vercel.app/features/chara-dasha</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://marriage-astro.vercel.app/features/porutham</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://marriage-astro.vercel.app/features/yoga-dosha</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://marriage-astro.vercel.app/features/addiction-risk</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://marriage-astro.vercel.app/features/relationship-patterns</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://marriage-astro.vercel.app/features/divisional-charts</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://marriage-astro.vercel.app/features/sexual-compatibility</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Blog index + 5 articles -->
+  <url>
+    <loc>https://marriage-astro.vercel.app/blog</loc>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://marriage-astro.vercel.app/comparison</loc>
+    <loc>https://marriage-astro.vercel.app/blog/kundali-matching-complete-guide</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://marriage-astro.vercel.app/add-partner</loc>
+    <loc>https://marriage-astro.vercel.app/blog/mangal-dosha-myths-facts</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://marriage-astro.vercel.app/blog/when-will-i-get-married-astrology</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://marriage-astro.vercel.app/blog/vedic-vs-western-astrology-marriage</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://marriage-astro.vercel.app/blog/nadi-dosha-complete-guide</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
   </url>
 </urlset>

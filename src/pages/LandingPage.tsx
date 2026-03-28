@@ -673,36 +673,57 @@ export const LandingPage: React.FC = () => {
       {/* Footer */}
       <footer className="py-8 sm:py-12 px-3 sm:px-4 border-t border-gray-200 dark:border-gray-800 bg-white/20 dark:bg-black/20 safe-area-x">
         <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-8">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 mb-8">
             {/* Brand */}
-            <div>
+            <div className="col-span-2 sm:col-span-1">
               <Logo size="sm" className="mb-3" />
               <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
-                The most comprehensive Vedic marriage compatibility engine. Combining Parashari, KP, Jaimini & Nadi astrology with modern psychology for deep relationship insights.
+                The most comprehensive Vedic marriage compatibility engine. Combining Parashari, KP, Jaimini & Nadi astrology with modern psychology.
               </p>
             </div>
-            {/* Analysis */}
+            {/* Features */}
             <div>
-              <h4 className="font-semibold text-sm text-gray-800 dark:text-gray-100 mb-3">Analysis Modules</h4>
-              <ul className="space-y-1.5 text-xs text-gray-500 dark:text-gray-400">
-                <li>Ashtakoot Milan (36-Point Matching)</li>
-                <li>Synastry & House Overlays</li>
-                <li>KP 7th Cusp Sub Lord Analysis</li>
-                <li>Divorce Risk & Infidelity Radar</li>
-                <li>Sexual Compatibility (14 Yoni Types)</li>
-                <li>Mental Health & Addiction Profiling</li>
+              <h4 className="font-semibold text-sm text-gray-800 dark:text-gray-100 mb-3">Features</h4>
+              <ul className="space-y-1.5 text-xs">
+                {[
+                  { to: '/features', label: 'All Features' },
+                  { to: '/features/divorce-risk', label: 'Divorce Risk Radar' },
+                  { to: '/features/ashtakoot-milan', label: 'Ashtakoot Milan' },
+                  { to: '/features/marriage-timing', label: 'Marriage Timing' },
+                  { to: '/features/vulnerability-timeline', label: 'Vulnerability Timeline' },
+                  { to: '/features/spouse-prediction', label: 'Spouse Prediction' },
+                ].map(l => (
+                  <li key={l.to}><Link to={l.to} className="text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{l.label}</Link></li>
+                ))}
               </ul>
             </div>
-            {/* Systems */}
+            {/* Guides */}
             <div>
-              <h4 className="font-semibold text-sm text-gray-800 dark:text-gray-100 mb-3">Astrology Systems</h4>
-              <ul className="space-y-1.5 text-xs text-gray-500 dark:text-gray-400">
-                <li>Parashari (Traditional Vedic)</li>
-                <li>KP (Krishnamurti Paddhati)</li>
-                <li>Jaimini (Chara Karakas)</li>
-                <li>Bhrigu Nandi Nadi</li>
-                <li>7 Divisional Charts (D1-D60)</li>
-                <li>Swiss Ephemeris Calculations</li>
+              <h4 className="font-semibold text-sm text-gray-800 dark:text-gray-100 mb-3">Guides</h4>
+              <ul className="space-y-1.5 text-xs">
+                {[
+                  { to: '/how-it-works', label: 'How It Works' },
+                  { to: '/guides/ashtakoot-milan', label: 'Ashtakoot Milan Guide' },
+                  { to: '/guides/marriage-timing', label: 'Marriage Timing Guide' },
+                  { to: '/guides/mangal-dosha', label: 'Mangal Dosha Guide' },
+                ].map(l => (
+                  <li key={l.to}><Link to={l.to} className="text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{l.label}</Link></li>
+                ))}
+              </ul>
+            </div>
+            {/* Blog */}
+            <div>
+              <h4 className="font-semibold text-sm text-gray-800 dark:text-gray-100 mb-3">Blog</h4>
+              <ul className="space-y-1.5 text-xs">
+                {[
+                  { to: '/blog', label: 'All Articles' },
+                  { to: '/blog/kundali-matching-complete-guide', label: 'Kundali Matching Guide' },
+                  { to: '/blog/mangal-dosha-myths-facts', label: 'Mangal Dosha Myths' },
+                  { to: '/blog/when-will-i-get-married-astrology', label: 'Marriage Timing' },
+                  { to: '/blog/nadi-dosha-complete-guide', label: 'Nadi Dosha Guide' },
+                ].map(l => (
+                  <li key={l.to}><Link to={l.to} className="text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{l.label}</Link></li>
+                ))}
               </ul>
             </div>
           </div>

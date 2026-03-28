@@ -17,13 +17,17 @@ import {
   X,
   LogOut,
   Home,
-  Plus
+  Plus,
+  Banknote,
+  ShieldCheck,
+  ScrollText
 } from 'lucide-react';
 import { Logo } from '../ui/Logo';
 import { ThemeToggle } from '../ui/ThemeToggle';
 import { GoogleTranslate } from '../ui/GoogleTranslate';
 import { useAuth } from '../../context/AuthContext';
 import { useUserProfileStore } from '../../store/useUserProfileStore';
+import { useAppStore } from '../../store/useAppStore';
 import { DEMO_PARTNER_NAMES } from '../../lib/demoData';
 import { deletePartner } from '../../lib/userProfileService';
 import { supabase } from '../../lib/supabase';
@@ -40,7 +44,8 @@ const navItems = [
 export const DashboardLayout: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { user, signOut } = useAuth();
-  const { selfChart, isDemoMode } = useUserProfileStore();
+  const { selfChart, isDemoMode, isAdmin } = useUserProfileStore();
+  const currentReport = useAppStore((s) => s.currentReport);
   const navigate = useNavigate();
 
   const displayName = isDemoMode
@@ -138,6 +143,19 @@ export const DashboardLayout: React.FC = () => {
             </NavLink>
           ))}
 
+          {currentReport && (
+            <NavLink
+              to="/report"
+              className={navLinkClasses}
+              onClick={() => setSidebarOpen(false)}
+            >
+              <ScrollText className="w-5 h-5 flex-shrink-0" />
+              <span className="truncate">
+                {currentReport.chartA.name} &amp; {currentReport.chartB.name}
+              </span>
+            </NavLink>
+          )}
+
           {/* Quick Actions */}
           <div className="pt-4 mt-4 border-t border-gray-200 dark:border-gray-800">
             <p className="px-4 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
@@ -160,6 +178,14 @@ export const DashboardLayout: React.FC = () => {
             >
               <Plus className="w-5 h-5" />
               Add Partner
+            </NavLink>
+            <NavLink
+              to="/affiliate"
+              className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-amber-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20 transition-colors"
+              onClick={() => setSidebarOpen(false)}
+            >
+              <Banknote className="w-5 h-5" />
+              Earn with Us
             </NavLink>
             <button
               onClick={() => {
@@ -197,6 +223,16 @@ export const DashboardLayout: React.FC = () => {
                 {user?.email}
               </p>
             </div>
+            {isAdmin && (
+              <NavLink
+                to="/admin"
+                className="p-1.5 text-indigo-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-colors"
+                title="Admin Panel"
+                onClick={() => setSidebarOpen(false)}
+              >
+                <ShieldCheck className="w-4 h-4" />
+              </NavLink>
+            )}
             <button
               onClick={handleSignOut}
               className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
