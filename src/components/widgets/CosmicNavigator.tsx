@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import { PremiumBadge } from '../premium/PremiumBadge';
 
-export type ThemeId = 'match' | 'spouse' | 'chemistry' | 'risks' | 'mind' | 'timing';
+export type ThemeId = 'match' | 'partner' | 'risks' | 'chemistry' | 'timing';
 
 export interface ThemeConfig {
     id: ThemeId;

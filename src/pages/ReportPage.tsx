@@ -71,18 +71,18 @@ export const ReportPage: React.FC = () => {
     );
   }
 
-  // --- Dynamic Theme Configuration ---
+  // --- 5-Question Architecture ---
   const themes: ThemeConfig[] = [
     {
       id: 'match',
       icon: '💍',
-      title: 'Match Foundations',
-      question: 'Is this match meant to be?',
+      title: 'Is This the Right Match?',
+      question: 'Core compatibility & astrological promise',
       color: 'purple',
       gradient: 'from-purple-500 to-indigo-600',
       widgets: [
         { id: 'overview', label: 'Overall Compatibility' },
-        { id: 'ashtakoot', label: 'Ashtakoot Guna Milan' },
+        { id: 'ashtakoot', label: 'Ashtakoot Guna Milan (36 points)' },
         { id: 'porutham', label: 'South Indian Porutham' },
         { id: 'kp', label: 'KP Promise Analysis' },
         { id: 'kp-advanced', label: 'Advanced KP Significators' },
@@ -95,48 +95,32 @@ export const ReportPage: React.FC = () => {
       }
     },
     {
-      id: 'spouse',
-      icon: '👤',
-      title: 'Spouse & Destiny',
-      question: 'Who are they to me?',
+      id: 'partner',
+      icon: '🔍',
+      title: 'Who Are They Really?',
+      question: 'Personality, destiny & hidden character',
       premiumRequired: !isPremium,
       color: 'blue',
       gradient: 'from-blue-500 to-cyan-600',
       widgets: [
         { id: 'prediction', label: 'Spouse Prediction Details' },
         { id: '7thhouse', label: '7th House Placement' },
+        { id: 'psychology', label: 'Psychological Profile' },
+        { id: 'patterns', label: 'Relationship Behavior Patterns' },
         { id: 'navamsa', label: 'D9 Navamsa (Marriage Chart)' },
         { id: 'jaimini', label: 'Jaimini Soul Connection' },
       ],
       dynamicData: {
         highlight: currentReport.spousePrediction?.meetingPrediction?.marriageType?.type
           ? `Predicted: ${currentReport.spousePrediction.meetingPrediction.marriageType.type} Marriage`
-          : 'Spouse traits analyzed'
-      }
-    },
-    {
-      id: 'chemistry',
-      icon: '🔥',
-      title: 'Chemistry & Intimacy',
-      question: 'Are there sparks?',
-      premiumRequired: !isPremium,
-      color: 'rose',
-      gradient: 'from-rose-500 to-pink-600',
-      widgets: [
-        { id: 'sexual', label: 'Sexual Compatibility (Yoni)' },
-        { id: 'health', label: 'Vitality & Core Health' },
-        { id: 'synastry', label: 'Synastry Connections' },
-      ],
-      dynamicData: {
-        badge: (currentReport.sexualCompatibility as any)?.animalA ? `${(currentReport.sexualCompatibility as any).animalA} + ${(currentReport.sexualCompatibility as any).animalB}` : undefined,
-        status: (currentReport.sexualCompatibility as any)?.score >= 60 ? 'good' : 'warning'
+          : 'Character deeply analyzed'
       }
     },
     {
       id: 'risks',
       icon: '⚠️',
-      title: 'Red Flags & Risks',
-      question: 'What could go wrong?',
+      title: 'What Could Go Wrong?',
+      question: 'Red flags, friction points & awareness areas',
       premiumRequired: !isPremium,
       color: 'amber',
       gradient: 'from-amber-500 to-orange-600',
@@ -144,42 +128,49 @@ export const ReportPage: React.FC = () => {
         { id: 'radar', label: 'Complete Risk Radar' },
         { id: 'conflict', label: 'Conflict Zones' },
         { id: 'addiction', label: 'Addiction Vulnerabilities' },
-        { id: 'mental', label: 'Mental Health Impact' },
+        { id: 'mental', label: 'Mental & Emotional Patterns' },
+        { id: 'vulnerable', label: 'Vulnerability Periods' },
       ],
       dynamicData: {
         badge: `${(currentReport.riskAssessment as any)?.overallRisk?.level || 'Unknown'} Risk`,
-        status: (currentReport.riskAssessment as any)?.overallRisk?.level === 'Low' ? 'good' : ((currentReport.riskAssessment as any)?.overallRisk?.level === 'High' || (currentReport.riskAssessment as any)?.overallRisk?.level === 'Critical' ? 'danger' : 'warning')
+        status: (currentReport.riskAssessment as any)?.overallRisk?.level === 'Low'
+          ? 'good'
+          : ((currentReport.riskAssessment as any)?.overallRisk?.level === 'High' || (currentReport.riskAssessment as any)?.overallRisk?.level === 'Critical')
+            ? 'danger' : 'warning'
       }
     },
     {
-      id: 'mind',
-      icon: '🧠',
-      title: 'Mind & Emotions',
-      question: 'How will we behave?',
+      id: 'chemistry',
+      icon: '🔥',
+      title: 'Are We Deeply Compatible?',
+      question: 'Intimacy, attraction & deeper connection',
       premiumRequired: !isPremium,
-      color: 'emerald',
-      gradient: 'from-emerald-500 to-teal-600',
+      color: 'rose',
+      gradient: 'from-rose-500 to-pink-600',
       widgets: [
-        { id: 'psychology', label: 'Psychological Profile' },
-        { id: 'patterns', label: 'Relationship Behaviors' },
+        { id: 'sexual', label: 'Sexual Compatibility (Yoni)' },
+        { id: 'health', label: 'Vitality & Core Health' },
+        { id: 'synastry', label: 'Synastry Connections' },
         { id: 'modern', label: 'Modern Western Insights' },
       ],
       dynamicData: {
-        highlight: `Attachment: ${(currentReport as any).psychologicalProfile?.partnerA?.attachmentStyle?.type || 'analyzed'}`
+        badge: (currentReport.sexualCompatibility as any)?.animalA
+          ? `${(currentReport.sexualCompatibility as any).animalA} + ${(currentReport.sexualCompatibility as any).animalB}`
+          : undefined,
+        status: (currentReport.sexualCompatibility as any)?.score >= 60 ? 'good' : 'warning'
       }
     },
     {
       id: 'timing',
       icon: '⏰',
-      title: 'Timing & Action',
-      question: 'When to act & how to fix?',
+      title: 'When & How to Proceed?',
+      question: 'Marriage windows, Dasha timing & remedies',
       premiumRequired: !isPremium,
       color: 'indigo',
       gradient: 'from-indigo-500 to-violet-600',
       widgets: [
-        { id: 'timeline', label: 'Vimshottari Timeline' },
+        { id: 'timeline', label: 'Vimshottari Dasha Timeline' },
         { id: 'charadasha', label: 'Chara Dasha (Jaimini)' },
-        { id: 'vulnerable', label: 'Vulnerability Periods' },
         { id: 'remedies', label: 'Actionable Remedies' },
       ]
     }
@@ -336,8 +327,8 @@ export const ReportPage: React.FC = () => {
             </div>
           )}
 
-          {/* 2. SPOUSE & DESTINY */}
-          {activeTheme === 'spouse' && (
+          {/* 2. WHO ARE THEY REALLY? — personality, destiny, hidden character */}
+          {activeTheme === 'partner' && (
             <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
               <div id="prediction">
                 <SpousePredictionWidget
@@ -365,6 +356,23 @@ export const ReportPage: React.FC = () => {
                   <SeventhHousePlacementWidget chart={currentReport.chartB} />
                 </div>
               </div>
+              <div id="psychology">
+                <PremiumGate section="full_compat_report" label="Psychological Profile">
+                  <PsychologicalProfileWidget report={currentReport as any} />
+                </PremiumGate>
+              </div>
+              {currentReport.relationshipPatternAnalysis && (
+                <div id="patterns">
+                  <PremiumGate section="full_compat_report" label="Relationship Behavior Patterns">
+                    <RelationshipPatternWidget
+                      patternA={currentReport.relationshipPatternAnalysis.partnerA}
+                      patternB={currentReport.relationshipPatternAnalysis.partnerB}
+                      nameA={currentReport.chartA.name}
+                      nameB={currentReport.chartB.name}
+                    />
+                  </PremiumGate>
+                </div>
+              )}
               <div id="navamsa">
                 <PremiumGate section="divisional_advanced" label="Navamsa D9 Marriage Chart">
                   <DivisionalChartWidget
@@ -405,7 +413,58 @@ export const ReportPage: React.FC = () => {
             </div>
           )}
 
-          {/* 3. CHEMISTRY & INTIMACY */}
+          {/* 3. WHAT COULD GO WRONG? — red flags, friction, awareness areas */}
+          {activeTheme === 'risks' && (
+            <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <div id="radar">
+                <PremiumGate section="divorce_risk" label="Risk Analysis Details">
+                  <RiskRadarWidget
+                    riskAssessment={currentReport.riskAssessment}
+                    partnerAName={currentReport.chartA.name}
+                    partnerBName={currentReport.chartB.name}
+                  />
+                </PremiumGate>
+              </div>
+              <div id="conflict">
+                <PremiumGate section="divorce_risk" label="Conflict Zone Analysis">
+                  <ConflictZoneWidget report={currentReport} />
+                </PremiumGate>
+              </div>
+              {currentReport.addictionRiskAnalysis && (
+                <div id="addiction">
+                  <PremiumGate section="addiction_risk" label="Addiction Risk Analysis">
+                    <AddictionRiskWidget
+                      partnerA={currentReport.addictionRiskAnalysis.partnerA}
+                      partnerB={currentReport.addictionRiskAnalysis.partnerB}
+                      nameA={currentReport.chartA.name}
+                      nameB={currentReport.chartB.name}
+                    />
+                  </PremiumGate>
+                </div>
+              )}
+              {currentReport.mentalHealthAnalysis && (
+                <div id="mental">
+                  <PremiumGate section="mental_health" label="Mental & Emotional Patterns">
+                    <MentalHealthWidget
+                      mentalHealthA={currentReport.mentalHealthAnalysis.partnerA}
+                      mentalHealthB={currentReport.mentalHealthAnalysis.partnerB}
+                      chartAName={currentReport.chartA.name}
+                      chartBName={currentReport.chartB.name}
+                    />
+                  </PremiumGate>
+                </div>
+              )}
+              {currentReport.vulnerabilityTimeline && (
+                <div id="vulnerable">
+                  <PremiumGate section="vulnerability_timeline" label="Vulnerability Periods">
+                    <VulnerabilityTimelineWidget timeline={currentReport.vulnerabilityTimeline} />
+                  </PremiumGate>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* 4. ARE WE DEEPLY COMPATIBLE? — intimacy, attraction, deeper connection */}
           {activeTheme === 'chemistry' && (
             <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
               <div id="sexual">
@@ -438,73 +497,6 @@ export const ReportPage: React.FC = () => {
                   />
                 </PremiumGate>
               </div>
-            </div>
-          )}
-
-          {/* 4. RED FLAGS & RISKS */}
-          {activeTheme === 'risks' && (
-            <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <div id="radar">
-                <PremiumGate section="divorce_risk" label="Risk Analysis Details">
-                  <RiskRadarWidget
-                    riskAssessment={currentReport.riskAssessment}
-                    partnerAName={currentReport.chartA.name}
-                    partnerBName={currentReport.chartB.name}
-                  />
-                </PremiumGate>
-              </div>
-              <div id="conflict">
-                <PremiumGate section="divorce_risk" label="Conflict Zone Analysis">
-                  <ConflictZoneWidget report={currentReport} />
-                </PremiumGate>
-              </div>
-              {currentReport.addictionRiskAnalysis && (
-                <div id="addiction">
-                  <PremiumGate section="addiction_risk" label="Addiction Risk Analysis">
-                    <AddictionRiskWidget
-                      partnerA={currentReport.addictionRiskAnalysis.partnerA}
-                      partnerB={currentReport.addictionRiskAnalysis.partnerB}
-                      nameA={currentReport.chartA.name}
-                      nameB={currentReport.chartB.name}
-                    />
-                  </PremiumGate>
-                </div>
-              )}
-              {currentReport.mentalHealthAnalysis && (
-                <div id="mental">
-                  <PremiumGate section="mental_health" label="Mental Health Analysis">
-                    <MentalHealthWidget
-                      mentalHealthA={currentReport.mentalHealthAnalysis.partnerA}
-                      mentalHealthB={currentReport.mentalHealthAnalysis.partnerB}
-                      chartAName={currentReport.chartA.name}
-                      chartBName={currentReport.chartB.name}
-                    />
-                  </PremiumGate>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* 5. MIND & EMOTIONS */}
-          {activeTheme === 'mind' && (
-            <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <div id="psychology">
-                <PremiumGate section="full_compat_report" label="Psychological Profile">
-                  <PsychologicalProfileWidget report={currentReport as any} />
-                </PremiumGate>
-              </div>
-              {currentReport.relationshipPatternAnalysis && (
-                <div id="patterns">
-                  <PremiumGate section="full_compat_report" label="Relationship Patterns">
-                    <RelationshipPatternWidget
-                      patternA={currentReport.relationshipPatternAnalysis.partnerA}
-                      patternB={currentReport.relationshipPatternAnalysis.partnerB}
-                      nameA={currentReport.chartA.name}
-                      nameB={currentReport.chartB.name}
-                    />
-                  </PremiumGate>
-                </div>
-              )}
               <div id="modern">
                 <PremiumGate section="full_compat_report" label="Modern Western Insights">
                   <ModernInsightsWidget
@@ -519,7 +511,7 @@ export const ReportPage: React.FC = () => {
             </div>
           )}
 
-          {/* 6. TIMING & ACTION */}
+          {/* 5. WHEN & HOW TO PROCEED? — Dasha timing & remedies */}
           {activeTheme === 'timing' && (
             <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
               <div id="timeline"><TimingWidget timing={currentReport.timing} /></div>
@@ -532,13 +524,6 @@ export const ReportPage: React.FC = () => {
                       nameA={currentReport.chartA.name}
                       nameB={currentReport.chartB.name}
                     />
-                  </PremiumGate>
-                </div>
-              )}
-              {currentReport.vulnerabilityTimeline && (
-                <div id="vulnerable">
-                  <PremiumGate section="vulnerability_timeline" label="Vulnerability Timeline">
-                    <VulnerabilityTimelineWidget timeline={currentReport.vulnerabilityTimeline} />
                   </PremiumGate>
                 </div>
               )}

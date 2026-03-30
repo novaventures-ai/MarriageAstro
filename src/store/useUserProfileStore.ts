@@ -25,7 +25,13 @@ import {
 import { supabase } from '../lib/supabase';
 import { v4 as uuidv4 } from 'uuid';
 
+export type UserMode = 'searcher' | 'decider' | 'navigator';
+
 interface UserProfileState {
+  // User Mode (journey context)
+  userMode: UserMode | null;
+  setUserMode: (mode: UserMode) => void;
+
   // Self Profile
   selfChart: Chart | null;
   selfBirthData: BirthDataInput | null;
@@ -125,6 +131,7 @@ export const useUserProfileStore = create<UserProfileState>()(
           isAdmin: false,
           isDemoMode: false,
           _preDemoState: null,
+          userMode: null,
           // keep isHydrated true to avoid hydration issues
         });
       },
@@ -150,6 +157,10 @@ export const useUserProfileStore = create<UserProfileState>()(
       aiCreditsRemaining: 3,
       aiCreditsResetAt: null,
       isAdmin: false,
+
+      userMode: null,
+
+      setUserMode: (mode: UserMode) => set({ userMode: mode }),
 
       isHydrated: false,
       isDemoMode: false,
@@ -587,6 +598,7 @@ export const useUserProfileStore = create<UserProfileState>()(
           unlockedSections: state.unlockedSections,
           aiCreditsRemaining: state.aiCreditsRemaining,
           aiCreditsResetAt: state.aiCreditsResetAt,
+          userMode: state.userMode,
           isDemoMode: false,
           // NOTE: isAdmin is intentionally NOT persisted to prevent
           // privilege leakage between accounts on the same browser.
