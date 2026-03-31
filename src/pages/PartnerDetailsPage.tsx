@@ -8,7 +8,7 @@ import { SEOHead } from '../components/SEOHead';
 export const PartnerDetailsPage: React.FC = () => {
     const { partnerId } = useParams<{ partnerId: string }>();
     const navigate = useNavigate();
-    const { partners, removePartner, isHydrated, loadPartners } = useUserProfileStore();
+    const { partners, removePartner, isHydrated, loadPartners, userMode } = useUserProfileStore();
     const [partner, setPartner] = useState<PartnerProfile | null>(null);
 
     useEffect(() => {
@@ -107,6 +107,34 @@ export const PartnerDetailsPage: React.FC = () => {
                         </div>
                     </div>
                 </div>
+
+                {/* Mode-specific action bar */}
+                {userMode === 'decider' && (
+                    <div className="mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-700 rounded-2xl px-6 py-4">
+                        <p className="text-rose-800 dark:text-rose-200 text-sm font-medium">
+                            You're evaluating this person for marriage. Run a full compatibility report to get your verdict.
+                        </p>
+                        <button
+                            onClick={() => navigate(`/quick-compare/${partner.id}`)}
+                            className="flex-shrink-0 flex items-center gap-2 px-5 py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-semibold rounded-xl transition-colors text-sm"
+                        >
+                            Get Verdict &rarr;
+                        </button>
+                    </div>
+                )}
+                {userMode === 'navigator' && (
+                    <div className="mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-700 rounded-2xl px-6 py-4">
+                        <p className="text-emerald-800 dark:text-emerald-200 text-sm font-medium">
+                            This is your partner. View your couple's Vedic pulse and monthly guidance.
+                        </p>
+                        <button
+                            onClick={() => navigate('/dashboard/compatibility')}
+                            className="flex-shrink-0 flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl transition-colors text-sm"
+                        >
+                            View Couple Report &rarr;
+                        </button>
+                    </div>
+                )}
 
                 {/* Details Grid */}
                 <div className="grid md:grid-cols-2 gap-6">

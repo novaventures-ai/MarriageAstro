@@ -3,7 +3,7 @@
  * Generates data for KP Analysis, Chara Karakas, and other extended widgets
  */
 
-import { Chart, Planet, Sign, House } from '../src/types';
+import { Chart, Planet, Sign, House, PlanetaryPosition } from '../src/types';
 import { SIGN_LORDS, SIGNS } from './coreCalculations';
 
 // Helper functions for spouse and compatibility analysis
@@ -1199,21 +1199,159 @@ function getCompoundCharacteristics(chart: Chart): string[] {
   return characteristics;
 }
 
+// ---------------------------------------------------------------------------
+// Vimshopaka Bala helpers
+// ---------------------------------------------------------------------------
+
+/** Standard Vimshopaka point weights for each of the 16 Shodashavargas */
+const VIMSHOPAKA_WEIGHTS: Record<string, number> = {
+  D1: 3, D2: 1.5, D3: 1, D4: 0.5, D7: 0.5, D9: 3,
+  D10: 0.5, D12: 0.5, D16: 2, D20: 0.5, D24: 0.5,
+  D27: 1, D30: 1, D40: 0.5, D45: 0.5, D60: 4
+};
+
+const VIMSHOPAKA_MAX = Object.values(VIMSHOPAKA_WEIGHTS).reduce((a, b) => a + b, 0); // 20
+
+/**
+ * Returns the proportion of the full varga weight earned given a planet's
+ * dignity: 1.0 for exalted/moolatrikona/own, 0.5 for friendly/neutral, 0.0 for enemy/debilitated.
+ */
+function dignityMultiplier(dignity: PlanetaryPosition['dignity']): number {
+  switch (dignity) {
+    case 'exalted':
+    case 'moolatrikona':
+    case 'own_house':
+      return 1.0;
+    case 'friendly':
+    case 'neutral':
+      return 0.5;
+    case 'enemy':
+    case 'debilitated':
+    default:
+      return 0.0;
+  }
+}
+
+/**
+ * Fallback Vimshopaka score (0–20 scale) based on D1 dignity alone,
+ * used when divisional chart data is unavailable.
+ */
+function d1DignityFallbackScore(dignity: PlanetaryPosition['dignity']): number {
+  switch (dignity) {
+    case 'exalted':     return 18;
+    case 'moolatrikona':
+    case 'own_house':   return 15;
+    case 'friendly':    return 10;
+    case 'neutral':     return 7;
+    case 'enemy':       return 4;
+    case 'debilitated': return 2;
+    default:            return 7;
+  }
+}
+
 export function calculateExtendedDivisionalAnalysis(chart: Chart): ExtendedDivisionalAnalysis {
-  // Vimshopaka scoring (placeholder logic)
+  // ---------------------------------------------------------------------------
+  // Vimshopaka Bala scoring
+  // Assign points per varga based on planet dignity, then normalise to 0–20.
+  // ---------------------------------------------------------------------------
   const vimshopakaScores = chart.planetaryPositions.slice(0, 7).map(p => {
-    const d1Score = Math.floor(Math.random() * 5) + 1;
-    const d9Score = Math.floor(Math.random() * 5) + 1;
-    const total = d1Score + d9Score;
+    // Retrieve the planetary position record for this planet from a given ChartData.
+    const getPosInChart = (cd: { planetaryPositions: PlanetaryPosition[] } | undefined): PlanetaryPosition | undefined =>
+      cd?.planetaryPositions.find(pos => pos.planet === p.planet);
+
+    // D1 — always available via chart.planetaryPositions directly
+    const d1Pos = p;
+
+    // D9 — always present per the Chart type
+    const d9Pos = getPosInChart(chart.vargaCharts.D9);
+
+    // D7 and D60 — optional
+    const d7Pos  = getPosInChart(chart.vargaCharts.D7);
+    const d60Pos = getPosInChart(chart.vargaCharts.D60);
+
+    // Check whether we have at least some divisional data beyond D1
+    const hasVargaData = !!d9Pos;
+
+    let totalScore: number;
+    let d1Score: number;
+    let d9Score: number;
+    let d7Score: number | undefined;
+    let d60Score: number | undefined;
+
+    if (!hasVargaData) {
+      // Pure fallback: use D1 dignity to approximate the full Vimshopaka score
+      totalScore = d1DignityFallbackScore(d1Pos.dignity);
+      d1Score    = totalScore;
+      d9Score    = 0;
+    } else {
+      // Accumulate points across all available vargas
+      let accumulated = 0;
+
+      // Helper: accumulate a varga's contribution
+      const addVarga = (vargaKey: string, pos: PlanetaryPosition | undefined): number => {
+        if (!pos) return 0;
+        const weight = VIMSHOPAKA_WEIGHTS[vargaKey] ?? 0;
+        return weight * dignityMultiplier(pos.dignity);
+      };
+
+      // Always-available vargas
+      d1Score = addVarga('D1', d1Pos);
+      d9Score = addVarga('D9', d9Pos);
+      accumulated += d1Score + d9Score;
+
+      // Optional vargas — iterate through all 16 except D1 and D9
+      const optionalVargas: Array<[string, PlanetaryPosition | undefined]> = [
+        ['D2',  getPosInChart(chart.vargaCharts.D2)],
+        ['D3',  getPosInChart(chart.vargaCharts.D3)],
+        ['D4',  getPosInChart(chart.vargaCharts.D4)],
+        ['D7',  d7Pos],
+        ['D10', getPosInChart(chart.vargaCharts.D10)],
+        ['D12', getPosInChart(chart.vargaCharts.D12)],
+        ['D16', getPosInChart(chart.vargaCharts.D16)],
+        ['D20', getPosInChart(chart.vargaCharts.D20)],
+        ['D24', getPosInChart(chart.vargaCharts.D24)],
+        ['D27', getPosInChart(chart.vargaCharts.D27)],
+        ['D30', getPosInChart(chart.vargaCharts.D30)],
+        ['D40', getPosInChart(chart.vargaCharts.D40)],
+        ['D45', getPosInChart(chart.vargaCharts.D45)],
+        ['D60', d60Pos],
+      ];
+
+      // Track the max weight of vargas that are actually available, for normalisation
+      let availableMax = VIMSHOPAKA_WEIGHTS['D1'] + VIMSHOPAKA_WEIGHTS['D9'];
+
+      for (const [key, pos] of optionalVargas) {
+        if (pos) {
+          availableMax += VIMSHOPAKA_WEIGHTS[key] ?? 0;
+          accumulated  += addVarga(key, pos);
+        }
+      }
+
+      // Per-chart optional scores exposed in the return type
+      d7Score  = d7Pos  ? addVarga('D7',  d7Pos)  : undefined;
+      d60Score = d60Pos ? addVarga('D60', d60Pos) : undefined;
+
+      // Normalise to 0–20 based on how many vargas were available
+      totalScore = availableMax > 0 ? (accumulated / availableMax) * VIMSHOPAKA_MAX : 0;
+    }
+
+    const total = Math.round(totalScore * 10) / 10; // one decimal place
+
+    const strength =
+      total >= 15 ? 'very_strong' as const :
+      total >= 12 ? 'strong'      as const :
+      total >= 8  ? 'moderate'    as const :
+      total >= 5  ? 'weak'        as const :
+                    'very_weak'   as const;
 
     return {
       planet: p.planet,
-      d1Score,
-      d9Score,
+      d1Score:  Math.round(d1Score  * 100) / 100,
+      d9Score:  Math.round(d9Score  * 100) / 100,
+      ...(d7Score  !== undefined && { d7Score:  Math.round(d7Score  * 100) / 100 }),
+      ...(d60Score !== undefined && { d60Score: Math.round(d60Score * 100) / 100 }),
       total,
-      strength: total >= 8 ? 'very_strong' as const :
-        total >= 6 ? 'strong' as const :
-          total >= 4 ? 'moderate' as const : 'weak' as const
+      strength
     };
   });
 
@@ -1257,11 +1395,28 @@ export function calculateExtendedDivisionalAnalysis(chart: Chart): ExtendedDivis
     const sign = vargaChart.ascendant || 'Aries';
     const lord = getSignLord(sign);
 
+    // Compute a deterministic Vimshopaka-scale strength (0–20) for this varga.
+    // Average the dignity multipliers of all planets present in the varga chart,
+    // then map to the 0–20 scale.  Fall back to D1 dignity of the ascendant lord
+    // when no planetary position data is available for the varga.
+    let vargaStrength: number;
+    const vargaPositions: PlanetaryPosition[] | undefined = (chart.vargaCharts as any)?.[item.varga]?.planetaryPositions;
+    if (vargaPositions && vargaPositions.length > 0) {
+      const avgMultiplier = vargaPositions.reduce((sum, pos) => sum + dignityMultiplier(pos.dignity), 0) / vargaPositions.length;
+      vargaStrength = Math.round(avgMultiplier * VIMSHOPAKA_MAX * 10) / 10;
+    } else {
+      // No varga-specific data — use D1 dignity of the ascendant lord as a proxy
+      const lordD1Pos = chart.planetaryPositions.find(pos => pos.planet === lord);
+      vargaStrength = lordD1Pos
+        ? Math.round(dignityMultiplier(lordD1Pos.dignity) * VIMSHOPAKA_MAX * 10) / 10
+        : 10; // neutral fallback mid-range
+    }
+
     return {
       ...item,
       sign,
       lord,
-      strength: Math.floor(Math.random() * 5) + 16, // Vimshopaka scale placeholder
+      strength: vargaStrength,
       interpretation: `${item.name} in ${sign} indicates ${getVargaSignInterpretation(item.varga, sign)}`
     };
   });

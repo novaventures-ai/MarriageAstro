@@ -4,7 +4,7 @@ import { useUserProfileStore } from '../store/useUserProfileStore';
 import { useAppStore } from '../store/useAppStore';
 import { Loader2, AlertCircle, ArrowLeft } from 'lucide-react';
 import { SEOHead } from '../components/SEOHead';
-import { BirthDataInput } from '@types';
+import { BirthDataInput, CompatibilityReport } from '@types';
 
 export const QuickComparePage: React.FC = () => {
     const { partnerId } = useParams<{ partnerId: string }>();
@@ -14,7 +14,8 @@ export const QuickComparePage: React.FC = () => {
         partners,
         selfBirthData,
         isHydrated,
-        loadPartners
+        loadPartners,
+        userMode,
     } = useUserProfileStore();
 
     const { generateReport, isLoading: isStoreGenerating, error: reportError } = useAppStore();
@@ -22,6 +23,7 @@ export const QuickComparePage: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [isProcessing, setIsProcessing] = useState(false);
     const [longWait, setLongWait] = useState(false);
+    const [result, setResult] = useState<CompatibilityReport | null>(null);
     const hasProcessed = useRef(false);
 
     useEffect(() => {
@@ -94,10 +96,14 @@ export const QuickComparePage: React.FC = () => {
                 // 5. Generate Report
                 await generateReport(personAData, personBData);
 
-                // 6. Navigate to Report
+                // 6. Show result summary (with mode callout) before navigating
                 const state = useAppStore.getState();
                 if (!state.error) {
-                    navigate('/report');
+                    if (state.currentReport) {
+                        setResult(state.currentReport);
+                    } else {
+                        navigate('/report');
+                    }
                 } else {
                     setError(state.error);
                 }

@@ -8,6 +8,7 @@ import {
     Loader2, ChevronDown, ChevronUp, ChevronLeft, ChevronRight, Heart, MessageCircle, Lightbulb, Target
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useUserProfileStore } from '../../store/useUserProfileStore';
 
 interface CosmicMatchWidgetProps {
     selfChart: Chart | null;
@@ -830,6 +831,7 @@ const DetailedAnalysisModal: React.FC<DetailedAnalysisModalProps> = ({
 // Rest of the CosmicMatchWidget component...
 export const CosmicMatchWidget: React.FC<CosmicMatchWidgetProps> = ({ selfChart, selfBirthData, partners }) => {
     const navigate = useNavigate();
+    const { userMode } = useUserProfileStore();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedMatch, setSelectedMatch] = useState<MatchInsight | null>(null);
     const [selectedPartnerChart, setSelectedPartnerChart] = useState<Chart | undefined>(undefined);
@@ -1088,14 +1090,33 @@ export const CosmicMatchWidget: React.FC<CosmicMatchWidgetProps> = ({ selfChart,
         );
     }
 
+    const modeBadge = userMode === 'searcher'
+        ? <span className="inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-300">Finding Your Best Match</span>
+        : userMode === 'decider'
+        ? <span className="inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300">Evaluating Compatibility</span>
+        : userMode === 'navigator'
+        ? <span className="inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">Your Couple Insights</span>
+        : null;
+
+    const modeTitle = userMode === 'searcher'
+        ? 'Best Match Finder'
+        : userMode === 'decider'
+        ? 'Who is Most Compatible?'
+        : userMode === 'navigator'
+        ? 'Your Relationship Depth'
+        : 'Cosmic Insight';
+
     return (
         <>
             <div className="mb-8 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-2xl shadow-lg p-1">
                 <div className="bg-white dark:bg-gray-900 rounded-xl p-6 h-full backdrop-blur-sm bg-opacity-95 dark:bg-opacity-95">
+                    {modeBadge && (
+                        <div className="mb-2">{modeBadge}</div>
+                    )}
                     <div className="flex items-center gap-2 mb-4">
                         <Sparkles className="w-5 h-5 text-purple-600" />
                         <h3 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-pink-600">
-                            Cosmic Insight
+                            {modeTitle}
                         </h3>
 
                         <div className="ml-auto flex items-center gap-2">

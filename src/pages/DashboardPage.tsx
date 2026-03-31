@@ -24,6 +24,42 @@ import { useAuth } from '../context/AuthContext';
 import { SEOHead } from '../components/SEOHead';
 import { UserModeOnboarding } from '../components/onboarding/UserModeOnboarding';
 
+const MODE_COLORS: Record<string, {
+  border: string; bg: string; text: string; badge: string;
+  ctaBtn: string; statBg: string; statBorder: string; statText: string;
+}> = {
+  violet: {
+    border: 'border-violet-200 dark:border-violet-800/50',
+    bg: 'bg-violet-50 dark:bg-violet-900/20',
+    text: 'text-violet-800 dark:text-violet-200',
+    badge: 'bg-violet-100 dark:bg-violet-900/40 text-violet-700 dark:text-violet-300',
+    ctaBtn: 'bg-violet-600 hover:bg-violet-700 text-white',
+    statBg: 'bg-violet-50 dark:bg-violet-900/20',
+    statBorder: 'border-violet-200 dark:border-violet-800/30',
+    statText: 'text-violet-700 dark:text-violet-300',
+  },
+  rose: {
+    border: 'border-rose-200 dark:border-rose-800/50',
+    bg: 'bg-rose-50 dark:bg-rose-900/20',
+    text: 'text-rose-800 dark:text-rose-200',
+    badge: 'bg-rose-100 dark:bg-rose-900/40 text-rose-700 dark:text-rose-300',
+    ctaBtn: 'bg-rose-600 hover:bg-rose-700 text-white',
+    statBg: 'bg-rose-50 dark:bg-rose-900/20',
+    statBorder: 'border-rose-200 dark:border-rose-800/30',
+    statText: 'text-rose-700 dark:text-rose-300',
+  },
+  emerald: {
+    border: 'border-emerald-200 dark:border-emerald-800/50',
+    bg: 'bg-emerald-50 dark:bg-emerald-900/20',
+    text: 'text-emerald-800 dark:text-emerald-200',
+    badge: 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300',
+    ctaBtn: 'bg-emerald-600 hover:bg-emerald-700 text-white',
+    statBg: 'bg-emerald-50 dark:bg-emerald-900/20',
+    statBorder: 'border-emerald-200 dark:border-emerald-800/30',
+    statText: 'text-emerald-700 dark:text-emerald-300',
+  },
+};
+
 export const DashboardPage: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -67,7 +103,7 @@ export const DashboardPage: React.FC = () => {
       headline: "Your Relationship Pulse",
       sub: "Understand each other deeper and navigate what's coming",
       primaryCta: partners.length > 0 ? 'View Couple Report' : 'Add Your Partner',
-      primaryPath: partners.length > 0 ? `/quick-compare/${partners[0]?.id}` : '/add-partner',
+      primaryPath: partners.length > 0 ? '/dashboard/compatibility' : '/add-partner',
     },
   };
 
@@ -106,25 +142,28 @@ export const DashboardPage: React.FC = () => {
       </div>
 
       {/* Mode-specific focus banner */}
-      {activeModeConfig && (
-        <div className={`rounded-2xl border border-${activeModeConfig.color}-200 dark:border-${activeModeConfig.color}-800 bg-${activeModeConfig.color}-50 dark:bg-${activeModeConfig.color}-900/20 p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4`}>
-          <div>
-            <h2 className={`text-lg font-bold text-${activeModeConfig.color}-800 dark:text-${activeModeConfig.color}-200 flex items-center gap-2`}>
-              {activeModeConfig.icon}
-              {activeModeConfig.headline}
-            </h2>
-            <p className={`text-sm text-${activeModeConfig.color}-600 dark:text-${activeModeConfig.color}-400 mt-1`}>
-              {activeModeConfig.sub}
-            </p>
+      {activeModeConfig && (() => {
+        const mc = MODE_COLORS[activeModeConfig.color];
+        return (
+          <div className={`rounded-2xl border p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${mc.border} ${mc.bg}`}>
+            <div>
+              <h2 className={`text-lg font-bold flex items-center gap-2 ${mc.text}`}>
+                {activeModeConfig.icon}
+                {activeModeConfig.headline}
+              </h2>
+              <p className={`text-sm mt-1 ${mc.statText}`}>
+                {activeModeConfig.sub}
+              </p>
+            </div>
+            <button
+              onClick={() => navigate(activeModeConfig.primaryPath)}
+              className={`flex-shrink-0 px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors whitespace-nowrap ${mc.ctaBtn}`}
+            >
+              {activeModeConfig.primaryCta} →
+            </button>
           </div>
-          <button
-            onClick={() => navigate(activeModeConfig.primaryPath)}
-            className={`flex-shrink-0 px-5 py-2.5 bg-${activeModeConfig.color}-600 hover:bg-${activeModeConfig.color}-700 text-white rounded-xl text-sm font-semibold transition-colors whitespace-nowrap`}
-          >
-            {activeModeConfig.primaryCta} →
-          </button>
-        </div>
-      )}
+        );
+      })()}
 
       {/* Stats row */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -349,6 +388,14 @@ export const DashboardPage: React.FC = () => {
   );
 };
 
+const STAT_ACCENT_BG: Record<string, string> = {
+  purple: 'bg-purple-100 dark:bg-purple-900/30',
+  pink:   'bg-pink-100 dark:bg-pink-900/30',
+  amber:  'bg-amber-100 dark:bg-amber-900/30',
+  indigo: 'bg-indigo-100 dark:bg-indigo-900/30',
+  gray:   'bg-gray-100 dark:bg-gray-700/50',
+};
+
 const StatCard: React.FC<{
   icon: React.ReactNode;
   label: string;
@@ -357,7 +404,7 @@ const StatCard: React.FC<{
 }> = ({ icon, label, value, accent }) => (
   <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
     <div className="flex items-center gap-3">
-      <div className={`w-10 h-10 rounded-lg bg-${accent}-100 dark:bg-${accent}-900/30 flex items-center justify-center`}>
+      <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${STAT_ACCENT_BG[accent] ?? STAT_ACCENT_BG['gray']}`}>
         {icon}
       </div>
       <div>
@@ -368,6 +415,14 @@ const StatCard: React.FC<{
   </div>
 );
 
+const QUICK_ACTION_COLORS: Record<string, string> = {
+  purple: 'text-purple-700 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20',
+  pink:   'text-pink-700 dark:text-pink-400 hover:bg-pink-50 dark:hover:bg-pink-900/20',
+  rose:   'text-rose-700 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-900/20',
+  indigo: 'text-indigo-700 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20',
+  amber:  'text-amber-700 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20',
+};
+
 const QuickAction: React.FC<{
   icon: React.ReactNode;
   label: string;
@@ -376,7 +431,7 @@ const QuickAction: React.FC<{
 }> = ({ icon, label, onClick, color }) => (
   <button
     onClick={onClick}
-    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-${color}-700 dark:text-${color}-400 hover:bg-${color}-50 dark:hover:bg-${color}-900/20 transition-colors text-left`}
+    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors text-left ${QUICK_ACTION_COLORS[color] ?? ''}`}
   >
     {icon}
     {label}
