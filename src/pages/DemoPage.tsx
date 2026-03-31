@@ -6,7 +6,7 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUserProfileStore } from '../store/useUserProfileStore';
+import { useUserProfileStore, UserMode } from '../store/useUserProfileStore';
 import { useAppStore } from '../store/useAppStore';
 import { DEMO_SELF, DEMO_PARTNERS } from '../lib/demoData';
 import { Sparkles, Loader2, CheckCircle2, Circle } from 'lucide-react';
@@ -29,6 +29,7 @@ export const DemoPage: React.FC = () => {
     { label: 'Adding partner profiles', status: 'pending' },
     { label: 'Generating compatibility report', status: 'pending' },
     { label: 'Unlocking all premium sections', status: 'pending' },
+    { label: 'Activating Decider mode for demo', status: 'pending' },
   ]);
   const [error, setError] = useState<string | null>(null);
 
@@ -110,8 +111,13 @@ export const DemoPage: React.FC = () => {
           planExpiresAt: null,
           aiCreditsRemaining: 999,
           isAdmin: false, // not admin, but astrologer tier for full access
+          userMode: 'decider' as UserMode,
         });
         updateStep(5, { status: 'done', detail: 'All sections unlocked' });
+
+        // Step 7: Activate Decider mode
+        updateStep(6, { status: 'loading' });
+        updateStep(6, { status: 'done', detail: 'All 3 journey modes showcased' });
 
         // Brief pause to show completion, then redirect
         await new Promise(r => setTimeout(r, 800));

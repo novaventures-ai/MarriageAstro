@@ -5,14 +5,41 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, User, Edit2, Loader2 } from 'lucide-react';
+import { ArrowRight, User, Edit2, Loader2, Calendar, Scale, Compass } from 'lucide-react';
 import { useUserProfileStore } from '../../store/useUserProfileStore';
 import { useAuth } from '../../context/AuthContext';
 import { SEOHead } from '../../components/SEOHead';
 
+const MODE_BANNER = {
+  searcher: {
+    gradient: 'from-indigo-500 to-purple-600',
+    icon: Calendar,
+    title: 'Your Marriage Timing is Ready',
+    text: 'Your chart has been analysed for favorable windows, spouse predictions, and marriage potential.',
+  },
+  decider: {
+    gradient: 'from-pink-500 to-rose-500',
+    icon: Scale,
+    title: 'Your Profile Powers Every Comparison',
+    text: 'This is the chart we compare against every partner you add. Keep it accurate.',
+  },
+  navigator: {
+    gradient: 'from-teal-500 to-emerald-500',
+    icon: Compass,
+    title: 'Your Vedic Blueprint',
+    text: 'Your natal chart is the foundation of your ongoing relationship guidance.',
+  },
+} as const;
+
+const MODE_SUBTITLE: Record<string, string> = {
+  searcher: 'Your personal marriage predictions and timing',
+  decider: 'Your base chart for all compatibility checks',
+  navigator: 'Your personal Vedic blueprint',
+};
+
 export const DashboardSelfAnalysisPage: React.FC = () => {
   const navigate = useNavigate();
-  const { selfChart, selfBirthData, selfReport, isLoadingPartners } = useUserProfileStore();
+  const { selfChart, selfBirthData, selfReport, isLoadingPartners, userMode } = useUserProfileStore();
   const { isLoading: isAuthLoading } = useAuth();
 
   // Show skeleton while auth session or cloud profile is loading
@@ -50,6 +77,9 @@ export const DashboardSelfAnalysisPage: React.FC = () => {
     );
   }
 
+  const subtitle = userMode ? (MODE_SUBTITLE[userMode] ?? 'Your personal marriage analysis and predictions') : 'Your personal marriage analysis and predictions';
+  const bannerConfig = userMode ? MODE_BANNER[userMode] ?? null : null;
+
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       <SEOHead
@@ -61,7 +91,7 @@ export const DashboardSelfAnalysisPage: React.FC = () => {
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Self Analysis</h1>
           <p className="text-gray-500 dark:text-gray-400 mt-1">
-            Your personal marriage analysis and predictions
+            {subtitle}
           </p>
         </div>
         <div className="flex gap-3">
@@ -79,6 +109,24 @@ export const DashboardSelfAnalysisPage: React.FC = () => {
           </button>
         </div>
       </div>
+
+      {/* Mode-aware banner */}
+      {bannerConfig && (() => {
+        const Icon = bannerConfig.icon;
+        return (
+          <div className={`bg-gradient-to-r ${bannerConfig.gradient} rounded-2xl p-5 text-white`}>
+            <div className="flex items-start gap-4">
+              <div className="flex-shrink-0 w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
+                <Icon className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h2 className="font-semibold text-lg leading-snug">{bannerConfig.title}</h2>
+                <p className="mt-1 text-white/85 text-sm leading-relaxed">{bannerConfig.text}</p>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Profile Summary */}
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">

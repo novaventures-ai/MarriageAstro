@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import { IndianRupee, Users, Link2, Copy, Check, Star, ArrowRight, LogIn } from 'lucide-react';
 import { SEOHead } from '../components/SEOHead';
 import { useAuth } from '../context/AuthContext';
+import { supabase } from '../lib/supabase';
 import { AuthButton } from '../components/ui/AuthButton';
 import { Logo } from '../components/ui/Logo';
 
@@ -70,24 +71,21 @@ export function AffiliatePage() {
     setSubmitting(true);
     setError('');
     try {
-      const res = await fetch('/api/affiliate-track', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          action: 'register',
-          name: form.name,
-          email: form.email,
-          whatsapp: form.whatsapp,
-          bureauName: form.bureauName,
-          userId: user.id,
-        }),
-      });
-      const data = await res.json();
-      if (data.affiliate_code) {
-        setAffiliateCode(data.affiliate_code);
-      } else {
-        setError(data.error ?? 'Something went wrong. Please try again.');
-      }
+      await supabase.auth.getSession();
+      // Generate a simple affiliate code
+      const code = `AFF-${form.name.toUpperCase().replace(/\s+/g, '').slice(0, 6)}-${Date.now().toString(36).toUpperCase()}`;
+      const { error: dbErr } = await supabase.from('affiliates').upsert({
+        user_id: user?.id ?? null,
+        name: form.name,
+        email: form.email,
+        whatsapp: form.whatsapp ?? null,
+        bureau_name: form.bureauName ?? null,
+        affiliate_code: code,
+        status: 'pending',
+        created_at: new Date().toISOString(),
+      }, { onConflict: 'email' });
+      if (dbErr) throw dbErr;
+      setAffiliateCode(code);
     } catch {
       setError('Network error. Please try again.');
     } finally {

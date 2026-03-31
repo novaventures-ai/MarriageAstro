@@ -13,11 +13,33 @@ import {
   ChevronRight,
   Star,
   Users,
-  Search
+  Search,
+  CheckCircle
 } from 'lucide-react';
 import { useUserProfileStore } from '../../store/useUserProfileStore';
 import { generateMatchInsight } from '../../../lib/ai/matchInsight';
 import { SEOHead } from '../../components/SEOHead';
+
+const MODE_SUBTITLE: Record<string, string> = {
+  searcher: 'Your shortlist — ranked by compatibility',
+  decider: 'The person you\'re evaluating',
+  navigator: 'Your partner profiles',
+};
+
+const MODE_EMPTY_STATE: Record<string, { title: string; body: string }> = {
+  searcher: {
+    title: 'Start Building Your Shortlist',
+    body: 'Add profiles of people you\'re considering — we\'ll rank them by compatibility score.',
+  },
+  decider: {
+    title: 'Add the Person You\'re Evaluating',
+    body: 'Enter their birth details to run a full Vedic compatibility report.',
+  },
+  navigator: {
+    title: 'Your Partner is Already Here',
+    body: 'Use the Compatibility tab to view your couple analysis. You can add alternate profiles for comparison.',
+  },
+};
 
 export const DashboardPartnersPage: React.FC = () => {
   const navigate = useNavigate();
@@ -31,7 +53,8 @@ export const DashboardPartnersPage: React.FC = () => {
     selectPartner,
     loadFromCloud,
     isHydrated,
-    isDemoMode
+    isDemoMode,
+    userMode
   } = useUserProfileStore();
 
   const [partnerScores, setPartnerScores] = useState<Record<string, { score: number; verdict: string }>>({});
@@ -90,6 +113,12 @@ export const DashboardPartnersPage: React.FC = () => {
     }
   };
 
+  const headerSubtitle = userMode
+    ? (MODE_SUBTITLE[userMode] ?? 'Manage and compare your saved partners')
+    : 'Manage and compare your saved partners';
+
+  const emptyStateConfig = userMode ? (MODE_EMPTY_STATE[userMode] ?? null) : null;
+
   return (
     <div className="max-w-6xl mx-auto space-y-6">
       <SEOHead
@@ -105,7 +134,7 @@ export const DashboardPartnersPage: React.FC = () => {
             Partners
           </h1>
           <p className="text-gray-500 dark:text-gray-400 mt-1">
-            Manage and compare your saved partners
+            {headerSubtitle}
           </p>
         </div>
         <div className="flex gap-2">
@@ -170,10 +199,10 @@ export const DashboardPartnersPage: React.FC = () => {
             <Plus className="w-8 h-8 text-pink-600" />
           </div>
           <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">
-            No Partners Added Yet
+            {emptyStateConfig ? emptyStateConfig.title : 'No Partners Added Yet'}
           </h3>
           <p className="text-gray-500 dark:text-gray-400 mb-4 max-w-md mx-auto text-sm">
-            Add potential partners to check compatibility and compare charts
+            {emptyStateConfig ? emptyStateConfig.body : 'Add potential partners to check compatibility and compare charts'}
           </p>
           <button
             onClick={() => navigate('/add-partner')}
@@ -185,71 +214,92 @@ export const DashboardPartnersPage: React.FC = () => {
       ) : (
         <>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {paginatedPartners.map((partner) => (
-              <div
-                key={partner.id}
-                onClick={() => selectPartner(partner.id)}
-                className={`bg-white dark:bg-gray-800 rounded-xl shadow-sm border p-5 cursor-pointer transition-all hover:shadow-md ${
-                  selectedPartnerId === partner.id
-                    ? 'ring-2 ring-pink-500 border-pink-300 dark:border-pink-700'
-                    : 'border-gray-200 dark:border-gray-700'
-                }`}
-              >
-                <div className="flex items-start justify-between mb-3">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-full bg-pink-100 dark:bg-pink-900/30 flex items-center justify-center">
-                      <span className="text-lg font-bold text-pink-600">
-                        {partner.name.charAt(0).toUpperCase()}
-                      </span>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-gray-800 dark:text-gray-100">{partner.name}</h4>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">{partner.gender}</p>
-                      {partnerScores[partner.id] && (
-                        <div className="mt-1 flex items-center gap-2">
-                          <Star className="w-3 h-3 text-amber-500 fill-amber-500" />
-                          <span className="font-bold text-gray-700 dark:text-gray-200 text-sm">
-                            {partnerScores[partner.id].score}/100
-                          </span>
-                          <span className={`text-xs px-1.5 py-0.5 rounded-full font-medium ${
-                            partnerScores[partner.id].verdict === 'Excellent' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' :
-                            partnerScores[partner.id].verdict === 'Good' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' :
-                            partnerScores[partner.id].verdict === 'Average' ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' :
-                            'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
-                          }`}>
-                            {partnerScores[partner.id].verdict}
-                          </span>
+            {paginatedPartners.map((partner) => {
+              const isSelected = selectedPartnerId === partner.id;
+              const isNavigatorPrimary = userMode === 'navigator' && isSelected;
+
+              return (
+                <div
+                  key={partner.id}
+                  onClick={() => selectPartner(partner.id)}
+                  className={`bg-white dark:bg-gray-800 rounded-xl shadow-sm border p-5 cursor-pointer transition-all hover:shadow-md ${
+                    isSelected
+                      ? 'ring-2 ring-pink-500 border-pink-300 dark:border-pink-700'
+                      : 'border-gray-200 dark:border-gray-700'
+                  }`}
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-full bg-pink-100 dark:bg-pink-900/30 flex items-center justify-center">
+                        <span className="text-lg font-bold text-pink-600">
+                          {partner.name.charAt(0).toUpperCase()}
+                        </span>
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <h4 className="font-semibold text-gray-800 dark:text-gray-100">{partner.name}</h4>
+                          {isNavigatorPrimary && (
+                            <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">
+                              Primary
+                            </span>
+                          )}
                         </div>
-                      )}
+                        <p className="text-sm text-gray-500 dark:text-gray-400">{partner.gender}</p>
+                        {partnerScores[partner.id] && (
+                          <div className="mt-1 flex items-center gap-2">
+                            <Star className="w-3 h-3 text-amber-500 fill-amber-500" />
+                            <span className="font-bold text-gray-700 dark:text-gray-200 text-sm">
+                              {partnerScores[partner.id].score}/100
+                            </span>
+                            <span className={`text-xs px-1.5 py-0.5 rounded-full font-medium ${
+                              partnerScores[partner.id].verdict === 'Excellent' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' :
+                              partnerScores[partner.id].verdict === 'Good' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' :
+                              partnerScores[partner.id].verdict === 'Average' ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' :
+                              'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
+                            }`}>
+                              {partnerScores[partner.id].verdict}
+                            </span>
+                          </div>
+                        )}
+                      </div>
                     </div>
+                    <button
+                      onClick={(e) => handleRemovePartner(partner.id, e)}
+                      className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                      title="Remove partner"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
                   </div>
-                  <button
-                    onClick={(e) => handleRemovePartner(partner.id, e)}
-                    className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
-                    title="Remove partner"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
+                  <div className="text-xs text-gray-500 dark:text-gray-400 mb-3">
+                    Added {new Date(partner.createdAt).toLocaleDateString()}
+                  </div>
+                  <div className="flex gap-2">
+                    {userMode === 'decider' ? (
+                      <button
+                        onClick={(e) => { e.stopPropagation(); navigate(`/quick-compare/${partner.id}`); }}
+                        className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-lg text-sm font-medium hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
+                      >
+                        <CheckCircle className="w-4 h-4" /> Get Verdict
+                      </button>
+                    ) : (
+                      <button
+                        onClick={(e) => { e.stopPropagation(); navigate(`/quick-compare/${partner.id}`); }}
+                        className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 bg-pink-50 dark:bg-pink-900/20 text-pink-600 dark:text-pink-400 rounded-lg text-sm font-medium hover:bg-pink-100 dark:hover:bg-pink-900/30 transition-colors"
+                      >
+                        <Scale className="w-4 h-4" /> Compare
+                      </button>
+                    )}
+                    <button
+                      onClick={(e) => { e.stopPropagation(); navigate(`/partner/${partner.id}`); }}
+                      className="px-3 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                    >
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
-                <div className="text-xs text-gray-500 dark:text-gray-400 mb-3">
-                  Added {new Date(partner.createdAt).toLocaleDateString()}
-                </div>
-                <div className="flex gap-2">
-                  <button
-                    onClick={(e) => { e.stopPropagation(); navigate(`/quick-compare/${partner.id}`); }}
-                    className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 bg-pink-50 dark:bg-pink-900/20 text-pink-600 dark:text-pink-400 rounded-lg text-sm font-medium hover:bg-pink-100 dark:hover:bg-pink-900/30 transition-colors"
-                  >
-                    <Scale className="w-4 h-4" /> Compare
-                  </button>
-                  <button
-                    onClick={(e) => { e.stopPropagation(); navigate(`/partner/${partner.id}`); }}
-                    className="px-3 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-                  >
-                    <ChevronRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            ))}
+              );
+            })}
 
             {/* Add partner card */}
             <button
