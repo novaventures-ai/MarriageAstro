@@ -9,10 +9,12 @@ import { Heart, ArrowRight, Sparkles } from 'lucide-react';
 import { useUserProfileStore } from '../../store/useUserProfileStore';
 import { SEOHead } from '../../components/SEOHead';
 import { CosmicMatchWidget } from '../../components/dashboard/CosmicMatchWidget';
+import { CouplePulseWidget } from '../../components/widgets/CouplePulseWidget';
 
 export const DashboardCompatibilityPage: React.FC = () => {
   const navigate = useNavigate();
-  const { selfChart, selfBirthData, partners } = useUserProfileStore();
+  const { selfChart, selfBirthData, partners, userMode } = useUserProfileStore();
+  const primaryPartner = partners[0];
 
   return (
     <div className="max-w-6xl mx-auto space-y-6">
@@ -38,6 +40,16 @@ export const DashboardCompatibilityPage: React.FC = () => {
           New Compatibility Check <ArrowRight className="w-4 h-4" />
         </button>
       </div>
+
+      {/* Navigator mode: Monthly Couple Pulse */}
+      {userMode === 'navigator' && selfChart && primaryPartner?.chart && (
+        <CouplePulseWidget
+          chartA={selfChart}
+          chartB={primaryPartner.chart}
+          nameA={selfChart.name}
+          nameB={primaryPartner.name}
+        />
+      )}
 
       {/* AI Insights Widget */}
       {selfChart && partners.length > 0 ? (

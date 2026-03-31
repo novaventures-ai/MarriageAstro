@@ -130,17 +130,43 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose, hig
     }
   };
 
-  const handleNotify = async () => {
-    if (!email.trim()) return;
+  const [loadingNotify, setLoadingNotify] = useState(false);
+
+  const handleNotify = async (plan = 'premium') => {
+    const target = email.trim();
+    if (!target) return;
+    setLoadingNotify(true);
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      if (session?.user) {
-        console.log('Premium interest from:', session.user.email, 'notify email:', email);
-      }
+      await supabase.from('waitlist').upsert({
+        email: target,
+        user_id: session?.user?.id ?? null,
+        plan,
+        source: 'pricing_modal',
+      }, { onConflict: 'email' });
       setNotified(true);
     } catch {
       setNotified(true);
+    } finally {
+      setLoadingNotify(false);
     }
+  };
+
+  const handleTierWaitlist = async (plan: string) => {
+    const session = await getSession();
+    const userEmail = session?.user?.email || '';
+    setLoadingTier(plan);
+    try {
+      await supabase.from('waitlist').upsert({
+        email: userEmail,
+        user_id: session?.user?.id ?? null,
+        plan,
+        source: 'tier_button',
+      }, { onConflict: 'email' });
+    } catch { /* ignore */ } finally {
+      setLoadingTier(null);
+    }
+    setNotified(true);
   };
 
   return (
@@ -255,12 +281,17 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose, hig
                     {tier.cta}
                   </button>
                 ) : (
-                  <button disabled className={`w-full py-2.5 rounded-lg font-semibold text-sm opacity-60 cursor-not-allowed ${
-                    tier.popular
-                      ? 'bg-amber-500 text-white'
-                      : 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300'
-                  }`}>
-                    Coming Soon
+                  <button
+                    onClick={() => handleTierWaitlist(tier.planType!)}
+                    disabled={loadingTier === tier.planType}
+                    className={`w-full py-2.5 rounded-lg font-semibold text-sm transition-colors flex items-center justify-center gap-2 ${
+                      tier.popular
+                        ? 'bg-amber-500 text-white hover:bg-amber-600'
+                        : 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 hover:bg-purple-200'
+                    }`}
+                  >
+                    {loadingTier === tier.planType ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
+                    Get Early Access
                   </button>
                 )}
               </div>
@@ -268,30 +299,36 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose, hig
           })}
         </div>
 
-        {/* Notify Me Section — shown only when payments not yet live */}
+        {/* Early Access Section — shown only when payments not yet live */}
         {!razorpayLive && (
           <div className="px-6 pb-6">
             <div className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/10 dark:to-purple-900/10 rounded-xl p-5 border border-indigo-100 dark:border-indigo-800/30">
               {notified ? (
-                <div className="text-center">
-                  <p className="text-green-600 dark:text-green-400 font-semibold">We&apos;ll notify you when premium launches!</p>
+                <div className="text-center py-2">
+                  <div className="text-2xl mb-2">🎉</div>
+                  <p className="text-green-600 dark:text-green-400 font-semibold text-base">You&apos;re on the early access list!</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">We&apos;ll email you the moment Premium launches — with a launch discount.</p>
                 </div>
               ) : (
                 <>
-                  <p className="font-semibold text-indigo-800 dark:text-indigo-200 mb-2">Get notified when Premium launches</p>
+                  <p className="font-semibold text-indigo-800 dark:text-indigo-200 mb-1">Join the early access list</p>
+                  <p className="text-xs text-indigo-600 dark:text-indigo-400 mb-3">Premium launching soon. Early members get a special launch discount.</p>
                   <div className="flex gap-2">
                     <input
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && handleNotify()}
                       placeholder="your@email.com"
                       className="flex-1 px-4 py-2 bg-white dark:bg-gray-800 border border-indigo-200 dark:border-indigo-700 rounded-lg text-sm text-gray-800 dark:text-gray-100 focus:ring-2 focus:ring-indigo-500 outline-none"
                     />
                     <button
-                      onClick={handleNotify}
-                      className="px-5 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-indigo-700 transition-colors"
+                      onClick={() => handleNotify()}
+                      disabled={loadingNotify}
+                      className="px-5 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-indigo-700 transition-colors flex items-center gap-2 disabled:opacity-70"
                     >
-                      Notify Me
+                      {loadingNotify ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : null}
+                      Reserve Spot
                     </button>
                   </div>
                 </>

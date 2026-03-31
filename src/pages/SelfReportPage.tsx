@@ -53,6 +53,7 @@ import { SelfPsychologicalProfileWidget } from '../components/widgets/SelfPsycho
 import { SelfConflictTendencyWidget } from '../components/widgets/SelfConflictTendencyWidget';
 import { IdealPartnerProfileWidget } from '../components/widgets/IdealPartnerProfileWidget';
 import { MarriageReadinessWidget } from '../components/widgets/MarriageReadinessWidget';
+import { MarriageCountdownWidget } from '../components/widgets/MarriageCountdownWidget';
 import { UserDashboard } from '../components/dashboard/UserDashboard';
 import { ErrorBoundary } from '../components/ErrorBoundary';
 import { SEOHead } from '../components/SEOHead';
@@ -590,6 +591,14 @@ export const SelfReportPage: React.FC = () => {
             {/* 5. TIMING & ACTION */}
             {activeTheme === 'timing' && (
               <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                {/* Marriage Countdown — hero for Searcher mode */}
+                {selfReport.timing?.favorablePeriods?.length > 0 && (
+                  <MarriageCountdownWidget
+                    favorablePeriods={selfReport.timing.favorablePeriods}
+                    vulnerablePeriods={selfReport.timing.vulnerablePeriods}
+                    name={selfReport.chart?.name ?? selfChart?.name ?? 'You'}
+                  />
+                )}
                 <div id="timing">
                   <ErrorBoundary>
                     <SelfTimingWidget

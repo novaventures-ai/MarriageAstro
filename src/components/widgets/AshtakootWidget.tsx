@@ -108,6 +108,50 @@ export const AshtakootWidget: React.FC<AshtakootWidgetProps> = ({
     },
   ];
 
+  const getPlainMeaning = (key: string, score: number, max: number): { text: string; tone: 'positive' | 'neutral' | 'negative' } => {
+    const ratio = score / max;
+    switch (key) {
+      case 'varna':
+        return score === 1
+          ? { text: 'Your spiritual development levels align well — you\'re likely to support each other\'s deeper values and growth paths.', tone: 'positive' }
+          : { text: 'Different spiritual orientations. One of you may sometimes feel the other doesn\'t fully understand your deeper values — worth discussing openly.', tone: 'negative' };
+      case 'vashya':
+        if (score === 2) return { text: 'Strong, balanced mutual attraction. Neither partner dominates — the pull between you is natural and reciprocal.', tone: 'positive' };
+        if (score === 1) return { text: 'Moderate attraction with some imbalance in who leads and who follows. Not a problem, but worth being aware of dynamics.', tone: 'neutral' };
+        return { text: 'Little natural pull between your temperamental styles. You may need to consciously build and maintain attraction over time.', tone: 'negative' };
+      case 'tara':
+        if (score === 3) return { text: 'Destiny strongly favors this relationship. Your star patterns indicate shared good fortune and long-term well-being together.', tone: 'positive' };
+        if (score === 2) return { text: 'Good destiny alignment with occasional bumps. Overall your paths support each other\'s well-being.', tone: 'positive' };
+        if (score === 1) return { text: 'Mixed destiny signals. Some life areas may feel like you\'re working against the current together — patience helps.', tone: 'neutral' };
+        return { text: 'Challenging destiny alignment. Shared obstacles are more likely. This doesn\'t mean failure, but effort and timing matter more.', tone: 'negative' };
+      case 'yoni':
+        if (score >= 3) return { text: 'Strong physical and temperamental compatibility. Natural ease in intimacy and everyday rhythms — your instinctive natures get along well.', tone: 'positive' };
+        if (score === 2) return { text: 'Moderate physical alignment. Connection is workable but may need more attention and intention to feel consistently satisfying.', tone: 'neutral' };
+        if (score === 1) return { text: 'Some natural tension in physical nature. Intimacy and instinctive habits will need conscious nurturing to stay aligned.', tone: 'negative' };
+        return { text: 'Opposing physical natures. Significant instinctual friction is possible — intimacy and daily habits may feel at odds without effort.', tone: 'negative' };
+      case 'grahaMaitri':
+        if (score >= 4) return { text: 'Your minds naturally understand each other. Conversations, decisions, and emotional support flow with relative ease.', tone: 'positive' };
+        if (score === 3) return { text: 'Good mental friendship. You\'ll generally understand each other but may hit occasional communication walls on key topics.', tone: 'positive' };
+        if (score <= 2 && score > 0) return { text: 'Mental friction is likely. You may frequently misread each other\'s motivations or priorities without direct, clear communication.', tone: 'negative' };
+        return { text: 'Opposing mental natures. Regular misunderstandings and value clashes are a real pattern here — conscious communication is essential.', tone: 'negative' };
+      case 'gana':
+        if (score === 6) return { text: 'Same temperament type. Daily life together feels natural — your instinctive rhythms and energy levels match well.', tone: 'positive' };
+        if (score >= 4) return { text: 'Compatible temperaments with minor style differences. Easy to adjust and meet each other in the middle day-to-day.', tone: 'positive' };
+        if (score >= 2) return { text: 'Noticeable temperament gap. One partner\'s intensity or pace may occasionally feel overwhelming or too slow for the other.', tone: 'neutral' };
+        return { text: 'Opposite temperaments (e.g., one Deva, one Rakshasa). Strong adjustments needed — but intense, complementary pairs can also work with self-awareness.', tone: 'negative' };
+      case 'bhakoot':
+        if (score === 7) return { text: 'Moon positions align well. Strong potential for shared prosperity, family harmony, and long-term well-being as a couple.', tone: 'positive' };
+        return { text: 'Bhakoot Dosha detected. Traditional texts flag challenges around prosperity or family well-being. Check whether a dosha cancellation applies — many do.', tone: 'negative' };
+      case 'nadi':
+        if (score === 8) return { text: 'Different Ayurvedic constitutions — this is ideal. Complementary energies support both physical health and compatible progeny.', tone: 'positive' };
+        return { text: 'Nadi Dosha — same constitution. This is the most heavily weighted parameter. Traditional concern around offspring health. Always check for cancellation factors first.', tone: 'negative' };
+      default:
+        return ratio >= 0.6
+          ? { text: 'Good score on this parameter — a positive indicator for this dimension of your compatibility.', tone: 'positive' }
+          : { text: 'Lower score here. This area may need more attention and conscious effort in your relationship.', tone: 'neutral' };
+    }
+  };
+
   const HelpBox = ({ title, children }: { title: string; children: React.ReactNode }) => (
     <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border-l-4 border-blue-500 transition-colors">
       <div className="flex items-start gap-3">
@@ -455,14 +499,36 @@ export const AshtakootWidget: React.FC<AshtakootWidgetProps> = ({
                   </div>
 
                   {isExpanded && (
-                    <div className="mt-4 p-4 bg-white dark:bg-gray-900 rounded-lg border border-indigo-100 dark:border-indigo-800/30 transition-colors">
-                      <div className="flex items-start gap-2">
-                        <Info className="w-4 h-4 text-indigo-600 dark:text-indigo-400 mt-0.5 flex-shrink-0" />
-                        <div>
-                          <p className="text-sm text-gray-700 dark:text-gray-300 transition-colors">{param.detailInfo}</p>
-                          <p className="text-sm text-indigo-600 dark:text-indigo-400 mt-2 font-medium">
-                            <strong>Your Result:</strong> {paramData.interpretation}
-                          </p>
+                    <div className="mt-4 space-y-3">
+                      {/* Plain-language verdict callout */}
+                      {(() => {
+                        const plain = getPlainMeaning(param.key, paramData.pointsObtained, paramData.maxPoints);
+                        const calloutStyles = {
+                          positive: 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-300 dark:border-emerald-700/50 text-emerald-800 dark:text-emerald-200',
+                          neutral: 'bg-amber-50 dark:bg-amber-900/20 border-amber-300 dark:border-amber-700/50 text-amber-800 dark:text-amber-200',
+                          negative: 'bg-rose-50 dark:bg-rose-900/20 border-rose-300 dark:border-rose-700/50 text-rose-800 dark:text-rose-200',
+                        };
+                        const toneIcon = { positive: '✓', neutral: '~', negative: '!' };
+                        return (
+                          <div className={`p-3 rounded-lg border-l-4 ${calloutStyles[plain.tone]}`}>
+                            <p className="text-xs font-bold uppercase tracking-wide mb-1 opacity-70">What this means for you</p>
+                            <p className="text-sm font-medium leading-relaxed">
+                              <span className="mr-1.5 font-bold">{toneIcon[plain.tone]}</span>
+                              {plain.text}
+                            </p>
+                          </div>
+                        );
+                      })()}
+                      {/* Technical detail */}
+                      <div className="p-4 bg-white dark:bg-gray-900 rounded-lg border border-indigo-100 dark:border-indigo-800/30 transition-colors">
+                        <div className="flex items-start gap-2">
+                          <Info className="w-4 h-4 text-indigo-600 dark:text-indigo-400 mt-0.5 flex-shrink-0" />
+                          <div>
+                            <p className="text-sm text-gray-700 dark:text-gray-300 transition-colors">{param.detailInfo}</p>
+                            <p className="text-sm text-indigo-600 dark:text-indigo-400 mt-2 font-medium">
+                              <strong>Your Result:</strong> {paramData.interpretation}
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </div>

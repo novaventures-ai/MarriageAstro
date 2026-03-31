@@ -25,6 +25,7 @@ import { ArrowLeft, ChevronDown, Home, FileDown, Loader2 } from 'lucide-react';
 import { PremiumGate } from '../components/premium/PremiumGate';
 import { ShareButton } from '../components/premium/ShareButton';
 import { usePremium } from '../hooks/usePremium';
+import { useUserProfileStore } from '../store/useUserProfileStore';
 import { usePdfExport } from '../hooks/usePdfExport';
 import { CharaDashaWidget } from '../components/widgets/CharaDashaWidget';
 import { AdvancedKPWidget } from '../components/widgets/AdvancedKPWidget';
@@ -36,6 +37,9 @@ import SeventhHousePlacementWidget from '../components/widgets/SeventhHousePlace
 import { Logo } from '../components/ui/Logo';
 import { SEOHead } from '../components/SEOHead';
 import { CosmicNavigator, ThemeId, ThemeConfig } from '../components/widgets/CosmicNavigator';
+import { ReportAhaMoment } from '../components/report/ReportAhaMoment';
+import { QuickVerdictBanner } from '../components/report/QuickVerdictBanner';
+import { AwarenessBanner } from '../components/ui/AwarenessBanner';
 import { reportToOgParams, reportToShareData } from '../lib/shareUtils';
 import { PushPrompt } from '../components/PushPrompt';
 
@@ -51,6 +55,7 @@ export const ReportPage: React.FC = () => {
   } = useAppStore();
 
   const { isPremium } = usePremium();
+  const userMode = useUserProfileStore((s) => s.userMode);
   const { exportPdf, status: pdfStatus } = usePdfExport();
   const [showMobileTabs, setShowMobileTabs] = useState(false);
   const [activeTheme, setActiveTheme] = useState<ThemeId>('match');
@@ -258,7 +263,13 @@ export const ReportPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Cosmic Navigator replacing 20 tabs */}
+        {/* Decider mode: direct verdict first */}
+        {userMode === 'decider' && <QuickVerdictBanner report={currentReport} />}
+
+        {/* Aha Moment — instant score + verdict before user explores */}
+        <ReportAhaMoment report={currentReport} />
+
+        {/* Cosmic Navigator */}
         <CosmicNavigator
           themes={themes}
           activeTheme={activeTheme}
@@ -416,6 +427,7 @@ export const ReportPage: React.FC = () => {
           {/* 3. WHAT COULD GO WRONG? — red flags, friction, awareness areas */}
           {activeTheme === 'risks' && (
             <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <AwarenessBanner sectionName="risk" />
               <div id="radar">
                 <PremiumGate section="divorce_risk" label="Risk Analysis Details">
                   <RiskRadarWidget
@@ -467,6 +479,7 @@ export const ReportPage: React.FC = () => {
           {/* 4. ARE WE DEEPLY COMPATIBLE? — intimacy, attraction, deeper connection */}
           {activeTheme === 'chemistry' && (
             <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <AwarenessBanner sectionName="sexual" />
               <div id="sexual">
                 <PremiumGate section="sexual_detail" label="Sexual Compatibility">
                   <SexualCompatibilityWidget
