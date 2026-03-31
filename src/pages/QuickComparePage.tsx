@@ -126,6 +126,84 @@ export const QuickComparePage: React.FC = () => {
     }, [partnerId, isHydrated, navigate, generateReport, selfBirthData]); 
 
 
+    if (result) {
+        const partnerName = (() => {
+            const currentPartners = useUserProfileStore.getState().partners;
+            return currentPartners.find(p => p.id === partnerId)?.name ?? 'Partner';
+        })();
+
+        return (
+            <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-900 transition-colors">
+                <SEOHead
+                    title="Compatibility Result"
+                    description="Your compatibility result is ready."
+                    path={`/quick-compare/${partnerId}`}
+                />
+                <div className="w-full max-w-md space-y-4">
+                    {/* Score summary */}
+                    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 text-center">
+                        <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-1">
+                            Compatibility with {partnerName}
+                        </h2>
+                        <div className="text-5xl font-extrabold text-indigo-600 dark:text-indigo-400 my-4">
+                            {result.overallScore}
+                            <span className="text-2xl font-semibold text-gray-400">/100</span>
+                        </div>
+                        <span className="inline-block px-3 py-1 rounded-full text-sm font-semibold capitalize bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300">
+                            {result.overallVerdict.replace('_', ' ')}
+                        </span>
+                    </div>
+
+                    {/* Mode-specific interpretation callout */}
+                    {userMode === 'decider' && (
+                        <div className="bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800 rounded-2xl p-5">
+                            <p className="text-sm font-semibold text-rose-700 dark:text-rose-300 mb-1">
+                                You&apos;re in Evaluation Mode
+                            </p>
+                            <p className="text-sm text-rose-600 dark:text-rose-400 mb-4">
+                                This score directly answers &ldquo;should I proceed?&rdquo;
+                            </p>
+                            <button
+                                onClick={() => navigate('/report')}
+                                className="w-full px-4 py-2 bg-rose-600 text-white rounded-lg hover:bg-rose-700 transition-colors text-sm font-semibold"
+                            >
+                                Get Full Verdict &rarr;
+                            </button>
+                        </div>
+                    )}
+
+                    {userMode === 'navigator' && (
+                        <div className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-2xl p-5">
+                            <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-300 mb-1">
+                                You&apos;re in Navigator Mode
+                            </p>
+                            <p className="text-sm text-emerald-600 dark:text-emerald-400">
+                                Use this report to understand your couple&apos;s ongoing dynamics.
+                            </p>
+                        </div>
+                    )}
+
+                    {/* Navigation actions */}
+                    <div className="flex flex-col gap-3">
+                        <button
+                            onClick={() => navigate('/report')}
+                            className="w-full px-4 py-3 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-colors font-semibold"
+                        >
+                            View Full Report
+                        </button>
+                        <button
+                            onClick={() => navigate(-1)}
+                            className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                        >
+                            <ArrowLeft className="w-4 h-4 inline mr-2" />
+                            Go Back
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     if (error || reportError) {
         return (
             <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50 dark:bg-gray-900 transition-colors">

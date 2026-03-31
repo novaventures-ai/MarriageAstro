@@ -1223,6 +1223,7 @@ function dignityMultiplier(dignity: PlanetaryPosition['dignity']): number {
     case 'own_house':
       return 1.0;
     case 'friendly':
+      return 1.0;
     case 'neutral':
       return 0.5;
     case 'enemy':
