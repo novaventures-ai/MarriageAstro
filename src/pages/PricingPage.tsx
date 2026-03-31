@@ -115,9 +115,12 @@ export const PricingPage: React.FC = () => {
     if (!email.trim()) return;
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      if (session?.user) {
-        console.log('Premium interest from:', session.user.email, 'notify email:', email);
-      }
+      await supabase.from('waitlist').upsert({
+        email: email.trim(),
+        user_id: session?.user?.id ?? null,
+        plan: 'premium',
+        source: 'pricing_page',
+      }, { onConflict: 'email' });
       setNotified(true);
     } catch {
       setNotified(true);

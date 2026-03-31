@@ -26,7 +26,7 @@ import { Logo } from '../ui/Logo';
 import { ThemeToggle } from '../ui/ThemeToggle';
 import { GoogleTranslate } from '../ui/GoogleTranslate';
 import { useAuth } from '../../context/AuthContext';
-import { useUserProfileStore } from '../../store/useUserProfileStore';
+import { useUserProfileStore, UserMode } from '../../store/useUserProfileStore';
 import { useAppStore } from '../../store/useAppStore';
 import { DEMO_PARTNER_NAMES } from '../../lib/demoData';
 import { deletePartner } from '../../lib/userProfileService';
@@ -44,7 +44,13 @@ const navItems = [
 export const DashboardLayout: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { user, signOut } = useAuth();
-  const { selfChart, isDemoMode, isAdmin } = useUserProfileStore();
+  const { selfChart, isDemoMode, isAdmin, userMode, setUserMode } = useUserProfileStore();
+
+  const USER_MODES: { mode: UserMode; icon: string; label: string; color: string }[] = [
+    { mode: 'searcher', icon: '🔭', label: 'Still Searching', color: 'violet' },
+    { mode: 'decider',  icon: '⚖️', label: 'Evaluating Someone', color: 'rose' },
+    { mode: 'navigator', icon: '🧭', label: 'Already Together', color: 'emerald' },
+  ];
   const currentReport = useAppStore((s) => s.currentReport);
   const navigate = useNavigate();
 
@@ -155,6 +161,28 @@ export const DashboardLayout: React.FC = () => {
               </span>
             </NavLink>
           )}
+
+          {/* Journey Mode Switcher */}
+          <div className="pt-4 mt-4 border-t border-gray-200 dark:border-gray-800">
+            <p className="px-4 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
+              My Journey
+            </p>
+            {USER_MODES.map(({ mode, icon, label }) => (
+              <button
+                key={mode}
+                onClick={() => { setUserMode(mode); setSidebarOpen(false); navigate('/dashboard'); }}
+                className={`flex items-center gap-3 w-full px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
+                  userMode === mode
+                    ? 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300'
+                    : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
+                }`}
+              >
+                <span>{icon}</span>
+                <span>{label}</span>
+                {userMode === mode && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-indigo-500" />}
+              </button>
+            ))}
+          </div>
 
           {/* Quick Actions */}
           <div className="pt-4 mt-4 border-t border-gray-200 dark:border-gray-800">

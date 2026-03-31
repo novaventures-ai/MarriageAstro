@@ -13,6 +13,7 @@
  */
 
 import { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
 
 const STORAGE_KEY = 'am_push_subscribed';
 
@@ -55,6 +56,17 @@ export function usePushNotification() {
       // Persist subscription object for later server-side use
       localStorage.setItem(STORAGE_KEY, 'true');
       localStorage.setItem('am_push_sub', JSON.stringify(sub.toJSON()));
+
+      // Save subscription to Supabase for server-side push
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        supabase.from('push_subscriptions').upsert({
+          user_id: session?.user?.id ?? null,
+          subscription: sub.toJSON(),
+          endpoint: sub.endpoint,
+          created_at: new Date().toISOString(),
+        }, { onConflict: 'endpoint' }).then(() => {/* silent */});
+      });
+
       setIsSubscribed(true);
       return true;
     } catch {

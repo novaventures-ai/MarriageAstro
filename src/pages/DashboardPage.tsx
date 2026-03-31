@@ -14,16 +14,20 @@ import {
   Scale,
   Star,
   FileText,
-  Sparkles
+  Sparkles,
+  Clock,
+  Search,
+  Compass
 } from 'lucide-react';
-import { useUserProfileStore } from '../store/useUserProfileStore';
+import { useUserProfileStore, UserMode } from '../store/useUserProfileStore';
 import { useAuth } from '../context/AuthContext';
 import { SEOHead } from '../components/SEOHead';
+import { UserModeOnboarding } from '../components/onboarding/UserModeOnboarding';
 
 export const DashboardPage: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { selfChart, selfBirthData, partners, isHydrated, isDemoMode, loadFromCloud } = useUserProfileStore();
+  const { selfChart, selfBirthData, partners, isHydrated, isDemoMode, loadFromCloud, userMode, setUserMode } = useUserProfileStore();
 
   // Load cloud data when dashboard mounts (skip in demo mode)
   useEffect(() => {
@@ -40,18 +44,87 @@ export const DashboardPage: React.FC = () => {
   const moonSign = selfChart?.planetaryPositions?.find(p => p.planet === 'Moon')?.sign || '--';
   const sunSign = selfChart?.planetaryPositions?.find(p => p.planet === 'Sun')?.sign || '--';
 
+  const modeConfig: Record<UserMode, { icon: React.ReactNode; color: string; headline: string; sub: string; primaryCta: string; primaryPath: string }> = {
+    searcher: {
+      icon: <Search className="w-5 h-5" />,
+      color: 'violet',
+      headline: 'Your Marriage Timeline',
+      sub: 'Discover your auspicious windows and future spouse traits',
+      primaryCta: selfChart ? 'View Marriage Timing' : 'Create Your Profile',
+      primaryPath: selfChart ? '/self-report' : '/self-calculator',
+    },
+    decider: {
+      icon: <Scale className="w-5 h-5" />,
+      color: 'rose',
+      headline: 'Is This Person Right For You?',
+      sub: 'Get the full honest picture — including what most people are afraid to ask',
+      primaryCta: partners.length > 0 ? 'View Full Report' : 'Add Partner to Analyse',
+      primaryPath: partners.length > 0 ? `/quick-compare/${partners[0]?.id}` : '/add-partner',
+    },
+    navigator: {
+      icon: <Compass className="w-5 h-5" />,
+      color: 'emerald',
+      headline: "Your Relationship Pulse",
+      sub: "Understand each other deeper and navigate what's coming",
+      primaryCta: partners.length > 0 ? 'View Couple Report' : 'Add Your Partner',
+      primaryPath: partners.length > 0 ? `/quick-compare/${partners[0]?.id}` : '/add-partner',
+    },
+  };
+
+  const activeModeConfig = userMode ? modeConfig[userMode] : null;
+
   return (
     <div className="max-w-6xl mx-auto space-y-6">
       <SEOHead title="Your Astrology Dashboard - Birth Chart Analysis" description="View your complete Vedic astrology dashboard with birth chart analysis, Dasha periods, marriage timing predictions, and personalized insights." path="/dashboard" />
+
+      {/* Onboarding: shown when user hasn't chosen a mode yet */}
+      {!userMode && isHydrated && (
+        <UserModeOnboarding onSelect={setUserMode} />
+      )}
+
       {/* Welcome header */}
-      <div>
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">
-          Welcome back, {displayName.split(' ')[0]}
-        </h1>
-        <p className="text-gray-500 dark:text-gray-400 mt-1">
-          Your cosmic journey at a glance
-        </p>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">
+            Welcome back, {displayName.split(' ')[0]}
+          </h1>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">
+            Your cosmic journey at a glance
+          </p>
+        </div>
+        {userMode && (
+          <button
+            onClick={() => setUserMode(null as any)}
+            className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800 text-xs font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors self-start sm:self-auto"
+            title="Switch journey mode"
+          >
+            {modeConfig[userMode].icon}
+            <span className="capitalize">{userMode === 'searcher' ? 'Still Searching' : userMode === 'decider' ? 'Evaluating Someone' : 'Already Together'}</span>
+            <span className="text-gray-400">· change</span>
+          </button>
+        )}
       </div>
+
+      {/* Mode-specific focus banner */}
+      {activeModeConfig && (
+        <div className={`rounded-2xl border border-${activeModeConfig.color}-200 dark:border-${activeModeConfig.color}-800 bg-${activeModeConfig.color}-50 dark:bg-${activeModeConfig.color}-900/20 p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4`}>
+          <div>
+            <h2 className={`text-lg font-bold text-${activeModeConfig.color}-800 dark:text-${activeModeConfig.color}-200 flex items-center gap-2`}>
+              {activeModeConfig.icon}
+              {activeModeConfig.headline}
+            </h2>
+            <p className={`text-sm text-${activeModeConfig.color}-600 dark:text-${activeModeConfig.color}-400 mt-1`}>
+              {activeModeConfig.sub}
+            </p>
+          </div>
+          <button
+            onClick={() => navigate(activeModeConfig.primaryPath)}
+            className={`flex-shrink-0 px-5 py-2.5 bg-${activeModeConfig.color}-600 hover:bg-${activeModeConfig.color}-700 text-white rounded-xl text-sm font-semibold transition-colors whitespace-nowrap`}
+          >
+            {activeModeConfig.primaryCta} →
+          </button>
+        </div>
+      )}
 
       {/* Stats row */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">

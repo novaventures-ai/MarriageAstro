@@ -41,6 +41,17 @@ const S = StyleSheet.create({
   divider: { borderBottom: '1px solid #e2e8f0', marginVertical: 8 },
   // Footer
   footer: { position: 'absolute', bottom: 20, left: 36, right: 36, textAlign: 'center', fontSize: 8, color: '#94a3b8' },
+  // Aha Moment
+  ahaBg: { borderRadius: 8, padding: '14 16', marginBottom: 12 },
+  ahaVerdict: { fontSize: 18, fontWeight: 'bold', color: '#ffffff', marginBottom: 4 },
+  ahaSummary: { fontSize: 9, color: '#ffffff', lineHeight: 1.6, marginBottom: 8 },
+  ahaBadge: { borderRadius: 4, paddingHorizontal: 8, paddingVertical: 3, alignSelf: 'flex-start' },
+  ahaBadgeText: { fontSize: 8, fontWeight: 'bold' },
+  // Quick Glance
+  statBox: { flex: 1, borderRadius: 6, padding: '10 12', alignItems: 'center' },
+  statLabel: { fontSize: 7, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 3 },
+  statValue: { fontSize: 16, fontWeight: 'bold' },
+  statSub: { fontSize: 7, marginTop: 2 },
 });
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -72,6 +83,31 @@ function LabelValue({ label, value }: { label: string; value: string }) {
   );
 }
 
+// ─── Aha Moment helpers ───────────────────────────────────────────────────────
+
+function getVerdictInfo(score: number): { label: string; bgColor: string } {
+  if (score >= 28) return { label: 'Exceptional Match', bgColor: '#059669' };
+  if (score >= 22) return { label: 'Strong Match',      bgColor: '#16a34a' };
+  if (score >= 18) return { label: 'Good Match',        bgColor: '#2563eb' };
+  if (score >= 14) return { label: 'Average Match',     bgColor: '#d97706' };
+  return                  { label: 'Challenging Match', bgColor: '#e11d48' };
+}
+
+function getMatchSummary(score: number, riskLevel: string): string {
+  const highRisk = riskLevel === 'High' || riskLevel === 'Critical';
+  const lowRisk  = riskLevel === 'Low';
+  if (score >= 24 && lowRisk)  return `A score of ${score}/36 with low risk indicators suggests strong Vedic alignment. This match carries positive astrological foundations for a lasting union.`;
+  if (score >= 18 && !highRisk) return `With ${score}/36, this pairing shows solid Vedic compatibility and no major red flags. Explore the detailed sections to understand the nuances.`;
+  if (score >= 14 || !highRisk) return `${score}/36 falls in the mid range — workable, but dependent on both partners' self-awareness. Study the risk and psychology sections carefully.`;
+  return `${score}/36 combined with ${riskLevel.toLowerCase()} risk flags real compatibility friction. This match can work, but only with full information and conscious effort.`;
+}
+
+function getRiskBadgeStyle(riskLevel: string): { bg: string; fg: string } {
+  if (riskLevel === 'Low')                               return { bg: '#dcfce7', fg: '#166534' };
+  if (riskLevel === 'High' || riskLevel === 'Critical')  return { bg: '#fee2e2', fg: '#991b1b' };
+  return                                                        { bg: '#fef3c7', fg: '#92400e' };
+}
+
 // ─── Main Document ────────────────────────────────────────────────────────────
 
 interface ReportPdfProps {
@@ -87,6 +123,11 @@ export function ReportPdf({ report }: ReportPdfProps) {
 
   const riskLevel = (report.riskAssessment as any)?.overallRisk?.level || 'Unknown';
   const riskColor = riskLevel === 'Low' ? '#16a34a' : riskLevel === 'High' || riskLevel === 'Critical' ? '#dc2626' : '#d97706';
+  const totalScore = report.ashtakoot?.totalScore ?? 0;
+  const sexScore = (report.sexualCompatibility as any)?.score ?? null;
+  const verdict = getVerdictInfo(totalScore);
+  const matchSummary = getMatchSummary(totalScore, riskLevel);
+  const riskBadge = getRiskBadgeStyle(riskLevel);
 
   const currentDashaA = report.chartA?.dashas?.find((d: any) => d.isCurrent)?.planet || '—';
   const currentDashaB = report.chartB?.dashas?.find((d: any) => d.isCurrent)?.planet || '—';
@@ -122,6 +163,46 @@ export function ReportPdf({ report }: ReportPdfProps) {
               <Text style={S.label}>Overall Compatibility</Text>
               <Text style={S.scoreBig}>{overallScore}<Text style={{ fontSize: 16 }}>%</Text></Text>
               <ScoreBar score={Number(overallScore)} max={100} color="#6366f1" />
+            </View>
+          )}
+        </View>
+
+        {/* ── Aha Moment Summary ─────────────────────────────────────────── */}
+        <View style={[S.ahaBg, { backgroundColor: verdict.bgColor }]}>
+          <Text style={S.ahaVerdict}>{verdict.label}</Text>
+          <Text style={S.ahaSummary}>{matchSummary}</Text>
+          <View style={[S.ahaBadge, { backgroundColor: riskBadge.bg }]}>
+            <Text style={[S.ahaBadgeText, { color: riskBadge.fg }]}>{riskLevel} Risk</Text>
+          </View>
+        </View>
+
+        {/* ── Quick Glance Row ───────────────────────────────────────────── */}
+        <View style={[S.row, { marginBottom: 12 }]}>
+          <View style={[S.statBox, { backgroundColor: '#fef3c7' }]}>
+            <Text style={[S.statLabel, { color: '#92400e' }]}>Ashtakoot Score</Text>
+            <Text style={[S.statValue, { color: '#92400e' }]}>{totalScore}<Text style={{ fontSize: 9 }}>/36</Text></Text>
+            <Text style={[S.statSub, { color: '#b45309' }]}>
+              {totalScore >= 28 ? 'Excellent' : totalScore >= 18 ? 'Acceptable' : 'Caution'}
+            </Text>
+          </View>
+          <View style={[S.statBox, { backgroundColor: riskLevel === 'Low' ? '#dcfce7' : riskLevel === 'High' || riskLevel === 'Critical' ? '#fee2e2' : '#fef3c7' }]}>
+            <Text style={[S.statLabel, { color: riskColor }]}>Risk Level</Text>
+            <Text style={[S.statValue, { color: riskColor }]}>{riskLevel}</Text>
+            <Text style={[S.statSub, { color: riskColor }]}>Overall</Text>
+          </View>
+          {sexScore !== null ? (
+            <View style={[S.statBox, { backgroundColor: '#fdf4ff' }]}>
+              <Text style={[S.statLabel, { color: '#7e22ce' }]}>Sexual Compatibility</Text>
+              <Text style={[S.statValue, { color: '#7e22ce' }]}>{sexScore}<Text style={{ fontSize: 9 }}>%</Text></Text>
+              <Text style={[S.statSub, { color: '#9333ea' }]}>
+                {sexScore >= 75 ? 'High Chemistry' : sexScore >= 50 ? 'Moderate' : 'Low Chemistry'}
+              </Text>
+            </View>
+          ) : (
+            <View style={[S.statBox, { backgroundColor: '#f1f5f9' }]}>
+              <Text style={[S.statLabel, { color: '#64748b' }]}>KP Marriage Promise</Text>
+              <Text style={[S.statValue, { color: '#1e293b', fontSize: 11 }]}>{kpPromiseA}</Text>
+              <Text style={[S.statSub, { color: '#64748b' }]}>{nameA}</Text>
             </View>
           )}
         </View>

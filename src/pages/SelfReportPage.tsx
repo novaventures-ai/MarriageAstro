@@ -53,6 +53,7 @@ import { SelfPsychologicalProfileWidget } from '../components/widgets/SelfPsycho
 import { SelfConflictTendencyWidget } from '../components/widgets/SelfConflictTendencyWidget';
 import { IdealPartnerProfileWidget } from '../components/widgets/IdealPartnerProfileWidget';
 import { MarriageReadinessWidget } from '../components/widgets/MarriageReadinessWidget';
+import { MarriageCountdownWidget } from '../components/widgets/MarriageCountdownWidget';
 import { UserDashboard } from '../components/dashboard/UserDashboard';
 import { ErrorBoundary } from '../components/ErrorBoundary';
 import { SEOHead } from '../components/SEOHead';
@@ -143,10 +144,10 @@ export const SelfReportPage: React.FC = () => {
       }
     },
     {
-      id: 'spouse',
+      id: 'partner',
       icon: '👤',
       title: 'Spouse & Destiny',
-      question: 'Who are they to me?',
+      question: 'Who is my ideal partner?',
       color: 'blue',
       gradient: 'from-blue-500 to-cyan-600',
       widgets: [
@@ -187,7 +188,7 @@ export const SelfReportPage: React.FC = () => {
       }
     },
     {
-      id: 'mind',
+      id: 'risks',
       icon: '🧠',
       title: 'Mind & Emotions',
       question: 'How do I behave?',
@@ -422,7 +423,7 @@ export const SelfReportPage: React.FC = () => {
             )}
 
             {/* 2. SPOUSE & DESTINY */}
-            {activeTheme === 'spouse' && (
+            {activeTheme === 'partner' && (
               <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
                 {selfReport.spousePrediction && (
                   <div id="prediction">
@@ -533,7 +534,7 @@ export const SelfReportPage: React.FC = () => {
             )}
 
             {/* 4. MIND & EMOTIONS */}
-            {activeTheme === 'mind' && (
+            {activeTheme === 'risks' && (
               <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
                 <div id="psychology">
                   <ErrorBoundary>
@@ -590,6 +591,14 @@ export const SelfReportPage: React.FC = () => {
             {/* 5. TIMING & ACTION */}
             {activeTheme === 'timing' && (
               <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                {/* Marriage Countdown — hero for Searcher mode */}
+                {selfReport.timing?.favorablePeriods?.length > 0 && (
+                  <MarriageCountdownWidget
+                    favorablePeriods={selfReport.timing.favorablePeriods}
+                    vulnerablePeriods={selfReport.timing.vulnerablePeriods}
+                    name={selfReport.chart?.name ?? selfChart?.name ?? 'You'}
+                  />
+                )}
                 <div id="timing">
                   <ErrorBoundary>
                     <SelfTimingWidget

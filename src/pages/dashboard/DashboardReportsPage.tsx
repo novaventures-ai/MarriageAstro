@@ -7,8 +7,38 @@ import React from 'react';
 import { FileText } from 'lucide-react';
 import { SavedReportsPanel } from '../../components/ui/SavedReportsPanel';
 import { SEOHead } from '../../components/SEOHead';
+import { useUserProfileStore } from '../../store/useUserProfileStore';
+
+const MODE_SUBTITLE: Record<string, string> = {
+  searcher: 'Browse past compatibility checks — find who scored highest',
+  decider: 'Your saved reports for the person you\'re evaluating',
+  navigator: 'Your couple\'s compatibility history and analysis archive',
+};
+
+const MODE_CTA: Record<string, { bg: string; text: string }> = {
+  searcher: {
+    bg: 'bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300',
+    text: 'Tip: Sort by score to spot your best matches',
+  },
+  decider: {
+    bg: 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300',
+    text: 'Tip: Open the latest report for your Quick Verdict',
+  },
+  navigator: {
+    bg: 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-300',
+    text: 'Tip: Re-generate to see updated timing and Dasha guidance',
+  },
+};
 
 export const DashboardReportsPage: React.FC = () => {
+  const { userMode } = useUserProfileStore();
+
+  const subtitle = userMode
+    ? (MODE_SUBTITLE[userMode] ?? 'Your previously generated compatibility reports')
+    : 'Your previously generated compatibility reports';
+
+  const ctaConfig = userMode ? (MODE_CTA[userMode] ?? null) : null;
+
   return (
     <div className="max-w-6xl mx-auto space-y-6">
       <SEOHead
@@ -22,9 +52,16 @@ export const DashboardReportsPage: React.FC = () => {
           Saved Reports
         </h1>
         <p className="text-gray-500 dark:text-gray-400 mt-1">
-          Your previously generated compatibility reports
+          {subtitle}
         </p>
       </div>
+
+      {/* Mode-aware CTA pill */}
+      {ctaConfig && (
+        <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium ${ctaConfig.bg}`}>
+          {ctaConfig.text}
+        </div>
+      )}
 
       <SavedReportsPanel />
     </div>
