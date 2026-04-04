@@ -39,6 +39,7 @@ import { SEOHead } from '../components/SEOHead';
 import { CosmicNavigator, ThemeId, ThemeConfig } from '../components/widgets/CosmicNavigator';
 import { ReportAhaMoment } from '../components/report/ReportAhaMoment';
 import { QuickVerdictBanner } from '../components/report/QuickVerdictBanner';
+import { WhatsAppShareCard } from '../components/report/WhatsAppShareCard';
 import { AwarenessBanner } from '../components/ui/AwarenessBanner';
 import { reportToOgParams, reportToShareData } from '../lib/shareUtils';
 import { PushPrompt } from '../components/PushPrompt';
@@ -270,6 +271,9 @@ export const ReportPage: React.FC = () => {
 
         {/* Aha Moment — instant score + verdict before user explores */}
         <ReportAhaMoment report={currentReport} />
+
+        {/* WhatsApp Share Card — private sharing loop */}
+        <WhatsAppShareCard data={reportToShareData(currentReport)} />
 
         {/* Cosmic Navigator */}
         <CosmicNavigator
