@@ -23,6 +23,7 @@ import { useUserProfileStore, UserMode } from '../store/useUserProfileStore';
 import { useAuth } from '../context/AuthContext';
 import { SEOHead } from '../components/SEOHead';
 import { UserModeOnboarding } from '../components/onboarding/UserModeOnboarding';
+import { RawModeToggle } from '../components/admin/RawModeToggle';
 
 const MODE_COLORS: Record<string, {
   border: string; bg: string; text: string; badge: string;
@@ -111,6 +112,7 @@ export const DashboardPage: React.FC = () => {
 
   return (
     <div className="max-w-6xl mx-auto space-y-6">
+      <RawModeToggle />
       <SEOHead title="Your Astrology Dashboard - Birth Chart Analysis" description="View your complete Vedic astrology dashboard with birth chart analysis, Dasha periods, marriage timing predictions, and personalized insights." path="/dashboard" />
 
       {/* Onboarding: shown when user hasn't chosen a mode yet */}

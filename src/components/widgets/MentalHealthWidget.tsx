@@ -9,6 +9,7 @@ import {
     Info
 } from 'lucide-react';
 import { MentalHealthAnalysis } from '../../../lib/mentalHealthCalculations';
+import { useUserProfileStore } from '../../store/useUserProfileStore';
 
 interface MentalHealthWidgetProps {
     mentalHealthA?: MentalHealthAnalysis;
@@ -16,6 +17,75 @@ interface MentalHealthWidgetProps {
     chartAName?: string;
     chartBName?: string;
 }
+
+// Raw vs Polished display config
+const MENTAL_HEALTH_RAW = {
+    title: 'Mental Health & Psychology',
+    subtitle: 'Astrological pattern indicators for emotional and psychological tendencies. These insights help understand each partner\'s inner landscape and how it influences the relationship.',
+    wellbeingLabels: {
+        vulnerable: 'Vulnerable',
+        needs_attention: 'Needs Attention',
+        moderate: 'Moderate',
+        strong: 'Strong',
+    },
+    wellbeingColors: {
+        vulnerable: 'text-red-600 dark:text-red-400',
+        needs_attention: 'text-amber-600 dark:text-amber-400',
+        moderate: 'text-yellow-600 dark:text-yellow-400',
+        strong: 'text-green-600 dark:text-green-400',
+    },
+    riskBadgeColor: (level: string) => {
+        switch (level) {
+            case 'high': return 'bg-red-500';
+            case 'elevated': return 'bg-amber-500';
+            case 'moderate': return 'bg-yellow-500';
+            default: return 'bg-green-500';
+        }
+    },
+    riskBg: (level: string) => {
+        switch (level) {
+            case 'high': return 'bg-red-50 dark:bg-red-900/10 border-red-200 dark:border-red-800/30';
+            case 'elevated': return 'bg-amber-50 dark:bg-amber-900/10 border-amber-200 dark:border-amber-800/30';
+            case 'moderate': return 'bg-yellow-50 dark:bg-yellow-900/10 border-yellow-200 dark:border-yellow-800/30';
+            default: return 'bg-green-50 dark:bg-green-900/10 border-green-200 dark:border-green-800/30';
+        }
+    },
+    severityColor: (s: string) => s === 'severe' ? 'bg-red-500' : s === 'moderate' ? 'bg-amber-500' : 'bg-green-500',
+};
+
+const MENTAL_HEALTH_POLISHED = {
+    title: 'Emotional Intelligence Profile',
+    subtitle: 'These patterns reveal each partner\'s inner emotional world and how their psychological strengths and sensitivities shape the relationship dynamic.',
+    wellbeingLabels: {
+        vulnerable: 'Needs Support',
+        needs_attention: 'Needs Attention',
+        moderate: 'Developing',
+        strong: 'Strong',
+    },
+    wellbeingColors: {
+        vulnerable: 'text-amber-600 dark:text-amber-400',
+        needs_attention: 'text-amber-600 dark:text-amber-400',
+        moderate: 'text-yellow-600 dark:text-yellow-400',
+        strong: 'text-green-600 dark:text-green-400',
+    },
+    riskBadgeColor: (level: string) => {
+        switch (level) {
+            case 'high': return 'bg-amber-500';
+            case 'elevated': return 'bg-amber-400';
+            case 'moderate': return 'bg-yellow-500';
+            default: return 'bg-green-500';
+        }
+    },
+    riskBg: (level: string) => {
+        switch (level) {
+            case 'high': return 'bg-amber-50 dark:bg-amber-900/10 border-amber-200 dark:border-amber-800/30';
+            case 'elevated': return 'bg-amber-50 dark:bg-amber-900/10 border-amber-200 dark:border-amber-800/30';
+            case 'moderate': return 'bg-yellow-50 dark:bg-yellow-900/10 border-yellow-200 dark:border-yellow-800/30';
+            default: return 'bg-green-50 dark:bg-green-900/10 border-green-200 dark:border-green-800/30';
+        }
+    },
+    severityColor: (s: string) => s === 'severe' ? 'bg-amber-500' : s === 'moderate' ? 'bg-amber-400' : 'bg-green-500',
+};
 
 export const MentalHealthWidget: React.FC<MentalHealthWidgetProps> = ({
     mentalHealthA,
@@ -25,6 +95,8 @@ export const MentalHealthWidget: React.FC<MentalHealthWidgetProps> = ({
 }) => {
     const [activePartner, setActivePartner] = useState<'A' | 'B'>('A');
     const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
+    const rawMode = useUserProfileStore(s => s.rawMode);
+    const cfg = rawMode ? MENTAL_HEALTH_RAW : MENTAL_HEALTH_POLISHED;
 
     const data = activePartner === 'A' ? mentalHealthA : mentalHealthB;
     const name = activePartner === 'A' ? chartAName : chartBName;
@@ -39,40 +111,15 @@ export const MentalHealthWidget: React.FC<MentalHealthWidgetProps> = ({
         });
     };
 
-    const getRiskColor = (level: string) => {
-        switch (level) {
-            case 'high': return 'bg-red-500';
-            case 'elevated': return 'bg-amber-500';
-            case 'moderate': return 'bg-yellow-500';
-            default: return 'bg-green-500';
-        }
-    };
-
-    const getRiskBg = (level: string) => {
-        switch (level) {
-            case 'high': return 'bg-red-50 dark:bg-red-900/10 border-red-200 dark:border-red-800/30';
-            case 'elevated': return 'bg-amber-50 dark:bg-amber-900/10 border-amber-200 dark:border-amber-800/30';
-            case 'moderate': return 'bg-yellow-50 dark:bg-yellow-900/10 border-yellow-200 dark:border-yellow-800/30';
-            default: return 'bg-green-50 dark:bg-green-900/10 border-green-200 dark:border-green-800/30';
-        }
-    };
+    const getRiskColor = cfg.riskBadgeColor;
+    const getRiskBg = cfg.riskBg;
 
     const getWellbeingColor = (wb: string) => {
-        switch (wb) {
-            case 'vulnerable': return 'text-red-600 dark:text-red-400';
-            case 'needs_attention': return 'text-amber-600 dark:text-amber-400';
-            case 'moderate': return 'text-yellow-600 dark:text-yellow-400';
-            default: return 'text-green-600 dark:text-green-400';
-        }
+        return (cfg.wellbeingColors as Record<string, string>)[wb] ?? 'text-green-600 dark:text-green-400';
     };
 
     const getWellbeingLabel = (wb: string) => {
-        switch (wb) {
-            case 'vulnerable': return 'Vulnerable';
-            case 'needs_attention': return 'Needs Attention';
-            case 'moderate': return 'Moderate';
-            default: return 'Strong';
-        }
+        return (cfg.wellbeingLabels as Record<string, string>)[wb] ?? 'Strong';
     };
 
     const getCategoryDescription = (cat: string) => {
@@ -95,11 +142,8 @@ export const MentalHealthWidget: React.FC<MentalHealthWidgetProps> = ({
                         <Brain className="w-8 h-8" />
                     </div>
                     <div>
-                        <h2 className="text-2xl font-bold mb-2">Mental Health & Psychology</h2>
-                        <p className="text-teal-100 leading-relaxed">
-                            Astrological pattern indicators for emotional and psychological tendencies. These insights
-                            help understand each partner's inner landscape and how it influences the relationship.
-                        </p>
+                        <h2 className="text-2xl font-bold mb-2">{cfg.title}</h2>
+                        <p className="text-teal-100 leading-relaxed">{cfg.subtitle}</p>
                     </div>
                 </div>
             </div>
@@ -189,8 +233,9 @@ export const MentalHealthWidget: React.FC<MentalHealthWidgetProps> = ({
                                     <div key={j} className="p-3 bg-white dark:bg-gray-800/80 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors">
                                         <div className="flex items-center justify-between mb-1">
                                             <span className="font-medium text-sm text-gray-800 dark:text-gray-100 transition-colors">{ind.name}</span>
-                                            <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold uppercase text-white ${ind.severity === 'severe' ? 'bg-red-500' : ind.severity === 'moderate' ? 'bg-amber-500' : 'bg-green-500'
-                                                }`}>{ind.severity}</span>
+                                            <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold uppercase text-white ${cfg.severityColor(ind.severity)}`}>
+                                            {rawMode ? ind.severity : ind.severity === 'severe' ? 'elevated' : ind.severity}
+                                        </span>
                                         </div>
                                         <p className="text-xs text-gray-600 dark:text-gray-400 transition-colors">{ind.description}</p>
                                         <div className="flex gap-1.5 mt-2">

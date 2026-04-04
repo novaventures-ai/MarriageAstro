@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { RelationshipPatternAnalysis } from '../../../lib/relationshipPatternCalculations';
 import { AIPatternAnalyzer } from '../ai/AIPatternAnalyzer';
+import { useUserProfileStore } from '../../store/useUserProfileStore';
 
 interface RelationshipPatternWidgetProps {
     patternA?: RelationshipPatternAnalysis;
@@ -15,6 +16,32 @@ interface RelationshipPatternWidgetProps {
     nameA?: string;
     nameB?: string;
 }
+
+// Raw vs Polished display config
+const RELATIONSHIP_RAW = {
+    title: 'Relationship Pattern Analyzer',
+    subtitle: 'Analyzes historical romantic capacity, specific environmental triggers, and psychological approach to commitment.',
+    opportunityLabel: 'Opportunity Triggers',
+    opportunitySubLabel: 'External Context',
+    opportunityEmoji: '🔴',
+    opportunityBg: 'bg-red-50 dark:bg-red-900/10 border-red-100 dark:border-red-900/30',
+    opportunityTitle: 'text-red-800 dark:text-red-200',
+    opportunityMeta: 'text-[10px] text-red-600/70 dark:text-red-400/70 font-semibold mb-2 uppercase tracking-wider',
+    opportunityNarrativeLabel: 'Opportunity: ',
+    opportunityNarrativeColor: 'text-red-600 dark:text-red-400',
+};
+const RELATIONSHIP_POLISHED = {
+    title: 'Relationship Vulnerability Map',
+    subtitle: 'Reveals each person\'s romantic history, emotional capacity, and the situational contexts where connection — or risk — can arise. Knowledge is protection.',
+    opportunityLabel: 'Context Awareness Zones',
+    opportunitySubLabel: 'Situational Awareness',
+    opportunityEmoji: '🟡',
+    opportunityBg: 'bg-amber-50 dark:bg-amber-900/10 border-amber-100 dark:border-amber-900/30',
+    opportunityTitle: 'text-amber-800 dark:text-amber-200',
+    opportunityMeta: 'text-[10px] text-amber-600/70 dark:text-amber-400/70 font-semibold mb-2 uppercase tracking-wider',
+    opportunityNarrativeLabel: 'Context Zones: ',
+    opportunityNarrativeColor: 'text-amber-600 dark:text-amber-400',
+};
 
 export const RelationshipPatternWidget: React.FC<RelationshipPatternWidgetProps> = ({
     patternA,
@@ -24,6 +51,8 @@ export const RelationshipPatternWidget: React.FC<RelationshipPatternWidgetProps>
 }) => {
     const [activePartner, setActivePartner] = useState<'A' | 'B'>('A');
     const [expandedPatterns, setExpandedPatterns] = useState<Set<number>>(new Set([0, 1]));
+    const rawMode = useUserProfileStore(s => s.rawMode);
+    const cfg = rawMode ? RELATIONSHIP_RAW : RELATIONSHIP_POLISHED;
 
     const data = activePartner === 'A' ? patternA : patternB;
     const name = activePartner === 'A' ? nameA : nameB;
@@ -51,7 +80,7 @@ export const RelationshipPatternWidget: React.FC<RelationshipPatternWidgetProps>
     const getCategoryLabel = (cat: string) => {
         switch (cat) {
             case 'narrative_history': return 'Narrative History';
-            case 'opportunity_triggers': return 'Vulnerability Triggers';
+            case 'opportunity_triggers': return cfg.opportunityLabel;
             case 'spouse_longevity': return 'Spouse Longevity';
             case 'capacity_approach': return 'Capacity & Approach';
             default: return 'Rel. Pattern';
@@ -82,7 +111,7 @@ export const RelationshipPatternWidget: React.FC<RelationshipPatternWidgetProps>
     const getCategoryEmoji = (cat: string) => {
         switch (cat) {
             case 'narrative_history': return '💜';
-            case 'opportunity_triggers': return '🔴';
+            case 'opportunity_triggers': return cfg.opportunityEmoji;
             case 'spouse_longevity': return '💙';
             case 'capacity_approach': return '💛';
             default: return '💗';
@@ -113,11 +142,8 @@ export const RelationshipPatternWidget: React.FC<RelationshipPatternWidgetProps>
                         <Heart className="w-8 h-8" />
                     </div>
                     <div>
-                        <h2 className="text-2xl font-bold mb-2">Relationship Pattern Analyzer</h2>
-                        <p className="text-rose-100 leading-relaxed">
-                            Analyzes historical romantic capacity, specific environmental triggers, and
-                            psychological approach to commitment.
-                        </p>
+                        <h2 className="text-2xl font-bold mb-2">{cfg.title}</h2>
+                        <p className="text-rose-100 leading-relaxed">{cfg.subtitle}</p>
                     </div>
                 </div>
             </div>
@@ -209,7 +235,7 @@ export const RelationshipPatternWidget: React.FC<RelationshipPatternWidgetProps>
                         <span className="font-semibold not-italic text-indigo-600 dark:text-indigo-400">Capacity: </span>
                         {data.capacityApproachSummary}
                         <span className="mx-2">•</span>
-                        <span className="font-semibold not-italic text-red-600 dark:text-red-400">Opportunity: </span>
+                        <span className={`font-semibold not-italic ${cfg.opportunityNarrativeColor}`}>{cfg.opportunityNarrativeLabel}</span>
                         {data.opportunityTriggersSummary}
                     </p>
                 </div>
@@ -237,12 +263,12 @@ export const RelationshipPatternWidget: React.FC<RelationshipPatternWidgetProps>
                             {getCategoryDescription('capacity_approach')}
                         </div>
                     </div>
-                    <div className="group relative p-3 bg-red-50 dark:bg-red-900/10 rounded-lg transition-colors cursor-help border border-red-100 dark:border-red-900/30">
+                    <div className={`group relative p-3 rounded-lg transition-colors cursor-help border ${cfg.opportunityBg}`}>
                         <div className="flex items-center gap-1.5 mb-1">
-                            <p className="font-bold text-red-800 dark:text-red-200">Opportunity Triggers</p>
-                            <Info className="w-3 h-3 text-red-400" />
+                            <p className={`font-bold ${cfg.opportunityTitle}`}>{cfg.opportunityLabel}</p>
+                            <Info className="w-3 h-3 text-gray-400" />
                         </div>
-                        <p className="text-[10px] text-red-600/70 dark:text-red-400/70 font-semibold mb-2 uppercase tracking-wider">External Context</p>
+                        <p className={cfg.opportunityMeta}>{cfg.opportunitySubLabel}</p>
                         <p className="text-gray-600 dark:text-gray-400 text-xs">{data.opportunityTriggersSummary}</p>
                         <div className="absolute z-10 bottom-full left-0 mb-2 w-48 p-2 bg-gray-900 text-white text-[10px] rounded shadow-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                             {getCategoryDescription('opportunity_triggers')}

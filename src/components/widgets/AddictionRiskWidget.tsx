@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { AddictionRiskAnalysis, AddictionCategory, AddictionIndicator, AddictionProtectiveFactor } from '../../../lib/addictionCalculations';
 import { ShieldAlert, ChevronDown, ChevronUp, Shield, AlertTriangle, Info } from 'lucide-react';
+import { useUserProfileStore } from '../../store/useUserProfileStore';
 
 interface AddictionRiskWidgetProps {
     partnerA: AddictionRiskAnalysis;
@@ -8,6 +9,30 @@ interface AddictionRiskWidgetProps {
     nameA?: string;
     nameB?: string;
 }
+
+// Raw vs Polished display config
+const ADDICTION_RAW = {
+    title: 'Addiction & Compulsion Risk Analysis',
+    subtitle: 'Astrological analysis of planetary patterns associated with addictive tendencies and compulsive behaviors. This analysis covers both Vedic and Western indicators across multiple categories.',
+    indicatorBg: (present: boolean) => present
+        ? 'bg-red-50 dark:bg-red-900/10 border-red-100 dark:border-red-800/30'
+        : 'bg-gray-50 dark:bg-gray-900/30 border-gray-100 dark:border-gray-800/30',
+    indicatorText: (present: boolean) => present ? 'text-red-800 dark:text-red-200' : 'text-gray-600 dark:text-gray-400',
+    factorText: 'text-[11px] text-red-700 dark:text-red-300 transition-colors',
+    severityBadge: (s: string) => s === 'high' ? 'bg-red-500 text-white' : s === 'moderate' ? 'bg-amber-500 text-white' : 'bg-green-500 text-white',
+    severityLabel: (s: string) => s,
+};
+const ADDICTION_POLISHED = {
+    title: 'Lifestyle Alignment Factors',
+    subtitle: 'Astrological indicators of lifestyle patterns and behavioral tendencies. Understanding these helps partners navigate compatibility in daily habits and personal choices.',
+    indicatorBg: (present: boolean) => present
+        ? 'bg-amber-50 dark:bg-amber-900/10 border-amber-100 dark:border-amber-800/30'
+        : 'bg-gray-50 dark:bg-gray-900/30 border-gray-100 dark:border-gray-800/30',
+    indicatorText: (present: boolean) => present ? 'text-amber-800 dark:text-amber-200' : 'text-gray-600 dark:text-gray-400',
+    factorText: 'text-[11px] text-amber-700 dark:text-amber-300 transition-colors',
+    severityBadge: (s: string) => s === 'high' ? 'bg-amber-500 text-white' : s === 'moderate' ? 'bg-amber-400 text-white' : 'bg-green-500 text-white',
+    severityLabel: (s: string) => s === 'high' ? 'Elevated' : s,
+};
 
 export const AddictionRiskWidget: React.FC<AddictionRiskWidgetProps> = ({
     partnerA,
@@ -17,6 +42,8 @@ export const AddictionRiskWidget: React.FC<AddictionRiskWidgetProps> = ({
 }) => {
     const [selectedPartner, setSelectedPartner] = useState<'A' | 'B'>('A');
     const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+    const rawMode = useUserProfileStore(s => s.rawMode);
+    const cfg = rawMode ? ADDICTION_RAW : ADDICTION_POLISHED;
     const analysis = selectedPartner === 'A' ? partnerA : partnerB;
     const activeName = selectedPartner === 'A' ? nameA : nameB;
 
@@ -78,17 +105,14 @@ export const AddictionRiskWidget: React.FC<AddictionRiskWidgetProps> = ({
     };
 
     const renderIndicator = (indicator: AddictionIndicator, idx: number) => (
-        <div key={idx} className={`p-3 rounded-lg border transition-colors ${indicator.present
-            ? 'bg-red-50 dark:bg-red-900/10 border-red-100 dark:border-red-800/30'
-            : 'bg-gray-50 dark:bg-gray-900/30 border-gray-100 dark:border-gray-800/30'
-            }`}>
+        <div key={idx} className={`p-3 rounded-lg border transition-colors ${cfg.indicatorBg(indicator.present)}`}>
             <div className="flex items-start justify-between gap-2 mb-1">
-                <span className={`text-sm font-medium transition-colors ${indicator.present ? 'text-red-800 dark:text-red-200' : 'text-gray-600 dark:text-gray-400'}`}>
+                <span className={`text-sm font-medium transition-colors ${cfg.indicatorText(indicator.present)}`}>
                     {indicator.present ? '⚠️' : '✅'} {indicator.name}
                 </span>
                 {indicator.present && (
-                    <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${getSeverityBadge(indicator.severity)}`}>
-                        {indicator.severity}
+                    <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${cfg.severityBadge(indicator.severity)}`}>
+                        {cfg.severityLabel(indicator.severity)}
                     </span>
                 )}
             </div>
@@ -96,8 +120,8 @@ export const AddictionRiskWidget: React.FC<AddictionRiskWidgetProps> = ({
             {indicator.present && indicator.contributingFactors.length > 0 && (
                 <div className="mt-2 space-y-0.5">
                     {indicator.contributingFactors.map((f, i) => (
-                        <div key={i} className="flex items-center gap-1.5 text-[11px] text-red-700 dark:text-red-300 transition-colors">
-                            <span className="w-1 h-1 bg-red-400 rounded-full flex-shrink-0"></span>
+                        <div key={i} className={`flex items-center gap-1.5 ${cfg.factorText}`}>
+                            <span className="w-1 h-1 bg-current rounded-full flex-shrink-0 opacity-60"></span>
                             {f}
                         </div>
                     ))}
@@ -192,11 +216,8 @@ export const AddictionRiskWidget: React.FC<AddictionRiskWidgetProps> = ({
                         <ShieldAlert className="w-8 h-8" />
                     </div>
                     <div>
-                        <h2 className="text-2xl font-bold mb-2">Addiction & Compulsion Risk Analysis</h2>
-                        <p className="text-rose-100 leading-relaxed">
-                            Astrological analysis of planetary patterns associated with addictive tendencies and compulsive behaviors.
-                            This analysis covers both Vedic and Western indicators across multiple categories.
-                        </p>
+                        <h2 className="text-2xl font-bold mb-2">{cfg.title}</h2>
+                        <p className="text-rose-100 leading-relaxed">{cfg.subtitle}</p>
                     </div>
                 </div>
             </div>
