@@ -10,6 +10,7 @@ export type PdfExportStatus = 'idle' | 'generating' | 'done' | 'error';
 
 export function usePdfExport() {
   const [status, setStatus] = useState<PdfExportStatus>('idle');
+  const [familyStatus, setFamilyStatus] = useState<PdfExportStatus>('idle');
   const [error, setError] = useState<string | null>(null);
 
   const exportPdf = useCallback(async (report: any, filename?: string) => {
@@ -50,5 +51,42 @@ export function usePdfExport() {
     }
   }, []);
 
-  return { exportPdf, status, error };
+  const exportFamilyPdf = useCallback(async (report: any) => {
+    setFamilyStatus('generating');
+    setError(null);
+
+    try {
+      const [pdfRenderer, { FamilyReportPdf }, React] = await Promise.all([
+        import('@react-pdf/renderer'),
+        import('../components/pdf/FamilyReportPdf'),
+        import('react'),
+      ]);
+
+      const nameA = report.chartA?.name || 'PartnerA';
+      const nameB = report.chartB?.name || 'PartnerB';
+      const pdfFilename = `KundaliMilan_${nameA}_${nameB}_FamilyReport.pdf`;
+
+      const element = React.createElement(FamilyReportPdf, { report }) as any;
+      const blob = await pdfRenderer.pdf(element).toBlob();
+
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = pdfFilename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+
+      setFamilyStatus('done');
+      setTimeout(() => setFamilyStatus('idle'), 3000);
+    } catch (err: any) {
+      console.error('Family PDF export failed:', err);
+      setError(err.message || 'Failed to generate family PDF');
+      setFamilyStatus('error');
+    }
+  }, []);
+
+  return { exportPdf, status, exportFamilyPdf, familyStatus, error };
 }
+
