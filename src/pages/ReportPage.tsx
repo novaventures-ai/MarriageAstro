@@ -44,6 +44,7 @@ import { AwarenessBanner } from '../components/ui/AwarenessBanner';
 import { reportToOgParams, reportToShareData } from '../lib/shareUtils';
 import { PushPrompt } from '../components/PushPrompt';
 import { RawModeToggle } from '../components/admin/RawModeToggle';
+import { MobileNavStrip } from '../components/ui/MobileNavStrip';
 
 export const ReportPage: React.FC = () => {
   const navigate = useNavigate();
@@ -296,13 +297,16 @@ export const ReportPage: React.FC = () => {
         {/* WhatsApp Share Card — private sharing loop */}
         <WhatsAppShareCard data={reportToShareData(currentReport)} />
 
-        {/* Cosmic Navigator */}
+        {/* Cosmic Navigator (desktop tabs) */}
         <CosmicNavigator
           themes={themes}
           activeTheme={activeTheme}
           onSelectTheme={setActiveTheme}
           onScrollToWidget={handleScrollToWidget}
         />
+
+        {/* Mobile bottom nav strip */}
+        <MobileNavStrip activeTheme={activeTheme} onSelectTheme={setActiveTheme} />
 
         {/* Thematic Content Areas - Rendering based on activeTheme */}
         <div className="space-y-6 sm:space-y-8 pb-32">
