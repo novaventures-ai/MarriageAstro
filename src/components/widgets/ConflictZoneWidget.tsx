@@ -1,6 +1,52 @@
 import React, { useState } from 'react';
 import { CompatibilityReport, ConflictTrigger } from '../../types';
-import { Users, Coins, Brain, Zap, AlertCircle, Info, ShieldAlert, User } from 'lucide-react';
+import { Users, Coins, Brain, Zap, AlertCircle, Info, ShieldAlert, User, Lightbulb } from 'lucide-react';
+
+// ─── Inline remedy generator ─────────────────────────────────────────────────
+function getInlineRemedy(trigger: ConflictTrigger, categoryId: string): string {
+  const combo = `${trigger.title} ${trigger.description}`.toLowerCase();
+
+  if (categoryId === 'people') {
+    if (combo.includes('in-law') || combo.includes('inlaw') || combo.includes('family'))
+      return 'Establish a "partner first" rule for household decisions before moving in together. Visit extended family on a fixed schedule — it removes ambiguity.';
+    if (combo.includes('friend') || combo.includes('social'))
+      return 'Reserve one fixed evening per week exclusively for each other. Discuss how much social exposure each of you needs — introvert/extrovert gaps widen over time.';
+    return 'Agree upfront: external opinions can inform but never override joint decisions. A single clear agreement here removes most external friction.';
+  }
+
+  if (categoryId === 'things') {
+    if (combo.includes('money') || combo.includes('financ') || combo.includes('spend') || combo.includes('debt'))
+      return 'Set up a joint account for shared expenses + separate accounts for personal spending. A monthly 30-min "money date" to review together — no judgment, just facts — removes 80% of finance arguments.';
+    if (combo.includes('asset') || combo.includes('property') || combo.includes('possession'))
+      return 'Transparency before marriage: list assets, liabilities, and expectations openly. A simple shared understanding prevents resentment that builds silently over years.';
+    return 'Monthly check-in on shared finances. What\'s working, what isn\'t. Short, factual, no blame.';
+  }
+
+  if (categoryId === 'ideology') {
+    if (combo.includes('religio') || combo.includes('faith') || combo.includes('spiritual') || combo.includes('god'))
+      return 'Agree on which spiritual traditions you\'ll maintain as a couple and which remain personal. Document this — especially how children will be raised. One honest conversation now prevents a decade of friction.';
+    if (combo.includes('politic') || combo.includes('belief') || combo.includes('value'))
+      return 'Identify 3-5 non-negotiable values each. Build shared life around those overlaps. Let the differences remain personal — not every value needs to be shared.';
+    return 'Hold a "values audit" conversation: What do you each believe about [this area]? Where do you naturally align? Where do you need to agree-to-disagree?';
+  }
+
+  if (categoryId === 'behavior') {
+    if (combo.includes('anger') || combo.includes('temper') || combo.includes('reacti') || combo.includes('rage'))
+      return 'Agree on a pause signal — a word or gesture either partner uses to pause heated conversations for 20 minutes. Practice it before you need it. It works best when rehearsed calmly.';
+    if (combo.includes('communicat') || combo.includes('express') || combo.includes('silent') || combo.includes('avoidanc'))
+      return 'Weekly 30-min check-in: "What was good this week? What was hard?" No problem-solving during check-ins — only listening. This builds the safety needed for hard conversations.';
+    if (combo.includes('habit') || combo.includes('routine') || combo.includes('daily') || combo.includes('sleep'))
+      return 'Discuss non-negotiable daily habits (sleep time, food, cleanliness, social media use) before living together. Small habit mismatches cause the most daily friction.';
+    return 'For this pattern: name it together without blame, track when it triggers, and agree on one small adjustment per month. Gradual beats dramatic.';
+  }
+
+  // Generic by intensity
+  if (trigger.intensity === 'High')
+    return 'This is a high-intensity zone — consider pre-marriage counseling covering this specific area. One guided session is worth more than a year of unmanaged friction.';
+  if (trigger.intensity === 'Medium')
+    return 'One honest conversation about this before marriage can defuse most of it. Don\'t wait for it to surface under stress.';
+  return 'Awareness is the primary remedy here. Simply knowing this pattern exists helps you catch it early and respond instead of react.';
+}
 
 interface ConflictZoneWidgetProps {
     report: CompatibilityReport;
@@ -229,6 +275,14 @@ export const ConflictZoneWidget: React.FC<ConflictZoneWidgetProps> = ({ report }
                                                 <p className="text-[10px] text-gray-400 dark:text-gray-500 font-medium tracking-tight">
                                                     <span className="uppercase text-[8px] font-black mr-1 opacity-60">Astrology:</span>
                                                     {trigger.technicalBasis}
+                                                </p>
+                                            </div>
+                                            {/* Inline remedy */}
+                                            <div className="mt-2 flex items-start gap-2 p-2.5 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg border border-indigo-100 dark:border-indigo-800/30">
+                                                <Lightbulb className="w-3.5 h-3.5 text-indigo-400 flex-shrink-0 mt-0.5" />
+                                                <p className="text-[11px] text-indigo-700 dark:text-indigo-300 leading-relaxed">
+                                                    <span className="font-bold uppercase text-[9px] tracking-wider mr-1">What helps:</span>
+                                                    {getInlineRemedy(trigger, cat.id)}
                                                 </p>
                                             </div>
                                         </div>
