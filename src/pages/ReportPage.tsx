@@ -21,12 +21,11 @@ import { RelationshipPatternWidget } from '../components/widgets/RelationshipPat
 import { ConflictZoneWidget } from '../components/widgets/ConflictZoneWidget';
 import { PsychologicalProfileWidget } from '../components/widgets/PsychologicalProfileWidget';
 import { VulnerabilityTimelineWidget } from '../components/widgets/VulnerabilityTimelineWidget';
-import { ArrowLeft, ChevronDown, Home, FileDown, Loader2, Users } from 'lucide-react';
+import { ArrowLeft, ChevronDown, Home } from 'lucide-react';
 import { PremiumGate } from '../components/premium/PremiumGate';
 import { ShareButton } from '../components/premium/ShareButton';
 import { usePremium } from '../hooks/usePremium';
 import { useUserProfileStore } from '../store/useUserProfileStore';
-import { usePdfExport } from '../hooks/usePdfExport';
 import { CharaDashaWidget } from '../components/widgets/CharaDashaWidget';
 import { AdvancedKPWidget } from '../components/widgets/AdvancedKPWidget';
 import ChartDetailsWidget from '../components/ChartDetailsWidget';
@@ -59,7 +58,6 @@ export const ReportPage: React.FC = () => {
 
   const { isPremium } = usePremium();
   const userMode = useUserProfileStore((s) => s.userMode);
-  const { exportPdf, status: pdfStatus, exportFamilyPdf, familyStatus } = usePdfExport();
   const [showMobileTabs, setShowMobileTabs] = useState(false);
   const [activeTheme, setActiveTheme] = useState<ThemeId>('match');
 
@@ -242,39 +240,6 @@ export const ReportPage: React.FC = () => {
                 ogParams={reportToOgParams(currentReport)}
                 iconOnly
               />
-              {/* Family Report — available to all (free viral loop) */}
-              <button
-                onClick={() => exportFamilyPdf(currentReport)}
-                disabled={familyStatus === 'generating'}
-                title="Download Family Report (Kundali Milan summary — safe for parents)"
-                className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 rounded-lg hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-colors border border-indigo-200 dark:border-indigo-800 disabled:opacity-50"
-              >
-                {familyStatus === 'generating'
-                  ? <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                  : <Users className="w-3.5 h-3.5" />}
-                {familyStatus === 'generating' ? 'Preparing…' : familyStatus === 'done' ? 'Downloaded!' : 'Family Report'}
-              </button>
-              {/* Mobile icon-only */}
-              <button
-                onClick={() => exportFamilyPdf(currentReport)}
-                disabled={familyStatus === 'generating'}
-                title="Download Family Report"
-                className="sm:hidden p-1.5 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors text-indigo-500 dark:text-indigo-400 disabled:opacity-50"
-              >
-                {familyStatus === 'generating' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Users className="w-4 h-4" />}
-              </button>
-              {isPremium && (
-                <button
-                  onClick={() => exportPdf(currentReport)}
-                  disabled={pdfStatus === 'generating'}
-                  title="Export Full PDF Report (Premium)"
-                  className="p-1.5 sm:p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors text-gray-600 dark:text-gray-400 disabled:opacity-50"
-                >
-                  {pdfStatus === 'generating'
-                    ? <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
-                    : <FileDown className="w-4 h-4 sm:w-5 sm:h-5" />}
-                </button>
-              )}
               <button
                 onClick={() => navigate('/')}
                 className="p-1.5 sm:p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors text-gray-600 dark:text-gray-400"
