@@ -65,12 +65,6 @@ export const LandingPage: React.FC = () => {
                 priceCurrency: 'INR',
                 availability: 'https://schema.org/InStock',
               },
-              aggregateRating: {
-                '@type': 'AggregateRating',
-                ratingValue: '4.8',
-                reviewCount: '1200',
-                bestRating: '5',
-              },
             },
             {
               '@type': 'FAQPage',
@@ -207,15 +201,16 @@ export const LandingPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Try Demo CTA */}
-          <div className="flex justify-center">
+          {/* Try Demo CTA — prominent secondary hero action */}
+          <div className="flex flex-col items-center gap-2">
             <button
               onClick={() => navigate('/demo')}
-              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/20 rounded-full hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-colors border border-indigo-200 dark:border-indigo-800"
+              className="inline-flex items-center gap-2.5 px-7 py-3.5 text-base font-bold text-white bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 rounded-2xl shadow-lg hover:shadow-xl transition-all active:scale-95"
             >
-              <Play className="w-4 h-4" />
-              Try Demo — Explore with Sample Profiles
+              <Play className="w-5 h-5" />
+              Try Demo Free — No Sign-up Needed
             </button>
+            <p className="text-xs text-gray-500 dark:text-gray-400">See a full compatibility report with sample profiles in 30 seconds</p>
           </div>
         </div>
       </section>
