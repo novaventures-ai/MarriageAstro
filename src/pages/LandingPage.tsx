@@ -12,10 +12,36 @@ import { useAuth } from '../context/AuthContext';
 import { Logo } from '../components/ui/Logo';
 import { GoogleTranslate } from '../components/ui/GoogleTranslate';
 import { SEOHead } from '../components/SEOHead';
+import { useUserProfileStore } from '../store/useUserProfileStore';
+
+const WELCOME_BACK_CONFIG = {
+  searcher: {
+    bg: 'bg-indigo-600',
+    text: 'Welcome back — your marriage timing analysis is waiting.',
+    cta: 'View My Timing \u2192',
+    href: '/dashboard/self-analysis',
+  },
+  decider: {
+    bg: 'bg-rose-600',
+    text: 'Welcome back — your compatibility verdict is ready.',
+    cta: 'View Verdict \u2192',
+    href: '/dashboard/compatibility',
+  },
+  navigator: {
+    bg: 'bg-emerald-600',
+    text: 'Welcome back — check your couple\u2019s monthly pulse.',
+    cta: 'View Pulse \u2192',
+    href: '/dashboard/compatibility',
+  },
+} as const;
 
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { userMode } = useUserProfileStore();
+  const [dismissed, setDismissed] = useState(false);
+
+  const welcomeConfig = userMode && !dismissed ? WELCOME_BACK_CONFIG[userMode] : null;
 
   return (
     <div className="min-h-screen flex flex-col transition-colors duration-500">
@@ -78,6 +104,29 @@ export const LandingPage: React.FC = () => {
           ],
         }}
       />
+
+      {/* Welcome-back strip — shown above the hero for returning users */}
+      {welcomeConfig && (
+        <div className={`${welcomeConfig.bg} text-white px-4 py-2.5 flex items-center justify-between gap-4 z-40`}>
+          <div className="flex items-center gap-3 flex-1 justify-center flex-wrap">
+            <span className="text-sm font-medium">{welcomeConfig.text}</span>
+            <button
+              onClick={() => navigate(welcomeConfig.href)}
+              className="text-sm font-semibold underline underline-offset-2 hover:no-underline whitespace-nowrap"
+            >
+              {welcomeConfig.cta}
+            </button>
+          </div>
+          <button
+            onClick={() => setDismissed(true)}
+            aria-label="Dismiss welcome banner"
+            className="flex-shrink-0 p-1 rounded hover:bg-white/20 transition-colors"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      )}
+
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-3 sm:px-6 py-3 sm:py-4 bg-white/10 backdrop-blur-md dark:bg-black/10 transition-colors duration-500 safe-area-x">
         <Logo size="sm" className="sm:hidden" />

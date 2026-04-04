@@ -5,6 +5,7 @@ import { User, Crown, Heart, Sparkles, Star, Clock, Info, Smile, Award, Briefcas
 import { useGeminiInsight } from '../../hooks/useGeminiInsight';
 import ReactMarkdown from 'react-markdown';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
+import { useUserProfileStore } from '../../store/useUserProfileStore';
 
 interface SpousePredictionWidgetProps {
   prediction?: SpousePrediction;
@@ -280,6 +281,7 @@ export const SpousePredictionWidget: React.FC<SpousePredictionWidgetProps> = ({
   const [activeProfile, setActiveProfile] = React.useState<'primary' | 'partner'>('primary');
   const [showSensitive, setShowSensitive] = React.useState(false);
   const { loading, insight, error, triggerAnalysis } = useGeminiInsight();
+  const rawMode = useUserProfileStore(s => s.rawMode);
 
   // Compute effective gender based on active profile toggle
   const effectiveGender = activeProfile === 'partner' && partnerGender ? partnerGender : _gender;
@@ -582,9 +584,9 @@ export const SpousePredictionWidget: React.FC<SpousePredictionWidgetProps> = ({
       {/* Spouse Physical Attributes Section */}
       {physique && (
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 transition-colors">
-          <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4 flex items-center gap-2 transition-colors">
+          <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2 flex items-center gap-2 transition-colors">
             <User className="w-6 h-6 text-pink-500 dark:text-pink-400" />
-            Spouse Physical Attributes
+            {rawMode ? 'Spouse Physical Attributes' : 'Physical Archetype Indicators'}
             <Tooltip>
               <TooltipTrigger>
                 <Info className="w-4 h-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors" />
@@ -594,6 +596,11 @@ export const SpousePredictionWidget: React.FC<SpousePredictionWidgetProps> = ({
               </TooltipContent>
             </Tooltip>
           </h3>
+          {!rawMode && (
+            <p className="text-xs text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/40 rounded-lg px-3 py-2 mb-4">
+              These are archetypal tendencies from planetary energies — not precise physical predictions. Use as broad orientation, not literal expectation.
+            </p>
+          )}
           <div className="grid md:grid-cols-2 gap-6">
             <div className="space-y-4">
               <div className="flex items-center justify-between p-3 bg-pink-50 dark:bg-pink-900/20 rounded-lg transition-colors">

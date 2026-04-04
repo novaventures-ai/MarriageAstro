@@ -56,6 +56,10 @@ interface UserProfileState {
   aiCreditsResetAt: string | null;
   isAdmin: boolean;
 
+  // Admin Raw Mode (unfiltered view of sensitive widgets)
+  rawMode: boolean;
+  setRawMode: (v: boolean) => void;
+
   // Hydration
   isHydrated: boolean;
 
@@ -129,6 +133,7 @@ export const useUserProfileStore = create<UserProfileState>()(
           aiCreditsRemaining: 3,
           aiCreditsResetAt: null,
           isAdmin: false,
+          rawMode: false,
           isDemoMode: false,
           _preDemoState: null,
           userMode: null,
@@ -157,6 +162,8 @@ export const useUserProfileStore = create<UserProfileState>()(
       aiCreditsRemaining: 3,
       aiCreditsResetAt: null,
       isAdmin: false,
+      rawMode: false,
+      setRawMode: (v: boolean) => set({ rawMode: v }),
 
       userMode: null,
 

@@ -42,6 +42,7 @@ import { QuickVerdictBanner } from '../components/report/QuickVerdictBanner';
 import { AwarenessBanner } from '../components/ui/AwarenessBanner';
 import { reportToOgParams, reportToShareData } from '../lib/shareUtils';
 import { PushPrompt } from '../components/PushPrompt';
+import { RawModeToggle } from '../components/admin/RawModeToggle';
 
 export const ReportPage: React.FC = () => {
   const navigate = useNavigate();
@@ -191,6 +192,7 @@ export const ReportPage: React.FC = () => {
 
   return (
     <div className="min-h-screen py-8 px-4 transition-colors duration-500">
+      <RawModeToggle />
       <SEOHead
         title={`${currentReport.chartA.name} & ${currentReport.chartB.name} — Vedic Compatibility`}
         description={`Ashtakoot Milan score ${currentReport.ashtakoot?.totalScore ?? '?'}/36. Full Vedic marriage compatibility analysis for ${currentReport.chartA.name} and ${currentReport.chartB.name}.`}
