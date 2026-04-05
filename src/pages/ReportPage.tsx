@@ -21,6 +21,7 @@ import { RelationshipPatternWidget } from '../components/widgets/RelationshipPat
 import { ConflictZoneWidget } from '../components/widgets/ConflictZoneWidget';
 import { PsychologicalProfileWidget } from '../components/widgets/PsychologicalProfileWidget';
 import { VulnerabilityTimelineWidget } from '../components/widgets/VulnerabilityTimelineWidget';
+import { LifeAfterMarriageWidget } from '../components/widgets/LifeAfterMarriageWidget';
 import { ArrowLeft, ChevronDown, Home } from 'lucide-react';
 import { PremiumGate } from '../components/premium/PremiumGate';
 import { ShareButton } from '../components/premium/ShareButton';
@@ -87,6 +88,7 @@ export const ReportPage: React.FC = () => {
       color: 'purple',
       gradient: 'from-purple-500 to-indigo-600',
       widgets: [
+        { id: 'life-after-marriage', label: 'Life After Marriage' },
         { id: 'overview', label: 'Overall Compatibility' },
         { id: 'ashtakoot', label: 'Ashtakoot Guna Milan (36 points)' },
         { id: 'porutham', label: 'South Indian Porutham' },
@@ -287,6 +289,7 @@ export const ReportPage: React.FC = () => {
           {/* 1. FOUNDATIONS */}
           {activeTheme === 'match' && (
             <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <div id="life-after-marriage"><LifeAfterMarriageWidget report={currentReport} /></div>
               <div id="overview"><OverviewWidget report={currentReport} viewMode={viewMode as any} /></div>
               <div id="ashtakoot">
                 <AshtakootWidget
