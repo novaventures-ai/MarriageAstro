@@ -25,6 +25,8 @@ interface Domain {
   score: number;
   signals: SignalChip[];
   detail: string;
+  interpretation: string;
+  remedies: string[];
 }
 
 // ── Utility helpers ─────────────────────────────────────────────────────────
@@ -86,7 +88,7 @@ function riskLevelPts(lvl: string | undefined, max: number): number {
 
 // ── Domain 1: Emotional Happiness (100pts) ──────────────────────────────────
 
-function buildEmotional(report: CompatibilityReport): { score: number; signals: SignalChip[]; detail: string } {
+function buildEmotional(report: CompatibilityReport): { score: number; signals: SignalChip[]; detail: string; interpretation: string; remedies: string[] } {
   const signals: SignalChip[] = [];
 
   const navPts = (report.navamsaMatching.score ?? 50) / 100 * 20;
@@ -141,12 +143,27 @@ function buildEmotional(report: CompatibilityReport): { score: number; signals: 
   if (pA && pB && (pA !== 'secure' || pB !== 'secure')) supporting.push(`Attachment: ${pA} + ${pB}`);
   const detail = [primary, supporting.join(' · ') || null, `Net emotional strength: ${score}/100`].filter(Boolean).join('\n');
 
-  return { score, signals, detail };
+  const interpretation = score >= 68
+    ? 'Your marriage is likely to feel emotionally warm and supportive on most days. You naturally understand each other\'s moods, and even during disagreements you can find your way back to each other fairly quickly. Daily life together will have a sense of genuine companionship and love.'
+    : score >= 42
+    ? 'Your emotional bond has real warmth, but it can feel uneven at times. Some periods will feel deeply connected and loving, while others may bring emotional distance or misunderstandings. The good news: the highs are real and worth nurturing — conscious communication makes all the difference here.'
+    : 'Emotional harmony in this marriage will need deliberate effort from both sides. You may sometimes feel misunderstood or emotionally out of sync with your partner. This is not a dead end — it means building emotional bridges intentionally through patience, honest conversations, and perhaps professional support.';
+
+  const remedies: string[] = [];
+  if (score < 68) {
+    if (kp === 'denied' || kp === 'complicated') remedies.push('Practice a 10-minute daily check-in ritual — share one feeling and one appreciation with each other every evening before sleep.');
+    if (pA && pB && ((pA === 'avoidant' && pB === 'anxious') || (pA === 'anxious' && pB === 'avoidant'))) remedies.push('The anxious partner craves reassurance; the avoidant partner craves space. Agree on a "signal word" when one partner needs alone time — it removes the fear of rejection from the equation.');
+    if (report.mentalHealthAnalysis?.partnerA.overallWellbeing === 'needs_attention' || report.mentalHealthAnalysis?.partnerB.overallWellbeing === 'needs_attention') remedies.push('Consider couples counseling proactively — not just in crisis. A therapist helps both partners understand emotional triggers before they escalate into recurring fights.');
+    if (soul?.status === 'challenging') remedies.push('Chant "Om Shukraya Namah" 108 times on Fridays. Wearing white on Fridays and offering white flowers to Lakshmi strengthens the Venus bond which governs emotional love.');
+    if (remedies.length === 0) remedies.push('Make time for weekly date nights without phones. Shared experiences and laughter are the strongest glue for emotional bonds.');
+  }
+
+  return { score, signals, detail, interpretation, remedies };
 }
 
 // ── Domain 2: Financial Prosperity (100pts) ─────────────────────────────────
 
-function buildProsperity(report: CompatibilityReport): { score: number; signals: SignalChip[]; detail: string } {
+function buildProsperity(report: CompatibilityReport): { score: number; signals: SignalChip[]; detail: string; interpretation: string; remedies: string[] } {
   const signals: SignalChip[] = [];
 
   const secPts = (report.inLawAnalysis.secondHouseScore ?? 5) / 10 * 25;
@@ -187,12 +204,26 @@ function buildProsperity(report: CompatibilityReport): { score: number; signals:
     `Overall prosperity strength: ${score}/100`,
   ].join('\n');
 
-  return { score, signals, detail };
+  const interpretation = score >= 68
+    ? 'This marriage is likely to bring financial growth and stability. Your combined energies support wealth accumulation, and your partner\'s career and family background tend to support your household\'s financial health. Money matters are unlikely to become a major source of stress.'
+    : score >= 42
+    ? 'Finances in this marriage will have their ups and downs. There will be periods of abundance and periods of strain. The key is building shared financial goals early — disagreements over money can be managed if you treat your finances as a team sport rather than a competition.'
+    : 'Financial friction is a real risk in this partnership. You may have very different money habits, spending priorities, or earning trajectories. Without clear communication and shared planning, money can become a recurring source of arguments and resentment.';
+
+  const remedies: string[] = [];
+  if (score < 68) {
+    if (report.ashtakoot.doshas.bhakootDosha) remedies.push('Bhakoot dosha can create financial tension — remedy it by donating to a cow shelter (go-daan) on Wednesdays and wearing yellow sapphire (Pukhraj) after consulting a Jyotishi.');
+    if (report.addictionRiskAnalysis?.partnerA.overallRisk === 'high' || report.addictionRiskAnalysis?.partnerB.overallRisk === 'high') remedies.push('Address any addictive spending or substance patterns before marriage — these are the #1 destroyer of financial stability in relationships. Seek professional support early.');
+    remedies.push('Open a joint savings account within the first 6 months of marriage specifically for emergencies and shared goals. Having a visible "team fund" reduces financial anxiety significantly.');
+    if (score < 42) remedies.push('Consider a pre-marriage financial conversation with a certified financial planner. Aligning on debt, savings habits, and lifestyle expectations before marriage prevents 80% of money fights.');
+  }
+
+  return { score, signals, detail, interpretation, remedies };
 }
 
 // ── Domain 3: Health & Longevity (100pts) ───────────────────────────────────
 
-function buildHealth(report: CompatibilityReport): { score: number; signals: SignalChip[]; detail: string } {
+function buildHealth(report: CompatibilityReport): { score: number; signals: SignalChip[]; detail: string; interpretation: string; remedies: string[] } {
   const signals: SignalChip[] = [];
 
   const nadiDosha = report.ashtakoot.doshas.nadiDosha;
@@ -237,7 +268,28 @@ function buildHealth(report: CompatibilityReport): { score: number; signals: Sig
     `Overall health & longevity strength: ${score}/100`,
   ].join('\n');
 
-  return { score, signals, detail };
+  const interpretation = score >= 68
+    ? 'Health and longevity indicators are favorable in this marriage. Both partners are likely to maintain good vitality, and the genetic compatibility between you reduces risk of hereditary health issues being passed to children. Your combined energy supports a long and active life together.'
+    : score >= 42
+    ? 'Health matters will need some attention in this marriage. There may be periods of health stress for one or both partners, particularly during challenging planetary periods. Maintaining healthy lifestyle habits as a couple — diet, exercise, and mental wellness — provides a strong buffer.'
+    : 'Health and longevity require serious attention in this partnership. Genetic incompatibility (Nadi dosha) or Mars-related health friction can manifest as recurring health challenges or energy conflicts. Proactive medical screening, lifestyle changes, and spiritual remedies are strongly advised.';
+
+  const remedies: string[] = [];
+  if (nadiDosha) {
+    remedies.push('Nadi dosha requires a Nadi Dosha Nivarana Puja — ideally performed at a Shiva temple (Trimbakeshwar or Rameshwaram are traditional for this). Both partners should fast on Mondays and offer milk to a Shivalinga.');
+    remedies.push('Get a comprehensive pre-marital health checkup covering blood group, genetic panel, and thyroid levels. Nadi dosha is linked to constitutional differences that modern medicine can proactively manage.');
+  }
+  if (mangal === 'one_uncancelled') {
+    remedies.push('Mangal (Mars) dosha is active — perform a Mangal Shanti Puja on Tuesdays. The Manglik partner should wear a red coral (Moonga) set in copper or gold after consulting a Jyotishi. Donating red lentils (masoor dal) on Tuesdays helps neutralize the Mars energy.');
+  }
+  if (report.mentalHealthAnalysis?.partnerA.overallWellbeing === 'vulnerable' || report.mentalHealthAnalysis?.partnerB.overallWellbeing === 'vulnerable') {
+    remedies.push('Mental health vulnerability detected for one partner — prioritize professional mental health support before or soon after marriage. Medication, therapy, or both can dramatically improve health outcomes and protect the relationship from mental health crises.');
+  }
+  if (remedies.length === 0 && score < 68) {
+    remedies.push('Build a shared wellness routine — morning walks, cooking healthy meals together, or a weekly yoga session. Couples who maintain health habits together show significantly lower rates of chronic illness and marital stress.');
+  }
+
+  return { score, signals, detail, interpretation, remedies };
 }
 
 // ── Domain 4: Children & Legacy (100pts) ────────────────────────────────────
@@ -284,12 +336,29 @@ function buildChildren(report: CompatibilityReport): { score: number; signals: S
     `Overall children & legacy strength: ${score}/100`,
   ].filter(Boolean).join('\n');
 
-  return { score, signals, detail };
+  const interpretation = score >= 68
+    ? 'The indications for children and family legacy are favorable. Conception is likely to happen within a reasonable timeframe, and children born in this marriage are indicated to be healthy and a source of joy. Your family line and legacy will be well-continued through this union.'
+    : score >= 42
+    ? 'Having children may take some patience and planning in this marriage. The timing may need attention, and some couples with this pattern benefit from being more intentional about when and how they try to conceive. The D7 chart suggests children are possible, though not without some effort.'
+    : 'Children and family legacy require extra care and conscious effort in this partnership. There may be delays or difficulties with conception, or challenges related to children\'s health and upbringing. This does not mean childlessness — it means approaching this area with proper medical and spiritual guidance.';
+
+  const remedies: string[] = [];
+  if (nadiDosha) {
+    remedies.push('Nadi dosha is the most critical factor for child health. Perform Nadi Dosha Nivarana Puja (Mahamrityunjaya Japa — 1.25 lakh chants) before trying to conceive. Consult a fertility specialist for a pre-conception health screen.');
+    remedies.push('Both partners should undergo genetic counseling before conception — Nadi dosha in Vedic astrology correlates with potential genetic incompatibilities that modern medicine can screen for and manage.');
+  }
+  if (score < 68) {
+    if (fertility.includes('low') || fertility.includes('difficult')) remedies.push('The D7 chart shows fertility challenges. Maintain a healthy weight, avoid processed foods, and consider Ayurvedic Shatavari (for women) and Ashwagandha (for men) to naturally support reproductive health.');
+    remedies.push('Worship Lord Santangopal (Krishna as the child-giver) — chant "Om Kleem Krishnaya Namah" 108 times daily. Offering yellow flowers on Thursdays strengthens Jupiter, the significator of children.');
+    if (remedies.length < 3) remedies.push('Keep the northeast corner of your home clean and lit — this is the direction governed by Jupiter (Guru), the planet of children and blessings.');
+  }
+
+  return { score, signals, detail, interpretation, remedies };
 }
 
 // ── Domain 5: Social Status & Career (100pts) ──────────────────────────────
 
-function buildStatus(report: CompatibilityReport): { score: number; signals: SignalChip[]; detail: string } {
+function buildStatus(report: CompatibilityReport): { score: number; signals: SignalChip[]; detail: string; interpretation: string; remedies: string[] } {
   const signals: SignalChip[] = [];
 
   const tenPts = (report.inLawAnalysis.tenthHouseScore ?? 5) / 10 * 25;
@@ -326,12 +395,26 @@ function buildStatus(report: CompatibilityReport): { score: number; signals: Sig
     `Overall social status & career strength: ${score}/100`,
   ].join('\n');
 
-  return { score, signals, detail };
+  const interpretation = score >= 68
+    ? 'This marriage is likely to elevate your social standing and career trajectory. Your partner\'s background, profession, and family network tend to add to your reputation and public image. You are likely to be seen as a respected couple in your community, and your combined ambition supports each other\'s professional growth.'
+    : score >= 42
+    ? 'Career and social status will see mixed results after marriage. There will be periods of growth and recognition, but also periods where professional pressures or social obligations create friction. Being supportive of each other\'s ambitions — rather than competitive — is the key behavioral shift needed here.'
+    : 'Social status and career may face headwinds after this marriage. External pressures, differing social expectations, or one partner\'s career negatively affecting the other\'s reputation are real risks here. Proactive boundary-setting and public image alignment are important early on.';
+
+  const remedies: string[] = [];
+  if (score < 68) {
+    remedies.push('Worship the Sun (Surya) on Sundays — offer water (Arghya) to the rising sun while chanting "Om Suryaya Namah" 12 times. This strengthens the 10th house, which governs career and public reputation.');
+    if (carChallenges > 0) remedies.push('Career stress detected in modern factors — establish a clear "no work talk after 8pm" rule at home. Bringing office stress into domestic space is one of the top predictors of marital dissatisfaction.');
+    if (score < 42) remedies.push('Consider whether both partners\' career ambitions and social circles are compatible. If one partner\'s profession requires frequent relocations or late nights, discuss this explicitly and create a shared lifestyle agreement before marriage.');
+    remedies.push('Maintain a personal savings goal separate from household finances — financial independence within the marriage strengthens both partners\' confidence and social agency.');
+  }
+
+  return { score, signals, detail, interpretation, remedies };
 }
 
 // ── Domain 6: Conflict & Stability (100pts — inverted metrics) ──────────────
 
-function buildConflict(report: CompatibilityReport): { score: number; signals: SignalChip[]; detail: string } {
+function buildConflict(report: CompatibilityReport): { score: number; signals: SignalChip[]; detail: string; interpretation: string; remedies: string[] } {
   const signals: SignalChip[] = [];
 
   const divPts = (100 - (report.riskAssessment.divorceProbability.score ?? 50)) / 100 * 25;
@@ -374,7 +457,25 @@ function buildConflict(report: CompatibilityReport): { score: number; signals: S
     `Overall conflict & stability strength: ${score}/100`,
   ].join('\n');
 
-  return { score, signals, detail };
+  const interpretation = score >= 68
+    ? 'This marriage has strong stability indicators. Conflicts, when they occur, are likely to be manageable and resolved without lasting damage to the relationship. The planetary protective factors are working in your favor, and the overall energy supports a durable, committed partnership.'
+    : score >= 42
+    ? 'This marriage will have its share of friction and disagreements — some recurring. The key is not eliminating conflict (impossible in any real relationship) but learning to fight constructively. Arguments that end with understanding rather than wounds are the goal. With awareness, this marriage can be stable and lasting.'
+    : 'Significant conflict and stability challenges are indicated. There is a real risk of recurring, damaging arguments or in extreme cases, separation if left unaddressed. This doesn\'t make the marriage impossible — but it does require active intervention: counseling, spiritual remedies, and honest self-work from both partners.';
+
+  const remedies: string[] = [];
+  if (score < 68) {
+    if (report.riskAssessment.divorceProbability.level === 'high' || report.riskAssessment.divorceProbability.level === 'very_high') {
+      remedies.push('Divorce probability is elevated — the single most effective remedy is pre-marital or early-marriage couples counseling. Research shows couples who attend at least 8 sessions reduce separation risk by over 50%.');
+      remedies.push('Perform a Vivah Sukta Havan (marriage stability ritual) with a qualified priest. This strengthens the 7th house and invokes blessings for marital longevity. Dosha nivarana for any active doshas should accompany this.');
+    }
+    if (severity === 'High') remedies.push('High conflict zone detected — identify your top 3 recurring argument triggers (money, in-laws, time, work) and create written agreements around each. Vague expectations are the root of most relationship conflict.');
+    if (mangal === 'one_uncancelled') remedies.push('Mars dosha raises the energy of aggression — the Manglik partner should wear red coral after Mangal Shanti Puja, and both should practice anger regulation techniques (deep breathing, time-outs before responding during fights).');
+    if (report.riskAssessment.infidelityRisk.level === 'high') remedies.push('Fidelity risk is elevated — build emotional intimacy as a primary investment. Couples with high emotional closeness have dramatically lower infidelity rates. Prioritize weekly quality time, physical affection, and open conversations about desires and fears.');
+    if (remedies.length === 0) remedies.push('Establish a "weekly relationship review" — 20 minutes every Sunday where each partner shares what went well and one thing they\'d like to improve. This ritual prevents small grievances from becoming explosive resentments.');
+  }
+
+  return { score, signals, detail, interpretation, remedies };
 }
 
 // ── Assemble all 6 domains ──────────────────────────────────────────────────
@@ -586,6 +687,25 @@ export const LifeAfterMarriageWidget: React.FC<Props> = ({ report }) => {
                           {line}
                         </p>
                       ))}
+                      {/* Plain-English Interpretation */}
+                      <div className="bg-blue-50 dark:bg-blue-950/20 rounded-lg p-3 border border-blue-100 dark:border-blue-900/30">
+                        <p className="text-[10px] font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wide mb-1.5">What This Means For You</p>
+                        <p className="text-xs text-blue-900 dark:text-blue-200 leading-relaxed">{domain.interpretation}</p>
+                      </div>
+                      {/* Remedies & Recommended Actions */}
+                      {domain.remedies.length > 0 && (
+                        <div className="bg-orange-50 dark:bg-orange-950/20 rounded-lg p-3 border border-orange-100 dark:border-orange-900/30">
+                          <p className="text-[10px] font-semibold text-orange-600 dark:text-orange-400 uppercase tracking-wide mb-2">Recommended Actions & Remedies</p>
+                          <ul className="space-y-2">
+                            {domain.remedies.map((r, i) => (
+                              <li key={i} className="flex items-start gap-2 text-xs text-orange-900 dark:text-orange-200 leading-relaxed">
+                                <span className="text-orange-400 flex-shrink-0 mt-0.5 font-bold">{i + 1}.</span>
+                                <span>{r}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
                     </div>
                   )}
                 </button>
