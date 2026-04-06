@@ -1,7 +1,7 @@
 import React from 'react';
 import { PoruthamAnalysis, PoruthamParameter } from '../../../lib/poruthamCalculations';
 import { CheckCircle, XCircle, AlertTriangle } from 'lucide-react';
-import { JargonTooltip, JargonTerm } from '../../ui/JargonTooltip';
+import { JargonTooltip, JargonTerm } from '../ui/JargonTooltip';
 
 interface PoruthamWidgetProps {
     data: PoruthamAnalysis;

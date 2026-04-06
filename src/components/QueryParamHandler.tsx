@@ -84,7 +84,7 @@ export const QueryParamHandler: React.FC = () => {
           type: 'natal' as const
         };
         
-        setChartA(inviterChart);
+        setChartA(inviterChart as any);
         
         // If we aren't on add-partner, go there
         if (location.pathname !== '/add-partner') {
