@@ -294,7 +294,7 @@ function buildHealth(report: CompatibilityReport): { score: number; signals: Sig
 
 // ── Domain 4: Children & Legacy (100pts) ────────────────────────────────────
 
-function buildChildren(report: CompatibilityReport): { score: number; signals: SignalChip[]; detail: string } {
+function buildChildren(report: CompatibilityReport): { score: number; signals: SignalChip[]; detail: string; interpretation: string; remedies: string[] } {
   const signals: SignalChip[] = [];
 
   const nadiDosha = report.ashtakoot.doshas.nadiDosha;
