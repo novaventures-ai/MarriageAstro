@@ -6,6 +6,7 @@ import { Calendar, Clock, Sparkles, Star, Heart, Info, HelpCircle, BookOpen, Arr
 import { useGeminiInsight } from '../../hooks/useGeminiInsight';
 import ReactMarkdown from 'react-markdown';
 import { format } from 'date-fns';
+import { JargonTooltip, JargonTerm } from '../ui/JargonTooltip';
 
 interface TimingWidgetProps {
   timing: TimingAnalysis & { extended?: ExtendedTimingAnalysis };
@@ -62,7 +63,7 @@ export const TimingWidget: React.FC<TimingWidgetProps> = ({ timing }) => {
             <Calendar className="w-8 h-8" />
           </div>
           <div>
-            <h2 className="text-2xl font-bold mb-2">Marriage Timing Analysis</h2>
+            <h2 className="text-2xl font-bold mb-2">Marriage Timing Analysis <JargonTooltip term="Marriage Timing" className="ml-1" /></h2>
             <p className="text-indigo-100 leading-relaxed">
               Timing is everything in Vedic astrology! Marriage occurs when your <strong>Dasha periods</strong>
               (planetary time cycles) align favorably. This analysis identifies your most auspicious windows
@@ -440,7 +441,7 @@ export const TimingWidget: React.FC<TimingWidgetProps> = ({ timing }) => {
           <div>
             <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 flex items-center gap-3 transition-colors">
               <Clock className="w-6 h-6 text-purple-600 dark:text-purple-400" />
-              Current Planetary Periods (Dasha)
+              Current Planetary Periods (<JargonTerm term="Dasha" />)
             </h3>
             <p className="text-gray-500 dark:text-gray-400 text-sm mt-1 transition-colors">
               Each person is running different planetary cycles - see how they align
@@ -531,7 +532,7 @@ export const TimingWidget: React.FC<TimingWidgetProps> = ({ timing }) => {
             <div>
               <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 flex items-center gap-3 transition-colors">
                 <ArrowRight className="w-6 h-6 text-amber-600 dark:text-amber-400" />
-                Chara Dasha (Jaimini System)
+                <JargonTerm term="Chara Dasha" /> (Jaimini System)
               </h3>
               <p className="text-gray-500 dark:text-gray-400 text-sm mt-1 transition-colors">
                 Sign-based timing system - another layer of marriage prediction

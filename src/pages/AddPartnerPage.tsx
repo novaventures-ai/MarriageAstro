@@ -3,8 +3,8 @@
  * Page for adding a new partner for comparison with Google Maps autocomplete
  */
 
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useUserProfileStore } from '../store/useUserProfileStore';
 import { ArrowLeft, Loader2, UserPlus, Heart } from 'lucide-react';
 import { ThemeToggle } from '../components/ui/ThemeToggle';
@@ -13,7 +13,10 @@ import { SEOHead } from '../components/SEOHead';
 
 export const AddPartnerPage: React.FC = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { addPartner, partners } = useUserProfileStore();
+  
+  const invitedBy = searchParams.get('invitedBy');
   
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
@@ -134,6 +137,25 @@ export const AddPartnerPage: React.FC = () => {
             </div>
           </div>
         </div>
+
+        {/* Invited Welcome Banner */}
+        {invitedBy && (
+          <div className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-xl p-6 mb-8 animate-in zoom-in duration-300">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/40 rounded-full flex items-center justify-center flex-shrink-0">
+                <UserPlus className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-emerald-800 dark:text-emerald-200">
+                  {invitedBy} invited you!
+                </h3>
+                <p className="text-emerald-700 dark:text-emerald-300">
+                  Enter your birth details below to see your deep compatibility report with {invitedBy}.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Form */}
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 md:p-8">

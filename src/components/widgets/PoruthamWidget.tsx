@@ -1,6 +1,7 @@
 import React from 'react';
 import { PoruthamAnalysis, PoruthamParameter } from '../../../lib/poruthamCalculations';
 import { CheckCircle, XCircle, AlertTriangle } from 'lucide-react';
+import { JargonTooltip, JargonTerm } from '../../ui/JargonTooltip';
 
 interface PoruthamWidgetProps {
     data: PoruthamAnalysis;
@@ -33,7 +34,7 @@ const PoruthamWidget: React.FC<PoruthamWidgetProps> = ({ data }) => {
         <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden border border-slate-200 dark:border-slate-700">
             <div className="bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-4">
                 <h3 className="text-xl font-bold text-white flex justify-between items-center">
-                    10/11 Porutham Matching (South Indian)
+                    10/11 Porutham Matching (South Indian) <JargonTooltip term="Porutham" className="ml-1" />
                     <span className="bg-white/20 px-3 py-1 rounded-full text-sm">
                         {data.totalScore} / {data.maxScore} Points
                     </span>
@@ -89,7 +90,9 @@ const PoruthamWidget: React.FC<PoruthamWidgetProps> = ({ data }) => {
                             {data.parameters.map((param: PoruthamParameter) => (
                                 <tr key={param.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-900/20 transition-colors">
                                     <td className="px-4 py-3">
-                                        <div className="font-medium text-slate-800 dark:text-slate-200">{param.name}</div>
+                                        <div className="font-medium text-slate-800 dark:text-slate-200">
+                                            <JargonTerm term={param.name} />
+                                        </div>
                                     </td>
                                     <td className="px-4 py-3 text-center">
                                         <span className="font-bold text-slate-700 dark:text-slate-300">

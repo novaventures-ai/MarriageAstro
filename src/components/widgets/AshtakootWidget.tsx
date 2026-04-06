@@ -3,6 +3,7 @@ import { AshtakootResult } from '../../types';
 import { CheckCircle, AlertCircle, Star, ChevronDown, ChevronUp, HelpCircle, BookOpen, Info, Sparkles, RefreshCw } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { useGeminiInsight } from '../../hooks/useGeminiInsight';
+import { JargonTooltip, JargonTerm } from '../ui/JargonTooltip';
 
 interface AshtakootWidgetProps {
   ashtakoot: AshtakootResult;
@@ -52,6 +53,7 @@ export const AshtakootWidget: React.FC<AshtakootWidgetProps> = ({
   const parameterList = [
     {
       key: 'varna',
+      term: 'Varna',
       label: 'Varna (Spiritual Development)',
       max: 1,
       description: 'Compares spiritual evolution and ego levels',
@@ -59,6 +61,7 @@ export const AshtakootWidget: React.FC<AshtakootWidgetProps> = ({
     },
     {
       key: 'vashya',
+      term: 'Vashya Koot',
       label: 'Vashya (Mutual Attraction)',
       max: 2,
       description: 'Measures who influences whom in the relationship',
@@ -66,6 +69,7 @@ export const AshtakootWidget: React.FC<AshtakootWidgetProps> = ({
     },
     {
       key: 'tara',
+      term: 'Tara',
       label: 'Tara (Destiny/Star Compatibility)',
       max: 3,
       description: 'Based on nakshatra positions - destiny alignment',
@@ -73,6 +77,7 @@ export const AshtakootWidget: React.FC<AshtakootWidgetProps> = ({
     },
     {
       key: 'yoni',
+      term: 'Yoni',
       label: 'Physical Nature Compatibility (Yoni)',
       max: 4,
       description: 'Animal symbols representing physical nature',
@@ -80,6 +85,7 @@ export const AshtakootWidget: React.FC<AshtakootWidgetProps> = ({
     },
     {
       key: 'grahaMaitri',
+      term: 'Graha Maitri',
       label: 'Graha Maitri (Planetary Friendship)',
       max: 5,
       description: 'Relationship between Moon sign lords',
@@ -87,6 +93,7 @@ export const AshtakootWidget: React.FC<AshtakootWidgetProps> = ({
     },
     {
       key: 'gana',
+      term: 'Gana',
       label: 'Gana (Temperament)',
       max: 6,
       description: 'Deva (godly), Manushya (human), Rakshasa (demonic)',
@@ -94,6 +101,7 @@ export const AshtakootWidget: React.FC<AshtakootWidgetProps> = ({
     },
     {
       key: 'bhakoot',
+      term: 'Bhakoot',
       label: 'Bhakoot (Relative Moon Positions)',
       max: 7,
       description: 'Moon sign positions and their effects',
@@ -101,6 +109,7 @@ export const AshtakootWidget: React.FC<AshtakootWidgetProps> = ({
     },
     {
       key: 'nadi',
+      term: 'Nadi',
       label: 'Nadi (Health & Progeny)',
       max: 8,
       description: 'Ayurvedic constitution - most important parameter',
@@ -173,7 +182,7 @@ export const AshtakootWidget: React.FC<AshtakootWidgetProps> = ({
             <Star className="w-8 h-8" />
           </div>
           <div>
-            <h2 className="text-2xl font-bold mb-2">Ashtakoot Milan (36-Point System)</h2>
+            <h2 className="text-2xl font-bold mb-2">Ashtakoot Milan (36-Point System) <JargonTooltip term="Ashtakoot" className="ml-1" /></h2>
             <p className="text-indigo-100 leading-relaxed">
               Ashtakoot Milan is the traditional Vedic compatibility system that analyzes <strong>8 different parameters</strong>
               to assess marriage compatibility. Each parameter evaluates a different aspect of relationship harmony:
@@ -471,7 +480,9 @@ export const AshtakootWidget: React.FC<AshtakootWidgetProps> = ({
                   >
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
-                        <h4 className="font-semibold text-gray-800 dark:text-gray-100 transition-colors">{param.label}</h4>
+                        <h4 className="font-semibold text-gray-800 dark:text-gray-100 transition-colors">
+                          <JargonTerm term={param.term}>{param.label}</JargonTerm>
+                        </h4>
                         <span className="text-xs text-gray-500 dark:text-gray-500 font-medium">(Max {param.max} points)</span>
                       </div>
                       <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 transition-colors">{param.description}</p>

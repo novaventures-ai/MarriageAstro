@@ -36,6 +36,24 @@ const TIERS = [
     disabled: true,
   },
   {
+    name: 'Pay-Per-Section',
+    price: '₹49',
+    period: '/section',
+    color: 'blue',
+    icon: <Lock className="w-7 h-7" />,
+    features: [
+      { text: 'Unlock single insights', included: true },
+      { text: 'Full Report for ₹169', included: true },
+      { text: 'Permanent Access', included: true },
+      { text: 'Divorce & Infidelity Risk Details', included: true },
+      { text: 'Sexual Compatibility Deep Dive', included: true },
+      { text: 'Mental Health & Addiction Analysis', included: true },
+      { text: 'Remedies & Solutions', included: true },
+    ],
+    cta: 'Available Now',
+    disabled: false,
+  },
+  {
     name: 'Premium',
     price: '₹399',
     period: '/month',
@@ -172,13 +190,13 @@ export const PricingPage: React.FC = () => {
             </p>
           </div>
           <span className="text-xs font-bold px-3 py-1.5 bg-amber-200 dark:bg-amber-800/40 text-amber-800 dark:text-amber-200 rounded-full">
-            Launching Soon
+            Available Now
           </span>
         </div>
       </div>
 
       {/* Tier Cards */}
-      <div className="max-w-5xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
         {TIERS.map((tier) => (
           <div
             key={tier.name}

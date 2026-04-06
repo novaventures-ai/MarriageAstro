@@ -3,6 +3,7 @@ import { SynastryAspect, ModernPlanetAnalysis, ModernChallenges, Chart, HouseOve
 import { Star, Zap, Heart, AlertTriangle, Briefcase, Wifi, Info, BookOpen, Layers, GitMerge, HelpCircle, Brain, RefreshCw, Sparkles, AlertCircle } from 'lucide-react';
 import { useGeminiInsight } from '../../hooks/useGeminiInsight';
 import ReactMarkdown from 'react-markdown';
+import { JargonTooltip, JargonTerm } from '../ui/JargonTooltip';
 
 interface SynastryData {
   soulmateConnections: SynastryAspect[];
@@ -76,7 +77,7 @@ export const SynastryWidget: React.FC<SynastryWidgetProps> = ({
             <Star className="w-8 h-8" />
           </div>
           <div>
-            <h2 className="text-2xl font-bold mb-2">Synastry Analysis</h2>
+            <h2 className="text-2xl font-bold mb-2">Synastry Analysis <JargonTooltip term="Synastry Analysis" className="ml-1" /></h2>
             <p className="text-indigo-100 leading-relaxed">
               Synastry compares {chartAName} and {chartBName}'s birth charts to reveal relationship dynamics.
               We analyze connection at three levels: <strong>Vedic (D1)</strong> for compatibility,
@@ -301,7 +302,9 @@ export const SynastryWidget: React.FC<SynastryWidgetProps> = ({
                 <div className="flex items-start gap-3">
                   <Info className="w-5 h-5 text-purple-600 dark:text-purple-400 mt-0.5 flex-shrink-0" />
                   <div>
-                    <h4 className="font-semibold text-purple-800 dark:text-purple-200 mb-1">About Navamsa Synastry</h4>
+                    <h4 className="font-semibold text-purple-800 dark:text-purple-200 mb-1">
+                      About <JargonTerm term="Navamsa">Navamsa</JargonTerm> Synastry
+                    </h4>
                     <p className="text-sm text-purple-700 dark:text-purple-300">
                       The D9 Navamsa chart rules marriage and long-term destiny. Interactions here show if you can
                       sustain a life together after the initial spark fades.
@@ -373,7 +376,7 @@ export const SynastryWidget: React.FC<SynastryWidgetProps> = ({
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 transition-colors">
               <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4 flex items-center gap-3 transition-colors">
                 <GitMerge className="w-6 h-6 text-emerald-500" />
-                KP System Compatibility
+                <JargonTerm term="KP">KP</JargonTerm> System Compatibility
               </h3>
 
               {kpCompatibility ? (
@@ -401,7 +404,7 @@ export const SynastryWidget: React.FC<SynastryWidgetProps> = ({
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 transition-colors">
               <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4 flex items-center gap-3 transition-colors">
                 <Star className="w-6 h-6 text-indigo-500" />
-                Jaimini Soul Compatibility
+                <JargonTerm term="Jaimini">Jaimini</JargonTerm> Soul Compatibility
               </h3>
 
               {jaiminiCompatibility ? (

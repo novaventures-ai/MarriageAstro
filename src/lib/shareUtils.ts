@@ -81,6 +81,53 @@ function getDefaultVerdict(score: number): string {
   return 'Caution Advised 🔴';
 }
 
+// ─── Viral Growth Features ───────────────────────────────────────────────────
+
+export function generatePartnerInviteUrl(inviterChart: any): string {
+  const payload = {
+    n: inviterChart.name,
+    g: inviterChart.gender,
+    d: new Date(inviterChart.dateOfBirth).toISOString().split('T')[0],
+    t: inviterChart.timeOfBirth,
+    l: inviterChart.location,
+    lat: inviterChart.latitude,
+    lng: inviterChart.longitude,
+    tz: inviterChart.timezone
+  };
+  const b64 = btoa(JSON.stringify(payload));
+  // Safe base64url encode
+  const safeB64 = b64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  return `${SITE_URL}/add-partner?invite=${safeB64}`;
+}
+
+export function generateShareableReportUrl(chartA: any, chartB: any): string {
+  const payload = {
+    a: {
+      n: chartA.name,
+      g: chartA.gender,
+      d: new Date(chartA.dateOfBirth).toISOString().split('T')[0],
+      t: chartA.timeOfBirth,
+      l: chartA.location,
+      lat: chartA.latitude,
+      lng: chartA.longitude,
+      tz: chartA.timezone
+    },
+    b: {
+      n: chartB.name,
+      g: chartB.gender,
+      d: new Date(chartB.dateOfBirth).toISOString().split('T')[0],
+      t: chartB.timeOfBirth,
+      l: chartB.location,
+      lat: chartB.latitude,
+      lng: chartB.longitude,
+      tz: chartB.timezone
+    }
+  };
+  const b64 = btoa(JSON.stringify(payload));
+  const safeB64 = b64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  return `${SITE_URL}/report?share=${safeB64}`;
+}
+
 // ─── Helpers for ReportPage ──────────────────────────────────────────────────
 
 export function reportToShareData(report: any): ReportShareData {

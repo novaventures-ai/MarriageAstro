@@ -44,6 +44,27 @@ const JARGON: Record<string, string> = {
   'Divisional Chart': 'Zoomed-in chart — a special chart derived from the birth chart by dividing each sign; reveals details about specific life areas',
   'Synastry': 'Relationship overlay — comparing two birth charts to find karmic connections, soulmate indicators, and energy dynamics between people',
   'Graha Maitri': 'Planetary friendship compatibility — checks whether your moon sign lords are friends, neutral, or enemies; affects mental compatibility',
+  'Porutham': 'South Indian 10/11-point compatibility system — Tamil tradition equivalent of North Indian Ashtakoot; checks dina, gana, yoni, rasi, and other match parameters',
+  'Yoga': 'Auspicious planetary combination — specific alignments in a birth chart that amplify or modify life outcomes (career, marriage, wealth, health)',
+  'Dosha': 'Astrological affliction or imbalance — a challenging planetary placement that can create obstacles; most doshas have well-known remedies',
+  'Marriage Timing': 'Predicting when marriage is most likely — uses Dasha periods, planetary transits, and Muhurta to identify the most favorable windows',
+  'Synastry Analysis': 'Relationship overlay technique — compares two birth charts planet-by-planet to reveal karmic connections, attraction patterns, and compatibility dynamics',
+  'Sexual Compatibility': 'Yoni-based physical compatibility — each birth star maps to an animal symbol; matching determines physical harmony, attraction intensity, and intimacy satisfaction',
+  'Remedy': 'Astrological solution — a specific practice (mantra, gemstone, donation, fasting) prescribed to reduce the negative effects of a planetary affliction',
+  'Vulnerability Timeline': 'Periods of relationship stress — specific Dasha/transit windows when a relationship may face extra pressure, requiring awareness and care',
+  'Conflict Zone': 'A specific area of compatibility where astrological factors indicate potential friction or tension in the relationship.',
+  'Gana Dosha': 'Temperament mismatch warning — the daily temperament and underlying psychological nature of both partners may clash frequently',
+  'Sub Lord': 'The secondary planetary ruler of a specific house or nakshatra in KP astrology; it determines the final outcome or destiny of that area of life',
+  'Significator': 'A planet that becomes the primary agent for delivering the results of a specific house in your chart',
+  'Cuspal Interlinks': 'The subtle connections between the starting points (cusps) of different houses, used in KP astrology to predict specific events like marriage, divorce, or childbirth',
+  'Dina': 'Health and everyday compatibility — checks whether daily life together will cause stress, sickness, or bring harmony and long life',
+  'Mahendra': 'Wealth, progeny, and bonding — indicates if the husband is capable of protecting and providing for the family',
+  'Stree Deergha': 'General prosperity and womanly happiness — ensures the wife will live a long, prosperous, and happy life post-marriage',
+  'Rasi': 'Generational and family extension — looks at the compatibility of moon signs to ensure successful continuation of the family lineage',
+  'Rasi Adhipathi': 'True mental compatibility — analyzes if the lords of both moon signs are friends, preventing ego clashes and mental friction',
+  'Vasya': 'Mutual attraction and devotion — measures the magnetic pull and natural affection/influence partners have over each other',
+  'Rajju': 'Husband\'s longevity and marriage durability — the most critical South Indian match factor; matching Rajju is considered an inauspicious dosha',
+  'Vedha': 'Affliction avoidance — ensures the birth stars of both partners don\'t energetically cancel or harm each other'
 };
 
 interface JargonTooltipProps {

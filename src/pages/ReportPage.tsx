@@ -45,6 +45,7 @@ import { reportToOgParams, reportToShareData } from '../lib/shareUtils';
 import { PushPrompt } from '../components/PushPrompt';
 import { RawModeToggle } from '../components/admin/RawModeToggle';
 import { MobileNavStrip } from '../components/ui/MobileNavStrip';
+import { PartnerInviteButton } from '../components/report/PartnerInviteButton';
 
 export const ReportPage: React.FC = () => {
   const navigate = useNavigate();
@@ -243,6 +244,10 @@ export const ReportPage: React.FC = () => {
                 reportData={reportToShareData(currentReport)}
                 ogParams={reportToOgParams(currentReport)}
                 iconOnly
+              />
+              <PartnerInviteButton 
+                userChart={currentReport.chartA}
+                partnerName={currentReport.chartB.name}
               />
               <button
                 onClick={() => navigate('/')}

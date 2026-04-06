@@ -3,6 +3,7 @@ import { KPAnalysis } from '../../types/extendedTypes';
 import { Target, Star, Crosshair, Activity, Info, CheckCircle, XCircle, AlertTriangle, HelpCircle, BookOpen, ShieldAlert, Briefcase, Link2, Sparkles, RefreshCw, Clock, AlertCircle } from 'lucide-react';
 import { useGeminiInsight } from '../../hooks/useGeminiInsight';
 import ReactMarkdown from 'react-markdown';
+import { JargonTooltip, JargonTerm } from '../ui/JargonTooltip';
 
 interface KPAnalysisWidgetProps {
   partnerA: KPAnalysis;
@@ -73,7 +74,7 @@ export const KPAnalysisWidget: React.FC<KPAnalysisWidgetProps> = ({
             <Target className="w-8 h-8" />
           </div>
           <div>
-            <h2 className="text-2xl font-bold mb-2">KP Astrology Analysis</h2>
+            <h2 className="text-2xl font-bold mb-2">KP Astrology Analysis <JargonTooltip term="KP" className="ml-1" /></h2>
             <p className="text-indigo-100 leading-relaxed">
               KP (Krishnamurti Paddhati) is a precision-based predictive system that uses sub-lords and significators
               to predict marriage timing with high accuracy. This analysis reveals whether marriage is promised,
@@ -233,7 +234,7 @@ export const KPAnalysisWidget: React.FC<KPAnalysisWidgetProps> = ({
               </div>
               <div>
                 <h3 className="font-bold text-gray-800 dark:text-gray-100 text-xl transition-colors">{seventhCuspSubLord.planet}</h3>
-                <p className="text-gray-600 dark:text-gray-400 transition-colors">Your Marriage Manager Planet</p>
+                <p className="text-gray-600 dark:text-gray-400 transition-colors">Your Marriage Manager (<JargonTerm term="Sub Lord" className="font-semibold" />)</p>
               </div>
             </div>
             <div className={`px-4 py-2 rounded-full text-sm font-medium border flex items-center gap-2 transition-colors ${getMarriagePromiseColor(seventhCuspSubLord.marriagePromise)}`}>
@@ -503,7 +504,7 @@ export const KPAnalysisWidget: React.FC<KPAnalysisWidgetProps> = ({
           <div>
             <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 flex items-center gap-3 transition-colors">
               <Crosshair className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
-              Planetary Significators - {activeName}
+              <JargonTerm term="Significator">Planetary Significators</JargonTerm> - {activeName}
             </h3>
             <p className="text-gray-500 dark:text-gray-400 text-sm mt-1 transition-colors">
               Complete breakdown of how each planet influences your life areas
@@ -724,7 +725,7 @@ export const KPAnalysisWidget: React.FC<KPAnalysisWidgetProps> = ({
             <div>
               <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 flex items-center gap-3 transition-colors">
                 <Link2 className="w-6 h-6 text-orange-600 dark:text-orange-400" />
-                Cuspal Interlinks — Marriage Stability - {activeName}
+                <JargonTerm term="Cuspal Interlinks">Cuspal Interlinks</JargonTerm> — Marriage Stability - {activeName}
               </h3>
               <p className="text-gray-500 dark:text-gray-400 text-sm mt-1 transition-colors">
                 Cross-signification among 6th, 8th, and 12th cusp sub-lords

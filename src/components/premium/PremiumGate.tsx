@@ -48,16 +48,46 @@ export const PremiumGate: React.FC<PremiumGateProps> = ({
         {/* Blurred content with gradient fade */}
         <div className="relative overflow-hidden">
           <div className="blur-[6px] opacity-50 pointer-events-none select-none max-h-72">
-            {/* Render a static placeholder instead of children to prevent crashes
+            {/* Render a realistic static placeholder instead of children to prevent crashes
                 when child widgets access undefined data */}
-            <div className="space-y-4 p-6">
-              <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded-lg w-3/4" />
-              <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full" />
-              <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-5/6" />
-              <div className="h-32 bg-gray-200 dark:bg-gray-700 rounded-xl" />
-              <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-2/3" />
-              <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-4/5" />
-              <div className="h-24 bg-gray-200 dark:bg-gray-700 rounded-xl" />
+            <div className="p-6 space-y-6">
+              <div className="flex items-center gap-4 border-b border-gray-100 dark:border-gray-800 pb-4">
+                <div className="w-10 h-10 bg-indigo-100 dark:bg-indigo-900/50 rounded-full flex items-center justify-center">
+                  <Sparkles className="w-5 h-5 text-indigo-500 dark:text-indigo-400" />
+                </div>
+                <div>
+                  <h4 className="text-lg font-bold text-gray-800 dark:text-gray-200">In-Depth Synthesis</h4>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Advanced Vedic Insights & AI Analysis</p>
+                </div>
+              </div>
+              
+              <div className="space-y-3">
+                <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                  Based on the comprehensive principles of deep Vedic Astrology, this analysis explores hidden karmic ties, subtle doshas, and intricate planetary interlinks between both charts. The alignment indicates powerful focal points that govern the longevity, harmony, and deeper purpose of this union.
+                </p>
+                <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                  Specific planetary periods (Dashas) combined with divisional chart insights reveal exact timelines of vulnerability and peak resonance. Custom remedies are generated to harmonize conflicting energies and amplify the relationship's natural strengths.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-emerald-50 dark:bg-emerald-900/20 p-4 rounded-xl border border-emerald-100 dark:border-emerald-800/30">
+                  <h5 className="font-semibold text-emerald-800 dark:text-emerald-400 mb-2 text-sm border-b border-emerald-200 dark:border-emerald-800/50 pb-1">Key Strengths</h5>
+                  <ul className="text-xs text-emerald-700 dark:text-emerald-500 space-y-1.5 font-medium">
+                    <li>• Natural Magnetic Pull</li>
+                    <li>• Financial Prosperity Alignment</li>
+                    <li>• Strong Interpersonal Empathy</li>
+                  </ul>
+                </div>
+                <div className="bg-rose-50 dark:bg-rose-900/20 p-4 rounded-xl border border-rose-100 dark:border-rose-800/30">
+                  <h5 className="font-semibold text-rose-800 dark:text-rose-400 mb-2 text-sm border-b border-rose-200 dark:border-rose-800/50 pb-1">Vulnerability Areas</h5>
+                  <ul className="text-xs text-rose-700 dark:text-rose-500 space-y-1.5 font-medium">
+                    <li>• Intermittent Communication Gaps</li>
+                    <li>• Latent Ego Clashes</li>
+                    <li>• External Family Dynamics</li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
 
