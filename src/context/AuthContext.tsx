@@ -17,6 +17,7 @@ interface AuthContextType {
     session: Session | null;
     isLoading: boolean;
     signInWithGoogle: () => Promise<void>;
+    signInWithEmail: (email: string, password: string) => Promise<void>;
     signOut: () => Promise<void>;
 }
 
@@ -112,6 +113,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     };
 
+    const signInWithEmail = async (email: string, password: string) => {
+        const { error } = await supabase.auth.signInWithPassword({
+            email,
+            password,
+        });
+
+        if (error) {
+            console.error('Error signing in with Email:', error.message);
+            throw error;
+        }
+    };
+
     const signOut = async () => {
         trackEvent('user_signed_out');
         // Clear local store first
@@ -125,7 +138,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     return (
-        <AuthContext.Provider value={{ user, session, isLoading, signInWithGoogle, signOut }}>
+        <AuthContext.Provider value={{ user, session, isLoading, signInWithGoogle, signInWithEmail, signOut }}>
             {children}
         </AuthContext.Provider>
     );

@@ -16,6 +16,7 @@ const CalculatorPage = lazy(() => import('./pages/CalculatorPage').then(m => ({ 
 const ReportPage = lazy(() => import('./pages/ReportPage').then(m => ({ default: m.ReportPage })));
 const ComparisonPage = lazy(() => import('./pages/ComparisonPage').then(m => ({ default: m.ComparisonPage })));
 const AuthCallbackPage = lazy(() => import('./pages/AuthCallbackPage').then(m => ({ default: m.AuthCallbackPage })));
+const LoginPage = lazy(() => import('./pages/LoginPage').then(m => ({ default: m.LoginPage })));
 
 // Self Mode Pages
 const SelfCalculatorPage = lazy(() => import('./pages/SelfCalculatorPage').then(m => ({ default: m.SelfCalculatorPage })));
@@ -200,6 +201,11 @@ function App() {
 
               {/* Auth */}
               <Route path="/auth/callback" element={<AuthCallbackPage />} />
+              <Route path="/login" element={
+                <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-indigo-950 transition-colors duration-500">
+                  <LoginPage />
+                </div>
+              } />
 
               {/* 404 Catch-all */}
               <Route path="*" element={<NotFoundPage />} />
