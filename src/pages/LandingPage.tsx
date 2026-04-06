@@ -159,7 +159,7 @@ export const LandingPage: React.FC = () => {
           </p>
 
           {/* Mode Selection Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 max-w-4xl mx-auto mb-8 sm:mb-12 px-2 sm:px-0">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 max-w-4xl mx-auto mb-4 sm:mb-6 px-2 sm:px-0">
             {/* Self Analysis Card */}
             <div
               onClick={() => navigate('/self-calculator')}
@@ -168,11 +168,12 @@ export const LandingPage: React.FC = () => {
               <div className="flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-purple-100 dark:bg-purple-900/30 rounded-full mb-4 sm:mb-6 mx-auto group-hover:scale-110 transition-transform">
                 <User className="w-6 h-6 sm:w-8 sm:h-8 text-purple-600 dark:text-purple-400" />
               </div>
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2 sm:mb-3">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-100 mb-1 sm:mb-2">
                 Self Analysis
               </h2>
+              <p className="text-xs font-medium text-purple-500 dark:text-purple-400 mb-2 sm:mb-3">Single or just your own chart? Start here →</p>
               <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4 sm:mb-6">
-                Analyze your own marriage timing, discover your future spouse&apos;s characteristics, and get personalized remedies
+                Discover when you&apos;re likely to get married, what your future spouse will be like, and get personalized remedies for your chart
               </p>
               <button className="inline-flex items-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-full group-hover:shadow-lg transition-all text-sm sm:text-base">
                 Start Your Journey
@@ -188,11 +189,12 @@ export const LandingPage: React.FC = () => {
               <div className="flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-pink-100 dark:bg-pink-900/30 rounded-full mb-4 sm:mb-6 mx-auto group-hover:scale-110 transition-transform">
                 <Heart className="w-6 h-6 sm:w-8 sm:h-8 text-pink-600 dark:text-pink-400" />
               </div>
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2 sm:mb-3">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-100 mb-1 sm:mb-2">
                 Compatibility Check
               </h2>
+              <p className="text-xs font-medium text-pink-500 dark:text-pink-400 mb-2 sm:mb-3">Have a partner in mind? Compare both charts →</p>
               <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4 sm:mb-6">
-                Compare birth charts with your partner using our comprehensive 36-point Vedic matching system
+                Compare two birth charts side-by-side — emotional bond, financial harmony, conflict patterns, and life after marriage
               </p>
               <button className="inline-flex items-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-pink-500 to-rose-600 text-white font-semibold rounded-full group-hover:shadow-lg transition-all text-sm sm:text-base">
                 Check Compatibility
@@ -200,6 +202,10 @@ export const LandingPage: React.FC = () => {
               </button>
             </div>
           </div>
+          {/* What's the difference? */}
+          <p className="text-xs text-center text-gray-400 dark:text-gray-500 mb-6 sm:mb-8">
+            Not sure which to pick? <span className="text-indigo-500 font-medium">Self Analysis</span> = just your chart &nbsp;·&nbsp; <span className="text-pink-500 font-medium">Compatibility Check</span> = two charts compared
+          </p>
 
           {/* Try Demo CTA — prominent secondary hero action */}
           <div className="flex flex-col items-center gap-2">
@@ -274,7 +280,7 @@ export const LandingPage: React.FC = () => {
               step={3}
               icon={<Eye className="w-6 h-6" />}
               title="Explore Your Report"
-              description="Navigate 45+ modules — Ashtakoot scores, psychological profiles, risk radars, timing windows — all in one cosmic dashboard."
+              description="Navigate 38+ analysis modules — compatibility scores, psychological profiles, risk radars, timing windows — all in one cosmic dashboard."
               color="pink"
             />
             <GuideStepCard
@@ -465,13 +471,13 @@ export const LandingPage: React.FC = () => {
           </div>
           <div className="flex flex-col items-center gap-2">
             <Zap className="w-8 h-8 text-amber-500 dark:text-amber-400" />
-            <p className="font-semibold text-gray-800 dark:text-gray-100 text-sm">NASA-Grade Accuracy</p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">Swiss Ephemeris engine — same accuracy as professional astrologers.</p>
+            <p className="font-semibold text-gray-800 dark:text-gray-100 text-sm">Swiss Ephemeris Precision</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">Professional-grade planetary calculations — the same engine used by leading astrology software worldwide.</p>
           </div>
           <div className="flex flex-col items-center gap-2">
             <Stars className="w-8 h-8 text-purple-600 dark:text-purple-400" />
-            <p className="font-semibold text-gray-800 dark:text-gray-100 text-sm">45+ Analysis Modules</p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">The deepest marriage compatibility engine on the internet.</p>
+            <p className="font-semibold text-gray-800 dark:text-gray-100 text-sm">38+ Analysis Modules</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">9 astrology systems fused with modern psychology — the deepest marriage analysis available free.</p>
           </div>
         </div>
       </section>
@@ -479,16 +485,22 @@ export const LandingPage: React.FC = () => {
       {/* Testimonials */}
       <section className="py-12 sm:py-20 px-3 sm:px-4 safe-area-x">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-gray-100 mb-3 sm:mb-4">
-            What Our Users Say
-          </h2>
+          <div className="flex flex-col items-center gap-2 mb-3 sm:mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-gray-100">
+              What Our Users Say
+            </h2>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-xs font-semibold border border-emerald-200 dark:border-emerald-800/50">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              Free Beta — Early User Feedback
+            </span>
+          </div>
           <p className="text-center text-sm sm:text-base text-gray-500 dark:text-gray-400 mb-10 sm:mb-14 max-w-2xl mx-auto">
-            Real experiences from people who discovered their cosmic path
+            Early users exploring their cosmic path with us
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <TestimonialCard
-              name="Priya S."
+              name="P.S."
               location="Mumbai"
               context="Matched kundalis before engagement"
               rating={5}
@@ -497,7 +509,7 @@ export const LandingPage: React.FC = () => {
               color="purple"
             />
             <TestimonialCard
-              name="Arjun K."
+              name="A.K."
               location="Bangalore"
               context="Explored self-analysis for marriage timing"
               rating={4}
@@ -506,7 +518,7 @@ export const LandingPage: React.FC = () => {
               color="indigo"
             />
             <TestimonialCard
-              name="Meera & Ravi"
+              name="M. & R."
               location="Delhi"
               context="Compared charts as a couple"
               rating={5}
@@ -521,11 +533,17 @@ export const LandingPage: React.FC = () => {
       {/* Pricing Preview */}
       <section className="py-12 sm:py-20 px-3 sm:px-4 bg-white/50 dark:bg-black/20 safe-area-x">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-gray-100 mb-3">
-            Simple, Transparent Pricing
-          </h2>
+          <div className="flex flex-col items-center gap-2 mb-3">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-gray-100">
+              Simple, Transparent Pricing
+            </h2>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400 text-xs font-semibold border border-indigo-200 dark:border-indigo-800/50">
+              <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
+              Free Beta — All core features free, premium launching soon
+            </span>
+          </div>
           <p className="text-center text-sm sm:text-base text-gray-500 dark:text-gray-400 mb-8 sm:mb-12 max-w-2xl mx-auto">
-            Core features are free forever. Unlock detailed breakdowns when you need them.
+            Everything you need is free today. Join the waitlist to get early access and a founding-member discount when premium launches.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Free */}
@@ -560,7 +578,7 @@ export const LandingPage: React.FC = () => {
                 onClick={() => navigate('/pricing')}
                 className="w-full mt-5 py-2.5 bg-amber-500 text-white font-semibold rounded-lg hover:bg-amber-600 transition-colors text-sm"
               >
-                Coming Soon
+                Join Beta Waitlist — Get 50% Off
               </button>
             </div>
             {/* Astrologer */}
@@ -771,7 +789,7 @@ export const LandingPage: React.FC = () => {
             </div>
           </div>
           <div className="pt-6 border-t border-gray-200 dark:border-gray-700 text-center text-gray-500 dark:text-gray-400 text-xs">
-            <p>&copy; 2025 Astro Marriage by NovaVentures AI. Discover your cosmic destiny.</p>
+            <p>&copy; {new Date().getFullYear()} Astro Marriage by NovaVentures AI. Discover your cosmic destiny.</p>
           </div>
         </div>
       </footer>

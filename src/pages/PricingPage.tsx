@@ -55,8 +55,8 @@ const TIERS = [
       { text: 'Advanced KP Significators', included: false },
       { text: 'API Access', included: false },
     ],
-    cta: 'Coming Soon',
-    disabled: true,
+    cta: 'Join Waitlist — 50% Off',
+    disabled: false,
   },
   {
     name: 'Astrologer',
@@ -148,11 +148,15 @@ export const PricingPage: React.FC = () => {
 
       {/* Hero */}
       <div className="text-center py-12 sm:py-16 px-4">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-xs font-semibold border border-emerald-200 dark:border-emerald-800/50 mb-4">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+          Free Beta — All core features are free right now
+        </div>
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 dark:text-gray-100 mb-4">
           Simple, Transparent Pricing
         </h1>
         <p className="text-base sm:text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
-          Core features are free forever. Unlock detailed breakdowns and AI insights when you need them.
+          Core features are free during beta. Join the waitlist for a founding-member discount when premium launches — early users get 50% off for life.
         </p>
       </div>
 
@@ -168,7 +172,7 @@ export const PricingPage: React.FC = () => {
             </p>
           </div>
           <span className="text-xs font-bold px-3 py-1.5 bg-amber-200 dark:bg-amber-800/40 text-amber-800 dark:text-amber-200 rounded-full">
-            Coming Soon
+            Launching Soon
           </span>
         </div>
       </div>
@@ -209,9 +213,10 @@ export const PricingPage: React.FC = () => {
             </ul>
             <button
               disabled={tier.disabled}
+              onClick={tier.popular ? () => document.getElementById('waitlist-form')?.scrollIntoView({ behavior: 'smooth' }) : undefined}
               className={`w-full py-3 rounded-xl font-semibold text-sm transition-colors ${
                 tier.popular
-                  ? 'bg-amber-500 text-white hover:bg-amber-600 disabled:opacity-60'
+                  ? 'bg-amber-500 text-white hover:bg-amber-600'
                   : tier.color === 'purple'
                     ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 disabled:opacity-60'
                     : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 disabled:opacity-60'
@@ -223,31 +228,37 @@ export const PricingPage: React.FC = () => {
         ))}
       </div>
 
-      {/* Notify Me */}
-      <div className="max-w-2xl mx-auto px-4 mb-16">
-        <div className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/10 dark:to-purple-900/10 rounded-2xl p-6 border border-indigo-100 dark:border-indigo-800/30">
+      {/* Waitlist / Notify Me — prominent section */}
+      <div id="waitlist-form" className="max-w-2xl mx-auto px-4 mb-16 scroll-mt-20">
+        <div className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/10 dark:to-purple-900/10 rounded-2xl p-6 sm:p-8 border border-indigo-100 dark:border-indigo-800/30 text-center">
           {notified ? (
-            <div className="text-center">
-              <p className="text-green-600 dark:text-green-400 font-semibold">We&apos;ll notify you when premium launches!</p>
+            <div>
+              <div className="text-4xl mb-3">🎉</div>
+              <p className="text-green-600 dark:text-green-400 font-bold text-lg">You&apos;re on the list!</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">We&apos;ll email you when Premium launches with your 50% founding-member discount.</p>
             </div>
           ) : (
             <>
-              <p className="font-semibold text-indigo-800 dark:text-indigo-200 mb-3 text-center">Get notified when Premium launches</p>
+              <Crown className="w-8 h-8 text-amber-500 mx-auto mb-3" />
+              <p className="font-bold text-indigo-800 dark:text-indigo-200 text-lg mb-1">Join the Premium Waitlist</p>
+              <p className="text-sm text-indigo-600 dark:text-indigo-400 mb-5">Be first to know when Premium launches — founding members get 50% off forever.</p>
               <div className="flex gap-2 max-w-md mx-auto">
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleNotify()}
                   placeholder="your@email.com"
                   className="flex-1 px-4 py-2.5 bg-white dark:bg-gray-800 border border-indigo-200 dark:border-indigo-700 rounded-lg text-sm text-gray-800 dark:text-gray-100 focus:ring-2 focus:ring-indigo-500 outline-none"
                 />
                 <button
                   onClick={handleNotify}
-                  className="px-5 py-2.5 bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-indigo-700 transition-colors"
+                  className="px-5 py-2.5 bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-indigo-700 transition-colors whitespace-nowrap"
                 >
-                  Notify Me
+                  Count Me In
                 </button>
               </div>
+              <p className="text-xs text-gray-400 dark:text-gray-500 mt-3">No spam. Unsubscribe anytime. Your email is encrypted.</p>
             </>
           )}
         </div>

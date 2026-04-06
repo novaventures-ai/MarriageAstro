@@ -92,21 +92,21 @@ function buildEmotional(report: CompatibilityReport): { score: number; signals: 
   const signals: SignalChip[] = [];
 
   const navPts = (report.navamsaMatching.score ?? 50) / 100 * 20;
-  signals.push(chip('D9 Navamsa', navPts, 20));
+  signals.push(chip('Soul Chart', navPts, 20));
 
   const gm = report.ashtakoot.parameters.grahaMaitri.pointsObtained;
   const ga = report.ashtakoot.parameters.gana.pointsObtained;
   const ta = report.ashtakoot.parameters.tara.pointsObtained;
   const emotKootPts = (gm / 5 + ga / 6 + ta / 3) / 3 * 20;
-  signals.push(chip('Ashtakoot', emotKootPts, 20));
+  signals.push(chip('8-Factor Score', emotKootPts, 20));
 
   const kp = kpPromise(report);
   const kpPts = kp === null ? 7.5 : kp === 'promised' ? 15 : kp === 'complicated' ? 8 : 0;
-  signals.push(chip('KP Promise', kpPts, 15));
+  signals.push(chip('Marriage Promise', kpPts, 15));
 
   const soul = report.advancedBreakdown?.soul;
   const soulPts = !soul ? 7.5 : soul.status === 'positive' ? 15 : soul.status === 'neutral' ? 8 : 3;
-  signals.push(soul ? statusChip('Jaimini Soul', soul.status) : chip('Jaimini Soul', soulPts, 15));
+  signals.push(soul ? statusChip('Soul Purpose', soul.status) : chip('Soul Purpose', soulPts, 15));
 
   const depth = (report.synastry.soulmateConnections?.length ?? 0) + (report.synastry.karmicBonds?.length ?? 0);
   const synPts = depth >= 3 ? 10 : depth === 2 ? 7 : depth === 1 ? 4 : 1;
@@ -174,7 +174,7 @@ function buildProsperity(report: CompatibilityReport): { score: number; signals:
 
   const bhakoot = report.ashtakoot.parameters.bhakoot;
   const bhkPts = bhakoot.pointsObtained / (bhakoot.maxPoints || 7) * 15;
-  signals.push(chip('Bhakoot', bhkPts, 15));
+  signals.push(chip('Financial Harmony', bhkPts, 15));
 
   const stab = report.advancedBreakdown?.stability;
   const stabPts = !stab ? 7.5 : stab.status === 'positive' ? 15 : stab.status === 'neutral' ? 8 : 3;
@@ -189,7 +189,7 @@ function buildProsperity(report: CompatibilityReport): { score: number; signals:
   signals.push(chip('Addiction Risk', addPts, 10));
 
   const famPts = positiveText(report.navamsaMatching.familyRelations) ? 5 : 2.5;
-  signals.push(chip('D9 Family', famPts, 5));
+  signals.push(chip('Family Harmony', famPts, 5));
 
   const overlays = report.synastry.houseOverlays ?? [];
   const wealthCount = overlays.filter(o => o.house === 2 || o.house === 11).length;
@@ -229,11 +229,11 @@ function buildHealth(report: CompatibilityReport): { score: number; signals: Sig
   const nadiDosha = report.ashtakoot.doshas.nadiDosha;
   const nadiParam = report.ashtakoot.parameters.nadi;
   const nadiPts = nadiDosha ? 0 : nadiParam.pointsObtained / (nadiParam.maxPoints || 8) * 30;
-  signals.push(chip('Nadi Koot', nadiPts, 30));
+  signals.push(chip('Genetic Match', nadiPts, 30));
 
   const mangal = getMangalStatus(report);
   const mangalPts = mangal === 'neither' ? 20 : mangal === 'both_or_cancelled' ? 15 : 4;
-  signals.push(chip('Mangal', mangalPts, 20));
+  signals.push(chip('Mars Energy', mangalPts, 20));
 
   const longevity = report.riskAssessment.spouseLongevity;
   const longevityPts = !longevity ? 7.5 : longevity.score / 100 * 15;
@@ -249,7 +249,7 @@ function buildHealth(report: CompatibilityReport): { score: number; signals: Sig
 
   const ganaParam = report.ashtakoot.parameters.gana;
   const ganaPts = ganaParam.pointsObtained / (ganaParam.maxPoints || 6) * 5;
-  signals.push(chip('Gana Koot', ganaPts, 5));
+  signals.push(chip('Temperament', ganaPts, 5));
 
   const mhChallenges = report.modernChallenges.mentalHealth?.length ?? 0;
   const mhChallPts = mhChallenges === 0 ? 5 : mhChallenges <= 2 ? 3 : 0;
@@ -300,7 +300,7 @@ function buildChildren(report: CompatibilityReport): { score: number; signals: S
   const nadiDosha = report.ashtakoot.doshas.nadiDosha;
   const nadiParam = report.ashtakoot.parameters.nadi;
   const nadiPts = nadiDosha ? 0 : nadiParam.pointsObtained / (nadiParam.maxPoints || 8) * 30;
-  signals.push(chip('Nadi Koot', nadiPts, 30));
+  signals.push(chip('Genetic Match', nadiPts, 30));
 
   const fertility = report.divisionalAnalysis.d7.fertility?.toLowerCase() ?? '';
   const d7Pts = fertility.includes('excellent') || fertility.includes('high') ? 25
@@ -308,23 +308,23 @@ function buildChildren(report: CompatibilityReport): { score: number; signals: S
     : fertility.includes('moderate') || fertility.includes('average') ? 13
     : fertility.includes('low') || fertility.includes('difficult') ? 5
     : 13;
-  signals.push(chip('D7 Saptamsa', d7Pts, 25));
+  signals.push(chip('Children Chart', d7Pts, 25));
 
   const yoniParam = report.ashtakoot.parameters.yoni;
   const yoniPts = yoniParam.pointsObtained / (yoniParam.maxPoints || 4) * 15;
-  signals.push(chip('Yoni Koot', yoniPts, 15));
+  signals.push(chip('Physical Bond', yoniPts, 15));
 
   const kp = kpPromise(report);
   const kpPts = kp === null ? 5 : kp === 'promised' ? 10 : kp === 'complicated' ? 5 : 2;
-  signals.push(chip('KP Promise', kpPts, 10));
+  signals.push(chip('Marriage Promise', kpPts, 10));
 
   const ul2A = report.upapadaLagna?.partnerA.ul2;
   const ul2B = report.upapadaLagna?.partnerB.ul2;
   const ulPts = !report.upapadaLagna ? 6.5 : (ul2A || ul2B) ? 3 : 10;
-  signals.push(chip('Upapada', ulPts, 10));
+  signals.push(chip('Union Strength', ulPts, 10));
 
   const navPts = (report.navamsaMatching.score ?? 50) / 100 * 10;
-  signals.push(chip('D9 Navamsa', navPts, 10));
+  signals.push(chip('Soul Chart', navPts, 10));
 
   const score = Math.round(Math.min(100, nadiPts + d7Pts + yoniPts + kpPts + ulPts + navPts));
 
@@ -377,11 +377,11 @@ function buildStatus(report: CompatibilityReport): { score: number; signals: Sig
   signals.push(chip('Career Type', carPts, 15));
 
   const respPts = positiveText(report.navamsaMatching.mutualRespect, ['high', 'strong', 'good', 'positive', 'mutual', 'deep', 'excellent', 'respect']) ? 10 : 5;
-  signals.push(chip('D9 Respect', respPts, 10));
+  signals.push(chip('Mutual Respect', respPts, 10));
 
   const vashyaParam = report.ashtakoot.parameters.vashya;
   const vashyaPts = vashyaParam.pointsObtained / (vashyaParam.maxPoints || 2) * 8;
-  signals.push(chip('Vashya Koot', vashyaPts, 8));
+  signals.push(chip('Influence Match', vashyaPts, 8));
 
   const carChallenges = report.modernChallenges.careerStress?.length ?? 0;
   const carChallPts = carChallenges === 0 ? 7 : carChallenges <= 2 ? 4 : 0;
@@ -429,15 +429,15 @@ function buildConflict(report: CompatibilityReport): { score: number; signals: S
 
   const ganaParam = report.ashtakoot.parameters.gana;
   const ganaPts = ganaParam.pointsObtained / (ganaParam.maxPoints || 6) * 10;
-  signals.push(chip('Gana Koot', ganaPts, 10));
+  signals.push(chip('Temperament', ganaPts, 10));
 
   const bhakootDosha = report.ashtakoot.doshas.bhakootDosha;
   const bhkPts = bhakootDosha ? 2 : 10;
-  signals.push(chip('Bhakoot', bhkPts, 10));
+  signals.push(chip('Financial Harmony', bhkPts, 10));
 
   const mangal = getMangalStatus(report);
   const mangalPts = mangal === 'neither' ? 10 : mangal === 'both_or_cancelled' ? 8 : 2;
-  signals.push(chip('Mangal', mangalPts, 10));
+  signals.push(chip('Mars Energy', mangalPts, 10));
 
   const strongFactors = (report.riskAssessment.protectiveFactors ?? []).filter(f => f.strength === 'strong').length;
   const protPts = strongFactors >= 3 ? 10 : strongFactors === 2 ? 7 : strongFactors === 1 ? 4 : 1;
