@@ -59,8 +59,10 @@ export const ReportPage: React.FC = () => {
 
   const { isPremium } = usePremium();
   const userMode = useUserProfileStore((s) => s.userMode);
+  const isDemoMode = useUserProfileStore((s) => s.isDemoMode);
   const [showMobileTabs, setShowMobileTabs] = useState(false);
   const [activeTheme, setActiveTheme] = useState<ThemeId>('match');
+  const [demoBannerDismissed, setDemoBannerDismissed] = useState(false);
 
   if (!currentReport) {
     return (
@@ -254,6 +256,34 @@ export const ReportPage: React.FC = () => {
             </div>
           </div>
         </div>
+
+        {/* Demo mode disclaimer banner */}
+        {isDemoMode && !demoBannerDismissed && (
+          <div className="mb-4 px-4 py-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/40 rounded-xl flex items-start justify-between gap-3">
+            <div className="flex items-start gap-2 min-w-0">
+              <span className="text-amber-500 text-base flex-shrink-0">⚠️</span>
+              <div className="min-w-0">
+                <p className="text-xs font-semibold text-amber-800 dark:text-amber-200">Demo Mode — Sample Data</p>
+                <p className="text-xs text-amber-700 dark:text-amber-300 mt-0.5">
+                  This report uses fictional profiles (Ananya Sharma &amp; Vikram Desai). Results are real calculations, but not about real people.{' '}
+                  <button
+                    onClick={() => { navigate('/calculator'); }}
+                    className="underline font-semibold hover:no-underline"
+                  >
+                    Enter your real birth details →
+                  </button>
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={() => setDemoBannerDismissed(true)}
+              className="flex-shrink-0 text-amber-500 hover:text-amber-700 dark:hover:text-amber-300 text-lg leading-none"
+              aria-label="Dismiss demo banner"
+            >
+              ×
+            </button>
+          </div>
+        )}
 
         {/* Decider mode: direct verdict first */}
         {userMode === 'decider' && <QuickVerdictBanner report={currentReport} />}

@@ -93,8 +93,8 @@ export const ReportAhaMoment: React.FC<Props> = ({ report }) => {
           icon="🔶"
         />
         <Signal
-          label="First Explore"
-          value="Use the navigator below to dig deeper into any area"
+          label="Start Here"
+          value='Tap a topic in the "Cosmic Navigator" below to explore any area in depth'
           icon="👇"
           muted
         />
