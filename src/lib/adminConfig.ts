@@ -6,8 +6,7 @@
 
 export const ADMIN_EMAILS = [
   'novaventures.contact@gmail.com',
-  'rahul.govalkar.1807@gmail.com',
-  'viewer@marriageastro.com'
+  'rahul.govalkar.1807@gmail.com'
 ];
 
 export const isAdminEmail = (email: string): boolean =>
