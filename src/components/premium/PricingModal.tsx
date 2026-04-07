@@ -97,6 +97,7 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose, sec
   const [paymentError, setPaymentError] = useState<string | null>(null);
   const { planTier } = usePremium();
   const loadPlanFromCloud = useUserProfileStore((s) => s.loadPlanFromCloud);
+  const [loadingNotify, setLoadingNotify] = useState(false);
 
   if (!isOpen) return null;
 
@@ -139,8 +140,6 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose, sec
       setPaymentError(result.message);
     }
   };
-
-  const [loadingNotify, setLoadingNotify] = useState(false);
 
   const handleNotify = async (plan = 'premium') => {
     const target = email.trim();
