@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppStore } from '../store/useAppStore';
 import { OverviewWidget } from '../components/widgets/OverviewWidget';
@@ -82,7 +82,7 @@ export const ReportPage: React.FC = () => {
   }
 
   // --- 5-Question Architecture ---
-  const themes: ThemeConfig[] = [
+  const themes: ThemeConfig[] = useMemo(() => [
     {
       id: 'match',
       icon: '💍',
@@ -185,7 +185,7 @@ export const ReportPage: React.FC = () => {
         { id: 'remedies', label: 'Actionable Remedies' },
       ]
     }
-  ];
+  ], [currentReport, isPremium]);
 
   const handleScrollToWidget = (widgetId: string) => {
     const el = document.getElementById(widgetId);

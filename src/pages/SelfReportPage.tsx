@@ -3,7 +3,7 @@
  * Main report page for self analysis with multiple tabs
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserProfileStore } from '../store/useUserProfileStore';
 import {
@@ -220,7 +220,7 @@ export const SelfReportPage: React.FC = () => {
   }
 
   // --- Dynamic Theme Configuration ---
-  const themes: ThemeConfig[] = [
+  const themes: ThemeConfig[] = useMemo(() => [
     {
       id: 'match',
       icon: '🧬',
@@ -322,7 +322,7 @@ export const SelfReportPage: React.FC = () => {
           : 'Timing windows analyzed'
       }
     }
-  ];
+  ], [selfReport, isPremium]);
 
   const handleScrollToWidget = (widgetId: string) => {
     const el = document.getElementById(widgetId);
