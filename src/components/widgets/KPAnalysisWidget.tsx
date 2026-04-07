@@ -5,6 +5,33 @@ import { useGeminiInsight } from '../../hooks/useGeminiInsight';
 import ReactMarkdown from 'react-markdown';
 import { JargonTooltip, JargonTerm } from '../ui/JargonTooltip';
 
+const getMarriagePromiseIcon = (promise: string) => {
+  switch (promise) {
+    case 'promised': return <CheckCircle className="w-6 h-6 text-green-500" />;
+    case 'denied': return <XCircle className="w-6 h-6 text-red-500" />;
+    case 'complicated': return <AlertTriangle className="w-6 h-6 text-amber-500" />;
+    default: return <Info className="w-6 h-6 text-gray-500" />;
+  }
+};
+
+const getMarriagePromiseColor = (promise: string) => {
+  switch (promise) {
+    case 'promised': return 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 border-green-200 dark:border-green-800/50';
+    case 'denied': return 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 border-red-200 dark:border-red-800/50';
+    case 'complicated': return 'bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300 border-amber-200 dark:border-amber-800/50';
+    default: return 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300 border-gray-200 dark:border-gray-700';
+  }
+};
+
+const getStrengthColor = (strength: string) => {
+  switch (strength) {
+    case 'strong': return 'text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20';
+    case 'moderate': return 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20';
+    case 'weak': return 'text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20';
+    default: return 'text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800';
+  }
+};
+
 interface KPAnalysisWidgetProps {
   partnerA: KPAnalysis;
   partnerB: KPAnalysis;
@@ -25,33 +52,6 @@ export const KPAnalysisWidget: React.FC<KPAnalysisWidgetProps> = ({
   const { seventhCuspSubLord, significators, rulingPlanets, fourFoldAnalysis, fifthCuspAffairFormula, cuspalInterlinks, workplaceAffairGrouping, protectionFormula } = activeAnalysis;
   const [showHelp, setShowHelp] = useState<string | null>(null);
   const { loading, insight, error, triggerAnalysis } = useGeminiInsight();
-
-  const getMarriagePromiseIcon = (promise: string) => {
-    switch (promise) {
-      case 'promised': return <CheckCircle className="w-6 h-6 text-green-500" />;
-      case 'denied': return <XCircle className="w-6 h-6 text-red-500" />;
-      case 'complicated': return <AlertTriangle className="w-6 h-6 text-amber-500" />;
-      default: return <Info className="w-6 h-6 text-gray-500" />;
-    }
-  };
-
-  const getMarriagePromiseColor = (promise: string) => {
-    switch (promise) {
-      case 'promised': return 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 border-green-200 dark:border-green-800/50';
-      case 'denied': return 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 border-red-200 dark:border-red-800/50';
-      case 'complicated': return 'bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300 border-amber-200 dark:border-amber-800/50';
-      default: return 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300 border-gray-200 dark:border-gray-700';
-    }
-  };
-
-  const getStrengthColor = (strength: string) => {
-    switch (strength) {
-      case 'strong': return 'text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20';
-      case 'moderate': return 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20';
-      case 'weak': return 'text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20';
-      default: return 'text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800';
-    }
-  };
 
   const HelpBox = ({ title, children }: { title: string; children: React.ReactNode }) => (
     <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/10 rounded-lg border-l-4 border-blue-500 transition-colors">
