@@ -105,53 +105,45 @@ export const KPAnalysisWidget: React.FC<KPAnalysisWidgetProps> = ({
       )}
 
       {/* ── Plain-English Summary Card ─────────────────────────────────────── */}
-      {seventhCuspSubLord && (() => {
-        const promise = seventhCuspSubLord.marriagePromise;
-        const interpretation = seventhCuspSubLord.interpretation;
-        const separationRisk = cuspalInterlinks?.breakdownGrouping?.isActive;
-        const affairRisk = fifthCuspAffairFormula?.isActive;
-
-        const getPromiseLine = () => {
-          if (promise === 'promised') return `${activeName}'s chart strongly indicates marriage is promised — the 7th cusp sub-lord connects to houses of union (2, 7, 11), making marriage a clear indication in this lifetime.`;
-          if (promise === 'denied') return `${activeName}'s chart shows marriage may not occur easily — the 7th cusp sub-lord connects to houses of obstruction (6, 8, 12), indicating potential delays or complications.`;
-          if (promise === 'complicated') return `${activeName}'s chart shows marriage is possible but with complexity — marriage can happen, but with conditions or challenges to navigate first.`;
-          return `${activeName}'s KP chart shows a nuanced marriage picture based on the significator planet positions.`;
-        };
-
-        const getContextLine = () => {
-          if (separationRisk) return 'Note: some planetary interlinks point to separation risk factors — worth understanding in the detailed sections below.';
-          if (affairRisk) return 'Note: the 5th cusp formula shows indicators worth monitoring — the detailed analysis below explains what this means.';
-          return 'No major disruption indicators found in the cusp chain analysis.';
-        };
-
-        const promiseStyle = promise === 'promised'
-          ? 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800/40'
-          : promise === 'denied'
-            ? 'bg-rose-50 dark:bg-rose-900/20 border-rose-200 dark:border-rose-800/40'
-            : 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800/40';
-
-        const promptTextColor = promise === 'promised'
-          ? 'text-emerald-700 dark:text-emerald-300'
-          : promise === 'denied'
-            ? 'text-rose-700 dark:text-rose-300'
-            : 'text-amber-700 dark:text-amber-300';
-
-        return (
-          <div className={`rounded-2xl border p-5 ${promiseStyle} transition-colors`}>
-            <div className="flex items-start gap-3">
-              <BookOpen className="w-5 h-5 mt-0.5 flex-shrink-0 text-indigo-500 dark:text-indigo-400" />
-              <div>
-                <p className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2">In Plain Terms</p>
-                <p className={`text-sm leading-relaxed mb-2 font-medium ${promptTextColor}`}>{getPromiseLine()}</p>
-                {interpretation && (
-                  <p className="text-sm leading-relaxed mb-2 text-gray-600 dark:text-gray-400">{interpretation}</p>
-                )}
-                <p className="text-xs text-gray-400 dark:text-gray-500 leading-relaxed">{getContextLine()}</p>
-              </div>
+      {seventhCuspSubLord && (
+        <div className={`rounded-2xl border p-5 ${
+          seventhCuspSubLord.marriagePromise === 'promised'
+            ? 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800/40'
+            : seventhCuspSubLord.marriagePromise === 'denied'
+              ? 'bg-rose-50 dark:bg-rose-900/20 border-rose-200 dark:border-rose-800/40'
+              : 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800/40'
+        } transition-colors`}>
+          <div className="flex items-start gap-3">
+            <BookOpen className="w-5 h-5 mt-0.5 flex-shrink-0 text-indigo-500 dark:text-indigo-400" />
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2">In Plain Terms</p>
+              <p className={`text-sm leading-relaxed mb-2 font-medium ${
+                seventhCuspSubLord.marriagePromise === 'promised'
+                  ? 'text-emerald-700 dark:text-emerald-300'
+                  : seventhCuspSubLord.marriagePromise === 'denied'
+                    ? 'text-rose-700 dark:text-rose-300'
+                    : 'text-amber-700 dark:text-amber-300'
+              }`}>
+                {seventhCuspSubLord.marriagePromise === 'promised' && `${activeName}'s chart strongly indicates marriage is promised — the 7th cusp sub-lord connects to houses of union (2, 7, 11), making marriage a clear indication in this lifetime.`}
+                {seventhCuspSubLord.marriagePromise === 'denied' && `${activeName}'s chart shows marriage may not occur easily — the 7th cusp sub-lord connects to houses of obstruction (6, 8, 12), indicating potential delays or complications.`}
+                {seventhCuspSubLord.marriagePromise === 'complicated' && `${activeName}'s chart shows marriage is possible but with complexity — marriage can happen, but with conditions or challenges to navigate first.`}
+                {!['promised', 'denied', 'complicated'].includes(seventhCuspSubLord.marriagePromise) && `${activeName}'s KP chart shows a nuanced marriage picture based on the significator planet positions.`}
+              </p>
+              {seventhCuspSubLord.interpretation && (
+                <p className="text-sm leading-relaxed mb-2 text-gray-600 dark:text-gray-400">{seventhCuspSubLord.interpretation}</p>
+              )}
+              <p className="text-xs text-gray-400 dark:text-gray-500 leading-relaxed">
+                {cuspalInterlinks?.breakdownGrouping?.isActive 
+                  ? 'Note: some planetary interlinks point to separation risk factors — worth understanding in the detailed sections below.'
+                  : fifthCuspAffairFormula?.isActive
+                    ? 'Note: the 5th cusp formula shows indicators worth monitoring — the detailed analysis below explains what this means.'
+                    : 'No major disruption indicators found in the cusp chain analysis.'
+                }
+              </p>
             </div>
           </div>
-        );
-      })()}
+        </div>
+      )}
 
       {/* 7th Cusp Sub Lord - Most Critical */}
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 transition-colors">

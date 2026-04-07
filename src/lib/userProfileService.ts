@@ -14,12 +14,14 @@ export async function saveUserProfile(
   userId: string,
   birthData: BirthDataInput,
   chart: Chart,
-  report?: SelfAnalysisReport
+  report?: SelfAnalysisReport,
+  email?: string
 ): Promise<void> {
   const { error } = await supabase
     .from('profiles')
     .upsert({
       id: userId,
+      email: email || null,
       self_birth_data: {
         name: birthData.name,
         gender: birthData.gender,
@@ -35,8 +37,6 @@ export async function saveUserProfile(
       self_chart: chart,
       self_report: report || null,
       updated_at: new Date().toISOString()
-    }, {
-      onConflict: 'id'
     });
 
   if (error) {

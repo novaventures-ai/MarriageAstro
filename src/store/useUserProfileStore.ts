@@ -245,7 +245,7 @@ export const useUserProfileStore = create<UserProfileState>()(
           if (!get().isDemoMode) {
             const { data: { session } } = await supabase.auth.getSession();
             if (session?.user) {
-              await saveUserProfile(session.user.id, data, chart);
+              await saveUserProfile(session.user.id, data, chart, undefined, session.user.email);
             }
           }
         } catch (error) {
@@ -269,7 +269,7 @@ export const useUserProfileStore = create<UserProfileState>()(
           try {
             const { data: { session } } = await supabase.auth.getSession();
             if (session?.user) {
-              await saveUserProfile(session.user.id, selfBirthData, chart);
+              await saveUserProfile(session.user.id, selfBirthData, chart, undefined, session.user.email);
             }
           } catch (saveError) {
             // Log but don't fail chart generation — chart is already in local state
@@ -306,7 +306,7 @@ export const useUserProfileStore = create<UserProfileState>()(
           if (!get().isDemoMode) {
             const { data: { session } } = await supabase.auth.getSession();
             if (session?.user) {
-              await saveUserProfile(session.user.id, selfBirthData, selfChart, report);
+              await saveUserProfile(session.user.id, selfBirthData, selfChart, report, session.user.email);
             }
           }
         } catch (error) {
@@ -517,7 +517,7 @@ export const useUserProfileStore = create<UserProfileState>()(
 
           // Save self profile
           if (selfBirthData && selfChart) {
-            await saveUserProfile(session.user.id, selfBirthData, selfChart, selfReport || undefined);
+            await saveUserProfile(session.user.id, selfBirthData, selfChart, selfReport || undefined, session.user.email);
           }
 
           // Save partners

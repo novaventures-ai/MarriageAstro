@@ -58,6 +58,103 @@ import { UserDashboard } from '../components/dashboard/UserDashboard';
 import { ErrorBoundary } from '../components/ErrorBoundary';
 import { SEOHead } from '../components/SEOHead';
 
+// Psychology Widget Component
+const PsychologyWidget: React.FC<{ profile: any }> = ({ profile }) => (
+  <div className="space-y-6">
+    <div className="bg-gradient-to-r from-teal-600 to-cyan-600 rounded-2xl shadow-lg p-6 text-white">
+      <h2 className="text-2xl font-bold mb-2">Psychological Profile</h2>
+      <p className="text-teal-100">
+        Understanding your mental patterns helps create better relationships
+      </p>
+    </div>
+
+    <div className="grid md:grid-cols-2 gap-6">
+      {/* Attachment Style */}
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+        <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
+          Attachment Style
+        </h3>
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <span className="text-2xl">
+              {profile.attachmentStyle.type === 'secure' && '✅'}
+              {profile.attachmentStyle.type === 'anxious' && '💝'}
+              {profile.attachmentStyle.type === 'avoidant' && '🛡️'}
+              {profile.attachmentStyle.type === 'fearful' && '⚡'}
+            </span>
+            <span className="font-medium text-gray-800 dark:text-gray-100 capitalize">
+              {profile.attachmentStyle.type} Attachment
+            </span>
+          </div>
+          <p className="text-gray-600 dark:text-gray-400 text-sm">
+            {profile.attachmentStyle.description}
+          </p>
+        </div>
+      </div>
+
+      {/* Love Language */}
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+        <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
+          Love Language
+        </h3>
+        <div className="space-y-2">
+          <div className="flex items-center gap-2">
+            <span className="text-2xl">💝</span>
+            <span className="font-medium text-gray-800 dark:text-gray-100">
+              Primary: {profile.loveLanguage.primary}
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-2xl">💫</span>
+            <span className="text-gray-600 dark:text-gray-400">
+              Secondary: {profile.loveLanguage.secondary}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Communication */}
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+        <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
+          Communication Style
+        </h3>
+        <p className="text-gray-600 dark:text-gray-400 mb-3">
+          {profile.communicationStyle.style}
+        </p>
+        <div className="space-y-2">
+          <div className="text-sm">
+            <span className="text-gray-500 dark:text-gray-400">Conflict resolution: </span>
+            <span className="text-gray-800 dark:text-gray-200">
+              {profile.communicationStyle.conflictResolution}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Core Patterns */}
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+        <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
+          Core Patterns
+        </h3>
+        <div className="space-y-3">
+          <div>
+            <span className="text-sm text-gray-500 dark:text-gray-400">Core Fear: </span>
+            <span className="text-gray-800 dark:text-gray-200">
+              {profile.coreFears.primaryFear}
+            </span>
+          </div>
+          <div>
+            <span className="text-sm text-gray-500 dark:text-gray-400">Defense: </span>
+            <span className="text-gray-800 dark:text-gray-200">
+              {profile.defenseMechanisms.mechanism}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
 export const SelfReportPage: React.FC = () => {
   const navigate = useNavigate();
   const {
@@ -654,101 +751,5 @@ export const SelfReportPage: React.FC = () => {
   );
 };
 
-// Psychology Widget Component
-const PsychologyWidget: React.FC<{ profile: any }> = ({ profile }) => (
-  <div className="space-y-6">
-    <div className="bg-gradient-to-r from-teal-600 to-cyan-600 rounded-2xl shadow-lg p-6 text-white">
-      <h2 className="text-2xl font-bold mb-2">Psychological Profile</h2>
-      <p className="text-teal-100">
-        Understanding your mental patterns helps create better relationships
-      </p>
-    </div>
-
-    <div className="grid md:grid-cols-2 gap-6">
-      {/* Attachment Style */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
-        <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
-          Attachment Style
-        </h3>
-        <div className="space-y-3">
-          <div className="flex items-center gap-2">
-            <span className="text-2xl">
-              {profile.attachmentStyle.type === 'secure' && '✅'}
-              {profile.attachmentStyle.type === 'anxious' && '💝'}
-              {profile.attachmentStyle.type === 'avoidant' && '🛡️'}
-              {profile.attachmentStyle.type === 'fearful' && '⚡'}
-            </span>
-            <span className="font-medium text-gray-800 dark:text-gray-100 capitalize">
-              {profile.attachmentStyle.type} Attachment
-            </span>
-          </div>
-          <p className="text-gray-600 dark:text-gray-400 text-sm">
-            {profile.attachmentStyle.description}
-          </p>
-        </div>
-      </div>
-
-      {/* Love Language */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
-        <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
-          Love Language
-        </h3>
-        <div className="space-y-2">
-          <div className="flex items-center gap-2">
-            <span className="text-2xl">💝</span>
-            <span className="font-medium text-gray-800 dark:text-gray-100">
-              Primary: {profile.loveLanguage.primary}
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-2xl">💫</span>
-            <span className="text-gray-600 dark:text-gray-400">
-              Secondary: {profile.loveLanguage.secondary}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* Communication */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
-        <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
-          Communication Style
-        </h3>
-        <p className="text-gray-600 dark:text-gray-400 mb-3">
-          {profile.communicationStyle.style}
-        </p>
-        <div className="space-y-2">
-          <div className="text-sm">
-            <span className="text-gray-500 dark:text-gray-400">Conflict resolution: </span>
-            <span className="text-gray-800 dark:text-gray-200">
-              {profile.communicationStyle.conflictResolution}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* Core Patterns */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
-        <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
-          Core Patterns
-        </h3>
-        <div className="space-y-3">
-          <div>
-            <span className="text-sm text-gray-500 dark:text-gray-400">Core Fear: </span>
-            <span className="text-gray-800 dark:text-gray-200">
-              {profile.coreFears.primaryFear}
-            </span>
-          </div>
-          <div>
-            <span className="text-sm text-gray-500 dark:text-gray-400">Defense: </span>
-            <span className="text-gray-800 dark:text-gray-200">
-              {profile.defenseMechanisms.mechanism}
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-);
 
 export default SelfReportPage;
