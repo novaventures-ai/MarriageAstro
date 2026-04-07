@@ -65,24 +65,12 @@ export const ReportPage: React.FC = () => {
   const [activeTheme, setActiveTheme] = useState<ThemeId>('match');
   const [demoBannerDismissed, setDemoBannerDismissed] = useState(false);
 
-  if (!currentReport) {
-    return (
-      <div className="min-h-screen flex items-center justify-center transition-colors duration-500">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4 transition-colors">No Report Available</h2>
-          <button
-            onClick={() => navigate('/calculator')}
-            className="px-6 py-3 bg-indigo-600 dark:bg-indigo-500 text-white rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-colors"
-          >
-            Go to Calculator
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   // --- 5-Question Architecture ---
-  const themes: ThemeConfig[] = useMemo(() => [
+  // IMPORTANT: useMemo MUST be called before any conditional returns to satisfy
+  // React's Rules of Hooks (hooks must always run in the same order every render).
+  const themes: ThemeConfig[] = useMemo(() => {
+    if (!currentReport) return [];
+    return [
     {
       id: 'match',
       icon: '💍',
@@ -185,7 +173,8 @@ export const ReportPage: React.FC = () => {
         { id: 'remedies', label: 'Actionable Remedies' },
       ]
     }
-  ], [currentReport, isPremium]);
+  ];
+  }, [currentReport, isPremium]);
 
   const handleScrollToWidget = (widgetId: string) => {
     const el = document.getElementById(widgetId);
@@ -194,6 +183,23 @@ export const ReportPage: React.FC = () => {
       window.scrollTo({ top: y, behavior: 'smooth' });
     }
   };
+
+  // Conditional return AFTER all hooks have been called
+  if (!currentReport) {
+    return (
+      <div className="min-h-screen flex items-center justify-center transition-colors duration-500">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4 transition-colors">No Report Available</h2>
+          <button
+            onClick={() => navigate('/calculator')}
+            className="px-6 py-3 bg-indigo-600 dark:bg-indigo-500 text-white rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-colors"
+          >
+            Go to Calculator
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen py-8 px-4 transition-colors duration-500">

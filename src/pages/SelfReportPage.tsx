@@ -180,47 +180,12 @@ export const SelfReportPage: React.FC = () => {
     }
   }, [selfChart]);
 
-  // If no report, redirect to calculator
-  if (!selfReport && !isGeneratingReport) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4">
-            No Report Available
-          </h2>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">
-            Please generate your marriage analysis first.
-          </p>
-          <button
-            onClick={() => navigate('/self-calculator')}
-            className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
-          >
-            Generate Analysis
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  // Loading state
-  if (isGeneratingReport || !selfReport) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
-        <div className="text-center">
-          <Loader2 className="w-12 h-12 text-purple-600 animate-spin mx-auto mb-4" />
-          <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-2">
-            Generating Your Analysis...
-          </h2>
-          <p className="text-gray-500 dark:text-gray-400">
-            This may take a moment as we analyze your cosmic blueprint.
-          </p>
-        </div>
-      </div>
-    );
-  }
-
   // --- Dynamic Theme Configuration ---
-  const themes: ThemeConfig[] = useMemo(() => [
+  // IMPORTANT: useMemo MUST be called before any conditional returns to satisfy
+  // React's Rules of Hooks (hooks must always run in the same order every render).
+  const themes: ThemeConfig[] = useMemo(() => {
+    if (!selfReport) return [];
+    return [
     {
       id: 'match',
       icon: '🧬',
@@ -322,7 +287,8 @@ export const SelfReportPage: React.FC = () => {
           : 'Timing windows analyzed'
       }
     }
-  ], [selfReport, isPremium]);
+  ];
+  }, [selfReport, isPremium]);
 
   const handleScrollToWidget = (widgetId: string) => {
     const el = document.getElementById(widgetId);
@@ -331,6 +297,44 @@ export const SelfReportPage: React.FC = () => {
       window.scrollTo({ top: y, behavior: 'smooth' });
     }
   };
+
+  // Conditional returns AFTER all hooks have been called
+  if (!selfReport && !isGeneratingReport) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4">
+            No Report Available
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400 mb-6">
+            Please generate your marriage analysis first.
+          </p>
+          <button
+            onClick={() => navigate('/self-calculator')}
+            className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+          >
+            Generate Analysis
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (isGeneratingReport || !selfReport) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+        <div className="text-center">
+          <Loader2 className="w-12 h-12 text-purple-600 animate-spin mx-auto mb-4" />
+          <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-2">
+            Generating Your Analysis...
+          </h2>
+          <p className="text-gray-500 dark:text-gray-400">
+            This may take a moment as we analyze your cosmic blueprint.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
