@@ -11,7 +11,7 @@ import { UnlockableSection } from '../types';
 interface CheckoutOptions {
   userId: string;
   planType: 'section_unlock' | 'full_report_unlock' | 'premium_monthly' | 'astrologer_monthly';
-  sectionToUnlock?: UnlockableSection;
+  sectionToUnlock?: string; // Using string to allow raw ID or label
   userEmail?: string;
 }
 
@@ -36,34 +36,48 @@ export async function initiateCheckout(options: CheckoutOptions): Promise<Checko
       body: JSON.stringify(options),
     });
 
+    if (response.status === 404) {
+      throw new Error('Payment API endpoint not found. Please redeploy the application.');
+    }
+
     if (!response.ok) {
-      throw new Error('Failed to create checkout session');
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.error || 'Failed to create checkout session. Please try again.');
     }
 
     const data = await response.json();
 
-    // 2. Mock mode — no Razorpay key configured
+    // 2. Mock mode — no Razorpay key configured or explicitly mock
     if (data.mock || !import.meta.env.VITE_RAZORPAY_KEY_ID) {
       return {
         success: false,
         orderId: data.orderId,
         mock: true,
-        message: 'Payments launching soon! Your interest has been noted.',
+        message: data.message || 'Payments launching soon! Your interest has been noted.',
       };
     }
 
     // 3. Open Razorpay modal and wait for result
-    const result = await openRazorpayModal({
-      keyId: import.meta.env.VITE_RAZORPAY_KEY_ID,
-      orderId: data.orderId,
-      amount: data.amount,
-      currency: data.currency,
-      planType: options.planType,
-      sectionToUnlock: options.sectionToUnlock,
-      userEmail: options.userEmail,
-    });
+    try {
+      const result = await openRazorpayModal({
+        keyId: import.meta.env.VITE_RAZORPAY_KEY_ID,
+        orderId: data.orderId,
+        amount: data.amount,
+        currency: data.currency,
+        planType: options.planType,
+        sectionToUnlock: options.sectionToUnlock,
+        userEmail: options.userEmail,
+      });
 
-    return result;
+      return result;
+    } catch (modalError: any) {
+      console.error('Modal error:', modalError);
+      return {
+        success: false,
+        mock: false,
+        message: modalError.message || 'Failed to open payment gateway. Please disable ad-blockers and try again.',
+      };
+    }
   } catch (error: any) {
     console.error('Checkout error:', error);
     return {
@@ -85,54 +99,65 @@ interface RazorpayModalOptions {
 }
 
 function openRazorpayModal(opts: RazorpayModalOptions): Promise<CheckoutResult> {
-  return new Promise((resolve) => {
-    const description = opts.sectionToUnlock
-      ? `Unlock: ${opts.sectionToUnlock.replace(/_/g, ' ')}`
-      : opts.planType.replace(/_/g, ' ');
+  return new Promise((resolve, reject) => {
+    try {
+      // Safety check for window.Razorpay
+      if (typeof window.Razorpay === 'undefined') {
+        return reject(new Error('Razorpay SDK not loaded. Please check your internet connection or disable ad-blockers.'));
+      }
 
-    const rzp = new window.Razorpay({
-      key: opts.keyId,
-      amount: opts.amount,
-      currency: opts.currency,
-      name: 'Astro Marriage',
-      description,
-      order_id: opts.orderId,
-      handler: async (response: { razorpay_payment_id: string; razorpay_order_id: string; razorpay_signature: string }) => {
-        // Payment captured — webhook will update the DB; verify signature client-side for UX
-        const verified = await verifyPayment(response);
-        resolve({
-          success: verified,
-          orderId: opts.orderId,
-          mock: false,
-          message: verified ? 'Payment successful! Your content is being unlocked.' : 'Payment completed but verification pending.',
-        });
-      },
-      prefill: {
-        email: opts.userEmail || '',
-      },
-      theme: { color: '#F59E0B' },
-      modal: {
-        ondismiss: () => {
+      const description = opts.sectionToUnlock
+        ? `Unlock: ${opts.sectionToUnlock.replace(/_/g, ' ')}`
+        : opts.planType.replace(/_/g, ' ');
+
+      const rzp = new window.Razorpay({
+        key: opts.keyId,
+        amount: opts.amount,
+        currency: opts.currency,
+        name: 'Astro Marriage',
+        description,
+        order_id: opts.orderId,
+        handler: async (response: { razorpay_payment_id: string; razorpay_order_id: string; razorpay_signature: string }) => {
+          // Payment captured — webhook will update the DB; verify signature client-side for UX
+          const verified = await verifyPayment(response);
           resolve({
-            success: false,
+            success: verified,
             orderId: opts.orderId,
             mock: false,
-            message: 'Payment cancelled.',
+            message: verified ? 'Payment successful! Your content is being unlocked.' : 'Payment completed but verification pending.',
           });
         },
-      },
-    });
-
-    rzp.on('payment.failed', (_response: any) => {
-      resolve({
-        success: false,
-        orderId: opts.orderId,
-        mock: false,
-        message: 'Payment failed. Please try again.',
+        prefill: {
+          email: opts.userEmail || '',
+        },
+        theme: { color: '#F59E0B' },
+        modal: {
+          ondismiss: () => {
+            resolve({
+              success: false,
+              orderId: opts.orderId,
+              mock: false,
+              message: 'Payment cancelled.',
+            });
+          },
+        },
       });
-    });
 
-    rzp.open();
+      rzp.on('payment.failed', (response: any) => {
+        console.error('Razorpay payment failed:', response.error);
+        resolve({
+          success: false,
+          orderId: opts.orderId,
+          mock: false,
+          message: `Payment failed: ${response.error.description || 'Unknown error'}`,
+        });
+      });
+
+      rzp.open();
+    } catch (err) {
+      console.error('Error in openRazorpayModal constructor:', err);
+      reject(err);
+    }
   });
 }
 

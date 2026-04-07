@@ -122,7 +122,8 @@ export const PremiumGate: React.FC<PremiumGateProps> = ({
       <PricingModal
         isOpen={showPricing}
         onClose={() => setShowPricing(false)}
-        highlightSection={sectionLabel}
+        sectionId={section}
+        sectionLabel={sectionLabel}
       />
     </>
   );

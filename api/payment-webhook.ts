@@ -45,7 +45,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const rawBody = JSON.stringify(req.body);
 
   if (!signature || !verifySignature(rawBody, signature, webhookSecret)) {
-    console.error('payment-webhook: invalid signature');
+    console.error('payment-webhook: invalid signature mismatch', {
+      received: signature ? signature.substring(0, 8) + '...' : 'none',
+      bodyLength: rawBody.length
+    });
     return res.status(401).json({ error: 'Invalid webhook signature' });
   }
 
@@ -62,6 +65,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
 
       const { userId, planType, sectionToUnlock } = payment.notes || {};
+
+      console.log('payment-webhook: processing payment notes', {
+        userId,
+        planType,
+        sectionToUnlock,
+        paymentId: payment.id
+      });
 
       if (!userId || !planType) {
         console.error('payment-webhook: missing notes on payment', payment.id);
@@ -98,7 +108,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           return res.status(500).json({ error: 'Failed to unlock section' });
         }
 
-        console.log(`payment-webhook: unlocked section '${sectionToUnlock}' for user ${userId}`);
+        console.log(`payment-webhook: successfully unlocked section '${sectionToUnlock}' for user ${userId}`);
 
       } else if (planType === 'full_report_unlock') {
         // Unlock all sections at once

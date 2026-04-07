@@ -5,7 +5,7 @@
  */
 
 import React, { useState } from 'react';
-import { X, Check, Crown, Shield, Sparkles, Lock, Loader2 } from 'lucide-react';
+import { X, Check, Crown, Shield, Sparkles, Lock, Loader2, AlertTriangle } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { usePremium } from '../../hooks/usePremium';
 import { initiateCheckout } from '../../lib/paymentService';
@@ -15,7 +15,8 @@ import { useUserProfileStore } from '../../store/useUserProfileStore';
 interface PricingModalProps {
   isOpen: boolean;
   onClose: () => void;
-  highlightSection?: string;
+  sectionId?: string;
+  sectionLabel?: string;
 }
 
 const TIERS = [
@@ -88,11 +89,12 @@ const TIERS = [
 
 const razorpayLive = Boolean(import.meta.env.VITE_RAZORPAY_KEY_ID);
 
-export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose, highlightSection }) => {
+export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose, sectionId, sectionLabel }) => {
   const [email, setEmail] = useState('');
   const [notified, setNotified] = useState(false);
   const [loadingTier, setLoadingTier] = useState<string | null>(null);
   const [sectionLoading, setSectionLoading] = useState(false);
+  const [paymentError, setPaymentError] = useState<string | null>(null);
   const { planTier } = usePremium();
   const loadPlanFromCloud = useUserProfileStore((s) => s.loadPlanFromCloud);
 
@@ -107,11 +109,14 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose, hig
     const session = await getSession();
     if (!session?.user) return;
     setLoadingTier(tierName);
+    setPaymentError(null);
     const result = await initiateCheckout({ userId: session.user.id, planType, userEmail: session.user.email });
     setLoadingTier(null);
     if (result.success) {
       await loadPlanFromCloud(session.user.id, session.user.email || '');
       onClose();
+    } else if (result.message && !result.mock) {
+      setPaymentError(result.message);
     }
   };
 
@@ -119,11 +124,19 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose, hig
     const session = await getSession();
     if (!session?.user) return;
     setSectionLoading(true);
-    const result = await initiateCheckout({ userId: session.user.id, planType: 'section_unlock', sectionToUnlock: highlightSection as any, userEmail: session.user.email });
+    setPaymentError(null);
+    const result = await initiateCheckout({ 
+      userId: session.user.id, 
+      planType: 'section_unlock', 
+      sectionToUnlock: sectionId || sectionLabel, 
+      userEmail: session.user.email 
+    });
     setSectionLoading(false);
     if (result.success) {
       await loadPlanFromCloud(session.user.id, session.user.email || '');
       onClose();
+    } else if (result.message && !result.mock) {
+      setPaymentError(result.message);
     }
   };
 
@@ -177,14 +190,22 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose, hig
         <div className="sticky top-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm border-b border-gray-100 dark:border-gray-800 px-6 py-4 flex items-center justify-between z-10">
           <div>
             <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100">Unlock Full Insights</h2>
-            {highlightSection && (
-              <p className="text-sm text-gray-500 mt-0.5">Upgrade to see detailed {highlightSection.replace(/_/g, ' ')} analysis</p>
+            {sectionLabel && (
+              <p className="text-sm text-gray-500 mt-0.5">Upgrade to see detailed {sectionLabel.replace(/_/g, ' ')} analysis</p>
             )}
           </div>
           <button onClick={onClose} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
             <X className="w-5 h-5 text-gray-500" />
           </button>
         </div>
+
+        {/* Error Message */}
+        {paymentError && (
+          <div className="mx-6 mt-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/30 rounded-xl flex items-center gap-3">
+            <AlertTriangle className="w-5 h-5 text-red-600 flex-shrink-0" />
+            <p className="text-sm text-red-800 dark:text-red-200">{paymentError}</p>
+          </div>
+        )}
 
         {/* One-time unlock option */}
         <div className="px-6 py-4 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/10 dark:to-orange-900/10 border-b border-amber-100 dark:border-amber-800/30">
@@ -204,7 +225,7 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose, hig
                 className="flex items-center gap-2 px-4 py-1.5 bg-amber-500 text-white text-sm font-bold rounded-lg hover:bg-amber-600 disabled:opacity-70 transition-colors"
               >
                 {sectionLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : null}
-                {highlightSection ? `Unlock ₹49` : 'Unlock Section ₹49'}
+                {sectionLabel ? `Unlock ₹49` : 'Unlock Section ₹49'}
               </button>
             ) : (
               <span className="text-xs font-bold px-3 py-1.5 bg-amber-200 dark:bg-amber-800/40 text-amber-800 dark:text-amber-200 rounded-full">
