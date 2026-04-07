@@ -498,48 +498,7 @@ function buildDomains(report: CompatibilityReport): Domain[] {
   ];
 }
 
-// ── Blessings & Challenges ──────────────────────────────────────────────────
 
-function getBlessings(report: CompatibilityReport): string[] {
-  const list: string[] = [];
-  const strong = (report.riskAssessment.protectiveFactors ?? [])
-    .filter(f => f.strength === 'strong').map(f => f.text).slice(0, 3);
-  list.push(...strong);
-  const happiness = report.navamsaMatching.maritalHappiness;
-  if (happiness && !list.some(l => l === happiness)) list.push(happiness);
-  const preds = (report.spousePrediction.predictions ?? []).slice(0, 2);
-  list.push(...preds);
-  if (report.navamsaMatching.familyRelations) list.push(report.navamsaMatching.familyRelations);
-  return [...new Set(list)].slice(0, 5);
-}
-
-function getChallenges(report: CompatibilityReport): string[] {
-  const list: string[] = [];
-  const yogas = (report.riskAssessment.detectedYogas ?? [])
-    .filter(y => y.severity !== 'mild').map(y => `${y.name}: ${y.description}`).slice(0, 2);
-  list.push(...yogas);
-  const peopleTriggers = report.conflictZone.people.slice(0, 1).map(t => t.description);
-  list.push(...peopleTriggers);
-  const ideologyTriggers = report.conflictZone.ideology.slice(0, 1).map(t => t.description);
-  list.push(...ideologyTriggers);
-  if (report.riskAssessment.divorceProbability.level !== 'low') {
-    const ind = report.riskAssessment.divorceProbability.indicators?.[0]?.text;
-    if (ind) list.push(ind);
-  }
-  return [...new Set(list)].filter(Boolean).slice(0, 5);
-}
-
-// ── Timing ──────────────────────────────────────────────────────────────────
-
-function getWindows(report: CompatibilityReport) {
-  const favourable = (report.timing.favorablePeriods ?? []).slice(0, 2).map(p => ({
-    type: 'good' as const, label: p.description, date: new Date(p.startDate).getFullYear(),
-  }));
-  const vulnerable = (report.timing.vulnerablePeriods ?? []).slice(0, 2).map(p => ({
-    type: 'caution' as const, label: p.description, date: new Date(p.startDate).getFullYear(),
-  }));
-  return [...favourable, ...vulnerable].sort((a, b) => a.date - b.date);
-}
 
 // ── Overall verdict ─────────────────────────────────────────────────────────
 

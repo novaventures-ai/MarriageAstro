@@ -638,9 +638,6 @@ All Doshas: ${doshaAnalysis.doshas.filter(d => d.present).map(d => d.name).join(
 Provide a comprehensive deep-dive analysis of ${chart.name}'s marriage potential.
 `;
 
-    case 'ASTRO_MIND_SELF':
-      return `${basicInfo}\nPLANETARY POSITIONS: ${simplifiedPlanets}\n\nAnswer ${chart.name}'s question based on their chart data.`;
-
     case 'RISK_RADAR_ANALYSIS':
       const riskPatterns = selfReport.relationshipPatterns;
       const mhRisk = selfReport.mentalHealth;
