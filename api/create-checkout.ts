@@ -80,6 +80,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       planType,
       sectionToUnlock: sectionToUnlock || null,
       mock: false,
+      keyId,
     });
   } catch (error: any) {
     console.error('Checkout error:', error);

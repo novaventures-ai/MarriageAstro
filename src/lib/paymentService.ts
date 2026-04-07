@@ -18,6 +18,7 @@ interface CheckoutOptions {
 export interface CheckoutResult {
   success: boolean;
   orderId?: string;
+  keyId?: string; // Server provided key
   mock: boolean;
   message: string;
 }
@@ -48,7 +49,7 @@ export async function initiateCheckout(options: CheckoutOptions): Promise<Checko
     const data = await response.json();
 
     // 2. Mock mode — no Razorpay key configured or explicitly mock
-    if (data.mock || !import.meta.env.VITE_RAZORPAY_KEY_ID) {
+    if (data.mock) {
       return {
         success: false,
         orderId: data.orderId,
@@ -60,7 +61,7 @@ export async function initiateCheckout(options: CheckoutOptions): Promise<Checko
     // 3. Open Razorpay modal and wait for result
     try {
       const result = await openRazorpayModal({
-        keyId: import.meta.env.VITE_RAZORPAY_KEY_ID,
+        keyId: data.keyId || import.meta.env.VITE_RAZORPAY_KEY_ID,
         orderId: data.orderId,
         amount: data.amount,
         currency: data.currency,

@@ -87,7 +87,7 @@ const TIERS = [
   },
 ];
 
-const razorpayLive = Boolean(import.meta.env.VITE_RAZORPAY_KEY_ID);
+const razorpayLive = true; // Enabled by default; the server handles mock fallbacks if keys are missing
 
 export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose, sectionId, sectionLabel }) => {
   const [email, setEmail] = useState('');
