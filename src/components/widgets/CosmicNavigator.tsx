@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { PremiumBadge } from '../premium/PremiumBadge';
 
 export type ThemeId = 'match' | 'partner' | 'risks' | 'chemistry' | 'timing';
@@ -33,6 +33,23 @@ const statusColors = {
     neutral: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-300',
 };
 
+// Helper to get tailwind classes for theme colors to avoid template literal issues in production
+const getThemeClasses = (color: string, isActive: boolean) => {
+    if (isActive) {
+        return `border-${color}-500 shadow-lg shadow-${color}-500/20 dark:shadow-${color}-900/30 ring-2 ring-${color}-500/20 scale-[1.02]`;
+    }
+    return '';
+};
+
+const getIconClasses = (color: string) => {
+    return `text-3xl p-2 rounded-xl bg-${color}-50 dark:bg-${color}-900/20 text-${color}-600 dark:text-${color}-400 mb-1`;
+};
+
+const getTitleClasses = (color: string, isActive: boolean) => {
+    if (isActive) return `text-${color}-700 dark:text-${color}-300`;
+    return 'text-gray-800 dark:text-white';
+};
+
 export const CosmicNavigator: React.FC<CosmicNavigatorProps> = ({
     themes,
     activeTheme,
@@ -55,6 +72,9 @@ export const CosmicNavigator: React.FC<CosmicNavigatorProps> = ({
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {themes.map((theme) => {
                     const isActive = activeTheme === theme.id;
+                    const themeClasses = getThemeClasses(theme.color, isActive);
+                    const iconClasses = getIconClasses(theme.color);
+                    const titleClasses = getTitleClasses(theme.color, isActive);
 
                     return (
                         <div
@@ -64,7 +84,7 @@ export const CosmicNavigator: React.FC<CosmicNavigatorProps> = ({
                 relative overflow-hidden rounded-2xl cursor-pointer transition-all duration-300 group
                 border-2 flex flex-col h-full
                 ${isActive
-                                    ? `border-${theme.color}-500 shadow-lg shadow-${theme.color}-500/20 dark:shadow-${theme.color}-900/30 ring-2 ring-${theme.color}-500/20 scale-[1.02]`
+                                    ? themeClasses
                                     : 'border-transparent hover:border-gray-200 dark:hover:border-gray-700 bg-white/60 dark:bg-gray-800/60 backdrop-blur hover:bg-white dark:hover:bg-gray-800 shadow-sm hover:shadow-md'
                                 }
               `}
@@ -78,7 +98,7 @@ export const CosmicNavigator: React.FC<CosmicNavigatorProps> = ({
 
                             <div className="p-5 flex-grow flex flex-col relative z-10">
                                 <div className="flex justify-between items-start mb-3">
-                                    <div className={`text-3xl p-2 rounded-xl bg-${theme.color}-50 dark:bg-${theme.color}-900/20 text-${theme.color}-600 dark:text-${theme.color}-400 mb-1`}>
+                                    <div className={iconClasses}>
                                         {theme.icon}
                                     </div>
 
@@ -86,11 +106,11 @@ export const CosmicNavigator: React.FC<CosmicNavigatorProps> = ({
                                     {theme.dynamicData?.badge && (
                                         <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${statusColors[theme.dynamicData.status || 'neutral']}`}>
                                             {theme.dynamicData.badge}
-                                        </span>
+                                         </span>
                                     )}
                                 </div>
 
-                                <h3 className={`text-lg sm:text-xl font-bold mb-1 flex items-center gap-2 ${isActive ? `text-${theme.color}-700 dark:text-${theme.color}-300` : 'text-gray-800 dark:text-white'}`}>
+                                <h3 className={`text-lg sm:text-xl font-bold mb-1 flex items-center gap-2 ${titleClasses}`}>
                                     {theme.title}
                                     {theme.premiumRequired && <PremiumBadge />}
                                 </h3>

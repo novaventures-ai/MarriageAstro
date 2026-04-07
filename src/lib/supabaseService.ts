@@ -113,7 +113,7 @@ export async function saveReport(
         .eq('user_id', userId)
         .eq('chart_a_name', report.chartA.name)
         .eq('chart_b_name', report.chartB.name)
-        .single();
+        .maybeSingle();
 
     if (existing) {
         // 2. If it exists, update the existing report
@@ -126,7 +126,7 @@ export async function saveReport(
             })
             .eq('id', existing.id)
             .select('id')
-            .single();
+            .maybeSingle();
 
         if (error) {
             console.error('Error updating existing report:', error.message);
@@ -148,7 +148,7 @@ export async function saveReport(
             report_data: report as unknown as Record<string, unknown>,
         })
         .select('id')
-        .single();
+        .maybeSingle();
 
     if (error) {
         console.error('Error saving report:', error.message);
@@ -184,7 +184,7 @@ export async function loadFullReport(reportId: string): Promise<CompatibilityRep
         .from('compatibility_reports')
         .select('report_data')
         .eq('id', reportId)
-        .single();
+        .maybeSingle();
 
     if (error) {
         console.error('Error loading full report:', error.message);
@@ -248,7 +248,7 @@ export async function saveComparison(
             partners: comparison.partners as unknown as Record<string, unknown>[],
         })
         .select('id')
-        .single();
+        .maybeSingle();
 
     if (error) {
         console.error('Error saving comparison:', error.message);
@@ -317,7 +317,7 @@ export async function loadFullComparison(comparisonId: string): Promise<Comparis
         .from('partner_comparisons')
         .select('id, profile_name, profile_birth_data, partners, created_at')
         .eq('id', comparisonId)
-        .single();
+        .maybeSingle();
 
     if (error) {
         console.error('Error loading comparison:', error.message);
