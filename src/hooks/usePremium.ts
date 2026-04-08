@@ -80,12 +80,5 @@ export const usePremium = () => {
     isSectionUnlocked,
     canUseAI,
     aiCreditsRemaining,
-  return {
-    isPremium,
-    isAdmin,
-    planTier,
-    isSectionUnlocked,
-    canUseAI,
-    aiCreditsRemaining,
   };
 };

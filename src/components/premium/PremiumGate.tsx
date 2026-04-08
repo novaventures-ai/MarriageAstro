@@ -25,6 +25,10 @@ const SECTION_TO_CATEGORY: Record<string, string> = {
   'timeline': 'cat_timing', 'charadasha': 'cat_timing', 'remedies': 'cat_timing', 'kp_detail': 'cat_timing',
 };
 
+interface PremiumGateProps {
+  section: UnlockableSection;
+  children: React.ReactNode;
+  previewContent?: React.ReactNode;
   label?: string;
   reportKey?: string;
 }
@@ -130,6 +134,7 @@ export const PremiumGate: React.FC<PremiumGateProps> = ({
         </div>
       </div>
 
+      <PricingModal
         isOpen={showPricing}
         onClose={() => setShowPricing(false)}
         sectionId={SECTION_TO_CATEGORY[section] || section}

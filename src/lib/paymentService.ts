@@ -8,6 +8,21 @@
 
 import { UnlockableSection } from '../types';
 
+export interface CheckoutOptions {
+  userId: string;
+  planType: 'premium_monthly' | 'astrologer_monthly' | 'section_unlock' | 'full_report_unlock' | 'test_order';
+  sectionToUnlock?: string;
+  reportKey?: string;
+  userEmail?: string;
+}
+
+export interface RazorpayModalOptions {
+  keyId: string;
+  orderId: string;
+  userId: string;
+  amount: number;
+  currency: string;
+  planType: string;
   sectionToUnlock?: string;
   reportKey?: string;
   userEmail?: string;
@@ -89,11 +104,6 @@ export async function initiateCheckout(options: CheckoutOptions): Promise<Checko
   }
 }
 
-  sectionToUnlock?: string;
-  reportKey?: string;
-  userEmail?: string;
-}
-
 function openRazorpayModal(opts: RazorpayModalOptions): Promise<CheckoutResult> {
   return new Promise((resolve, reject) => {
     try {
@@ -126,6 +136,7 @@ function openRazorpayModal(opts: RazorpayModalOptions): Promise<CheckoutResult> 
         prefill: {
           email: opts.userEmail || '',
         },
+        notes: {
           userId: opts.userId,
           planType: opts.planType,
           sectionToUnlock: opts.sectionToUnlock || '',
