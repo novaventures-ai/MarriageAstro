@@ -14,9 +14,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(401).json({ error: 'Unauthorized' });
   }
 
-  if (!supabaseUrl || !supabaseServiceKey || !rzpKeyId || !rzpKeySecret) {
-    return res.status(500).json({ error: 'Missing config' });
-  }
+  if (!supabaseUrl) return res.status(500).json({ error: 'Config missing: SUPABASE_URL' });
+  if (!supabaseServiceKey) return res.status(500).json({ error: 'Config missing: SUPABASE_SERVICE_ROLE_KEY' });
+  if (!rzpKeyId) return res.status(500).json({ error: 'Config missing: RAZORPAY_KEY_ID' });
+  if (!rzpKeySecret) return res.status(500).json({ error: 'Config missing: RAZORPAY_KEY_SECRET' });
 
   const supabase = createClient(supabaseUrl, supabaseServiceKey);
   const razorpay = new Razorpay({ key_id: rzpKeyId, key_secret: rzpKeySecret });
@@ -86,12 +87,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       // Log to history
       await supabase.from('payment_history').upsert({
-        payment_id: payment.id,
-        order_id: payment.order_id,
-        user_id: userId,
-        plan_type: planType,
-        section_id: sectionToUnlock,
-        amount: payment.amount,
+        payment_id: payment.id as string,
+        order_id: (payment.order_id || '') as string,
+        user_id: userId as string,
+        plan_type: planType as string,
+        section_id: (sectionToUnlock || null) as string | null,
+        amount: Number(payment.amount || 0),
         status: 'success',
         raw_payload: payment
       }, { onConflict: 'payment_id' });
