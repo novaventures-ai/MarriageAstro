@@ -63,6 +63,7 @@ export async function initiateCheckout(options: CheckoutOptions): Promise<Checko
       const result = await openRazorpayModal({
         keyId: data.keyId || import.meta.env.VITE_RAZORPAY_KEY_ID,
         orderId: data.orderId,
+        userId: options.userId,
         amount: data.amount,
         currency: data.currency,
         planType: options.planType,
@@ -92,6 +93,7 @@ export async function initiateCheckout(options: CheckoutOptions): Promise<Checko
 interface RazorpayModalOptions {
   keyId: string;
   orderId: string;
+  userId: string;
   amount: number;
   currency: string;
   planType: string;
