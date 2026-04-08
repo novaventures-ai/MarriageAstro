@@ -124,8 +124,14 @@ function openRazorpayModal(opts: RazorpayModalOptions): Promise<CheckoutResult> 
         description,
         order_id: opts.orderId,
         handler: async (response: { razorpay_payment_id: string; razorpay_order_id: string; razorpay_signature: string }) => {
-          // Payment captured — webhook will update the DB; verify signature client-side for UX
-          const verified = await verifyPayment(response);
+          // Payment captured — verify signature and fulfill synchronously for immediate UX
+          const verified = await verifyPayment(response, {
+            userId: opts.userId,
+            planType: opts.planType,
+            sectionToUnlock: opts.sectionToUnlock,
+            reportKey: opts.reportKey,
+            amount: opts.amount
+          });
           resolve({
             success: verified,
             orderId: opts.orderId,
@@ -176,16 +182,28 @@ function openRazorpayModal(opts: RazorpayModalOptions): Promise<CheckoutResult> 
 /**
  * Verify a completed Razorpay payment signature via the server.
  */
-export async function verifyPayment(razorpayResponse: {
-  razorpay_payment_id: string;
-  razorpay_order_id: string;
-  razorpay_signature: string;
-}): Promise<boolean> {
+export async function verifyPayment(
+  razorpayResponse: {
+    razorpay_payment_id: string;
+    razorpay_order_id: string;
+    razorpay_signature: string;
+  },
+  metadata?: {
+    userId: string;
+    planType: string;
+    sectionToUnlock?: string;
+    reportKey?: string;
+    amount?: number;
+  }
+): Promise<boolean> {
   try {
     const res = await fetch('/api/verify-payment', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(razorpayResponse),
+      body: JSON.stringify({
+        ...razorpayResponse,
+        ...metadata,
+      }),
     });
     const data = await res.json();
     return data.valid === true;

@@ -69,19 +69,34 @@ export const ReportPage: React.FC = () => {
 
   const reportKey = useMemo(() => {
     if (!currentReport) return '';
-    return calculateReportKey(
-      currentReport.chartA.name,
-      currentReport.chartA.dateOfBirth.toISOString(),
-      currentReport.chartB.name,
-      currentReport.chartB.dateOfBirth.toISOString()
-    );
+    try {
+      const dobA = (currentReport.chartA.dateOfBirth as any) instanceof Date 
+        ? currentReport.chartA.dateOfBirth.toISOString() 
+        : new Date(currentReport.chartA.dateOfBirth).toISOString();
+      
+      const dobB = (currentReport.chartB.dateOfBirth as any) instanceof Date 
+        ? currentReport.chartB.dateOfBirth.toISOString() 
+        : new Date(currentReport.chartB.dateOfBirth).toISOString();
+
+      return calculateReportKey(
+        currentReport.chartA.name,
+        dobA,
+        currentReport.chartB.name,
+        dobB
+      );
+    } catch (err) {
+      console.warn('Failed to calculate report key:', err);
+      return '';
+    }
   }, [currentReport]);
 
   // --- 5-Question Architecture ---
   // IMPORTANT: useMemo MUST be called before any conditional returns to satisfy
   // React's Rules of Hooks (hooks must always run in the same order every render).
   const themes: ThemeConfig[] = useMemo(() => {
-    // Return the structure even if report is missing to keep hook counts stable
+    // Return empty array or default structure if report is missing to keep hook counts stable
+    if (!currentReport) return [];
+    
     return [
       {
         id: 'match',
