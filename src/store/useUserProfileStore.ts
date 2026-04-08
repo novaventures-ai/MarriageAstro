@@ -630,8 +630,12 @@ export const useUserProfileStore = create<UserProfileState>()(
             set({ isLoadingPartners: false });
           }
 
-          // 3. Load Payments
-          await get().loadPaymentsFromCloud(session.user.id);
+          // 3. Load Payments and Plan/Unlocks
+          const userEmail = session.user.email || '';
+          await Promise.all([
+            get().loadPaymentsFromCloud(session.user.id),
+            get().loadPlanFromCloud(session.user.id, userEmail)
+          ]);
 
         } catch (error) {
           console.error('Critical failure in loadFromCloud:', error instanceof Error ? error.message : 'Unknown error');
