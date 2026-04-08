@@ -589,7 +589,7 @@ export const ReportPage: React.FC = () => {
                 </PremiumGate>
               </div>
               <div id="modern">
-                <PremiumGate section="full_compat_report" label="Modern Western Insights" reportKey={reportKey}>
+                <PremiumGate section="sexual_detail" label="Modern Western Insights" reportKey={reportKey}>
                   <ModernInsightsWidget
                     modernPlanets={currentReport.modernPlanets!}
                     modernChallenges={currentReport.modernChallenges!}
@@ -612,7 +612,7 @@ export const ReportPage: React.FC = () => {
               </div>
               {currentReport.charaDasha && (
                 <div id="charadasha">
-                  <PremiumGate section="kp_detail" label="Chara Dasha Timeline" reportKey={reportKey}>
+                  <PremiumGate section="remedies" label="Chara Dasha Timeline" reportKey={reportKey}>
                     <CharaDashaWidget
                       partnerA={currentReport.charaDasha.partnerA}
                       partnerB={currentReport.charaDasha.partnerB}
