@@ -63,9 +63,17 @@ const MODE_COLORS: Record<string, {
   },
 };
 
+const CATEGORY_LABELS: Record<string, string> = {
+  'cat_personality': 'Personality & Character',
+  'cat_risks': 'Full Risk Analysis',
+  'cat_chemistry': 'Deep Chemistry & Intimacy',
+  'cat_timing': 'Marriage Timing & Remedies',
+};
+
 export const DashboardPage: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const [isSyncing, setIsSyncing] = React.useState(false);
   const { 
     selfChart, selfBirthData, partners, isHydrated, isDemoMode, loadFromCloud, 
     userMode, setUserMode, planTier, unlockedSections, planExpiresAt,
@@ -280,8 +288,24 @@ export const DashboardPage: React.FC = () => {
             <Sparkles className="w-5 h-5 text-amber-500" />
             Your Access & Premium Features
           </h2>
-          <div className="flex items-center gap-2">
-            <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
+          <div className="flex items-center gap-3">
+            <button
+              onClick={async () => {
+                setIsSyncing(true);
+                await loadFromCloud();
+                setTimeout(() => setIsSyncing(false), 500);
+              }}
+              disabled={isSyncing}
+              className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all ${
+                isSyncing 
+                  ? 'bg-gray-100 text-gray-400' 
+                  : 'bg-indigo-50 text-indigo-600 hover:bg-indigo-100 border border-indigo-100'
+              }`}
+            >
+              <RefreshCw className={`w-3 h-3 ${isSyncing ? 'animate-spin' : ''}`} />
+              {isSyncing ? 'Syncing...' : 'Refresh Access'}
+            </button>
+            <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider ${
               planTier === 'free' ? 'bg-gray-100 text-gray-500' : 
               planTier === 'premium' ? 'bg-purple-100 text-purple-700' : 
               'bg-amber-100 text-amber-700'
@@ -359,15 +383,18 @@ export const DashboardPage: React.FC = () => {
               <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Individually Unlocked</h3>
               {unlockedSections.length > 0 ? (
                 <div className="flex flex-wrap gap-2">
-                  {unlockedSections.map((sectionId) => (
-                    <div 
-                      key={sectionId}
-                      className="px-3 py-1.5 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-100 dark:border-green-800/30 text-green-700 dark:text-green-400 text-xs font-medium flex items-center gap-1.5"
-                    >
-                      <Heart className="w-3 h-3 fill-current" />
-                      {sectionId.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
-                    </div>
-                  ))}
+                  {unlockedSections.map((sectionId) => {
+                    const label = CATEGORY_LABELS[sectionId] || sectionId.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                    return (
+                      <div 
+                        key={sectionId}
+                        className="px-3 py-1.5 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-100 dark:border-green-800/30 text-green-700 dark:text-green-400 text-xs font-medium flex items-center gap-1.5"
+                      >
+                        <Heart className="w-3 h-3 fill-current" />
+                        {label}
+                      </div>
+                    );
+                  })}
                 </div>
               ) : (
                 <p className="text-sm text-gray-400 italic">No individual sections unlocked yet.</p>

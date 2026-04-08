@@ -554,7 +554,11 @@ export const useUserProfileStore = create<UserProfileState>()(
                 selfBirthData: profile.birthData,
                 selfChart: profile.chart,
                 selfReport: profile.report || null,
-                wantsAutoRenew: profile.wantsAutoRenew || false
+                wantsAutoRenew: profile.wantsAutoRenew || false,
+                // Sync premium status too
+                planTier: (profile.planTier as PlanTier) || 'free',
+                planExpiresAt: profile.planExpiresAt || null,
+                unlockedSections: (profile.unlockedSections as UnlockableSection[]) || []
               });
             }
           } catch (profileErr) {

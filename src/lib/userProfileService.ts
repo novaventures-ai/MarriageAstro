@@ -74,6 +74,9 @@ export async function getUserProfile(userId: string): Promise<{
   chart: Chart;
   report?: SelfAnalysisReport;
   wantsAutoRenew?: boolean;
+  planTier?: string;
+  planExpiresAt?: string | null;
+  unlockedSections?: string[];
 } | null> {
   const { data, error } = await supabase
     .from('profiles')
@@ -99,7 +102,10 @@ export async function getUserProfile(userId: string): Promise<{
     },
     chart: data.self_chart,
     report: data.self_report || undefined,
-    wantsAutoRenew: data.wants_auto_renew || false
+    wantsAutoRenew: data.wants_auto_renew || false,
+    planTier: data.plan_tier || 'free',
+    planExpiresAt: data.plan_expires_at,
+    unlockedSections: data.unlocked_sections || []
   };
 }
 
