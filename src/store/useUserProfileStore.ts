@@ -56,6 +56,7 @@ interface UserProfileState {
   aiCreditsRemaining: number;
   aiCreditsResetAt: string | null;
   paymentHistory: PaymentHistoryEntry[];
+  reportUnlocks: Record<string, string[]>;
   isAdmin: boolean;
   wantsAutoRenew: boolean;
 
@@ -140,6 +141,7 @@ export const useUserProfileStore = create<UserProfileState>()(
           aiCreditsRemaining: 3,
           aiCreditsResetAt: null,
           paymentHistory: [],
+          reportUnlocks: {},
           isAdmin: false,
           rawMode: false,
           isDemoMode: false,
@@ -171,6 +173,7 @@ export const useUserProfileStore = create<UserProfileState>()(
       aiCreditsRemaining: 3,
       aiCreditsResetAt: null,
       paymentHistory: [],
+      reportUnlocks: {},
       isAdmin: false,
       wantsAutoRenew: false,
       rawMode: false,
@@ -229,10 +232,25 @@ export const useUserProfileStore = create<UserProfileState>()(
             }
           }
 
+          // Fetch report-specific unlocks
+          const { data: unlocks } = await supabase
+            .from('report_unlocks')
+            .select('report_key, section_id')
+            .eq('user_id', userId);
+
+          const reportUnlocks: Record<string, string[]> = {};
+          if (unlocks) {
+            unlocks.forEach(u => {
+              if (!reportUnlocks[u.report_key]) reportUnlocks[u.report_key] = [];
+              reportUnlocks[u.report_key].push(u.section_id);
+            });
+          }
+
           set({
             planTier: plan.planTier,
             planExpiresAt: plan.planExpiresAt,
             unlockedSections: plan.unlockedSections,
+            reportUnlocks,
             aiCreditsRemaining: credits,
             aiCreditsResetAt: plan.aiCreditsResetAt,
             isAdmin: false,
@@ -661,6 +679,7 @@ export const useUserProfileStore = create<UserProfileState>()(
           unlockedSections: state.unlockedSections,
           aiCreditsRemaining: state.aiCreditsRemaining,
           aiCreditsResetAt: state.aiCreditsResetAt,
+          reportUnlocks: state.reportUnlocks,
           wantsAutoRenew: state.wantsAutoRenew,
           userMode: state.userMode,
           isDemoMode: false,

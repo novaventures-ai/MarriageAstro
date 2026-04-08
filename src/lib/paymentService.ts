@@ -8,10 +8,8 @@
 
 import { UnlockableSection } from '../types';
 
-interface CheckoutOptions {
-  userId: string;
-  planType: 'section_unlock' | 'full_report_unlock' | 'premium_monthly' | 'astrologer_monthly';
-  sectionToUnlock?: string; // Using string to allow raw ID or label
+  sectionToUnlock?: string;
+  reportKey?: string;
   userEmail?: string;
 }
 
@@ -68,6 +66,7 @@ export async function initiateCheckout(options: CheckoutOptions): Promise<Checko
         currency: data.currency,
         planType: options.planType,
         sectionToUnlock: options.sectionToUnlock,
+        reportKey: options.reportKey,
         userEmail: options.userEmail,
       });
 
@@ -90,14 +89,8 @@ export async function initiateCheckout(options: CheckoutOptions): Promise<Checko
   }
 }
 
-interface RazorpayModalOptions {
-  keyId: string;
-  orderId: string;
-  userId: string;
-  amount: number;
-  currency: string;
-  planType: string;
   sectionToUnlock?: string;
+  reportKey?: string;
   userEmail?: string;
 }
 
@@ -133,10 +126,10 @@ function openRazorpayModal(opts: RazorpayModalOptions): Promise<CheckoutResult> 
         prefill: {
           email: opts.userEmail || '',
         },
-        notes: {
           userId: opts.userId,
           planType: opts.planType,
           sectionToUnlock: opts.sectionToUnlock || '',
+          reportKey: opts.reportKey || '',
         },
         theme: { color: '#F59E0B' },
         modal: {

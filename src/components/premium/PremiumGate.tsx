@@ -25,13 +25,8 @@ const SECTION_TO_CATEGORY: Record<string, string> = {
   'timeline': 'cat_timing', 'charadasha': 'cat_timing', 'remedies': 'cat_timing', 'kp_detail': 'cat_timing',
 };
 
-interface PremiumGateProps {
-  section: UnlockableSection;
-  children: React.ReactNode;
-  /** Optional unblurred preview shown above the blurred content */
-  previewContent?: React.ReactNode;
-  /** Custom label for what's being locked */
   label?: string;
+  reportKey?: string;
 }
 
 export const PremiumGate: React.FC<PremiumGateProps> = ({
@@ -39,12 +34,13 @@ export const PremiumGate: React.FC<PremiumGateProps> = ({
   children,
   previewContent,
   label,
+  reportKey,
 }) => {
   const { isSectionUnlocked } = usePremium();
   const [showPricing, setShowPricing] = useState(false);
 
   // If unlocked, render normally
-  if (isSectionUnlocked(section)) {
+  if (isSectionUnlocked(section, reportKey)) {
     return <>{children}</>;
   }
 
@@ -134,11 +130,11 @@ export const PremiumGate: React.FC<PremiumGateProps> = ({
         </div>
       </div>
 
-      <PricingModal
         isOpen={showPricing}
         onClose={() => setShowPricing(false)}
         sectionId={SECTION_TO_CATEGORY[section] || section}
         sectionLabel={CATEGORY_LABELS[SECTION_TO_CATEGORY[section] || ''] || sectionLabel}
+        reportKey={reportKey}
       />
     </>
   );

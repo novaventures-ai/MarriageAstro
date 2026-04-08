@@ -10,10 +10,8 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import Razorpay from 'razorpay';
 
-interface CheckoutRequest {
-  userId: string;
-  planType: 'section_unlock' | 'full_report_unlock' | 'premium_monthly' | 'astrologer_monthly';
   sectionToUnlock?: string;
+  reportKey?: string;
 }
 
 const PRICING: Record<string, number> = {
@@ -29,7 +27,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const { userId, planType, sectionToUnlock } = req.body as CheckoutRequest;
+    const { userId, planType, sectionToUnlock, reportKey } = req.body as CheckoutRequest;
 
     if (!userId || !planType) {
       return res.status(400).json({ error: 'Missing userId or planType' });
@@ -53,6 +51,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         currency: 'INR',
         planType,
         sectionToUnlock: sectionToUnlock || null,
+        reportKey: reportKey || null,
         mock: true,
         message: 'Payment gateway coming soon.',
       });
@@ -65,10 +64,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       amount,
       currency: 'INR',
       receipt: `rcpt_${userId.slice(0, 8)}_${Date.now()}`,
-      notes: {
         userId,
         planType,
         sectionToUnlock: sectionToUnlock || '',
+        reportKey: reportKey || '',
       },
     });
 
@@ -79,6 +78,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       currency: order.currency,
       planType,
       sectionToUnlock: sectionToUnlock || null,
+      reportKey: reportKey || null,
       mock: false,
       keyId,
     });

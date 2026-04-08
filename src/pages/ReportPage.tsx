@@ -47,6 +47,7 @@ import { RawModeToggle } from '../components/admin/RawModeToggle';
 import { MobileNavStrip } from '../components/ui/MobileNavStrip';
 import { PartnerInviteButton } from '../components/report/PartnerInviteButton';
 import { WidgetErrorBoundary } from '../components/ui/WidgetErrorBoundary';
+import { calculateReportKey } from '../lib/reportUtils';
 
 export const ReportPage: React.FC = () => {
   const navigate = useNavigate();
@@ -65,6 +66,16 @@ export const ReportPage: React.FC = () => {
   const [showMobileTabs, setShowMobileTabs] = useState(false);
   const [activeTheme, setActiveTheme] = useState<ThemeId>('match');
   const [demoBannerDismissed, setDemoBannerDismissed] = useState(false);
+
+  const reportKey = useMemo(() => {
+    if (!currentReport) return '';
+    return calculateReportKey(
+      currentReport.chartA.name,
+      currentReport.chartA.dateOfBirth.toISOString(),
+      currentReport.chartB.name,
+      currentReport.chartB.dateOfBirth.toISOString()
+    );
+  }, [currentReport]);
 
   // --- 5-Question Architecture ---
   // IMPORTANT: useMemo MUST be called before any conditional returns to satisfy
@@ -176,6 +187,8 @@ export const ReportPage: React.FC = () => {
       }
     ];
   }, [currentReport, isPremium]);
+
+  const { isSectionUnlocked } = usePremium();
 
   const handleScrollToWidget = (widgetId: string) => {
     const el = document.getElementById(widgetId);
@@ -359,7 +372,7 @@ export const ReportPage: React.FC = () => {
               )}
               {currentReport.kpAnalysis && (
                 <div id="kp-advanced">
-                  <PremiumGate section="kp_detail" label="Advanced KP Significators">
+                  <PremiumGate section="kp_detail" label="Advanced KP Significators" reportKey={reportKey}>
                     <AdvancedKPWidget
                       partnerA={currentReport.kpAnalysis.partnerA}
                       partnerB={currentReport.kpAnalysis.partnerB}
@@ -412,13 +425,13 @@ export const ReportPage: React.FC = () => {
                 </div>
               </div>
               <div id="psychology">
-                <PremiumGate section="full_compat_report" label="Psychological Profile">
+                <PremiumGate section="full_compat_report" label="Psychological Profile" reportKey={reportKey}>
                   <PsychologicalProfileWidget report={currentReport as any} />
                 </PremiumGate>
               </div>
               {currentReport.relationshipPatternAnalysis && (
                 <div id="patterns">
-                  <PremiumGate section="full_compat_report" label="Relationship Behavior Patterns">
+                  <PremiumGate section="full_compat_report" label="Relationship Behavior Patterns" reportKey={reportKey}>
                     <RelationshipPatternWidget
                       patternA={currentReport.relationshipPatternAnalysis.partnerA}
                       patternB={currentReport.relationshipPatternAnalysis.partnerB}
@@ -429,7 +442,7 @@ export const ReportPage: React.FC = () => {
                 </div>
               )}
               <div id="navamsa">
-                <PremiumGate section="divisional_advanced" label="Navamsa D9 Marriage Chart">
+                <PremiumGate section="divisional_advanced" label="Navamsa D9 Marriage Chart" reportKey={reportKey}>
                   <DivisionalChartWidget
                     divisionalAnalysis={currentReport.divisionalAnalysis}
                     nameA={currentReport.chartA.name}
@@ -441,7 +454,7 @@ export const ReportPage: React.FC = () => {
               </div>
               {currentReport.charaKarakas && currentReport.charaDasha && currentReport.upapadaLagna && currentReport.vivahSaham && (
                 <div id="jaimini">
-                  <PremiumGate section="full_compat_report" label="Jaimini Soul Connection">
+                  <PremiumGate section="full_compat_report" label="Jaimini Soul Connection" reportKey={reportKey}>
                     <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 sm:p-6 transition-colors mb-4">
                       <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2 transition-colors">Jaimini Soul Connection</h2>
                       <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 transition-colors">Chara Karakas, Chara Dasha, Upapada Lagna & Vivah Saham</p>
@@ -473,7 +486,7 @@ export const ReportPage: React.FC = () => {
             <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
               <AwarenessBanner sectionName="risk" />
               <div id="radar">
-                <PremiumGate section="divorce_risk" label="Risk Analysis Details">
+                <PremiumGate section="divorce_risk" label="Risk Analysis Details" reportKey={reportKey}>
                   <RiskRadarWidget
                     riskAssessment={currentReport.riskAssessment}
                     partnerAName={currentReport.chartA.name}
@@ -482,13 +495,13 @@ export const ReportPage: React.FC = () => {
                 </PremiumGate>
               </div>
               <div id="conflict">
-                <PremiumGate section="divorce_risk" label="Conflict Zone Analysis">
+                <PremiumGate section="divorce_risk" label="Conflict Zone Analysis" reportKey={reportKey}>
                   <ConflictZoneWidget report={currentReport} />
                 </PremiumGate>
               </div>
               {currentReport.addictionRiskAnalysis && (
                 <div id="addiction">
-                  <PremiumGate section="addiction_risk" label="Addiction Risk Analysis">
+                  <PremiumGate section="addiction_risk" label="Addiction Risk Analysis" reportKey={reportKey}>
                     <AddictionRiskWidget
                       partnerA={currentReport.addictionRiskAnalysis.partnerA}
                       partnerB={currentReport.addictionRiskAnalysis.partnerB}
@@ -500,7 +513,7 @@ export const ReportPage: React.FC = () => {
               )}
               {currentReport.mentalHealthAnalysis && (
                 <div id="mental">
-                  <PremiumGate section="mental_health" label="Mental & Emotional Patterns">
+                  <PremiumGate section="mental_health" label="Mental & Emotional Patterns" reportKey={reportKey}>
                     <MentalHealthWidget
                       mentalHealthA={currentReport.mentalHealthAnalysis.partnerA}
                       mentalHealthB={currentReport.mentalHealthAnalysis.partnerB}
@@ -512,7 +525,7 @@ export const ReportPage: React.FC = () => {
               )}
               {currentReport.vulnerabilityTimeline && (
                 <div id="vulnerable">
-                  <PremiumGate section="vulnerability_timeline" label="Vulnerability Periods">
+                  <PremiumGate section="vulnerability_timeline" label="Vulnerability Periods" reportKey={reportKey}>
                     <VulnerabilityTimelineWidget timeline={currentReport.vulnerabilityTimeline} />
                   </PremiumGate>
                 </div>
@@ -525,7 +538,7 @@ export const ReportPage: React.FC = () => {
             <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
               <AwarenessBanner sectionName="sexual" />
               <div id="sexual">
-                <PremiumGate section="sexual_detail" label="Sexual Compatibility">
+                <PremiumGate section="sexual_detail" label="Sexual Compatibility" reportKey={reportKey}>
                   <SexualCompatibilityWidget
                     sexualCompatibility={currentReport.sexualCompatibility}
                     extendedSexualCompatibility={currentReport.extendedSexualCompatibility}
@@ -537,7 +550,7 @@ export const ReportPage: React.FC = () => {
                 </PremiumGate>
               </div>
               <div id="health">
-                <PremiumGate section="sexual_detail" label="Sexual Health Analysis">
+                <PremiumGate section="sexual_detail" label="Sexual Health Analysis" reportKey={reportKey}>
                   <SexualHealthWidget
                     sexualHealth={currentReport.sexualHealth}
                     partnerAName={currentReport.chartA.name}
@@ -546,7 +559,7 @@ export const ReportPage: React.FC = () => {
                 </PremiumGate>
               </div>
               <div id="synastry">
-                <PremiumGate section="sexual_detail" label="Synastry Connections">
+                <PremiumGate section="sexual_detail" label="Synastry Connections" reportKey={reportKey}>
                   <SynastryWidget
                     synastry={currentReport.synastry}
                     chartAName={currentReport.chartA.name}
@@ -555,7 +568,7 @@ export const ReportPage: React.FC = () => {
                 </PremiumGate>
               </div>
               <div id="modern">
-                <PremiumGate section="full_compat_report" label="Modern Western Insights">
+                <PremiumGate section="full_compat_report" label="Modern Western Insights" reportKey={reportKey}>
                   <ModernInsightsWidget
                     modernPlanets={currentReport.modernPlanets!}
                     modernChallenges={currentReport.modernChallenges!}
@@ -574,7 +587,7 @@ export const ReportPage: React.FC = () => {
               <div id="timeline"><TimingWidget timing={currentReport.timing} /></div>
               {currentReport.charaDasha && (
                 <div id="charadasha">
-                  <PremiumGate section="kp_detail" label="Chara Dasha Timeline">
+                  <PremiumGate section="kp_detail" label="Chara Dasha Timeline" reportKey={reportKey}>
                     <CharaDashaWidget
                       partnerA={currentReport.charaDasha.partnerA}
                       partnerB={currentReport.charaDasha.partnerB}

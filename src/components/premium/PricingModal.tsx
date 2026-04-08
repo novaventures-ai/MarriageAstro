@@ -17,6 +17,7 @@ interface PricingModalProps {
   onClose: () => void;
   sectionId?: string;
   sectionLabel?: string;
+  reportKey?: string;
 }
 
 const TIERS = [
@@ -87,9 +88,9 @@ const TIERS = [
   },
 ];
 
-const razorpayLive = true; // Enabled by default; the server handles mock fallbacks if keys are missing
+export const razorpayLive = true; // Enabled by default; the server handles mock fallbacks if keys are missing
 
-export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose, sectionId, sectionLabel }) => {
+export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose, sectionId, sectionLabel, reportKey }) => {
   const [email, setEmail] = useState('');
   const [notified, setNotified] = useState(false);
   const [loadingTier, setLoadingTier] = useState<string | null>(null);
@@ -137,6 +138,7 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose, sec
       userId: session.user.id, 
       planType: isFullReport ? 'full_report_unlock' : 'section_unlock', 
       sectionToUnlock: isFullReport ? 'full_report' : (sectionId || sectionLabel), 
+      reportKey,
       userEmail: session.user.email 
     });
     

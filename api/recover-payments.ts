@@ -33,14 +33,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       let userId = payment.notes?.userId;
       let planType = payment.notes?.planType;
       let sectionToUnlock = payment.notes?.sectionToUnlock;
+      let reportKey = payment.notes?.reportKey;
 
       // Fallback to order if notes missing on payment
       if ((!userId || !planType) && payment.order_id) {
         try {
           const order = await razorpay.orders.fetch(payment.order_id);
-          userId = userId || order.notes?.userId;
-          planType = planType || order.notes?.planType;
-          sectionToUnlock = sectionToUnlock || order.notes?.sectionToUnlock;
+          userId = (userId || order.notes?.userId) as string | undefined;
+          planType = (planType || order.notes?.planType) as string | undefined;
+          sectionToUnlock = (sectionToUnlock || order.notes?.sectionToUnlock) as string | undefined;
+          reportKey = (reportKey || order.notes?.reportKey) as string | undefined;
         } catch (e) {
             console.error('Failed order fetch for', payment.id);
         }
@@ -67,7 +69,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       console.log('Recovering payment:', payment.id, 'for user:', userId);
       
       // Update profile
-      if (planType === 'full_report_unlock' || planType === 'premium_monthly') {
+      if (planType === 'full_report_unlock' && reportKey) {
+          await supabase.from('report_unlocks').upsert({
+              user_id: userId,
+              report_key: reportKey,
+              section_id: 'full_report',
+              payment_id: payment.id
+          });
+      } else if (planType === 'section_unlock' && sectionToUnlock && reportKey) {
+          await supabase.from('report_unlocks').upsert({
+              user_id: userId,
+              report_key: reportKey,
+              section_id: sectionToUnlock,
+              payment_id: payment.id
+          });
+      } else if (planType === 'full_report_unlock' || planType === 'premium_monthly') {
           await supabase.from('profiles').update({
               plan_tier: planType === 'premium_monthly' ? 'premium' : 'full_report',
               plan_expires_at: planType === 'premium_monthly' 
@@ -75,7 +91,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 : null
           }).eq('id', userId);
       } else if (planType === 'section_unlock' && sectionToUnlock) {
-          // Get current sections
+          // Global fallback for past payments without reportKey
           const { data: profile } = await supabase.from('profiles').select('unlocked_sections').eq('id', userId).single();
           const currentSections = profile?.unlocked_sections || [];
           if (!currentSections.includes(sectionToUnlock)) {
@@ -92,6 +108,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         user_id: userId as string,
         plan_type: planType as string,
         section_id: (sectionToUnlock || null) as string | null,
+        report_key: (reportKey || null) as string | null,
         amount: Number(payment.amount || 0),
         status: 'success',
         raw_payload: payment

@@ -43,16 +43,28 @@ export const usePremium = () => {
   const unlockedSections = useUserProfileStore((s) => s.unlockedSections);
   const aiCreditsRemaining = useUserProfileStore((s) => s.aiCreditsRemaining);
   const isAdmin = useUserProfileStore((s) => s.isAdmin);
+  const reportUnlocks = useUserProfileStore((s) => s.reportUnlocks);
 
   const isPremium = isAdmin || planTier === 'premium' || planTier === 'astrologer';
 
-  const isSectionUnlocked = (section: UnlockableSection): boolean => {
+  const isSectionUnlocked = (section: UnlockableSection, reportKey?: string): boolean => {
     if (isPremium) return true;
     
-    // Check if the individual section is unlocked
+    // Check if the individual section is unlocked globally
     if (unlockedSections.includes(section)) return true;
 
-    // Check if the PARENT CATEGORY is unlocked
+    // Check if the section or full report is unlocked for THIS specific report Pairing
+    if (reportKey && reportUnlocks[reportKey]) {
+      const pairUnlocks = reportUnlocks[reportKey];
+      if (pairUnlocks.includes('full_report')) return true;
+      if (pairUnlocks.includes(section)) return true;
+      
+      // Also check if the PARENT CATEGORY is unlocked for this pair
+      const parentCategory = SECTION_TO_CATEGORY[section] as UnlockableSection;
+      if (parentCategory && pairUnlocks.includes(parentCategory)) return true;
+    }
+
+    // Check if the PARENT CATEGORY is unlocked globally
     const parentCategory = SECTION_TO_CATEGORY[section] as UnlockableSection;
     if (parentCategory && unlockedSections.includes(parentCategory)) return true;
 
@@ -61,6 +73,13 @@ export const usePremium = () => {
 
   const canUseAI = isPremium || aiCreditsRemaining > 0;
 
+  return {
+    isPremium,
+    isAdmin,
+    planTier,
+    isSectionUnlocked,
+    canUseAI,
+    aiCreditsRemaining,
   return {
     isPremium,
     isAdmin,

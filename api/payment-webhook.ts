@@ -57,7 +57,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const razorpay = (keyId && keySecret) ? new Razorpay({ key_id: keyId, key_secret: keySecret }) : null;
 
   // 1. Try to get metadata from payment notes
-  let { userId, planType, sectionToUnlock } = payment.notes || {};
+  let { userId, planType, sectionToUnlock, reportKey } = payment.notes || {};
 
   // 2. Fallback: If missing, try to fetch from Order notes (more reliable)
   if ((!userId || !planType) && payment.order_id && razorpay) {
@@ -68,6 +68,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         userId = userId || order.notes.userId;
         planType = planType || order.notes.planType;
         sectionToUnlock = sectionToUnlock || order.notes.sectionToUnlock;
+        reportKey = reportKey || order.notes.reportKey;
       }
     } catch (orderErr) {
       console.error('payment-webhook: failed to fetch order fallback:', orderErr);
@@ -92,6 +93,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     user_id: userId,
     plan_type: planType,
     section_id: sectionToUnlock || null,
+    report_key: reportKey || null,
     amount: payment.amount,
     status: 'processing',
     raw_payload: event
@@ -101,15 +103,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const { data: profile } = await db.from('profiles').select('unlocked_sections').eq('id', userId).single();
     const existing: string[] = Array.isArray(profile?.unlocked_sections) ? profile.unlocked_sections : [];
 
-    if (planType === 'section_unlock' && sectionToUnlock) {
-      if (!existing.includes(sectionToUnlock)) {
-        existing.push(sectionToUnlock);
-        await db.from('profiles').update({ unlocked_sections: existing }).eq('id', userId);
-      }
-    } else if (planType === 'full_report_unlock') {
-      const BUNDLE = ['cat_personality', 'cat_risks', 'cat_chemistry', 'cat_timing'];
-      const updated = Array.from(new Set([...existing, ...BUNDLE]));
-      await db.from('profiles').update({ unlocked_sections: updated }).eq('id', userId);
+    if (planType === 'section_unlock' && sectionToUnlock && reportKey) {
+      // Record granular unlock for this specific report
+      await db.from('report_unlocks').upsert({
+        user_id: userId,
+        report_key: reportKey,
+        section_id: sectionToUnlock,
+        payment_id: payment.id
+      });
+    } else if (planType === 'full_report_unlock' && reportKey) {
+      // Record full report unlock for this specific pairing
+      await db.from('report_unlocks').upsert({
+        user_id: userId,
+        report_key: reportKey,
+        section_id: 'full_report',
+        payment_id: payment.id
+      });
     } else if (planType === 'premium_monthly') {
       const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
       await db.from('profiles').update({ plan_tier: 'premium', plan_expires_at: expiresAt }).eq('id', userId);
