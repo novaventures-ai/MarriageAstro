@@ -11,6 +11,9 @@ import { AuthButton } from '../components/ui/AuthButton';
 import { Logo } from '../components/ui/Logo';
 import { SEOHead } from '../components/SEOHead';
 import { supabase } from '../lib/supabase';
+import { initiateCheckout } from '../lib/paymentService';
+import { useUserProfileStore } from '../store/useUserProfileStore';
+import { Loader2, AlertTriangle, RefreshCw } from 'lucide-react';
 
 const TIERS = [
   {
@@ -73,8 +76,9 @@ const TIERS = [
       { text: 'Advanced KP Significators', included: false },
       { text: 'API Access', included: false },
     ],
-    cta: 'Join Waitlist — 50% Off',
+    cta: 'Get Premium',
     disabled: false,
+    planType: 'premium_monthly' as const,
   },
   {
     name: 'Astrologer',
@@ -93,8 +97,9 @@ const TIERS = [
       { text: 'Client Management Tools', included: true },
       { text: 'Bulk Analysis', included: true },
     ],
-    cta: 'Contact Us',
+    cta: 'Coming Soon',
     disabled: true,
+    planType: 'astrologer_monthly' as const,
   },
 ];
 
@@ -125,6 +130,45 @@ export const PricingPage: React.FC = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [notified, setNotified] = useState(false);
+  const [loadingTier, setLoadingTier] = useState<string | null>(null);
+  const [paymentError, setPaymentError] = useState<string | null>(null);
+  const loadPlanFromCloud = useUserProfileStore((s) => s.loadPlanFromCloud);
+
+  const handleTierCheckout = async (planType: 'premium_monthly' | 'astrologer_monthly', tierName: string) => {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.user) {
+        navigate('/login?redirect=/pricing');
+        return;
+      }
+
+      setLoadingTier(tierName);
+      setPaymentError(null);
+
+      const result = await initiateCheckout({ 
+        userId: session.user.id, 
+        planType, 
+        userEmail: session.user.email 
+      });
+      
+      if (result.success) {
+        setLoadingTier('Fulfilling...');
+        // Wait for webhook (2.5s)
+        await new Promise(resolve => setTimeout(resolve, 2500));
+        await loadPlanFromCloud(session.user.id, session.user.email || '');
+        setLoadingTier(null);
+        navigate('/dashboard');
+      } else {
+        setLoadingTier(null);
+        if (result.message && !result.mock) {
+          setPaymentError(result.message);
+        }
+      }
+    } catch (err: any) {
+      setLoadingTier(null);
+      setPaymentError(err.message || 'An unexpected error occurred during checkout.');
+    }
+  };
 
   const handleNotify = async () => {
     if (!email.trim()) return;
@@ -168,15 +212,25 @@ export const PricingPage: React.FC = () => {
       <div className="text-center py-12 sm:py-16 px-4">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-xs font-semibold border border-emerald-200 dark:border-emerald-800/50 mb-4">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-          Free Beta — All core features are free right now
+          Beta Launch Offer — Get 50% Off Lifetime on Premium
         </div>
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 dark:text-gray-100 mb-4">
-          Simple, Transparent Pricing
+          Ready to Unlock Your Relationship Clarity?
         </h1>
         <p className="text-base sm:text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
-          Core features are free during beta. Join the waitlist for a founding-member discount when premium launches — early users get 50% off for life.
+          Choose a plan that fits your journey. From deep compatibility analysis to predictive marriage windows, get the answers you need today.
         </p>
       </div>
+
+      {/* Error Message */}
+      {paymentError && (
+        <div className="max-w-5xl mx-auto px-4 mb-8">
+          <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/30 rounded-2xl flex items-center gap-3">
+            <AlertTriangle className="w-6 h-6 text-red-600 flex-shrink-0" />
+            <p className="text-sm text-red-800 dark:text-red-200 font-medium">{paymentError}</p>
+          </div>
+        </div>
+      )}
 
       {/* One-time unlock banner */}
       <div className="max-w-5xl mx-auto px-4 mb-8">
@@ -230,16 +284,17 @@ export const PricingPage: React.FC = () => {
               ))}
             </ul>
             <button
-              disabled={tier.disabled}
-              onClick={tier.popular ? () => document.getElementById('waitlist-form')?.scrollIntoView({ behavior: 'smooth' }) : undefined}
-              className={`w-full py-3 rounded-xl font-semibold text-sm transition-colors ${
+              disabled={tier.disabled || (loadingTier !== null)}
+              onClick={tier.planType ? () => handleTierCheckout(tier.planType as any, tier.name) : undefined}
+              className={`w-full py-3 rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2 ${
                 tier.popular
-                  ? 'bg-amber-500 text-white hover:bg-amber-600'
+                  ? 'bg-amber-500 text-white hover:bg-amber-600 shadow-lg shadow-amber-500/20 border-b-4 border-amber-700 active:border-b-0 active:translate-y-1'
                   : tier.color === 'purple'
-                    ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 disabled:opacity-60'
+                    ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 disabled:opacity-60 cursor-not-allowed'
                     : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 disabled:opacity-60'
               }`}
             >
+              {loadingTier === tier.name ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
               {tier.cta}
             </button>
           </div>
