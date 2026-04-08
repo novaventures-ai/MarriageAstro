@@ -525,15 +525,18 @@ export const DashboardPage: React.FC = () => {
       </div>
 
       {/* Transaction History */}
-      {paymentHistory.length > 0 && (
-        <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
-            <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 flex items-center gap-2">
-              <Clock className="w-5 h-5 text-gray-500" />
-              Recent Transactions
-            </h2>
-          </div>
-          <div className="overflow-x-auto">
+      <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden mb-6">
+        <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 flex items-center gap-2">
+            <Clock className="w-5 h-5 text-gray-500" />
+            Recent Transactions
+          </h2>
+          {paymentHistory.length > 0 && (
+            <span className="text-xs text-gray-400">{paymentHistory.length} records found</span>
+          )}
+        </div>
+        <div className="overflow-x-auto">
+          {paymentHistory.length > 0 ? (
             <table className="w-full text-left text-sm">
               <thead>
                 <tr className="bg-gray-50 dark:bg-gray-900/20 text-gray-500 font-medium">
@@ -571,9 +574,19 @@ export const DashboardPage: React.FC = () => {
                 ))}
               </tbody>
             </table>
-          </div>
-        </section>
-      )}
+          ) : (
+            <div className="p-12 text-center">
+              <div className="w-16 h-16 bg-gray-50 dark:bg-gray-900/40 rounded-full flex items-center justify-center mx-auto mb-4 border border-dashed border-gray-200 dark:border-gray-700">
+                <Clock className="w-8 h-8 text-gray-300 dark:text-gray-600" />
+              </div>
+              <h3 className="text-gray-800 dark:text-gray-200 font-medium mb-1">No transactions found</h3>
+              <p className="text-gray-500 dark:text-gray-400 text-xs max-w-xs mx-auto">
+                If you have already paid but don't see your history, please use the recovery tool or click "Refresh Access".
+              </p>
+            </div>
+          )}
+        </div>
+      </section>
     </div>
   );
 };
