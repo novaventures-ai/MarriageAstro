@@ -112,7 +112,7 @@ export const ReportPage: React.FC = () => {
         ],
         dynamicData: {
           highlight: currentReport?.spousePrediction?.meetingPrediction?.marriageType?.type
-            ? `Predicted: ${currentReport.spousePrediction.meetingPrediction.marriageType.type} Marriage`
+            ? `Predicted: ${currentReport?.spousePrediction?.meetingPrediction?.marriageType?.type} Marriage`
             : 'Character deeply analyzed'
         }
       },
@@ -155,9 +155,9 @@ export const ReportPage: React.FC = () => {
         ],
         dynamicData: {
           badge: (currentReport?.sexualCompatibility as any)?.animalA
-            ? `${(currentReport.sexualCompatibility as any).animalA} + ${(currentReport.sexualCompatibility as any).animalB}`
+            ? `${(currentReport?.sexualCompatibility as any)?.animalA} + ${(currentReport?.sexualCompatibility as any)?.animalB}`
             : undefined,
-          status: (currentReport?.sexualCompatibility as any)?.score >= 60 ? 'good' : 'warning'
+          status: ((currentReport?.sexualCompatibility as any)?.score ?? 0) >= 60 ? 'good' : 'warning'
         }
       },
       {

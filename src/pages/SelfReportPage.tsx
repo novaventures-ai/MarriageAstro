@@ -222,7 +222,7 @@ export const SelfReportPage: React.FC = () => {
         ],
         dynamicData: {
           highlight: selfReport?.spousePrediction?.meetingPrediction?.marriageType?.type
-            ? `Predicted: ${selfReport.spousePrediction.meetingPrediction.marriageType.type} Marriage`
+            ? `Predicted: ${selfReport?.spousePrediction?.meetingPrediction?.marriageType?.type} Marriage`
             : 'Spouse traits analyzed'
         }
       },
@@ -244,9 +244,9 @@ export const SelfReportPage: React.FC = () => {
           badge: 'Health Profile',
           status: 'neutral',
           highlight: selfReport?.sexualHealth?.libidoA?.level
-            ? `Vitality: ${selfReport.sexualHealth.libidoA.level}`
+            ? `Vitality: ${selfReport?.sexualHealth?.libidoA?.level}`
             : selfReport?.sexualProfile?.sexualHealth?.vitality
-              ? `Vitality: ${selfReport.sexualProfile.sexualHealth.vitality}`
+              ? `Vitality: ${selfReport?.sexualProfile?.sexualHealth?.vitality}`
               : 'Physical vitality assessed'
         }
       },
