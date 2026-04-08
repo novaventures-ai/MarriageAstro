@@ -414,29 +414,35 @@ export const ReportPage: React.FC = () => {
           {activeTheme === 'partner' && (
             <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
               <div id="prediction">
-                <SpousePredictionWidget
-                  prediction={currentReport.spousePrediction}
-                  partnerPrediction={currentReport.partnerSpousePrediction}
-                  gender={currentReport.chartA.gender}
-                  partnerGender={currentReport.chartB.gender}
-                  inLawAnalysis={currentReport.inLawAnalysis}
-                  partnerInLawAnalysis={currentReport.partnerInLawAnalysis}
-                  userName={currentReport.chartA.name}
-                  partnerName={currentReport.chartB.name}
-                />
+                <PremiumGate section="full_compat_report" label="Personality & Character" reportKey={reportKey}>
+                  <SpousePredictionWidget
+                    prediction={currentReport.spousePrediction}
+                    partnerPrediction={currentReport.partnerSpousePrediction}
+                    gender={currentReport.chartA.gender}
+                    partnerGender={currentReport.chartB.gender}
+                    inLawAnalysis={currentReport.inLawAnalysis}
+                    partnerInLawAnalysis={currentReport.partnerInLawAnalysis}
+                    userName={currentReport.chartA.name}
+                    partnerName={currentReport.chartB.name}
+                  />
+                </PremiumGate>
               </div>
               <div id="7thhouse" className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mt-4 sm:mt-6">
                 <div className="space-y-3 sm:space-y-4">
                   <h3 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-gray-100 px-2 sm:px-4">
                     {currentReport.chartA.name}&apos;s 7th House
                   </h3>
-                  <SeventhHousePlacementWidget chart={currentReport.chartA} />
+                  <PremiumGate section="full_compat_report" label="Personality & Character" reportKey={reportKey}>
+                    <SeventhHousePlacementWidget chart={currentReport.chartA} />
+                  </PremiumGate>
                 </div>
                 <div className="space-y-3 sm:space-y-4">
                   <h3 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-gray-100 px-2 sm:px-4">
                     {currentReport.chartB.name}&apos;s 7th House
                   </h3>
-                  <SeventhHousePlacementWidget chart={currentReport.chartB} />
+                  <PremiumGate section="full_compat_report" label="Personality & Character" reportKey={reportKey}>
+                    <SeventhHousePlacementWidget chart={currentReport.chartB} />
+                  </PremiumGate>
                 </div>
               </div>
               <div id="psychology">
@@ -599,7 +605,11 @@ export const ReportPage: React.FC = () => {
           {/* 5. WHEN & HOW TO PROCEED? — Dasha timing & remedies */}
           {activeTheme === 'timing' && (
             <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <div id="timeline"><TimingWidget timing={currentReport.timing} /></div>
+              <div id="timeline">
+                <PremiumGate section="remedies" label="Marriage Timing windows" reportKey={reportKey}>
+                  <TimingWidget timing={currentReport.timing} />
+                </PremiumGate>
+              </div>
               {currentReport.charaDasha && (
                 <div id="charadasha">
                   <PremiumGate section="kp_detail" label="Chara Dasha Timeline" reportKey={reportKey}>

@@ -64,14 +64,33 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         raw_payload: { verified_at: new Date().toISOString() }
       }, { onConflict: 'payment_id' });
 
-      // Apply unlock
+      // Apply unlock(s)
       if ((planType === 'section_unlock' || planType === 'full_report_unlock') && reportKey) {
-        await db.from('report_unlocks').upsert({
-          user_id: userId,
-          report_key: reportKey,
-          section_id: planType === 'full_report_unlock' ? 'full_report' : sectionToUnlock,
-          payment_id: razorpay_payment_id
-        });
+        const sectionsToApply = [];
+        const sid = planType === 'full_report_unlock' ? 'full_report' : sectionToUnlock;
+        
+        if (sid === 'sexual_detail' || sid === 'chemistry' || (sid && sid.toLowerCase().includes('chemistry'))) {
+          sectionsToApply.push('sexual_detail');
+        } else if (sid === 'full_compat_report' || sid === 'partner' || (sid && sid.toLowerCase().includes('personality'))) {
+          sectionsToApply.push('full_compat_report', 'divisional_advanced');
+        } else if (sid === 'divorce_risk' || sid === 'risks' || (sid && sid.toLowerCase().includes('risk'))) {
+          sectionsToApply.push('divorce_risk', 'addiction_risk', 'mental_health', 'vulnerability_timeline');
+        } else if (sid === 'remedies' || sid === 'timing' || (sid && sid.toLowerCase().includes('timing'))) {
+          sectionsToApply.push('remedies', 'kp_detail');
+        } else if (sid === 'full_report') {
+          sectionsToApply.push('full_report');
+        } else if (sid) {
+          sectionsToApply.push(sid);
+        }
+
+        for (const targetSid of sectionsToApply) {
+          await db.from('report_unlocks').upsert({
+            user_id: userId,
+            report_key: reportKey,
+            section_id: targetSid,
+            payment_id: razorpay_payment_id
+          }, { onConflict: 'user_id,report_key,section_id' });
+        }
       } else if (planType === 'premium_monthly') {
         const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
         await db.from('profiles').update({ plan_tier: 'premium', plan_expires_at: expiresAt }).eq('id', userId);

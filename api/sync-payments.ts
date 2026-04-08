@@ -64,16 +64,29 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           .order('updated_at', { ascending: false })
           .limit(1);
         
-        if (partners && partners.length > 0) {
-          reportKey = partners[0].id;
-          sectionToUnlock = 'full_report'; // Default to full report for fuzzy recovery
-          planType = 'full_report_unlock';
+        reportKey = (partners && partners.length > 0) ? partners[0].id : 'self';
+        planType = 'section_unlock';
+
+        // Try to guess section from description
+        const desc = (payment.description || '').toLowerCase();
+        if (desc.includes('chemistry') || desc.includes('intimacy')) {
+          sectionToUnlock = 'sexual_detail';
+        } else if (desc.includes('personality') || desc.includes('character')) {
+          sectionToUnlock = 'full_compat_report';
+        } else if (desc.includes('risk') || desc.includes('radar')) {
+          sectionToUnlock = 'divorce_risk';
+        } else if (desc.includes('timing') || desc.includes('remedy')) {
+          sectionToUnlock = 'remedies';
         } else {
-          // If no partners, maybe it's the self report
-          reportKey = 'self';
-          sectionToUnlock = 'full_report';
-          planType = 'full_report_unlock';
+          // Default to chemistry if we can't tell (most common)
+          sectionToUnlock = 'sexual_detail';
         }
+      }
+
+      // If amount is 169 (16900), it's a full report unlock
+      if (payment.amount === 16900 && !sectionToUnlock) {
+        planType = 'full_report_unlock';
+        sectionToUnlock = 'full_report';
       }
 
       // 3. Check if already acknowledged in history
@@ -110,17 +123,35 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
       }
 
-      // 5. Apply unlock
+      // 5. Apply unlock(s)
       if (reportKey) {
-        const { error: unlockErr } = await db.from('report_unlocks').upsert({
-          user_id: userId,
-          report_key: reportKey,
-          section_id: sectionToUnlock || 'full_report',
-          payment_id: payment.id as string
-        });
-        if (unlockErr) {
-          console.error(`sync-payments: Unlock error for ${payment.id}:`, unlockErr);
-          errors.push(`Unlock failed for ${payment.id}`);
+        const sectionsToApply = [];
+        const sid = sectionToUnlock;
+        if (sid === 'sexual_detail' || sid === 'chemistry' || (sid && sid.toLowerCase().includes('chemistry'))) {
+          sectionsToApply.push('sexual_detail');
+        } else if (sid === 'full_compat_report' || sid === 'partner' || (sid && sid.toLowerCase().includes('personality'))) {
+          sectionsToApply.push('full_compat_report', 'divisional_advanced');
+        } else if (sid === 'divorce_risk' || sid === 'risks' || (sid && sid.toLowerCase().includes('risk'))) {
+          sectionsToApply.push('divorce_risk', 'addiction_risk', 'mental_health', 'vulnerability_timeline');
+        } else if (sid === 'remedies' || sid === 'timing' || (sid && sid.toLowerCase().includes('timing'))) {
+          sectionsToApply.push('remedies', 'kp_detail');
+        } else if (sid === 'full_report') {
+          sectionsToApply.push('full_report');
+        } else if (sid) {
+          sectionsToApply.push(sid);
+        }
+
+        for (const sid of sectionsToApply) {
+          const { error: unlockErr } = await db.from('report_unlocks').upsert({
+            user_id: userId,
+            report_key: reportKey,
+            section_id: sid,
+            payment_id: payment.id as string
+          });
+          if (unlockErr) {
+            console.error(`sync-payments: Unlock error for ${sid} in ${payment.id}:`, unlockErr);
+            errors.push(`Unlock failed for ${sid} (${payment.id})`);
+          }
         }
       } else if (planType === 'premium' || planType === 'premium_monthly') {
         const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();

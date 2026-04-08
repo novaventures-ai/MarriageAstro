@@ -67,10 +67,13 @@ const MODE_COLORS: Record<string, {
 };
 
 const CATEGORY_LABELS: Record<string, string> = {
-  'cat_personality': 'Personality & Character',
-  'cat_risks': 'Full Risk Analysis',
-  'cat_chemistry': 'Deep Chemistry & Intimacy',
-  'cat_timing': 'Marriage Timing & Remedies',
+  'full_compat_report': 'Personality & Character',
+  'divorce_risk': 'Full Risk Analysis',
+  'sexual_detail': 'Deep Chemistry & Intimacy',
+  'remedies': 'Marriage Timing & Remedies',
+  'full_report': 'Full Premium Access',
+  'divisional_advanced': 'Navamsa (D9) Chart',
+  'kp_detail': 'Advanced KP Analysis',
 };
 
 export const DashboardPage: React.FC = () => {
@@ -384,24 +387,41 @@ export const DashboardPage: React.FC = () => {
             {/* Unlocked Sections List */}
             <div>
               <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Individually Unlocked</h3>
-              {unlockedSections.length > 0 ? (
-                <div className="flex flex-wrap gap-2">
-                  {unlockedSections.map((sectionId) => {
-                    const label = CATEGORY_LABELS[sectionId] || sectionId.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-                    return (
+              {(() => {
+                const globalUnlocks = (unlockedSections || []).map(sid => ({ id: sid, label: CATEGORY_LABELS[sid] || sid.replace(/_/g, ' '), type: 'global' }));
+                const partnerUnlocks: any[] = [];
+                
+                Object.entries(reportUnlocks || {}).forEach(([rk, sids]) => {
+                  sids.forEach(sid => {
+                    // Try to find partner name from report key (nameA + _ + dobA + _ + nameB + _ + dobB)
+                    const partnerName = partners.find(p => rk.includes(p.name))?.name || 'Partner';
+                    partnerUnlocks.push({ 
+                      id: `${rk}_${sid}`, 
+                      label: CATEGORY_LABELS[sid] || sid.replace(/_/g, ' '), 
+                      target: partnerName,
+                      type: 'report' 
+                    });
+                  });
+                });
+
+                const allUnlocks = [...globalUnlocks, ...partnerUnlocks];
+
+                return allUnlocks.length > 0 ? (
+                  <div className="flex flex-wrap gap-2">
+                    {allUnlocks.map((u, idx) => (
                       <div 
-                        key={sectionId}
+                        key={idx}
                         className="px-3 py-1.5 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-100 dark:border-green-800/30 text-green-700 dark:text-green-400 text-xs font-medium flex items-center gap-1.5"
                       >
                         <Heart className="w-3 h-3 fill-current" />
-                        {label}
+                        {u.label} {u.type === 'report' && <span className="opacity-60 font-normal text-[10px]">({u.target})</span>}
                       </div>
-                    );
-                  })}
-                </div>
-              ) : (
-                <p className="text-sm text-gray-400 italic">No individual sections unlocked yet.</p>
-              )}
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-gray-400 italic">No individual sections unlocked yet.</p>
+                );
+              })()}
             </div>
           </div>
         </div>
