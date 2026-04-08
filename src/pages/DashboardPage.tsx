@@ -83,7 +83,7 @@ export const DashboardPage: React.FC = () => {
   const { 
     selfChart, selfBirthData, partners, isHydrated, isDemoMode, loadFromCloud, 
     userMode, setUserMode, planTier, unlockedSections, planExpiresAt,
-    wantsAutoRenew, toggleAutoRenewInterest, paymentHistory
+    wantsAutoRenew, toggleAutoRenewInterest, paymentHistory, reportUnlocks
   } = useUserProfileStore();
 
   // Load cloud data when dashboard mounts (skip in demo mode)
@@ -391,8 +391,8 @@ export const DashboardPage: React.FC = () => {
                 const globalUnlocks = (unlockedSections || []).map(sid => ({ id: sid, label: CATEGORY_LABELS[sid] || sid.replace(/_/g, ' '), type: 'global' }));
                 const partnerUnlocks: any[] = [];
                 
-                Object.entries(reportUnlocks || {}).forEach(([rk, sids]) => {
-                  sids.forEach(sid => {
+                Object.entries(reportUnlocks || {}).forEach(([rk, sids]: [string, string[]]) => {
+                  sids.forEach((sid: string) => {
                     // Try to find partner name from report key (nameA + _ + dobA + _ + nameB + _ + dobB)
                     const partnerName = partners.find(p => rk.includes(p.name))?.name || 'Partner';
                     partnerUnlocks.push({ 
