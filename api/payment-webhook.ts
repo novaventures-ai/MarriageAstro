@@ -52,10 +52,31 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({ error: 'Missing payment entity' });
   }
 
-  const { userId, planType, sectionToUnlock } = payment.notes || {};
+  const keyId = process.env.RAZORPAY_KEY_ID;
+  const keySecret = process.env.RAZORPAY_KEY_SECRET;
+  const razorpay = (keyId && keySecret) ? new Razorpay({ key_id: keyId, key_secret: keySecret }) : null;
+
+  // 1. Try to get metadata from payment notes
+  let { userId, planType, sectionToUnlock } = payment.notes || {};
+
+  // 2. Fallback: If missing, try to fetch from Order notes (more reliable)
+  if ((!userId || !planType) && payment.order_id && razorpay) {
+    try {
+      console.log('payment-webhook: notes missing on payment, fetching order:', payment.order_id);
+      const order = await razorpay.orders.fetch(payment.order_id);
+      if (order?.notes) {
+        userId = userId || order.notes.userId;
+        planType = planType || order.notes.planType;
+        sectionToUnlock = sectionToUnlock || order.notes.sectionToUnlock;
+      }
+    } catch (orderErr) {
+      console.error('payment-webhook: failed to fetch order fallback:', orderErr);
+    }
+  }
+
   if (!userId || !planType) {
     console.error('payment-webhook: missing metadata in notes', payment.id);
-    return res.status(400).json({ error: 'Missing userId or planType in payment notes' });
+    return res.status(400).json({ error: 'Missing userId or planType in payment/order notes' });
   }
 
   const db = getServiceClient();

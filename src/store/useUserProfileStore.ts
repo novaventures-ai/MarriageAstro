@@ -9,7 +9,8 @@ import { Chart, BirthDataInput, PlanTier, UnlockableSection } from '../types';
 import {
   SelfAnalysisReport,
   PartnerProfile,
-  QuickCompareResult
+  QuickCompareResult,
+  PaymentHistoryEntry
 } from '../types/selfAnalysis';
 import { loadPlanTier } from '../lib/premiumService';
 import { isAdminEmail } from '../lib/adminConfig';
@@ -54,6 +55,7 @@ interface UserProfileState {
   unlockedSections: UnlockableSection[];
   aiCreditsRemaining: number;
   aiCreditsResetAt: string | null;
+  paymentHistory: PaymentHistoryEntry[];
   isAdmin: boolean;
   wantsAutoRenew: boolean;
 
@@ -79,6 +81,7 @@ interface UserProfileState {
   useAiCredit: () => boolean;
   resetAiCredits: () => void;
   loadPlanFromCloud: (userId: string, email: string) => Promise<void>;
+  loadPaymentsFromCloud: (userId: string) => Promise<void>;
 
   // Actions - Self Profile
   setSelfBirthData: (data: BirthDataInput) => Promise<void>;
@@ -136,6 +139,7 @@ export const useUserProfileStore = create<UserProfileState>()(
           unlockedSections: [],
           aiCreditsRemaining: 3,
           aiCreditsResetAt: null,
+          paymentHistory: [],
           isAdmin: false,
           rawMode: false,
           isDemoMode: false,
@@ -166,6 +170,7 @@ export const useUserProfileStore = create<UserProfileState>()(
       unlockedSections: [] as UnlockableSection[],
       aiCreditsRemaining: 3,
       aiCreditsResetAt: null,
+      paymentHistory: [],
       isAdmin: false,
       wantsAutoRenew: false,
       rawMode: false,
@@ -235,6 +240,28 @@ export const useUserProfileStore = create<UserProfileState>()(
         } catch {
           // Default to free on error
           set({ planTier: 'free' as PlanTier, isAdmin: false });
+        }
+      },
+
+      loadPaymentsFromCloud: async (userId: string) => {
+        try {
+          const { data, error } = await supabase
+            .from('payment_history')
+            .select('*')
+            .eq('user_id', userId)
+            .order('created_at', { ascending: false });
+
+          if (error) throw error;
+          set({ paymentHistory: (data || []).map(item => ({
+            id: item.payment_id,
+            planType: item.plan_type,
+            sectionId: item.section_id,
+            amount: item.amount,
+            status: item.status,
+            createdAt: item.created_at
+          })) });
+        } catch (err) {
+          console.error('Failed to load payments:', err);
         }
       },
 
@@ -584,6 +611,9 @@ export const useUserProfileStore = create<UserProfileState>()(
             console.error('Error fetching partners from cloud:', cloudPartnersErr);
             set({ isLoadingPartners: false });
           }
+
+          // 3. Load Payments
+          await get().loadPaymentsFromCloud(session.user.id);
 
         } catch (error) {
           console.error('Critical failure in loadFromCloud:', error instanceof Error ? error.message : 'Unknown error');

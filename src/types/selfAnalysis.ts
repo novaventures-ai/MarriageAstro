@@ -433,5 +433,14 @@ export function validateChart(chart: any): chart is Chart {
   );
 }
 
+export interface PaymentHistoryEntry {
+  id: string;
+  planType: string;
+  sectionId?: string | null;
+  amount: number;
+  status: string;
+  createdAt: string;
+}
+
 // Re-export for convenience
 export type { Chart, BirthDataInput, TimingAnalysis, SpousePrediction };

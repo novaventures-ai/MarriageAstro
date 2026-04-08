@@ -131,6 +131,11 @@ function openRazorpayModal(opts: RazorpayModalOptions): Promise<CheckoutResult> 
         prefill: {
           email: opts.userEmail || '',
         },
+        notes: {
+          userId: opts.userId,
+          planType: opts.planType,
+          sectionToUnlock: opts.sectionToUnlock || '',
+        },
         theme: { color: '#F59E0B' },
         modal: {
           ondismiss: () => {

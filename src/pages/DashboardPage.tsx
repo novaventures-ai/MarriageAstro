@@ -77,7 +77,7 @@ export const DashboardPage: React.FC = () => {
   const { 
     selfChart, selfBirthData, partners, isHydrated, isDemoMode, loadFromCloud, 
     userMode, setUserMode, planTier, unlockedSections, planExpiresAt,
-    wantsAutoRenew, toggleAutoRenewInterest 
+    wantsAutoRenew, toggleAutoRenewInterest, paymentHistory
   } = useUserProfileStore();
 
   // Load cloud data when dashboard mounts (skip in demo mode)
@@ -404,9 +404,8 @@ export const DashboardPage: React.FC = () => {
         </div>
       </section>
 
-
       {/* Partners + Quick Actions Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
         {/* Partners Summary */}
         <section className="lg:col-span-2 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
@@ -524,6 +523,57 @@ export const DashboardPage: React.FC = () => {
           </div>
         </section>
       </div>
+
+      {/* Transaction History */}
+      {paymentHistory.length > 0 && (
+        <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+          <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 flex items-center gap-2">
+              <Clock className="w-5 h-5 text-gray-500" />
+              Recent Transactions
+            </h2>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-sm">
+              <thead>
+                <tr className="bg-gray-50 dark:bg-gray-900/20 text-gray-500 font-medium">
+                  <th className="px-6 py-3">Module / Plan</th>
+                  <th className="px-6 py-3">Amount</th>
+                  <th className="px-6 py-3">Status</th>
+                  <th className="px-6 py-3">Date</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
+                {paymentHistory.map((item) => (
+                  <tr key={item.id} className="hover:bg-gray-50/50 dark:hover:bg-gray-700/30 transition-colors">
+                    <td className="px-6 py-4">
+                      <p className="font-medium text-gray-900 dark:text-white">
+                        {item.sectionId ? (CATEGORY_LABELS[item.sectionId] || item.sectionId.replace(/_/g, ' ')) : item.planType.replace(/_/g, ' ')}
+                      </p>
+                      <p className="text-[10px] text-gray-400 font-mono">{item.id}</p>
+                    </td>
+                    <td className="px-6 py-4 text-gray-700 dark:text-gray-300">
+                      ₹{item.amount / 100}
+                    </td>
+                    <td className="px-6 py-4">
+                      <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
+                        item.status === 'success' ? 'bg-green-100 text-green-700' :
+                        item.status === 'failed' ? 'bg-red-100 text-red-700' :
+                        'bg-amber-100 text-amber-700'
+                      }`}>
+                        {item.status}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-gray-500 whitespace-nowrap">
+                      {new Date(item.createdAt).toLocaleDateString()}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
     </div>
   );
 };
