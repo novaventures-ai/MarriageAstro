@@ -10,6 +10,9 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import Razorpay from 'razorpay';
 
+interface CheckoutRequest {
+  userId: string;
+  planType: 'premium_monthly' | 'astrologer_monthly' | 'section_unlock' | 'full_report_unlock' | 'test_order';
   sectionToUnlock?: string;
   reportKey?: string;
 }
@@ -35,7 +38,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const amount = PRICING[planType];
     if (!amount) {
-      return res.status(400).json({ error: 'Invalid plan type' });
+      return res.status(400).json({ error: `Invalid plan type: ${planType}` });
     }
 
     const keyId = process.env.RAZORPAY_KEY_ID;
@@ -43,6 +46,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // Mock fallback: Razorpay not yet configured
     if (!keyId || !keySecret) {
+      console.log('create-checkout: Razorpay keys missing, falling back to mock mode');
       const mockOrderId = `mock_order_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
       return res.status(200).json({
         success: true,
@@ -53,23 +57,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         sectionToUnlock: sectionToUnlock || null,
         reportKey: reportKey || null,
         mock: true,
-        message: 'Payment gateway coming soon.',
+        message: 'Payment gateway configuration missing. Mock mode enabled.',
       });
     }
 
     // Real Razorpay order
     const razorpay = new Razorpay({ key_id: keyId, key_secret: keySecret });
 
-    const order = await razorpay.orders.create({
+    const orderParams = {
       amount,
       currency: 'INR',
       receipt: `rcpt_${userId.slice(0, 8)}_${Date.now()}`,
+      notes: {
         userId,
         planType,
         sectionToUnlock: sectionToUnlock || '',
         reportKey: reportKey || '',
       },
-    });
+    };
+
+    const order = await razorpay.orders.create(orderParams);
 
     return res.status(200).json({
       success: true,
