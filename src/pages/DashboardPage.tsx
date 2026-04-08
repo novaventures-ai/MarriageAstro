@@ -19,7 +19,10 @@ import {
   Search,
   Compass,
   RefreshCw,
-  CheckCircle2
+  CheckCircle2,
+  AlertTriangle,
+  HelpCircle,
+  SearchCode
 } from 'lucide-react';
 import { useUserProfileStore, UserMode } from '../store/useUserProfileStore';
 import { useAuth } from '../context/AuthContext';
@@ -523,6 +526,53 @@ export const DashboardPage: React.FC = () => {
           </div>
         </section>
       </div>
+
+      {/* Recovery Tool */}
+      <section className="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-2xl shadow-lg border border-indigo-500/30 overflow-hidden text-white">
+        <div className="px-6 py-5 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center flex-shrink-0 border border-white/30">
+              <SearchCode className="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <h2 className="text-xl font-bold">Paid but content is still locked?</h2>
+              <p className="text-indigo-100 text-sm mt-0.5">
+                Our recovery tool will scan your recent Razorpay transactions and restore your access instantly.
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={async () => {
+              if (!user?.id || !user?.email) return;
+              setIsSyncing(true);
+              try {
+                const response = await fetch('/api/sync-payments', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ userId: user.id, userEmail: user.email }),
+                });
+                const data = await response.json();
+                if (data.success) {
+                  await loadFromCloud(); // Refresh store
+                  alert(data.message || 'Sync successful!');
+                } else {
+                  alert(data.error || 'Failed to sync payments.');
+                }
+              } catch (err) {
+                console.error('Sync error:', err);
+                alert('An error occurred during sync. Please try again or contact support.');
+              } finally {
+                setIsSyncing(false);
+              }
+            }}
+            disabled={isSyncing}
+            className="w-full md:w-auto px-8 py-3 bg-white text-indigo-700 font-bold rounded-xl shadow-lg hover:bg-indigo-50 active:scale-95 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
+          >
+            {isSyncing ? <RefreshCw className="w-5 h-5 animate-spin" /> : <Sparkles className="w-5 h-5" />}
+            {isSyncing ? 'Scanning...' : 'Find My Missing Payment'}
+          </button>
+        </div>
+      </section>
 
       {/* Transaction History */}
       <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden mb-6">
