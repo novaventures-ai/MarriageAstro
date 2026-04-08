@@ -55,6 +55,7 @@ interface UserProfileState {
   aiCreditsRemaining: number;
   aiCreditsResetAt: string | null;
   isAdmin: boolean;
+  wantsAutoRenew: boolean;
 
   // Admin Raw Mode (unfiltered view of sensitive widgets)
   rawMode: boolean;
@@ -107,6 +108,9 @@ interface UserProfileState {
   // Hydration
   setHydrated: (value: boolean) => void;
 
+  // Waitlist interest
+  toggleAutoRenewInterest: (interested: boolean) => Promise<void>;
+
   // Reset
   reset: () => void;
 }
@@ -137,6 +141,7 @@ export const useUserProfileStore = create<UserProfileState>()(
           isDemoMode: false,
           _preDemoState: null,
           userMode: null,
+          wantsAutoRenew: false,
           // keep isHydrated true to avoid hydration issues
         });
       },
@@ -162,6 +167,7 @@ export const useUserProfileStore = create<UserProfileState>()(
       aiCreditsRemaining: 3,
       aiCreditsResetAt: null,
       isAdmin: false,
+      wantsAutoRenew: false,
       rawMode: false,
       setRawMode: (v: boolean) => set({ rawMode: v }),
 
@@ -547,7 +553,8 @@ export const useUserProfileStore = create<UserProfileState>()(
               set({
                 selfBirthData: profile.birthData,
                 selfChart: profile.chart,
-                selfReport: profile.report || null
+                selfReport: profile.report || null,
+                wantsAutoRenew: profile.wantsAutoRenew || false
               });
             }
           } catch (profileErr) {
@@ -583,6 +590,21 @@ export const useUserProfileStore = create<UserProfileState>()(
       // Hydration
       setHydrated: (value: boolean) => {
         set({ isHydrated: value });
+      },
+
+      toggleAutoRenewInterest: async (interested: boolean) => {
+        set({ wantsAutoRenew: interested });
+
+        try {
+          const { data: { session } } = await supabase.auth.getSession();
+          if (session?.user) {
+            const { updateAutoRenewInterest } = await import('../lib/userProfileService');
+            await updateAutoRenewInterest(session.user.id, interested);
+          }
+        } catch (error) {
+          console.error('Failed to update subscription preference:', error);
+          // Rollback on failure if needed, but for interest tracking, we can keep local state
+        }
       }
     }),
     {
@@ -605,6 +627,7 @@ export const useUserProfileStore = create<UserProfileState>()(
           unlockedSections: state.unlockedSections,
           aiCreditsRemaining: state.aiCreditsRemaining,
           aiCreditsResetAt: state.aiCreditsResetAt,
+          wantsAutoRenew: state.wantsAutoRenew,
           userMode: state.userMode,
           isDemoMode: false,
           // NOTE: isAdmin is intentionally NOT persisted to prevent

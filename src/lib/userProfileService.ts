@@ -46,12 +46,34 @@ export async function saveUserProfile(
 }
 
 /**
+ * Update auto-renew interest
+ */
+export async function updateAutoRenewInterest(
+  userId: string,
+  interested: boolean
+): Promise<void> {
+  const { error } = await supabase
+    .from('profiles')
+    .update({
+      wants_auto_renew: interested,
+      updated_at: new Date().toISOString()
+    })
+    .eq('id', userId);
+
+  if (error) {
+    console.error('Error updating auto-renew interest:', error instanceof Error ? error.message : 'Unknown error');
+    throw new Error('Failed to update waitlist preference');
+  }
+}
+
+/**
  * Get user profile
  */
 export async function getUserProfile(userId: string): Promise<{
   birthData: BirthDataInput;
   chart: Chart;
   report?: SelfAnalysisReport;
+  wantsAutoRenew?: boolean;
 } | null> {
   const { data, error } = await supabase
     .from('profiles')
@@ -76,7 +98,8 @@ export async function getUserProfile(userId: string): Promise<{
       dateOfBirth: new Date(data.self_birth_data.dateOfBirth)
     },
     chart: data.self_chart,
-    report: data.self_report || undefined
+    report: data.self_report || undefined,
+    wantsAutoRenew: data.wants_auto_renew || false
   };
 }
 
@@ -265,5 +288,6 @@ export default {
   deletePartner,
   updatePartner,
   getPartnerById,
-  deleteUserProfile
+  deleteUserProfile,
+  updateAutoRenewInterest
 };

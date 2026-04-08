@@ -17,7 +17,9 @@ import {
   Sparkles,
   Clock,
   Search,
-  Compass
+  Compass,
+  RefreshCw,
+  CheckCircle2
 } from 'lucide-react';
 import { useUserProfileStore, UserMode } from '../store/useUserProfileStore';
 import { useAuth } from '../context/AuthContext';
@@ -64,7 +66,11 @@ const MODE_COLORS: Record<string, {
 export const DashboardPage: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { selfChart, selfBirthData, partners, isHydrated, isDemoMode, loadFromCloud, userMode, setUserMode, planTier, unlockedSections, planExpiresAt } = useUserProfileStore();
+  const { 
+    selfChart, selfBirthData, partners, isHydrated, isDemoMode, loadFromCloud, 
+    userMode, setUserMode, planTier, unlockedSections, planExpiresAt,
+    wantsAutoRenew, toggleAutoRenewInterest 
+  } = useUserProfileStore();
 
   // Load cloud data when dashboard mounts (skip in demo mode)
   useEffect(() => {
@@ -303,15 +309,50 @@ export const DashboardPage: React.FC = () => {
                 </div>
               </div>
               
-              {planTier === 'free' && (
-                <button 
-                  onClick={() => navigate('/pricing')}
-                  className="w-full py-2 bg-gradient-to-r from-amber-500 to-orange-600 text-white rounded-lg text-sm font-semibold hover:shadow-md transition-shadow"
-                >
-                  Upgrade to Premium
-                </button>
-              )}
-            </div>
+                {planTier === 'free' && (
+                  <button 
+                    onClick={() => navigate('/pricing')}
+                    className="w-full py-2 bg-gradient-to-r from-amber-500 to-orange-600 text-white rounded-lg text-sm font-semibold hover:shadow-md transition-shadow"
+                  >
+                    Upgrade to Premium
+                  </button>
+                )}
+
+                {/* Auto-Renew Interest Tracker */}
+                {planTier !== 'free' && (
+                  <div className="mt-4 p-4 rounded-xl bg-indigo-50/50 dark:bg-indigo-900/10 border border-indigo-100/50 dark:border-indigo-800/20">
+                    <div className="flex items-start gap-3">
+                      <div className="mt-1 p-1.5 rounded-lg bg-indigo-100 dark:bg-indigo-900/30">
+                        <RefreshCw className={`w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 ${!wantsAutoRenew ? 'animate-pulse' : ''}`} />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-xs font-semibold text-indigo-900 dark:text-indigo-100 mb-1">
+                          {wantsAutoRenew ? "You're on the list!" : "Enable Auto-Renew?"}
+                        </p>
+                        <p className="text-[10px] text-indigo-600/80 dark:text-indigo-400/80 leading-relaxed mb-3">
+                          {wantsAutoRenew 
+                            ? "We'll notify you as soon as automatic recurring billing is available."
+                            : "Tired of manual renewals? Join our waitlist to get automatic billing first."
+                          }
+                        </p>
+                        {!wantsAutoRenew ? (
+                          <button 
+                            onClick={() => toggleAutoRenewInterest(true)}
+                            className="bg-indigo-600 hover:bg-indigo-700 text-white text-[10px] font-bold px-3 py-1.5 rounded-md transition-colors shadow-sm"
+                          >
+                            Join Waitlist
+                          </button>
+                        ) : (
+                          <div className="flex items-center gap-1.5 text-green-600 dark:text-green-400 text-[10px] font-bold">
+                            <CheckCircle2 className="w-3.5 h-3.5" />
+                            Waitlist Joined
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
 
             {/* Unlocked Sections List */}
             <div>
