@@ -10,6 +10,21 @@ import { usePremium } from '../../hooks/usePremium';
 import { UnlockableSection } from '../../types';
 import { PricingModal } from './PricingModal';
 
+// Re-map for UI labels
+const CATEGORY_LABELS: Record<string, string> = {
+  'cat_personality': 'Personality & Character',
+  'cat_risks': 'Full Risk Analysis',
+  'cat_chemistry': 'Deep Chemistry & Intimacy',
+  'cat_timing': 'Marriage Timing & Remedies',
+};
+
+const SECTION_TO_CATEGORY: Record<string, string> = {
+  'prediction': 'cat_personality', '7thhouse': 'cat_personality', 'psychology': 'cat_personality', 'patterns': 'cat_personality', 'navamsa': 'cat_personality', 'jaimini': 'cat_personality', 'full_compat_report': 'cat_personality', 'divisional_advanced': 'cat_personality',
+  'radar': 'cat_risks', 'conflict': 'cat_risks', 'addiction': 'cat_risks', 'mental': 'cat_risks', 'vulnerable': 'cat_risks', 'divorce_risk': 'cat_risks', 'addiction_risk': 'cat_risks', 'mental_health': 'cat_risks', 'vulnerability_timeline': 'cat_risks',
+  'sexual': 'cat_chemistry', 'health': 'cat_chemistry', 'synastry': 'cat_chemistry', 'modern': 'cat_chemistry', 'sexual_detail': 'cat_chemistry',
+  'timeline': 'cat_timing', 'charadasha': 'cat_timing', 'remedies': 'cat_timing', 'kp_detail': 'cat_timing',
+};
+
 interface PremiumGateProps {
   section: UnlockableSection;
   children: React.ReactNode;
@@ -101,19 +116,19 @@ export const PremiumGate: React.FC<PremiumGateProps> = ({
                 <Lock className="w-7 h-7 text-amber-600 dark:text-amber-400" />
               </div>
               <h4 className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-2 capitalize">
-                {sectionLabel}
+                {CATEGORY_LABELS[SECTION_TO_CATEGORY[section] || ''] || sectionLabel}
               </h4>
               <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-                Unlock detailed analysis, planetary breakdowns, and actionable remedies.
+                Unlock this entire module including all detailed sub-sections and actionable insights.
               </p>
               <button
                 onClick={() => setShowPricing(true)}
                 className="px-6 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-semibold rounded-xl shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 hover:scale-[1.02] transition-all flex items-center gap-2 mx-auto"
               >
                 <Sparkles className="w-4 h-4" />
-                Unlock Full Analysis
+                Unlock This Module: ₹49
               </button>
-              <p className="text-xs text-gray-400 mt-2">₹49 / section • ₹169 full report</p>
+              <p className="text-xs text-gray-400 mt-2 font-medium">₹49 per module • ₹169 for full report access</p>
             </div>
           </div>
         </div>
@@ -122,8 +137,8 @@ export const PremiumGate: React.FC<PremiumGateProps> = ({
       <PricingModal
         isOpen={showPricing}
         onClose={() => setShowPricing(false)}
-        sectionId={section}
-        sectionLabel={sectionLabel}
+        sectionId={SECTION_TO_CATEGORY[section] || section}
+        sectionLabel={CATEGORY_LABELS[SECTION_TO_CATEGORY[section] || ''] || sectionLabel}
       />
     </>
   );

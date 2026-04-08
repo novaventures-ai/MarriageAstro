@@ -34,7 +34,8 @@ export type UnlockableSection =
   | 'divorce_risk' | 'infidelity_risk' | 'sexual_detail'
   | 'mental_health' | 'addiction_risk' | 'vulnerability_timeline'
   | 'remedies' | 'kp_detail' | 'divisional_advanced'
-  | 'full_self_report' | 'full_compat_report';
+  | 'full_self_report' | 'full_compat_report'
+  | 'cat_personality' | 'cat_risks' | 'cat_chemistry' | 'cat_timing';
 
 export interface PremiumState {
   planTier: PlanTier;

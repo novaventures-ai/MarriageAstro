@@ -5,7 +5,7 @@
  */
 
 import React, { useState } from 'react';
-import { X, Check, Crown, Shield, Sparkles, Lock, Loader2, AlertTriangle } from 'lucide-react';
+import { X, Check, Crown, Shield, Sparkles, Lock, Loader2, AlertTriangle, ArrowLeft } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { usePremium } from '../../hooks/usePremium';
 import { initiateCheckout } from '../../lib/paymentService';
@@ -128,15 +128,15 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose, sec
     }
   };
 
-  const handleSectionUnlock = async () => {
+  const handleSectionUnlock = async (isFullReport = false) => {
     const session = await getSession();
     if (!session?.user) return;
     setSectionLoading(true);
     setPaymentError(null);
     const result = await initiateCheckout({ 
       userId: session.user.id, 
-      planType: 'section_unlock', 
-      sectionToUnlock: sectionId || sectionLabel, 
+      planType: isFullReport ? 'full_report_unlock' : 'section_unlock', 
+      sectionToUnlock: isFullReport ? 'full_report' : (sectionId || sectionLabel), 
       userEmail: session.user.email 
     });
     
@@ -232,14 +232,24 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose, sec
               </p>
             </div>
             {razorpayLive ? (
-              <button
-                onClick={handleSectionUnlock}
-                disabled={sectionLoading}
-                className="flex items-center gap-2 px-4 py-1.5 bg-amber-500 text-white text-sm font-bold rounded-lg hover:bg-amber-600 disabled:opacity-70 transition-colors"
-              >
-                {sectionLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : null}
-                {sectionLabel ? `Unlock ₹49` : 'Unlock Section ₹49'}
-              </button>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  onClick={() => handleSectionUnlock(false)}
+                  disabled={sectionLoading}
+                  className="flex items-center gap-2 px-4 py-2 bg-amber-500 text-white text-sm font-bold rounded-lg hover:bg-amber-600 disabled:opacity-70 transition-all shadow-md shadow-amber-500/20 active:scale-95"
+                >
+                  {sectionLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5" />}
+                  {sectionLabel ? `Unlock ${sectionLabel.split(' ')[0]} Module: ₹49` : 'Unlock Module: ₹49'}
+                </button>
+                <button
+                  onClick={() => handleSectionUnlock(true)}
+                  disabled={sectionLoading}
+                  className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white text-sm font-bold rounded-lg hover:bg-indigo-700 disabled:opacity-70 transition-all shadow-md shadow-indigo-500/20 active:scale-95"
+                >
+                  {sectionLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Crown className="w-3.5 h-3.5" />}
+                  Unlock Full Report: ₹169
+                </button>
+              </div>
             ) : (
               <span className="text-xs font-bold px-3 py-1.5 bg-amber-200 dark:bg-amber-800/40 text-amber-800 dark:text-amber-200 rounded-full">
                 Coming Soon
@@ -328,6 +338,17 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose, sec
               </div>
             );
           })}
+        </div>
+
+        {/* Footer / Back Button */}
+        <div className="px-6 py-6 border-t border-gray-100 dark:border-gray-800 flex justify-center">
+          <button
+            onClick={onClose}
+            className="flex items-center gap-2 px-6 py-2.5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 font-medium transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Cancel & Go Back to Report
+          </button>
         </div>
 
         {/* Early Access Section — shown only when payments not yet live */}

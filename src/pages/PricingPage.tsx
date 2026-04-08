@@ -39,22 +39,22 @@ const TIERS = [
     disabled: true,
   },
   {
-    name: 'Pay-Per-Section',
+    name: 'Per-Module Unlock',
     price: '₹49',
-    period: '/section',
+    period: '/module',
     color: 'blue',
     icon: <Lock className="w-7 h-7" />,
     features: [
-      { text: 'Unlock single insights', included: true },
-      { text: 'Full Report for ₹169', included: true },
-      { text: 'Permanent Access', included: true },
-      { text: 'Divorce & Infidelity Risk Details', included: true },
-      { text: 'Sexual Compatibility Deep Dive', included: true },
-      { text: 'Mental Health & Addiction Analysis', included: true },
-      { text: 'Remedies & Solutions', included: true },
+      { text: 'Unlock 4-5 related insights at once', included: true },
+      { text: 'Entire Category (e.g., Risks) access', included: true },
+      { text: 'Full Report Bundle for ₹169', included: true },
+      { text: 'Permanent Lifetime Access', included: true },
+      { text: 'Divorce & Infidelity Risk Module', included: true },
+      { text: 'Sexual & Intimacy Module', included: true },
+      { text: 'Remedies & Timing Module', included: true },
     ],
-    cta: 'Available Now',
-    disabled: false,
+    cta: 'Unlock in Report',
+    disabled: true, // Only triggerable from report page lock gates
   },
   {
     name: 'Premium',
@@ -110,15 +110,15 @@ const FAQS = [
   },
   {
     q: 'What payment methods will you accept?',
-    a: 'We will support Razorpay which includes UPI, credit/debit cards, net banking, wallets (Paytm, PhonePe), and international cards. One-time section unlocks and monthly subscriptions will both be available.',
+    a: 'We support Razorpay which includes UPI (GPay, PhonePe), credit/debit cards, net banking, and wallets. One-time module unlocks (₹49), full report bundles (₹169), and monthly subscriptions (₹399) are all supported.',
   },
   {
     q: 'Can I cancel my subscription anytime?',
-    a: 'Yes, you can cancel your subscription at any time. Your premium access will continue until the end of your billing period. One-time section unlocks are permanent and never expire.',
+    a: 'Yes, you can cancel your subscription at any time. Your premium access will continue until the end of your billing period. One-time module unlocks and full report bundles are permanent and never expire.',
   },
   {
     q: 'What happens to my unlocked sections if I cancel?',
-    a: 'One-time section unlocks (₹49/section) are permanent. If you cancel a monthly subscription, you keep access until the period ends, then revert to the free tier. Your reports and data are never deleted.',
+    a: 'One-time module or full report unlocks are permanent. If you cancel a monthly subscription, you keep access until the period ends, then revert to the free tier. Your reports and data are never deleted.',
   },
   {
     q: 'Do you offer refunds?',
@@ -240,7 +240,7 @@ export const PricingPage: React.FC = () => {
               <Lock className="w-4 h-4" /> One-Time Section Unlock
             </p>
             <p className="text-sm text-amber-700 dark:text-amber-300 mt-0.5">
-              ₹49 per section or ₹169 for the entire report — one-time, no subscription needed
+              ₹49 per entire module or ₹169 for the full report — permanent access, no subscription needed
             </p>
           </div>
           <span className="text-xs font-bold px-3 py-1.5 bg-amber-200 dark:bg-amber-800/40 text-amber-800 dark:text-amber-200 rounded-full">
