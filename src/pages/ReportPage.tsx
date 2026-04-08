@@ -46,6 +46,7 @@ import { PushPrompt } from '../components/PushPrompt';
 import { RawModeToggle } from '../components/admin/RawModeToggle';
 import { MobileNavStrip } from '../components/ui/MobileNavStrip';
 import { PartnerInviteButton } from '../components/report/PartnerInviteButton';
+import { WidgetErrorBoundary } from '../components/ui/WidgetErrorBoundary';
 
 export const ReportPage: React.FC = () => {
   const navigate = useNavigate();
@@ -69,111 +70,111 @@ export const ReportPage: React.FC = () => {
   // IMPORTANT: useMemo MUST be called before any conditional returns to satisfy
   // React's Rules of Hooks (hooks must always run in the same order every render).
   const themes: ThemeConfig[] = useMemo(() => {
-    if (!currentReport) return [];
+    // Return the structure even if report is missing to keep hook counts stable
     return [
-    {
-      id: 'match',
-      icon: '💍',
-      title: 'Is This the Right Match?',
-      question: 'Core compatibility & astrological promise',
-      color: 'purple',
-      gradient: 'from-purple-500 to-indigo-600',
-      widgets: [
-        { id: 'life-after-marriage', label: 'Life After Marriage' },
-        { id: 'overview', label: 'Overall Compatibility' },
-        { id: 'ashtakoot', label: 'Ashtakoot Guna Milan (36 points)' },
-        { id: 'porutham', label: 'South Indian Porutham' },
-        { id: 'kp', label: 'KP Promise Analysis' },
-        { id: 'kp-advanced', label: 'Advanced KP Significators' },
-        { id: 'yogadosha', label: 'Yogas & Doshas' },
-      ],
-      dynamicData: {
-        badge: `${currentReport.ashtakoot?.totalScore || 0}/36`,
-        status: (currentReport.ashtakoot?.totalScore || 0) >= 18 ? 'good' : 'danger',
-        highlight: (currentReport.ashtakoot?.totalScore || 0) >= 18 ? 'Foundational matching passed' : 'Caution: Low Ashtakoot score'
+      {
+        id: 'match',
+        icon: '💍',
+        title: 'Is This the Right Match?',
+        question: 'Core compatibility & astrological promise',
+        color: 'purple',
+        gradient: 'from-purple-500 to-indigo-600',
+        widgets: [
+          { id: 'life-after-marriage', label: 'Life After Marriage' },
+          { id: 'overview', label: 'Overall Compatibility' },
+          { id: 'ashtakoot', label: 'Ashtakoot Guna Milan (36 points)' },
+          { id: 'porutham', label: 'South Indian Porutham' },
+          { id: 'kp', label: 'KP Promise Analysis' },
+          { id: 'kp-advanced', label: 'Advanced KP Significators' },
+          { id: 'yogadosha', label: 'Yogas & Doshas' },
+        ],
+        dynamicData: {
+          badge: `${currentReport?.ashtakoot?.totalScore || 0}/36`,
+          status: (currentReport?.ashtakoot?.totalScore || 0) >= 18 ? 'good' : 'danger',
+          highlight: (currentReport?.ashtakoot?.totalScore || 0) >= 18 ? 'Foundational matching passed' : 'Caution: Low Ashtakoot score'
+        }
+      },
+      {
+        id: 'partner',
+        icon: '🔍',
+        title: 'Who Are They Really?',
+        question: 'Personality, destiny & hidden character',
+        premiumRequired: !isPremium,
+        color: 'blue',
+        gradient: 'from-blue-500 to-cyan-600',
+        widgets: [
+          { id: 'prediction', label: 'Spouse Prediction Details' },
+          { id: '7thhouse', label: '7th House Placement' },
+          { id: 'psychology', label: 'Psychological Profile' },
+          { id: 'patterns', label: 'Relationship Behavior Patterns' },
+          { id: 'navamsa', label: 'D9 Navamsa (Marriage Chart)' },
+          { id: 'jaimini', label: 'Jaimini Soul Connection' },
+        ],
+        dynamicData: {
+          highlight: currentReport?.spousePrediction?.meetingPrediction?.marriageType?.type
+            ? `Predicted: ${currentReport.spousePrediction.meetingPrediction.marriageType.type} Marriage`
+            : 'Character deeply analyzed'
+        }
+      },
+      {
+        id: 'risks',
+        icon: '⚠️',
+        title: 'What Could Go Wrong?',
+        question: 'Red flags, friction points & awareness areas',
+        premiumRequired: !isPremium,
+        color: 'amber',
+        gradient: 'from-amber-500 to-orange-600',
+        widgets: [
+          { id: 'radar', label: 'Complete Risk Radar' },
+          { id: 'conflict', label: 'Conflict Zones' },
+          { id: 'addiction', label: 'Addiction Vulnerabilities' },
+          { id: 'mental', label: 'Mental & Emotional Patterns' },
+          { id: 'vulnerable', label: 'Vulnerability Periods' },
+        ],
+        dynamicData: {
+          badge: `${(currentReport?.riskAssessment as any)?.overallRisk?.level || 'Unknown'} Risk`,
+          status: (currentReport?.riskAssessment as any)?.overallRisk?.level === 'Low'
+            ? 'good'
+            : ((currentReport?.riskAssessment as any)?.overallRisk?.level === 'High' || (currentReport?.riskAssessment as any)?.overallRisk?.level === 'Critical')
+              ? 'danger' : 'warning'
+        }
+      },
+      {
+        id: 'chemistry',
+        icon: '🔥',
+        title: 'Are We Deeply Compatible?',
+        question: 'Intimacy, attraction & deeper connection',
+        premiumRequired: !isPremium,
+        color: 'rose',
+        gradient: 'from-rose-500 to-pink-600',
+        widgets: [
+          { id: 'sexual', label: 'Sexual Compatibility (Yoni)' },
+          { id: 'health', label: 'Vitality & Core Health' },
+          { id: 'synastry', label: 'Synastry Connections' },
+          { id: 'modern', label: 'Modern Western Insights' },
+        ],
+        dynamicData: {
+          badge: (currentReport?.sexualCompatibility as any)?.animalA
+            ? `${(currentReport.sexualCompatibility as any).animalA} + ${(currentReport.sexualCompatibility as any).animalB}`
+            : undefined,
+          status: (currentReport?.sexualCompatibility as any)?.score >= 60 ? 'good' : 'warning'
+        }
+      },
+      {
+        id: 'timing',
+        icon: '⏰',
+        title: 'When & How to Proceed?',
+        question: 'Marriage windows, Dasha timing & remedies',
+        premiumRequired: !isPremium,
+        color: 'indigo',
+        gradient: 'from-indigo-500 to-violet-600',
+        widgets: [
+          { id: 'timeline', label: 'Vimshottari Dasha Timeline' },
+          { id: 'charadasha', label: 'Chara Dasha (Jaimini)' },
+          { id: 'remedies', label: 'Actionable Remedies' },
+        ]
       }
-    },
-    {
-      id: 'partner',
-      icon: '🔍',
-      title: 'Who Are They Really?',
-      question: 'Personality, destiny & hidden character',
-      premiumRequired: !isPremium,
-      color: 'blue',
-      gradient: 'from-blue-500 to-cyan-600',
-      widgets: [
-        { id: 'prediction', label: 'Spouse Prediction Details' },
-        { id: '7thhouse', label: '7th House Placement' },
-        { id: 'psychology', label: 'Psychological Profile' },
-        { id: 'patterns', label: 'Relationship Behavior Patterns' },
-        { id: 'navamsa', label: 'D9 Navamsa (Marriage Chart)' },
-        { id: 'jaimini', label: 'Jaimini Soul Connection' },
-      ],
-      dynamicData: {
-        highlight: currentReport.spousePrediction?.meetingPrediction?.marriageType?.type
-          ? `Predicted: ${currentReport.spousePrediction.meetingPrediction.marriageType.type} Marriage`
-          : 'Character deeply analyzed'
-      }
-    },
-    {
-      id: 'risks',
-      icon: '⚠️',
-      title: 'What Could Go Wrong?',
-      question: 'Red flags, friction points & awareness areas',
-      premiumRequired: !isPremium,
-      color: 'amber',
-      gradient: 'from-amber-500 to-orange-600',
-      widgets: [
-        { id: 'radar', label: 'Complete Risk Radar' },
-        { id: 'conflict', label: 'Conflict Zones' },
-        { id: 'addiction', label: 'Addiction Vulnerabilities' },
-        { id: 'mental', label: 'Mental & Emotional Patterns' },
-        { id: 'vulnerable', label: 'Vulnerability Periods' },
-      ],
-      dynamicData: {
-        badge: `${(currentReport.riskAssessment as any)?.overallRisk?.level || 'Unknown'} Risk`,
-        status: (currentReport.riskAssessment as any)?.overallRisk?.level === 'Low'
-          ? 'good'
-          : ((currentReport.riskAssessment as any)?.overallRisk?.level === 'High' || (currentReport.riskAssessment as any)?.overallRisk?.level === 'Critical')
-            ? 'danger' : 'warning'
-      }
-    },
-    {
-      id: 'chemistry',
-      icon: '🔥',
-      title: 'Are We Deeply Compatible?',
-      question: 'Intimacy, attraction & deeper connection',
-      premiumRequired: !isPremium,
-      color: 'rose',
-      gradient: 'from-rose-500 to-pink-600',
-      widgets: [
-        { id: 'sexual', label: 'Sexual Compatibility (Yoni)' },
-        { id: 'health', label: 'Vitality & Core Health' },
-        { id: 'synastry', label: 'Synastry Connections' },
-        { id: 'modern', label: 'Modern Western Insights' },
-      ],
-      dynamicData: {
-        badge: (currentReport.sexualCompatibility as any)?.animalA
-          ? `${(currentReport.sexualCompatibility as any).animalA} + ${(currentReport.sexualCompatibility as any).animalB}`
-          : undefined,
-        status: (currentReport.sexualCompatibility as any)?.score >= 60 ? 'good' : 'warning'
-      }
-    },
-    {
-      id: 'timing',
-      icon: '⏰',
-      title: 'When & How to Proceed?',
-      question: 'Marriage windows, Dasha timing & remedies',
-      premiumRequired: !isPremium,
-      color: 'indigo',
-      gradient: 'from-indigo-500 to-violet-600',
-      widgets: [
-        { id: 'timeline', label: 'Vimshottari Dasha Timeline' },
-        { id: 'charadasha', label: 'Chara Dasha (Jaimini)' },
-        { id: 'remedies', label: 'Actionable Remedies' },
-      ]
-    }
-  ];
+    ];
   }, [currentReport, isPremium]);
 
   const handleScrollToWidget = (widgetId: string) => {
@@ -184,12 +185,14 @@ export const ReportPage: React.FC = () => {
     }
   };
 
-  // Conditional return AFTER all hooks have been called
+  // --- Early Returns ---
   if (!currentReport) {
     return (
       <div className="min-h-screen flex items-center justify-center transition-colors duration-500">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4 transition-colors">No Report Available</h2>
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4 transition-colors">
+            No Report Available
+          </h2>
           <button
             onClick={() => navigate('/calculator')}
             className="px-6 py-3 bg-indigo-600 dark:bg-indigo-500 text-white rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-colors"
@@ -305,19 +308,20 @@ export const ReportPage: React.FC = () => {
         {/* WhatsApp Share Card — private sharing loop */}
         <WhatsAppShareCard data={reportToShareData(currentReport)} />
 
-        {/* Cosmic Navigator (desktop tabs) */}
-        <CosmicNavigator
-          themes={themes}
-          activeTheme={activeTheme}
-          onSelectTheme={setActiveTheme}
-          onScrollToWidget={handleScrollToWidget}
-        />
+        <WidgetErrorBoundary fallbackTitle="Analysis Interface Error" onReset={() => window.location.reload()}>
+          {/* Cosmic Navigator (desktop tabs) */}
+          <CosmicNavigator
+            themes={themes}
+            activeTheme={activeTheme}
+            onSelectTheme={setActiveTheme}
+            onScrollToWidget={handleScrollToWidget}
+          />
 
-        {/* Mobile bottom nav strip */}
-        <MobileNavStrip activeTheme={activeTheme} onSelectTheme={setActiveTheme} />
+          {/* Mobile bottom nav strip */}
+          <MobileNavStrip activeTheme={activeTheme} onSelectTheme={setActiveTheme} />
 
-        {/* Thematic Content Areas - Rendering based on activeTheme */}
-        <div className="space-y-6 sm:space-y-8 pb-32">
+          {/* Thematic Content Areas - Rendering based on activeTheme */}
+          <div className="space-y-6 sm:space-y-8 pb-32">
 
           {/* Always visible at the top: Basic Info */}
           <div className="mb-8 pl-4 pr-4 sm:pl-0 sm:pr-0 -mx-4 sm:mx-0 overflow-x-hidden w-screen sm:w-auto">
@@ -598,15 +602,16 @@ export const ReportPage: React.FC = () => {
             </div>
           )}
         </div>
-      </div>
-
-      {/* AstroMind Chat Widget */}
-      <AstroMindWidget report={currentReport} />
-
-      {/* Push notification opt-in prompt — shown after report loads */}
-      <PushPrompt />
+      </WidgetErrorBoundary>
     </div>
-  );
+
+    {/* AstroMind Chat Widget */}
+    <AstroMindWidget report={currentReport} />
+
+    {/* Push notification opt-in prompt — shown after report loads */}
+    <PushPrompt />
+  </div>
+);
 };
 
 export default ReportPage;

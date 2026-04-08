@@ -57,6 +57,7 @@ import { MarriageCountdownWidget } from '../components/widgets/MarriageCountdown
 import { UserDashboard } from '../components/dashboard/UserDashboard';
 import { ErrorBoundary } from '../components/ErrorBoundary';
 import { SEOHead } from '../components/SEOHead';
+import { WidgetErrorBoundary } from '../components/ui/WidgetErrorBoundary';
 
 // Psychology Widget Component
 const PsychologyWidget: React.FC<{ profile: any }> = ({ profile }) => (
@@ -184,110 +185,110 @@ export const SelfReportPage: React.FC = () => {
   // IMPORTANT: useMemo MUST be called before any conditional returns to satisfy
   // React's Rules of Hooks (hooks must always run in the same order every render).
   const themes: ThemeConfig[] = useMemo(() => {
-    if (!selfReport) return [];
+    // Return the structure even if report is missing to keep hook counts stable
     return [
-    {
-      id: 'match',
-      icon: '🧬',
-      title: 'Core Foundations',
-      question: 'Who am I essentially?',
-      color: 'purple',
-      gradient: 'from-purple-500 to-indigo-600',
-      widgets: [
-        { id: 'overview', label: 'Overall Core Potential' },
-        { id: 'readiness', label: 'Marriage Readiness' },
-        { id: 'doshas', label: 'Yogas & Doshas' },
-        { id: 'kp', label: 'KP Promise Analysis' },
-      ],
-      dynamicData: {
-        badge: `${selfReport?.marriagePotential?.score ?? 0}/100`,
-        status: (selfReport?.marriagePotential?.score ?? 0) >= 60 ? 'good' : 'warning',
-        highlight: selfReport?.marriagePotential?.verdict?.replace('_', ' ') || 'Analyzed'
+      {
+        id: 'match',
+        icon: '🧬',
+        title: 'Core Foundations',
+        question: 'Who am I essentially?',
+        color: 'purple',
+        gradient: 'from-purple-500 to-indigo-600',
+        widgets: [
+          { id: 'overview', label: 'Overall Core Potential' },
+          { id: 'readiness', label: 'Marriage Readiness' },
+          { id: 'doshas', label: 'Yogas & Doshas' },
+          { id: 'kp', label: 'KP Promise Analysis' },
+        ],
+        dynamicData: {
+          badge: `${selfReport?.marriagePotential?.score ?? 0}/100`,
+          status: (selfReport?.marriagePotential?.score ?? 0) >= 60 ? 'good' : 'warning',
+          highlight: selfReport?.marriagePotential?.verdict?.replace('_', ' ') || 'Analyzed'
+        }
+      },
+      {
+        id: 'partner',
+        icon: '👤',
+        title: 'Spouse & Destiny',
+        question: 'Who is my ideal partner?',
+        color: 'blue',
+        gradient: 'from-blue-500 to-cyan-600',
+        widgets: [
+          { id: 'prediction', label: 'Spouse Prediction Details' },
+          { id: 'ideal-partner', label: 'Ideal Partner Profile' },
+          { id: '7thhouse', label: '7th House Placement' },
+          { id: 'navamsa', label: 'D9 Navamsa (Marriage Chart)' },
+          { id: 'chara', label: 'Jaimini Soul Connection' },
+        ],
+        dynamicData: {
+          highlight: selfReport?.spousePrediction?.meetingPrediction?.marriageType?.type
+            ? `Predicted: ${selfReport.spousePrediction.meetingPrediction.marriageType.type} Marriage`
+            : 'Spouse traits analyzed'
+        }
+      },
+      {
+        id: 'chemistry',
+        icon: '🔥',
+        title: 'Physical & Health',
+        question: 'What is my vitality?',
+        premiumRequired: !isPremium,
+        color: 'rose',
+        gradient: 'from-rose-500 to-pink-600',
+        widgets: [
+          { id: 'sexual', label: 'Vitality & Risk Analysis' },
+          { id: 'sexual', label: 'Yoni Physical Nature' },
+          { id: 'sexual', label: 'Nakshatra Profile' },
+          { id: 'sexual', label: 'Vedic Doctor Consult' },
+        ],
+        dynamicData: {
+          badge: 'Health Profile',
+          status: 'neutral',
+          highlight: selfReport?.sexualHealth?.libidoA?.level
+            ? `Vitality: ${selfReport.sexualHealth.libidoA.level}`
+            : selfReport?.sexualProfile?.sexualHealth?.vitality
+              ? `Vitality: ${selfReport.sexualProfile.sexualHealth.vitality}`
+              : 'Physical vitality assessed'
+        }
+      },
+      {
+        id: 'risks',
+        icon: '🧠',
+        title: 'Mind & Emotions',
+        question: 'How do I behave?',
+        premiumRequired: !isPremium,
+        color: 'emerald',
+        gradient: 'from-emerald-500 to-teal-600',
+        widgets: [
+          { id: 'psychology', label: 'Psychological Profile' },
+          { id: 'conflict', label: 'Conflict Tendencies' },
+          { id: 'patterns', label: 'Relationship Behaviors' },
+          { id: 'mental', label: 'Mental Health Impact' },
+          { id: 'risk-radar', label: 'Risk Radar' }
+        ],
+        dynamicData: {
+          highlight: `Attachment: ${selfReport?.psychologicalProfile?.attachmentStyle?.type || 'analyzed'}`
+        }
+      },
+      {
+        id: 'timing',
+        icon: '⏰',
+        title: 'Timing & Action',
+        question: 'When to act & how to fix?',
+        premiumRequired: !isPremium,
+        color: 'indigo',
+        gradient: 'from-indigo-500 to-violet-600',
+        widgets: [
+          { id: 'timing', label: 'Life Timeline' },
+          { id: 'vulnerability', label: 'Vulnerability Timeline' },
+          { id: 'remedies', label: 'Actionable Remedies' },
+        ],
+        dynamicData: {
+          highlight: selfReport?.timing?.favorablePeriods?.[0]
+            ? `Next window: ${selfReport.timing.favorablePeriods[0].description || 'Analyzed'}`
+            : 'Timing windows analyzed'
+        }
       }
-    },
-    {
-      id: 'partner',
-      icon: '👤',
-      title: 'Spouse & Destiny',
-      question: 'Who is my ideal partner?',
-      color: 'blue',
-      gradient: 'from-blue-500 to-cyan-600',
-      widgets: [
-        { id: 'prediction', label: 'Spouse Prediction Details' },
-        { id: 'ideal-partner', label: 'Ideal Partner Profile' },
-        { id: '7thhouse', label: '7th House Placement' },
-        { id: 'navamsa', label: 'D9 Navamsa (Marriage Chart)' },
-        { id: 'chara', label: 'Jaimini Soul Connection' },
-      ],
-      dynamicData: {
-        highlight: selfReport.spousePrediction?.meetingPrediction?.marriageType?.type
-          ? `Predicted: ${selfReport.spousePrediction.meetingPrediction.marriageType.type} Marriage`
-          : 'Spouse traits analyzed'
-      }
-    },
-    {
-      id: 'chemistry',
-      icon: '🔥',
-      title: 'Physical & Health',
-      question: 'What is my vitality?',
-      premiumRequired: !isPremium,
-      color: 'rose',
-      gradient: 'from-rose-500 to-pink-600',
-      widgets: [
-        { id: 'sexual', label: 'Vitality & Risk Analysis' },
-        { id: 'sexual', label: 'Yoni Physical Nature' },
-        { id: 'sexual', label: 'Nakshatra Profile' },
-        { id: 'sexual', label: 'Vedic Doctor Consult' },
-      ],
-      dynamicData: {
-        badge: 'Health Profile',
-        status: 'neutral',
-        highlight: selfReport.sexualHealth?.libidoA?.level
-          ? `Vitality: ${selfReport.sexualHealth.libidoA.level}`
-          : selfReport.sexualProfile?.sexualHealth?.vitality
-            ? `Vitality: ${selfReport.sexualProfile.sexualHealth.vitality}`
-            : 'Physical vitality assessed'
-      }
-    },
-    {
-      id: 'risks',
-      icon: '🧠',
-      title: 'Mind & Emotions',
-      question: 'How do I behave?',
-      premiumRequired: !isPremium,
-      color: 'emerald',
-      gradient: 'from-emerald-500 to-teal-600',
-      widgets: [
-        { id: 'psychology', label: 'Psychological Profile' },
-        { id: 'conflict', label: 'Conflict Tendencies' },
-        { id: 'patterns', label: 'Relationship Behaviors' },
-        { id: 'mental', label: 'Mental Health Impact' },
-        { id: 'risk-radar', label: 'Risk Radar' }
-      ],
-      dynamicData: {
-        highlight: `Attachment: ${selfReport.psychologicalProfile?.attachmentStyle?.type || 'analyzed'}`
-      }
-    },
-    {
-      id: 'timing',
-      icon: '⏰',
-      title: 'Timing & Action',
-      question: 'When to act & how to fix?',
-      premiumRequired: !isPremium,
-      color: 'indigo',
-      gradient: 'from-indigo-500 to-violet-600',
-      widgets: [
-        { id: 'timing', label: 'Life Timeline' },
-        { id: 'vulnerability', label: 'Vulnerability Timeline' },
-        { id: 'remedies', label: 'Actionable Remedies' },
-      ],
-      dynamicData: {
-        highlight: selfReport.timing?.favorablePeriods?.[0]
-          ? `Next window: ${selfReport.timing.favorablePeriods[0].description || 'Analyzed'}`
-          : 'Timing windows analyzed'
-      }
-    }
-  ];
+    ];
   }, [selfReport, isPremium]);
 
   const handleScrollToWidget = (widgetId: string) => {
@@ -298,39 +299,37 @@ export const SelfReportPage: React.FC = () => {
     }
   };
 
-  // Conditional returns AFTER all hooks have been called
-  if (!selfReport && !isGeneratingReport) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4">
-            No Report Available
-          </h2>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">
-            Please generate your marriage analysis first.
-          </p>
-          <button
-            onClick={() => navigate('/self-calculator')}
-            className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
-          >
-            Generate Analysis
-          </button>
-        </div>
-      </div>
-    );
-  }
-
+  // --- Early Returns ---
   if (isGeneratingReport || !selfReport) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 transition-colors">
         <div className="text-center">
-          <Loader2 className="w-12 h-12 text-purple-600 animate-spin mx-auto mb-4" />
-          <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-2">
-            Generating Your Analysis...
-          </h2>
-          <p className="text-gray-500 dark:text-gray-400">
-            This may take a moment as we analyze your cosmic blueprint.
-          </p>
+          {isGeneratingReport ? (
+            <>
+              <Loader2 className="w-12 h-12 text-purple-600 animate-spin mx-auto mb-4" />
+              <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-2">
+                Generating Your Analysis...
+              </h2>
+              <p className="text-gray-500 dark:text-gray-400">
+                This may take a moment as we analyze your cosmic blueprint.
+              </p>
+            </>
+          ) : (
+            <>
+              <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4">
+                No Report Available
+              </h2>
+              <p className="text-gray-600 dark:text-gray-400 mb-6">
+                Please generate your marriage analysis first.
+              </p>
+              <button
+                onClick={() => navigate('/self-calculator')}
+                className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+              >
+                Generate Analysis
+              </button>
+            </>
+          )}
         </div>
       </div>
     );
@@ -450,17 +449,18 @@ export const SelfReportPage: React.FC = () => {
         )}
 
         {/* Main Content */}
-        <div>
-          {/* Cosmic Navigator */}
-          <CosmicNavigator
-            themes={themes}
-            activeTheme={activeTheme}
-            onSelectTheme={setActiveTheme}
-            onScrollToWidget={handleScrollToWidget}
-          />
+        <WidgetErrorBoundary fallbackTitle="Self-Analysis UI Error" onReset={() => window.location.reload()}>
+          <div>
+            {/* Cosmic Navigator */}
+            <CosmicNavigator
+              themes={themes}
+              activeTheme={activeTheme}
+              onSelectTheme={setActiveTheme}
+              onScrollToWidget={handleScrollToWidget}
+            />
 
-          {/* Tab Content */}
-          <div className="space-y-6 sm:space-y-8 pb-32">
+            {/* Tab Content */}
+            <div className="space-y-6 sm:space-y-8 pb-32">
 
             {/* Always visible at the top: Basic Info */}
             <div className="mb-8 pl-4 pr-4 sm:pl-0 sm:pr-0 -mx-4 sm:mx-0 overflow-x-hidden w-screen sm:w-auto">
@@ -733,7 +733,8 @@ export const SelfReportPage: React.FC = () => {
             )}
           </div>
         </div>
-      </div>
+      </WidgetErrorBoundary>
+    </div>
 
       {/* Floating Chat Widget */}
       {

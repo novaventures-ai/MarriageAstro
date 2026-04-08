@@ -64,7 +64,7 @@ const MODE_COLORS: Record<string, {
 export const DashboardPage: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { selfChart, selfBirthData, partners, isHydrated, isDemoMode, loadFromCloud, userMode, setUserMode } = useUserProfileStore();
+  const { selfChart, selfBirthData, partners, isHydrated, isDemoMode, loadFromCloud, userMode, setUserMode, planTier, unlockedSections, planExpiresAt } = useUserProfileStore();
 
   // Load cloud data when dashboard mounts (skip in demo mode)
   useEffect(() => {
@@ -266,6 +266,76 @@ export const DashboardPage: React.FC = () => {
           )}
         </div>
       </section>
+
+      {/* Subscription & Access Section */}
+      <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between bg-gray-50/50 dark:bg-gray-900/20">
+          <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 flex items-center gap-2">
+            <Sparkles className="w-5 h-5 text-amber-500" />
+            Your Access & Premium Features
+          </h2>
+          <div className="flex items-center gap-2">
+            <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
+              planTier === 'free' ? 'bg-gray-100 text-gray-500' : 
+              planTier === 'premium' ? 'bg-purple-100 text-purple-700' : 
+              'bg-amber-100 text-amber-700'
+            }`}>
+              {planTier} plan
+            </span>
+          </div>
+        </div>
+        <div className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Plan Info */}
+            <div className="space-y-4">
+              <div>
+                <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Current Status</h3>
+                <div className="flex items-center gap-3">
+                  <div className={`p-2 rounded-xl ${planTier === 'free' ? 'bg-gray-100' : 'bg-amber-50 dark:bg-amber-900/20'}`}>
+                    {planTier === 'free' ? <User className="w-5 h-5 text-gray-400" /> : <Sparkles className="w-5 h-5 text-amber-500" />}
+                  </div>
+                  <div>
+                    <p className="font-bold text-gray-900 dark:text-white capitalize">{planTier} Access</p>
+                    {planExpiresAt && (
+                      <p className="text-xs text-gray-500">Expires {new Date(planExpiresAt).toLocaleDateString()}</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+              
+              {planTier === 'free' && (
+                <button 
+                  onClick={() => navigate('/pricing')}
+                  className="w-full py-2 bg-gradient-to-r from-amber-500 to-orange-600 text-white rounded-lg text-sm font-semibold hover:shadow-md transition-shadow"
+                >
+                  Upgrade to Premium
+                </button>
+              )}
+            </div>
+
+            {/* Unlocked Sections List */}
+            <div>
+              <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Individually Unlocked</h3>
+              {unlockedSections.length > 0 ? (
+                <div className="flex flex-wrap gap-2">
+                  {unlockedSections.map((sectionId) => (
+                    <div 
+                      key={sectionId}
+                      className="px-3 py-1.5 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-100 dark:border-green-800/30 text-green-700 dark:text-green-400 text-xs font-medium flex items-center gap-1.5"
+                    >
+                      <Heart className="w-3 h-3 fill-current" />
+                      {sectionId.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-sm text-gray-400 italic">No individual sections unlocked yet.</p>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
 
       {/* Partners + Quick Actions Row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

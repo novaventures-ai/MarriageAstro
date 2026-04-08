@@ -112,12 +112,19 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose, sec
     setLoadingTier(tierName);
     setPaymentError(null);
     const result = await initiateCheckout({ userId: session.user.id, planType, userEmail: session.user.email });
-    setLoadingTier(null);
+    
     if (result.success) {
+      setLoadingTier('Fulfilling...');
+      // Wait for webhook (2.5s)
+      await new Promise(resolve => setTimeout(resolve, 2500));
       await loadPlanFromCloud(session.user.id, session.user.email || '');
+      setLoadingTier(null);
       onClose();
-    } else if (result.message && !result.mock) {
-      setPaymentError(result.message);
+    } else {
+      setLoadingTier(null);
+      if (result.message && !result.mock) {
+        setPaymentError(result.message);
+      }
     }
   };
 
@@ -132,12 +139,19 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose, sec
       sectionToUnlock: sectionId || sectionLabel, 
       userEmail: session.user.email 
     });
-    setSectionLoading(false);
+    
     if (result.success) {
+      setSectionLoading(true); // Keep spinner on
+      // Wait for webhook (2.5s)
+      await new Promise(resolve => setTimeout(resolve, 2500));
       await loadPlanFromCloud(session.user.id, session.user.email || '');
+      setSectionLoading(false);
       onClose();
-    } else if (result.message && !result.mock) {
-      setPaymentError(result.message);
+    } else {
+      setSectionLoading(false);
+      if (result.message && !result.mock) {
+        setPaymentError(result.message);
+      }
     }
   };
 

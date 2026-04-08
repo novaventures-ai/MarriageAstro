@@ -65,26 +65,32 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 if (newSession?.user && (event === 'SIGNED_IN' || event === 'INITIAL_SESSION')) {
                     const userProfileState = useUserProfileStore.getState();
 
-                    // Load premium plan tier (admin check happens inside)
+                    // 1. Handle Demo mode transition
+                    if (userProfileState.isDemoMode) {
+                        // Clear demo data and reset all flags first
+                        userProfileState.reset();
+                    }
+
+                    // 2. Load permissions (plan tier and admin status)
+                    // This is critical to call AFTER reset if we were in demo mode
                     userProfileState.loadPlanFromCloud(
                         newSession.user.id,
                         newSession.user.email || ''
                     );
 
-                    // If demo mode was active, clear it and load real data from cloud.
-                    // Otherwise, if user has local self data (created as guest), save to cloud.
-                    // If no local data, load from cloud.
+                    // 3. Load or sync core profile data
                     if (userProfileState.isDemoMode) {
-                        // Clear demo data, reset flag, then load real profile
-                        userProfileState.reset();
+                        // If we just reset demo, definitely load from cloud
                         userProfileState.loadFromCloud();
                     } else if (userProfileState.selfBirthData?.name) {
+                        // User has local guest data, sync it up
                         userProfileState.saveToCloud();
                     } else {
+                        // Fresh start or return, load from cloud
                         userProfileState.loadFromCloud();
                     }
 
-                    // If user has a local Match Report, save it to cloud
+                    // 4. Handle compatibility report sync
                     const appState = useAppStore.getState();
                     if (appState.currentReport) {
                         appState.syncToCloud();
