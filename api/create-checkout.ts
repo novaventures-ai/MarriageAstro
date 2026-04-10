@@ -1,9 +1,11 @@
 /**
  * Create Checkout - Vercel Serverless Function
  *
- * Creates a Razorpay order for the requested plan/section.
- * Automatically switches to USD pricing for non-Indian visitors using
- * Vercel's x-vercel-ip-country header.
+ * GET  /api/create-checkout          → { country, currency, isInternational }
+ * POST /api/create-checkout  { ... } → Razorpay order
+ *
+ * GET is used by the frontend to detect visitor region for currency display.
+ * POST creates a Razorpay order, automatically switching to USD for non-Indian visitors.
  *
  * Falls back to mock mode if RAZORPAY_KEY_SECRET is not set (local dev / staging).
  */
@@ -35,6 +37,18 @@ const PRICING_USD: Record<string, number> = {
 };
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  // GET → region detection (used by frontend for currency display)
+  if (req.method === 'GET') {
+    const country = ((req.headers['x-vercel-ip-country'] as string) || 'IN').toUpperCase();
+    const isInternational = country !== 'IN';
+    res.setHeader('Cache-Control', 'public, max-age=3600');
+    return res.status(200).json({
+      country,
+      currency: isInternational ? 'USD' : 'INR',
+      isInternational,
+    });
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }

@@ -42,7 +42,9 @@ export async function detectRegion(): Promise<RegionInfo> {
 
   inFlight = (async (): Promise<RegionInfo> => {
     try {
-      const res = await fetch('/api/detect-region', { cache: 'no-store' });
+      // GET /api/create-checkout serves double duty as region detector
+      // (avoids a separate serverless function — Vercel Hobby plan limit is 12)
+      const res = await fetch('/api/create-checkout', { method: 'GET', cache: 'no-store' });
       if (res.ok) {
         const data = await res.json() as RegionInfo;
         try { sessionStorage.setItem(CACHE_KEY, JSON.stringify(data)); } catch { /* ignore */ }
