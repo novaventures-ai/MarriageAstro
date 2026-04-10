@@ -68,6 +68,35 @@ export default async function handler(req: any, res: any) {
   if (req.method === 'POST') {
     const { action, userId, tier, expiresAt } = req.body || {};
 
+    // ── list_payments: fetch all recent payment records ──────────────────────
+    if (action === 'list_payments') {
+      const { data, error: pErr } = await db
+        .from('payment_history')
+        .select('payment_id, order_id, user_id, amount, plan_type, section_id, report_key, status, created_at')
+        .order('created_at', { ascending: false })
+        .limit(200);
+
+      if (pErr) {
+        console.error('admin-users: list_payments failed', pErr.message);
+        return res.status(500).json({ error: 'Failed to list payments' });
+      }
+
+      // Enrich with user emails
+      const userIds = [...new Set((data || []).map((p: any) => p.user_id))];
+      const { data: profiles } = await db
+        .from('profiles')
+        .select('id, email')
+        .in('id', userIds);
+      const emailMap = Object.fromEntries((profiles || []).map((p: any) => [p.id, p.email || '']));
+
+      const payments = (data || []).map((p: any) => ({
+        ...p,
+        user_email: emailMap[p.user_id] || '',
+      }));
+
+      return res.status(200).json({ payments });
+    }
+
     if (!userId || typeof userId !== 'string') {
       return res.status(400).json({ error: 'Missing userId' });
     }

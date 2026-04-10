@@ -79,9 +79,9 @@ export const AddPartnerPage: React.FC = () => {
       };
 
       const partnerId = await addPartner(partnerData);
-      
-      // Navigate back to dashboard
-      navigate('/');
+
+      // Navigate to comparison with the new partner
+      navigate(`/quick-compare/${partnerId}`);
     } catch (error) {
       console.error('Failed to add partner:', error instanceof Error ? error.message : 'Unknown error');
       alert('Failed to add partner. Please try again.');
@@ -102,7 +102,7 @@ export const AddPartnerPage: React.FC = () => {
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <button
-              onClick={() => navigate('/')}
+              onClick={() => navigate('/dashboard')}
               className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
             >
               <ArrowLeft className="w-6 h-6 text-gray-600 dark:text-gray-400" />
@@ -306,7 +306,7 @@ export const AddPartnerPage: React.FC = () => {
             <div className="flex gap-4 pt-4">
               <button
                 type="button"
-                onClick={() => navigate('/')}
+                onClick={() => navigate('/dashboard')}
                 className="flex-1 px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
               >
                 Cancel

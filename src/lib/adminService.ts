@@ -155,3 +155,33 @@ export async function disableAffiliate(affiliateId: string): Promise<boolean> {
   });
   return res.ok;
 }
+
+// ─── Payment History Admin ───────────────────────────────────────────────────
+
+export interface PaymentRecord {
+  payment_id: string;
+  order_id: string;
+  user_id: string;
+  user_email: string;
+  amount: number;
+  plan_type: string;
+  section_id: string | null;
+  report_key: string | null;
+  status: string;
+  created_at: string;
+}
+
+export async function listAllPayments(): Promise<PaymentRecord[]> {
+  const auth = await getAuthHeader();
+  const res = await fetch('/api/admin-users', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: auth },
+    body: JSON.stringify({ action: 'list_payments' }),
+  });
+  if (!res.ok) {
+    console.error('Admin: failed to list payments', res.status);
+    return [];
+  }
+  const { payments } = await res.json();
+  return payments ?? [];
+}

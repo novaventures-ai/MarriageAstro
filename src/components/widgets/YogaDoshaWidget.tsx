@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { YogaDoshaAnalysis, YogaDosha } from '../../../lib/yogaDoshaCalculations';
 import { Shield, AlertTriangle, CheckCircle, ChevronDown, ChevronUp, Sparkles, Pill, Star } from 'lucide-react';
+import { JargonTooltip } from '../ui/JargonTooltip';
 
 interface YogaDoshaWidgetProps {
     partnerA: YogaDoshaAnalysis;
@@ -202,7 +203,7 @@ export const YogaDoshaWidget: React.FC<YogaDoshaWidgetProps> = ({
                 <div className="flex items-center justify-between mb-4">
                     <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 flex items-center gap-3 transition-colors">
                         <Sparkles className="w-7 h-7 text-purple-600 dark:text-purple-400" />
-                        Yoga & Dosha Analysis
+                        Yoga & Dosha Analysis <JargonTooltip term="Yoga" className="ml-1" />
                     </h2>
                     <div className={`text-sm font-semibold capitalize ${getOverallColor(active.overallSeverity)}`}>
                         Overall: {active.overallSeverity} concern

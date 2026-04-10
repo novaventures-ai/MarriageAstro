@@ -3,6 +3,7 @@ import { DivisionalChartAnalysis, Chart } from '../../types';
 import { Grid3X3, Star, Clock, Heart, Sparkles, BarChart3, Crown, ChevronDown, ChevronUp, HelpCircle, BookOpen, ShieldCheck, RefreshCw, AlertCircle } from 'lucide-react';
 import { useGeminiInsight } from '../../hooks/useGeminiInsight';
 import ReactMarkdown from 'react-markdown';
+import { JargonTooltip } from '../ui/JargonTooltip';
 
 interface DivisionalChartWidgetProps {
   divisionalAnalysis: DivisionalChartAnalysis;
@@ -102,7 +103,7 @@ export const DivisionalChartWidget: React.FC<DivisionalChartWidgetProps> = ({
             <Grid3X3 className="w-8 h-8" />
           </div>
           <div>
-            <h2 className="text-2xl font-bold mb-2">Divisional Charts (Varga) Analysis</h2>
+            <h2 className="text-2xl font-bold mb-2">Divisional Charts (Varga) Analysis <JargonTooltip term="Divisional Chart" className="ml-1" /></h2>
             <p className="text-amber-100 leading-relaxed">
               Divisional charts are like zooming into specific life areas. Your main chart (D1) is divided into
               smaller sections to reveal deeper details. <strong>D9 Navamsa</strong> is most important for marriage
