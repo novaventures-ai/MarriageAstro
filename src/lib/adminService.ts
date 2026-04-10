@@ -157,6 +157,21 @@ export async function disableAffiliate(affiliateId: string): Promise<boolean> {
   return res.ok;
 }
 
+export async function creditMissedPayment(
+  affiliateId: string,
+  paymentId: string,
+  commissionInr: number
+): Promise<{ success: boolean; error?: string }> {
+  const auth = await getAuthHeader();
+  const res = await fetch('/api/admin-affiliates', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: auth },
+    body: JSON.stringify({ action: 'creditMissed', affiliateId, paymentId, commissionInr }),
+  });
+  const data = await res.json();
+  return res.ok ? { success: true } : { success: false, error: data.error };
+}
+
 export interface AffiliateConversion {
   id: string;
   affiliate_code: string;

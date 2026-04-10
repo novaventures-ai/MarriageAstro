@@ -16,6 +16,7 @@ import {
   getPushStats, sendPushBroadcast,
   listAffiliates, markAffiliatePaid, disableAffiliate, AffiliateRecord,
   listAffiliateConversions, AffiliateConversion,
+  creditMissedPayment,
   listAllPayments, PaymentRecord,
 } from '../lib/adminService';
 import { PlanTier } from '../types';
@@ -59,6 +60,9 @@ export const AdminPage: React.FC = () => {
   const [expandedAffCode, setExpandedAffCode] = useState<string | null>(null);
   const [conversionCache, setConversionCache] = useState<Record<string, AffiliateConversion[]>>({});
   const [convLoading, setConvLoading] = useState<string | null>(null);
+  const [creditForm, setCreditForm] = useState<{ affiliateId: string; paymentId: string; commissionInr: string } | null>(null);
+  const [creditLoading, setCreditLoading] = useState(false);
+  const [creditError, setCreditError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!isAdmin) { navigate('/'); return; }
@@ -141,6 +145,22 @@ export const AdminPage: React.FC = () => {
     setAffActionLoading(id);
     if (await disableAffiliate(id)) await fetchAffiliates();
     setAffActionLoading(null);
+  };
+
+  const handleCreditMissed = async () => {
+    if (!creditForm) return;
+    setCreditLoading(true);
+    setCreditError(null);
+    const result = await creditMissedPayment(creditForm.affiliateId, creditForm.paymentId.trim(), Number(creditForm.commissionInr));
+    if (result.success) {
+      setCreditForm(null);
+      // Refresh affiliate list + clear conversion cache for this affiliate
+      await fetchAffiliates();
+      setConversionCache((c) => { const n = { ...c }; delete n[creditForm.affiliateId]; return n; });
+    } else {
+      setCreditError(result.error || 'Failed to credit payment');
+    }
+    setCreditLoading(false);
   };
 
   const toggleConversions = async (code: string) => {
@@ -601,6 +621,12 @@ export const AdminPage: React.FC = () => {
                                         <CheckCircle className="w-3 h-3" /> Mark Paid
                                       </button>
                                     )}
+                                    <button
+                                      onClick={() => { setCreditForm({ affiliateId: aff.id, paymentId: '', commissionInr: '100' }); setCreditError(null); }}
+                                      className="px-2.5 py-1 text-xs font-medium bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 rounded-lg hover:bg-green-100 transition-colors flex items-center gap-1"
+                                    >
+                                      <IndianRupee className="w-3 h-3" /> Credit
+                                    </button>
                                     {aff.payout_status !== 'disabled' && (
                                       <button
                                         onClick={() => handleDisable(aff.id)}
@@ -670,6 +696,59 @@ export const AdminPage: React.FC = () => {
           </>
         )}
       </div>
+
+      {/* Credit Missed Payment Modal */}
+      {creditForm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-md p-6">
+            <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-1">Credit Missed Payment</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-5">
+              Manually credit a past payment to this affiliate. The payment must exist in the system and not already be credited.
+            </p>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Razorpay Payment ID</label>
+                <input
+                  type="text"
+                  value={creditForm.paymentId}
+                  onChange={(e) => setCreditForm((f) => f && ({ ...f, paymentId: e.target.value }))}
+                  placeholder="pay_XXXXXXXXXXXXXXXXXX"
+                  className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-indigo-500 outline-none"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Commission (₹)</label>
+                <input
+                  type="number"
+                  value={creditForm.commissionInr}
+                  onChange={(e) => setCreditForm((f) => f && ({ ...f, commissionInr: e.target.value }))}
+                  placeholder="100"
+                  min={1}
+                  className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
+                />
+                <p className="text-xs text-gray-400 mt-1">Standard: ₹10 section · ₹20 full report · ₹100 premium · ₹200 astrologer</p>
+              </div>
+              {creditError && <p className="text-sm text-red-600 dark:text-red-400">{creditError}</p>}
+            </div>
+            <div className="flex gap-3 mt-6">
+              <button
+                onClick={() => { setCreditForm(null); setCreditError(null); }}
+                className="flex-1 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleCreditMissed}
+                disabled={creditLoading || !creditForm.paymentId.trim() || !creditForm.commissionInr}
+                className="flex-1 py-2.5 rounded-xl bg-green-600 hover:bg-green-700 disabled:opacity-60 text-white text-sm font-semibold transition-colors flex items-center justify-center gap-2"
+              >
+                {creditLoading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <IndianRupee className="w-4 h-4" />}
+                Credit ₹{creditForm.commissionInr || '0'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

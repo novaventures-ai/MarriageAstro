@@ -321,9 +321,26 @@ export function AffiliatePage() {
                   )}
                 </div>
 
-                <p className="text-xs text-gray-400 text-center">
+                <p className="text-xs text-gray-400 text-center mb-5">
                   Share this link on WhatsApp with clients. Payouts processed monthly via UPI.
                 </p>
+
+                {/* Claim missed earning */}
+                <div className="border-t border-gray-100 dark:border-gray-700 pt-5">
+                  <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1 flex items-center gap-2">
+                    <IndianRupee className="w-4 h-4 text-amber-500" />
+                    Missing a conversion?
+                  </h3>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
+                    If a client paid via your link but it's not showing above, send us the Razorpay payment ID and we'll verify and credit your commission within 24 hours.
+                  </p>
+                  <a
+                    href={`mailto:novaventures.contact@gmail.com?subject=Affiliate%20Missed%20Earning%20Claim&body=Affiliate%20Code%3A%20${affiliateCode}%0APayment%20ID%3A%20pay_XXXXXXXXXX%0A%0APlease%20verify%20and%20credit%20my%20commission.`}
+                    className="inline-flex items-center gap-2 text-xs font-medium text-indigo-600 dark:text-indigo-400 hover:underline"
+                  >
+                    <ArrowRight className="w-3 h-3" /> Email claim to support
+                  </a>
+                </div>
               </div>
             ) : (
               /* Registration form */

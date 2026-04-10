@@ -113,5 +113,52 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(200).json({ success: true });
   }
 
+  // ── creditMissed: manually credit a past payment to an affiliate ──────────
+  if (action === 'creditMissed') {
+    const { paymentId, commissionInr } = req.body as { action: string; affiliateId: string; paymentId: string; commissionInr: number };
+    if (!paymentId || !commissionInr) return res.status(400).json({ error: 'paymentId and commissionInr required' });
+
+    // Get affiliate details
+    const { data: aff } = await db
+      .from('affiliates')
+      .select('affiliate_code, total_conversions, pending_payout_inr')
+      .eq('id', affiliateId)
+      .single();
+    if (!aff) return res.status(404).json({ error: 'Affiliate not found' });
+
+    // Check payment exists and is successful
+    const { data: payment } = await db
+      .from('payment_history')
+      .select('plan_type, status')
+      .eq('payment_id', paymentId)
+      .single();
+    if (!payment) return res.status(404).json({ error: 'Payment not found' });
+    if (payment.status !== 'success') return res.status(400).json({ error: 'Payment is not successful' });
+
+    // Prevent double-credit
+    const { data: existing } = await db
+      .from('affiliate_conversions')
+      .select('id')
+      .eq('payment_id', paymentId)
+      .single();
+    if (existing) return res.status(409).json({ error: 'This payment is already credited to an affiliate' });
+
+    // Insert conversion record
+    await db.from('affiliate_conversions').insert({
+      affiliate_code: aff.affiliate_code,
+      payment_id: paymentId,
+      plan_type: payment.plan_type,
+      commission_inr: Number(commissionInr),
+    });
+
+    // Update affiliate totals
+    await db.from('affiliates').update({
+      total_conversions: (aff.total_conversions || 0) + 1,
+      pending_payout_inr: (aff.pending_payout_inr || 0) + Number(commissionInr),
+    }).eq('id', affiliateId);
+
+    return res.status(200).json({ success: true });
+  }
+
   return res.status(400).json({ error: 'Unknown action' });
 }
