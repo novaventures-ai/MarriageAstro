@@ -772,6 +772,20 @@ export const LandingPage: React.FC = () => {
                 ))}
               </ul>
             </div>
+            {/* Earn */}
+            <div>
+              <h4 className="font-semibold text-sm text-gray-800 dark:text-gray-100 mb-3">Partners</h4>
+              <ul className="space-y-1.5 text-xs">
+                {[
+                  { to: '/affiliate', label: '💰 Affiliate Program' },
+                  { to: '/affiliate', label: 'Marriage Bureau Partners' },
+                  { to: '/affiliate', label: 'Wedding Planners' },
+                  { to: '/pricing', label: 'Pricing' },
+                ].map(l => (
+                  <li key={l.label}><Link to={l.to} className="text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{l.label}</Link></li>
+                ))}
+              </ul>
+            </div>
             {/* Blog */}
             <div>
               <h4 className="font-semibold text-sm text-gray-800 dark:text-gray-100 mb-3">Blog</h4>

@@ -52,28 +52,28 @@ export function AffiliatePage() {
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
 
-  const [stats, setStats] = useState<{ total_referrals: number; total_conversions: number; pending_payout_inr: number }>({ total_referrals: 0, total_conversions: 0, pending_payout_inr: 0 });
+  const [stats, setStats] = useState<{
+    total_clicks: number;
+    total_referrals: number;
+    total_conversions: number;
+    pending_payout_inr: number;
+    total_earned_inr: number;
+  }>({ total_clicks: 0, total_referrals: 0, total_conversions: 0, pending_payout_inr: 0, total_earned_inr: 0 });
   const [conversions, setConversions] = useState<{ id: string; payment_id: string; plan_type: string; commission_inr: number; created_at: string }[]>([]);
   const [convsLoading, setConvsLoading] = useState(false);
 
   useEffect(() => {
     if (user) {
       setForm((f) => ({ ...f, email: user.email ?? '' }));
-      // Check if already registered — look up by user_id via Supabase directly
       supabase
         .from('affiliates')
-        .select('affiliate_code, total_referrals, total_conversions, pending_payout_inr')
+        .select('affiliate_code, total_clicks, total_referrals, total_conversions, pending_payout_inr')
         .eq('user_id', user.id)
         .single()
         .then(({ data }) => {
           if (data?.affiliate_code) {
             setAffiliateCode(data.affiliate_code);
-            setStats({
-              total_referrals: data.total_referrals ?? 0,
-              total_conversions: data.total_conversions ?? 0,
-              pending_payout_inr: data.pending_payout_inr ?? 0,
-            });
-            // Load itemized conversion log
+            // Load itemized conversion log first to compute accurate total_earned
             setConvsLoading(true);
             supabase
               .from('affiliate_conversions')
@@ -81,8 +81,16 @@ export function AffiliatePage() {
               .eq('affiliate_code', data.affiliate_code)
               .order('created_at', { ascending: false })
               .then(({ data: convData }) => {
-                setConversions(convData ?? []);
+                const rows = convData ?? [];
+                setConversions(rows);
                 setConvsLoading(false);
+                setStats({
+                  total_clicks: data.total_clicks ?? 0,
+                  total_referrals: data.total_referrals ?? 0,
+                  total_conversions: data.total_conversions ?? 0,
+                  pending_payout_inr: data.pending_payout_inr ?? 0,
+                  total_earned_inr: rows.reduce((s, c) => s + c.commission_inr, 0),
+                });
               });
           }
         });
@@ -229,19 +237,37 @@ export function AffiliatePage() {
                     {copied ? 'Copied!' : 'Copy'}
                   </button>
                 </div>
-                {/* Summary stats */}
-                <div className="grid grid-cols-3 gap-4 mb-6">
+                {/* Funnel stats */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+                  <div className="bg-blue-50 dark:bg-blue-900/30 rounded-xl p-4 text-center">
+                    <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{stats.total_clicks}</div>
+                    <div className="text-xs text-gray-500 mt-1">Link Clicks</div>
+                    <div className="text-xs text-gray-400 mt-0.5">visited your link</div>
+                  </div>
                   <div className="bg-indigo-50 dark:bg-indigo-900/30 rounded-xl p-4 text-center">
                     <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">{stats.total_referrals}</div>
-                    <div className="text-xs text-gray-500 mt-1">Referrals</div>
+                    <div className="text-xs text-gray-500 mt-1">Signups</div>
+                    <div className="text-xs text-gray-400 mt-0.5">
+                      {stats.total_clicks > 0
+                        ? `${Math.round((stats.total_referrals / stats.total_clicks) * 100)}% of clicks`
+                        : 'created accounts'}
+                    </div>
                   </div>
                   <div className="bg-purple-50 dark:bg-purple-900/30 rounded-xl p-4 text-center">
                     <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">{stats.total_conversions}</div>
-                    <div className="text-xs text-gray-500 mt-1">Conversions</div>
+                    <div className="text-xs text-gray-500 mt-1">Paid</div>
+                    <div className="text-xs text-gray-400 mt-0.5">
+                      {stats.total_referrals > 0
+                        ? `${Math.round((stats.total_conversions / stats.total_referrals) * 100)}% of signups`
+                        : 'made a purchase'}
+                    </div>
                   </div>
                   <div className="bg-green-50 dark:bg-green-900/30 rounded-xl p-4 text-center">
-                    <div className="text-2xl font-bold text-green-600 dark:text-green-400">₹{stats.pending_payout_inr}</div>
-                    <div className="text-xs text-gray-500 mt-1">Pending Payout</div>
+                    <div className="text-2xl font-bold text-green-600 dark:text-green-400">₹{stats.total_earned_inr}</div>
+                    <div className="text-xs text-gray-500 mt-1">Total Earned</div>
+                    <div className="text-xs text-amber-600 dark:text-amber-400 mt-0.5 font-medium">
+                      ₹{stats.pending_payout_inr} pending
+                    </div>
                   </div>
                 </div>
 
@@ -295,9 +321,26 @@ export function AffiliatePage() {
                   )}
                 </div>
 
-                <p className="text-xs text-gray-400 text-center">
+                <p className="text-xs text-gray-400 text-center mb-5">
                   Share this link on WhatsApp with clients. Payouts processed monthly via UPI.
                 </p>
+
+                {/* Claim missed earning */}
+                <div className="border-t border-gray-100 dark:border-gray-700 pt-5">
+                  <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1 flex items-center gap-2">
+                    <IndianRupee className="w-4 h-4 text-amber-500" />
+                    Missing a conversion?
+                  </h3>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
+                    If a client paid via your link but it's not showing above, send us the Razorpay payment ID and we'll verify and credit your commission within 24 hours.
+                  </p>
+                  <a
+                    href={`mailto:novaventures.contact@gmail.com?subject=Affiliate%20Missed%20Earning%20Claim&body=Affiliate%20Code%3A%20${affiliateCode}%0APayment%20ID%3A%20pay_XXXXXXXXXX%0A%0APlease%20verify%20and%20credit%20my%20commission.`}
+                    className="inline-flex items-center gap-2 text-xs font-medium text-indigo-600 dark:text-indigo-400 hover:underline"
+                  >
+                    <ArrowRight className="w-3 h-3" /> Email claim to support
+                  </a>
+                </div>
               </div>
             ) : (
               /* Registration form */

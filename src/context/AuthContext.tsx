@@ -55,7 +55,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 if (newSession?.user) {
                     setSentryUser(newSession.user.id, newSession.user.email);
                     identifyUser(newSession.user.id, { email: newSession.user.email });
-                    if (event === 'SIGNED_IN') trackEvent('user_signed_in');
+                    if (event === 'SIGNED_IN') {
+                        trackEvent('user_signed_in');
+                        // If user arrived via an affiliate link, record the signup
+                        try {
+                            const affCode = localStorage.getItem('aff_ref');
+                            const affTs = Number(localStorage.getItem('aff_ref_ts') || '0');
+                            const still_valid = affCode && (Date.now() - affTs < 30 * 24 * 60 * 60 * 1000);
+                            if (still_valid) {
+                                fetch('/api/affiliate-track', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ action: 'track', code: affCode, userId: newSession.user.id }),
+                                }).catch(() => { /* non-critical */ });
+                            }
+                        } catch { /* ignore */ }
+                    }
                 } else if (event === 'SIGNED_OUT') {
                     clearSentryUser();
                     resetAnalyticsUser();

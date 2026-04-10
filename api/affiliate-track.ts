@@ -93,6 +93,27 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(201).json({ affiliate_code: data.affiliate_code });
   }
 
+  // ── POST action=click: increment link click counter ───────────────────────
+  if (body.action === 'click') {
+    const { code } = body;
+    if (!code) return res.status(400).json({ error: 'code required' });
+
+    const { data: aff } = await supabase
+      .from('affiliates')
+      .select('id, total_clicks')
+      .eq('affiliate_code', code)
+      .single();
+
+    if (!aff) return res.status(404).json({ error: 'Affiliate not found' });
+
+    await supabase
+      .from('affiliates')
+      .update({ total_clicks: (aff.total_clicks || 0) + 1 })
+      .eq('id', aff.id);
+
+    return res.status(200).json({ tracked: true });
+  }
+
   // ── POST action=track: record a referred signup ────────────────────────────
   if (body.action === 'track') {
     const { code, userId } = body;
@@ -125,8 +146,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     if (insErr) return res.status(500).json({ error: insErr.message });
 
-    // Increment counter
-    await supabase.rpc('increment_affiliate_referrals', { aff_id: affiliate.id });
+    // Increment referral counter
+    const { data: aff } = await supabase
+      .from('affiliates')
+      .select('total_referrals')
+      .eq('id', affiliate.id)
+      .single();
+    await supabase
+      .from('affiliates')
+      .update({ total_referrals: ((aff?.total_referrals) || 0) + 1 })
+      .eq('id', affiliate.id);
 
     return res.status(201).json({ message: 'Referral tracked' });
   }

@@ -22,7 +22,8 @@ import {
   CheckCircle2,
   AlertTriangle,
   HelpCircle,
-  SearchCode
+  SearchCode,
+  IndianRupee,
 } from 'lucide-react';
 import { useUserProfileStore, UserMode } from '../store/useUserProfileStore';
 import { useAuth } from '../context/AuthContext';
@@ -635,6 +636,31 @@ export const DashboardPage: React.FC = () => {
             {isSyncing ? <RefreshCw className="w-5 h-5 animate-spin" /> : <Sparkles className="w-5 h-5" />}
             {isSyncing ? 'Scanning...' : 'Find My Missing Payment'}
           </button>
+        </div>
+      </section>
+
+      {/* Affiliate Earn Banner */}
+      <section
+        onClick={() => navigate('/affiliate')}
+        className="cursor-pointer bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 rounded-2xl border border-amber-200 dark:border-amber-700/40 overflow-hidden"
+      >
+        <div className="px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div className="w-11 h-11 bg-amber-100 dark:bg-amber-800/40 rounded-xl flex items-center justify-center flex-shrink-0">
+              <IndianRupee className="w-6 h-6 text-amber-600 dark:text-amber-400" />
+            </div>
+            <div>
+              <h2 className="text-base font-bold text-amber-900 dark:text-amber-200">
+                Are you a marriage bureau or wedding planner?
+              </h2>
+              <p className="text-sm text-amber-700 dark:text-amber-400 mt-0.5">
+                Earn ₹100–₹200 per client you refer. Free to join — get your link in 30 seconds.
+              </p>
+            </div>
+          </div>
+          <div className="flex-shrink-0 flex items-center gap-2 px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-white text-sm font-semibold rounded-xl transition-colors">
+            Join Affiliate Program <ArrowRight className="w-4 h-4" />
+          </div>
         </div>
       </section>
 
