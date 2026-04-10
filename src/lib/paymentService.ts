@@ -14,6 +14,25 @@ export interface CheckoutOptions {
   sectionToUnlock?: string;
   reportKey?: string;
   userEmail?: string;
+  affiliateCode?: string;
+}
+
+/** Read affiliate ref from localStorage (valid for 30 days). */
+export function getStoredAffiliateCode(): string | null {
+  try {
+    const code = localStorage.getItem('aff_ref');
+    const ts = Number(localStorage.getItem('aff_ref_ts') || '0');
+    if (!code) return null;
+    // Expire after 30 days
+    if (Date.now() - ts > 30 * 24 * 60 * 60 * 1000) {
+      localStorage.removeItem('aff_ref');
+      localStorage.removeItem('aff_ref_ts');
+      return null;
+    }
+    return code;
+  } catch {
+    return null;
+  }
 }
 
 export interface RazorpayModalOptions {
@@ -26,6 +45,7 @@ export interface RazorpayModalOptions {
   sectionToUnlock?: string;
   reportKey?: string;
   userEmail?: string;
+  affiliateCode?: string;
 }
 
 export interface CheckoutResult {
@@ -43,6 +63,12 @@ export interface CheckoutResult {
  */
 export async function initiateCheckout(options: CheckoutOptions): Promise<CheckoutResult> {
   try {
+    // Attach stored affiliate code if not explicitly provided
+    if (!options.affiliateCode) {
+      const storedCode = getStoredAffiliateCode();
+      if (storedCode) options.affiliateCode = storedCode;
+    }
+
     // 1. Create order server-side
     const response = await fetch('/api/create-checkout', {
       method: 'POST',
@@ -83,6 +109,7 @@ export async function initiateCheckout(options: CheckoutOptions): Promise<Checko
         sectionToUnlock: options.sectionToUnlock,
         reportKey: options.reportKey,
         userEmail: options.userEmail,
+        affiliateCode: options.affiliateCode,
       });
 
       return result;
@@ -147,6 +174,7 @@ function openRazorpayModal(opts: RazorpayModalOptions): Promise<CheckoutResult> 
           planType: opts.planType,
           sectionToUnlock: opts.sectionToUnlock || '',
           reportKey: opts.reportKey || '',
+          affiliateCode: opts.affiliateCode || '',
         },
         theme: { color: '#F59E0B' },
         modal: {

@@ -4,7 +4,8 @@ import { useAppStore } from '../store/useAppStore';
 
 /**
  * QueryParamHandler
- * Listens for ?share= and ?invite= params to enable viral growth features.
+ * Listens for ?share=, ?invite=, and ?ref= params to enable viral + affiliate features.
+ * ?ref= stores the affiliate code in localStorage so it persists through signup/payment.
  */
 export const QueryParamHandler: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -15,6 +16,13 @@ export const QueryParamHandler: React.FC = () => {
   useEffect(() => {
     const shareData = searchParams.get('share');
     const inviteData = searchParams.get('invite');
+    const refCode = searchParams.get('ref');
+
+    // Capture affiliate ref code — store for up to 30 days
+    if (refCode) {
+      localStorage.setItem('aff_ref', refCode);
+      localStorage.setItem('aff_ref_ts', String(Date.now()));
+    }
 
     if (shareData) {
       handleShare(shareData);

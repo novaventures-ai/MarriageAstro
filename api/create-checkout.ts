@@ -15,6 +15,7 @@ interface CheckoutRequest {
   planType: 'premium_monthly' | 'astrologer_monthly' | 'section_unlock' | 'full_report_unlock' | 'test_order';
   sectionToUnlock?: string;
   reportKey?: string;
+  affiliateCode?: string;
 }
 
 const PRICING: Record<string, number> = {
@@ -30,7 +31,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const { userId, planType, sectionToUnlock, reportKey } = req.body as CheckoutRequest;
+    const { userId, planType, sectionToUnlock, reportKey, affiliateCode } = req.body as CheckoutRequest;
 
     if (!userId || !planType) {
       return res.status(400).json({ error: 'Missing userId or planType' });
@@ -73,6 +74,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         planType,
         sectionToUnlock: sectionToUnlock || '',
         reportKey: reportKey || '',
+        affiliateCode: affiliateCode || '',
       },
     };
 
