@@ -156,6 +156,25 @@ export async function disableAffiliate(affiliateId: string): Promise<boolean> {
   return res.ok;
 }
 
+export interface AffiliateConversion {
+  id: string;
+  affiliate_code: string;
+  payment_id: string;
+  plan_type: string;
+  commission_inr: number;
+  created_at: string;
+}
+
+export async function listAffiliateConversions(affiliateCode: string): Promise<AffiliateConversion[]> {
+  const auth = await getAuthHeader();
+  const res = await fetch(`/api/admin-affiliates?code=${encodeURIComponent(affiliateCode)}`, {
+    headers: { Authorization: auth },
+  });
+  if (!res.ok) return [];
+  const { conversions } = await res.json();
+  return conversions ?? [];
+}
+
 // ─── Payment History Admin ───────────────────────────────────────────────────
 
 export interface PaymentRecord {

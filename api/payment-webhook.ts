@@ -147,6 +147,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           .single();
 
         if (affiliate) {
+          // Update aggregate totals on the affiliate row
           await db
             .from('affiliates')
             .update({
@@ -154,6 +155,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
               pending_payout_inr: (affiliate.pending_payout_inr || 0) + commissionInr,
             })
             .eq('id', affiliate.id);
+
+          // Insert itemized record — single source of truth for both affiliate and admin audit
+          await db.from('affiliate_conversions').insert({
+            affiliate_code: affiliateCode,
+            payment_id: payment.id,
+            plan_type: planType,
+            commission_inr: commissionInr,
+          });
+
           console.log(`payment-webhook: credited ₹${commissionInr} commission to affiliate ${affiliateCode}`);
         } else {
           console.warn(`payment-webhook: affiliate code "${affiliateCode}" not found or inactive`);

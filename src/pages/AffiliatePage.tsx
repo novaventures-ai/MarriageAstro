@@ -52,7 +52,9 @@ export function AffiliatePage() {
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
 
-  const [stats, setStats] = useState<{ total_referrals: number; total_conversions: number }>({ total_referrals: 0, total_conversions: 0 });
+  const [stats, setStats] = useState<{ total_referrals: number; total_conversions: number; pending_payout_inr: number }>({ total_referrals: 0, total_conversions: 0, pending_payout_inr: 0 });
+  const [conversions, setConversions] = useState<{ id: string; payment_id: string; plan_type: string; commission_inr: number; created_at: string }[]>([]);
+  const [convsLoading, setConvsLoading] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -66,7 +68,22 @@ export function AffiliatePage() {
         .then(({ data }) => {
           if (data?.affiliate_code) {
             setAffiliateCode(data.affiliate_code);
-            setStats({ total_referrals: data.total_referrals ?? 0, total_conversions: data.total_conversions ?? 0 });
+            setStats({
+              total_referrals: data.total_referrals ?? 0,
+              total_conversions: data.total_conversions ?? 0,
+              pending_payout_inr: data.pending_payout_inr ?? 0,
+            });
+            // Load itemized conversion log
+            setConvsLoading(true);
+            supabase
+              .from('affiliate_conversions')
+              .select('id, payment_id, plan_type, commission_inr, created_at')
+              .eq('affiliate_code', data.affiliate_code)
+              .order('created_at', { ascending: false })
+              .then(({ data: convData }) => {
+                setConversions(convData ?? []);
+                setConvsLoading(false);
+              });
           }
         });
     }
@@ -212,7 +229,8 @@ export function AffiliatePage() {
                     {copied ? 'Copied!' : 'Copy'}
                   </button>
                 </div>
-                <div className="grid grid-cols-3 gap-4 mb-4">
+                {/* Summary stats */}
+                <div className="grid grid-cols-3 gap-4 mb-6">
                   <div className="bg-indigo-50 dark:bg-indigo-900/30 rounded-xl p-4 text-center">
                     <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">{stats.total_referrals}</div>
                     <div className="text-xs text-gray-500 mt-1">Referrals</div>
@@ -222,10 +240,61 @@ export function AffiliatePage() {
                     <div className="text-xs text-gray-500 mt-1">Conversions</div>
                   </div>
                   <div className="bg-green-50 dark:bg-green-900/30 rounded-xl p-4 text-center">
-                    <div className="text-2xl font-bold text-green-600 dark:text-green-400">₹{stats.total_conversions * 100}</div>
-                    <div className="text-xs text-gray-500 mt-1">Earnings</div>
+                    <div className="text-2xl font-bold text-green-600 dark:text-green-400">₹{stats.pending_payout_inr}</div>
+                    <div className="text-xs text-gray-500 mt-1">Pending Payout</div>
                   </div>
                 </div>
+
+                {/* Itemized conversion log */}
+                <div className="mb-4">
+                  <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2">
+                    <IndianRupee className="w-4 h-4 text-green-500" />
+                    Conversion History
+                    <span className="text-xs text-gray-400 font-normal">(each payment credited to you)</span>
+                  </h3>
+                  {convsLoading ? (
+                    <p className="text-xs text-gray-400 py-3 text-center">Loading…</p>
+                  ) : conversions.length === 0 ? (
+                    <div className="bg-gray-50 dark:bg-gray-900/40 rounded-xl p-6 text-center">
+                      <p className="text-sm text-gray-500">No conversions yet.</p>
+                      <p className="text-xs text-gray-400 mt-1">Share your link — when someone pays via your link, it appears here.</p>
+                    </div>
+                  ) : (
+                    <div className="overflow-x-auto rounded-xl border border-gray-100 dark:border-gray-700">
+                      <table className="w-full text-sm">
+                        <thead className="bg-gray-50 dark:bg-gray-800">
+                          <tr>
+                            <th className="px-4 py-2 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Date</th>
+                            <th className="px-4 py-2 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Plan</th>
+                            <th className="px-4 py-2 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Payment ID</th>
+                            <th className="px-4 py-2 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">You Earned</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-100 dark:divide-gray-700/50">
+                          {conversions.map((c) => (
+                            <tr key={c.id} className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+                              <td className="px-4 py-2.5 text-gray-600 dark:text-gray-400 text-xs">
+                                {new Date(c.created_at).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
+                              </td>
+                              <td className="px-4 py-2.5 text-gray-700 dark:text-gray-300 capitalize">
+                                {c.plan_type.replace(/_/g, ' ')}
+                              </td>
+                              <td className="px-4 py-2.5 font-mono text-xs text-gray-400">{c.payment_id}</td>
+                              <td className="px-4 py-2.5 text-right font-semibold text-green-600">₹{c.commission_inr}</td>
+                            </tr>
+                          ))}
+                          <tr className="bg-gray-50 dark:bg-gray-800 font-semibold">
+                            <td colSpan={3} className="px-4 py-2.5 text-gray-700 dark:text-gray-300">Total earned</td>
+                            <td className="px-4 py-2.5 text-right text-green-700 dark:text-green-400">
+                              ₹{conversions.reduce((s, c) => s + c.commission_inr, 0)}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+
                 <p className="text-xs text-gray-400 text-center">
                   Share this link on WhatsApp with clients. Payouts processed monthly via UPI.
                 </p>

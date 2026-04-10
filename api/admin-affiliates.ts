@@ -51,8 +51,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const db = getServiceClient();
 
-  // ── GET: list all affiliates ─────────────────────────────────────────────
+  // ── GET: list all affiliates (or conversions for a specific code) ──────────
   if (req.method === 'GET') {
+    const affiliateCode = req.query.code as string | undefined;
+
+    // ?code=XXX → return itemized conversion log for that affiliate
+    if (affiliateCode) {
+      const { data, error } = await db
+        .from('affiliate_conversions')
+        .select('id, affiliate_code, payment_id, plan_type, commission_inr, created_at')
+        .eq('affiliate_code', affiliateCode)
+        .order('created_at', { ascending: false });
+
+      if (error) return res.status(500).json({ error: error.message });
+      return res.status(200).json({ conversions: data ?? [] });
+    }
+
+    // No code → return all affiliates
     const { data, error } = await db
       .from('affiliates')
       .select(
