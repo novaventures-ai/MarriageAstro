@@ -348,7 +348,7 @@ export const SelfReportPage: React.FC = () => {
           <div className="flex items-center justify-between gap-2 overflow-hidden">
             <div className="flex items-center gap-2 min-w-0">
               <button
-                onClick={() => navigate('/')}
+                onClick={() => navigate('/dashboard')}
                 className="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors flex-shrink-0"
               >
                 <ArrowLeft className="w-5 h-5 text-gray-600 dark:text-gray-400" />
