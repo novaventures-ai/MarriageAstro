@@ -1,11 +1,12 @@
 /**
  * Pricing Page
- * Full tier comparison with FAQ and email capture
+ * Full tier comparison with FAQ and email capture.
+ * Auto-detects visitor region and shows INR or USD pricing.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Check, X, Crown, Shield, Sparkles, Lock, ChevronDown, ChevronUp } from 'lucide-react';
+import { ArrowLeft, Check, X, Crown, Shield, Sparkles, Lock, ChevronDown, ChevronUp, Globe } from 'lucide-react';
 import { ThemeToggle } from '../components/ui/ThemeToggle';
 import { AuthButton } from '../components/ui/AuthButton';
 import { Logo } from '../components/ui/Logo';
@@ -13,12 +14,14 @@ import { SEOHead } from '../components/SEOHead';
 import { supabase } from '../lib/supabase';
 import { initiateCheckout } from '../lib/paymentService';
 import { useUserProfileStore } from '../store/useUserProfileStore';
-import { Loader2, AlertTriangle, RefreshCw } from 'lucide-react';
+import { detectRegion, PRICING_INR, PRICING_USD } from '../lib/regionService';
+import { Loader2, AlertTriangle } from 'lucide-react';
 
 const TIERS = [
   {
     name: 'Free',
-    price: '₹0',
+    priceKey: null,
+    staticPrice: { INR: '₹0', USD: '$0' },
     period: 'forever',
     color: 'gray',
     icon: <Sparkles className="w-7 h-7" />,
@@ -40,14 +43,15 @@ const TIERS = [
   },
   {
     name: 'Per-Module Unlock',
-    price: '₹49',
+    priceKey: 'section_unlock' as const,
+    staticPrice: null,
     period: '/module',
     color: 'blue',
     icon: <Lock className="w-7 h-7" />,
     features: [
       { text: 'Unlock 4-5 related insights at once', included: true },
       { text: 'Entire Category (e.g., Risks) access', included: true },
-      { text: 'Full Report Bundle for ₹169', included: true },
+      { text: 'Full Report — one-time bundle unlock', included: true },
       { text: 'Permanent Lifetime Access', included: true },
       { text: 'Divorce & Infidelity Risk Module', included: true },
       { text: 'Sexual & Intimacy Module', included: true },
@@ -58,7 +62,8 @@ const TIERS = [
   },
   {
     name: 'Premium',
-    price: '₹399',
+    priceKey: 'premium_monthly' as const,
+    staticPrice: null,
     period: '/month',
     color: 'amber',
     icon: <Crown className="w-7 h-7" />,
@@ -82,7 +87,8 @@ const TIERS = [
   },
   {
     name: 'Astrologer',
-    price: '₹1,499',
+    priceKey: 'astrologer_monthly' as const,
+    staticPrice: null,
     period: '/month',
     color: 'purple',
     icon: <Shield className="w-7 h-7" />,
@@ -109,8 +115,8 @@ const FAQS = [
     a: 'All astrological calculations happen client-side in your browser using Swiss Ephemeris WASM. Your birth data never leaves your device for computations. Only your profile (name, DOB) is stored in our encrypted Supabase database if you choose to save it.',
   },
   {
-    q: 'What payment methods will you accept?',
-    a: 'We support Razorpay which includes UPI (GPay, PhonePe), credit/debit cards, net banking, and wallets. One-time module unlocks (₹49), full report bundles (₹169), and monthly subscriptions (₹399) are all supported.',
+    q: 'What payment methods do you accept?',
+    a: 'India: UPI (GPay, PhonePe), credit/debit cards, net banking, and wallets via Razorpay. International: Visa/Mastercard/Amex international cards accepted in USD. Prices are shown in your local currency automatically.',
   },
   {
     q: 'Can I cancel my subscription anytime?',
@@ -132,7 +138,18 @@ export const PricingPage: React.FC = () => {
   const [notified, setNotified] = useState(false);
   const [loadingTier, setLoadingTier] = useState<string | null>(null);
   const [paymentError, setPaymentError] = useState<string | null>(null);
+  const [currency, setCurrency] = useState<'INR' | 'USD'>('INR');
+  const [isInternational, setIsInternational] = useState(false);
   const loadPlanFromCloud = useUserProfileStore((s) => s.loadPlanFromCloud);
+
+  useEffect(() => {
+    detectRegion().then(({ currency: c, isInternational: intl }) => {
+      setCurrency(c);
+      setIsInternational(intl);
+    });
+  }, []);
+
+  const pricing = currency === 'USD' ? PRICING_USD : PRICING_INR;
 
   const handleTierCheckout = async (planType: 'premium_monthly' | 'astrologer_monthly', tierName: string) => {
     try {
@@ -232,6 +249,18 @@ export const PricingPage: React.FC = () => {
         </div>
       )}
 
+      {/* International pricing notice */}
+      {isInternational && (
+        <div className="max-w-5xl mx-auto px-4 mb-4">
+          <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/30 rounded-xl px-4 py-3 flex items-center gap-3 text-sm">
+            <Globe className="w-4 h-4 text-blue-500 flex-shrink-0" />
+            <span className="text-blue-700 dark:text-blue-300">
+              Showing <strong>USD pricing</strong> for international visitors. All features identical — pay in your local currency via card or PayPal.
+            </span>
+          </div>
+        </div>
+      )}
+
       {/* One-time unlock banner */}
       <div className="max-w-5xl mx-auto px-4 mb-8">
         <div className="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/10 dark:to-orange-900/10 rounded-2xl p-5 border border-amber-200 dark:border-amber-800/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
@@ -240,7 +269,7 @@ export const PricingPage: React.FC = () => {
               <Lock className="w-4 h-4" /> One-Time Section Unlock
             </p>
             <p className="text-sm text-amber-700 dark:text-amber-300 mt-0.5">
-              ₹49 per entire module or ₹169 for the full report — permanent access, no subscription needed
+              {pricing.section_unlock.display.replace('/mo', '')} per entire module or {pricing.full_report_unlock.display.replace('/mo', '')} for the full report — permanent access, no subscription needed
             </p>
           </div>
           <span className="text-xs font-bold px-3 py-1.5 bg-amber-200 dark:bg-amber-800/40 text-amber-800 dark:text-amber-200 rounded-full">
@@ -268,7 +297,13 @@ export const PricingPage: React.FC = () => {
             <div className={`text-${tier.color}-600 dark:text-${tier.color}-400 mb-3`}>{tier.icon}</div>
             <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">{tier.name}</h3>
             <div className="mt-2 mb-5">
-              <span className="text-4xl font-bold text-gray-800 dark:text-gray-100">{tier.price}</span>
+              <span className="text-4xl font-bold text-gray-800 dark:text-gray-100">
+                {tier.staticPrice
+                  ? tier.staticPrice[currency]
+                  : tier.priceKey
+                    ? pricing[tier.priceKey].display.replace('/mo', '')
+                    : '—'}
+              </span>
               <span className="text-sm text-gray-500">{tier.period}</span>
             </div>
             <ul className="space-y-2.5 mb-6">
