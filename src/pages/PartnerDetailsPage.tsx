@@ -27,7 +27,7 @@ export const PartnerDetailsPage: React.FC = () => {
         if (!partnerId) return;
         if (window.confirm('Are you sure you want to remove this partner?')) {
             await removePartner(partnerId);
-            navigate('/');
+            navigate('/dashboard');
         }
     };
 
@@ -53,7 +53,7 @@ export const PartnerDetailsPage: React.FC = () => {
             <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
                 <div className="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
                     <button
-                        onClick={() => navigate('/')}
+                        onClick={() => navigate('/dashboard')}
                         className="p-2 -ml-2 text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors flex items-center gap-2"
                     >
                         <ArrowLeft className="w-5 h-5" />

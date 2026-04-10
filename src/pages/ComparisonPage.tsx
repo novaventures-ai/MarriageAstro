@@ -82,7 +82,7 @@ export const ComparisonPage: React.FC = () => {
             {/* Header */}
             <header className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-6 py-4 bg-white/10 backdrop-blur-md dark:bg-black/10 transition-colors duration-500">
                 <button
-                    onClick={() => navigate('/')}
+                    onClick={() => navigate('/dashboard')}
                     className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                 >
                     <ArrowLeft className="w-5 h-5" />

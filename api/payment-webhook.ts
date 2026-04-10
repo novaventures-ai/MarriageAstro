@@ -57,7 +57,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const razorpay = (keyId && keySecret) ? new Razorpay({ key_id: keyId, key_secret: keySecret }) : null;
 
   // 1. Try to get metadata from payment notes
-  let { userId, planType, sectionToUnlock, reportKey } = payment.notes || {};
+  let { userId, planType, sectionToUnlock, reportKey, affiliateCode } = payment.notes || {};
 
   // 2. Fallback: If missing, try to fetch from Order notes (more reliable)
   if ((!userId || !planType) && payment.order_id && razorpay) {
@@ -69,6 +69,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         planType = planType || order.notes.planType;
         sectionToUnlock = sectionToUnlock || order.notes.sectionToUnlock;
         reportKey = reportKey || order.notes.reportKey;
+        affiliateCode = affiliateCode || order.notes.affiliateCode;
       }
     } catch (orderErr) {
       console.error('payment-webhook: failed to fetch order fallback:', orderErr);
@@ -128,6 +129,50 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     await db.from('payment_history').update({ status: 'success' }).eq('payment_id', payment.id);
     console.log(`payment-webhook: successfully fulfilled ${planType} for user ${userId}`);
+
+    // Credit affiliate commission if a referral code is present
+    if (affiliateCode) {
+      const commissionInr =
+        planType === 'astrologer_monthly' ? 200
+        : planType === 'premium_monthly' ? 100
+        : planType === 'full_report_unlock' ? 20
+        : 10; // section_unlock
+
+      try {
+        const { data: affiliate } = await db
+          .from('affiliates')
+          .select('id, total_conversions, pending_payout_inr')
+          .eq('affiliate_code', affiliateCode)
+          .eq('status', 'active')
+          .single();
+
+        if (affiliate) {
+          // Update aggregate totals on the affiliate row
+          await db
+            .from('affiliates')
+            .update({
+              total_conversions: (affiliate.total_conversions || 0) + 1,
+              pending_payout_inr: (affiliate.pending_payout_inr || 0) + commissionInr,
+            })
+            .eq('id', affiliate.id);
+
+          // Insert itemized record — single source of truth for both affiliate and admin audit
+          await db.from('affiliate_conversions').insert({
+            affiliate_code: affiliateCode,
+            payment_id: payment.id,
+            plan_type: planType,
+            commission_inr: commissionInr,
+          });
+
+          console.log(`payment-webhook: credited ₹${commissionInr} commission to affiliate ${affiliateCode}`);
+        } else {
+          console.warn(`payment-webhook: affiliate code "${affiliateCode}" not found or inactive`);
+        }
+      } catch (affErr) {
+        // Non-critical — don't fail the webhook if commission crediting fails
+        console.error('payment-webhook: affiliate commission crediting failed', affErr);
+      }
+    }
 
   } catch (err: any) {
     console.error('payment-webhook: fulfillment failed', err);

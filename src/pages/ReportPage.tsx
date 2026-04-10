@@ -256,7 +256,7 @@ export const ReportPage: React.FC = () => {
                 <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 dark:text-gray-400" />
               </button>
               <button
-                onClick={() => navigate('/')}
+                onClick={() => navigate('/dashboard')}
                 className="flex items-center gap-1.5 sm:gap-2 hover:opacity-80 transition-opacity cursor-pointer flex-shrink-0"
                 title="Go to Dashboard"
               >

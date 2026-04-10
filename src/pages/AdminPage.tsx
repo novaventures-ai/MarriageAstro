@@ -15,6 +15,7 @@ import {
   listAllUsers, grantPremium, revokePremium, UserRecord,
   getPushStats, sendPushBroadcast,
   listAffiliates, markAffiliatePaid, disableAffiliate, AffiliateRecord,
+  listAffiliateConversions, AffiliateConversion,
   listAllPayments, PaymentRecord,
 } from '../lib/adminService';
 import { PlanTier } from '../types';
@@ -55,6 +56,9 @@ export const AdminPage: React.FC = () => {
   const [affiliatesLoading, setAffiliatesLoading] = useState(false);
   const [affiliatesLoaded, setAffiliatesLoaded] = useState(false);
   const [affActionLoading, setAffActionLoading] = useState<string | null>(null);
+  const [expandedAffCode, setExpandedAffCode] = useState<string | null>(null);
+  const [conversionCache, setConversionCache] = useState<Record<string, AffiliateConversion[]>>({});
+  const [convLoading, setConvLoading] = useState<string | null>(null);
 
   useEffect(() => {
     if (!isAdmin) { navigate('/'); return; }
@@ -139,6 +143,17 @@ export const AdminPage: React.FC = () => {
     setAffActionLoading(null);
   };
 
+  const toggleConversions = async (code: string) => {
+    if (expandedAffCode === code) { setExpandedAffCode(null); return; }
+    setExpandedAffCode(code);
+    if (!conversionCache[code]) {
+      setConvLoading(code);
+      const rows = await listAffiliateConversions(code);
+      setConversionCache((c) => ({ ...c, [code]: rows }));
+      setConvLoading(null);
+    }
+  };
+
   // ─── Helpers ──────────────────────────────────────────────────────────────
   const tierBadge = (tier: PlanTier) => {
     switch (tier) {
@@ -167,7 +182,7 @@ export const AdminPage: React.FC = () => {
       <header className="sticky top-0 z-40 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <button onClick={() => navigate('/')} className="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+            <button onClick={() => navigate('/dashboard')} className="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
               <ArrowLeft className="w-5 h-5 text-gray-600 dark:text-gray-400" />
             </button>
             <Shield className="w-6 h-6 text-purple-600" />
@@ -543,51 +558,100 @@ export const AdminPage: React.FC = () => {
                     </thead>
                     <tbody className="divide-y divide-gray-50 dark:divide-gray-700/50">
                       {affiliates.map((aff) => (
-                        <tr key={aff.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors">
-                          <td className="px-4 py-3">
-                            <div>
-                              <p className="text-sm font-medium text-gray-800 dark:text-gray-100">{aff.affiliate_name}</p>
-                              <p className="text-xs text-gray-500">{aff.bureau_name || aff.affiliate_email || '—'}</p>
-                            </div>
-                          </td>
-                          <td className="px-4 py-3">
-                            <code className="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded font-mono text-gray-700 dark:text-gray-300">
-                              {aff.affiliate_code}
-                            </code>
-                          </td>
-                          <td className="px-4 py-3 text-sm text-gray-700 dark:text-gray-300 font-medium">{aff.total_referrals ?? 0}</td>
-                          <td className="px-4 py-3 text-sm text-gray-700 dark:text-gray-300 font-medium">{aff.total_conversions ?? 0}</td>
-                          <td className="px-4 py-3 text-sm font-semibold text-amber-600">
-                            {aff.pending_payout_inr > 0 ? `₹${aff.pending_payout_inr}` : '—'}
-                          </td>
-                          <td className="px-4 py-3">{payoutBadge(aff.payout_status)}</td>
-                          <td className="px-4 py-3 text-right">
-                            <div className="flex items-center justify-end gap-2">
-                              {affActionLoading === aff.id ? (
-                                <RefreshCw className="w-4 h-4 animate-spin text-gray-400" />
-                              ) : (
-                                <>
-                                  {aff.payout_status === 'pending' && aff.pending_payout_inr > 0 && (
-                                    <button
-                                      onClick={() => handleMarkPaid(aff.id)}
-                                      className="px-2.5 py-1 text-xs font-medium bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300 rounded-lg hover:bg-amber-100 transition-colors flex items-center gap-1"
-                                    >
-                                      <CheckCircle className="w-3 h-3" /> Mark Paid
-                                    </button>
-                                  )}
-                                  {aff.payout_status !== 'disabled' && (
-                                    <button
-                                      onClick={() => handleDisable(aff.id)}
-                                      className="px-2.5 py-1 text-xs font-medium bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 rounded-lg hover:bg-red-100 transition-colors flex items-center gap-1"
-                                    >
-                                      <UserX className="w-3 h-3" /> Disable
-                                    </button>
-                                  )}
-                                </>
-                              )}
-                            </div>
-                          </td>
-                        </tr>
+                        <React.Fragment key={aff.id}>
+                          <tr className="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors">
+                            <td className="px-4 py-3">
+                              <div>
+                                <p className="text-sm font-medium text-gray-800 dark:text-gray-100">{aff.affiliate_name}</p>
+                                <p className="text-xs text-gray-500">{aff.bureau_name || aff.affiliate_email || '—'}</p>
+                              </div>
+                            </td>
+                            <td className="px-4 py-3">
+                              <code className="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded font-mono text-gray-700 dark:text-gray-300">
+                                {aff.affiliate_code}
+                              </code>
+                            </td>
+                            <td className="px-4 py-3 text-sm text-gray-700 dark:text-gray-300 font-medium">{aff.total_referrals ?? 0}</td>
+                            <td className="px-4 py-3">
+                              <button
+                                onClick={() => toggleConversions(aff.affiliate_code)}
+                                className="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1"
+                              >
+                                {aff.total_conversions ?? 0}
+                                <span className="text-xs text-gray-400">{expandedAffCode === aff.affiliate_code ? '▲' : '▼'}</span>
+                              </button>
+                            </td>
+                            <td className="px-4 py-3 text-sm font-semibold text-amber-600">
+                              {aff.pending_payout_inr > 0 ? `₹${aff.pending_payout_inr}` : '—'}
+                            </td>
+                            <td className="px-4 py-3">{payoutBadge(aff.payout_status)}</td>
+                            <td className="px-4 py-3 text-right">
+                              <div className="flex items-center justify-end gap-2">
+                                {affActionLoading === aff.id ? (
+                                  <RefreshCw className="w-4 h-4 animate-spin text-gray-400" />
+                                ) : (
+                                  <>
+                                    {aff.payout_status === 'pending' && aff.pending_payout_inr > 0 && (
+                                      <button
+                                        onClick={() => handleMarkPaid(aff.id)}
+                                        className="px-2.5 py-1 text-xs font-medium bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300 rounded-lg hover:bg-amber-100 transition-colors flex items-center gap-1"
+                                      >
+                                        <CheckCircle className="w-3 h-3" /> Mark Paid
+                                      </button>
+                                    )}
+                                    {aff.payout_status !== 'disabled' && (
+                                      <button
+                                        onClick={() => handleDisable(aff.id)}
+                                        className="px-2.5 py-1 text-xs font-medium bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 rounded-lg hover:bg-red-100 transition-colors flex items-center gap-1"
+                                      >
+                                        <UserX className="w-3 h-3" /> Disable
+                                      </button>
+                                    )}
+                                  </>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                          {/* Expanded conversion log */}
+                          {expandedAffCode === aff.affiliate_code && (
+                            <tr>
+                              <td colSpan={7} className="px-6 pb-4 pt-0 bg-indigo-50/50 dark:bg-indigo-900/10">
+                                {convLoading === aff.affiliate_code ? (
+                                  <p className="text-xs text-gray-400 py-3">Loading conversions…</p>
+                                ) : (conversionCache[aff.affiliate_code] ?? []).length === 0 ? (
+                                  <p className="text-xs text-gray-400 py-3">No conversions yet for this affiliate.</p>
+                                ) : (
+                                  <table className="w-full text-xs mt-2">
+                                    <thead>
+                                      <tr className="text-gray-400 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700">
+                                        <th className="pb-1 text-left font-semibold">Date</th>
+                                        <th className="pb-1 text-left font-semibold">Plan</th>
+                                        <th className="pb-1 text-left font-semibold">Payment ID</th>
+                                        <th className="pb-1 text-right font-semibold">Commission</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+                                      {(conversionCache[aff.affiliate_code] ?? []).map((c) => (
+                                        <tr key={c.id} className="text-gray-700 dark:text-gray-300">
+                                          <td className="py-1.5">{new Date(c.created_at).toLocaleDateString('en-IN')}</td>
+                                          <td className="py-1.5 capitalize">{c.plan_type.replace(/_/g, ' ')}</td>
+                                          <td className="py-1.5 font-mono text-gray-400">{c.payment_id}</td>
+                                          <td className="py-1.5 text-right font-semibold text-green-600">₹{c.commission_inr}</td>
+                                        </tr>
+                                      ))}
+                                      <tr className="font-semibold text-gray-800 dark:text-gray-100 border-t border-gray-300 dark:border-gray-600">
+                                        <td colSpan={3} className="pt-2">Total</td>
+                                        <td className="pt-2 text-right text-green-700">
+                                          ₹{(conversionCache[aff.affiliate_code] ?? []).reduce((s, c) => s + c.commission_inr, 0)}
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                )}
+                              </td>
+                            </tr>
+                          )}
+                        </React.Fragment>
                       ))}
                       {affiliates.length === 0 && (
                         <tr>
