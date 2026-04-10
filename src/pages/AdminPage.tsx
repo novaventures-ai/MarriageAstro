@@ -549,8 +549,9 @@ export const AdminPage: React.FC = () => {
                       <tr className="border-b border-gray-100 dark:border-gray-700">
                         <th className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Affiliate</th>
                         <th className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Code</th>
-                        <th className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Referrals</th>
-                        <th className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Conversions</th>
+                        <th className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Clicks</th>
+                        <th className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Signups</th>
+                        <th className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Paid ▼</th>
                         <th className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Pending ₹</th>
                         <th className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Status</th>
                         <th className="px-4 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Actions</th>
@@ -571,6 +572,7 @@ export const AdminPage: React.FC = () => {
                                 {aff.affiliate_code}
                               </code>
                             </td>
+                            <td className="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">{aff.total_clicks ?? 0}</td>
                             <td className="px-4 py-3 text-sm text-gray-700 dark:text-gray-300 font-medium">{aff.total_referrals ?? 0}</td>
                             <td className="px-4 py-3">
                               <button
@@ -615,7 +617,7 @@ export const AdminPage: React.FC = () => {
                           {/* Expanded conversion log */}
                           {expandedAffCode === aff.affiliate_code && (
                             <tr>
-                              <td colSpan={7} className="px-6 pb-4 pt-0 bg-indigo-50/50 dark:bg-indigo-900/10">
+                              <td colSpan={8} className="px-6 pb-4 pt-0 bg-indigo-50/50 dark:bg-indigo-900/10">
                                 {convLoading === aff.affiliate_code ? (
                                   <p className="text-xs text-gray-400 py-3">Loading conversions…</p>
                                 ) : (conversionCache[aff.affiliate_code] ?? []).length === 0 ? (
@@ -655,7 +657,7 @@ export const AdminPage: React.FC = () => {
                       ))}
                       {affiliates.length === 0 && (
                         <tr>
-                          <td colSpan={7} className="px-4 py-8 text-center text-gray-500">
+                          <td colSpan={8} className="px-4 py-8 text-center text-gray-500">
                             No affiliates yet. Share <code className="text-xs bg-gray-100 dark:bg-gray-700 px-1.5 py-0.5 rounded">/affiliate</code> with marriage bureau operators.
                           </td>
                         </tr>

@@ -72,7 +72,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       .from('affiliates')
       .select(
         'id, affiliate_code, affiliate_name, bureau_name, affiliate_email, ' +
-        'affiliate_whatsapp, total_referrals, total_conversions, ' +
+        'affiliate_whatsapp, total_clicks, total_referrals, total_conversions, ' +
         'pending_payout_inr, payout_status, created_at'
       )
       .order('created_at', { ascending: false });

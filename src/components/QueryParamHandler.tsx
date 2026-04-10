@@ -18,10 +18,21 @@ export const QueryParamHandler: React.FC = () => {
     const inviteData = searchParams.get('invite');
     const refCode = searchParams.get('ref');
 
-    // Capture affiliate ref code — store for up to 30 days
+    // Capture affiliate ref code — store for up to 30 days + track the click
     if (refCode) {
       localStorage.setItem('aff_ref', refCode);
       localStorage.setItem('aff_ref_ts', String(Date.now()));
+
+      // Track this link click server-side (once per session — debounced via sessionStorage)
+      const clickKey = `aff_click_${refCode}`;
+      if (!sessionStorage.getItem(clickKey)) {
+        sessionStorage.setItem(clickKey, '1');
+        fetch('/api/affiliate-track', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'click', code: refCode }),
+        }).catch(() => { /* non-critical */ });
+      }
     }
 
     if (shareData) {

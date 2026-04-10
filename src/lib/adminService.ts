@@ -116,6 +116,7 @@ export interface AffiliateRecord {
   bureau_name: string | null;
   affiliate_email: string | null;
   affiliate_whatsapp: string | null;
+  total_clicks: number;
   total_referrals: number;
   total_conversions: number;
   pending_payout_inr: number;
