@@ -52,14 +52,23 @@ export function AffiliatePage() {
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
 
+  const [stats, setStats] = useState<{ total_referrals: number; total_conversions: number }>({ total_referrals: 0, total_conversions: 0 });
+
   useEffect(() => {
     if (user) {
       setForm((f) => ({ ...f, email: user.email ?? '' }));
-      // Check if already registered
-      fetch(`/api/affiliate-track?userId=${user.id}`)
-        .then((r) => r.json())
-        .then((d) => { if (d.affiliate_code) setAffiliateCode(d.affiliate_code); })
-        .catch(() => {});
+      // Check if already registered — look up by user_id via Supabase directly
+      supabase
+        .from('affiliates')
+        .select('affiliate_code, total_referrals, total_conversions, pending_payout_inr')
+        .eq('user_id', user.id)
+        .single()
+        .then(({ data }) => {
+          if (data?.affiliate_code) {
+            setAffiliateCode(data.affiliate_code);
+            setStats({ total_referrals: data.total_referrals ?? 0, total_conversions: data.total_conversions ?? 0 });
+          }
+        });
     }
   }, [user]);
 
@@ -203,14 +212,18 @@ export function AffiliatePage() {
                     {copied ? 'Copied!' : 'Copy'}
                   </button>
                 </div>
-                <div className="grid grid-cols-2 gap-4 mb-4">
+                <div className="grid grid-cols-3 gap-4 mb-4">
                   <div className="bg-indigo-50 dark:bg-indigo-900/30 rounded-xl p-4 text-center">
-                    <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">—</div>
+                    <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">{stats.total_referrals}</div>
                     <div className="text-xs text-gray-500 mt-1">Referrals</div>
                   </div>
+                  <div className="bg-purple-50 dark:bg-purple-900/30 rounded-xl p-4 text-center">
+                    <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">{stats.total_conversions}</div>
+                    <div className="text-xs text-gray-500 mt-1">Conversions</div>
+                  </div>
                   <div className="bg-green-50 dark:bg-green-900/30 rounded-xl p-4 text-center">
-                    <div className="text-2xl font-bold text-green-600 dark:text-green-400">₹0</div>
-                    <div className="text-xs text-gray-500 mt-1">Pending payout</div>
+                    <div className="text-2xl font-bold text-green-600 dark:text-green-400">₹{stats.total_conversions * 100}</div>
+                    <div className="text-xs text-gray-500 mt-1">Earnings</div>
                   </div>
                 </div>
                 <p className="text-xs text-gray-400 text-center">

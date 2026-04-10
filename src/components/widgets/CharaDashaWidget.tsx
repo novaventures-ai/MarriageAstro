@@ -7,6 +7,7 @@
 import React, { useState } from 'react';
 import { Calendar, Star, Clock, ArrowRight, Sparkles } from 'lucide-react';
 import { CharaDashaAnalysis } from '../../types/extendedTypes';
+import { JargonTooltip } from '../ui/JargonTooltip';
 
 interface CharaDashaWidgetProps {
   partnerA: CharaDashaAnalysis;
@@ -55,7 +56,7 @@ export const CharaDashaWidget: React.FC<CharaDashaWidgetProps> = ({
             <Calendar className="w-7 h-7" />
           </div>
           <div>
-            <h2 className="text-2xl font-bold mb-1">Chara Dasha Timeline</h2>
+            <h2 className="text-2xl font-bold mb-1">Chara Dasha Timeline <JargonTooltip term="Chara Dasha" className="ml-1" /></h2>
             <p className="text-violet-100 text-sm leading-relaxed">
               Jaimini's sign-based dasha system — each sign rules a period of your life.
               Marriage is most likely when Darakaraka, 7th house, or Upapada signs are active.

@@ -3,6 +3,7 @@ import { CharaKarakas, CharaDashaAnalysis, UpapadaLagnaAnalysis, VivahSahamAnaly
 import { User, Briefcase, Users, Heart, GraduationCap, Baby, HeartHandshake, ArrowRight, ArrowLeft, Info, Star, Target, HelpCircle, BookOpen, Sparkles, RefreshCw, AlertCircle } from 'lucide-react';
 import { useGeminiInsight } from '../../hooks/useGeminiInsight';
 import ReactMarkdown from 'react-markdown';
+import { JargonTooltip } from '../ui/JargonTooltip';
 
 interface CharaKarakasWidgetProps {
   partnerA: {
@@ -122,7 +123,7 @@ export const CharaKarakasWidget: React.FC<CharaKarakasWidgetProps> = ({
             <User className="w-8 h-8" />
           </div>
           <div>
-            <h2 className="text-2xl font-bold mb-2">Jaimini Chara Karakas - {activeName}</h2>
+            <h2 className="text-2xl font-bold mb-2">Jaimini Chara Karakas <JargonTooltip term="Chara Karaka" className="ml-1" /> - {activeName}</h2>
             <p className="text-indigo-100 leading-relaxed">
               Chara Karakas are <strong>7 variable significators</strong> determined by the degrees of planets in your chart.
               Unlike fixed karakas, these change based on planetary positions and reveal your unique karmic blueprint.

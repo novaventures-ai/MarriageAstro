@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { CompatibilityReport, ConflictTrigger } from '../../types';
 import { Users, Coins, Brain, Zap, AlertCircle, Info, ShieldAlert, User, Lightbulb } from 'lucide-react';
+import { JargonTooltip } from '../ui/JargonTooltip';
 
 // ─── Inline remedy generator ─────────────────────────────────────────────────
 function getInlineRemedy(trigger: ConflictTrigger, categoryId: string): string {
@@ -181,7 +182,7 @@ export const ConflictZoneWidget: React.FC<ConflictZoneWidgetProps> = ({ report }
                     </div>
                     <div className="space-y-1">
                         <h3 className="font-bold text-lg leading-tight uppercase tracking-tight">
-                            Conflict Zone: {conflictZone.overallSeverity} Intensity
+                            Conflict Zone <JargonTooltip term="Conflict Zone" className="ml-1" />: {conflictZone.overallSeverity} Intensity
                         </h3>
                         <p className="text-sm font-medium opacity-90 leading-relaxed max-w-2xl">
                             {viewMode !== 'both'

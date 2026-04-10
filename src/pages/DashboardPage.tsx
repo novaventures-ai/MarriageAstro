@@ -128,6 +128,24 @@ export const DashboardPage: React.FC = () => {
     },
   };
 
+  const QUESTION_CARDS: Record<UserMode, { label: string; sub: string; path: string }[]> = {
+    searcher: [
+      { label: 'When will I marry?', sub: 'See your marriage timing windows', path: '/self-report' },
+      { label: 'What will my spouse be like?', sub: 'Vedic spouse prediction', path: selfChart ? '/self-report' : '/self-calculator' },
+      { label: 'Check my doshas', sub: 'Yoga & dosha analysis', path: selfChart ? '/self-report' : '/self-calculator' },
+    ],
+    decider: [
+      { label: 'Is this person right for me?', sub: 'Full compatibility report', path: partners.length > 0 ? `/quick-compare/${partners[0]?.id}` : '/add-partner' },
+      { label: 'What are the hidden risks?', sub: 'Risk radar & conflict analysis', path: partners.length > 0 ? `/quick-compare/${partners[0]?.id}` : '/add-partner' },
+      { label: 'Are we truly compatible?', sub: 'Deep 9-system analysis', path: partners.length > 0 ? `/quick-compare/${partners[0]?.id}` : '/add-partner' },
+    ],
+    navigator: [
+      { label: 'Why do we keep clashing?', sub: 'Conflict zone analysis', path: partners.length > 0 ? `/quick-compare/${partners[0]?.id}` : '/add-partner' },
+      { label: "What's coming this year?", sub: 'Vulnerability timeline', path: partners.length > 0 ? `/quick-compare/${partners[0]?.id}` : '/add-partner' },
+      { label: 'How to strengthen our bond?', sub: 'Remedies & recommendations', path: partners.length > 0 ? `/quick-compare/${partners[0]?.id}` : '/add-partner' },
+    ],
+  };
+
   const activeModeConfig = userMode ? modeConfig[userMode] : null;
 
   return (
@@ -186,6 +204,32 @@ export const DashboardPage: React.FC = () => {
           </div>
         );
       })()}
+
+      {/* Mode-specific question cards */}
+      {userMode && (
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          {QUESTION_CARDS[userMode].map((q) => (
+            <button
+              key={q.label}
+              onClick={() => navigate(q.path)}
+              className={`bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 text-left hover:shadow-md hover:border-${activeModeConfig?.color === 'violet' ? 'violet' : activeModeConfig?.color === 'rose' ? 'rose' : 'emerald'}-300 dark:hover:border-${activeModeConfig?.color === 'violet' ? 'violet' : activeModeConfig?.color === 'rose' ? 'rose' : 'emerald'}-700 transition-all group`}
+            >
+              <div className="flex items-start gap-3">
+                <HelpCircle className={`w-5 h-5 mt-0.5 flex-shrink-0 ${
+                  activeModeConfig?.color === 'violet' ? 'text-violet-500' :
+                  activeModeConfig?.color === 'rose' ? 'text-rose-500' : 'text-emerald-500'
+                }`} />
+                <div>
+                  <p className="text-sm font-semibold text-gray-800 dark:text-gray-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                    {q.label}
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{q.sub}</p>
+                </div>
+              </div>
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Stats row */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">

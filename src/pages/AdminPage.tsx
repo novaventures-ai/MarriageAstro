@@ -8,20 +8,22 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Shield, Crown, UserX, Search, ArrowLeft, RefreshCw,
-  Bell, Users, IndianRupee, Send, CheckCircle,
+  Bell, Users, IndianRupee, Send, CheckCircle, CreditCard,
 } from 'lucide-react';
 import { usePremium } from '../hooks/usePremium';
 import {
   listAllUsers, grantPremium, revokePremium, UserRecord,
   getPushStats, sendPushBroadcast,
   listAffiliates, markAffiliatePaid, disableAffiliate, AffiliateRecord,
+  listAllPayments, PaymentRecord,
 } from '../lib/adminService';
 import { PlanTier } from '../types';
 
-type Tab = 'users' | 'push' | 'affiliates';
+type Tab = 'users' | 'payments' | 'push' | 'affiliates';
 
 const TABS: { id: Tab; label: string; icon: React.ReactNode }[] = [
   { id: 'users',      label: 'Users',              icon: <Users className="w-4 h-4" /> },
+  { id: 'payments',   label: 'Payments',           icon: <CreditCard className="w-4 h-4" /> },
   { id: 'push',       label: 'Push Notifications', icon: <Bell className="w-4 h-4" /> },
   { id: 'affiliates', label: 'Affiliates',          icon: <IndianRupee className="w-4 h-4" /> },
 ];
@@ -43,6 +45,11 @@ export const AdminPage: React.FC = () => {
   const [pushSending, setPushSending] = useState(false);
   const [pushResult, setPushResult] = useState<{ sent: number; failed: number } | null>(null);
 
+  // ─── Payments tab state ──────────────────────────────────────────────────
+  const [payments, setPayments] = useState<PaymentRecord[]>([]);
+  const [paymentsLoading, setPaymentsLoading] = useState(false);
+  const [paymentsLoaded, setPaymentsLoaded] = useState(false);
+
   // ─── Affiliates tab state ────────────────────────────────────────────────
   const [affiliates, setAffiliates] = useState<AffiliateRecord[]>([]);
   const [affiliatesLoading, setAffiliatesLoading] = useState(false);
@@ -55,6 +62,7 @@ export const AdminPage: React.FC = () => {
   }, [isAdmin, navigate]);
 
   useEffect(() => {
+    if (tab === 'payments' && !paymentsLoaded) fetchPayments();
     if (tab === 'push' && pushCount === null) fetchPushStats();
     if (tab === 'affiliates' && !affiliatesLoaded) fetchAffiliates();
   }, [tab]);
@@ -85,6 +93,14 @@ export const AdminPage: React.FC = () => {
     u.email.toLowerCase().includes(search.toLowerCase()) ||
     (u.full_name || '').toLowerCase().includes(search.toLowerCase())
   );
+
+  // ─── Payments ─────────────────────────────────────────────────────────────
+  const fetchPayments = async () => {
+    setPaymentsLoading(true);
+    setPayments(await listAllPayments());
+    setPaymentsLoading(false);
+    setPaymentsLoaded(true);
+  };
 
   // ─── Push ─────────────────────────────────────────────────────────────────
   const fetchPushStats = async () => {
@@ -160,6 +176,11 @@ export const AdminPage: React.FC = () => {
           {tab === 'users' && (
             <button onClick={fetchUsers} disabled={usersLoading} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
               <RefreshCw className={`w-5 h-5 text-gray-600 dark:text-gray-400 ${usersLoading ? 'animate-spin' : ''}`} />
+            </button>
+          )}
+          {tab === 'payments' && (
+            <button onClick={fetchPayments} disabled={paymentsLoading} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+              <RefreshCw className={`w-5 h-5 text-gray-600 dark:text-gray-400 ${paymentsLoading ? 'animate-spin' : ''}`} />
             </button>
           )}
           {tab === 'affiliates' && (
@@ -288,6 +309,88 @@ export const AdminPage: React.FC = () => {
                         <tr>
                           <td colSpan={4} className="px-4 py-8 text-center text-gray-500">
                             {search ? 'No users match your search.' : 'No users found.'}
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+          </>
+        )}
+
+        {/* ── PAYMENTS TAB ─────────────────────────────────────────────────── */}
+        {tab === 'payments' && (
+          <>
+            <div className="grid grid-cols-3 gap-4 mb-6">
+              <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm">
+                <p className="text-xs text-gray-500 uppercase tracking-wider">Total Transactions</p>
+                <p className="text-2xl font-bold text-gray-800 dark:text-gray-100">{payments.length}</p>
+              </div>
+              <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm">
+                <p className="text-xs text-gray-500 uppercase tracking-wider">Successful</p>
+                <p className="text-2xl font-bold text-green-600">{payments.filter(p => p.status === 'success').length}</p>
+              </div>
+              <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm">
+                <p className="text-xs text-gray-500 uppercase tracking-wider">Total Revenue</p>
+                <p className="text-2xl font-bold text-indigo-600">
+                  ₹{payments.filter(p => p.status === 'success').reduce((s, p) => s + (p.amount / 100), 0).toLocaleString('en-IN')}
+                </p>
+              </div>
+            </div>
+
+            {paymentsLoading ? (
+              <div className="text-center py-12 text-gray-500">Loading payments...</div>
+            ) : (
+              <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b border-gray-100 dark:border-gray-700">
+                        <th className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">User</th>
+                        <th className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Type</th>
+                        <th className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Amount</th>
+                        <th className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Status</th>
+                        <th className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Date</th>
+                        <th className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Payment ID</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-50 dark:divide-gray-700/50">
+                      {payments.map((p) => (
+                        <tr key={p.payment_id} className="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors">
+                          <td className="px-4 py-3">
+                            <p className="text-sm text-gray-800 dark:text-gray-100 truncate max-w-[200px]">{p.user_email || p.user_id.slice(0, 8)}</p>
+                          </td>
+                          <td className="px-4 py-3">
+                            <span className="text-xs font-medium capitalize text-gray-700 dark:text-gray-300">
+                              {p.section_id ? `Section: ${p.section_id.replace(/_/g, ' ')}` : p.plan_type.replace(/_/g, ' ')}
+                            </span>
+                          </td>
+                          <td className="px-4 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300">₹{p.amount / 100}</td>
+                          <td className="px-4 py-3">
+                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
+                              p.status === 'success' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' :
+                              p.status === 'failed' ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' :
+                              'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400'
+                            }`}>
+                              {p.status}
+                            </span>
+                          </td>
+                          <td className="px-4 py-3 text-xs text-gray-500 whitespace-nowrap">
+                            {new Date(p.created_at).toLocaleDateString()} {new Date(p.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                          </td>
+                          <td className="px-4 py-3">
+                            <code className="text-[10px] bg-gray-100 dark:bg-gray-700 px-1.5 py-0.5 rounded font-mono text-gray-500 truncate max-w-[120px] inline-block">
+                              {p.payment_id}
+                            </code>
+                          </td>
+                        </tr>
+                      ))}
+                      {payments.length === 0 && (
+                        <tr>
+                          <td colSpan={6} className="px-4 py-8 text-center text-gray-500">
+                            No payment records found.
                           </td>
                         </tr>
                       )}
