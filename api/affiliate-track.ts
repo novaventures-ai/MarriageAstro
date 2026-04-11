@@ -59,32 +59,63 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   // ── POST action=register: sign up as affiliate ──────────────────────────────
   if (body.action === 'register') {
-    const { name, email, whatsapp, bureauName, userId } = body;
+    const { name, email, whatsapp, bureauName, upiId, userId } = body;
     if (!name || !email || !userId) {
       return res.status(400).json({ error: 'name, email, userId required' });
     }
+    const emailLower = email.toLowerCase().trim();
 
-    // Check if already registered
-    const { data: existing } = await supabase
+    // Case 1: Already registered by this user_id
+    const { data: byUserId } = await supabase
       .from('affiliates')
-      .select('affiliate_code')
+      .select('affiliate_code, upi_id')
       .eq('user_id', userId)
       .single();
 
-    if (existing) {
-      return res.status(200).json({ affiliate_code: existing.affiliate_code, alreadyExists: true });
+    if (byUserId) {
+      // Update UPI if provided
+      if (upiId?.trim()) {
+        await supabase.from('affiliates').update({ upi_id: upiId.trim() }).eq('user_id', userId);
+      }
+      return res.status(200).json({ affiliate_code: byUserId.affiliate_code, alreadyExists: true });
     }
 
-    const code = generateCode(name);
+    // Case 2: Admin pre-registered by email (no user_id yet) — link account
+    const { data: byEmail } = await supabase
+      .from('affiliates')
+      .select('affiliate_code, upi_id')
+      .eq('affiliate_email', emailLower)
+      .single();
+
+    if (byEmail) {
+      await supabase.from('affiliates').update({
+        user_id: userId,
+        affiliate_name: name.trim(),
+        affiliate_whatsapp: whatsapp?.trim() || null,
+        bureau_name: bureauName?.trim() || null,
+        upi_id: upiId?.trim() || byEmail.upi_id || null,
+        status: 'active',
+      }).eq('affiliate_email', emailLower);
+      return res.status(200).json({ affiliate_code: byEmail.affiliate_code, alreadyExists: false });
+    }
+
+    // Case 3: Brand new affiliate
+    const slug = name.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6);
+    const rand = Math.random().toString(36).slice(2, 6).toUpperCase();
+    const code = `AFF-${slug}-${rand}`;
+
     const { data, error } = await supabase
       .from('affiliates')
       .insert({
         user_id: userId,
         affiliate_code: code,
-        affiliate_name: name,
-        affiliate_email: email,
-        affiliate_whatsapp: whatsapp || null,
-        bureau_name: bureauName || null,
+        affiliate_name: name.trim(),
+        affiliate_email: emailLower,
+        affiliate_whatsapp: whatsapp?.trim() || null,
+        bureau_name: bureauName?.trim() || null,
+        upi_id: upiId?.trim() || null,
+        status: 'active',
+        payout_status: 'pending',
       })
       .select('affiliate_code')
       .single();

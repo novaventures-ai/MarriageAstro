@@ -109,50 +109,29 @@ export function AffiliatePage() {
     setSubmitting(true);
     setError('');
     try {
-      await supabase.auth.getSession();
-      const emailLower = form.email.toLowerCase().trim();
-
-      // Check if admin already created this affiliate (by email)
-      const { data: existing } = await supabase
-        .from('affiliates')
-        .select('affiliate_code, upi_id')
-        .eq('affiliate_email', emailLower)
-        .single();
-
-      if (existing) {
-        // Link user_id to admin-created record + update UPI if provided
-        await supabase.from('affiliates')
-          .update({
-            user_id: user.id,
-            affiliate_name: form.name.trim(),
-            affiliate_whatsapp: form.whatsapp?.trim() || null,
-            bureau_name: form.bureauName?.trim() || null,
-            upi_id: form.upiId?.trim() || existing.upi_id || null,
-            status: 'active',
-          })
-          .eq('affiliate_email', emailLower);
-        setAffiliateCode(existing.affiliate_code);
-        setUpiId(form.upiId?.trim() || existing.upi_id || '');
-      } else {
-        // New registration
-        const code = `AFF-${form.name.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6)}-${Date.now().toString(36).toUpperCase()}`;
-        const { error: dbErr } = await supabase.from('affiliates').insert({
-          user_id: user.id,
-          affiliate_name: form.name.trim(),
-          affiliate_email: emailLower,
-          affiliate_whatsapp: form.whatsapp?.trim() || null,
-          bureau_name: form.bureauName?.trim() || null,
-          upi_id: form.upiId?.trim() || null,
-          affiliate_code: code,
-          status: 'active',
-          payout_status: 'pending',
-        });
-        if (dbErr) throw dbErr;
-        setAffiliateCode(code);
-        setUpiId(form.upiId?.trim() || '');
-      }
-    } catch {
-      setError('Something went wrong. Please try again.');
+      const { data: { session } } = await supabase.auth.getSession();
+      const res = await fetch('/api/affiliate-track', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {}),
+        },
+        body: JSON.stringify({
+          action: 'register',
+          name: form.name.trim(),
+          email: form.email.trim(),
+          whatsapp: form.whatsapp.trim(),
+          bureauName: form.bureauName.trim(),
+          upiId: form.upiId.trim(),
+          userId: user.id,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Registration failed');
+      setAffiliateCode(data.affiliate_code);
+      setUpiId(form.upiId.trim());
+    } catch (err: any) {
+      setError(err.message || 'Something went wrong. Please try again.');
     } finally {
       setSubmitting(false);
     }
