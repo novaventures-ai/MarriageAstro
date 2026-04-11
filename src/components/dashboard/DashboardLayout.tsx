@@ -293,6 +293,13 @@ export const DashboardLayout: React.FC = () => {
             <Menu className="w-5 h-5" />
           </button>
           <div className="flex-1" />
+          <NavLink
+            to="/affiliate"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 hover:bg-amber-100 dark:bg-amber-900/30 dark:hover:bg-amber-900/50 text-amber-700 dark:text-amber-300 text-xs font-semibold rounded-lg border border-amber-200 dark:border-amber-700/50 transition-colors"
+          >
+            <Banknote className="w-3.5 h-3.5" />
+            Earn ₹100
+          </NavLink>
           <GoogleTranslate />
           <ThemeToggle />
         </header>
