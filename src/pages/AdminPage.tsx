@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Shield, Crown, UserX, Search, ArrowLeft, RefreshCw,
-  Bell, Users, IndianRupee, Send, CheckCircle, CreditCard,
+  Bell, Users, IndianRupee, Send, CheckCircle, CreditCard, Copy,
 } from 'lucide-react';
 import { usePremium } from '../hooks/usePremium';
 import {
@@ -642,13 +642,22 @@ export const AdminPage: React.FC = () => {
                                 <p className="text-sm font-medium text-gray-800 dark:text-gray-100">{aff.affiliate_name}</p>
                                 <p className="text-xs text-gray-500">{aff.bureau_name || aff.affiliate_email || '—'}</p>
                                 {aff.upi_id ? (
-                                  <button
-                                    onClick={() => setUpiForm({ affiliateId: aff.id, affiliateName: aff.affiliate_name, current: aff.upi_id!, value: aff.upi_id! })}
-                                    className="text-[10px] text-indigo-500 hover:underline font-mono mt-0.5 block"
-                                    title="Click to update UPI ID"
-                                  >
-                                    {aff.upi_id}
-                                  </button>
+                                  <div className="flex items-center gap-1 mt-0.5">
+                                    <button
+                                      onClick={() => setUpiForm({ affiliateId: aff.id, affiliateName: aff.affiliate_name, current: aff.upi_id!, value: aff.upi_id! })}
+                                      className="text-[10px] text-indigo-500 hover:underline font-mono"
+                                      title="Click to update UPI ID"
+                                    >
+                                      {aff.upi_id}
+                                    </button>
+                                    <button
+                                      onClick={() => { navigator.clipboard.writeText(aff.upi_id!); }}
+                                      className="p-0.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded text-gray-400 hover:text-gray-600 transition-colors"
+                                      title="Copy UPI ID"
+                                    >
+                                      <Copy className="w-2.5 h-2.5" />
+                                    </button>
+                                  </div>
                                 ) : (
                                   <button
                                     onClick={() => setUpiForm({ affiliateId: aff.id, affiliateName: aff.affiliate_name, current: '', value: '' })}
