@@ -66,39 +66,33 @@ export function AffiliatePage() {
   const [upiSaving, setUpiSaving] = useState(false);
 
   useEffect(() => {
-    if (user) {
-      setForm((f) => ({ ...f, email: user.email ?? '' }));
-      supabase
-        .from('affiliates')
-        .select('affiliate_code, total_clicks, total_referrals, total_conversions, pending_payout_inr, upi_id')
-        .eq('user_id', user.id)
-        .single()
-        .then(({ data }) => {
-          if (data?.affiliate_code) {
-            setAffiliateCode(data.affiliate_code);
-            setUpiId(data.upi_id ?? '');
-            // Load itemized conversion log first to compute accurate total_earned
-            setConvsLoading(true);
-            supabase
-              .from('affiliate_conversions')
-              .select('id, payment_id, plan_type, commission_inr, created_at')
-              .eq('affiliate_code', data.affiliate_code)
-              .order('created_at', { ascending: false })
-              .then(({ data: convData }) => {
-                const rows = convData ?? [];
-                setConversions(rows);
-                setConvsLoading(false);
-                setStats({
-                  total_clicks: data.total_clicks ?? 0,
-                  total_referrals: data.total_referrals ?? 0,
-                  total_conversions: data.total_conversions ?? 0,
-                  pending_payout_inr: data.pending_payout_inr ?? 0,
-                  total_earned_inr: rows.reduce((s, c) => s + c.commission_inr, 0),
-                });
-              });
+    if (!user) return;
+    setForm((f) => ({ ...f, email: user.email ?? '' }));
+    // Load affiliate data through API (bypasses Supabase RLS)
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setConvsLoading(true);
+      fetch('/api/affiliate-track?me=1', {
+        headers: { Authorization: `Bearer ${session?.access_token ?? ''}` },
+      })
+        .then((r) => r.json())
+        .then(({ affiliate, conversions: convRows }) => {
+          if (affiliate?.affiliate_code) {
+            const rows = convRows ?? [];
+            setAffiliateCode(affiliate.affiliate_code);
+            setUpiId(affiliate.upi_id ?? '');
+            setConversions(rows);
+            setStats({
+              total_clicks: affiliate.total_clicks ?? 0,
+              total_referrals: affiliate.total_referrals ?? 0,
+              total_conversions: affiliate.total_conversions ?? 0,
+              pending_payout_inr: affiliate.pending_payout_inr ?? 0,
+              total_earned_inr: rows.reduce((s: number, c: any) => s + c.commission_inr, 0),
+            });
           }
-        });
-    }
+          setConvsLoading(false);
+        })
+        .catch(() => setConvsLoading(false));
+    });
   }, [user]);
 
   const referralLink = affiliateCode ? `${SITE_URL}/?ref=${affiliateCode}` : null;
@@ -138,12 +132,17 @@ export function AffiliatePage() {
   };
 
   const saveUpi = async (newUpi: string) => {
-    if (!user || !affiliateCode) return;
+    if (!user) return;
     setUpiSaving(true);
-    await supabase.from('affiliates')
-      .update({ upi_id: newUpi.trim() || null })
-      .eq('affiliate_code', affiliateCode)
-      .eq('user_id', user.id);
+    const { data: { session } } = await supabase.auth.getSession();
+    await fetch('/api/affiliate-track', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${session?.access_token ?? ''}`,
+      },
+      body: JSON.stringify({ action: 'updateUpi', upiId: newUpi }),
+    });
     setUpiId(newUpi.trim());
     setUpiEdit(false);
     setUpiSaving(false);
