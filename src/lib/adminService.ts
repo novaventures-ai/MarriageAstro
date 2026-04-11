@@ -157,6 +157,20 @@ export async function disableAffiliate(affiliateId: string): Promise<boolean> {
   return res.ok;
 }
 
+export async function addAffiliate(data: {
+  name: string; email: string; whatsapp?: string; bureauName?: string;
+}): Promise<{ success: boolean; affiliateCode?: string; error?: string }> {
+  const auth = await getAuthHeader();
+  const res = await fetch('/api/admin-affiliates', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: auth },
+    body: JSON.stringify({ action: 'addAffiliate', ...data }),
+  });
+  const json = await res.json();
+  if (res.ok) return { success: true, affiliateCode: json.affiliateCode };
+  return { success: false, error: json.error };
+}
+
 export async function creditMissedPayment(
   affiliateId: string,
   paymentId: string,

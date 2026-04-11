@@ -16,7 +16,7 @@ import {
   getPushStats, sendPushBroadcast,
   listAffiliates, markAffiliatePaid, disableAffiliate, AffiliateRecord,
   listAffiliateConversions, AffiliateConversion,
-  creditMissedPayment,
+  creditMissedPayment, addAffiliate,
   listAllPayments, PaymentRecord,
 } from '../lib/adminService';
 import { PlanTier } from '../types';
@@ -63,6 +63,10 @@ export const AdminPage: React.FC = () => {
   const [creditForm, setCreditForm] = useState<{ affiliateId: string; paymentId: string; commissionInr: string } | null>(null);
   const [creditLoading, setCreditLoading] = useState(false);
   const [creditError, setCreditError] = useState<string | null>(null);
+  const [addAffForm, setAddAffForm] = useState<{ name: string; email: string; whatsapp: string; bureauName: string } | null>(null);
+  const [addAffLoading, setAddAffLoading] = useState(false);
+  const [addAffError, setAddAffError] = useState<string | null>(null);
+  const [addAffResult, setAddAffResult] = useState<string | null>(null);
 
   useEffect(() => {
     if (!isAdmin) { navigate('/'); return; }
@@ -147,6 +151,20 @@ export const AdminPage: React.FC = () => {
     setAffActionLoading(null);
   };
 
+  const handleAddAffiliate = async () => {
+    if (!addAffForm) return;
+    setAddAffLoading(true);
+    setAddAffError(null);
+    const result = await addAffiliate(addAffForm);
+    if (result.success) {
+      setAddAffResult(result.affiliateCode!);
+      await fetchAffiliates();
+    } else {
+      setAddAffError(result.error || 'Failed to add affiliate');
+    }
+    setAddAffLoading(false);
+  };
+
   const handleCreditMissed = async () => {
     if (!creditForm) return;
     setCreditLoading(true);
@@ -219,9 +237,17 @@ export const AdminPage: React.FC = () => {
             </button>
           )}
           {tab === 'affiliates' && (
-            <button onClick={fetchAffiliates} disabled={affiliatesLoading} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
-              <RefreshCw className={`w-5 h-5 text-gray-600 dark:text-gray-400 ${affiliatesLoading ? 'animate-spin' : ''}`} />
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => { setAddAffForm({ name: '', email: '', whatsapp: '', bureauName: '' }); setAddAffError(null); setAddAffResult(null); }}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors"
+              >
+                <IndianRupee className="w-3.5 h-3.5" /> Add Affiliate
+              </button>
+              <button onClick={fetchAffiliates} disabled={affiliatesLoading} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                <RefreshCw className={`w-5 h-5 text-gray-600 dark:text-gray-400 ${affiliatesLoading ? 'animate-spin' : ''}`} />
+              </button>
+            </div>
           )}
         </div>
       </header>
@@ -696,6 +722,75 @@ export const AdminPage: React.FC = () => {
           </>
         )}
       </div>
+
+      {/* Add Affiliate Modal */}
+      {addAffForm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-md p-6">
+            <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-1">Add Affiliate</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-5">
+              Manually register someone as an affiliate. They'll get a unique code you can share with them.
+            </p>
+            {addAffResult ? (
+              <div className="text-center py-4">
+                <div className="text-4xl mb-3">✓</div>
+                <p className="font-semibold text-gray-800 dark:text-gray-100 mb-2">Affiliate added!</p>
+                <p className="text-sm text-gray-500 mb-3">Their referral code:</p>
+                <code className="block text-lg font-bold bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded-xl px-4 py-3 mb-2">
+                  {addAffResult}
+                </code>
+                <p className="text-xs text-gray-400 mb-5">
+                  Share link: <span className="font-mono">https://marriage-astro.vercel.app?ref={addAffResult}</span>
+                </p>
+                <button onClick={() => setAddAffForm(null)} className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl text-sm transition-colors">
+                  Done
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Name *</label>
+                    <input type="text" value={addAffForm.name} onChange={(e) => setAddAffForm((f) => f && ({ ...f, name: e.target.value }))}
+                      placeholder="Ramesh Sharma"
+                      className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Email *</label>
+                    <input type="email" value={addAffForm.email} onChange={(e) => setAddAffForm((f) => f && ({ ...f, email: e.target.value }))}
+                      placeholder="ramesh@example.com"
+                      className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">WhatsApp</label>
+                    <input type="tel" value={addAffForm.whatsapp} onChange={(e) => setAddAffForm((f) => f && ({ ...f, whatsapp: e.target.value }))}
+                      placeholder="+91 98765 43210"
+                      className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Bureau / Business</label>
+                    <input type="text" value={addAffForm.bureauName} onChange={(e) => setAddAffForm((f) => f && ({ ...f, bureauName: e.target.value }))}
+                      placeholder="Sharma Vivah Kendra"
+                      className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none" />
+                  </div>
+                </div>
+                {addAffError && <p className="text-sm text-red-600 dark:text-red-400">{addAffError}</p>}
+                <div className="flex gap-3 pt-2">
+                  <button onClick={() => setAddAffForm(null)}
+                    className="flex-1 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 transition-colors">
+                    Cancel
+                  </button>
+                  <button onClick={handleAddAffiliate} disabled={addAffLoading || !addAffForm.name.trim() || !addAffForm.email.trim()}
+                    className="flex-1 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 text-white text-sm font-semibold transition-colors flex items-center justify-center gap-2">
+                    {addAffLoading ? <RefreshCw className="w-4 h-4 animate-spin" /> : null}
+                    Add & Generate Code
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Credit Missed Payment Modal */}
       {creditForm && (

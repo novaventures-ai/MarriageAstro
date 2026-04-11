@@ -85,7 +85,45 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { action, affiliateId } = req.body as { action: string; affiliateId: string };
+  const { action, affiliateId } = req.body as { action: string; affiliateId?: string };
+
+  // ── addAffiliate: admin manually registers an affiliate ───────────────────
+  if (action === 'addAffiliate') {
+    const { name, email, whatsapp, bureauName } = req.body as {
+      action: string; name: string; email: string; whatsapp?: string; bureauName?: string;
+    };
+    if (!name || !email) return res.status(400).json({ error: 'name and email required' });
+
+    // Generate a readable affiliate code
+    const slug = name.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6);
+    const rand = Math.random().toString(36).slice(2, 6).toUpperCase();
+    const code = `AFF-${slug}-${rand}`;
+
+    // Check if email already registered
+    const { data: existing } = await db
+      .from('affiliates')
+      .select('affiliate_code')
+      .eq('affiliate_email', email.toLowerCase().trim())
+      .single();
+    if (existing) return res.status(409).json({ error: 'An affiliate with this email already exists', code: existing.affiliate_code });
+
+    const { data, error } = await db
+      .from('affiliates')
+      .insert({
+        affiliate_code: code,
+        affiliate_name: name.trim(),
+        affiliate_email: email.toLowerCase().trim(),
+        affiliate_whatsapp: whatsapp?.trim() || null,
+        bureau_name: bureauName?.trim() || null,
+        status: 'active',
+        payout_status: 'pending',
+      })
+      .select('id, affiliate_code')
+      .single();
+
+    if (error) return res.status(500).json({ error: error.message });
+    return res.status(201).json({ success: true, affiliateCode: data.affiliate_code });
+  }
 
   if (!affiliateId) {
     return res.status(400).json({ error: 'affiliateId required' });
@@ -114,8 +152,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   // ── creditMissed: manually credit a past payment to an affiliate ──────────
-  if (action === 'creditMissed') {
-    const { paymentId, commissionInr } = req.body as { action: string; affiliateId: string; paymentId: string; commissionInr: number };
+  if (action === 'creditMissed') {    const { paymentId, commissionInr } = req.body as { action: string; affiliateId: string; paymentId: string; commissionInr: number };
     if (!paymentId || !commissionInr) return res.status(400).json({ error: 'paymentId and commissionInr required' });
 
     // Get affiliate details
