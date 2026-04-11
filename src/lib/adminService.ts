@@ -121,6 +121,7 @@ export interface AffiliateRecord {
   total_conversions: number;
   pending_payout_inr: number;
   payout_status: string;
+  upi_id: string | null;
   created_at: string;
 }
 
@@ -158,7 +159,7 @@ export async function disableAffiliate(affiliateId: string): Promise<boolean> {
 }
 
 export async function addAffiliate(data: {
-  name: string; email: string; whatsapp?: string; bureauName?: string;
+  name: string; email: string; whatsapp?: string; bureauName?: string; upiId?: string;
 }): Promise<{ success: boolean; affiliateCode?: string; error?: string }> {
   const auth = await getAuthHeader();
   const res = await fetch('/api/admin-affiliates', {
@@ -193,6 +194,29 @@ export interface AffiliateConversion {
   plan_type: string;
   commission_inr: number;
   created_at: string;
+}
+
+export async function payoutAffiliate(affiliateId: string): Promise<{ success: boolean; payoutId?: string; status?: string; error?: string }> {
+  const auth = await getAuthHeader();
+  const res = await fetch('/api/admin-affiliates', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: auth },
+    body: JSON.stringify({ action: 'payout', affiliateId }),
+  });
+  const data = await res.json();
+  return res.ok
+    ? { success: true, payoutId: data.payoutId, status: data.status }
+    : { success: false, error: data.error };
+}
+
+export async function updateAffiliateUpiId(affiliateId: string, upiId: string): Promise<boolean> {
+  const auth = await getAuthHeader();
+  const res = await fetch('/api/admin-affiliates', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: auth },
+    body: JSON.stringify({ action: 'updateUpiId', affiliateId, upiId }),
+  });
+  return res.ok;
 }
 
 export async function listAffiliateConversions(affiliateCode: string): Promise<AffiliateConversion[]> {

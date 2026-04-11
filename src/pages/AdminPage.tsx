@@ -17,6 +17,7 @@ import {
   listAffiliates, markAffiliatePaid, disableAffiliate, AffiliateRecord,
   listAffiliateConversions, AffiliateConversion,
   creditMissedPayment, addAffiliate,
+  payoutAffiliate, updateAffiliateUpiId,
   listAllPayments, PaymentRecord,
 } from '../lib/adminService';
 import { PlanTier } from '../types';
@@ -63,10 +64,14 @@ export const AdminPage: React.FC = () => {
   const [creditForm, setCreditForm] = useState<{ affiliateId: string; paymentId: string; commissionInr: string } | null>(null);
   const [creditLoading, setCreditLoading] = useState(false);
   const [creditError, setCreditError] = useState<string | null>(null);
-  const [addAffForm, setAddAffForm] = useState<{ name: string; email: string; whatsapp: string; bureauName: string } | null>(null);
+  const [addAffForm, setAddAffForm] = useState<{ name: string; email: string; whatsapp: string; bureauName: string; upiId: string } | null>(null);
   const [addAffLoading, setAddAffLoading] = useState(false);
   const [addAffError, setAddAffError] = useState<string | null>(null);
   const [addAffResult, setAddAffResult] = useState<string | null>(null);
+  const [payoutLoading, setPayoutLoading] = useState<string | null>(null);
+  const [payoutResult, setPayoutResult] = useState<{ id: string; msg: string } | null>(null);
+  const [upiForm, setUpiForm] = useState<{ affiliateId: string; affiliateName: string; current: string; value: string } | null>(null);
+  const [upiLoading, setUpiLoading] = useState(false);
 
   useEffect(() => {
     if (!isAdmin) { navigate('/'); return; }
@@ -155,7 +160,7 @@ export const AdminPage: React.FC = () => {
     if (!addAffForm) return;
     setAddAffLoading(true);
     setAddAffError(null);
-    const result = await addAffiliate(addAffForm);
+    const result = await addAffiliate({ ...addAffForm, upiId: addAffForm.upiId || undefined });
     if (result.success) {
       setAddAffResult(result.affiliateCode!);
       await fetchAffiliates();
@@ -190,6 +195,31 @@ export const AdminPage: React.FC = () => {
       setConversionCache((c) => ({ ...c, [code]: rows }));
       setConvLoading(null);
     }
+  };
+
+  const handlePayout = async (aff: AffiliateRecord) => {
+    if (!window.confirm(`Pay ₹${aff.pending_payout_inr} to ${aff.affiliate_name} via UPI (${aff.upi_id})?`)) return;
+    setPayoutLoading(aff.id);
+    setPayoutResult(null);
+    const result = await payoutAffiliate(aff.id);
+    if (result.success) {
+      setPayoutResult({ id: aff.id, msg: `✓ Payout initiated — Razorpay ID: ${result.payoutId} (${result.status})` });
+      await fetchAffiliates();
+    } else {
+      setPayoutResult({ id: aff.id, msg: `✗ ${result.error}` });
+    }
+    setPayoutLoading(null);
+  };
+
+  const handleSaveUpi = async () => {
+    if (!upiForm) return;
+    setUpiLoading(true);
+    const ok = await updateAffiliateUpiId(upiForm.affiliateId, upiForm.value.trim());
+    if (ok) {
+      setUpiForm(null);
+      await fetchAffiliates();
+    }
+    setUpiLoading(false);
   };
 
   // ─── Helpers ──────────────────────────────────────────────────────────────
@@ -239,7 +269,7 @@ export const AdminPage: React.FC = () => {
           {tab === 'affiliates' && (
             <div className="flex items-center gap-2">
               <button
-                onClick={() => { setAddAffForm({ name: '', email: '', whatsapp: '', bureauName: '' }); setAddAffError(null); setAddAffResult(null); }}
+                onClick={() => { setAddAffForm({ name: '', email: '', whatsapp: '', bureauName: '', upiId: '' }); setAddAffError(null); setAddAffResult(null); }}
                 className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors"
               >
                 <IndianRupee className="w-3.5 h-3.5" /> Add Affiliate
@@ -611,6 +641,22 @@ export const AdminPage: React.FC = () => {
                               <div>
                                 <p className="text-sm font-medium text-gray-800 dark:text-gray-100">{aff.affiliate_name}</p>
                                 <p className="text-xs text-gray-500">{aff.bureau_name || aff.affiliate_email || '—'}</p>
+                                {aff.upi_id ? (
+                                  <button
+                                    onClick={() => setUpiForm({ affiliateId: aff.id, affiliateName: aff.affiliate_name, current: aff.upi_id!, value: aff.upi_id! })}
+                                    className="text-[10px] text-indigo-500 hover:underline font-mono mt-0.5 block"
+                                    title="Click to update UPI ID"
+                                  >
+                                    {aff.upi_id}
+                                  </button>
+                                ) : (
+                                  <button
+                                    onClick={() => setUpiForm({ affiliateId: aff.id, affiliateName: aff.affiliate_name, current: '', value: '' })}
+                                    className="text-[10px] text-amber-500 hover:underline mt-0.5 block"
+                                  >
+                                    + Set UPI ID
+                                  </button>
+                                )}
                               </div>
                             </td>
                             <td className="px-4 py-3">
@@ -635,17 +681,27 @@ export const AdminPage: React.FC = () => {
                             <td className="px-4 py-3">{payoutBadge(aff.payout_status)}</td>
                             <td className="px-4 py-3 text-right">
                               <div className="flex items-center justify-end gap-2">
-                                {affActionLoading === aff.id ? (
+                                {affActionLoading === aff.id || payoutLoading === aff.id ? (
                                   <RefreshCw className="w-4 h-4 animate-spin text-gray-400" />
                                 ) : (
                                   <>
                                     {aff.payout_status === 'pending' && aff.pending_payout_inr > 0 && (
-                                      <button
-                                        onClick={() => handleMarkPaid(aff.id)}
-                                        className="px-2.5 py-1 text-xs font-medium bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300 rounded-lg hover:bg-amber-100 transition-colors flex items-center gap-1"
-                                      >
-                                        <CheckCircle className="w-3 h-3" /> Mark Paid
-                                      </button>
+                                      aff.upi_id ? (
+                                        <button
+                                          onClick={() => handlePayout(aff)}
+                                          className="px-2.5 py-1 text-xs font-medium bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors flex items-center gap-1"
+                                          title={`Pay ₹${aff.pending_payout_inr} via UPI to ${aff.upi_id}`}
+                                        >
+                                          <IndianRupee className="w-3 h-3" /> Pay ₹{aff.pending_payout_inr}
+                                        </button>
+                                      ) : (
+                                        <button
+                                          onClick={() => handleMarkPaid(aff.id)}
+                                          className="px-2.5 py-1 text-xs font-medium bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300 rounded-lg hover:bg-amber-100 transition-colors flex items-center gap-1"
+                                        >
+                                          <CheckCircle className="w-3 h-3" /> Mark Paid
+                                        </button>
+                                      )
                                     )}
                                     <button
                                       onClick={() => { setCreditForm({ affiliateId: aff.id, paymentId: '', commissionInr: '100' }); setCreditError(null); }}
@@ -666,6 +722,14 @@ export const AdminPage: React.FC = () => {
                               </div>
                             </td>
                           </tr>
+                          {/* Payout result feedback */}
+                          {payoutResult?.id === aff.id && (
+                            <tr>
+                              <td colSpan={8} className={`px-4 py-2 text-xs font-medium ${payoutResult.msg.startsWith('✓') ? 'text-green-600 bg-green-50 dark:bg-green-900/20' : 'text-red-600 bg-red-50 dark:bg-red-900/20'}`}>
+                                {payoutResult.msg}
+                              </td>
+                            </tr>
+                          )}
                           {/* Expanded conversion log */}
                           {expandedAffCode === aff.affiliate_code && (
                             <tr>
@@ -774,6 +838,12 @@ export const AdminPage: React.FC = () => {
                       className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none" />
                   </div>
                 </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">UPI ID <span className="text-gray-400 font-normal">(for instant payouts)</span></label>
+                  <input type="text" value={addAffForm.upiId} onChange={(e) => setAddAffForm((f) => f && ({ ...f, upiId: e.target.value }))}
+                    placeholder="ramesh@upi or 9876543210@paytm"
+                    className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-indigo-500 outline-none" />
+                </div>
                 {addAffError && <p className="text-sm text-red-600 dark:text-red-400">{addAffError}</p>}
                 <div className="flex gap-3 pt-2">
                   <button onClick={() => setAddAffForm(null)}
@@ -788,6 +858,38 @@ export const AdminPage: React.FC = () => {
                 </div>
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* UPI ID Edit Modal */}
+      {upiForm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-sm p-6">
+            <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-1">
+              {upiForm.current ? 'Update UPI ID' : 'Add UPI ID'}
+            </h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-5">
+              For <span className="font-medium text-gray-700 dark:text-gray-300">{upiForm.affiliateName}</span>. Used for one-click Razorpay payouts.
+            </p>
+            <input
+              type="text"
+              value={upiForm.value}
+              onChange={(e) => setUpiForm((f) => f && ({ ...f, value: e.target.value }))}
+              placeholder="name@upi or 9876543210@paytm"
+              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-indigo-500 outline-none mb-5"
+            />
+            <div className="flex gap-3">
+              <button onClick={() => setUpiForm(null)}
+                className="flex-1 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 transition-colors">
+                Cancel
+              </button>
+              <button onClick={handleSaveUpi} disabled={upiLoading || !upiForm.value.trim()}
+                className="flex-1 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 text-white text-sm font-semibold transition-colors flex items-center justify-center gap-2">
+                {upiLoading ? <RefreshCw className="w-4 h-4 animate-spin" /> : null}
+                Save UPI ID
+              </button>
+            </div>
           </div>
         </div>
       )}
