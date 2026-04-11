@@ -132,11 +132,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // Credit affiliate commission if a referral code is present
     if (affiliateCode) {
-      const commissionInr =
-        planType === 'astrologer_monthly' ? 200
-        : planType === 'premium_monthly' ? 100
-        : planType === 'full_report_unlock' ? 20
-        : 10; // section_unlock
+      const isUsd = (payment.currency || '').toUpperCase() === 'USD';
+
+      // INR commission: ₹10 / ₹20 / ₹100 / ₹200
+      // USD purchases earn higher commission (prices are ~3-4x higher)
+      const commissionInr = isUsd
+        ? (planType === 'astrologer_monthly' ? 400
+          : planType === 'premium_monthly' ? 200
+          : planType === 'full_report_unlock' ? 80
+          : 40) // section_unlock
+        : (planType === 'astrologer_monthly' ? 200
+          : planType === 'premium_monthly' ? 100
+          : planType === 'full_report_unlock' ? 20
+          : 10); // section_unlock
 
       try {
         const { data: affiliate } = await db

@@ -110,24 +110,49 @@ export function AffiliatePage() {
     setError('');
     try {
       await supabase.auth.getSession();
-      // Generate a simple affiliate code
-      const code = `AFF-${form.name.toUpperCase().replace(/\s+/g, '').slice(0, 6)}-${Date.now().toString(36).toUpperCase()}`;
-      const { error: dbErr } = await supabase.from('affiliates').upsert({
-        user_id: user?.id ?? null,
-        affiliate_name: form.name,
-        affiliate_email: form.email,
-        affiliate_whatsapp: form.whatsapp ?? null,
-        bureau_name: form.bureauName ?? null,
-        upi_id: form.upiId?.trim() || null,
-        affiliate_code: code,
-        status: 'pending',
-        payout_status: 'pending',
-        created_at: new Date().toISOString(),
-      }, { onConflict: 'affiliate_email' });
-      if (dbErr) throw dbErr;
-      setAffiliateCode(code);
+      const emailLower = form.email.toLowerCase().trim();
+
+      // Check if admin already created this affiliate (by email)
+      const { data: existing } = await supabase
+        .from('affiliates')
+        .select('affiliate_code, upi_id')
+        .eq('affiliate_email', emailLower)
+        .single();
+
+      if (existing) {
+        // Link user_id to admin-created record + update UPI if provided
+        await supabase.from('affiliates')
+          .update({
+            user_id: user.id,
+            affiliate_name: form.name.trim(),
+            affiliate_whatsapp: form.whatsapp?.trim() || null,
+            bureau_name: form.bureauName?.trim() || null,
+            upi_id: form.upiId?.trim() || existing.upi_id || null,
+            status: 'active',
+          })
+          .eq('affiliate_email', emailLower);
+        setAffiliateCode(existing.affiliate_code);
+        setUpiId(form.upiId?.trim() || existing.upi_id || '');
+      } else {
+        // New registration
+        const code = `AFF-${form.name.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6)}-${Date.now().toString(36).toUpperCase()}`;
+        const { error: dbErr } = await supabase.from('affiliates').insert({
+          user_id: user.id,
+          affiliate_name: form.name.trim(),
+          affiliate_email: emailLower,
+          affiliate_whatsapp: form.whatsapp?.trim() || null,
+          bureau_name: form.bureauName?.trim() || null,
+          upi_id: form.upiId?.trim() || null,
+          affiliate_code: code,
+          status: 'active',
+          payout_status: 'pending',
+        });
+        if (dbErr) throw dbErr;
+        setAffiliateCode(code);
+        setUpiId(form.upiId?.trim() || '');
+      }
     } catch {
-      setError('Network error. Please try again.');
+      setError('Something went wrong. Please try again.');
     } finally {
       setSubmitting(false);
     }
