@@ -46,7 +46,7 @@ const benefits = [
 
 export function AffiliatePage() {
   const { user } = useAuth();
-  const [form, setForm] = useState({ name: '', email: '', whatsapp: '', bureauName: '' });
+  const [form, setForm] = useState({ name: '', email: '', whatsapp: '', bureauName: '', upiId: '' });
   const [submitting, setSubmitting] = useState(false);
   const [affiliateCode, setAffiliateCode] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
@@ -61,18 +61,22 @@ export function AffiliatePage() {
   }>({ total_clicks: 0, total_referrals: 0, total_conversions: 0, pending_payout_inr: 0, total_earned_inr: 0 });
   const [conversions, setConversions] = useState<{ id: string; payment_id: string; plan_type: string; commission_inr: number; created_at: string }[]>([]);
   const [convsLoading, setConvsLoading] = useState(false);
+  const [upiId, setUpiId] = useState<string>('');
+  const [upiEdit, setUpiEdit] = useState(false);
+  const [upiSaving, setUpiSaving] = useState(false);
 
   useEffect(() => {
     if (user) {
       setForm((f) => ({ ...f, email: user.email ?? '' }));
       supabase
         .from('affiliates')
-        .select('affiliate_code, total_clicks, total_referrals, total_conversions, pending_payout_inr')
+        .select('affiliate_code, total_clicks, total_referrals, total_conversions, pending_payout_inr, upi_id')
         .eq('user_id', user.id)
         .single()
         .then(({ data }) => {
           if (data?.affiliate_code) {
             setAffiliateCode(data.affiliate_code);
+            setUpiId(data.upi_id ?? '');
             // Load itemized conversion log first to compute accurate total_earned
             setConvsLoading(true);
             supabase
@@ -110,14 +114,16 @@ export function AffiliatePage() {
       const code = `AFF-${form.name.toUpperCase().replace(/\s+/g, '').slice(0, 6)}-${Date.now().toString(36).toUpperCase()}`;
       const { error: dbErr } = await supabase.from('affiliates').upsert({
         user_id: user?.id ?? null,
-        name: form.name,
-        email: form.email,
-        whatsapp: form.whatsapp ?? null,
+        affiliate_name: form.name,
+        affiliate_email: form.email,
+        affiliate_whatsapp: form.whatsapp ?? null,
         bureau_name: form.bureauName ?? null,
+        upi_id: form.upiId?.trim() || null,
         affiliate_code: code,
         status: 'pending',
+        payout_status: 'pending',
         created_at: new Date().toISOString(),
-      }, { onConflict: 'email' });
+      }, { onConflict: 'affiliate_email' });
       if (dbErr) throw dbErr;
       setAffiliateCode(code);
     } catch {
@@ -125,6 +131,18 @@ export function AffiliatePage() {
     } finally {
       setSubmitting(false);
     }
+  };
+
+  const saveUpi = async (newUpi: string) => {
+    if (!user || !affiliateCode) return;
+    setUpiSaving(true);
+    await supabase.from('affiliates')
+      .update({ upi_id: newUpi.trim() || null })
+      .eq('affiliate_code', affiliateCode)
+      .eq('user_id', user.id);
+    setUpiId(newUpi.trim());
+    setUpiEdit(false);
+    setUpiSaving(false);
   };
 
   const copyLink = async () => {
@@ -321,6 +339,49 @@ export function AffiliatePage() {
                   )}
                 </div>
 
+                {/* UPI payout ID */}
+                <div className="border border-gray-100 dark:border-gray-700 rounded-xl p-4 mb-5">
+                  <div className="flex items-center justify-between mb-1">
+                    <div className="flex items-center gap-2">
+                      <IndianRupee className="w-4 h-4 text-green-500" />
+                      <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">Payout UPI ID</span>
+                    </div>
+                    {!upiEdit && (
+                      <button onClick={() => setUpiEdit(true)} className="text-xs text-indigo-500 hover:underline">
+                        {upiId ? 'Edit' : 'Add'}
+                      </button>
+                    )}
+                  </div>
+                  {upiEdit ? (
+                    <div className="flex gap-2 mt-2">
+                      <input
+                        type="text"
+                        defaultValue={upiId}
+                        id="upi-input"
+                        placeholder="name@upi or 9876543210@paytm"
+                        className="flex-1 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-1.5 text-sm font-mono focus:ring-2 focus:ring-indigo-500 outline-none"
+                      />
+                      <button
+                        onClick={() => {
+                          const val = (document.getElementById('upi-input') as HTMLInputElement)?.value ?? '';
+                          saveUpi(val);
+                        }}
+                        disabled={upiSaving}
+                        className="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 text-white text-xs font-semibold rounded-lg"
+                      >
+                        {upiSaving ? '…' : 'Save'}
+                      </button>
+                      <button onClick={() => setUpiEdit(false)} className="px-3 py-1.5 text-xs text-gray-500 hover:text-gray-700">
+                        Cancel
+                      </button>
+                    </div>
+                  ) : upiId ? (
+                    <p className="text-sm font-mono text-gray-600 dark:text-gray-300 mt-1">{upiId}</p>
+                  ) : (
+                    <p className="text-xs text-gray-400 mt-1">Add your UPI ID so we can pay you instantly when your commission is ready.</p>
+                  )}
+                </div>
+
                 <p className="text-xs text-gray-400 text-center mb-5">
                   Share this link on WhatsApp with clients. Payouts processed monthly via UPI.
                 </p>
@@ -391,6 +452,19 @@ export function AffiliatePage() {
                       placeholder="Sharma Vivah Kendra"
                       className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
                     />
+                  </div>
+                  <div className="sm:col-span-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      UPI ID <span className="text-gray-400 font-normal">(for receiving payouts)</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={form.upiId}
+                      onChange={(e) => setForm((f) => ({ ...f, upiId: e.target.value }))}
+                      placeholder="yourname@upi or 9876543210@paytm"
+                      className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-indigo-500 outline-none"
+                    />
+                    <p className="text-xs text-gray-400 mt-1">Optional — you can add it later. We pay monthly via UPI directly.</p>
                   </div>
                 </div>
                 {error && (
