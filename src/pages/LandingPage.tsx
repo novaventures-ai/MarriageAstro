@@ -815,6 +815,7 @@ export const LandingPage: React.FC = () => {
                 ].map(l => (
                   <li key={l.to}><Link to={l.to} className="text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{l.label}</Link></li>
                 ))}
+              </ul>
             </div>
             {/* Legal */}
             <div>

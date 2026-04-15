@@ -124,6 +124,7 @@ export interface PlanetPosition {
     signIndex: number;
     degree: number;
     minute: number;
+    second: number;
     nakshatra: string;
     nakshatraIndex: number;
     nakshatraPada: number;
@@ -299,6 +300,7 @@ export async function calculatePlanetaryPositionsPrecision(jd: number): Promise<
             signIndex,
             degree: Math.floor(degreeInSign),
             minute: Math.floor((degreeInSign % 1) * 60),
+            second: Math.floor(((degreeInSign % 1) * 60 % 1) * 60),
             nakshatra: NAKSHATRAS[nakIndex],
             nakshatraIndex: nakIndex,
             nakshatraPada: Math.min(Math.floor((pos.longitude % (360 / 27)) / (360 / (27 * 4))) + 1, 4),
@@ -324,6 +326,7 @@ export async function calculatePlanetaryPositionsPrecision(jd: number): Promise<
             signIndex,
             degree: Math.floor(degreeInSign),
             minute: Math.floor((degreeInSign % 1) * 60),
+            second: Math.floor(((degreeInSign % 1) * 60 % 1) * 60),
             nakshatra: NAKSHATRAS[nakIndex],
             nakshatraIndex: nakIndex,
             nakshatraPada: Math.min(Math.floor((ketuLong % (360 / 27)) / (360 / (27 * 4))) + 1, 4),
