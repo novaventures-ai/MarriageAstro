@@ -209,6 +209,18 @@ export const PricingPage: React.FC = () => {
         title="Pricing - Astro Marriage Premium Plans"
         description="Simple, transparent pricing for Astro Marriage. Free core features forever. Unlock detailed risk analysis, sexual compatibility, mental health insights, and unlimited AI chat."
         path="/pricing"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": FAQS.map(faq => ({
+            "@type": "Question",
+            "name": faq.q,
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": faq.a
+            }
+          }))
+        }}
       />
 
       {/* Header */}

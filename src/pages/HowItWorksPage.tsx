@@ -18,6 +18,59 @@ export const HowItWorksPage: React.FC = () => {
         title="How Vedic Kundali Matching Works — Methodology & Calculations"
         description="Learn how Astro Marriage calculates Vedic marriage compatibility using Ashtakoot Milan (36-point scoring), Swiss Ephemeris planetary positions, KP Astrology, Jaimini Chara Karakas, and Dasha-based marriage timing prediction."
         path="/how-it-works"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Article",
+              "headline": "How Vedic Kundali Matching Works — Methodology & Calculations",
+              "description": "A comprehensive deep-dive into the Vedic astrology methodology used by Astro Marriage, including Parashari, KP, and Jaimini systems.",
+              "author": {
+                "@type": "Organization",
+                "name": "NovaVentures AI"
+              },
+              "publisher": {
+                "@type": "Organization",
+                "name": "Astro Marriage",
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": "https://marriage-astro.vercel.app/logo.png"
+                }
+              },
+              "datePublished": "2024-03-20",
+              "dateModified": "2025-01-15"
+            },
+            {
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "What parameters are measured in Ashtakoot Milan?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Ashtakoot Milan measures 8 parameters: Varna (ego), Vashya (dominance), Tara (destiny), Yoni (sexual), Graha Maitri (mental), Gana (temperament), Bhakoot (emotional), and Nadi (genetic)."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "How does Swiss Ephemeris ensure calculation accuracy?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Astro Marriage uses Swiss Ephemeris (JPL DE431 grade) to compute planetary positions with arc-second precision, ensuring the highest scientific accuracy for birth charts."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "How is marriage timing predicted?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Marriage timing is calculated using a multi-system convergence of Vimshottari Dasha, Jupiter/Saturn transits, KP 7th Cuspal Sub Lord, and Jaimini Chara Dasha."
+                  }
+                }
+              ]
+            }
+          ]
+        }}
       />
 
       {/* Header */}

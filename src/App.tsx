@@ -66,6 +66,12 @@ const PricingPage = lazy(() => import('./pages/PricingPage').then(m => ({ defaul
 const DemoPage = lazy(() => import('./pages/DemoPage').then(m => ({ default: m.DemoPage })));
 const AffiliatePage = lazy(() => import('./pages/AffiliatePage').then(m => ({ default: m.AffiliatePage })));
 
+// Legal Pages
+const LegalLayout = lazy(() => import('./components/layout/LegalLayout').then(m => ({ default: m.LegalLayout })));
+const PrivacyPolicy = lazy(() => import('./pages/legal/PrivacyPolicy').then(m => ({ default: m.PrivacyPolicy })));
+const TermsOfService = lazy(() => import('./pages/legal/TermsOfService').then(m => ({ default: m.TermsOfService })));
+const RefundPolicy = lazy(() => import('./pages/legal/RefundPolicy').then(m => ({ default: m.RefundPolicy })));
+
 // 404
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
 
@@ -206,6 +212,13 @@ function App() {
                   <LoginPage />
                 </div>
               } />
+
+              {/* Legal Routes */}
+              <Route path="/legal" element={<LegalLayout />}>
+                <Route path="privacy" element={<PrivacyPolicy />} />
+                <Route path="terms" element={<TermsOfService />} />
+                <Route path="refund" element={<RefundPolicy />} />
+              </Route>
 
               {/* 404 Catch-all */}
               <Route path="*" element={<NotFoundPage />} />

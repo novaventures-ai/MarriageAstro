@@ -17,6 +17,26 @@ export const AshtakootMilanGuide: React.FC = () => {
         title="Ashtakoot Milan — Complete Guide to 36-Point Kundali Matching"
         description="Complete guide to Ashtakoot Milan (Gun Milan) for marriage compatibility. Learn about all 8 Kootas — Varna, Vashya, Tara, Yoni, Graha Maitri, Gana, Bhakoot, Nadi — scoring rules, dosha cancellations, and what each koota means for your marriage."
         path="/guides/ashtakoot-milan"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "Ashtakoot Milan — Complete Guide to 36-Point Kundali Matching",
+          "description": "A detailed guide explaining the 36-point Vedic system of Ashtakoot Milan for marriage compatibility analysis.",
+          "author": {
+            "@type": "Organization",
+            "name": "NovaVentures AI"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Astro Marriage",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://marriage-astro.vercel.app/logo.png"
+            }
+          },
+          "datePublished": "2024-03-25",
+          "dateModified": "2025-01-20"
+        }}
       />
 
       <header className="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">

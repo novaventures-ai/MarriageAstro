@@ -15,6 +15,26 @@ export const MangalDoshaGuide: React.FC = () => {
         title="Mangal Dosha (Manglik) — Meaning, Effects, Cancellation Rules & Remedies"
         description="Complete guide to Mangal Dosha (Kuja Dosha) in Vedic astrology. Learn what makes you Manglik, 15+ cancellation rules, effects on marriage, and proven remedies including Kumbh Vivah, gemstones, and mantras."
         path="/guides/mangal-dosha"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "Mangal Dosha (Manglik) — Meaning, Effects, Cancellation Rules & Remedies",
+          "description": "Comprehensive guide on Mangal Dosha (Kuja Dosha) including causes, effects on marriage, cancellation rules, and Vedic remedies.",
+          "author": {
+            "@type": "Organization",
+            "name": "NovaVentures AI"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Astro Marriage",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://marriage-astro.vercel.app/logo.png"
+            }
+          },
+          "datePublished": "2024-03-15",
+          "dateModified": "2025-01-10"
+        }}
       />
 
       <header className="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">

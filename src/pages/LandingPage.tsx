@@ -56,7 +56,7 @@ export const LandingPage: React.FC = () => {
               '@type': 'WebApplication',
               name: 'Astro Marriage',
               url: 'https://marriage-astro.vercel.app',
-              description: 'Free Vedic astrology marriage compatibility analysis. Ashtakoot Milan, KP astrology, marriage timing, and spouse predictions.',
+              description: 'Free Vedic astrology marriage compatibility engine. Ashtakoot Milan, KP astrology, marriage timing, and spouse predictions.',
               applicationCategory: 'LifestyleApplication',
               operatingSystem: 'Web',
               offers: {
@@ -71,18 +71,34 @@ export const LandingPage: React.FC = () => {
               mainEntity: [
                 {
                   '@type': 'Question',
-                  name: 'What is Kundali matching?',
+                  name: 'What is Kundali matching for marriage?',
                   acceptedAnswer: {
                     '@type': 'Answer',
-                    text: 'Kundali matching (Guna Milan) is a Vedic astrology method to assess marriage compatibility by comparing the birth charts of two individuals across 8 kootas (categories), giving a maximum score of 36 points.',
+                    text: 'Kundali matching (also called Gun Milan or Ashtakoot Milan) is a Vedic astrology method that compares two birth charts to assess marriage compatibility across 8 aspects (gunas) scoring out of 36 points.',
                   },
                 },
                 {
                   '@type': 'Question',
-                  name: 'What is a good Ashtakoot score for marriage?',
+                  name: 'How many points are needed for a good Kundali match?',
                   acceptedAnswer: {
                     '@type': 'Answer',
-                    text: 'A score of 18 or above out of 36 is generally considered acceptable for marriage. Scores above 28 indicate an excellent match. Scores below 18 are considered inauspicious.',
+                    text: 'In Ashtakoot Milan, a score of 18 or above out of 36 is considered acceptable. Scores above 24 are good, and above 30 is excellent.',
+                  },
+                },
+                {
+                  '@type': 'Question',
+                  name: 'Can astrology predict marriage timing?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Yes, Vedic astrology uses the Vimshottari Dasha system and transits of Jupiter and Saturn to identify favorable marriage windows.',
+                  },
+                },
+                {
+                  '@type': 'Question',
+                  name: 'What is Mangal Dosha?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Mangal Dosha occurs when Mars is placed in specific houses (1, 4, 7, 8, 12). It affects marital harmony but often has cancellation rules.',
                   },
                 },
                 {
@@ -90,7 +106,7 @@ export const LandingPage: React.FC = () => {
                   name: 'Is Astro Marriage free to use?',
                   acceptedAnswer: {
                     '@type': 'Answer',
-                    text: 'Yes! Core features including Ashtakoot Milan, marriage potential score, psychological profile, and 3 AI queries per day are completely free. Premium features like detailed risk analysis and unlimited AI chat require a subscription.',
+                    text: 'Yes, core features like Ashtakoot Milan and basic timing are free. Premium features like detailed risk reports are available for a small fee.',
                   },
                 },
               ],
@@ -796,6 +812,18 @@ export const LandingPage: React.FC = () => {
                   { to: '/blog/mangal-dosha-myths-facts', label: 'Mangal Dosha Myths' },
                   { to: '/blog/when-will-i-get-married-astrology', label: 'Marriage Timing' },
                   { to: '/blog/nadi-dosha-complete-guide', label: 'Nadi Dosha Guide' },
+                ].map(l => (
+                  <li key={l.to}><Link to={l.to} className="text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{l.label}</Link></li>
+                ))}
+            </div>
+            {/* Legal */}
+            <div>
+              <h4 className="font-semibold text-sm text-gray-800 dark:text-gray-100 mb-3">Legal</h4>
+              <ul className="space-y-1.5 text-xs">
+                {[
+                  { to: '/legal/privacy', label: 'Privacy Policy' },
+                  { to: '/legal/terms', label: 'Terms of Service' },
+                  { to: '/legal/refund', label: 'Refund & Cancellation' },
                 ].map(l => (
                   <li key={l.to}><Link to={l.to} className="text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{l.label}</Link></li>
                 ))}

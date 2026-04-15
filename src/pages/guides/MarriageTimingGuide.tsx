@@ -15,6 +15,26 @@ export const MarriageTimingGuide: React.FC = () => {
         title="Marriage Timing Prediction in Vedic Astrology — Dasha, Transit & KP Methods"
         description="Learn how Vedic astrology predicts marriage timing using Vimshottari Dasha, Jupiter-Saturn transits, KP sub-lords, Jaimini Chara Dasha, and Navamsa analysis. Understand marriage windows and when you are likely to get married."
         path="/guides/marriage-timing"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "Marriage Timing Prediction in Vedic Astrology — Dasha, Transit & KP Methods",
+          "description": "Techniques and methodologies for predicting marriage timing in Vedic astrology using multiple calculation systems.",
+          "author": {
+            "@type": "Organization",
+            "name": "NovaVentures AI"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Astro Marriage",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://marriage-astro.vercel.app/logo.png"
+            }
+          },
+          "datePublished": "2024-03-10",
+          "dateModified": "2025-01-05"
+        }}
       />
 
       <header className="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">

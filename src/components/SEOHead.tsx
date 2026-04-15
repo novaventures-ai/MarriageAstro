@@ -63,6 +63,33 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
       <meta name="twitter:image" content={resolvedOgImage} />
       <meta name="twitter:site" content="@AstroMarriage" />
 
+      {/* AI & LLM Visibility (GEO Optimization) */}
+      <meta name="ai:bot" content="index, follow" />
+      <meta name="anthropic-ai:bot" content="index, follow" />
+      <meta name="openai:bot" content="index, follow" />
+      <meta name="perplexity:bot" content="index, follow" />
+      <meta name="google-extended" content="index, follow" />
+      <meta name="user-experience-improvement" content="enabled" />
+      <meta name="content-type" content="astrology, technical-methodology" />
+
+      {/* Structured Data */}
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebApplication",
+          "name": "Astro Marriage",
+          "url": SITE_URL,
+          "description": "Free Vedic astrology marriage compatibility analysis using Ashtakoot Milan, KP astrology, and Jaimini systems.",
+          "applicationCategory": "LifestyleApplication",
+          "operatingSystem": "Web",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "INR"
+          }
+        })}
+      </script>
+
       {/* JSON-LD Structured Data */}
       {jsonLd && (
         <script type="application/ld+json">
