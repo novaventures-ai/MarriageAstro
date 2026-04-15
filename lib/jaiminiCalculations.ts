@@ -14,46 +14,81 @@ import { SIGNS, SIGN_LORDS, getSignFromLongitude, normalizeDegrees } from './cor
  * Calculate Chara Karakas based on planetary degrees
  * Planets are ordered by highest to lowest degree
  */
-export function calculateCharaKarakas(
-  planetaryPositions: { planet: Planet; longitude: number; sign: Sign; house: number }[]
+export function calculateCharaKarakasUnified(
+  planetaryPositions: { planet: Planet; longitude: number; sign?: Sign; house?: number }[]
 ): import('@types').CharaKarakas {
-  // Filter out Rahu and Ketu for Karaka calculation (sometimes included)
-  // Traditional Jaimini uses 7 karakas from 7 planets (Sun to Saturn)
+  // Filter out Rahu and Ketu for Karaka calculation
+  // Traditional Jaimini uses 7 karakas (Sun to Saturn)
   const validPlanets = planetaryPositions.filter(
-    p => !['Rahu', 'Ketu', 'Uranus', 'Neptune', 'Pluto'].includes(p.planet)
+    p => ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'].includes(p.planet)
   );
 
-  // Sort by degree (highest first)
+  // Sort by degree WITHIN sign (highest first)
+  // Use longitude % 30 for maximum precision
   const sorted = [...validPlanets].sort((a, b) => {
     const degA = a.longitude % 30;
     const degB = b.longitude % 30;
     return degB - degA;
   });
 
-  const getDetail = (index: number) => {
-    const p = sorted[index] || sorted[0];
-    return {
-      planet: p.planet,
-      degree: p.longitude % 30,
-      sign: p.sign,
-      house: p.house,
-      interpretation: `${p.planet} acts as a key significator in this role.`
-    };
+  const karakaKeys = ['atmakaraka', 'amatyakaraka', 'bhratrukaraka', 'matrukaraka', 'pitrukaraka', 'putrakaraka', 'darakaraka'] as const;
+
+  const charaKarakas: any = {};
+
+  karakaKeys.forEach((key, index) => {
+    const p = sorted[index];
+    if (p) {
+      const degree = p.longitude % 30;
+      charaKarakas[key] = {
+        planet: p.planet,
+        degree: degree,
+        sign: p.sign,
+        house: p.house,
+        interpretation: getKarakaInterpretation(key, p.planet, p.house),
+        marriageSignificance: key === 'darakaraka' ? getDKMarriageSignificance(p.planet, p.house) : undefined
+      };
+    }
+  });
+
+  return charaKarakas as import('@types').CharaKarakas;
+}
+
+function getKarakaInterpretation(key: string, planet: Planet, house: number | undefined): string {
+  const interpretations: Record<string, string> = {
+    atmakaraka: `The soul's deepest desires and karmic patterns are expressed through ${planet}. This planet shows the lessons to be learned in this lifetime.`,
+    amatyakaraka: `${planet} guides professional life and provides advice. Career success comes through its significations.`,
+    bhratrukaraka: `Siblings and courage are influenced by ${planet}. Initiative and boldness in life come from its placement.`,
+    matrukaraka: `The mother and home environment are signified by ${planet}. Emotional security stems from its energy.`,
+    pitrukaraka: `${planet} represents the father, ancestors, and dharma. Spiritual guidance flows through this planet.`,
+    putrakaraka: `Children and creative expression are governed by ${planet}. Legacy and progeny matters are indicated here.`,
+    darakaraka: `${planet} ${house ? `in house ${house}` : ''} significantly influences spouse characteristics and marriage timing.`
   };
 
-  return {
-    atmakaraka: getDetail(0),
-    amatyakaraka: getDetail(1),
-    bhratrukaraka: getDetail(2),
-    matrukaraka: getDetail(3),
-    pitrukaraka: getDetail(4),
-    putrakaraka: getDetail(5),
-    darakaraka: getDetail(6)
+  return interpretations[key] || `${planet} plays an important role in life.`;
+}
+
+function getDKMarriageSignificance(planet: Planet, house: number | undefined): string {
+  if (!house) return 'Marriage influenced by spouse characteristics.';
+  const dkInHouses: Record<number, string> = {
+    1: 'Spouse significantly impacts self-identity; partner is very independent.',
+    2: 'Spouse brings wealth or family connections; emphasis on family values.',
+    3: 'Spouse is courageous, communicative, possibly younger sibling-like.',
+    4: 'Spouse provides emotional security; strong domestic focus.',
+    5: 'Spouse is creative, romantic, or connected to children/intelligence.',
+    6: 'Challenging placement - spouse may bring obstacles or health issues.',
+    7: 'Excellent for marriage - spouse is true partner; strong relationship.',
+    8: 'Transformation through marriage; intense but potentially difficult.',
+    9: 'Spouse brings fortune, wisdom, or foreign connections; dharma alignment.',
+    10: 'Spouse influences career or is career-oriented; public marriage.',
+    11: 'Spouse brings gains, fulfillment of desires; good financial partnership.',
+    12: 'Spouse may be from foreign land or spiritual; possible separation themes.'
   };
+
+  return dkInHouses[house] || 'Marriage influenced by spouse characteristics.';
 }
 
 /**
- * Analyze Darakaraka (Spouse Significator)
+ * Analyze Darakaraka (Spouse Significator) - Legacy helper
  */
 export function analyzeDarakaraka(
   darakaraka: Planet,
@@ -78,25 +113,12 @@ export function analyzeDarakaraka(
     'Pluto': 'Intense, transformative, powerful, deep, controlling'
   };
 
-  const houseSignificance: Record<number, string> = {
-    1: 'Spouse significantly impacts self-identity; partner is very independent',
-    2: 'Spouse brings wealth or family connections; emphasis on family values',
-    3: 'Spouse is courageous, communicative, possibly younger sibling-like',
-    4: 'Spouse provides emotional security; strong domestic focus',
-    5: 'Spouse is creative, romantic, or connected to children/intelligence',
-    6: 'Challenging placement - spouse may bring obstacles or health issues',
-    7: 'Excellent for marriage - spouse is true partner; strong relationship',
-    8: 'Transformation through marriage; intense but potentially difficult',
-    9: 'Spouse brings fortune, wisdom, or foreign connections; dharma alignment',
-    10: 'Spouse influences career or is career-oriented; public marriage',
-    11: 'Spouse brings gains, fulfillment of desires; good financial partnership',
-    12: 'Spouse may be from foreign land or spiritual; possible separation themes'
-  };
+  const houseSig = getDKMarriageSignificance(darakaraka, darakarakaPosition.house);
 
   return {
     planetNature: planetNature[darakaraka],
-    houseSignificance: houseSignificance[darakarakaPosition.house],
-    spouseCharacteristics: `${planetNature[darakaraka]} in ${houseSignificance[darakarakaPosition.house]}`
+    houseSignificance: houseSig,
+    spouseCharacteristics: `${planetNature[darakaraka]}. ${houseSig}`
   };
 }
 

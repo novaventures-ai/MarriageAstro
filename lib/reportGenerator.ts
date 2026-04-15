@@ -39,6 +39,7 @@ import {
   predictSpouseCharacteristics,
   analyzeDivisionalCharts
 } from './compatibilityCalculations';
+import { calculateCharaKarakasUnified } from './jaiminiCalculations';
 import { calculateSpouseMeeting } from './spouseCalculations';
 import { calculatePsychologicalProfile } from './selfReportGenerator';
 import {
@@ -76,6 +77,7 @@ import {
   calculateKPAnalysis,
   calculateCharaKarakas,
   calculateCharaDasha,
+
   calculateUpapadaLagna,
   calculateVivahSaham,
   calculateExtendedSpousePrediction,
@@ -98,7 +100,7 @@ function mapPlanetPosition(p: AstroPlanetPosition): PlanetaryPosition {
     speed: p.speed,
     house: p.house,
     sign: p.sign as Sign,
-    signDegree: p.degree + p.minute / 60,
+    signDegree: p.degree + p.minute / 60 + (p.second || 0) / 3600,
     nakshatra: p.nakshatra as any,
     nakshatraPada: p.nakshatraPada,
     isRetrograde: p.isRetrograde,
@@ -106,6 +108,7 @@ function mapPlanetPosition(p: AstroPlanetPosition): PlanetaryPosition {
     dignity: p.dignity as any || 'neutral'
   };
 }
+
 
 // Helper to map Calc Houses to UI Houses
 function mapHouses(data: { houses: any[], planets: any[] }): House[] {
@@ -195,17 +198,14 @@ export async function generateChartFromBirthData(birthData: BirthDataInput): Pro
   const fullChartData = await generateFullChartData(calcInput);
   const d1 = fullChartData.d1;
 
-  // 2.1 Calculate Chara Karakas from planetary degrees
-  // Jaimini system: sort by degree WITHIN sign (0-30°), NOT absolute longitude
-  // Standard 7-karaka system: Exclude Rahu & Ketu (matching traditional tradition)
-  // Atmakaraka = planet with highest degree within sign, Darakaraka = lowest of top 7
-  const karakaPlanets = d1.planets
-    .filter((p: any) => ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'].includes(p.planet))
-    .map((p: any) => ({ ...p, signDegree: p.degree + p.minute / 60 + (p.second || 0) / 3600 }))
-    .sort((a: any, b: any) => b.signDegree - a.signDegree);
+  // 3. Map to UI types (Vedic) - Move up to provide inputs for Karaka calculation
+  const planetaryPositions = d1.planets.map(mapPlanetPosition);
+  const houses = mapHouses(d1);
 
-  const atmakaraka = karakaPlanets[0]?.planet as Planet || 'Sun';
-  const darakaraka = karakaPlanets[6]?.planet as Planet || 'Saturn';
+  // 2.1 Calculate Chara Karakas from planetary degrees using UNIFIED LOGIC
+  const karakas = calculateCharaKarakasUnified(planetaryPositions as any);
+  const atmakaraka = karakas.atmakaraka.planet as Planet;
+  const darakaraka = karakas.darakaraka.planet as Planet;
 
   // 2.2 Calculate Upapada Lagna (12th from Ascendant + degrees to its lord)
   const ascendantSignIndex = d1.ascendant.signIndex;
@@ -229,9 +229,7 @@ export async function generateChartFromBirthData(birthData: BirthDataInput): Pro
     vivahSaham = (ascendantSignIndex - seventhLordIndex + venusIndex + 12) % 12;
   }
 
-  // 3. Map to UI types (Vedic)
-  const planetaryPositions = d1.planets.map(mapPlanetPosition);
-  const houses = mapHouses(d1);
+  // Vargas mapping happens here
 
   // Map all Vargas
   const vargaCharts: any = {

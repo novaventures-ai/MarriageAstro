@@ -49,6 +49,8 @@ import {
 import { calculateRulingPlanets } from './kpCalculations';
 
 import { calculateManglikDosha } from './compatibilityCalculations';
+import { calculateCharaKarakasUnified } from './jaiminiCalculations';
+
 
 // Import knowledge bases
 import yoniData from '../knowledge/yoni_sexual_compatibility.json';
@@ -385,69 +387,11 @@ function generateKPInterpretation(
 // ============================================================================
 
 export function calculateCharaKarakas(chart: Chart): CharaKarakas {
-  // Sort planets by degree (highest to lowest)
-  // Traditional 7-karaka system: Exclude Rahu & Ketu
-  const sortedPlanets = [...chart.planetaryPositions]
-    .filter(p => ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'].includes(p.planet))
-    .sort((a, b) => b.signDegree - a.signDegree);
-
-  const karakaKeys = ['atmakaraka', 'amatyakaraka', 'bhratrukaraka', 'matrukaraka', 'pitrukaraka', 'putrakaraka', 'darakaraka'] as const;
-
-  const charaKarakas: Partial<CharaKarakas> = {};
-
-  sortedPlanets.forEach((planet, index) => {
-    if (index < 7) {
-      const key = karakaKeys[index];
-      const marriageSignificance = key === 'darakaraka'
-        ? getDKMarriageSignificance(planet.planet, planet.house)
-        : undefined;
-
-      charaKarakas[key] = {
-        planet: planet.planet,
-        degree: planet.signDegree,
-        sign: planet.sign,
-        house: planet.house,
-        interpretation: getKarakaInterpretation(key, planet.planet, planet.house),
-        marriageSignificance
-      };
-    }
-  });
-
-  return charaKarakas as CharaKarakas;
+  // Use the unified calculation from jaiminiCalculations for consistency
+  // passing the planetary positions directly.
+  return calculateCharaKarakasUnified(chart.planetaryPositions);
 }
 
-function getKarakaInterpretation(key: string, planet: Planet, house: number): string {
-  const interpretations: Record<string, string> = {
-    atmakaraka: `The soul's deepest desires and karmic patterns are expressed through ${planet}. This planet shows the lessons to be learned in this lifetime.`,
-    amatyakaraka: `${planet} guides professional life and provides advice. Career success comes through its significations.`,
-    bhratrukaraka: `Siblings and courage are influenced by ${planet}. Initiative and boldness in life come from its placement.`,
-    matrukaraka: `The mother and home environment are signified by ${planet}. Emotional security stems from its energy.`,
-    pitrukaraka: `${planet} represents the father, ancestors, and dharma. Spiritual guidance flows through this planet.`,
-    putrakaraka: `Children and creative expression are governed by ${planet}. Legacy and progeny matters are indicated here.`,
-    darakaraka: `${planet} in house ${house} significantly influences spouse characteristics and marriage timing.`
-  };
-
-  return interpretations[key] || `${planet} plays an important role in life.`;
-}
-
-function getDKMarriageSignificance(_planet: Planet, house: number): string {
-  const dkInHouses: Record<number, string> = {
-    1: 'Spouse significantly impacts self-identity; partner is very independent.',
-    2: 'Spouse brings wealth or family connections; emphasis on family values.',
-    3: 'Spouse is courageous, communicative, possibly younger sibling-like.',
-    4: 'Spouse provides emotional security; strong domestic focus.',
-    5: 'Spouse is creative, romantic, or connected to children/intelligence.',
-    6: 'Challenging placement - spouse may bring obstacles or health issues.',
-    7: 'Excellent for marriage - spouse is true partner; strong relationship.',
-    8: 'Transformation through marriage; intense but potentially difficult.',
-    9: 'Spouse brings fortune, wisdom, or foreign connections; dharma alignment.',
-    10: 'Spouse influences career or is career-oriented; public marriage.',
-    11: 'Spouse brings gains, fulfillment of desires; good financial partnership.',
-    12: 'Spouse may be from foreign land or spiritual; possible separation themes.'
-  };
-
-  return dkInHouses[house] || 'Marriage influenced by spouse characteristics.';
-}
 
 // ============================================================================
 // CHARA DASHA CALCULATIONS

@@ -13,7 +13,7 @@ import {
   assessDivorceRisk,
   assessInfidelityRisk
 } from '../../lib/riskCalculations';
-import { Chart, Planet } from '../../types';
+import { Chart, Planet } from '../types';
 
 // Mock chart for testing
 const createMockChart = (overrides: Partial<Chart> = {}): Chart => ({
@@ -266,8 +266,7 @@ describe('KP Calculation Tests', () => {
 
 describe('Jaimini Calculation Tests', () => {
   it('should calculate Chara Karakas correctly', async () => {
-    const { calculateCharaKarakas } = await import('../../lib/jaiminiCalculations');
-
+    const { calculateCharaKarakasUnified } = await import('../../lib/jaiminiCalculations');
     const positions = [
       { planet: 'Sun' as Planet, longitude: 1 }, // 1 degree (Lowest -> DK)
       { planet: 'Moon' as Planet, longitude: 45 }, // 15 degrees
@@ -278,7 +277,7 @@ describe('Jaimini Calculation Tests', () => {
       { planet: 'Saturn' as Planet, longitude: 209 } // 29 degrees (Highest -> AK)
     ];
 
-    const result = calculateCharaKarakas(positions);
+    const result = calculateCharaKarakasUnified(positions);
 
     expect(result).toHaveProperty('atmakaraka');
     expect(result).toHaveProperty('darakaraka');
