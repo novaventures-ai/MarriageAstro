@@ -15,7 +15,7 @@ import { SIGNS, SIGN_LORDS, getSignFromLongitude, normalizeDegrees } from './cor
  * Planets are ordered by highest to lowest degree
  */
 export function calculateCharaKarakasUnified(
-  planetaryPositions: { planet: Planet; longitude: number; sign?: Sign; house?: number }[]
+  planetaryPositions: { planet: Planet; longitude: number; sign?: Sign; house?: number; signDegree?: number }[]
 ): import('@types').CharaKarakas {
   // Filter out Rahu and Ketu for Karaka calculation
   // Traditional Jaimini uses 7 karakas (Sun to Saturn)
@@ -24,10 +24,14 @@ export function calculateCharaKarakasUnified(
   );
 
   // Sort by degree WITHIN sign (highest first)
-  // Use longitude % 30 for maximum precision
+  // PRIORITIZE signDegree (based on degree/minute/second) for high-precision sequence
   const sorted = [...validPlanets].sort((a, b) => {
-    const degA = a.longitude % 30;
-    const degB = b.longitude % 30;
+    // If signDegree is present (high-precision map), use it. 
+    // Otherwise fallback to longitude % 30 (floating point precision).
+    const degA = a.signDegree !== undefined ? a.signDegree : (a.longitude % 30);
+    const degB = b.signDegree !== undefined ? b.signDegree : (b.longitude % 30);
+    
+    // Reverse sort (Highest degree = Atmakaraka)
     return degB - degA;
   });
 
@@ -38,7 +42,7 @@ export function calculateCharaKarakasUnified(
   karakaKeys.forEach((key, index) => {
     const p = sorted[index];
     if (p) {
-      const degree = p.longitude % 30;
+      const degree = p.signDegree !== undefined ? p.signDegree : (p.longitude % 30);
       charaKarakas[key] = {
         planet: p.planet,
         degree: degree,
