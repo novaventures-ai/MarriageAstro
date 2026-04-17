@@ -44,7 +44,7 @@ export const RefundPolicy: React.FC = () => {
       <section>
         <h2>4. Refund Process</h2>
         <p>
-          To request a refund for technical reasons, please contact us at support@marriage-astro.com with your transaction ID and details of the issue.
+          To request a refund for technical reasons, please contact us at novaventures.contact@gmail.com with your transaction ID and details of the issue.
         </p>
         <p>
           Approved refunds will be processed back to the original payment method within 5-7 working days, subject to the policies of our payment partner (Razorpay) and your bank.

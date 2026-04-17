@@ -60,6 +60,11 @@ export const TermsOfService: React.FC = () => {
         <p>
           These terms shall be governed by and construed in accordance with the laws of India, without regard to its conflict of law principles.
         </p>
+      <section>
+        <h2>9. Contact Us</h2>
+        <p>
+          If you have questions about these Terms, please contact us at novaventures.contact@gmail.com
+        </p>
       </section>
     </div>
   );

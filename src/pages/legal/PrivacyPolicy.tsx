@@ -60,7 +60,7 @@ export const PrivacyPolicy: React.FC = () => {
       <section>
         <h2>6. Contact Us</h2>
         <p>
-          If you have questions or comments about this policy, you may email us at: support@marriage-astro.com
+          If you have questions or comments about this policy, you may email us at: novaventures.contact@gmail.com
         </p>
       </section>
     </div>
