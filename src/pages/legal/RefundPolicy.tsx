@@ -53,3 +53,5 @@ export const RefundPolicy: React.FC = () => {
     </div>
   );
 };
+
+export default RefundPolicy;

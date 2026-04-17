@@ -68,9 +68,9 @@ const AffiliatePage = lazy(() => import('./pages/AffiliatePage').then(m => ({ de
 
 // Legal Pages
 const LegalLayout = lazy(() => import('./components/layout/LegalLayout').then(m => ({ default: m.LegalLayout })));
-const PrivacyPolicy = lazy(() => import('./pages/legal/PrivacyPolicy').then(m => ({ default: m.PrivacyPolicy })));
-const TermsOfService = lazy(() => import('./pages/legal/TermsOfService').then(m => ({ default: m.TermsOfService })));
-const RefundPolicy = lazy(() => import('./pages/legal/RefundPolicy').then(m => ({ default: m.RefundPolicy })));
+const PrivacyPolicy = lazy(() => import('./pages/legal/PrivacyPolicy'));
+const TermsOfService = lazy(() => import('./pages/legal/TermsOfService'));
+const RefundPolicy = lazy(() => import('./pages/legal/RefundPolicy'));
 
 // 404
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
@@ -215,6 +215,7 @@ function App() {
 
               {/* Legal Routes */}
               <Route path="/legal" element={<LegalLayout />}>
+                <Route index element={<PrivacyPolicy />} />
                 <Route path="privacy" element={<PrivacyPolicy />} />
                 <Route path="terms" element={<TermsOfService />} />
                 <Route path="refund" element={<RefundPolicy />} />

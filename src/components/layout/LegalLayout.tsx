@@ -24,7 +24,7 @@ export const LegalLayout: React.FC = () => {
           <ArrowLeft className="w-4 h-4" />
           Back to Home
         </Link>
-        <div className="bg-white dark:bg-gray-850 rounded-2xl shadow-xl p-8 sm:p-12 border border-gray-200 dark:border-gray-800 prose dark:prose-invert max-w-none">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 sm:p-12 border border-gray-200 dark:border-gray-800 prose dark:prose-invert max-w-none">
           <Outlet />
         </div>
       </main>
