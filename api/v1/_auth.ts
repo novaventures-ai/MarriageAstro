@@ -1,0 +1,110 @@
+/**
+ * Shared auth middleware for /api/v1/ endpoints
+ * Validates X-API-Key header against Supabase api_keys table
+ * Returns tier info for downstream use
+ */
+import { createClient } from '@supabase/supabase-js';
+
+export type ApiTier = 'free' | 'developer' | 'premium';
+
+const DAILY_LIMITS: Record<ApiTier, number> = {
+  free: 50,
+  developer: 500,
+  premium: 99999,
+};
+
+export interface AuthResult {
+  valid: boolean;
+  tier: ApiTier;
+  keyId: string;
+  error?: string;
+  statusCode?: number;
+}
+
+function getSupabase() {
+  const url = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !key) throw new Error('Supabase env vars not configured');
+  return createClient(url, key);
+}
+
+export async function validateApiKey(req: any): Promise<AuthResult> {
+  const apiKey = req.headers['x-api-key'] as string;
+
+  if (!apiKey) {
+    return { valid: false, tier: 'free', keyId: '', error: 'Missing X-API-Key header', statusCode: 401 };
+  }
+
+  try {
+    const supabase = getSupabase();
+    const { data, error } = await supabase
+      .from('api_keys')
+      .select('id, tier, calls_today, calls_month, last_reset_at, is_active')
+      .eq('key', apiKey)
+      .single();
+
+    if (error || !data) {
+      return { valid: false, tier: 'free', keyId: '', error: 'Invalid API key', statusCode: 401 };
+    }
+
+    if (!data.is_active) {
+      return { valid: false, tier: 'free', keyId: data.id, error: 'API key is disabled', statusCode: 403 };
+    }
+
+    const tier = data.tier as ApiTier;
+
+    // Reset daily count if needed
+    const lastReset = new Date(data.last_reset_at);
+    const needsReset = Date.now() - lastReset.getTime() > 86400000;
+    const callsToday = needsReset ? 0 : data.calls_today;
+
+    if (callsToday >= DAILY_LIMITS[tier]) {
+      return { valid: false, tier, keyId: data.id, error: 'Daily limit reached. Upgrade your plan.', statusCode: 429 };
+    }
+
+    // Increment call count
+    if (needsReset) {
+      await supabase
+        .from('api_keys')
+        .update({ calls_today: 1, last_reset_at: new Date().toISOString() })
+        .eq('id', data.id);
+    } else {
+      await supabase
+        .from('api_keys')
+        .update({ calls_today: callsToday + 1, calls_month: data.calls_month + 1 })
+        .eq('id', data.id);
+    }
+
+    return { valid: true, tier, keyId: data.id };
+  } catch (err: any) {
+    return { valid: false, tier: 'free', keyId: '', error: 'Auth service error', statusCode: 500 };
+  }
+}
+
+export function requireTier(authResult: AuthResult, required: ApiTier, res: any): boolean {
+  const tiers: ApiTier[] = ['free', 'developer', 'premium'];
+  const userLevel = tiers.indexOf(authResult.tier);
+  const requiredLevel = tiers.indexOf(required);
+  if (userLevel < requiredLevel) {
+    res.status(403).json({
+      error: `This endpoint requires the '${required}' plan or higher. Your plan: '${authResult.tier}'.`,
+      upgrade_url: 'https://marriageastro.com/pricing',
+    });
+    return false;
+  }
+  return true;
+}
+
+export function parseBirthData(body: any, prefix = '') {
+  const p = prefix ? `${prefix}_` : '';
+  return {
+    name: body[`${p}name`] || 'Person',
+    gender: body[`${p}gender`] || 'male',
+    dateOfBirth: body[`${p}date`] || body[`${p}dateOfBirth`],
+    timeOfBirth: body[`${p}time`] || body[`${p}timeOfBirth`] || '12:00',
+    location: body[`${p}location`] || '',
+    latitude: parseFloat(body[`${p}latitude`] || body[`${p}lat`]),
+    longitude: parseFloat(body[`${p}longitude`] || body[`${p}lon`]),
+    timezone: body[`${p}timezone`] || body[`${p}tz`] || 'UTC',
+  };
+}

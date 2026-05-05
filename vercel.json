@@ -1,4 +1,10 @@
 {
+    "functions": {
+        "api/v1/*.ts": {
+            "maxDuration": 30,
+            "includeFiles": "public/swisseph.wasm"
+        }
+    },
     "crons": [
         {
             "path": "/api/keep-alive",

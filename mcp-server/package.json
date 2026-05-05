@@ -1,0 +1,38 @@
+{
+  "name": "vedic-astro-mcp",
+  "version": "1.0.0",
+  "description": "Vedic Astrology MCP Server — birth charts, compatibility, divorce risk, spouse prediction, and more via MarriageAstro's calculation engine",
+  "keywords": [
+    "mcp", "vedic-astrology", "kundali", "birth-chart", "compatibility",
+    "ashtakoot", "marriage", "astrology", "jyotish", "navamsa", "dasha"
+  ],
+  "author": "MarriageAstro",
+  "license": "MIT",
+  "homepage": "https://marriageastro.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/novaventures-ai/marriageastro"
+  },
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "vedic-astro-mcp": "dist/index.js"
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/index.ts",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
