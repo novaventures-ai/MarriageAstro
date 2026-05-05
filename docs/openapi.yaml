@@ -1,0 +1,444 @@
+openapi: "3.0.3"
+info:
+  title: MarriageAstro Vedic Astrology API
+  version: "1.0.0"
+  description: |
+    The world's most complete Vedic astrology calculation API.
+
+    22 endpoints covering: birth charts, 36-point compatibility, Ashtakoot Milan,
+    dosha analysis, synastry, navamsa, KP astrology, Jaimini dasha, marriage timing,
+    divorce risk, infidelity risk, sexual compatibility, mental health markers,
+    psychological profiles, conflict zones, vulnerability windows, spouse prediction,
+    modern challenges, and remedies.
+
+    Built on Swiss Ephemeris with Lahiri ayanamsa for maximum accuracy.
+
+    ## Tiers
+    - **Free** (50 calls/day): birth-chart, compatibility, dosha-check
+    - **Developer** ($9-29/mo, 500-5000 calls/day): full-report, marriage-timing, synastry, navamsa, kp-analysis, jaimini-dasha, self-analysis
+    - **Premium** ($99/mo, unlimited): All endpoints including divorce-risk, infidelity-risk, sexual-compatibility, mental-health, psychological-profile, conflict-zones, vulnerability-windows, inlaw-analysis, spouse-prediction, modern-challenges, remedies
+
+    Get your API key at: https://marriageastro.com/api-keys
+  contact:
+    url: https://marriageastro.com
+    email: api@marriageastro.com
+  license:
+    name: Commercial
+    url: https://marriageastro.com/legal/terms
+
+servers:
+  - url: https://marriageastro.com/api/v1
+    description: Production
+
+security:
+  - ApiKeyAuth: []
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+
+  schemas:
+    BirthInput:
+      type: object
+      required: [date, latitude, longitude]
+      properties:
+        name:
+          type: string
+          example: "Rahul Sharma"
+        gender:
+          type: string
+          enum: [male, female, other]
+          default: male
+        date:
+          type: string
+          format: date
+          example: "1990-01-15"
+        time:
+          type: string
+          example: "10:30"
+          description: "HH:MM 24h format (defaults to 12:00)"
+        latitude:
+          type: number
+          example: 19.076
+        longitude:
+          type: number
+          example: 72.8777
+        timezone:
+          type: string
+          example: "Asia/Kolkata"
+        location:
+          type: string
+          example: "Mumbai, India"
+
+    PairInput:
+      type: object
+      required: [person_a_date, person_a_latitude, person_a_longitude, person_b_date, person_b_latitude, person_b_longitude]
+      properties:
+        person_a_name:  { type: string }
+        person_a_gender: { type: string, enum: [male, female, other] }
+        person_a_date:  { type: string, format: date, example: "1990-01-15" }
+        person_a_time:  { type: string, example: "10:30" }
+        person_a_latitude:  { type: number, example: 19.076 }
+        person_a_longitude: { type: number, example: 72.8777 }
+        person_a_timezone:  { type: string, example: "Asia/Kolkata" }
+        person_a_location:  { type: string }
+        person_b_name:  { type: string }
+        person_b_gender: { type: string, enum: [male, female, other] }
+        person_b_date:  { type: string, format: date, example: "1992-05-20" }
+        person_b_time:  { type: string, example: "08:00" }
+        person_b_latitude:  { type: number, example: 28.6139 }
+        person_b_longitude: { type: number, example: 77.209 }
+        person_b_timezone:  { type: string, example: "Asia/Kolkata" }
+        person_b_location:  { type: string }
+
+    ApiSuccess:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+
+    ApiError:
+      type: object
+      properties:
+        error:
+          type: string
+        upgrade_url:
+          type: string
+
+paths:
+  /birth-chart:
+    post:
+      summary: Generate Birth Chart
+      description: "**Tier: Free** — Planets, houses, nakshatras, ascendant, yogas, and Vimshottari dashas for one person."
+      tags: [Free]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/BirthInput' }
+            example:
+              name: "Rahul Sharma"
+              date: "1990-01-15"
+              time: "10:30"
+              latitude: 19.076
+              longitude: 72.8777
+              timezone: "Asia/Kolkata"
+              gender: male
+      responses:
+        "200":
+          description: Birth chart data
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiSuccess' }
+        "400": { description: Missing required fields }
+        "401": { description: Invalid API key }
+        "429": { description: Daily limit reached }
+
+  /compatibility:
+    post:
+      summary: Ashtakoot Milan Score
+      description: "**Tier: Free** — 36-point compatibility with all 8 parameters: Varna, Vashya, Tara, Yoni, Graha Maitri, Gana, Bhakoot, Nadi. Includes dosha flags."
+      tags: [Free]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PairInput' }
+      responses:
+        "200": { description: Compatibility score and breakdown, content: { application/json: { schema: { $ref: '#/components/schemas/ApiSuccess' } } } }
+        "400": { description: Missing required fields }
+        "401": { description: Invalid API key }
+
+  /dosha-check:
+    post:
+      summary: Dosha Analysis
+      description: "**Tier: Free** — Mangal dosha, Nadi dosha, Kaal Sarpa, Guru Chandal, and other yogas/doshas with severity. Supports single person or pair."
+      tags: [Free]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PairInput' }
+      responses:
+        "200": { description: Dosha analysis result }
+        "401": { description: Invalid API key }
+
+  /full-report:
+    post:
+      summary: Full Compatibility Report
+      description: "**Tier: Developer** — Complete compatibility report including synastry, navamsa, divisional charts, yogas, dasha timing, and more."
+      tags: [Developer]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PairInput' }
+      responses:
+        "200": { description: Full CompatibilityReport object }
+        "403": { description: "Tier too low — upgrade required", content: { application/json: { schema: { $ref: '#/components/schemas/ApiError' } } } }
+
+  /marriage-timing:
+    post:
+      summary: Marriage Timing Windows
+      description: "**Tier: Developer** — Auspicious marriage windows from Vimshottari Dasha analysis."
+      tags: [Developer]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/BirthInput' }
+      responses:
+        "200": { description: Marriage timing windows }
+        "403": { description: Tier too low }
+
+  /synastry:
+    post:
+      summary: Synastry Analysis
+      description: "**Tier: Developer** — Cross-chart planetary aspects, house overlays, and sexual chemistry aspects."
+      tags: [Developer]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PairInput' }
+      responses:
+        "200": { description: Synastry data }
+        "403": { description: Tier too low }
+
+  /navamsa:
+    post:
+      summary: Navamsa (D9) Matching
+      description: "**Tier: Developer** — D9 Navamsa chart compatibility, the marriage-specific divisional chart."
+      tags: [Developer]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PairInput' }
+      responses:
+        "200": { description: Navamsa matching result }
+        "403": { description: Tier too low }
+
+  /kp-analysis:
+    post:
+      summary: KP Astrology Analysis
+      description: "**Tier: Developer** — Krishnamurti Paddhati stellar system with 249 sub-lords."
+      tags: [Developer]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/BirthInput' }
+      responses:
+        "200": { description: KP analysis }
+        "403": { description: Tier too low }
+
+  /jaimini-dasha:
+    post:
+      summary: Jaimini / Chara Dasha
+      description: "**Tier: Developer** — Jaimini Chara Karakas, Darakaraka analysis, Upapada Lagna."
+      tags: [Developer]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/BirthInput' }
+      responses:
+        "200": { description: Jaimini analysis }
+        "403": { description: Tier too low }
+
+  /self-analysis:
+    post:
+      summary: Self Marriage Analysis
+      description: "**Tier: Developer** — Single person marriage readiness, personality profile, timing forecast, spouse profile."
+      tags: [Developer]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/BirthInput' }
+      responses:
+        "200": { description: Self analysis report }
+        "403": { description: Tier too low }
+
+  /divorce-risk:
+    post:
+      summary: Divorce Risk Assessment
+      description: "**Tier: Premium** — Divorce probability scoring from 7th/2nd house afflictions. Unique — no other Vedic API provides this."
+      tags: [Premium]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PairInput' }
+      responses:
+        "200": { description: Divorce risk analysis }
+        "403": { description: "Premium tier required", content: { application/json: { schema: { $ref: '#/components/schemas/ApiError' } } } }
+
+  /infidelity-risk:
+    post:
+      summary: Infidelity Risk + Protections
+      description: "**Tier: Premium** — 5th/8th/12th house pattern detection with protective factor analysis."
+      tags: [Premium]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PairInput' }
+      responses:
+        "200": { description: Infidelity risk data }
+        "403": { description: Premium tier required }
+
+  /sexual-compatibility:
+    post:
+      summary: Sexual Compatibility
+      description: "**Tier: Premium** — Venus/Mars synastry, Yoni match, sexual temperament, mutual satisfaction analysis."
+      tags: [Premium]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PairInput' }
+      responses:
+        "200": { description: Sexual compatibility result }
+        "403": { description: Premium tier required }
+
+  /sexual-health:
+    post:
+      summary: Sexual Health Analysis
+      description: "**Tier: Premium** — Individual PME/ED/Frigidity risk and libido analysis from birth chart."
+      tags: [Premium]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/BirthInput' }
+      responses:
+        "200": { description: Sexual health data }
+        "403": { description: Premium tier required }
+
+  /mental-health:
+    post:
+      summary: Mental Health Markers
+      description: "**Tier: Premium** — Anxiety, depression, narcissism, and emotional stability indicators."
+      tags: [Premium]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/BirthInput' }
+      responses:
+        "200": { description: Mental health analysis }
+        "403": { description: Premium tier required }
+
+  /psychological-profile:
+    post:
+      summary: Psychological Profile
+      description: "**Tier: Premium** — Attachment style, emotional patterns, and relationship personality."
+      tags: [Premium]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/BirthInput' }
+      responses:
+        "200": { description: Psychological profile }
+        "403": { description: Premium tier required }
+
+  /conflict-zones:
+    post:
+      summary: Conflict Zones
+      description: "**Tier: Premium** — Conflict triggers and hot-button topics between two people."
+      tags: [Premium]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PairInput' }
+      responses:
+        "200": { description: Conflict zone data }
+        "403": { description: Premium tier required }
+
+  /vulnerability-windows:
+    post:
+      summary: Vulnerability Windows
+      description: "**Tier: Premium** — Time periods when the relationship is at highest breakdown risk."
+      tags: [Premium]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PairInput' }
+      responses:
+        "200": { description: Vulnerability timeline }
+        "403": { description: Premium tier required }
+
+  /inlaw-analysis:
+    post:
+      summary: In-Law Analysis
+      description: "**Tier: Premium** — Compatibility with partner's family from 4th/8th house indicators."
+      tags: [Premium]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PairInput' }
+      responses:
+        "200": { description: In-law analysis }
+        "403": { description: Premium tier required }
+
+  /spouse-prediction:
+    post:
+      summary: Spouse Prediction
+      description: "**Tier: Premium** — Future spouse appearance, nature, profession, and when/how you will meet."
+      tags: [Premium]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/BirthInput' }
+      responses:
+        "200": { description: Spouse prediction data }
+        "403": { description: Premium tier required }
+
+  /modern-challenges:
+    post:
+      summary: Modern Challenges
+      description: "**Tier: Premium** — Digital age relationship patterns and Uranus/Neptune/Pluto influence."
+      tags: [Premium]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PairInput' }
+      responses:
+        "200": { description: Modern insights data }
+        "403": { description: Premium tier required }
+
+  /remedies:
+    post:
+      summary: Remedies
+      description: "**Tier: Premium** — Lal Kitab and gemstone recommendations based on planetary afflictions."
+      tags: [Premium]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/BirthInput' }
+      responses:
+        "200": { description: Remedies data }
+        "403": { description: Premium tier required }
+
+tags:
+  - name: Free
+    description: Available on all plans (50 calls/day on free tier)
+  - name: Developer
+    description: Requires Developer plan ($9-29/mo)
+  - name: Premium
+    description: Requires Premium plan ($99/mo) — unique features not available anywhere else
