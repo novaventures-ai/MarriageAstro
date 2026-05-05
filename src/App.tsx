@@ -72,6 +72,9 @@ const PrivacyPolicy = lazy(() => import('./pages/legal/PrivacyPolicy'));
 const TermsOfService = lazy(() => import('./pages/legal/TermsOfService'));
 const RefundPolicy = lazy(() => import('./pages/legal/RefundPolicy'));
 
+// Developer API
+const ApiKeysPage = lazy(() => import('./pages/ApiKeysPage').then(m => ({ default: m.ApiKeysPage })));
+
 // 404
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
 
@@ -200,6 +203,7 @@ function App() {
               <Route path="/blog/nadi-dosha-complete-guide" element={<NadiDoshaPage />} />
 
               {/* Admin, Pricing, Demo & Affiliate */}
+              <Route path="/api-keys" element={<ApiKeysPage />} />
               <Route path="/admin" element={<AdminPage />} />
               <Route path="/pricing" element={<PricingPage />} />
               <Route path="/demo" element={<DemoPage />} />
