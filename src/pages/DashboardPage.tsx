@@ -24,6 +24,8 @@ import {
   HelpCircle,
   SearchCode,
   IndianRupee,
+  Terminal,
+  Code,
 } from 'lucide-react';
 import { useUserProfileStore, UserMode } from '../store/useUserProfileStore';
 import { useAuth } from '../context/AuthContext';
@@ -84,7 +86,8 @@ export const DashboardPage: React.FC = () => {
   const { 
     selfChart, selfBirthData, partners, isHydrated, isDemoMode, loadFromCloud, 
     userMode, setUserMode, planTier, unlockedSections, planExpiresAt,
-    wantsAutoRenew, toggleAutoRenewInterest, paymentHistory, reportUnlocks
+    wantsAutoRenew, toggleAutoRenewInterest, paymentHistory, reportUnlocks,
+    isAdmin
   } = useUserProfileStore();
 
   // Load cloud data when dashboard mounts (skip in demo mode)
@@ -471,6 +474,66 @@ export const DashboardPage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Developer & AI Infrastructure Section */}
+      {(planTier === 'premium' || planTier === 'astrologer' || isAdmin) && (
+        <section className="mb-6 bg-gradient-to-br from-gray-900 to-indigo-950 rounded-2xl shadow-xl border border-indigo-500/30 overflow-hidden text-white">
+          <div className="px-6 py-4 border-b border-white/10 flex items-center justify-between bg-black/20">
+            <h2 className="text-lg font-semibold flex items-center gap-2">
+              <Terminal className="w-5 h-5 text-indigo-400" />
+              Developer & AI Infrastructure
+            </h2>
+            {isAdmin && (
+              <span className="px-2 py-1 bg-indigo-500/20 text-indigo-300 rounded text-[10px] font-bold uppercase tracking-wider border border-indigo-500/30">
+                Admin Access Enabled
+              </span>
+            )}
+          </div>
+          <div className="p-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-4">
+                <div className="flex items-start gap-4">
+                  <div className="p-2.5 rounded-xl bg-indigo-500/10 border border-indigo-500/20">
+                    <Code className="w-5 h-5 text-indigo-400" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-gray-100">Astro Marriage API</h3>
+                    <p className="text-sm text-gray-400 mt-1">
+                      Integrate birth charts and compatibility logic into your own applications with our robust REST API.
+                    </p>
+                  </div>
+                </div>
+                <button 
+                  onClick={() => navigate('/api-keys')}
+                  className="w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-semibold transition-all shadow-lg shadow-indigo-600/20"
+                >
+                  Manage API Keys
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex items-start gap-4">
+                  <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+                    <Terminal className="w-5 h-5 text-emerald-400" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-gray-100">MCP Server Integration</h3>
+                    <p className="text-sm text-gray-400 mt-1">
+                      Connect your AI agents (Claude/Cursor) to Astro Marriage via our Model Context Protocol server.
+                    </p>
+                  </div>
+                </div>
+                <button 
+                  onClick={() => navigate('/api-keys')}
+                  className="w-full py-2 border border-emerald-500/30 hover:bg-emerald-500/10 text-emerald-400 rounded-lg text-sm font-semibold transition-all"
+                >
+                  Setup MCP Server
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Partners + Quick Actions Row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">

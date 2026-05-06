@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Heart, Stars, Sparkles, ArrowRight, User, ChevronRight, LayoutDashboard, ChevronDown, ChevronUp, Shield, Brain, Flame, Clock, Swords, Eye, Zap, Target, Check, X, Lock, Crown, Star, Quote, Play } from 'lucide-react';
+import { Heart, Stars, Sparkles, ArrowRight, User, ChevronRight, LayoutDashboard, ChevronDown, ChevronUp, Shield, Brain, Flame, Clock, Swords, Eye, Zap, Target, Check, X, Lock, Crown, Star, Quote, Play, Code, Terminal, CheckCircle2, BrainCircuit } from 'lucide-react';
 import { ThemeToggle } from '../components/ui/ThemeToggle';
 import { AuthButton } from '../components/ui/AuthButton';
 import { useAuth } from '../context/AuthContext';
@@ -647,6 +647,86 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
+      {/* Developer & AI Ecosystem Section */}
+      <section className="py-12 sm:py-20 px-3 sm:px-4 bg-[#0a0c10] text-white overflow-hidden relative safe-area-x">
+        {/* Abstract background elements */}
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-20">
+          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-600/30 blur-[120px] rounded-full"></div>
+          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-600/30 blur-[120px] rounded-full"></div>
+        </div>
+
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="text-center mb-10 sm:mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-4 sm:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">
+              Built for Developers & AI Agents
+            </h2>
+            <p className="text-gray-400 text-sm sm:text-lg max-w-2xl mx-auto">
+              The world's most advanced Marriage Astrology infrastructure. Integrate cosmic intelligence into your apps or connect your AI agents directly to the stars.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+            {/* API Card */}
+            <div className="bg-gray-900/50 backdrop-blur-xl border border-gray-800 rounded-2xl sm:rounded-3xl p-6 sm:p-8 hover:border-indigo-500/50 transition-all group">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-indigo-500/10 rounded-xl sm:rounded-2xl flex items-center justify-center mb-6 text-indigo-400 group-hover:scale-110 transition-transform duration-500">
+                <Code className="w-6 h-6 sm:w-8 sm:h-8" />
+              </div>
+              <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Astro Marriage API</h3>
+              <p className="text-sm sm:text-base text-gray-400 leading-relaxed mb-6 sm:mb-8">
+                Professional-grade REST API with 100+ endpoints. From birth charts and planetary positions to complex compatibility scores and dasha predictions.
+              </p>
+              <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
+                {[
+                  'Enterprise-scale JSON infrastructure',
+                  'Ashtakoot & Dashakoot matching',
+                  'Marriage timing & Spouse predictions',
+                  'Planetary vulnerability mapping'
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center gap-3 text-xs sm:text-sm text-gray-300">
+                    <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400">
+                      <Check className="w-2 h-2 sm:w-3 sm:h-3" />
+                    </div>
+                    {item}
+                  </div>
+                ))}
+              </div>
+              <Link to="/api-keys" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 py-3 px-6 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold transition-all group-hover:shadow-[0_0_20px_rgba(79,70,229,0.4)]">
+                Get API Keys <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+
+            {/* MCP Card */}
+            <div className="bg-gray-900/50 backdrop-blur-xl border border-gray-800 rounded-2xl sm:rounded-3xl p-6 sm:p-8 hover:border-emerald-500/50 transition-all group">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-emerald-500/10 rounded-xl sm:rounded-2xl flex items-center justify-center mb-6 text-emerald-400 group-hover:scale-110 transition-transform duration-500">
+                <Terminal className="w-6 h-6 sm:w-8 sm:h-8" />
+              </div>
+              <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Model Context Protocol (MCP)</h3>
+              <p className="text-sm sm:text-base text-gray-400 leading-relaxed mb-6 sm:mb-8">
+                Connect Claude, Cursor, and other AI agents directly to Astro Marriage. Enable your AI assistants to read charts and provide astronomical context natively.
+              </p>
+              <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
+                {[
+                  'Native integration with Claude & Cursor',
+                  'Context-aware astrological reasoning',
+                  'Real-time planetary data streaming',
+                  'Secure OAuth2 authentication'
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center gap-3 text-xs sm:text-sm text-gray-300">
+                    <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400">
+                      <Check className="w-2 h-2 sm:w-3 sm:h-3" />
+                    </div>
+                    {item}
+                  </div>
+                ))}
+              </div>
+              <Link to="/api-keys" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 py-3 px-6 border border-emerald-500/50 text-emerald-400 hover:bg-emerald-500/10 rounded-xl font-semibold transition-all">
+                Setup MCP Server <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* FAQ Section - visible content for AI engines and SEO */}
       <section className="py-12 sm:py-20 px-3 sm:px-4 bg-white/50 dark:bg-black/20 safe-area-x">
         <div className="max-w-3xl mx-auto">
@@ -767,8 +847,8 @@ export const LandingPage: React.FC = () => {
                   { to: '/features/divorce-risk', label: 'Divorce Risk Radar' },
                   { to: '/features/ashtakoot-milan', label: 'Ashtakoot Milan' },
                   { to: '/features/marriage-timing', label: 'Marriage Timing' },
-                  { to: '/features/vulnerability-timeline', label: 'Vulnerability Timeline' },
-                  { to: '/features/spouse-prediction', label: 'Spouse Prediction' },
+                  { to: '/api-keys', label: 'Developer API' },
+                  { to: '/api-keys', label: 'MCP Server' },
                 ].map(l => (
                   <li key={l.to}><Link to={l.to} className="text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{l.label}</Link></li>
                 ))}
