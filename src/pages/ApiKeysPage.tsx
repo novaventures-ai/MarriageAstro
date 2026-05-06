@@ -6,6 +6,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { Key, Plus, Copy, Trash2, CheckCircle, AlertCircle, ExternalLink, Shield, Zap, Crown, RefreshCw } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../context/AuthContext';
+import { useUserProfileStore } from '../store/useUserProfileStore';
 import { SEOHead } from '../components/SEOHead';
 
 interface ApiKey {
@@ -50,6 +51,7 @@ function generateKey(): string {
 
 export function ApiKeysPage() {
   const { user } = useAuth();
+  const isAdmin = useUserProfileStore(state => state.isAdmin);
   const [keys, setKeys] = useState<ApiKey[]>([]);
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
@@ -80,9 +82,10 @@ export function ApiKeysPage() {
     setCreating(true);
     setError(null);
     const key = generateKey();
+    const tier = isAdmin ? 'premium' : 'free';
     const { data, error: err } = await supabase
       .from('api_keys')
-      .insert({ key, user_id: user.id, label: newLabel || null, tier: 'free' })
+      .insert({ key, user_id: user.id, label: newLabel || null, tier })
       .select()
       .single();
     setCreating(false);
@@ -224,8 +227,12 @@ export function ApiKeysPage() {
                   />
                 </div>
                 <p className="text-xs text-slate-500 dark:text-slate-400">
-                  New keys start on the <strong>Free</strong> tier (50 calls/day). Upgrade at any time from the{' '}
-                  <a href="/pricing" className="text-violet-600 hover:underline">Pricing page</a>.
+                  {isAdmin ? (
+                    <span className="text-emerald-600 font-medium">Admin detected: Your new key will be on the <strong>Premium</strong> tier automatically.</span>
+                  ) : (
+                    <>New keys start on the <strong>Free</strong> tier (50 calls/day). Upgrade at any time from the{' '}
+                    <a href="/pricing" className="text-violet-600 hover:underline">Pricing page</a>.</>
+                  )}
                 </p>
                 <div className="flex gap-3">
                   <button
