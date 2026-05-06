@@ -4,6 +4,7 @@
  * Returns: single-person marriage readiness, personality profile, timing forecast
  */
 import { validateApiKey, requireTier, parseBirthData } from './_auth';
+import { generateChartFromBirthData } from '../../lib/reportGenerator';
 import { generateSelfAnalysisReport } from '../../lib/selfReportGenerator';
 
 export default async function handler(req: any, res: any) {
@@ -19,7 +20,8 @@ export default async function handler(req: any, res: any) {
   }
 
   try {
-    const report = await generateSelfAnalysisReport(birth);
+    const chart = await generateChartFromBirthData(birth);
+    const report = await generateSelfAnalysisReport(birth, chart);
 
     // Strip premium sections for non-premium tier
     if (auth.tier !== 'premium') {

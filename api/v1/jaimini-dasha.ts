@@ -21,9 +21,16 @@ export default async function handler(req: any, res: any) {
 
   try {
     const chart = await generateChartFromBirthData(birth);
-    const karakas = calculateCharaKarakasUnified(chart);
-    const darakaraka = analyzeDarakaraka(chart);
-    const upapada = calculateUpapadaLagna(chart);
+    const karakas = calculateCharaKarakasUnified(chart.planetaryPositions);
+
+    const dkPlanet = chart.specialPoints.darakaraka;
+    const dkPos = chart.planetaryPositions.find((p: any) => p.planet === dkPlanet);
+    const darakaraka = analyzeDarakaraka(dkPlanet, {
+      sign: dkPos?.sign || 'Libra',
+      house: dkPos?.house || 7,
+    });
+
+    const upapada = calculateUpapadaLagna(chart.ascendantDegree || 0, chart.houses);
 
     return res.status(200).json({
       success: true,

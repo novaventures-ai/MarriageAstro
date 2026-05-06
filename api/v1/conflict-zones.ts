@@ -4,7 +4,7 @@
  * Returns: conflict triggers, hot-button topics, and tension patterns between two people
  */
 import { validateApiKey, requireTier, parseBirthData } from './_auth';
-import { generateChartFromBirthData } from '../../lib/reportGenerator';
+import { generateFullCompatibilityReport } from '../../lib/reportGenerator';
 import { calculateConflictZones } from '../../lib/conflictCalculations';
 
 export default async function handler(req: any, res: any) {
@@ -22,12 +22,8 @@ export default async function handler(req: any, res: any) {
   }
 
   try {
-    const [chartA, chartB] = await Promise.all([
-      generateChartFromBirthData(birthA),
-      generateChartFromBirthData(birthB),
-    ]);
-
-    const conflictZones = calculateConflictZones(chartA, chartB);
+    const report = await generateFullCompatibilityReport(birthA, birthB);
+    const conflictZones = calculateConflictZones(report.chartA, report.chartB, report);
     return res.status(200).json({ success: true, data: conflictZones });
   } catch (err: any) {
     return res.status(500).json({ error: err.message || 'Calculation failed' });
