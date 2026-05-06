@@ -74,6 +74,8 @@ const RefundPolicy = lazy(() => import('./pages/legal/RefundPolicy'));
 
 // Developer API
 const ApiKeysPage = lazy(() => import('./pages/ApiKeysPage').then(m => ({ default: m.ApiKeysPage })));
+const ApiDocsPage = lazy(() => import('./pages/ApiDocsPage').then(m => ({ default: m.ApiDocsPage })));
+const McpDocsPage = lazy(() => import('./pages/McpDocsPage').then(m => ({ default: m.McpDocsPage })));
 
 // 404
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
@@ -204,6 +206,8 @@ function App() {
 
               {/* Admin, Pricing, Demo & Affiliate */}
               <Route path="/api-keys" element={<ApiKeysPage />} />
+              <Route path="/api-docs" element={<ApiDocsPage />} />
+              <Route path="/mcp-docs" element={<McpDocsPage />} />
               <Route path="/admin" element={<AdminPage />} />
               <Route path="/pricing" element={<PricingPage />} />
               <Route path="/demo" element={<DemoPage />} />

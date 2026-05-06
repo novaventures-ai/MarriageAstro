@@ -1,5 +1,5 @@
 {
-  "name": "vedic-astro-mcp",
+  "name": "marriage-astro-mcp",
   "version": "1.0.0",
   "description": "Vedic Astrology MCP Server — birth charts, compatibility, divorce risk, spouse prediction, and more via MarriageAstro's calculation engine",
   "keywords": [
@@ -16,7 +16,7 @@
   "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "vedic-astro-mcp": "dist/index.js"
+    "marriage-astro-mcp": "dist/index.js"
   },
   "files": ["dist"],
   "scripts": {

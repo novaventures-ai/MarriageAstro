@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * vedic-astro-mcp — MCP Server for MarriageAstro
+ * marriage-astro-mcp — MCP Server for MarriageAstro
  * Exposes Vedic astrology calculations as MCP tools for Claude, Cursor, and other AI clients.
  *
  * Usage (Claude Desktop config):
@@ -8,8 +8,8 @@
  *   "mcpServers": {
  *     "vedic-astro": {
  *       "command": "npx",
- *       "args": ["vedic-astro-mcp"],
- *       "env": { "VEDIC_ASTRO_API_KEY": "your-key-here" }
+ *       "args": ["marriage-astro-mcp"],
+ *       "env": { "MARRIAGE_ASTRO_API_KEY": "your-key-here" }
  *     }
  *   }
  * }
@@ -23,7 +23,7 @@ import { callApi } from './client.js';
 import { BIRTH_DATA_SCHEMA, PAIR_SCHEMA, birthDataToPayload, pairToPayload } from './schema.js';
 
 const server = new McpServer({
-  name: 'vedic-astro-mcp',
+  name: 'marriage-astro-mcp',
   version: '1.0.0',
 });
 

@@ -2,7 +2,7 @@
 # Submit at: https://smithery.ai/new
 # Docs: https://smithery.ai/docs/config
 
-name: vedic-astro-mcp
+name: marriage-astro-mcp
 displayName: Vedic Astrology MCP — MarriageAstro
 description: |
   The world's most complete Vedic astrology MCP server. 22 tools covering:
@@ -41,15 +41,15 @@ tags:
 
 # How to install
 install:
-  npm: vedic-astro-mcp
+  npm: marriage-astro-mcp
 
 # Runtime configuration
 runtime:
   command: npx
   args:
-    - vedic-astro-mcp
+    - marriage-astro-mcp
   env:
-    VEDIC_ASTRO_API_KEY:
+    MARRIAGE_ASTRO_API_KEY:
       description: Your MarriageAstro API key (get free at marriageastro.com/api-keys)
       required: true
 

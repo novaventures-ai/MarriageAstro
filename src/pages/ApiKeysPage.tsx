@@ -8,6 +8,7 @@ import { supabase } from '../lib/supabase';
 import { useAuth } from '../context/AuthContext';
 import { useUserProfileStore } from '../store/useUserProfileStore';
 import { SEOHead } from '../components/SEOHead';
+import { Link } from 'react-router-dom';
 
 interface ApiKey {
   id: string;
@@ -142,11 +143,11 @@ export function ApiKeysPage() {
             </div>
             <p className="text-slate-500 dark:text-slate-400">
               Use these keys to access the{' '}
-              <a href="https://marriageastro.com/vedic-astrology-api" className="text-violet-600 hover:underline">
+              <Link to="/api-docs" className="text-violet-600 hover:underline">
                 MarriageAstro REST API
-              </a>{' '}
+              </Link>{' '}
               and the{' '}
-              <code className="text-sm bg-slate-100 dark:bg-slate-800 px-1 rounded">vedic-astro-mcp</code> server.
+              <Link to="/mcp-docs" className="text-sm text-violet-600 hover:underline bg-slate-100 dark:bg-slate-800 px-1 rounded">marriage-astro-mcp</Link> server.
             </p>
           </div>
 
@@ -362,13 +363,20 @@ export function ApiKeysPage() {
               <p className="text-sm text-violet-600 dark:text-violet-400">Read the API docs or install the MCP server.</p>
             </div>
             <div className="flex gap-3 shrink-0">
-              <a
-                href="/vedic-astrology-api"
+              <Link
+                to="/api-docs"
                 className="flex items-center gap-1 px-3 py-2 text-sm bg-violet-600 hover:bg-violet-700 text-white rounded-lg transition-colors"
               >
                 <ExternalLink className="w-3.5 h-3.5" />
                 API Docs
-              </a>
+              </Link>
+              <Link
+                to="/mcp-docs"
+                className="flex items-center gap-1 px-3 py-2 text-sm border border-violet-200 dark:border-violet-700 hover:bg-violet-100 dark:hover:bg-violet-900/40 text-violet-700 dark:text-violet-300 rounded-lg transition-colors"
+              >
+                <ExternalLink className="w-3.5 h-3.5" />
+                MCP Setup
+              </Link>
             </div>
           </div>
         </div>

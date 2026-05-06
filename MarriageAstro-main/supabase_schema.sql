@@ -1,0 +1,89 @@
+-- SUPABASE SCHEMA FOR ASTRO MARRIAGE APP
+-- Run these in your Supabase SQL Editor to create the necessary tables.
+
+-- 1. Profiles Table (Self Data)
+CREATE TABLE IF NOT EXISTS profiles (
+  user_id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+  self_birth_data JSONB NOT NULL,
+  self_chart JSONB NOT NULL,
+  self_report JSONB,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- 2. Partners Table
+CREATE TABLE IF NOT EXISTS partners (
+  id UUID PRIMARY KEY,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  name TEXT NOT NULL,
+  gender TEXT NOT NULL,
+  date_of_birth TEXT NOT NULL,
+  time_of_birth TEXT NOT NULL,
+  location TEXT,
+  latitude DOUBLE PRECISION,
+  longitude DOUBLE PRECISION,
+  timezone TEXT,
+  chart JSONB,
+  notes TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- 3. Compatibility Reports Table
+CREATE TABLE IF NOT EXISTS compatibility_reports (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  chart_a_name TEXT NOT NULL,
+  chart_b_name TEXT NOT NULL,
+  overall_score INTEGER NOT NULL,
+  overall_verdict TEXT NOT NULL,
+  report_data JSONB NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- 4. Birth Charts Table (Optional / Legacy)
+CREATE TABLE IF NOT EXISTS birth_charts (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  name_label TEXT NOT NULL,
+  birth_date TEXT NOT NULL,
+  birth_time TEXT NOT NULL,
+  birth_place TEXT,
+  lat DOUBLE PRECISION,
+  lon DOUBLE PRECISION,
+  chart_data JSONB NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- 5. Partner Comparisons Table
+CREATE TABLE IF NOT EXISTS partner_comparisons (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  profile_name TEXT NOT NULL,
+  profile_birth_data JSONB NOT NULL,
+  partners JSONB NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Enable RLS (Row Level Security)
+ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE partners ENABLE ROW LEVEL SECURITY;
+ALTER TABLE compatibility_reports ENABLE ROW LEVEL SECURITY;
+ALTER TABLE birth_charts ENABLE ROW LEVEL SECURITY;
+ALTER TABLE partner_comparisons ENABLE ROW LEVEL SECURITY;
+
+-- Create Policies (User can only see their own data)
+CREATE POLICY "Users can manage their own profile" ON profiles 
+  FOR ALL USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can manage their own partners" ON partners 
+  FOR ALL USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can manage their own reports" ON compatibility_reports 
+  FOR ALL USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can manage their own charts" ON birth_charts 
+  FOR ALL USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can manage their own comparisons" ON partner_comparisons 
+  FOR ALL USING (auth.uid() = user_id);

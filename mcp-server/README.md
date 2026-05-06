@@ -1,4 +1,4 @@
-# vedic-astro-mcp
+# marriage-astro-mcp
 
 > **The world's most complete Vedic astrology MCP server** — 22 tools covering birth charts, compatibility, divorce risk, infidelity analysis, sexual compatibility, mental health markers, spouse prediction, and more.
 
@@ -21,9 +21,9 @@ Edit `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) o
   "mcpServers": {
     "vedic-astro": {
       "command": "npx",
-      "args": ["vedic-astro-mcp"],
+      "args": ["marriage-astro-mcp"],
       "env": {
-        "VEDIC_ASTRO_API_KEY": "your-api-key-here"
+        "MARRIAGE_ASTRO_API_KEY": "your-api-key-here"
       }
     }
   }
@@ -39,8 +39,8 @@ In your MCP config file:
 ```json
 {
   "vedic-astro": {
-    "command": "npx vedic-astro-mcp",
-    "env": { "VEDIC_ASTRO_API_KEY": "your-key" }
+    "command": "npx marriage-astro-mcp",
+    "env": { "MARRIAGE_ASTRO_API_KEY": "your-key" }
   }
 }
 ```

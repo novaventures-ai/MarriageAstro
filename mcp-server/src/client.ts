@@ -5,12 +5,12 @@
 const DEFAULT_BASE_URL = 'https://marriageastro.com/api/v1';
 
 export async function callApi(endpoint: string, body: Record<string, unknown>): Promise<unknown> {
-  const apiKey = process.env.VEDIC_ASTRO_API_KEY;
-  const baseUrl = process.env.VEDIC_ASTRO_BASE_URL || DEFAULT_BASE_URL;
+  const apiKey = process.env.MARRIAGE_ASTRO_API_KEY;
+  const baseUrl = process.env.MARRIAGE_ASTRO_BASE_URL || DEFAULT_BASE_URL;
 
   if (!apiKey) {
     throw new Error(
-      'VEDIC_ASTRO_API_KEY is not set. Get your key at https://marriageastro.com/api-keys'
+      'MARRIAGE_ASTRO_API_KEY is not set. Get your key at https://marriageastro.com/api-keys'
     );
   }
 

@@ -719,7 +719,7 @@ export const LandingPage: React.FC = () => {
                   </div>
                 ))}
               </div>
-              <Link to="/api-keys" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 py-3 px-6 border border-emerald-500/50 text-emerald-400 hover:bg-emerald-500/10 rounded-xl font-semibold transition-all">
+              <Link to="/mcp-docs" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 py-3 px-6 border border-emerald-500/50 text-emerald-400 hover:bg-emerald-500/10 rounded-xl font-semibold transition-all">
                 Setup MCP Server <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>

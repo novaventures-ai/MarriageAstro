@@ -524,7 +524,7 @@ export const DashboardPage: React.FC = () => {
                   </div>
                 </div>
                 <button 
-                  onClick={() => navigate('/api-keys')}
+                  onClick={() => navigate('/mcp-docs')}
                   className="w-full py-2 border border-emerald-500/30 hover:bg-emerald-500/10 text-emerald-400 rounded-lg text-sm font-semibold transition-all"
                 >
                   Setup MCP Server
