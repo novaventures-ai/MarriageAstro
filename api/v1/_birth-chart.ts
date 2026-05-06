@@ -30,6 +30,12 @@ export default async function handler(req: any, res: any) {
 
   try {
     const chart = await generateChartFromBirthData(birth);
+    const seventhMalefics = chart.planetaryPositions.filter((p: any) =>
+      ['Mars', 'Saturn', 'Rahu'].includes(p.planet) && [7, 2, 8].includes(p.house)
+    ).length;
+    const moonAfflicted = chart.planetaryPositions.some((p: any) => p.planet === 'Moon' && [6, 8, 12].includes(p.house));
+    const afflictedCount = chart.planetaryPositions.filter((p: any) => p.dignity === 'debilitated').length;
+
     return res.status(200).json({
       success: true,
       data: {
@@ -39,6 +45,13 @@ export default async function handler(req: any, res: any) {
         yogas: chart.yogas,
         dashas: chart.dashas,
         birthData: { name: birth.name, date: birth.dateOfBirth, time: birth.timeOfBirth },
+        _premium_preview: {
+          divorce_risk: seventhMalefics >= 2 ? 'HIGH — upgrade to see full analysis' : seventhMalefics === 1 ? 'MODERATE — upgrade to see details' : 'LOW — upgrade to confirm',
+          mental_health: moonAfflicted ? '1+ indicators detected — upgrade to see full report' : 'Analysis available — upgrade to view',
+          remedies_available: afflictedCount + 3,
+          spouse_prediction: 'Full spouse profile available — upgrade to view',
+          upgrade_url: 'https://marriageastro.com/api-keys',
+        },
       },
     });
   } catch (err: any) {

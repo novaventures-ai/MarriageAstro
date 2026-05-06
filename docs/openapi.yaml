@@ -14,9 +14,12 @@ info:
     Built on Swiss Ephemeris with Lahiri ayanamsa for maximum accuracy.
 
     ## Tiers
-    - **Free** (50 calls/day): birth-chart, compatibility, dosha-check
+    - **Free** (50 calls/day): birth-chart, compatibility, dosha-check + teaser previews of all 22 endpoints
     - **Developer** ($9-29/mo, 500-5000 calls/day): full-report, marriage-timing, synastry, navamsa, kp-analysis, jaimini-dasha, self-analysis
-    - **Premium** ($99/mo, unlimited): All endpoints including divorce-risk, infidelity-risk, sexual-compatibility, mental-health, psychological-profile, conflict-zones, vulnerability-windows, inlaw-analysis, spouse-prediction, modern-challenges, remedies
+    - **Solo** ($49/mo, 5000 calls/day): All 22 endpoints — for individual developers and MCP users
+    - **Premium** ($99/mo, unlimited): All 22 endpoints — for businesses and high-volume production use
+
+    **Try before you upgrade**: Premium endpoints return HTTP 200 with `"preview": true` on lower tiers, showing real chart-based insights (risk level, key indicators) before asking for upgrade.
 
     Get your API key at: https://marriageastro.com/api-keys
   contact:
