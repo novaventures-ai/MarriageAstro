@@ -1,16 +1,10 @@
 {
     "functions": {
-        "api/v1/*.ts": {
+        "api/v1/[endpoint].ts": {
             "maxDuration": 30,
             "includeFiles": "public/swisseph.wasm"
         }
     },
-    "crons": [
-        {
-            "path": "/api/keep-alive",
-            "schedule": "0 0 * * *"
-        }
-    ],
     "headers": [
         {
             "source": "/(.*)",
@@ -24,6 +18,8 @@
         }
     ],
     "rewrites": [
+        { "source": "/api/send-email", "destination": "/api/notify" },
+        { "source": "/api/send-push", "destination": "/api/notify" },
         {
             "source": "/api/(.*)",
             "destination": "/api/$1"
