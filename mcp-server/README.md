@@ -113,10 +113,12 @@ Once installed, just ask Claude naturally:
 
 | Plan | Price | Daily Calls | Access |
 |------|-------|-------------|--------|
-| Free | $0 | 50 | Tier 1 (3 tools) |
+| Free | $0 | 50 | Tier 1 (3 tools) + **previews of all 22** |
 | Developer | $9/mo | 500 | Tier 1+2 (10 tools) |
-| Professional | $29/mo | 5,000 | Tier 1+2 (10 tools) |
-| Premium | $99/mo | Unlimited | All 22 tools |
+| Solo | $49/mo | 5,000 | All 22 tools — for individuals & MCP users |
+| Premium | $99/mo | Unlimited | All 22 tools — for businesses & high-volume |
+
+> **Try any tool for free** — premium tools return a real teaser preview (not just an error) when called on a free key, so you can see the value before upgrading.
 
 [Get API key →](https://marriageastro.com/api-keys)
 

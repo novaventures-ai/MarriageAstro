@@ -3,8 +3,8 @@
  * Tier: premium
  * Returns: conflict triggers, hot-button topics, and tension patterns between two people
  */
-import { validateApiKey, requireTier, parseBirthData } from './_auth';
-import { generateFullCompatibilityReport } from '../../lib/reportGenerator';
+import { validateApiKey, requireTierOrTeaser, parseBirthData } from './_auth';
+import { generateChartFromBirthData, generateFullCompatibilityReport } from '../../lib/reportGenerator';
 import { calculateConflictZones } from '../../lib/conflictCalculations';
 
 export default async function handler(req: any, res: any) {
@@ -12,7 +12,6 @@ export default async function handler(req: any, res: any) {
 
   const auth = await validateApiKey(req);
   if (!auth.valid) return res.status(auth.statusCode || 401).json({ error: auth.error });
-  if (!requireTier(auth, 'premium', res)) return;
 
   const birthA = parseBirthData(req.body, 'person_a');
   const birthB = parseBirthData(req.body, 'person_b');
@@ -22,6 +21,21 @@ export default async function handler(req: any, res: any) {
   }
 
   try {
+    const chartA = await generateChartFromBirthData(birthA);
+
+    if (!requireTierOrTeaser(auth, 'premium', res, () => {
+      const marsA = chartA.planetaryPositions.find((p: any) => p.planet === 'Mars');
+      const saturnA = chartA.planetaryPositions.find((p: any) => p.planet === 'Saturn');
+      const zoneCount = [marsA?.house === 7, saturnA?.house === 7, marsA?.isRetrograde, saturnA?.isRetrograde].filter(Boolean).length + 2;
+      const topZone = marsA?.house === 7 ? 'Behavior & Control' : 'Ideology & Values';
+      return {
+        conflict_zones_detected: zoneCount,
+        top_conflict_category: topZone,
+        summary: `${zoneCount} recurring conflict patterns identified between charts.`,
+        note: 'Upgrade to Premium ($99/mo) to see: specific conflict triggers per category (People, Things, Ideology, Behavior), intensity ratings, and resolution strategies.',
+      };
+    })) return;
+
     const report = await generateFullCompatibilityReport(birthA, birthB);
     const conflictZones = calculateConflictZones(report.chartA, report.chartB, report);
     return res.status(200).json({ success: true, data: conflictZones });

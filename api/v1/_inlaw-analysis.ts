@@ -3,15 +3,14 @@
  * Tier: premium
  * Returns: compatibility with partner's family (in-law analysis from chart indicators)
  */
-import { validateApiKey, requireTier, parseBirthData } from './_auth';
-import { generateFullCompatibilityReport } from '../../lib/reportGenerator';
+import { validateApiKey, requireTierOrTeaser, parseBirthData } from './_auth';
+import { generateChartFromBirthData, generateFullCompatibilityReport } from '../../lib/reportGenerator';
 
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST required' });
 
   const auth = await validateApiKey(req);
   if (!auth.valid) return res.status(auth.statusCode || 401).json({ error: auth.error });
-  if (!requireTier(auth, 'premium', res)) return;
 
   const birthA = parseBirthData(req.body, 'person_a');
   const birthB = parseBirthData(req.body, 'person_b');
@@ -21,6 +20,21 @@ export default async function handler(req: any, res: any) {
   }
 
   try {
+    const chartA = await generateChartFromBirthData(birthA);
+
+    if (!requireTierOrTeaser(auth, 'premium', res, () => {
+      const fourthHouseMalefics = chartA.planetaryPositions.filter((p: any) =>
+        ['Mars', 'Saturn', 'Rahu', 'Ketu'].includes(p.planet) && p.house === 4
+      ).length;
+      const outlook = fourthHouseMalefics >= 2 ? 'CHALLENGING' : fourthHouseMalefics === 1 ? 'MODERATE' : 'HARMONIOUS';
+      return {
+        inlaw_compatibility_preview: outlook,
+        fourth_house_indicators: fourthHouseMalefics,
+        summary: `4th house analysis suggests ${outlook.toLowerCase()} in-law dynamics.`,
+        note: 'Upgrade to Premium ($99/mo) to see: full in-law compatibility report, specific family friction areas, and remedies for smoother family integration.',
+      };
+    })) return;
+
     const report = await generateFullCompatibilityReport(birthA, birthB);
     return res.status(200).json({
       success: true,

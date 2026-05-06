@@ -3,7 +3,7 @@
  * Tier: premium
  * Returns: anxiety, depression, narcissism, and other mental health markers from birth chart
  */
-import { validateApiKey, requireTier, parseBirthData } from './_auth';
+import { validateApiKey, requireTierOrTeaser, parseBirthData } from './_auth';
 import { generateChartFromBirthData } from '../../lib/reportGenerator';
 import { analyzeMentalHealth } from '../../lib/mentalHealthCalculations';
 
@@ -12,7 +12,6 @@ export default async function handler(req: any, res: any) {
 
   const auth = await validateApiKey(req);
   if (!auth.valid) return res.status(auth.statusCode || 401).json({ error: auth.error });
-  if (!requireTier(auth, 'premium', res)) return;
 
   const birth = parseBirthData(req.body);
   if (!birth.dateOfBirth || isNaN(birth.latitude)) {
@@ -21,6 +20,19 @@ export default async function handler(req: any, res: any) {
 
   try {
     const chart = await generateChartFromBirthData(birth);
+
+    if (!requireTierOrTeaser(auth, 'premium', res, () => {
+      const afflicted = chart.planetaryPositions.filter((p: any) =>
+        ['Moon', 'Mercury'].includes(p.planet) && [6, 8, 12].includes(p.house)
+      ).length;
+      return {
+        flags_detected: afflicted + chart.planetaryPositions.filter((p: any) => p.isRetrograde && ['Moon', 'Mercury', 'Saturn'].includes(p.planet)).length,
+        top_area: afflicted > 0 ? 'Emotional stability' : 'General wellness',
+        summary: `Mental health markers detected. ${afflicted} Moon/Mercury placements in challenging houses.`,
+        note: 'Upgrade to Premium ($99/mo) to see: anxiety score, depression indicators, narcissism markers, and full emotional pattern analysis.',
+      };
+    })) return;
+
     const mentalHealth = analyzeMentalHealth(chart);
     return res.status(200).json({ success: true, data: mentalHealth });
   } catch (err: any) {

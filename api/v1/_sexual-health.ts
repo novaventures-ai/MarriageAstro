@@ -3,7 +3,7 @@
  * Tier: premium
  * Returns: individual sexual health analysis (PME/ED/Frigidity risk indicators)
  */
-import { validateApiKey, requireTier, parseBirthData } from './_auth';
+import { validateApiKey, requireTierOrTeaser, parseBirthData } from './_auth';
 import { generateChartFromBirthData } from '../../lib/reportGenerator';
 import { analyzeMaleSexualHealth, analyzeFemaleSexualHealth, analyzeLibido } from '../../lib/sexualHealthCalculations';
 
@@ -12,7 +12,6 @@ export default async function handler(req: any, res: any) {
 
   const auth = await validateApiKey(req);
   if (!auth.valid) return res.status(auth.statusCode || 401).json({ error: auth.error });
-  if (!requireTier(auth, 'premium', res)) return;
 
   const birth = parseBirthData(req.body);
   if (!birth.dateOfBirth || isNaN(birth.latitude)) {
@@ -21,6 +20,19 @@ export default async function handler(req: any, res: any) {
 
   try {
     const chart = await generateChartFromBirthData(birth);
+
+    if (!requireTierOrTeaser(auth, 'premium', res, () => {
+      const venus = chart.planetaryPositions.find((p: any) => p.planet === 'Venus');
+      const mars = chart.planetaryPositions.find((p: any) => p.planet === 'Mars');
+      const libidoLevel = (mars?.dignity === 'exalted' || mars?.dignity === 'own_house') ? 'HIGH'
+        : (mars?.dignity === 'debilitated') ? 'LOW' : 'MODERATE';
+      return {
+        libido_level_preview: libidoLevel,
+        venus_placement: `Venus in ${venus?.sign || 'unknown'} (house ${venus?.house || '?'})`,
+        summary: `Mars dignity (${mars?.dignity || 'neutral'}) suggests ${libidoLevel.toLowerCase()} energy levels.`,
+        note: 'Upgrade to Premium ($99/mo) to see: complete sexual health markers, PME/ED/Frigidity risk indicators, and specific remedial recommendations.',
+      };
+    })) return;
     const libido = analyzeLibido(chart);
     const genderSpecific = birth.gender === 'female'
       ? analyzeFemaleSexualHealth(chart)

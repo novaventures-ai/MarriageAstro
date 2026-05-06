@@ -60,6 +60,15 @@ export default async function handler(req: any, res: any) {
           person_a: { summary: doshA.summary, severity: doshA.overallSeverity, doshas: doshA.doshas },
           person_b: { summary: doshB.summary, severity: doshB.overallSeverity, doshas: doshB.doshas },
         },
+        _premium_preview: {
+          divorce_risk: ashtakoot.doshas.nadiDosha || ashtakoot.doshas.bhakootDosha
+            ? 'ELEVATED — dosha combination detected. Upgrade to see full divorce risk analysis'
+            : 'LOW-MODERATE — upgrade to see complete divorce risk assessment',
+          conflict_zones: '3–5 recurring friction patterns available — upgrade to view',
+          vulnerability_windows: 'High-risk periods in next 3 years detected — upgrade to see dates',
+          sexual_compatibility: 'Venus/Mars synastry analysis available — upgrade to view',
+          upgrade_url: 'https://marriageastro.com/api-keys',
+        },
       },
     });
   } catch (err: any) {

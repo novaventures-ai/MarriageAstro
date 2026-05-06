@@ -5,11 +5,12 @@
  */
 import { createClient } from '@supabase/supabase-js';
 
-export type ApiTier = 'free' | 'developer' | 'premium';
+export type ApiTier = 'free' | 'developer' | 'solo' | 'premium';
 
 const DAILY_LIMITS: Record<ApiTier, number> = {
   free: 50,
   developer: 500,
+  solo: 5000,
   premium: 99999,
 };
 
@@ -82,13 +83,37 @@ export async function validateApiKey(req: any): Promise<AuthResult> {
 }
 
 export function requireTier(authResult: AuthResult, required: ApiTier, res: any): boolean {
-  const tiers: ApiTier[] = ['free', 'developer', 'premium'];
+  const tiers: ApiTier[] = ['free', 'developer', 'solo', 'premium'];
   const userLevel = tiers.indexOf(authResult.tier);
   const requiredLevel = tiers.indexOf(required);
   if (userLevel < requiredLevel) {
     res.status(403).json({
       error: `This endpoint requires the '${required}' plan or higher. Your plan: '${authResult.tier}'.`,
-      upgrade_url: 'https://marriageastro.com/pricing',
+      upgrade_url: 'https://marriageastro.com/api-keys',
+    });
+    return false;
+  }
+  return true;
+}
+
+// Like requireTier but returns a teaser preview instead of 403 when tier is insufficient.
+// Call AFTER chart generation so teaser can include real chart insights.
+export function requireTierOrTeaser(
+  authResult: AuthResult,
+  required: ApiTier,
+  res: any,
+  teaser: () => Record<string, any>
+): boolean {
+  const tiers: ApiTier[] = ['free', 'developer', 'solo', 'premium'];
+  const userLevel = tiers.indexOf(authResult.tier);
+  const requiredLevel = tiers.indexOf(required);
+  if (userLevel < requiredLevel) {
+    res.status(200).json({
+      success: true,
+      preview: true,
+      tier_required: required,
+      upgrade_url: 'https://marriageastro.com/api-keys',
+      data: teaser(),
     });
     return false;
   }

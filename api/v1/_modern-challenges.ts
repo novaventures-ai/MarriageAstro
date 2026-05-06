@@ -3,7 +3,7 @@
  * Tier: premium
  * Returns: digital age relationship challenges, modern planet analysis for couple
  */
-import { validateApiKey, requireTier, parseBirthData } from './_auth';
+import { validateApiKey, requireTierOrTeaser, parseBirthData } from './_auth';
 import { generateChartFromBirthData } from '../../lib/reportGenerator';
 import { analyzeModernInsightsEnhanced } from '../../lib/modernInsightsCalculations';
 
@@ -12,7 +12,6 @@ export default async function handler(req: any, res: any) {
 
   const auth = await validateApiKey(req);
   if (!auth.valid) return res.status(auth.statusCode || 401).json({ error: auth.error });
-  if (!requireTier(auth, 'premium', res)) return;
 
   const birthA = parseBirthData(req.body, 'person_a');
   const birthB = parseBirthData(req.body, 'person_b');
@@ -26,6 +25,18 @@ export default async function handler(req: any, res: any) {
       generateChartFromBirthData(birthA),
       generateChartFromBirthData(birthB),
     ]);
+
+    if (!requireTierOrTeaser(auth, 'premium', res, () => {
+      const uranusA = chartA.planetaryPositions.find((p: any) => p.planet === 'Uranus');
+      const neptuneB = chartB.planetaryPositions.find((p: any) => p.planet === 'Neptune');
+      const challenges = [uranusA?.house === 7 || uranusA?.house === 11, neptuneB?.house === 7 || neptuneB?.house === 12].filter(Boolean).length + 2;
+      return {
+        modern_challenge_patterns: challenges,
+        primary_challenge: uranusA?.house === 11 ? 'Social media & digital boundaries' : 'Work-life balance in digital age',
+        summary: `${challenges} modern relationship challenge patterns detected from outer planet analysis.`,
+        note: 'Upgrade to Premium ($99/mo) to see: social media dynamics, long-distance compatibility, digital communication patterns, and Uranus/Neptune/Pluto influence on your relationship.',
+      };
+    })) return;
 
     const insights = analyzeModernInsightsEnhanced(chartA, chartB, birthA.name, birthB.name);
     return res.status(200).json({ success: true, data: insights });
