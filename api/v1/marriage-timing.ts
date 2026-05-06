@@ -21,15 +21,26 @@ export default async function handler(req: any, res: any) {
 
   try {
     const chart = await generateChartFromBirthData(birth);
-    const dasha = calculateVimshottariDasha(chart);
-    const windows = findMarriageWindows(dasha, chart);
+    const moonPos = chart.planetaryPositions.find((p: any) => p.planet === 'Moon');
+    const dasha = calculateVimshottariDasha(
+      chart.nakshatra as any,
+      moonPos?.longitude || 0,
+      new Date(chart.dateOfBirth),
+    );
+    const chartData = {
+      seventhLord: chart.houses[6]?.lord || 'Venus' as any,
+      venusPosition: { house: chart.planetaryPositions.find((p: any) => p.planet === 'Venus')?.house || 0 },
+      jupiterPosition: { house: chart.planetaryPositions.find((p: any) => p.planet === 'Jupiter')?.house || 0 },
+    };
+    const windows = findMarriageWindows(dasha, [], chartData);
+    const currentDasha = dasha.mahaDashas.find((d: any) => d.isCurrent);
 
     return res.status(200).json({
       success: true,
       data: {
         marriage_windows: windows,
-        current_dasha: dasha.currentPeriod,
-        upcoming_periods: dasha.periods?.slice(0, 10),
+        current_dasha: currentDasha,
+        upcoming_periods: dasha.mahaDashas.slice(0, 10),
       },
     });
   } catch (err: any) {

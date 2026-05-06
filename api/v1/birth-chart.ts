@@ -34,7 +34,7 @@ export default async function handler(req: any, res: any) {
       success: true,
       data: {
         ascendant: chart.ascendant,
-        planets: chart.planets,
+        planets: chart.planetaryPositions,
         houses: chart.houses,
         yogas: chart.yogas,
         dashas: chart.dashas,
