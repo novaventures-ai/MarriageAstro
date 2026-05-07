@@ -15,11 +15,12 @@ info:
 
     ## Tiers
     - **Free** (50 calls/day): birth-chart, compatibility, dosha-check + teaser previews of all 22 endpoints
-    - **Developer** ($9-29/mo, 500-5000 calls/day): full-report, marriage-timing, synastry, navamsa, kp-analysis, jaimini-dasha, self-analysis
+    - **Developer** ($9/mo, 500 calls/day): full-report, marriage-timing, synastry, navamsa, kp-analysis, jaimini-dasha, self-analysis
     - **Solo** ($49/mo, 5000 calls/day): All 22 endpoints — for individual developers and MCP users
     - **Premium** ($99/mo, unlimited): All 22 endpoints — for businesses and high-volume production use
 
-    **Try before you upgrade**: Premium endpoints return HTTP 200 with `"preview": true` on lower tiers, showing real chart-based insights (risk level, key indicators) before asking for upgrade.
+    **Try before you upgrade**: Premium endpoints return HTTP 200 with `"preview": true` on lower tiers,
+    showing real chart-based insights (risk level, key indicators) before asking for upgrade.
 
     Get your API key at: https://marriageastro.com/api-keys
   contact:
@@ -103,6 +104,14 @@ components:
         success:
           type: boolean
           example: true
+        preview:
+          type: boolean
+          description: "Present and true when response is a teaser preview (lower tier)"
+          example: false
+        tier_required:
+          type: string
+          description: "The minimum tier required for full results (only present in preview responses)"
+          example: "premium"
         data:
           type: object
 
@@ -118,7 +127,7 @@ paths:
   /birth-chart:
     post:
       summary: Generate Birth Chart
-      description: "**Tier: Free** — Planets, houses, nakshatras, ascendant, yogas, and Vimshottari dashas for one person."
+      description: "**Tier: Free** — Planets, houses, nakshatras, ascendant, yogas, and Vimshottari dashas for one person. Response includes `_premium_preview` hints showing divorce risk level, mental health flags, and remedy count."
       tags: [Free]
       requestBody:
         required: true
@@ -146,7 +155,7 @@ paths:
   /compatibility:
     post:
       summary: Ashtakoot Milan Score
-      description: "**Tier: Free** — 36-point compatibility with all 8 parameters: Varna, Vashya, Tara, Yoni, Graha Maitri, Gana, Bhakoot, Nadi. Includes dosha flags."
+      description: "**Tier: Free** — 36-point compatibility with all 8 parameters: Varna, Vashya, Tara, Yoni, Graha Maitri, Gana, Bhakoot, Nadi. Includes dosha flags and `_premium_preview` hints."
       tags: [Free]
       requestBody:
         required: true
@@ -273,7 +282,7 @@ paths:
   /divorce-risk:
     post:
       summary: Divorce Risk Assessment
-      description: "**Tier: Premium** — Divorce probability scoring from 7th/2nd house afflictions. Unique — no other Vedic API provides this."
+      description: "**Tier: Solo/Premium** — Divorce probability scoring from 7th/2nd house afflictions. UNIQUE — no other Vedic API provides this. Lower tiers receive a real teaser preview (HTTP 200, preview:true) not a 403."
       tags: [Premium]
       requestBody:
         required: true
@@ -281,13 +290,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/PairInput' }
       responses:
-        "200": { description: Divorce risk analysis }
-        "403": { description: "Premium tier required", content: { application/json: { schema: { $ref: '#/components/schemas/ApiError' } } } }
+        "200": { description: Divorce risk analysis (full or preview) }
 
   /infidelity-risk:
     post:
       summary: Infidelity Risk + Protections
-      description: "**Tier: Premium** — 5th/8th/12th house pattern detection with protective factor analysis."
+      description: "**Tier: Solo/Premium** — 5th/8th/12th house pattern detection with protective factor analysis. UNIQUE."
       tags: [Premium]
       requestBody:
         required: true
@@ -295,13 +303,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/PairInput' }
       responses:
-        "200": { description: Infidelity risk data }
-        "403": { description: Premium tier required }
+        "200": { description: Infidelity risk data (full or preview) }
 
   /sexual-compatibility:
     post:
       summary: Sexual Compatibility
-      description: "**Tier: Premium** — Venus/Mars synastry, Yoni match, sexual temperament, mutual satisfaction analysis."
+      description: "**Tier: Solo/Premium** — Venus/Mars synastry, Yoni match, sexual temperament, mutual satisfaction analysis."
       tags: [Premium]
       requestBody:
         required: true
@@ -309,13 +316,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/PairInput' }
       responses:
-        "200": { description: Sexual compatibility result }
-        "403": { description: Premium tier required }
+        "200": { description: Sexual compatibility result (full or preview) }
 
   /sexual-health:
     post:
       summary: Sexual Health Analysis
-      description: "**Tier: Premium** — Individual PME/ED/Frigidity risk and libido analysis from birth chart."
+      description: "**Tier: Solo/Premium** — Individual PME/ED/Frigidity risk and libido analysis from birth chart."
       tags: [Premium]
       requestBody:
         required: true
@@ -323,13 +329,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/BirthInput' }
       responses:
-        "200": { description: Sexual health data }
-        "403": { description: Premium tier required }
+        "200": { description: Sexual health data (full or preview) }
 
   /mental-health:
     post:
       summary: Mental Health Markers
-      description: "**Tier: Premium** — Anxiety, depression, narcissism, and emotional stability indicators."
+      description: "**Tier: Solo/Premium** — Anxiety, depression, narcissism, and emotional stability indicators. UNIQUE."
       tags: [Premium]
       requestBody:
         required: true
@@ -337,13 +342,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/BirthInput' }
       responses:
-        "200": { description: Mental health analysis }
-        "403": { description: Premium tier required }
+        "200": { description: Mental health analysis (full or preview) }
 
   /psychological-profile:
     post:
       summary: Psychological Profile
-      description: "**Tier: Premium** — Attachment style, emotional patterns, and relationship personality."
+      description: "**Tier: Solo/Premium** — Attachment style, emotional patterns, and relationship personality."
       tags: [Premium]
       requestBody:
         required: true
@@ -351,13 +355,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/BirthInput' }
       responses:
-        "200": { description: Psychological profile }
-        "403": { description: Premium tier required }
+        "200": { description: Psychological profile (full or preview) }
 
   /conflict-zones:
     post:
       summary: Conflict Zones
-      description: "**Tier: Premium** — Conflict triggers and hot-button topics between two people."
+      description: "**Tier: Solo/Premium** — Conflict triggers and hot-button topics between two people. UNIQUE."
       tags: [Premium]
       requestBody:
         required: true
@@ -365,13 +368,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/PairInput' }
       responses:
-        "200": { description: Conflict zone data }
-        "403": { description: Premium tier required }
+        "200": { description: Conflict zone data (full or preview) }
 
   /vulnerability-windows:
     post:
       summary: Vulnerability Windows
-      description: "**Tier: Premium** — Time periods when the relationship is at highest breakdown risk."
+      description: "**Tier: Solo/Premium** — Time periods when the relationship is at highest breakdown risk. UNIQUE."
       tags: [Premium]
       requestBody:
         required: true
@@ -379,13 +381,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/PairInput' }
       responses:
-        "200": { description: Vulnerability timeline }
-        "403": { description: Premium tier required }
+        "200": { description: Vulnerability timeline (full or preview) }
 
   /inlaw-analysis:
     post:
       summary: In-Law Analysis
-      description: "**Tier: Premium** — Compatibility with partner's family from 4th/8th house indicators."
+      description: "**Tier: Solo/Premium** — Compatibility with partner's family from 4th/8th house indicators."
       tags: [Premium]
       requestBody:
         required: true
@@ -393,13 +394,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/PairInput' }
       responses:
-        "200": { description: In-law analysis }
-        "403": { description: Premium tier required }
+        "200": { description: In-law analysis (full or preview) }
 
   /spouse-prediction:
     post:
       summary: Spouse Prediction
-      description: "**Tier: Premium** — Future spouse appearance, nature, profession, and when/how you will meet."
+      description: "**Tier: Solo/Premium** — Future spouse appearance, nature, profession, and when/how you will meet."
       tags: [Premium]
       requestBody:
         required: true
@@ -407,13 +407,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/BirthInput' }
       responses:
-        "200": { description: Spouse prediction data }
-        "403": { description: Premium tier required }
+        "200": { description: Spouse prediction data (full or preview) }
 
   /modern-challenges:
     post:
       summary: Modern Challenges
-      description: "**Tier: Premium** — Digital age relationship patterns and Uranus/Neptune/Pluto influence."
+      description: "**Tier: Solo/Premium** — Digital age relationship patterns and Uranus/Neptune/Pluto influence."
       tags: [Premium]
       requestBody:
         required: true
@@ -421,13 +420,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/PairInput' }
       responses:
-        "200": { description: Modern insights data }
-        "403": { description: Premium tier required }
+        "200": { description: Modern insights data (full or preview) }
 
   /remedies:
     post:
       summary: Remedies
-      description: "**Tier: Premium** — Lal Kitab and gemstone recommendations based on planetary afflictions."
+      description: "**Tier: Solo/Premium** — Lal Kitab and gemstone recommendations based on planetary afflictions."
       tags: [Premium]
       requestBody:
         required: true
@@ -435,13 +433,12 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/BirthInput' }
       responses:
-        "200": { description: Remedies data }
-        "403": { description: Premium tier required }
+        "200": { description: Remedies data (full or preview) }
 
 tags:
   - name: Free
     description: Available on all plans (50 calls/day on free tier)
   - name: Developer
-    description: Requires Developer plan ($9-29/mo)
+    description: Requires Developer plan ($9/mo)
   - name: Premium
-    description: Requires Premium plan ($99/mo) — unique features not available anywhere else
+    description: Requires Solo ($49/mo) or Premium ($99/mo) plan — unique features not available anywhere else

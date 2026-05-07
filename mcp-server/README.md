@@ -1,8 +1,11 @@
-# marriage-astro-mcp
+# vedic-astro-mcp
 
 > **The world's most complete Vedic astrology MCP server** — 22 tools covering birth charts, compatibility, divorce risk, infidelity analysis, sexual compatibility, mental health markers, spouse prediction, and more.
 
 Built on [MarriageAstro](https://marriageastro.com)'s Swiss Ephemeris engine with accurate Lahiri ayanamsa calculations.
+
+[![npm](https://img.shields.io/npm/v/vedic-astro-mcp)](https://www.npmjs.com/package/vedic-astro-mcp)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
 
@@ -10,7 +13,7 @@ Built on [MarriageAstro](https://marriageastro.com)'s Swiss Ephemeris engine wit
 
 ### 1. Get your API key
 
-Sign up at [marriageastro.com/api-keys](https://marriageastro.com/api-keys) — free tier available.
+Sign up at [marriageastro.com/api-keys](https://marriageastro.com/api-keys) — free tier available, no credit card required.
 
 ### 2. Add to Claude Desktop
 
@@ -21,9 +24,9 @@ Edit `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) o
   "mcpServers": {
     "vedic-astro": {
       "command": "npx",
-      "args": ["marriage-astro-mcp"],
+      "args": ["vedic-astro-mcp"],
       "env": {
-        "MARRIAGE_ASTRO_API_KEY": "your-api-key-here"
+        "VEDIC_ASTRO_API_KEY": "your-api-key-here"
       }
     }
   }
@@ -34,13 +37,11 @@ Restart Claude Desktop. You're done.
 
 ### 3. Add to Cursor / Windsurf
 
-In your MCP config file:
-
 ```json
 {
   "vedic-astro": {
-    "command": "npx marriage-astro-mcp",
-    "env": { "MARRIAGE_ASTRO_API_KEY": "your-key" }
+    "command": "npx vedic-astro-mcp",
+    "env": { "VEDIC_ASTRO_API_KEY": "your-key" }
   }
 }
 ```
@@ -57,7 +58,7 @@ In your MCP config file:
 | `calculate_compatibility` | 36-point Ashtakoot Milan score with all 8 parameters |
 | `analyze_dosha` | Mangal, Nadi, Kaal Sarpa and other yoga/dosha patterns |
 
-### Developer Tier ($9-29/mo)
+### Developer Tier ($9/mo)
 
 | Tool | Description |
 |------|-------------|
@@ -69,18 +70,22 @@ In your MCP config file:
 | `get_jaimini_dasha` | Jaimini Chara Dasha, Darakaraka, Upapada Lagna |
 | `get_self_analysis` | Single person — marriage readiness, personality, timing forecast |
 
+### Solo Tier ($49/mo) — All 22 Tools
+
+Everything above plus all Premium tools below. Best for individual developers and MCP users.
+
 ### Premium Tier ($99/mo) — Unique Features
 
 | Tool | Description |
 |------|-------------|
-| `get_divorce_risk` | Divorce probability from 7th/2nd house afflictions |
-| `get_infidelity_risk` | Infidelity indicators + protective factors |
+| `get_divorce_risk` | **UNIQUE** — Divorce probability from 7th/2nd house afflictions |
+| `get_infidelity_risk` | **UNIQUE** — Infidelity indicators + protective factors |
 | `get_sexual_compatibility` | Venus/Mars synastry + mutual satisfaction |
 | `get_sexual_health` | PME/ED/Frigidity risk indicators per person |
-| `get_mental_health_analysis` | Anxiety, depression, narcissism markers |
+| `get_mental_health_analysis` | **UNIQUE** — Anxiety, depression, narcissism markers |
 | `get_psychological_profile` | Attachment style, emotional patterns |
-| `get_conflict_zones` | Conflict triggers and hot-button topics |
-| `get_vulnerability_windows` | When relationship is at highest risk |
+| `get_conflict_zones` | **UNIQUE** — Conflict triggers and hot-button topics |
+| `get_vulnerability_windows` | **UNIQUE** — When relationship is at highest risk |
 | `get_inlaw_analysis` | Compatibility with partner's family |
 | `get_spouse_prediction` | Future spouse appearance, nature, meeting timing |
 | `get_modern_challenges` | Digital age patterns, Uranus/Neptune/Pluto influence |
@@ -88,15 +93,38 @@ In your MCP config file:
 
 ---
 
+## Try Before You Upgrade
+
+All 22 tools work on a **free API key**. Premium tools return a real chart-based preview:
+
+```json
+{
+  "success": true,
+  "preview": true,
+  "tier_required": "premium",
+  "data": {
+    "divorce_risk_level": "HIGH",
+    "summary": "3 afflictions detected in 7th house. Upgrade to see full probability score and timeline."
+  },
+  "upgrade_url": "https://marriageastro.com/api-keys"
+}
+```
+
+You see real results. Not just an error.
+
+---
+
 ## Example Usage
 
 Once installed, just ask Claude naturally:
 
-> "Check compatibility between Person A born 1990-01-15 at 10:30 in Mumbai (lat 19.076, lon 72.877) and Person B born 1992-05-20 at 08:00 in Delhi (lat 28.613, lon 77.209)"
+> "Check compatibility between Person A born 1990-01-15 at 10:30 in Mumbai and Person B born 1992-05-20 at 08:00 in Delhi"
 
-> "What is the divorce risk for someone born 1985-03-10 at 14:00, lat 13.08, lon 80.27?"
+> "What is the divorce risk for this couple?"
 
 > "Generate a birth chart for 1995-07-22, 06:15, latitude 22.57, longitude 88.36"
+
+> "Predict what my future spouse will be like"
 
 ---
 
@@ -113,12 +141,10 @@ Once installed, just ask Claude naturally:
 
 | Plan | Price | Daily Calls | Access |
 |------|-------|-------------|--------|
-| Free | $0 | 50 | Tier 1 (3 tools) + **previews of all 22** |
-| Developer | $9/mo | 500 | Tier 1+2 (10 tools) |
+| Free | $0 | 50 | 3 tools + **previews of all 22** |
+| Developer | $9/mo | 500 | 10 tools |
 | Solo | $49/mo | 5,000 | All 22 tools — for individuals & MCP users |
 | Premium | $99/mo | Unlimited | All 22 tools — for businesses & high-volume |
-
-> **Try any tool for free** — premium tools return a real teaser preview (not just an error) when called on a free key, so you can see the value before upgrading.
 
 [Get API key →](https://marriageastro.com/api-keys)
 
@@ -129,13 +155,13 @@ Once installed, just ask Claude naturally:
 Every other Vedic astrology API gives you basic birth charts and maybe a compatibility score. This is the **only** API that provides:
 
 - Divorce probability assessment
-- Infidelity risk + protective factors
+- Infidelity risk + protective factors  
 - Sexual compatibility (Venus/Mars synastry)
 - Mental health markers from planetary positions
 - Vulnerability windows — WHEN relationships are at risk
-- Conflict zone mapping
+- Conflict zone mapping — WHAT the couple will fight about
 
-Built on Swiss Ephemeris with Lahiri ayanamsa for maximum accuracy.
+Built on Swiss Ephemeris with Lahiri ayanamsa. Same engine used by professional Vedic astrologers.
 
 ---
 
