@@ -320,12 +320,12 @@
     "hash": "c28acb8c5f831a65ad70cc12ccaebe6c"
   },
   "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\mcp-server\\src\\client.ts": {
-    "mtime": 1778086421.5695221,
-    "hash": "b46503462e8cb95c9e53e49337188e2c"
+    "mtime": 1778089330.7191827,
+    "hash": "1fd91a05213a14f9178cc2f41280e32f"
   },
   "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\mcp-server\\src\\index.ts": {
-    "mtime": 1778086421.5695221,
-    "hash": "4b286c74f25e015988964a3455ebb551"
+    "mtime": 1778089339.0873718,
+    "hash": "3a06d516e571b87e3d60e7300a9e6a87"
   },
   "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\mcp-server\\src\\schema.ts": {
     "mtime": 1778086421.5695221,
@@ -336,8 +336,8 @@
     "hash": "144d3f13fdac8031ad262d59260e0ed4"
   },
   "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\App.tsx": {
-    "mtime": 1778086421.572998,
-    "hash": "91d27aa8ec35876c95a5a224f4394f97"
+    "mtime": 1778089227.9293337,
+    "hash": "5c0875332794b5c4222bef91de36dbbc"
   },
   "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\main.tsx": {
     "mtime": 1777800515.9350524,
@@ -803,9 +803,13 @@
     "mtime": 1777800515.9350524,
     "hash": "4a39d14cf022ea48e666b349b2c24f9b"
   },
+  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\ApiDocsPage.tsx": {
+    "mtime": 1778089215.5764177,
+    "hash": "2b9670a6263e4f34902acda1c197d3de"
+  },
   "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\ApiKeysPage.tsx": {
-    "mtime": 1778087205.2100968,
-    "hash": "71df4e0c2b3fa81c76ed11c21fa7c1f2"
+    "mtime": 1778089276.332755,
+    "hash": "3a534134fde896798fbf8dee8e5fede0"
   },
   "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\AuthCallbackPage.tsx": {
     "mtime": 1777800515.9350524,
@@ -820,8 +824,8 @@
     "hash": "aefb770c7557ec11da84cbc0e89c7064"
   },
   "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\DashboardPage.tsx": {
-    "mtime": 1778088375.6605904,
-    "hash": "0a558332b00b62e1c6eb61d36f7bd563"
+    "mtime": 1778089246.1012769,
+    "hash": "364ed89272ac79b637df0c119afa37d7"
   },
   "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\DemoPage.tsx": {
     "mtime": 1777800515.9350524,
@@ -832,12 +836,16 @@
     "hash": "1655eee001c2ea71d999a1e42303e9f0"
   },
   "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\LandingPage.tsx": {
-    "mtime": 1778088369.631663,
-    "hash": "001fcb8805547308b7f6116a91995ec6"
+    "mtime": 1778089237.5929706,
+    "hash": "ce6618895a0e7d763ed298f3029ec131"
   },
   "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\LoginPage.tsx": {
     "mtime": 1777800515.9405603,
     "hash": "3fc9c99c6275c8adfcf7a4ce3968b847"
+  },
+  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\McpDocsPage.tsx": {
+    "mtime": 1778089368.455778,
+    "hash": "63cce7aeb4fb81dd38bb27658d5fd333"
   },
   "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\NotFoundPage.tsx": {
     "mtime": 1777800515.9405603,
@@ -1111,6 +1119,10 @@
     "mtime": 1777800515.7686598,
     "hash": "2ce431c09f0ef84e2a88f6987b50fa8f"
   },
+  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\smithery.yaml": {
+    "mtime": 1778261611.612711,
+    "hash": "3a0a5eac3e6d1f5182baa11c49b44fc5"
+  },
   "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\docs\\01-features.md": {
     "mtime": 1777800515.775329,
     "hash": "b5eb69f3d3ce5ba4e2299766d8ef4e2a"
@@ -1156,8 +1168,8 @@
     "hash": "1c816378fd577952a48e79ce274a9668"
   },
   "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\docs\\openapi.yaml": {
-    "mtime": 1778086421.5630114,
-    "hash": "a65c6403d0b61f0f9857e28ef1b2e324"
+    "mtime": 1778261611.612711,
+    "hash": "9aa54e6a7679f45657441585e667d671"
   },
   "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\huggingface-space\\index.html": {
     "mtime": 1777800515.7852929,
@@ -1196,12 +1208,12 @@
     "hash": "408c2e626d8e1d70ddca3c668cd6da68"
   },
   "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\mcp-server\\README.md": {
-    "mtime": 1778086421.5652616,
-    "hash": "e0965f1e91ed42d31fe4a10355105c4b"
+    "mtime": 1778261611.612711,
+    "hash": "1292046d3a74735701dbeda6b1b0da70"
   },
   "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\mcp-server\\smithery.yaml": {
-    "mtime": 1778086421.5657692,
-    "hash": "f78268a92d89c367b968700bc6c47695"
+    "mtime": 1778089358.8341527,
+    "hash": "52bcbad96f2d2f88c25c6bc64723c28f"
   },
   "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\public\\llms.txt": {
     "mtime": 1777800515.8376136,
