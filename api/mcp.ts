@@ -325,20 +325,24 @@ function registerTools() {
   );
 }
 
-// Initialize tools on startup
-registerTools();
-
 // Instantiate the stateless transport
 const transport = new StreamableHTTPServerTransport({
   sessionIdGenerator: undefined,
 });
 
-// Connect server to transport
-await server.connect(transport);
+let isConnected = false;
+async function ensureConnected() {
+  if (isConnected) return;
+  registerTools();
+  await server.connect(transport);
+  isConnected = true;
+}
 
 // ── VERCEL SERVERLESS FUNCTION HANDLER ───────────────────────────────────────
 
 export default async function handler(req: any, res: any) {
+  // Ensure server is connected to transport before handling requests
+  await ensureConnected();
   // Add CORS headers for preflight and standard requests
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, DELETE');

@@ -3,6 +3,9 @@
         "api/v1/[endpoint].ts": {
             "maxDuration": 30,
             "includeFiles": "public/swisseph.wasm"
+        },
+        "api/mcp.ts": {
+            "maxDuration": 30
         }
     },
     "headers": [
