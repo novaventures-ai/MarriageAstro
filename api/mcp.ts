@@ -481,14 +481,27 @@ export default async function handler(req: any, res: any) {
 
   // 3. Delegate to MCP Streamable HTTP transport handler
   try {
-    // Vercel may pass req.body as a pre-parsed object OR as a raw Buffer/string.
-    // The MCP SDK's handleRequest expects the 3rd arg to be the parsed JSON object.
+    // Vercel may pass req.body as a pre-parsed object, a Buffer, a string, or undefined.
+    // The MCP SDK expects a parsed JSON object as the 3rd argument to handleRequest.
+    // When req.body is undefined (ESM Vercel functions don't auto-parse), we
+    // manually read the raw stream and JSON.parse it.
     let body = req.body;
-    if (typeof body === 'string') {
+
+    if (body === undefined || body === null) {
+      // Manually read the raw body from the Node.js IncomingMessage stream
+      const rawBody = await new Promise<string>((resolve, reject) => {
+        const chunks: Buffer[] = [];
+        req.on('data', (chunk: Buffer) => chunks.push(chunk));
+        req.on('end', () => resolve(Buffer.concat(chunks).toString('utf-8')));
+        req.on('error', reject);
+      });
+      try { body = JSON.parse(rawBody); } catch { body = rawBody; }
+    } else if (typeof body === 'string') {
       try { body = JSON.parse(body); } catch { /* leave as string */ }
     } else if (Buffer.isBuffer(body)) {
       try { body = JSON.parse(body.toString('utf-8')); } catch { /* leave */ }
     }
+
     await transport.handleRequest(req, res, body);
   } catch (error: any) {
     console.error('MCP Request Error:', error);
@@ -497,3 +510,4 @@ export default async function handler(req: any, res: any) {
     }
   }
 }
+
