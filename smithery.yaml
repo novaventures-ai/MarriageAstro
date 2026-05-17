@@ -1,8 +1,9 @@
 # Smithery MCP Server Listing
 # Submit at: https://smithery.ai/new
+# Docs: https://smithery.ai/docs/config
 
 name: marriage-astro-mcp
-displayName: "Vedic Astrology — MarriageAstro (22 Tools)"
+displayName: Vedic Astrology MCP — MarriageAstro
 description: |
   The world's most complete Vedic astrology MCP server. 22 tools covering:
   birth charts, Ashtakoot compatibility, Mangal/Nadi/Kaal Sarpa dosha, divorce risk,
@@ -12,9 +13,6 @@ description: |
 
   Built on Swiss Ephemeris (Lahiri ayanamsa) for maximum accuracy.
   No other Vedic API provides divorce risk + infidelity + sexual compatibility + mental health.
-
-  Free tier available — try any tool with a free key and get real chart-based previews
-  before upgrading.
 
 version: "1.0.0"
 license: MIT
@@ -40,49 +38,50 @@ tags:
   - india
   - divorce-risk
   - spouse-prediction
-  - mental-health
-  - relationship
 
+# How to install
 install:
   npm: marriage-astro-mcp
 
+# Runtime configuration
 runtime:
   command: npx
   args:
     - marriage-astro-mcp
   env:
-    VEDIC_ASTRO_API_KEY:
-      description: "Your MarriageAstro API key — get free at marriageastro.com/api-keys"
+    MARRIAGE_ASTRO_API_KEY:
+      description: Your MarriageAstro API key (get free at marriageastro.com/api-keys)
       required: true
 
+# Tools exposed (22 total)
 tools:
   - name: get_birth_chart
     tier: free
-    description: Generate a Vedic birth chart — planets, houses, nakshatras, ascendant, yogas, and Vimshottari dashas
+    description: Generate a Vedic birth chart with planets, houses, nakshatras, ascendant, yogas, and dashas
 
   - name: calculate_compatibility
     tier: free
-    description: 36-point Ashtakoot Milan compatibility score with all 8 Koot parameters
+    description: 36-point Ashtakoot Milan score with all 8 parameters
 
   - name: analyze_dosha
     tier: free
-    description: Mangal dosha, Nadi dosha, Kaal Sarpa yoga, and all major doshas with severity ratings
+    description: Mangal, Nadi, Kaal Sarpa, and other yoga/dosha patterns
 
   - name: get_full_compatibility_report
     tier: developer
-    description: Complete compatibility report — synastry, navamsa, divisional charts, dasha timing
+    description: Complete compatibility report with all sections
 
   - name: get_marriage_timing
     tier: developer
-    description: Auspicious marriage windows from Vimshottari dasha + transit analysis
+    description: Auspicious marriage windows from dasha + transit analysis
 
   - name: get_synastry
     tier: developer
-    description: Cross-chart planetary aspects, house overlays, and sexual chemistry aspects
+    description: Cross-chart planetary aspects and house overlays
 
   - name: get_navamsa_matching
     tier: developer
-    description: D9 Navamsa chart deep compatibility — the marriage-specific divisional chart
+    description: D9 Navamsa chart deep compatibility
 
   - name: get_kp_analysis
     tier: developer
@@ -90,56 +89,56 @@ tools:
 
   - name: get_jaimini_dasha
     tier: developer
-    description: Jaimini Chara Dasha, Darakaraka analysis, and Upapada Lagna
+    description: Jaimini/Chara Dasha, Darakaraka, Upapada Lagna
 
   - name: get_self_analysis
     tier: developer
-    description: Single person marriage readiness, personality profile, timing forecast, and spouse profile
+    description: Single person marriage readiness, timing, personality
 
   - name: get_divorce_risk
     tier: premium
-    description: "UNIQUE: Divorce probability scoring from 7th/2nd house afflictions — no other API has this"
+    description: Divorce probability from 7th/2nd house afflictions
 
   - name: get_infidelity_risk
     tier: premium
-    description: "UNIQUE: 5th/8th/12th house infidelity pattern detection + protective factor analysis"
+    description: Infidelity indicators + protective factors
 
   - name: get_sexual_compatibility
     tier: premium
-    description: Venus/Mars synastry, Yoni match, sexual temperament, and mutual satisfaction analysis
+    description: Venus/Mars synastry + sexual temperament + mutual satisfaction
 
   - name: get_sexual_health
     tier: premium
-    description: Individual PME/ED/Frigidity risk indicators and libido analysis from birth chart
+    description: Individual PME/ED/Frigidity risk indicators
 
   - name: get_mental_health_analysis
     tier: premium
-    description: "UNIQUE: Anxiety, depression, and narcissism markers from planetary positions"
+    description: Anxiety, depression, narcissism markers from chart
 
   - name: get_psychological_profile
     tier: premium
-    description: Attachment style, emotional patterns, and relationship personality type
+    description: Attachment style and emotional patterns
 
   - name: get_conflict_zones
     tier: premium
-    description: "UNIQUE: Conflict triggers and hot-button topics — what the couple will fight about"
+    description: Conflict triggers and hot-button relationship topics
 
   - name: get_vulnerability_windows
     tier: premium
-    description: "UNIQUE: Time periods when the relationship is at highest breakdown risk"
+    description: When the relationship is at highest risk
 
   - name: get_inlaw_analysis
     tier: premium
-    description: Compatibility with partner's family from 4th/8th house indicators
+    description: Compatibility with partner's family
 
   - name: get_spouse_prediction
     tier: premium
-    description: Future spouse appearance, nature, profession, and when/how you will meet them
+    description: Future spouse appearance, nature, profession, and meeting timing
 
   - name: get_modern_challenges
     tier: premium
-    description: Digital age relationship patterns — social media, long-distance, Uranus/Neptune/Pluto influence
+    description: Digital age patterns and modern planet influence
 
   - name: get_remedies
     tier: premium
-    description: Lal Kitab and gemstone recommendations based on planetary afflictions
+    description: Lal Kitab + gemstone recommendations
