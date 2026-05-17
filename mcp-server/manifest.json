@@ -1,0 +1,32 @@
+{
+  "manifest_version": "0.3",
+  "name": "marriage-astro-mcp",
+  "version": "1.0.0",
+  "description": "Vedic Astrology MCP Server — birth charts, compatibility, divorce risk, spouse prediction, and more via MarriageAstro's calculation engine",
+  "author": {
+    "name": "MarriageAstro"
+  },
+  "server": {
+    "type": "node",
+    "entry_point": "dist/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": [
+        "${__dirname}/dist/index.js"
+      ],
+      "env": {
+        "MARRIAGE_ASTRO_API_KEY": "${user_config.MARRIAGE_ASTRO_API_KEY}"
+      }
+    }
+  },
+  "user_config": {
+    "MARRIAGE_ASTRO_API_KEY": {
+      "type": "string",
+      "title": "MarriageAstro API Key",
+      "description": "Your API Key for the MarriageAstro calculation engine.",
+      "sensitive": true,
+      "required": true
+    }
+  },
+  "license": "MIT"
+}
