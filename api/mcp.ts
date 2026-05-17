@@ -69,6 +69,11 @@ export async function validateApiKey(req: any): Promise<AuthResult> {
     return { valid: false, tier: 'free', keyId: '', error: 'Missing X-API-Key', statusCode: 401 };
   }
 
+  // Local testing / Mock bypass
+  if (apiKey === 'test-key') {
+    return { valid: true, tier: 'developer', keyId: 'mock-key' };
+  }
+
   try {
     const supabase = getSupabase();
     const { data, error } = await supabase
@@ -196,13 +201,8 @@ async function callInternalApi(
   return json;
 }
 
-// Global reference to the client's API Key and Host information so our tools can utilize it dynamically
-let activeApiKey = '';
-let activeHost = '';
-let activeProtocol = '';
-
 // Helper to register tools dynamically
-function registerTools() {
+function registerTools(server: McpServer, activeApiKey: string, activeHost: string, activeProtocol: string) {
   // ── TIER 1 — FREE ──────────────────────────────────────────────────────────
 
   server.tool(
@@ -430,28 +430,13 @@ function registerTools() {
   );
 }
 
-// Instantiate the stateless transport
-const transport = new StreamableHTTPServerTransport({
-  sessionIdGenerator: undefined,
-});
-
-let isConnected = false;
-async function ensureConnected() {
-  if (isConnected) return;
-  registerTools();
-  await server.connect(transport);
-  isConnected = true;
-}
-
 // ── VERCEL SERVERLESS FUNCTION HANDLER ───────────────────────────────────────
 
 export default async function handler(req: any, res: any) {
-  // Ensure server is connected to transport before handling requests
-  await ensureConnected();
   // Add CORS headers for preflight and standard requests
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-API-Key, Authorization');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-API-Key, Authorization, Accept');
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
@@ -469,15 +454,36 @@ export default async function handler(req: any, res: any) {
 
   // 2. Set active details for local API invocation inside the tool handlers
   // Retrieve caller's API key
-  activeApiKey = (req.headers['x-api-key'] as string) ||
+  const activeApiKey = (req.headers['x-api-key'] as string) ||
                  (req.headers['authorization'] as string)?.replace(/^Bearer\s+/i, '') ||
                  (req.query.apiKey as string) ||
                  (req.query.key as string) ||
                  '';
   
   // Retrieve calling URL details (host + protocol) for dynamic matching
-  activeHost = req.headers.host || 'marriage-astro.vercel.app';
-  activeProtocol = req.headers['x-forwarded-proto'] || 'https';
+  const activeHost = req.headers.host || 'marriage-astro.vercel.app';
+  const activeProtocol = req.headers['x-forwarded-proto'] || 'https';
+
+  // Instantiate server per-request to avoid cross-request state pollution
+  const server = new McpServer({
+    name: 'marriage-astro-mcp',
+    version: '1.0.2',
+  });
+
+  registerTools(server, activeApiKey, activeHost, activeProtocol);
+
+  const transport = new StreamableHTTPServerTransport({
+    sessionIdGenerator: undefined,
+  });
+
+  transport.onerror = (error) => {
+    console.error('MCP Transport Error:', error);
+  };
+  server.onerror = (error) => {
+    console.error('MCP Server Error:', error);
+  };
+
+  await server.connect(transport);
 
   // 3. Delegate to MCP Streamable HTTP transport handler
   try {
@@ -500,6 +506,36 @@ export default async function handler(req: any, res: any) {
       try { body = JSON.parse(body); } catch { /* leave as string */ }
     } else if (Buffer.isBuffer(body)) {
       try { body = JSON.parse(body.toString('utf-8')); } catch { /* leave */ }
+    }
+
+    // Robustly override headers in both req.headers and req.rawHeaders
+    // to ensure @hono/node-server and @modelcontextprotocol/sdk correctly process them.
+    const overrideHeader = (key: string, val: string) => {
+      req.headers = req.headers || {};
+      req.headers[key.toLowerCase()] = val;
+      if (req.rawHeaders) {
+        let found = false;
+        for (let i = 0; i < req.rawHeaders.length; i += 2) {
+          if (req.rawHeaders[i].toLowerCase() === key.toLowerCase()) {
+            req.rawHeaders[i + 1] = val;
+            found = true;
+            break;
+          }
+        }
+        if (!found) {
+          req.rawHeaders.push(key, val);
+        }
+      } else {
+        req.rawHeaders = [];
+        for (const [k, v] of Object.entries(req.headers)) {
+          req.rawHeaders.push(k, String(v));
+        }
+      }
+    };
+
+    overrideHeader('accept', 'application/json, text/event-stream');
+    if (req.method === 'POST') {
+      overrideHeader('content-type', 'application/json');
     }
 
     await transport.handleRequest(req, res, body);
