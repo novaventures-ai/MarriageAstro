@@ -506,7 +506,9 @@ export default async function handler(req: any, res: any) {
   } catch (error: any) {
     console.error('MCP Request Error:', error);
     if (!res.headersSent) {
-      res.status(500).json({ error: error.message || 'Internal Server Error' });
+      res.status(500).json({ error: error.message || 'Internal Server Error', stack: error.stack });
+    } else {
+      res.end(`\n\nERROR IN MCP HANDLER AFTER HEADERS SENT: ${error.message}\n${error.stack}\n`);
     }
   }
 }
