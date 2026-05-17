@@ -54,7 +54,8 @@ export class SwissEphemeris {
                     throw lastError || new Error('Failed to load swisseph.wasm from all attempted paths or disk');
                 }
 
-                const module = await initSwisseph({
+                const initSwissephFn = typeof initSwisseph === 'function' ? initSwisseph : (initSwisseph as any).default;
+                const module = await initSwissephFn({
                     wasmBinary: wasmBinary,
                     // Optional: print/printErr handlers can be added here for debugging
                 });

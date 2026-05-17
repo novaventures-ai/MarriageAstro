@@ -45,10 +45,10 @@ export default async function handler(req: any, res: any) {
       const yogaDoshB = analyzeYogaDoshas(chartB);
       const manglikB = calculateManglikDosha(chartB, chartA);
       const nadiCancelled = checkNadiCancellation(
-        chartA.planetaryPositions.find((p: any) => p.planet === 'Moon')?.sign || '',
-        chartB.planetaryPositions.find((p: any) => p.planet === 'Moon')?.sign || '',
-        chartA.planetaryPositions.find((p: any) => p.planet === 'Moon')?.nakshatra || '',
-        chartB.planetaryPositions.find((p: any) => p.planet === 'Moon')?.nakshatra || '',
+        (chartA.planetaryPositions.find((p: any) => p.planet === 'Moon')?.sign || '') as any,
+        (chartB.planetaryPositions.find((p: any) => p.planet === 'Moon')?.sign || '') as any,
+        (chartA.planetaryPositions.find((p: any) => p.planet === 'Moon')?.nakshatra || '') as any,
+        (chartB.planetaryPositions.find((p: any) => p.planet === 'Moon')?.nakshatra || '') as any,
       );
       result.person_b = {
         name: birthB.name,

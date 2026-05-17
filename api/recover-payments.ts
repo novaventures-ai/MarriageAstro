@@ -30,10 +30,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const results = [];
 
     for (const payment of payments) {
-      let userId = payment.notes?.userId;
-      let planType = payment.notes?.planType;
-      let sectionToUnlock = payment.notes?.sectionToUnlock;
-      let reportKey = payment.notes?.reportKey;
+      let userId: string | undefined = payment.notes?.userId;
+      let planType: string | undefined = payment.notes?.planType;
+      let sectionToUnlock: string | undefined = payment.notes?.sectionToUnlock;
+      let reportKey: string | undefined = payment.notes?.reportKey;
 
       // Fallback to order if notes missing on payment
       if ((!userId || !planType) && payment.order_id) {

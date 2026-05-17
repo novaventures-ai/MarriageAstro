@@ -8,9 +8,9 @@ import {
     areFriends,
     SIGNS
 } from './coreCalculations';
-import { Planet, Sign, Chart, Nakshatra } from '@types';
-import poruthamData from '@knowledge/ten_poruthams.json';
-import yoniMatrixData from '@knowledge/yoni_matrix.json';
+import { Planet, Sign, Chart, Nakshatra } from '../src/types';
+import poruthamData from '../knowledge/ten_poruthams.json';
+import yoniMatrixData from '../knowledge/yoni_matrix.json';
 
 export interface PoruthamParameter {
     id: string;

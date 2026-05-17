@@ -3,7 +3,7 @@
  * Orchestrates all calculation modules to produce final report
  */
 
-import { Chart, CompatibilityReport, BirthDataInput, Gender } from '@types';
+import { Chart, CompatibilityReport, BirthDataInput, Gender } from '../src/types';
 import {
   Remedies,
   TimingAnalysis,
@@ -18,7 +18,7 @@ import {
   SynastryData,
   ExtendedTimingAnalysis,
   DestinySyncItem
-} from '@types';
+} from '../src/types';
 import {
   generateFullChartData,
   BirthData,
@@ -26,8 +26,8 @@ import {
   calculateKPCusps as calculateKPHouseCusps,
   ZODIAC_SIGNS,
   getSignLord
-} from '@/lib/astro/calculations';
-import { SwissEphemeris } from '@/lib/astro/sweph';
+} from '../src/lib/astro/calculations';
+import { SwissEphemeris } from '../src/lib/astro/sweph';
 import {
   mapPlanetPosition,
   mapHouses,
@@ -73,7 +73,7 @@ import {
   calculatePlanetaryConjunctions,
   HouseOverlay,
   PlanetaryConjunction
-} from '@lib/synastryCalculations';
+} from './synastryCalculations';
 import {
   calculateD9Synastry,
   calculateKPSynastry,
