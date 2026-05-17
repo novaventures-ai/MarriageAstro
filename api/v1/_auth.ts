@@ -61,10 +61,13 @@ export async function validateApiKey(req: any): Promise<AuthResult> {
   }
 
   // 2. Standard X-API-Key verification (for direct client / MCP users)
-  const apiKey = req.headers['x-api-key'] as string;
+  const apiKey = (req.headers['x-api-key'] as string) ||
+                 (req.headers['authorization'] as string)?.replace(/^Bearer\s+/i, '') ||
+                 (req.query?.apiKey as string) ||
+                 (req.query?.key as string);
 
   if (!apiKey) {
-    return { valid: false, tier: 'free', keyId: '', error: 'Missing X-API-Key header', statusCode: 401 };
+    return { valid: false, tier: 'free', keyId: '', error: 'Missing X-API-Key', statusCode: 401 };
   }
 
   try {
