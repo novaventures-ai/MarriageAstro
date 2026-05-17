@@ -30,6 +30,32 @@ function getSupabase() {
 }
 
 export async function validateApiKey(req: any): Promise<AuthResult> {
+  // 1. RapidAPI Gateway Authentication (DB-less, High-Performance, Secure)
+  const proxySecret = req.headers['x-rapidapi-proxy-secret'] as string;
+  const expectedSecret = process.env.RAPIDAPI_PROXY_SECRET;
+  const rapidApiPlan = req.headers['x-rapidapi-plan'] as string;
+
+  // Helper to map RapidAPI plan name → internal tier
+  function mapRapidApiPlan(plan: string): ApiTier {
+    const p = (plan || 'free').toLowerCase();
+    if (p.includes('premium') || p.includes('ultra') || p.includes('mega')) return 'premium';
+    if (p.includes('solo') || p.includes('pro')) return 'solo';
+    if (p.includes('developer') || p.includes('dev')) return 'developer';
+    return 'free';
+  }
+
+  // Case A: Proxy secret is configured AND matches → fully verified RapidAPI traffic
+  if (expectedSecret && proxySecret === expectedSecret) {
+    return { valid: true, tier: mapRapidApiPlan(rapidApiPlan), keyId: 'rapidapi-verified' };
+  }
+
+  // Case B: Proxy secret NOT yet configured in env → trust x-rapidapi-plan header presence
+  // (Less secure fallback — configure RAPIDAPI_PROXY_SECRET in Vercel for production)
+  if (!expectedSecret && rapidApiPlan) {
+    return { valid: true, tier: mapRapidApiPlan(rapidApiPlan), keyId: 'rapidapi-unverified' };
+  }
+
+  // 2. Standard X-API-Key verification (for direct client / MCP users)
   const apiKey = req.headers['x-api-key'] as string;
 
   if (!apiKey) {
