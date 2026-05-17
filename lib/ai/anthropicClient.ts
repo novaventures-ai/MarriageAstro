@@ -18,10 +18,10 @@ const USE_PROXY = IS_PRODUCTION || !CLIENT_API_KEY;
 async function callProxy(prompt: string, systemInstruction?: string, retries = 3): Promise<string> {
     for (let attempt = 0; attempt < retries; attempt++) {
         try {
-            const response = await fetch('/api/anthropic', {
+            const response = await fetch('/api/ai', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ prompt, systemInstruction }),
+                body: JSON.stringify({ provider: 'anthropic', prompt, systemInstruction }),
             });
 
             if (response.status === 429) {

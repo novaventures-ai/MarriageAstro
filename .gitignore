@@ -40,3 +40,11 @@ implementation_plan.md
 .antigravity/
 nul
 .vercel
+
+# Graphify & Build Artifacts
+graphify-out/
+mcp-server/temp_unpack/
+mcp-server/mcp-publisher.exe
+mcp-server/server.json.bak
+mcp-server/test_import.js
+mcp-server/test_tools.js
