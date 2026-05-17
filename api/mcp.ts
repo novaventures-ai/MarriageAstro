@@ -1,0 +1,380 @@
+/**
+ * POST /api/mcp
+ * Remote Model Context Protocol (MCP) Server for MarriageAstro
+ * Exposes all 22 Vedic Astrology calculation tools as a Claude Custom Connector.
+ */
+import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
+import { z } from 'zod';
+import { validateApiKey } from './v1/_auth';
+
+// ── SCHEMAS ─────────────────────────────────────────────────────────────────
+
+const BIRTH_DATA_SCHEMA = {
+  name: z.string().optional().describe("Person's name"),
+  gender: z.enum(['male', 'female', 'other']).optional().describe("Gender (male/female/other)"),
+  date: z.string().describe("Date of birth in YYYY-MM-DD format"),
+  time: z.string().optional().describe("Time of birth in HH:MM format (24h, defaults to 12:00)"),
+  latitude: z.number().describe("Birth place latitude (e.g. 19.076 for Mumbai)"),
+  longitude: z.number().describe("Birth place longitude (e.g. 72.877 for Mumbai)"),
+  timezone: z.string().optional().describe("Timezone name (e.g. 'Asia/Kolkata', defaults to UTC)"),
+  location: z.string().optional().describe("Birth place name (e.g. 'Mumbai, India')"),
+};
+
+const PAIR_SCHEMA = {
+  person_a_name: z.string().optional().describe("Person A's name"),
+  person_a_gender: z.enum(['male', 'female', 'other']).optional().describe("Person A's gender (male/female/other)"),
+  person_a_date: z.string().describe("Person A's date of birth in YYYY-MM-DD format"),
+  person_a_time: z.string().optional().describe("Person A's time of birth in HH:MM format (24h, defaults to 12:00)"),
+  person_a_latitude: z.number().describe("Person A's birth place latitude (e.g. 19.076 for Mumbai)"),
+  person_a_longitude: z.number().describe("Person A's birth place longitude (e.g. 72.877 for Mumbai)"),
+  person_a_timezone: z.string().optional().describe("Person A's timezone name (e.g. 'Asia/Kolkata', defaults to UTC)"),
+  person_a_location: z.string().optional().describe("Person A's birth place name (e.g. 'Mumbai, India')"),
+
+  person_b_name: z.string().optional().describe("Person B's name"),
+  person_b_gender: z.enum(['male', 'female', 'other']).optional().describe("Person B's gender (male/female/other)"),
+  person_b_date: z.string().optional().describe("Person B's date of birth in YYYY-MM-DD format (omit for single-person analysis)"),
+  person_b_time: z.string().optional().describe("Person B's time of birth in HH:MM format (24h, defaults to 12:00)"),
+  person_b_latitude: z.number().optional().describe("Person B's birth place latitude (e.g. 19.076 for Mumbai)"),
+  person_b_longitude: z.number().optional().describe("Person B's birth place longitude (e.g. 72.877 for Mumbai)"),
+  person_b_timezone: z.string().optional().describe("Person B's timezone name (e.g. 'Asia/Kolkata', defaults to UTC)"),
+  person_b_location: z.string().optional().describe("Person B's birth place name (e.g. 'Mumbai, India')"),
+};
+
+function birthDataToPayload(args: any) {
+  return {
+    name: args.name,
+    gender: args.gender,
+    date: args.date,
+    time: args.time,
+    latitude: args.latitude,
+    longitude: args.longitude,
+    timezone: args.timezone,
+    location: args.location,
+  };
+}
+
+// ── MCP SERVER INITIALIZATION ────────────────────────────────────────────────
+
+const server = new McpServer({
+  name: 'marriage-astro-mcp',
+  version: '1.0.2',
+});
+
+// Helper to make internal API requests on behalf of the MCP tool callers
+async function callInternalApi(
+  endpoint: string,
+  body: any,
+  apiKey: string,
+  host: string,
+  protocol: string
+): Promise<any> {
+  const baseUrl = `${protocol}://${host}/api/v1`;
+  const url = `${baseUrl}/${endpoint}`;
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-API-Key': apiKey,
+    },
+    body: JSON.stringify(body),
+  });
+
+  const json = await response.json() as any;
+
+  if (!response.ok) {
+    const message = json?.error || `API error: ${response.status} ${response.statusText}`;
+    throw new Error(message);
+  }
+
+  return json;
+}
+
+// Global reference to the client's API Key and Host information so our tools can utilize it dynamically
+let activeApiKey = '';
+let activeHost = '';
+let activeProtocol = '';
+
+// Helper to register tools dynamically
+function registerTools() {
+  // ── TIER 1 — FREE ──────────────────────────────────────────────────────────
+
+  server.tool(
+    'get_birth_chart',
+    'Generate a Vedic birth chart (planets, houses, nakshatras, ascendant, yogas, dashas) for one person.',
+    BIRTH_DATA_SCHEMA,
+    async (args) => {
+      const data = await callInternalApi('birth-chart', birthDataToPayload(args), activeApiKey, activeHost, activeProtocol);
+      return { content: [{ type: 'text', text: JSON.stringify(data, null, 2) }] };
+    }
+  );
+
+  server.tool(
+    'calculate_compatibility',
+    'Calculate Ashtakoot Milan 36-point compatibility score between two people, including all 8 parameters (Varna, Vashya, Tara, Yoni, Graha Maitri, Gana, Bhakoot, Nadi) and dosha flags.',
+    PAIR_SCHEMA,
+    async (args) => {
+      const data = await callInternalApi('compatibility', args, activeApiKey, activeHost, activeProtocol);
+      return { content: [{ type: 'text', text: JSON.stringify(data, null, 2) }] };
+    }
+  );
+
+  server.tool(
+    'analyze_dosha',
+    'Check Mangal dosha, Nadi dosha, Kaal Sarpa, and other yoga/dosha patterns for one or two people.',
+    PAIR_SCHEMA,
+    async (args) => {
+      const data = await callInternalApi('dosha-check', args, activeApiKey, activeHost, activeProtocol);
+      return { content: [{ type: 'text', text: JSON.stringify(data, null, 2) }] };
+    }
+  );
+
+  // ── TIER 2 — DEVELOPER ─────────────────────────────────────────────────────
+
+  server.tool(
+    'get_full_compatibility_report',
+    'Generate the complete compatibility report including synastry, navamsa, divisional charts, dasha analysis, and timing. Requires developer plan.',
+    PAIR_SCHEMA,
+    async (args) => {
+      const data = await callInternalApi('full-report', args, activeApiKey, activeHost, activeProtocol);
+      return { content: [{ type: 'text', text: JSON.stringify(data, null, 2) }] };
+    }
+  );
+
+  server.tool(
+    'get_marriage_timing',
+    'Find auspicious marriage windows based on Vimshottari Dasha and transit confluence. Requires developer plan.',
+    BIRTH_DATA_SCHEMA,
+    async (args) => {
+      const data = await callInternalApi('marriage-timing', birthDataToPayload(args), activeApiKey, activeHost, activeProtocol);
+      return { content: [{ type: 'text', text: JSON.stringify(data, null, 2) }] };
+    }
+  );
+
+  server.tool(
+    'get_synastry',
+    'Cross-chart planetary aspect analysis and house overlays between two people. Requires developer plan.',
+    PAIR_SCHEMA,
+    async (args) => {
+      const data = await callInternalApi('synastry', args, activeApiKey, activeHost, activeProtocol);
+      return { content: [{ type: 'text', text: JSON.stringify(data, null, 2) }] };
+    }
+  );
+
+  server.tool(
+    'get_navamsa_matching',
+    'D9 Navamsa chart compatibility — the marriage-specific divisional chart analysis. Requires developer plan.',
+    PAIR_SCHEMA,
+    async (args) => {
+      const data = await callInternalApi('navamsa', args, activeApiKey, activeHost, activeProtocol);
+      return { content: [{ type: 'text', text: JSON.stringify(data, null, 2) }] };
+    }
+  );
+
+  server.tool(
+    'get_kp_analysis',
+    'Krishnamurti Paddhati (KP) stellar astrology analysis with 249 sub-lords. Requires developer plan.',
+    BIRTH_DATA_SCHEMA,
+    async (args) => {
+      const data = await callInternalApi('kp-analysis', birthDataToPayload(args), activeApiKey, activeHost, activeProtocol);
+      return { content: [{ type: 'text', text: JSON.stringify(data, null, 2) }] };
+    }
+  );
+
+  server.tool(
+    'get_jaimini_dasha',
+    'Jaimini/Chara Dasha analysis including Darakaraka and Upapada Lagna for marriage timing. Requires developer plan.',
+    BIRTH_DATA_SCHEMA,
+    async (args) => {
+      const data = await callInternalApi('jaimini-dasha', birthDataToPayload(args), activeApiKey, activeHost, activeProtocol);
+      return { content: [{ type: 'text', text: JSON.stringify(data, null, 2) }] };
+    }
+  );
+
+  server.tool(
+    'get_self_analysis',
+    'Single-person marriage readiness analysis — personality, timing forecast, spouse profile. Requires developer plan.',
+    BIRTH_DATA_SCHEMA,
+    async (args) => {
+      const data = await callInternalApi('self-analysis', birthDataToPayload(args), activeApiKey, activeHost, activeProtocol);
+      return { content: [{ type: 'text', text: JSON.stringify(data, null, 2) }] };
+    }
+  );
+
+  // ── TIER 3 — PREMIUM ───────────────────────────────────────────────────────
+
+  server.tool(
+    'get_divorce_risk',
+    'Assess divorce probability from 7th and 2nd house afflictions. Unique feature — no other Vedic API provides this. Requires premium plan.',
+    PAIR_SCHEMA,
+    async (args) => {
+      const data = await callInternalApi('divorce-risk', args, activeApiKey, activeHost, activeProtocol);
+      return { content: [{ type: 'text', text: JSON.stringify(data, null, 2) }] };
+    }
+  );
+
+  server.tool(
+    'get_infidelity_risk',
+    'Analyze infidelity indicators from 5th, 8th, and 12th house patterns, plus protective factors. Requires premium plan.',
+    PAIR_SCHEMA,
+    async (args) => {
+      const data = await callInternalApi('infidelity-risk', args, activeApiKey, activeHost, activeProtocol);
+      return { content: [{ type: 'text', text: JSON.stringify(data, null, 2) }] };
+    }
+  );
+
+  server.tool(
+    'get_sexual_compatibility',
+    'Venus/Mars synastry + sexual temperament matching + mutual satisfaction analysis. Requires premium plan.',
+    PAIR_SCHEMA,
+    async (args) => {
+      const data = await callInternalApi('sexual-compatibility', args, activeApiKey, activeHost, activeProtocol);
+      return { content: [{ type: 'text', text: JSON.stringify(data, null, 2) }] };
+    }
+  );
+
+  server.tool(
+    'get_sexual_health',
+    'Individual sexual health analysis — libido, PME/ED/Frigidity risk indicators from birth chart. Requires premium plan.',
+    BIRTH_DATA_SCHEMA,
+    async (args) => {
+      const data = await callInternalApi('sexual-health', birthDataToPayload(args), activeApiKey, activeHost, activeProtocol);
+      return { content: [{ type: 'text', text: JSON.stringify(data, null, 2) }] };
+    }
+  );
+
+  server.tool(
+    'get_mental_health_analysis',
+    'Analyze anxiety, depression, narcissism, and emotional stability markers from birth chart. Requires premium plan.',
+    BIRTH_DATA_SCHEMA,
+    async (args) => {
+      const data = await callInternalApi('mental-health', birthDataToPayload(args), activeApiKey, activeHost, activeProtocol);
+      return { content: [{ type: 'text', text: JSON.stringify(data, null, 2) }] };
+    }
+  );
+
+  server.tool(
+    'get_psychological_profile',
+    'Attachment style, emotional patterns, and personality profile from planetary positions. Requires premium plan.',
+    BIRTH_DATA_SCHEMA,
+    async (args) => {
+      const data = await callInternalApi('psychological-profile', birthDataToPayload(args), activeApiKey, activeHost, activeProtocol);
+      return { content: [{ type: 'text', text: JSON.stringify(data, null, 2) }] };
+    }
+  );
+
+  server.tool(
+    'get_conflict_zones',
+    'Identify conflict triggers, hot-button topics, and tension patterns between two people. Requires premium plan.',
+    PAIR_SCHEMA,
+    async (args) => {
+      const data = await callInternalApi('conflict-zones', args, activeApiKey, activeHost, activeProtocol);
+      return { content: [{ type: 'text', text: JSON.stringify(data, null, 2) }] };
+    }
+  );
+
+  server.tool(
+    'get_vulnerability_windows',
+    'Find timing windows when the relationship is at highest stress/breakdown risk. Requires premium plan.',
+    PAIR_SCHEMA,
+    async (args) => {
+      const data = await callInternalApi('vulnerability-windows', args, activeApiKey, activeHost, activeProtocol);
+      return { content: [{ type: 'text', text: JSON.stringify(data, null, 2) }] };
+    }
+  );
+
+  server.tool(
+    'get_inlaw_analysis',
+    'Analyze compatibility with partner\'s family from 4th and 8th house indicators. Requires premium plan.',
+    PAIR_SCHEMA,
+    async (args) => {
+      const data = await callInternalApi('inlaw-analysis', args, activeApiKey, activeHost, activeProtocol);
+      return { content: [{ type: 'text', text: JSON.stringify(data, null, 2) }] };
+    }
+  );
+
+  server.tool(
+    'get_spouse_prediction',
+    'Predict future spouse\'s appearance, nature, profession, and when/how you will meet them. Requires premium plan.',
+    BIRTH_DATA_SCHEMA,
+    async (args) => {
+      const data = await callInternalApi('spouse-prediction', birthDataToPayload(args), activeApiKey, activeHost, activeProtocol);
+      return { content: [{ type: 'text', text: JSON.stringify(data, null, 2) }] };
+    }
+  );
+
+  server.tool(
+    'get_modern_challenges',
+    'Digital age relationship analysis — social media impact, long-distance patterns, modern planet (Uranus/Neptune/Pluto) influence. Requires premium plan.',
+    PAIR_SCHEMA,
+    async (args) => {
+      const data = await callInternalApi('modern-challenges', args, activeApiKey, activeHost, activeProtocol);
+      return { content: [{ type: 'text', text: JSON.stringify(data, null, 2) }] };
+    }
+  );
+
+  server.tool(
+    'get_remedies',
+    'Lal Kitab remedies and gemstone recommendations based on planetary afflictions. Requires premium plan.',
+    BIRTH_DATA_SCHEMA,
+    async (args) => {
+      const data = await callInternalApi('remedies', birthDataToPayload(args), activeApiKey, activeHost, activeProtocol);
+      return { content: [{ type: 'text', text: JSON.stringify(data, null, 2) }] };
+    }
+  );
+}
+
+// Initialize tools on startup
+registerTools();
+
+// Instantiate the stateless transport
+const transport = new StreamableHTTPServerTransport({
+  sessionIdGenerator: undefined,
+});
+
+// Connect server to transport
+await server.connect(transport);
+
+// ── VERCEL SERVERLESS FUNCTION HANDLER ───────────────────────────────────────
+
+export default async function handler(req: any, res: any) {
+  // Add CORS headers for preflight and standard requests
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-API-Key, Authorization');
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  // 1. Authenticate the remote request using the exact same middleware
+  const auth = await validateApiKey(req);
+  if (!auth.valid) {
+    return res.status(auth.statusCode || 401).json({
+      error: auth.error || 'Unauthorized',
+      message: 'To use the MarriageAstro Custom Connector in Claude, please register an API key or pass it via headers or query parameters.',
+      upgrade_url: 'https://marriage-astro.vercel.app/api-keys'
+    });
+  }
+
+  // 2. Set active details for local API invocation inside the tool handlers
+  // Retrieve caller's API key
+  activeApiKey = (req.headers['x-api-key'] as string) ||
+                 (req.headers['authorization'] as string)?.replace(/^Bearer\s+/i, '') ||
+                 (req.query.apiKey as string) ||
+                 (req.query.key as string) ||
+                 '';
+  
+  // Retrieve calling URL details (host + protocol) for dynamic matching
+  activeHost = req.headers.host || 'marriage-astro.vercel.app';
+  activeProtocol = req.headers['x-forwarded-proto'] || 'https';
+
+  // 3. Delegate to MCP Streamable HTTP transport handler
+  try {
+    await transport.handleRequest(req, res, req.body);
+  } catch (error: any) {
+    console.error('MCP Request Error:', error);
+    res.status(500).json({ error: error.message || 'Internal Server Error' });
+  }
+}

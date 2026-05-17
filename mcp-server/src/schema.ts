@@ -17,23 +17,23 @@ const personSchema = {
 export const BIRTH_DATA_SCHEMA = personSchema;
 
 export const PAIR_SCHEMA = {
-  person_a_name: z.string().optional(),
-  person_a_gender: z.enum(['male', 'female', 'other']).optional(),
-  person_a_date: z.string().describe("Person A date of birth YYYY-MM-DD"),
-  person_a_time: z.string().optional().describe("Person A time HH:MM"),
-  person_a_latitude: z.number().describe("Person A birth latitude"),
-  person_a_longitude: z.number().describe("Person A birth longitude"),
-  person_a_timezone: z.string().optional(),
-  person_a_location: z.string().optional(),
+  person_a_name: z.string().optional().describe("Person A's name"),
+  person_a_gender: z.enum(['male', 'female', 'other']).optional().describe("Person A's gender (male/female/other)"),
+  person_a_date: z.string().describe("Person A's date of birth in YYYY-MM-DD format"),
+  person_a_time: z.string().optional().describe("Person A's time of birth in HH:MM format (24h, defaults to 12:00)"),
+  person_a_latitude: z.number().describe("Person A's birth place latitude (e.g. 19.076 for Mumbai)"),
+  person_a_longitude: z.number().describe("Person A's birth place longitude (e.g. 72.877 for Mumbai)"),
+  person_a_timezone: z.string().optional().describe("Person A's timezone name (e.g. 'Asia/Kolkata', defaults to UTC)"),
+  person_a_location: z.string().optional().describe("Person A's birth place name (e.g. 'Mumbai, India')"),
 
-  person_b_name: z.string().optional(),
-  person_b_gender: z.enum(['male', 'female', 'other']).optional(),
-  person_b_date: z.string().optional().describe("Person B date of birth YYYY-MM-DD (omit for single-person analysis)"),
-  person_b_time: z.string().optional(),
-  person_b_latitude: z.number().optional(),
-  person_b_longitude: z.number().optional(),
-  person_b_timezone: z.string().optional(),
-  person_b_location: z.string().optional(),
+  person_b_name: z.string().optional().describe("Person B's name"),
+  person_b_gender: z.enum(['male', 'female', 'other']).optional().describe("Person B's gender (male/female/other)"),
+  person_b_date: z.string().optional().describe("Person B's date of birth in YYYY-MM-DD format (omit for single-person analysis)"),
+  person_b_time: z.string().optional().describe("Person B's time of birth in HH:MM format (24h, defaults to 12:00)"),
+  person_b_latitude: z.number().optional().describe("Person B's birth place latitude (e.g. 19.076 for Mumbai)"),
+  person_b_longitude: z.number().optional().describe("Person B's birth place longitude (e.g. 72.877 for Mumbai)"),
+  person_b_timezone: z.string().optional().describe("Person B's timezone name (e.g. 'Asia/Kolkata', defaults to UTC)"),
+  person_b_location: z.string().optional().describe("Person B's birth place name (e.g. 'Mumbai, India')"),
 };
 
 export function birthDataToPayload(args: Record<string, unknown>): Record<string, unknown> {

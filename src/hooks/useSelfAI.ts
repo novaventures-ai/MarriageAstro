@@ -4,7 +4,7 @@
  */
 
 import { useState, useCallback } from 'react';
-import { getGeminiModel } from '../../lib/ai/geminiClient';
+import { getAIModel } from '../../lib/ai/clientSelector';
 import { SELF_SYSTEM_PROMPTS, generateSelfPrompt, SelfAIType } from '../../lib/ai/selfPrompts';
 import { SelfAnalysisReport } from '../types/selfAnalysis';
 import { Chart } from '../types';
@@ -53,8 +53,8 @@ export const useSelfAI = (
       // 2. Generate user prompt with context (now including question)
       const userPrompt = generateSelfPrompt(type, selfReport, partnerChart, question);
 
-      // 3. Call Gemini
-      const model = getGeminiModel(systemInstruction);
+      // 3. Call AI Model (Gemini or Claude)
+      const model = getAIModel(systemInstruction);
       const result = await model.generateContent(userPrompt);
       const output = result.response.text();
 

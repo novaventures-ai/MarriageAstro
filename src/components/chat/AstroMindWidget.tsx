@@ -4,6 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import { useGeminiChat } from '../../hooks/useGeminiChat';
 import { CompatibilityReport } from '@types';
 import { getReportContext } from '@lib/ai/context';
+import { useUserProfileStore } from '../../store/useUserProfileStore';
 
 interface AstroMindWidgetProps {
     report: CompatibilityReport;
@@ -16,6 +17,7 @@ export const AstroMindWidget: React.FC<AstroMindWidgetProps> = ({ report }) => {
 
     const reportContext = React.useMemo(() => getReportContext(report), [report]);
     const { messages, sendMessage, loading, error, clearChat } = useGeminiChat(reportContext);
+    const { aiProvider, setAiProvider } = useUserProfileStore();
 
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -38,32 +40,59 @@ export const AstroMindWidget: React.FC<AstroMindWidgetProps> = ({ report }) => {
                 <div className="mb-3 sm:mb-4 w-[calc(100vw-2rem)] max-w-[380px] sm:w-[400px] h-[60vh] sm:h-[500px] max-h-[600px] bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 flex flex-col pointer-events-auto animate-in slide-in-from-bottom-10 fade-in duration-300">
 
                     {/* Header */}
-                    <div className="p-3 sm:p-4 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-t-2xl flex items-center justify-between text-white shrink-0">
+                    <div className="p-3 sm:p-4 bg-gradient-to-r from-violet-600 via-indigo-600 to-indigo-700 rounded-t-2xl flex items-center justify-between text-white shrink-0 gap-2 border-b border-white/10 shadow-md">
                         <div className="flex items-center gap-2">
                             <div className="p-1 sm:p-1.5 bg-white/20 rounded-lg backdrop-blur-sm">
                                 <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                             </div>
                             <div>
                                 <h3 className="font-bold text-xs sm:text-sm">AstroMind AI</h3>
-                                <p className="text-[10px] sm:text-xs text-indigo-100 flex items-center gap-1">
-                                    <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-400 rounded-full animate-pulse" />
-                                    Online
+                                <p className="text-[9px] sm:text-[10px] text-indigo-100/85 flex items-center gap-1 font-medium">
+                                    <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
+                                    Active: {aiProvider === 'anthropic' ? 'Claude' : 'Gemini'}
                                 </p>
                             </div>
                         </div>
-                        <div className="flex items-center gap-1 sm:gap-2">
+
+                        <div className="flex items-center gap-2">
+                            {/* Nano AI Toggle Selector */}
+                            <div className="flex items-center gap-0.5 bg-black/45 p-0.5 rounded-lg border border-white/10 backdrop-blur-md">
+                                <button
+                                    onClick={() => setAiProvider('gemini')}
+                                    className={`px-1.5 py-0.5 rounded text-[8px] font-extrabold transition-all ${
+                                        aiProvider === 'gemini'
+                                            ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md'
+                                            : 'text-gray-400 hover:text-white'
+                                    }`}
+                                    title="Google Gemini"
+                                >
+                                    G
+                                </button>
+                                <button
+                                    onClick={() => setAiProvider('anthropic')}
+                                    className={`px-1.5 py-0.5 rounded text-[8px] font-extrabold transition-all ${
+                                        aiProvider === 'anthropic'
+                                            ? 'bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-md'
+                                            : 'text-gray-400 hover:text-white'
+                                    }`}
+                                    title="Anthropic Claude"
+                                >
+                                    C
+                                </button>
+                            </div>
+
                             <button
                                 onClick={clearChat}
-                                className="p-1 sm:p-1.5 hover:bg-white/10 rounded-full transition-colors"
+                                className="p-1 hover:bg-white/10 rounded-full transition-colors"
                                 title="Clear Chat"
                             >
-                                <RefreshCw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                                <RefreshCw className="w-3.5 h-3.5" />
                             </button>
                             <button
                                 onClick={() => setIsOpen(false)}
-                                className="p-1 sm:p-1.5 hover:bg-white/10 rounded-full transition-colors"
+                                className="p-1 hover:bg-white/10 rounded-full transition-colors"
                             >
-                                <X className="w-4 h-4 sm:w-5 sm:h-5" />
+                                <X className="w-4 h-4" />
                             </button>
                         </div>
                     </div>
@@ -77,15 +106,16 @@ export const AstroMindWidget: React.FC<AstroMindWidgetProps> = ({ report }) => {
                             >
                                 <div
                                     className={`max-w-[90%] sm:max-w-[85%] rounded-2xl px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm shadow-sm ${msg.role === 'user'
-                                        ? 'bg-indigo-600 text-white rounded-br-none'
-                                        : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-gray-100 dark:border-gray-700 rounded-bl-none'
+                                        ? 'bg-indigo-600 text-white rounded-br-none shadow-md shadow-indigo-600/10'
+                                        : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700 rounded-bl-none'
                                         }`}
                                 >
                                     <div className="prose prose-sm dark:prose-invert max-w-none break-words">
                                         <ReactMarkdown
                                             components={{
                                                 ul: ({ node, ...props }) => <ul {...props} className="text-left list-disc pl-3 sm:pl-4 my-1" />,
-                                                p: ({ node, ...props }) => <p {...props} className="mb-1 last:mb-0" />
+                                                p: ({ node, ...props }) => <p {...props} className="mb-1 last:mb-0" />,
+                                                strong: ({ node, ...props }) => <span className="text-indigo-600 dark:text-indigo-400 font-extrabold" {...props} />
                                             }}
                                         >
                                             {msg.content}
@@ -97,13 +127,13 @@ export const AstroMindWidget: React.FC<AstroMindWidgetProps> = ({ report }) => {
 
                         {loading && (
                             <div className="flex justify-start">
-                                <div className="bg-white dark:bg-gray-800 rounded-2xl rounded-bl-none px-3 sm:px-4 py-2 sm:py-3 border border-gray-100 dark:border-gray-700 shadow-sm flex items-center gap-2">
+                                <div className="bg-white dark:bg-gray-800 rounded-2xl rounded-bl-none px-3 sm:px-4 py-2 sm:py-3 border border-gray-200 dark:border-gray-700 shadow-sm flex items-center gap-2">
                                     <div className="flex gap-1">
                                         <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-indigo-400 rounded-full animate-bounce [animation-delay:-0.3s]" />
                                         <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-indigo-400 rounded-full animate-bounce [animation-delay:-0.15s]" />
                                         <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-indigo-400 rounded-full animate-bounce" />
                                     </div>
-                                    <span className="text-[10px] sm:text-xs text-gray-400 font-medium">Analyzing Stars...</span>
+                                    <span className="text-[10px] sm:text-xs text-gray-400 font-medium">Stars speaking via {aiProvider === 'anthropic' ? 'Claude' : 'Gemini'}...</span>
                                 </div>
                             </div>
                         )}
@@ -127,8 +157,8 @@ export const AstroMindWidget: React.FC<AstroMindWidgetProps> = ({ report }) => {
                                 type="text"
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
-                                placeholder="Ask about your compatibility..."
-                                className="w-full pl-3 sm:pl-4 pr-10 sm:pr-12 py-2.5 sm:py-3 bg-gray-100 dark:bg-gray-900 border-none rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500 dark:text-white transition-all shadow-inner"
+                                placeholder={`Ask ${aiProvider === 'anthropic' ? 'Claude' : 'Gemini'} about compatibility...`}
+                                className="w-full pl-3 sm:pl-4 pr-10 sm:pr-12 py-2.5 sm:py-3 bg-gray-100 dark:bg-gray-900 border-none rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500 dark:text-white transition-all shadow-inner outline-none"
                                 disabled={loading}
                             />
                             <button
@@ -140,7 +170,7 @@ export const AstroMindWidget: React.FC<AstroMindWidgetProps> = ({ report }) => {
                             </button>
                         </div>
                         <p className="text-[9px] sm:text-[10px] text-center text-gray-400 mt-1.5 sm:mt-2">
-                            AstroMind can make mistakes. Verify critical info.
+                            AstroMind AI can make mistakes. Verify critical info.
                         </p>
                     </form>
                 </div>

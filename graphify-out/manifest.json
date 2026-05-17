@@ -56,8 +56,8 @@
     "hash": "240ca99ceb95ccee929cd6b4c2a558ea"
   },
   "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\recover-payments.ts": {
-    "mtime": 1778925018.319508,
-    "hash": "3ca6a536448f5a171eea97fc032cefed"
+    "mtime": 1778994843.5106707,
+    "hash": "84022d8cb5e932a5d6bd5d478736c029"
   },
   "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\sync-payments.ts": {
     "mtime": 1778925018.319508,
@@ -68,20 +68,20 @@
     "hash": "b17aee8ef8c017e7186e7cda37f2d9f1"
   },
   "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\v1\\[endpoint].ts": {
-    "mtime": 1778925018.319508,
+    "mtime": 1778993911.4949703,
     "hash": "62cd9fa53ad885b8ae217b29ed7bb4f8"
   },
   "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\v1\\_auth.ts": {
-    "mtime": 1778925018.319508,
-    "hash": "9c94eaaf2c6721821c102166aa7963a3"
+    "mtime": 1779018353.4489262,
+    "hash": "1e2f7f7d564ee32b73fd01ded005390a"
   },
   "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\v1\\_birth-chart.ts": {
-    "mtime": 1778925018.319508,
-    "hash": "da93b445b9df971658d7b9bd7dc9ffe2"
+    "mtime": 1778992388.951424,
+    "hash": "01f48d9b6ad77729e46dde945a7851cd"
   },
   "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\v1\\_compatibility.ts": {
-    "mtime": 1778925018.319508,
-    "hash": "a62dd209d376e39df467544dc9657bdb"
+    "mtime": 1778992388.9564977,
+    "hash": "87227a3597ca4ea16b3daa9aff27ab34"
   },
   "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\v1\\_conflict-zones.ts": {
     "mtime": 1778925018.319508,
@@ -92,8 +92,8 @@
     "hash": "64df45d5392ccad13853fc8da1861c93"
   },
   "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\v1\\_dosha-check.ts": {
-    "mtime": 1778925018.319508,
-    "hash": "339a4937f0b87fdb5ed135e74e383679"
+    "mtime": 1778994740.7993493,
+    "hash": "345bd139a99e2dba2b8cd878d2388ab9"
   },
   "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\v1\\_full-report.ts": {
     "mtime": 1778925018.319508,
@@ -208,8 +208,8 @@
     "hash": "d611b6caf0bebd1c2fe8c41906401f68"
   },
   "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\mappingUtils.ts": {
-    "mtime": 1778925019.010581,
-    "hash": "2bae80e6a1fb9c3ee4f0013301b43832"
+    "mtime": 1778994572.6687644,
+    "hash": "4814d1b081f1cac7f323f3ed5baa5287"
   },
   "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\mentalHealthCalculations.ts": {
     "mtime": 1771350480.8073924,
@@ -220,16 +220,16 @@
     "hash": "1d2bd61f0f120a2428f4a92c1e56305b"
   },
   "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\poruthamCalculations.ts": {
-    "mtime": 1771350480.8170788,
-    "hash": "2aa452c428113ddc22b45d49e6f39a94"
+    "mtime": 1778994522.6719017,
+    "hash": "f49b4d0eb6dd1ebd526540ab32ca1201"
   },
   "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\relationshipPatternCalculations.ts": {
     "mtime": 1778925019.010581,
     "hash": "444cf68a6348dbf7d844f47de0e16cf8"
   },
   "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\reportGenerator.ts": {
-    "mtime": 1778925019.010581,
-    "hash": "623a5f11dffb3e5590fed87eaa1ccbf4"
+    "mtime": 1778994570.4220774,
+    "hash": "9b362f7dfc0f8ba96ed2570110499e83"
   },
   "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\riskCalculations.ts": {
     "mtime": 1771607180.2754133,
@@ -303,16 +303,32 @@
     "mtime": 1778925019.0046241,
     "hash": "cc179e802758a18330cc62097d882fb9"
   },
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\mcp-server\\test_tools.js": {
+    "mtime": 1779000426.1991036,
+    "hash": "b97ee7654e1874df1a7bad6a27f2396f"
+  },
   "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\mcp-server\\src\\client.ts": {
-    "mtime": 1778925019.0326707,
-    "hash": "1fd91a05213a14f9178cc2f41280e32f"
+    "mtime": 1778992194.1781836,
+    "hash": "c15bc2fd4cc0b05bf07a23511d88f51e"
   },
   "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\mcp-server\\src\\index.ts": {
-    "mtime": 1778925019.038391,
-    "hash": "3a06d516e571b87e3d60e7300a9e6a87"
+    "mtime": 1778992389.111437,
+    "hash": "129f15de15765c1cb530bb3f1179ae1c"
   },
   "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\mcp-server\\src\\schema.ts": {
-    "mtime": 1778925019.038391,
+    "mtime": 1778998841.7926269,
+    "hash": "47ed0d723e5369d8bef7c30454570504"
+  },
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\mcp-server\\temp_unpack\\src\\client.ts": {
+    "mtime": 1778998570.2749119,
+    "hash": "c15bc2fd4cc0b05bf07a23511d88f51e"
+  },
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\mcp-server\\temp_unpack\\src\\index.ts": {
+    "mtime": 1778998570.2759101,
+    "hash": "129f15de15765c1cb530bb3f1179ae1c"
+  },
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\mcp-server\\temp_unpack\\src\\schema.ts": {
+    "mtime": 1778998570.2759101,
     "hash": "9fda9a0049c0f0c5b11fc3be01093023"
   },
   "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\scripts\\singlePairDeepAnalysis.ts": {
@@ -768,8 +784,8 @@
     "hash": "54185ebbbfc804824c7083f9f04577fb"
   },
   "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\lib\\astro\\sweph.ts": {
-    "mtime": 1778925044.7597349,
-    "hash": "da8002bb2e815fbd737e4ca8711427e7"
+    "mtime": 1778994998.4939983,
+    "hash": "8318a3d497ecf2ef5d70873c47bea1fb"
   },
   "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\lib\\astro\\test\\calculations.test.ts": {
     "mtime": 1771099686.3799832,
@@ -1096,8 +1112,8 @@
     "hash": "2ce431c09f0ef84e2a88f6987b50fa8f"
   },
   "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\smithery.yaml": {
-    "mtime": 1778925019.050991,
-    "hash": "f25c01ed223872af813601d6a5f12197"
+    "mtime": 1779001830.277894,
+    "hash": "2df47ff819dc58aca2aab26c32ad06ff"
   },
   "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\docs\\01-features.md": {
     "mtime": 1778925018.37836,
@@ -1143,9 +1159,17 @@
     "mtime": 1778925018.3838642,
     "hash": "1c816378fd577952a48e79ce274a9668"
   },
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\docs\\mcp_distribution_strategy.md": {
+    "mtime": 1778997506.6508095,
+    "hash": "ca02bdb5a9e515b823ad0a0939f56c8d"
+  },
   "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\docs\\openapi.yaml": {
-    "mtime": 1778925018.3839166,
-    "hash": "9aa54e6a7679f45657441585e667d671"
+    "mtime": 1779017665.56869,
+    "hash": "2567c38d88f82543cc1c7894ded9543b"
+  },
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\docs\\smithery_bundle_publishing_walkthrough.md": {
+    "mtime": 1778998152.8989158,
+    "hash": "caa3955f18128a12029ea74bc97675e1"
   },
   "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\huggingface-space\\index.html": {
     "mtime": 1778925018.994723,
@@ -1164,11 +1188,19 @@
     "hash": "cb8a202b5c2196e2ef0e289f332f1245"
   },
   "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\mcp-server\\README.md": {
-    "mtime": 1778925019.010581,
-    "hash": "1292046d3a74735701dbeda6b1b0da70"
+    "mtime": 1778992389.1505282,
+    "hash": "6a24d1cd791f6537166dd4b355f37f70"
   },
   "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\mcp-server\\smithery.yaml": {
     "mtime": 1778925019.0326707,
+    "hash": "52bcbad96f2d2f88c25c6bc64723c28f"
+  },
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\mcp-server\\temp_unpack\\README.md": {
+    "mtime": 1778998570.2739043,
+    "hash": "6a24d1cd791f6537166dd4b355f37f70"
+  },
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\mcp-server\\temp_unpack\\smithery.yaml": {
+    "mtime": 1778998570.2749119,
     "hash": "52bcbad96f2d2f88c25c6bc64723c28f"
   },
   "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\public\\llms.txt": {
@@ -1178,6 +1210,18 @@
   "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\public\\robots.txt": {
     "mtime": 1778925019.0454535,
     "hash": "a153ef4c8cde0150b3f578579edb2987"
+  },
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\docs\\images\\releases_page_loaded.png": {
+    "mtime": 1778998127.7684617,
+    "hash": "4bd7e0c3e9ad465cf6337b998cd0fd94"
+  },
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\docs\\images\\smithery_success.webp": {
+    "mtime": 1778998137.4874017,
+    "hash": "1b6578f2b98a3f70765a12016956b89e"
+  },
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\mcp-server\\icon.png": {
+    "mtime": 1778925019.0454535,
+    "hash": "f7427a9a26232b402e9a45ad83e333e8"
   },
   "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\public\\icon.svg": {
     "mtime": 1771350480.8300447,

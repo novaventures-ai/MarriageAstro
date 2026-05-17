@@ -54,3 +54,7 @@ export {
 } from './matchInsight';
 
 export type { MatchInsight } from './matchInsight';
+
+// Client Selector
+export { getAIModel } from './clientSelector';
+

@@ -1,16 +1,16 @@
 # Graph Report - MarriageAstro-main  (2026-05-17)
 
 ## Corpus Check
-- 288 files · ~368,045 words
+- 295 files · ~378,210 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1852 nodes · 3996 edges · 184 communities (163 shown, 21 thin omitted)
+- 1899 nodes · 4070 edges · 183 communities (161 shown, 22 thin omitted)
 - Extraction: 94% EXTRACTED · 6% INFERRED · 0% AMBIGUOUS · INFERRED: 255 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `9e45f39f`
+- Built from commit: `759ccd49`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -141,8 +141,6 @@
 - [[_COMMUNITY_Community 123|Community 123]]
 - [[_COMMUNITY_Community 124|Community 124]]
 - [[_COMMUNITY_Community 125|Community 125]]
-- [[_COMMUNITY_Community 126|Community 126]]
-- [[_COMMUNITY_Community 127|Community 127]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `SEOHead()` - 104 edges
@@ -158,25 +156,25 @@
 
 ## Surprising Connections (you probably didn't know these)
 - `handler()` --calls--> `calculateAshtakootMilan()`  [INFERRED]
-  C:/Ai Codebase/Vedic & Astrology/MarriageAstro/api/v1/_compatibility.ts → C:/Ai Codebase/Vedic & Astrology/Marriage/MarriageAstro-main/lib/compatibilityCalculations.ts
+  api/v1/_compatibility.ts → C:/Ai Codebase/Vedic & Astrology/Marriage/MarriageAstro-main/lib/compatibilityCalculations.ts
 - `handler()` --calls--> `analyzeYogaDoshas()`  [INFERRED]
-  C:/Ai Codebase/Vedic & Astrology/MarriageAstro/api/v1/_compatibility.ts → C:/Ai Codebase/Vedic & Astrology/Marriage/MarriageAstro-main/lib/yogaDoshaCalculations.ts
-- `handler()` --calls--> `assessDivorceRisk()`  [INFERRED]
-  C:/Ai Codebase/Vedic & Astrology/MarriageAstro/api/v1/_divorce-risk.ts → C:/Ai Codebase/Vedic & Astrology/Marriage/MarriageAstro-main/lib/riskCalculations.ts
+  api/v1/_compatibility.ts → C:/Ai Codebase/Vedic & Astrology/Marriage/MarriageAstro-main/lib/yogaDoshaCalculations.ts
 - `handler()` --calls--> `analyzeYogaDoshas()`  [INFERRED]
-  C:/Ai Codebase/Vedic & Astrology/MarriageAstro/api/v1/_dosha-check.ts → C:/Ai Codebase/Vedic & Astrology/Marriage/MarriageAstro-main/lib/yogaDoshaCalculations.ts
+  api/v1/_dosha-check.ts → C:/Ai Codebase/Vedic & Astrology/Marriage/MarriageAstro-main/lib/yogaDoshaCalculations.ts
 - `handler()` --calls--> `calculateManglikDosha()`  [INFERRED]
-  C:/Ai Codebase/Vedic & Astrology/MarriageAstro/api/v1/_dosha-check.ts → C:/Ai Codebase/Vedic & Astrology/Marriage/MarriageAstro-main/lib/compatibilityCalculations.ts
+  api/v1/_dosha-check.ts → C:/Ai Codebase/Vedic & Astrology/Marriage/MarriageAstro-main/lib/compatibilityCalculations.ts
+- `handler()` --calls--> `checkNadiCancellation()`  [INFERRED]
+  api/v1/_dosha-check.ts → C:/Ai Codebase/Vedic & Astrology/Marriage/MarriageAstro-main/lib/compatibilityCalculations.ts
 
-## Communities (184 total, 21 thin omitted)
+## Communities (183 total, 22 thin omitted)
 
 ### Community 0 - "Community 0"
-Cohesion: 0.1
-Nodes (40): calculateConflictZones(), generateAwarenessNote(), calculateExtendedRemedies(), calculateCharaKarakasUnified(), mapDashaPeriod(), mapHouses(), mapPlanetPosition(), mapVargaData() (+32 more)
+Cohesion: 0.05
+Nodes (100): calculateAntardashas(), calculateCharaDasha(), calculateCharaDashaYears(), calculatePratyantarDashas(), calculateVimshottariDasha(), findMarriageWindows(), findVulnerablePeriods(), getCurrentDasha() (+92 more)
 
 ### Community 1 - "Community 1"
-Cohesion: 0.05
-Nodes (27): generateCompatibilityStory(), generateCounselorExplanation(), generateCounselorOpinion(), generateLongTermOutlook(), generatePracticalAdvice(), generateShortcomings(), generateSuccessFactors(), generateWhyThisMatch() (+19 more)
+Cohesion: 0.1
+Nodes (40): calculateConflictZones(), generateAwarenessNote(), calculateExtendedRemedies(), calculateCharaKarakasUnified(), mapDashaPeriod(), mapHouses(), mapPlanetPosition(), mapVargaData() (+32 more)
 
 ### Community 2 - "Community 2"
 Cohesion: 0.03
@@ -184,23 +182,19 @@ Nodes (5): SEOHead(), AuthCallbackPage(), NotFoundPage(), handleDelete(), proces
 
 ### Community 3 - "Community 3"
 Cohesion: 0.09
-Nodes (48): usePremium(), addAffiliate(), creditMissedPayment(), disableAffiliate(), getAuthHeader(), getPushStats(), grantPremium(), listAffiliateConversions() (+40 more)
+Nodes (53): calculateD9Synastry(), calculateJaiminiSynastry(), calculateKPSynastry(), isFriendly(), analyzeDivisionalCharts(), calculateAshtakootMilan(), calculateBhakoot(), calculateGana() (+45 more)
 
 ### Community 4 - "Community 4"
 Cohesion: 0.09
-Nodes (21): generateInsight(), generateInsight(), getReportContext(), processReportForAI(), callProxy(), checkAIConfig(), generateAIContent(), getDirectModel() (+13 more)
-
-### Community 5 - "Community 5"
-Cohesion: 0.14
-Nodes (42): calculateCurrentAge(), calculateMarriagePotential(), calculateNextFavorableYears(), calculatePsychologicalProfile(), calculateSelfSexualProfile(), calculateSexualProfile(), generateSelfRemedies(), generateTimingForecast() (+34 more)
+Nodes (52): calculateAspects(), calculateHouseCusps(), calculatePlanetaryPositions(), getDignity(), getElement(), getHouseFromLongitude(), getJulianDay(), getLahiriAyanamsha() (+44 more)
 
 ### Community 6 - "Community 6"
-Cohesion: 0.13
-Nodes (37): analyzeDivisionalCharts(), calculateAshtakootMilan(), calculateBhakoot(), calculateGana(), calculateGrahaMaitri(), calculateManglikDosha(), calculateNadi(), calculateNavamsaMatching() (+29 more)
-
-### Community 7 - "Community 7"
 Cohesion: 0.05
 Nodes (40): 1.1 App Purpose and Vision, 1.2 Target Systems Integration Architecture, 1. Executive Summary & Core Objectives, 2.1.1 Seven Primary Marriage Houses, 2.1.2 Natural Karakas, 2.1.3 Ashtakoot Milan System (36 Points), 2.1 Parashari System: Marriage House Analysis, 2.2.1 Chara Karakas (7 Planets) (+32 more)
+
+### Community 7 - "Community 7"
+Cohesion: 0.1
+Nodes (19): generateInsight(), generateInsight(), processReportForAI(), callProxy(), checkAIConfig(), generateAIContent(), getDirectModel(), getGeminiModel() (+11 more)
 
 ### Community 8 - "Community 8"
 Cohesion: 0.05
@@ -211,112 +205,112 @@ Cohesion: 0.05
 Nodes (35): Acknowledgments, Advanced Systems, Ashtakoot Milan (36 Points), Astro Marriage - Vedic Astrology Compatibility App, Backend Logic, Bhakoot Dosha Cancellation, Building for Production, Calculation Methodology (+27 more)
 
 ### Community 10 - "Community 10"
-Cohesion: 0.13
-Nodes (23): assignPlanetsToHouses(), calculateAntardashas(), calculateAscendantPrecision(), calculateAyanamsa(), calculateDashas(), calculateHouseCusps(), calculateJulianDay(), calculateKPCusps() (+15 more)
-
-### Community 11 - "Community 11"
 Cohesion: 0.16
 Nodes (30): analyzeAffairContextPatterns(), analyzePreMaritalPatterns(), analyzeRelationshipStyle(), analyzeSpouseLongevity(), analyzeTabooPatterns(), calculateRelationshipPatterns(), computeKarmaIndicators(), findSmartNeutralizer() (+22 more)
 
+### Community 11 - "Community 11"
+Cohesion: 0.2
+Nodes (32): addAffiliate(), creditMissedPayment(), disableAffiliate(), getAuthHeader(), getPushStats(), grantPremium(), listAffiliateConversions(), listAffiliates() (+24 more)
+
 ### Community 12 - "Community 12"
+Cohesion: 0.13
+Nodes (23): assignPlanetsToHouses(), calculateAntardashas(), calculateAscendantPrecision(), calculateAyanamsa(), calculateDashas(), calculateHouseCusps(), calculateJulianDay(), calculateKPCusps() (+15 more)
+
+### Community 13 - "Community 13"
 Cohesion: 0.06
 Nodes (35): Acknowledgments, Advanced Systems, Ashtakoot Milan (36 Points), Astro Marriage - Vedic Astrology Compatibility App, Backend Logic, Bhakoot Dosha Cancellation, Building for Production, Calculation Methodology (+27 more)
 
-### Community 13 - "Community 13"
-Cohesion: 0.15
-Nodes (31): analyzeComplexSpouseTraits(), analyzePhysique(), analyzeProfession(), areFriends(), calculateCharaDasha(), calculateExtendedAshtakoot(), calculateExtendedDivisionalAnalysis(), calculateExtendedRiskAssessment() (+23 more)
-
 ### Community 14 - "Community 14"
-Cohesion: 0.15
-Nodes (21): deleteAllReports(), deleteComparison(), deleteReport(), loadCharts(), loadComparisons(), loadFullComparison(), loadFullReport(), loadReportSummaries() (+13 more)
-
-### Community 15 - "Community 15"
 Cohesion: 0.14
 Nodes (20): exitDemoMode(), handleSignOut(), navLinkClasses(), isAdminEmail(), addUnlockedSection(), loadPlanTier(), updateAiCredits(), updatePlanTier() (+12 more)
 
-### Community 16 - "Community 16"
+### Community 15 - "Community 15"
 Cohesion: 0.16
-Nodes (18): buildOgImageUrl(), buildShareText(), buildStoryImageUrl(), buildTwitterText(), buildWhatsAppText(), generatePartnerInviteUrl(), generateShareableReportUrl(), getDefaultVerdict() (+10 more)
+Nodes (21): deleteAllReports(), deleteComparison(), deleteReport(), loadCharts(), loadComparisons(), loadFullComparison(), loadFullReport(), loadReportSummaries() (+13 more)
+
+### Community 16 - "Community 16"
+Cohesion: 0.13
+Nodes (16): usePremium(), getStoredAffiliateCode(), initiateCheckout(), openRazorpayModal(), verifyPayment(), detectRegion(), getCachedRegion(), getPricing() (+8 more)
 
 ### Community 17 - "Community 17"
 Cohesion: 0.11
-Nodes (10): handleChange(), handleSubmit(), validateForm(), cn(), getRenderData(), getSignIndex(), getRiskBadge(), getSexBadge() (+2 more)
+Nodes (9): getReportContext(), handleSubmit(), cn(), getRenderData(), getSignIndex(), getRiskBadge(), getSexBadge(), getVerdict() (+1 more)
 
 ### Community 18 - "Community 18"
+Cohesion: 0.12
+Nodes (13): useTheme(), LegalLayout(), guessTimezone(), handlePlaceSelect(), handleSubmit(), handleGenerateReport(), handlePersonASubmit(), handlePersonBSubmit() (+5 more)
+
+### Community 19 - "Community 19"
+Cohesion: 0.23
+Nodes (19): getFullYoni(), getNakshatraDetails(), getRiskBadge(), getYoniDetails(), getBottomMatches(), getDeityBlessing(), getElementCompat(), getFullYoniData() (+11 more)
+
+### Community 20 - "Community 20"
 Cohesion: 0.08
 Nodes (23): 1. Market Research & Industry Analysis (2026), 2. Positioning Statement, 3. The "Hybrid" Revenue Model, 4. Unique & Unconventional Growth Hooks, 5. Zero-Cost Marketing Tactics, 6. Launch Roadmap, 7. Passive Revenue: AdSense & Mobile Ad Strategy, 💰 A. AdSense Optimization (The "SEO Farm" Strategy) (+15 more)
 
-### Community 19 - "Community 19"
-Cohesion: 0.28
-Nodes (19): analyzeYogaDoshas(), detectChanchalManasYoga(), detectDharmaKarmadhipatiYoga(), detectGajakesariYoga(), detectGauriYoga(), detectGuruChandalYoga(), detectHamsaYoga(), detectKaalSarpaDosha() (+11 more)
-
-### Community 20 - "Community 20"
+### Community 21 - "Community 21"
 Cohesion: 0.14
 Nodes (11): useGeminiInsight(), async(), handleScrollToWidget(), PsychologyWidget(), CharaKarakasWidget(), DivisionalChartWidget(), getDeityNatureColor(), getStrengthColor() (+3 more)
 
-### Community 21 - "Community 21"
-Cohesion: 0.19
-Nodes (19): calculateD9Synastry(), calculateJaiminiSynastry(), calculateKPSynastry(), isFriendly(), predictSpouseCharacteristics(), calculateCharaKarakas(), calculateExtendedSexualCompatibility(), calculateTransitAnalysis() (+11 more)
-
 ### Community 22 - "Community 22"
+Cohesion: 0.28
+Nodes (19): analyzeYogaDoshas(), detectChanchalManasYoga(), detectDharmaKarmadhipatiYoga(), detectGajakesariYoga(), detectGauriYoga(), detectGuruChandalYoga(), detectHamsaYoga(), detectKaalSarpaDosha() (+11 more)
+
+### Community 23 - "Community 23"
 Cohesion: 0.29
 Nodes (20): addictionInverted(), buildChildren(), buildConflict(), buildDomains(), buildEmotional(), buildHealth(), buildProsperity(), buildStatus() (+12 more)
 
-### Community 23 - "Community 23"
+### Community 24 - "Community 24"
 Cohesion: 0.12
 Nodes (21): 1. Get your API key, 22 Available Tools, 2. Add to Claude Desktop, 3. Add to Cursor / Windsurf, code:json ({), code:json ({), code:json ({), Developer Tier ($9-29/mo) (+13 more)
 
-### Community 24 - "Community 24"
-Cohesion: 0.15
-Nodes (8): useTheme(), LegalLayout(), handleAddPartner(), handleProfileSubmit(), handleRunComparison(), ComparisonResultsPanel(), SimpleLogo(), ThemeToggle()
-
 ### Community 25 - "Community 25"
-Cohesion: 0.33
-Nodes (15): getBottomMatches(), getDeityBlessing(), getElementCompat(), getFullYoniData(), getGanaInfo(), getNakshatraCompat(), getNakshatraDetails(), getPlanetRelationship() (+7 more)
+Cohesion: 0.22
+Nodes (14): buildOgImageUrl(), buildShareText(), buildStoryImageUrl(), buildTwitterText(), buildWhatsAppText(), generateShareableReportUrl(), getDefaultVerdict(), reportToShareData() (+6 more)
 
 ### Community 26 - "Community 26"
-Cohesion: 0.22
-Nodes (10): identifyUser(), initAnalytics(), resetUser(), setUserProperties(), trackEvent(), trackPageView(), captureError(), clearSentryUser() (+2 more)
+Cohesion: 0.1
+Nodes (19): 1. Get your API key, 22 Available Tools, 2. Add to Claude Desktop, 3. Add to Cursor / Windsurf, code:json ({), code:json ({), code:json ({), Developer Tier ($9/mo) (+11 more)
 
 ### Community 27 - "Community 27"
-Cohesion: 0.16
-Nodes (9): useAuth(), copyLink(), handleSubmit(), saveUpi(), handleEmailSignIn(), handleGoogleSignIn(), handleClickOutside(), handleSignIn() (+1 more)
+Cohesion: 0.22
+Nodes (12): analyzeBestMatch(), generateMatchInsight(), analyzeAllPartners(), analyzeSinglePartner(), handleExplainClick(), togglePartnerDetails(), calculateScores(), handleRemovePartner() (+4 more)
 
 ### Community 28 - "Community 28"
 Cohesion: 0.18
 Nodes (8): getPlanetsInHouse(), getSignForHouse(), getPlanetsInSign(), isAscendantSign(), TooltipContent(), TooltipProvider(), formatDMS(), getDMS()
 
 ### Community 29 - "Community 29"
+Cohesion: 0.16
+Nodes (9): useAuth(), copyLink(), handleSubmit(), saveUpi(), handleEmailSignIn(), handleGoogleSignIn(), handleClickOutside(), handleSignIn() (+1 more)
+
+### Community 30 - "Community 30"
+Cohesion: 0.22
+Nodes (10): identifyUser(), initAnalytics(), resetUser(), setUserProperties(), trackEvent(), trackPageView(), captureError(), clearSentryUser() (+2 more)
+
+### Community 31 - "Community 31"
 Cohesion: 0.17
 Nodes (10): JargonTerm(), getMarriagePromiseColor(), getMarriagePromiseIcon(), getStrengthColor(), HelpBox(), getResultColor(), getResultIcon(), getConfidenceColor() (+2 more)
 
-### Community 30 - "Community 30"
+### Community 32 - "Community 32"
+Cohesion: 0.17
+Nodes (6): PushPrompt(), urlBase64ToUint8Array(), usePushNotification(), calculateReportKey(), reportToOgParams(), AwarenessBanner()
+
+### Community 33 - "Community 33"
+Cohesion: 0.12
+Nodes (15): 1. The Developer Entrypoint: NPM Registry, 2. The Direct-to-Claude Directory: Smithery.ai, 3. The Interactive Sandbox: Glama.ai Registry, 4. Direct IDE Integrations (Cursor, Windsurf, Cline), 5. 🚀 The Secret Weapon: Vercel Server Sent Events (SSE), code:mermaid (graph TD), code:json ("command": "npx",), 🗺️ Distribution & GTM Channels (+7 more)
+
+### Community 34 - "Community 34"
 Cohesion: 0.32
 Nodes (12): analyzeProfession(), calculateSpouseMeeting(), calculateSpousePrediction(), generatePredictions(), getElementFromSign(), getFaceShape(), getSeventhLordPlacementInterpretation(), getSkinTexture() (+4 more)
 
-### Community 31 - "Community 31"
-Cohesion: 0.18
-Nodes (6): calculateReportKey(), reportToShareData(), AwarenessBanner(), getVarnaFromSign(), getVashyaFromSign(), SpousePredictionWidget()
-
-### Community 32 - "Community 32"
-Cohesion: 0.35
-Nodes (13): getNakshatraFromLongitude(), analyzeMarriagePromise(), calculateKPCusps(), calculateRulingPlanets(), calculateSignificators(), calculateSubLord(), calculateSubSubLord(), findMarriagePeriodsKP() (+5 more)
-
-### Community 33 - "Community 33"
+### Community 35 - "Community 35"
 Cohesion: 0.37
 Nodes (11): average(), calculateComparisonScore(), clamp(), getLabel(), scoreAdvanced(), scoreIntimacy(), scoreRelationship(), scoreRisk() (+3 more)
 
-### Community 34 - "Community 34"
-Cohesion: 0.3
-Nodes (10): calculateAntardashas(), calculateCharaDasha(), calculateCharaDashaYears(), calculatePratyantarDashas(), calculateVimshottariDasha(), findMarriageWindows(), findVulnerablePeriods(), getCurrentDasha() (+2 more)
-
-### Community 35 - "Community 35"
-Cohesion: 0.38
-Nodes (12): calculateAspects(), calculateHouseCusps(), calculatePlanetaryPositions(), getDignity(), getElement(), getHouseFromLongitude(), getJulianDay(), getLahiriAyanamsha() (+4 more)
-
 ### Community 36 - "Community 36"
-Cohesion: 0.4
-Nodes (12): getSignDegree(), calculateAllVargas(), calculateDasamsa(), calculateDwadasamsa(), calculateNavamsa(), calculateSaptamsa(), calculateShashtiamsa(), calculateShodasamsa() (+4 more)
+Cohesion: 0.43
+Nodes (10): analyzeMentalHealth(), assessEmotionalStability(), assessEmotionalStrengths(), detectAnxiety(), detectDepression(), detectPersonalityPatterns(), detectPsychoticDissociativePatterns(), getPos() (+2 more)
 
 ### Community 37 - "Community 37"
 Cohesion: 0.14
@@ -324,63 +318,63 @@ Nodes (12): 04. API Design & Logical Endpoints, 1. Design Philosophy, 2.1 Core A
 
 ### Community 38 - "Community 38"
 Cohesion: 0.14
-Nodes (12): AI Matchmaking Engine Documentation, Architecture, code:block1 (┌───────────────────────────────────────────────────────────), code:typescript (Confidence = 70 +), Confidence Calculation, Expected Performance, Future Enhancements, Optimization Strategies (+4 more)
-
-### Community 39 - "Community 39"
-Cohesion: 0.14
 Nodes (12): 1. Hugging Face Space (Ready to Deploy), 2. Perplexity Index Submission, 3. Google AI Overviews (SGE), 4. Bing Copilot / Bing Webmaster, 5. ChatGPT Web Browsing / GPT Actions, 6. Claude (Anthropic), code:bash (# Install HF CLI if not installed), For a Custom GPT (optional, future): (+4 more)
 
-### Community 40 - "Community 40"
-Cohesion: 0.43
-Nodes (10): analyzeMentalHealth(), assessEmotionalStability(), assessEmotionalStrengths(), detectAnxiety(), detectDepression(), detectPersonalityPatterns(), detectPsychoticDissociativePatterns(), getPos() (+2 more)
-
-### Community 41 - "Community 41"
+### Community 39 - "Community 39"
 Cohesion: 0.56
 Nodes (11): analyzeAddictionRisk(), assessAlcoholSubstanceRisk(), assessCompulsiveBehaviorRisk(), assessDrugAddictionRisk(), assessNeptuneRisk(), assessProtectiveFactors(), assessSexAddictionRisk(), getPos() (+3 more)
 
-### Community 42 - "Community 42"
+### Community 40 - "Community 40"
 Cohesion: 0.15
 Nodes (11): 1. Reused Assets (From Existing Codebase), 2.1 Jaimini System (New Development), 2.2 Lal Kitab (New Development), 2.3 Nadi Astrology (New Development), 2.4 Sexual Health & Satisfaction Rules (Advanced), 2.5 KP Astrology & Advanced Varga (New Development), 2. NEW Knowledge Bases to Develop (The "Missing Logic"), 3. Classical Calculation Tables (Ashtakoot) (+3 more)
 
-### Community 43 - "Community 43"
+### Community 41 - "Community 41"
 Cohesion: 0.15
-Nodes (13): 3. Risk Assessment (18%), 4. Intimacy Factors (12%), 5. Practical Factors (10%), 7. Mental & Lifestyle (7%), Dosha Analysis (6%), Factor Analysis (15 Categories), In-Law Compatibility (5%), Lifestyle (4%) (+5 more)
+Nodes (13): 1. Traditional Compatibility (25%), 3. Risk Assessment (18%), 4. Intimacy Factors (12%), 7. Mental & Lifestyle (7%), Ashtakoot Milan (15%), Dosha Analysis (6%), Factor Analysis (15 Categories), Lifestyle (4%) (+5 more)
 
-### Community 44 - "Community 44"
+### Community 42 - "Community 42"
 Cohesion: 0.44
 Nodes (10): calculateAge(), calculateStrategicConclusion(), calculateVulnerabilityTimeline(), getKPSignifications(), getPlanetSpecificShield(), identifyCrucialLifetimePeriods(), identifyRiskPlanets(), isNavamshaStressed() (+2 more)
 
-### Community 45 - "Community 45"
+### Community 43 - "Community 43"
 Cohesion: 0.17
 Nodes (10): 1. Core Astrology Engine (Foundation), 2. Advanced Systems Integration (New), 3. Compatibility Analysis (The "Heart" of the App), 3. Sexual Health & Satisfaction (Advanced Feature), 4. Modern Relationship Integration (Unique Feature), 5. Advanced Risk Assessment, 6. Timing & Prediction, 7. Remedial Measures (+2 more)
 
+### Community 44 - "Community 44"
+Cohesion: 0.17
+Nodes (11): 5.1 Gay and Lesbian Tendencies: Astrological Markers, 5.2 Transgender and Non-Binary Indicators, 5. Sexual Orientation and Gender Expression, 8.1 Brihat Parashara Hora Shastra, 8.2 Phaladeepika, 8.3 Saravali, 8.4 Jaimini Sutras, 8.5 Uttara Kalamrita (+3 more)
+
 ### Community 46 - "Community 46"
-Cohesion: 0.24
-Nodes (5): generateDetailedSpouseProfile(), generateExecutiveSummary(), generateSelfAnalysisReport(), transformDivisionalAnalysis(), createMockChart()
-
-### Community 47 - "Community 47"
-Cohesion: 0.51
-Nodes (9): analyzeFemaleSexualHealth(), analyzeLibido(), analyzeMaleSexualHealth(), analyzeMutualSatisfaction(), analyzeSexualHealth(), analyzeSexualOrientation(), getDominantElement(), getElementBalance() (+1 more)
-
-### Community 49 - "Community 49"
 Cohesion: 0.18
 Nodes (9): 03. Database Schema (Supabase / PostgreSQL), 1. Overview, 2.1 `users` (Public Profile), 2.2 `charts` (Saved Birth Data), 2.3 `compatibility_reports` (Generated Matches), 2. Tables, 3. Relationships (ER Diagram), 4. Row Level Security (RLS) Policies (+1 more)
 
-### Community 50 - "Community 50"
+### Community 47 - "Community 47"
+Cohesion: 0.18
+Nodes (9): AI Matchmaking Engine Documentation, Architecture, code:block1 (┌───────────────────────────────────────────────────────────), code:typescript (Confidence = 70 +), Confidence Calculation, Future Enhancements, Overview, Recommendation Levels (+1 more)
+
+### Community 48 - "Community 48"
 Cohesion: 0.18
 Nodes (11): 3.1.1 7th House Planets and Infidelity Markers, 3.1.2 8th House Intimacy Patterns, 3.1 Placidus House System Applications, 3.2.1 Uranus — Unconventionality and Sudden Attractions, 3.2.2 Neptune — Fantasy, Addiction, and Deception, 3.2.3 Pluto — Obsession, Power, and Taboo, 3.2 Modern Planets and Sexual Psychology, 3.3.1 Attachment Theory in the Chart (+3 more)
 
+### Community 49 - "Community 49"
+Cohesion: 0.4
+Nodes (3): callApi(), birthDataToPayload(), pairToPayload()
+
+### Community 50 - "Community 50"
+Cohesion: 0.51
+Nodes (8): generateCompatibilityStory(), generateCounselorExplanation(), generateCounselorOpinion(), generateLongTermOutlook(), generatePracticalAdvice(), generateShortcomings(), generateSuccessFactors(), generateWhyThisMatch()
+
 ### Community 51 - "Community 51"
-Cohesion: 0.18
-Nodes (10): 10.1 Vedic Remedies, 10.2 K.P. Remedial Approaches, 10.3 Modern Psychological Integration, 10.4 Ethical Practice Guidelines, 10. Remedial Measures and Ethical Considerations, 5.1 Gay and Lesbian Tendencies: Astrological Markers, 5.2 Transgender and Non-Binary Indicators, 5. Sexual Orientation and Gender Expression (+2 more)
+Cohesion: 0.38
+Nodes (6): analyzeBestMatchSync(), generateComprehensiveMatchInsight(), generateMatchInsightSync(), analyzeAllPartners(), generateDetailedExplanation(), generateQuickMatchInsight()
 
 ### Community 52 - "Community 52"
 Cohesion: 0.27
 Nodes (4): componentDidCatch(), constructor(), getDerivedStateFromError(), QueryParamHandler()
 
 ### Community 53 - "Community 53"
-Cohesion: 0.4
-Nodes (8): analyzeDarakaraka(), calculateCharaDashaYears(), calculateDetailedCharaDasha(), calculateUpapadaLagna(), calculateVivahSaham(), checkMultipleMarriageIndicators(), getDKMarriageSignificance(), getKarakaInterpretation()
+Cohesion: 0.36
+Nodes (8): cardBg(), getBarColor(), getCategoryDescription(), getOverallBadge(), getRiskBg(), getRiskColor(), getSeverityBadge(), levelLabel()
 
 ### Community 54 - "Community 54"
 Cohesion: 0.36
@@ -399,219 +393,211 @@ Cohesion: 0.2
 Nodes (10): 2.1.1 Significators of 5th, 7th, and 12th Houses, 2.1.2 Sub-Lord Theory Applied to Relationships, 2.1 K.P. Fundamentals for Relationship Analysis, 2.2.1 Cuspal Interlinks for Marriage Breakdown, 2.2.2 Timing Through Dasha-Bhukti-Antara, 2.2 K.P. Techniques for Specific Issues, 2.3.1 Constellation Lord Analysis for Unconventional Desires, 2.3.2 House Groupings for Taboo Relationships (+2 more)
 
 ### Community 58 - "Community 58"
-Cohesion: 0.36
-Nodes (8): cardBg(), getBarColor(), getCategoryDescription(), getOverallBadge(), getRiskBg(), getRiskColor(), getSeverityBadge(), levelLabel()
+Cohesion: 0.28
+Nodes (4): handleClick(), isTranslated(), restoreEnglish(), SimpleLogo()
 
 ### Community 59 - "Community 59"
-Cohesion: 0.64
-Nodes (7): analyzeAttachmentPatterns(), analyzeModernInsightsEnhanced(), analyzeOuterPlanetAspects(), analyzeShadowDynamics(), findAspect(), getOuterPersonalInterpretation(), getPos()
-
-### Community 60 - "Community 60"
 Cohesion: 0.47
 Nodes (7): getAspectIcon(), getNeptuneInterpretation(), getPlanetInfo(), getPlanetInHouseInterpretation(), getPlutoInterpretation(), getUranusInterpretation(), SynastryWidget()
 
-### Community 61 - "Community 61"
+### Community 60 - "Community 60"
 Cohesion: 0.39
 Nodes (7): extractSourcePlanets(), getCategoryDescription(), getCategoryEmoji(), getCategoryLabel(), getPatternBadge(), getSeverityBorderColor(), togglePattern()
 
-### Community 62 - "Community 62"
+### Community 61 - "Community 61"
 Cohesion: 0.22
 Nodes (7): Astro Marriage - Free Vedic Kundali Matching & Marriage Compatibility, Classical References, Guides, Key Facts, Tech Stack, Technical Methodology, What is Astro Marriage?
 
-### Community 63 - "Community 63"
+### Community 62 - "Community 62"
 Cohesion: 0.22
 Nodes (9): 1.4.1 Navamsa (D-9) — The Fruit of Marriage, 1.4.2 Upapada Lagna and Arudha Pada Systems, 1.4.3 Shashtiamsa (D-60) — Karmic Patterns, 1.4 Advanced Techniques: Divisional Charts, 1.5.1 Vimshottari Dasha System, 1.5.2 Transit Analysis (Gochara), 1.5.3 Annual Chart (Tajaka) Methods, 1.5 Predictive Techniques: Timing of Events (+1 more)
 
-### Community 64 - "Community 64"
+### Community 63 - "Community 63"
 Cohesion: 0.32
 Nodes (4): copyToClipboard(), createKey(), generateKey(), handleCopy()
+
+### Community 64 - "Community 64"
+Cohesion: 0.36
+Nodes (4): PremiumBadge(), getIconClasses(), getThemeClasses(), getTitleClasses()
 
 ### Community 65 - "Community 65"
 Cohesion: 0.43
 Nodes (6): filterTriggers(), getCategoryTheme(), getIconColor(), getInlineRemedy(), getIntensityColor(), getSourceBadge()
 
 ### Community 66 - "Community 66"
-Cohesion: 0.36
-Nodes (4): PremiumBadge(), getIconClasses(), getThemeClasses(), getTitleClasses()
-
-### Community 67 - "Community 67"
 Cohesion: 0.25
 Nodes (6): 1. Reused Core Components (The "Shell"), 2. "My Chart" Upgrades, 3. Widget Replacement Strategy, 4. New User Flows, 5. Implementation Priorities, UI/UX & Widget Transition Strategy
 
-### Community 68 - "Community 68"
+### Community 67 - "Community 67"
 Cohesion: 0.25
 Nodes (8): 4.1 Extra-Marital Affairs and Infidelity, 4.2 Pre-Marital Relationships: Number and Continuity, 4.3 Divorce Indicators, 4.4 Widowhood and Spouse Death, 4.5 Incest and Family Taboo Relationships, 4.6 Workplace and Authority Figure Affairs, 4.7 Neighbor and Social Circle Affairs, 4. Specific Relationship Categories: Multi-System Analysis
 
-### Community 69 - "Community 69"
+### Community 68 - "Community 68"
 Cohesion: 0.67
 Nodes (5): getServiceClient(), handleEmail(), handlePush(), handler(), renderTemplate()
 
-### Community 70 - "Community 70"
+### Community 69 - "Community 69"
 Cohesion: 0.48
-Nodes (3): callApi(), birthDataToPayload(), pairToPayload()
+Nodes (3): getVarnaFromSign(), getVashyaFromSign(), SpousePredictionWidget()
 
-### Community 71 - "Community 71"
-Cohesion: 0.43
-Nodes (3): PushPrompt(), urlBase64ToUint8Array(), usePushNotification()
-
-### Community 72 - "Community 72"
+### Community 70 - "Community 70"
 Cohesion: 0.48
 Nodes (5): getBarColor(), getMarsHouse(), getMercuryStrength(), getMoonSign(), getSaturnHouse()
 
-### Community 73 - "Community 73"
+### Community 71 - "Community 71"
 Cohesion: 0.29
 Nodes (7): Basic Usage (Dashboard Widget), code:typescript (import { analyzeBestMatchSync } from '@lib/ai';), code:typescript (import { analyzeAllPartners } from '@lib/ai';), code:typescript (import { generateComprehensiveMatchInsight } from '@lib/ai';), Comprehensive Analysis, Single Match Detailed Analysis, Usage Examples
+
+### Community 72 - "Community 72"
+Cohesion: 0.29
+Nodes (6): code:powershell (npx @smithery/cli install novaventures-contact/marriage-astr), 🎉 CONGRATULATIONS! Your Smithery.ai Listing is LIVE!, 📊 Final Publishing Summary, 🛠️ How to Test the Live Smithery Listing Locally, 📸 Verification & Live Build Logs, 🎥 Verification Video Walkthrough
+
+### Community 73 - "Community 73"
+Cohesion: 0.73
+Nodes (4): getServiceClient(), handler(), isAdminEmail(), verifyAdmin()
 
 ### Community 74 - "Community 74"
 Cohesion: 0.73
 Nodes (4): getServiceClient(), handler(), isAdminEmail(), verifyAdmin()
 
 ### Community 75 - "Community 75"
-Cohesion: 0.73
-Nodes (4): getServiceClient(), handler(), isAdminEmail(), verifyAdmin()
-
-### Community 76 - "Community 76"
 Cohesion: 0.53
 Nodes (4): goNext(), goPrev(), onScroll(), scrollTop()
 
-### Community 77 - "Community 77"
-Cohesion: 0.53
-Nodes (4): getFullYoni(), getNakshatraDetails(), getRiskBadge(), getYoniDetails()
-
-### Community 78 - "Community 78"
+### Community 76 - "Community 76"
 Cohesion: 0.53
 Nodes (4): getPlainMeaning(), getScoreBgColor(), getScoreColor(), HelpBox()
 
-### Community 79 - "Community 79"
+### Community 77 - "Community 77"
 Cohesion: 0.53
-Nodes (4): getCategoryDescription(), getWellbeingColor(), getWellbeingLabel(), toggleCategory()
+Nodes (4): generatePartnerInviteUrl(), handleCopy(), handleShare(), handleWhatsApp()
 
-### Community 80 - "Community 80"
-Cohesion: 0.53
-Nodes (4): getOverallColor(), getSeverityColor(), getTypeIcon(), toggleCard()
-
-### Community 81 - "Community 81"
-Cohesion: 0.67
-Nodes (4): createEncryptedStorage(), decrypt(), encrypt(), getOrCreateKey()
-
-### Community 82 - "Community 82"
-Cohesion: 0.33
-Nodes (6): 1.3.1 Vish Kanya Yoga — Multiple Relationships and Secret Affairs, 1.3.2 Guru Chandal Yoga — Moral Degradation in Relationships, 1.3.3 Punarbhu Dosha — Karmic Relationship Patterns, 1.3.4 Venus-Mars-Rahu Combinations — The Infidelity Triad, 1.3.5 Moon-Mercury Afflictions — Mental Duplicity in Relationships, 1.3 Specific Yogas and Combinations for Infidelity and Extra-Marital Affairs
-
-### Community 83 - "Community 83"
-Cohesion: 0.33
-Nodes (6): 8.1 Brihat Parashara Hora Shastra, 8.2 Phaladeepika, 8.3 Saravali, 8.4 Jaimini Sutras, 8.5 Uttara Kalamrita, 8. Classical Text References
-
-### Community 84 - "Community 84"
-Cohesion: 0.33
-Nodes (6): 1.1.1 Venus (Shukra) — Primary Karaka of Love, Romance, and Sexual Expression, 1.1.2 Mars (Mangala) — Passion, Aggression, and Sexual Energy, 1.1.3 Mercury (Budha) — Mental Patterns and Communication, 1.1.4 Moon (Chandra) — Emotional Needs and Psychological Patterns, 1.1.5 Rahu and Ketu — Karmic Compulsions and Hidden Desires, 1.1 Core Planetary Significators for Relationship Issues
-
-### Community 85 - "Community 85"
-Cohesion: 0.33
-Nodes (6): 1.2.1 5th House (Purva Punya) — Romance, Affairs, and Pre-Marital Relationships, 1.2.2 7th House (Kalatra Bhava) — Marriage, Spouse, and Partnership Dynamics, 1.2.3 8th House (Ayur Bhava) — Longevity of Spouse, Sexual Intimacy, and Secrets, 1.2.4 12th House (Vyaya Bhava) — Bed Pleasures, Loss, and Hidden Activities, 1.2.5 3rd, 7th, and 11th Houses — Kama Trikona (Houses of Desire), 1.2 Critical Houses for Relationship Analysis
-
-### Community 86 - "Community 86"
+### Community 78 - "Community 78"
 Cohesion: 0.53
 Nodes (4): getLevel(), getLevelBg(), getLevelColor(), getLevelLabel()
 
-### Community 87 - "Community 87"
+### Community 79 - "Community 79"
+Cohesion: 0.53
+Nodes (4): getOverallColor(), getSeverityColor(), getTypeIcon(), toggleCard()
+
+### Community 80 - "Community 80"
+Cohesion: 0.67
+Nodes (4): createEncryptedStorage(), decrypt(), encrypt(), getOrCreateKey()
+
+### Community 81 - "Community 81"
+Cohesion: 0.33
+Nodes (6): 1.3.1 Vish Kanya Yoga — Multiple Relationships and Secret Affairs, 1.3.2 Guru Chandal Yoga — Moral Degradation in Relationships, 1.3.3 Punarbhu Dosha — Karmic Relationship Patterns, 1.3.4 Venus-Mars-Rahu Combinations — The Infidelity Triad, 1.3.5 Moon-Mercury Afflictions — Mental Duplicity in Relationships, 1.3 Specific Yogas and Combinations for Infidelity and Extra-Marital Affairs
+
+### Community 82 - "Community 82"
+Cohesion: 0.33
+Nodes (6): 1.1.1 Venus (Shukra) — Primary Karaka of Love, Romance, and Sexual Expression, 1.1.2 Mars (Mangala) — Passion, Aggression, and Sexual Energy, 1.1.3 Mercury (Budha) — Mental Patterns and Communication, 1.1.4 Moon (Chandra) — Emotional Needs and Psychological Patterns, 1.1.5 Rahu and Ketu — Karmic Compulsions and Hidden Desires, 1.1 Core Planetary Significators for Relationship Issues
+
+### Community 83 - "Community 83"
+Cohesion: 0.33
+Nodes (6): 1.2.1 5th House (Purva Punya) — Romance, Affairs, and Pre-Marital Relationships, 1.2.2 7th House (Kalatra Bhava) — Marriage, Spouse, and Partnership Dynamics, 1.2.3 8th House (Ayur Bhava) — Longevity of Spouse, Sexual Intimacy, and Secrets, 1.2.4 12th House (Vyaya Bhava) — Bed Pleasures, Loss, and Hidden Activities, 1.2.5 3rd, 7th, and 11th Houses — Kama Trikona (Houses of Desire), 1.2 Critical Houses for Relationship Analysis
+
+### Community 84 - "Community 84"
+Cohesion: 0.53
+Nodes (4): getCategoryDescription(), getWellbeingColor(), getWellbeingLabel(), toggleCategory()
+
+### Community 85 - "Community 85"
 Cohesion: 0.8
 Nodes (3): getAdminClient(), handler(), verifyToken()
 
-### Community 88 - "Community 88"
+### Community 86 - "Community 86"
 Cohesion: 0.6
 Nodes (3): getRiskColor(), getScoreColor(), getScoreLabel()
 
+### Community 88 - "Community 88"
+Cohesion: 0.7
+Nodes (3): handleChange(), handleSubmit(), validateForm()
+
+### Community 89 - "Community 89"
+Cohesion: 0.7
+Nodes (3): guessTimezone(), handlePlaceSelect(), handleSubmit()
+
 ### Community 90 - "Community 90"
-Cohesion: 0.6
-Nodes (3): handleClick(), isTranslated(), restoreEnglish()
-
-### Community 91 - "Community 91"
-Cohesion: 0.7
-Nodes (3): guessTimezone(), handlePlaceSelect(), handleSubmit()
-
-### Community 92 - "Community 92"
-Cohesion: 0.6
-Nodes (3): handleGenerateReport(), handlePersonASubmit(), handlePersonBSubmit()
-
-### Community 93 - "Community 93"
-Cohesion: 0.7
-Nodes (3): guessTimezone(), handlePlaceSelect(), handleSubmit()
-
-### Community 94 - "Community 94"
 Cohesion: 0.6
 Nodes (3): getProgressColor(), getScoreColor(), getScoreLabel()
 
-### Community 95 - "Community 95"
+### Community 91 - "Community 91"
 Cohesion: 0.6
 Nodes (3): getTrafficLightColor(), getVerdictColor(), togglePillar()
 
-### Community 97 - "Community 97"
+### Community 93 - "Community 93"
 Cohesion: 0.6
 Nodes (3): isCompatibilityReport(), isSelfReport(), validateChart()
 
-### Community 98 - "Community 98"
+### Community 94 - "Community 94"
 Cohesion: 0.4
 Nodes (5): 1. Overview, 2. Strengths, 3. Challenges, 4. Evidence, Explanation Generation
 
-### Community 99 - "Community 99"
+### Community 95 - "Community 95"
 Cohesion: 0.4
 Nodes (5): Bonus System, code:typescript (Overall Score = Σ(Factor Score × Factor Weight)), Penalty System, Scoring Algorithm, Weighted Scoring Formula
 
-### Community 100 - "Community 100"
-Cohesion: 0.4
-Nodes (5): 9.1 Case Study: Multiple Affairs and Divorce — Multi-System Verification, 9.2 Case Study: Secret Long-Term Affair — Hidden Indicators, 9.3 Case Study: Addiction and Relationship Destruction, 9.4 Case Study: Workplace Affair with Authority Figure, 9. Case Studies and Real-Life Applications
-
-### Community 101 - "Community 101"
+### Community 96 - "Community 96"
 Cohesion: 0.4
 Nodes (5): 11.1 Planetary Significators Across Systems, 11.2 House Meanings for Relationship Issues, 11.3 Timing Techniques Comparison, 11.4 Specific Issue Indicator Matrix, 11. Comparative Summary Tables
 
-### Community 102 - "Community 102"
+### Community 97 - "Community 97"
 Cohesion: 0.4
 Nodes (5): 6.1 Pornography and Sex Addiction, 6.2 Alcohol and Substance Addiction, 6.3 Drug Addiction, 6.4 Masturbation and Self-Stimulatory Compulsions, 6. Addictive Behaviors and Compulsions
 
-### Community 115 - "Community 115"
-Cohesion: 0.5
-Nodes (4): 6. Advanced Indicators (8%), Divisional Charts (2%), Jaimini Astrology (3%), KP Astrology (3%)
+### Community 98 - "Community 98"
+Cohesion: 0.4
+Nodes (5): 9.1 Case Study: Multiple Affairs and Divorce — Multi-System Verification, 9.2 Case Study: Secret Long-Term Affair — Hidden Indicators, 9.3 Case Study: Addiction and Relationship Destruction, 9.4 Case Study: Workplace Affair with Authority Figure, 9. Case Studies and Real-Life Applications
 
-### Community 116 - "Community 116"
+### Community 99 - "Community 99"
+Cohesion: 0.4
+Nodes (5): 10.1 Vedic Remedies, 10.2 K.P. Remedial Approaches, 10.3 Modern Psychological Integration, 10.4 Ethical Practice Guidelines, 10. Remedial Measures and Ethical Considerations
+
+### Community 111 - "Community 111"
 Cohesion: 0.5
 Nodes (4): API Reference, code:typescript (// Analyze all partners and find best match), Main Functions, Types
 
-### Community 117 - "Community 117"
+### Community 112 - "Community 112"
+Cohesion: 0.5
+Nodes (4): 6. Advanced Indicators (8%), Divisional Charts (2%), Jaimini Astrology (3%), KP Astrology (3%)
+
+### Community 113 - "Community 113"
 Cohesion: 0.5
 Nodes (4): 7.1 Personality Disorders in the Chart, 7.2 Depression and Anxiety, 7.3 Psychotic and Dissociative Tendencies, 7. Mental Health and Psychological Disorders
 
-### Community 118 - "Community 118"
+### Community 114 - "Community 114"
 Cohesion: 0.83
 Nodes (3): getServiceClient(), handler(), renderTemplate()
 
-### Community 123 - "Community 123"
+### Community 120 - "Community 120"
 Cohesion: 0.67
-Nodes (3): 1. Traditional Compatibility (25%), Ashtakoot Milan (15%), Navamsa Analysis (10%)
+Nodes (3): 5. Practical Factors (10%), In-Law Compatibility (5%), Timing (5%)
 
-### Community 124 - "Community 124"
-Cohesion: 0.67
-Nodes (3): 2. Relationship Dynamics (20%), Emotional Compatibility (8%), Synastry Analysis (12%)
-
-### Community 125 - "Community 125"
+### Community 121 - "Community 121"
 Cohesion: 0.67
 Nodes (3): CosmicMatchWidget, Detailed Analysis Modal, Integration with UI
 
+### Community 122 - "Community 122"
+Cohesion: 0.67
+Nodes (3): 2. Relationship Dynamics (20%), Emotional Compatibility (8%), Synastry Analysis (12%)
+
+### Community 123 - "Community 123"
+Cohesion: 0.67
+Nodes (3): Expected Performance, Optimization Strategies, Performance Considerations
+
 ## Knowledge Gaps
-- **299 isolated node(s):** `Core Astrology Engine`, `Advanced Systems`, `Compatibility Analysis`, `Sexual Health Assessment`, `Risk Assessment` (+294 more)
+- **326 isolated node(s):** `Core Astrology Engine`, `Advanced Systems`, `Compatibility Analysis`, `Sexual Health Assessment`, `Risk Assessment` (+321 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **21 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **22 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `SEOHead()` connect `Community 2` to `Community 64`, `Community 1`, `Community 3`, `Community 91`, `Community 107`, `Community 16`, `Community 48`, `Community 20`, `Community 24`, `Community 27`, `Community 92`, `Community 93`, `Community 31`?**
-  _High betweenness centrality (0.102) - this node is a cross-community bridge._
-- **Why does `useGeminiInsight()` connect `Community 20` to `Community 4`, `Community 77`, `Community 78`, `Community 54`, `Community 25`, `Community 60`, `Community 29`, `Community 31`?**
-  _High betweenness centrality (0.046) - this node is a cross-community bridge._
-- **Why does `generateChartFromBirthData()` connect `Community 0` to `Community 1`, `Community 10`, `Community 21`, `Community 15`?**
-  _High betweenness centrality (0.043) - this node is a cross-community bridge._
+- **Why does `SEOHead()` connect `Community 2` to `Community 32`, `Community 89`, `Community 69`, `Community 104`, `Community 45`, `Community 16`, `Community 18`, `Community 21`, `Community 25`, `Community 58`, `Community 27`, `Community 29`, `Community 63`?**
+  _High betweenness centrality (0.088) - this node is a cross-community bridge._
+- **Why does `useGeminiInsight()` connect `Community 21` to `Community 69`, `Community 7`, `Community 76`, `Community 19`, `Community 54`, `Community 59`, `Community 31`?**
+  _High betweenness centrality (0.045) - this node is a cross-community bridge._
+- **Why does `generateChartFromBirthData()` connect `Community 1` to `Community 3`, `Community 27`, `Community 12`, `Community 14`?**
+  _High betweenness centrality (0.041) - this node is a cross-community bridge._
 - **Are the 28 inferred relationships involving `generateChartFromBirthData()` (e.g. with `handler()` and `handler()`) actually correct?**
   _`generateChartFromBirthData()` has 28 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 22 inferred relationships involving `validateApiKey()` (e.g. with `handler()` and `handler()`) actually correct?**

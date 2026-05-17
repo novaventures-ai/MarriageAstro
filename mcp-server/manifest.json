@@ -6,6 +6,8 @@
   "author": {
     "name": "MarriageAstro"
   },
+  "homepage": "https://marriage-astro.vercel.app",
+  "icon": "icon.png",
   "server": {
     "type": "node",
     "entry_point": "dist/index.js",
@@ -26,6 +28,12 @@
       "description": "Your API Key for the MarriageAstro calculation engine.",
       "sensitive": true,
       "required": true
+    },
+    "MARRIAGE_ASTRO_BASE_URL": {
+      "type": "string",
+      "title": "Base URL",
+      "description": "Optional custom API endpoint URL for the MarriageAstro calculation engine.",
+      "required": false
     }
   },
   "license": "MIT"

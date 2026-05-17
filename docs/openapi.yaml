@@ -22,28 +22,19 @@ info:
     **Try before you upgrade**: Premium endpoints return HTTP 200 with `"preview": true` on lower tiers,
     showing real chart-based insights (risk level, key indicators) before asking for upgrade.
 
-    Get your API key at: https://marriageastro.com/api-keys
+    Get your API key at: https://marriage-astro.vercel.app/api-keys
   contact:
-    url: https://marriageastro.com
-    email: api@marriageastro.com
+    url: https://marriage-astro.vercel.app
+    email: api@marriage-astro.vercel.app
   license:
     name: Commercial
-    url: https://marriageastro.com/legal/terms
+    url: https://marriage-astro.vercel.app/legal/terms
 
 servers:
-  - url: https://marriageastro.com/api/v1
+  - url: https://marriage-astro.vercel.app/api/v1
     description: Production
 
-security:
-  - ApiKeyAuth: []
-
 components:
-  securitySchemes:
-    ApiKeyAuth:
-      type: apiKey
-      in: header
-      name: X-API-Key
-
   schemas:
     BirthInput:
       type: object

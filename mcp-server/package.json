@@ -1,6 +1,7 @@
 {
   "name": "marriage-astro-mcp",
-  "version": "1.0.0",
+  "version": "1.0.2",
+  "mcpName": "io.github.novaventures-ai/marriage-astro",
   "description": "Vedic Astrology MCP Server — birth charts, compatibility, divorce risk, spouse prediction, and more via MarriageAstro's calculation engine",
   "keywords": [
     "mcp",

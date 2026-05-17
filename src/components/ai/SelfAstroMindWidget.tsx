@@ -4,9 +4,10 @@
  */
 
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send, Sparkles, Loader2 } from 'lucide-react';
+import { MessageCircle, X, Send, Sparkles, Loader2, Brain } from 'lucide-react';
 import { SelfAnalysisReport, PartnerProfile } from '../../types/selfAnalysis';
 import { useSelfAI } from '../../hooks/useSelfAI';
+import { useUserProfileStore } from '../../store/useUserProfileStore';
 import ReactMarkdown from 'react-markdown';
 
 interface SelfAstroMindWidgetProps {
@@ -37,6 +38,7 @@ export const SelfAstroMindWidget: React.FC<SelfAstroMindWidgetProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  const { aiProvider, setAiProvider } = useUserProfileStore();
   const { generateInsight, loading, error, insight, reset, aiLimited } = useSelfAI(report);
 
   // Auto-scroll to bottom
@@ -136,16 +138,43 @@ export const SelfAstroMindWidget: React.FC<SelfAstroMindWidgetProps> = ({
   ];
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-700/80">
       {/* Header */}
-      <div className="bg-gradient-to-r from-violet-600 to-indigo-600 p-4 flex items-center justify-between">
+      <div className="bg-gradient-to-r from-violet-600 via-indigo-600 to-indigo-700 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10">
         <div className="flex items-center gap-2">
           <Sparkles className="w-5 h-5 text-white" />
-          <h3 className="font-bold text-white">AstroMind AI</h3>
+          <h3 className="font-bold text-white">AstroMind AI Chat</h3>
         </div>
-        <div className="flex items-center gap-2">
-          <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-          <span className="text-xs text-white/80">Online</span>
+        
+        <div className="flex items-center gap-3 self-end sm:self-auto">
+          {/* Micro AI Switch */}
+          <div className="flex items-center gap-1 bg-black/40 p-1 rounded-xl border border-white/10 backdrop-blur-md">
+            <button
+              onClick={() => setAiProvider('gemini')}
+              className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all ${
+                aiProvider === 'gemini'
+                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md'
+                  : 'text-gray-300 hover:text-white'
+              }`}
+            >
+              Gemini
+            </button>
+            <button
+              onClick={() => setAiProvider('anthropic')}
+              className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all ${
+                aiProvider === 'anthropic'
+                  ? 'bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-md'
+                  : 'text-gray-300 hover:text-white'
+              }`}
+            >
+              Claude
+            </button>
+          </div>
+
+          <div className="flex items-center gap-1.5 bg-black/25 px-2.5 py-1 rounded-lg border border-white/5">
+            <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
+            <span className="text-[10px] text-white/80 font-bold uppercase tracking-wider">Active</span>
+          </div>
         </div>
       </div>
 
@@ -158,12 +187,17 @@ export const SelfAstroMindWidget: React.FC<SelfAstroMindWidgetProps> = ({
           >
             <div
               className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm ${message.role === 'user'
-                ? 'bg-purple-600 text-white rounded-br-none'
-                : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700 rounded-bl-none shadow-sm'
+                ? 'bg-indigo-600 text-white rounded-br-none shadow-md shadow-indigo-600/10'
+                : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700/80 rounded-bl-none shadow-sm'
                 }`}
             >
               <div className="prose prose-sm dark:prose-invert max-w-none">
-                <ReactMarkdown>
+                <ReactMarkdown
+                  components={{
+                    strong: ({ node, ...props }) => <span className="text-indigo-600 dark:text-indigo-400 font-extrabold" {...props} />,
+                    a: ({ node, ...props }) => <a className="text-violet-600 dark:text-violet-400 hover:underline font-bold" {...props} />
+                  }}
+                >
                   {message.content}
                 </ReactMarkdown>
               </div>
@@ -175,8 +209,8 @@ export const SelfAstroMindWidget: React.FC<SelfAstroMindWidgetProps> = ({
           <div className="flex justify-start">
             <div className="bg-white dark:bg-gray-800 rounded-2xl rounded-bl-none px-4 py-3 border border-gray-200 dark:border-gray-700 shadow-sm">
               <div className="flex items-center gap-2">
-                <Loader2 className="w-4 h-4 text-purple-600 animate-spin" />
-                <span className="text-xs text-gray-500">Analyzing your chart...</span>
+                <Loader2 className="w-4 h-4 text-indigo-600 animate-spin" />
+                <span className="text-xs text-gray-500 font-medium animate-pulse">Analyzing chart data with {aiProvider === 'anthropic' ? 'Claude' : 'Gemini'}...</span>
               </div>
             </div>
           </div>
@@ -186,13 +220,13 @@ export const SelfAstroMindWidget: React.FC<SelfAstroMindWidgetProps> = ({
       </div>
 
       {/* Quick Actions */}
-      <div className="px-4 py-2 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+      <div className="px-4 py-3 bg-white dark:bg-gray-800 border-t border-gray-200/80 dark:border-gray-700/80">
         <div className="flex flex-wrap gap-2">
           {quickActions.map((action, index) => (
             <button
               key={index}
               onClick={() => sendMessage(action.question)}
-              className="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-xs hover:bg-purple-100 dark:hover:bg-purple-900/30 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+              className="px-3.5 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-slate-300 rounded-xl text-xs hover:bg-indigo-50 dark:hover:bg-indigo-950/20 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-all"
             >
               {action.label}
             </button>
@@ -201,19 +235,19 @@ export const SelfAstroMindWidget: React.FC<SelfAstroMindWidgetProps> = ({
       </div>
 
       {/* Input */}
-      <form onSubmit={handleSubmit} className="p-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+      <form onSubmit={handleSubmit} className="p-4 border-t border-gray-200 dark:border-gray-700/80 bg-white dark:bg-gray-800">
         <div className="flex gap-2">
           <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Ask about your marriage, spouse, or remedies..."
-            className="flex-1 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+            placeholder={`Ask ${aiProvider === 'anthropic' ? 'Claude' : 'Gemini'} about marriage, spouse profile, or remedies...`}
+            className="flex-1 px-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all outline-none"
           />
           <button
             type="submit"
             disabled={!input.trim() || isLoading}
-            className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md shadow-indigo-600/10 flex items-center justify-center"
           >
             <Send className="w-4 h-4" />
           </button>
@@ -222,7 +256,5 @@ export const SelfAstroMindWidget: React.FC<SelfAstroMindWidgetProps> = ({
     </div>
   );
 };
-
-
 
 export default SelfAstroMindWidget;

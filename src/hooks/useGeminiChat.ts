@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { getGeminiModel } from '../../lib/ai/geminiClient';
+import { getAIModel } from '../../lib/ai/clientSelector';
 import { SYSTEM_PROMPTS, generatePrompt } from '../../lib/ai/prompts';
 import { useUserProfileStore } from '../store/useUserProfileStore';
 
@@ -54,11 +54,11 @@ export const useGeminiChat = (reportContext: string) => {
                 userQuestion
             });
 
-            // 3. Call Gemini
+            // 3. Call AI Model (Gemini or Claude)
             // Note: For a real chat, we would send history. 
             // For this MVP, we send the summarized context + current question to save tokens.
             // The "Memory" is the context summary.
-            const model = getGeminiModel(systemInstruction);
+            const model = getAIModel(systemInstruction);
             const result = await model.generateContent(prompt);
             const responseText = result.response.text();
 

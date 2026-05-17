@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { getGeminiModel } from '../../lib/ai/geminiClient';
+import { getAIModel } from '../../lib/ai/clientSelector';
 import { SYSTEM_PROMPTS, generatePrompt, InsightType } from '../../lib/ai/prompts';
 import { useUserProfileStore } from '../store/useUserProfileStore';
 
@@ -44,8 +44,8 @@ export const useGeminiInsight = (): UseGeminiInsightResult => {
                 throw new Error(`Invalid prompt type: ${type}`);
             }
 
-            // 3. Call Gemini
-            const model = getGeminiModel(systemInstruction);
+            // 3. Call AI Model (Gemini or Claude)
+            const model = getAIModel(systemInstruction);
             const result = await model.generateContent(userPrompt);
             const output = result.response.text();
 
