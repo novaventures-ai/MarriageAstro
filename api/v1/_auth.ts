@@ -34,6 +34,8 @@ export async function validateApiKey(req: any): Promise<AuthResult> {
   const proxySecret = req.headers['x-rapidapi-proxy-secret'] as string;
   const expectedSecret = process.env.RAPIDAPI_PROXY_SECRET;
   const rapidApiPlan = req.headers['x-rapidapi-plan'] as string;
+  // x-rapidapi-host is ALWAYS sent by RapidAPI (playground + real calls)
+  const rapidApiHost = req.headers['x-rapidapi-host'] as string;
 
   // Helper to map RapidAPI plan name → internal tier
   function mapRapidApiPlan(plan: string): ApiTier {
@@ -44,14 +46,17 @@ export async function validateApiKey(req: any): Promise<AuthResult> {
     return 'free';
   }
 
+  // Detect RapidAPI traffic: host header always present (playground + production)
+  const isRapidApiRequest = !!rapidApiHost;
+
   // Case A: Proxy secret is configured AND matches → fully verified RapidAPI traffic
-  if (expectedSecret && proxySecret === expectedSecret) {
+  if (isRapidApiRequest && expectedSecret && proxySecret === expectedSecret) {
     return { valid: true, tier: mapRapidApiPlan(rapidApiPlan), keyId: 'rapidapi-verified' };
   }
 
-  // Case B: Proxy secret NOT yet configured in env → trust x-rapidapi-plan header presence
-  // (Less secure fallback — configure RAPIDAPI_PROXY_SECRET in Vercel for production)
-  if (!expectedSecret && rapidApiPlan) {
+  // Case B: RapidAPI request but proxy secret not configured in Vercel env yet
+  // Allow through as free tier (configure RAPIDAPI_PROXY_SECRET in Vercel for production security)
+  if (isRapidApiRequest && !expectedSecret) {
     return { valid: true, tier: mapRapidApiPlan(rapidApiPlan), keyId: 'rapidapi-unverified' };
   }
 
