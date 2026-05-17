@@ -476,10 +476,10 @@ export default async function handler(req: any, res: any) {
     sessionIdGenerator: undefined,
   });
 
-  transport.onerror = (error) => {
+  (transport as any).onerror = (error: any) => {
     console.error('MCP Transport Error:', error);
   };
-  server.onerror = (error) => {
+  (server as any).onerror = (error: any) => {
     console.error('MCP Server Error:', error);
   };
 
