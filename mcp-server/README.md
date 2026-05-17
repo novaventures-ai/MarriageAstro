@@ -2,7 +2,7 @@
 
 > **The world's most complete Vedic astrology MCP server** — 22 tools covering birth charts, compatibility, divorce risk, infidelity analysis, sexual compatibility, mental health markers, spouse prediction, and more.
 
-Built on [MarriageAstro](https://marriageastro.com)'s Swiss Ephemeris engine with accurate Lahiri ayanamsa calculations.
+Built on [MarriageAstro](https://marriage-astro.vercel.app)'s Swiss Ephemeris engine with accurate Lahiri ayanamsa calculations.
 
 [![npm](https://img.shields.io/npm/v/vedic-astro-mcp)](https://www.npmjs.com/package/vedic-astro-mcp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -13,7 +13,7 @@ Built on [MarriageAstro](https://marriageastro.com)'s Swiss Ephemeris engine wit
 
 ### 1. Get your API key
 
-Sign up at [marriageastro.com/api-keys](https://marriageastro.com/api-keys) — free tier available, no credit card required.
+Sign up at [marriage-astro.vercel.app/api-keys](https://marriage-astro.vercel.app/api-keys) — free tier available, no credit card required.
 
 ### 2. Add to Claude Desktop
 
@@ -106,7 +106,7 @@ All 22 tools work on a **free API key**. Premium tools return a real chart-based
     "divorce_risk_level": "HIGH",
     "summary": "3 afflictions detected in 7th house. Upgrade to see full probability score and timeline."
   },
-  "upgrade_url": "https://marriageastro.com/api-keys"
+  "upgrade_url": "https://marriage-astro.vercel.app/api-keys"
 }
 ```
 
@@ -132,7 +132,7 @@ Once installed, just ask Claude naturally:
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `VEDIC_ASTRO_API_KEY` | Yes | Your API key from marriageastro.com |
+| `VEDIC_ASTRO_API_KEY` | Yes | Your API key from marriage-astro.vercel.app |
 | `VEDIC_ASTRO_BASE_URL` | No | Override API base URL (for self-hosted) |
 
 ---
@@ -146,7 +146,7 @@ Once installed, just ask Claude naturally:
 | Solo | $49/mo | 5,000 | All 22 tools — for individuals & MCP users |
 | Premium | $99/mo | Unlimited | All 22 tools — for businesses & high-volume |
 
-[Get API key →](https://marriageastro.com/api-keys)
+[Get API key →](https://marriage-astro.vercel.app/api-keys)
 
 ---
 
@@ -167,4 +167,4 @@ Built on Swiss Ephemeris with Lahiri ayanamsa. Same engine used by professional 
 
 ## License
 
-MIT — [marriageastro.com](https://marriageastro.com)
+MIT — [marriage-astro.vercel.app](https://marriage-astro.vercel.app)

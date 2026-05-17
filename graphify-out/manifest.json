@@ -1,1242 +1,1194 @@
 {
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\fix_payment_schema.sql": {
-    "mtime": 1777800515.7838488,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\fix_payment_schema.sql": {
+    "mtime": 1778925018.3848715,
     "hash": "c4d7cb12ef1969c978631b8049d320c1"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\postcss.config.js": {
-    "mtime": 1777800515.8354256,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\postcss.config.js": {
+    "mtime": 1778925044.758734,
     "hash": "c76714d5754a5c3fbcc87b2bba27efcc"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\setup_report_unlocks.sql": {
-    "mtime": 1777800515.8502007,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\setup_report_unlocks.sql": {
+    "mtime": 1778925019.0504723,
     "hash": "29a3caf3bdff33bc529ee1bfff69f60c"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\supabase_schema.sql": {
-    "mtime": 1777800515.9888458,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\supabase_schema.sql": {
+    "mtime": 1778925044.7597349,
     "hash": "f141c01c6db787cf094609092cfb7857"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\tailwind.config.js": {
-    "mtime": 1777800515.9888458,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\tailwind.config.js": {
+    "mtime": 1778925044.7612443,
     "hash": "40c0981ac3e1bd814e79f4a25b585d6b"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\vite.config.ts": {
-    "mtime": 1777800515.9935021,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\vite.config.ts": {
+    "mtime": 1778925044.768885,
     "hash": "dfca28236ccb726143dcfa41dfb01d9e"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\admin-affiliates.ts": {
-    "mtime": 1777800515.7696748,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\admin-affiliates.ts": {
+    "mtime": 1778925018.3148017,
     "hash": "b28841433f3f3a6f70912578688af977"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\admin-users.ts": {
-    "mtime": 1777800515.7696748,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\admin-users.ts": {
+    "mtime": 1778925018.3148017,
     "hash": "f54e0e68261621e44fc5bae29553c8bb"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\affiliate-track.ts": {
-    "mtime": 1777800515.7706878,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\affiliate-track.ts": {
+    "mtime": 1778925018.3148017,
     "hash": "8d4dc20cf2aa4b408722e4b24470a5a6"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\create-checkout.ts": {
-    "mtime": 1777800515.7723346,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\create-checkout.ts": {
+    "mtime": 1778925018.3148017,
     "hash": "c3224b0f16119736cc82cf171938be6c"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\gemini.ts": {
-    "mtime": 1777800515.7728424,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\gemini.ts": {
+    "mtime": 1778925018.319508,
     "hash": "7e982b93bf84860f34060c36d5c755d8"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\notify.ts": {
-    "mtime": 1778086421.5437908,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\notify.ts": {
+    "mtime": 1778925018.319508,
     "hash": "5d2634737f5a83a7153168ed81fd7d07"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\og-image.tsx": {
-    "mtime": 1777800515.7737896,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\og-image.tsx": {
+    "mtime": 1778925018.319508,
     "hash": "fc1cf5c1a1b3e3fa93a9329c9ea1c418"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\payment-webhook.ts": {
-    "mtime": 1777800515.7742999,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\payment-webhook.ts": {
+    "mtime": 1778925018.319508,
     "hash": "240ca99ceb95ccee929cd6b4c2a558ea"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\recover-payments.ts": {
-    "mtime": 1777800515.7742999,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\recover-payments.ts": {
+    "mtime": 1778925018.319508,
     "hash": "3ca6a536448f5a171eea97fc032cefed"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\sync-payments.ts": {
-    "mtime": 1777800515.775329,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\sync-payments.ts": {
+    "mtime": 1778925018.319508,
     "hash": "f5fefc4d30296b55198a653b402142c5"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\verify-payment.ts": {
-    "mtime": 1777800515.775329,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\verify-payment.ts": {
+    "mtime": 1778925018.3773587,
     "hash": "b17aee8ef8c017e7186e7cda37f2d9f1"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\v1\\[endpoint].ts": {
-    "mtime": 1778086421.5447078,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\v1\\[endpoint].ts": {
+    "mtime": 1778925018.319508,
     "hash": "62cd9fa53ad885b8ae217b29ed7bb4f8"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\v1\\_auth.ts": {
-    "mtime": 1778086421.5452135,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\v1\\_auth.ts": {
+    "mtime": 1778925018.319508,
     "hash": "9c94eaaf2c6721821c102166aa7963a3"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\v1\\_birth-chart.ts": {
-    "mtime": 1778086421.5459166,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\v1\\_birth-chart.ts": {
+    "mtime": 1778925018.319508,
     "hash": "da93b445b9df971658d7b9bd7dc9ffe2"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\v1\\_compatibility.ts": {
-    "mtime": 1778086421.5464215,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\v1\\_compatibility.ts": {
+    "mtime": 1778925018.319508,
     "hash": "a62dd209d376e39df467544dc9657bdb"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\v1\\_conflict-zones.ts": {
-    "mtime": 1778086421.5474367,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\v1\\_conflict-zones.ts": {
+    "mtime": 1778925018.319508,
     "hash": "d3290857a90493b1a13c34d53ae3e919"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\v1\\_divorce-risk.ts": {
-    "mtime": 1778086421.5480063,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\v1\\_divorce-risk.ts": {
+    "mtime": 1778925018.319508,
     "hash": "64df45d5392ccad13853fc8da1861c93"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\v1\\_dosha-check.ts": {
-    "mtime": 1778086421.5485127,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\v1\\_dosha-check.ts": {
+    "mtime": 1778925018.319508,
     "hash": "339a4937f0b87fdb5ed135e74e383679"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\v1\\_full-report.ts": {
-    "mtime": 1778086421.5485127,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\v1\\_full-report.ts": {
+    "mtime": 1778925018.319508,
     "hash": "142eb2df21111fadc167c22e4d2fdd3e"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\v1\\_infidelity-risk.ts": {
-    "mtime": 1778086421.549531,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\v1\\_infidelity-risk.ts": {
+    "mtime": 1778925018.319508,
     "hash": "9cd32d547003fba24223768b519cfbf2"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\v1\\_inlaw-analysis.ts": {
-    "mtime": 1778086421.5513544,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\v1\\_inlaw-analysis.ts": {
+    "mtime": 1778925018.3345165,
     "hash": "3fdb9bb412f440f7eb5a3b76945e93fe"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\v1\\_jaimini-dasha.ts": {
-    "mtime": 1778086421.5544338,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\v1\\_jaimini-dasha.ts": {
+    "mtime": 1778925018.337762,
     "hash": "07292dd827934f012851bb744d1975b1"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\v1\\_kp-analysis.ts": {
-    "mtime": 1778086421.5544338,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\v1\\_kp-analysis.ts": {
+    "mtime": 1778925018.338761,
     "hash": "d91f37c5f6b5cd9b0d00a8473e10ec73"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\v1\\_marriage-timing.ts": {
-    "mtime": 1778086421.5554545,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\v1\\_marriage-timing.ts": {
+    "mtime": 1778925018.3392575,
     "hash": "b149e25f528fb5ac0d58c88a62143e23"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\v1\\_mental-health.ts": {
-    "mtime": 1778086421.5554545,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\v1\\_mental-health.ts": {
+    "mtime": 1778925018.3392575,
     "hash": "853fa2a1a024fb6e49a582a3362dad55"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\v1\\_modern-challenges.ts": {
-    "mtime": 1778086421.5554545,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\v1\\_modern-challenges.ts": {
+    "mtime": 1778925018.3402617,
     "hash": "e3a801241f8f96bf8b4b5323519fc8a3"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\v1\\_navamsa.ts": {
-    "mtime": 1778086421.5554545,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\v1\\_navamsa.ts": {
+    "mtime": 1778925018.3408902,
     "hash": "2bd38133e0a12c62dbc4f34b3b9eb52d"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\v1\\_psychological-profile.ts": {
-    "mtime": 1778086421.5554545,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\v1\\_psychological-profile.ts": {
+    "mtime": 1778925018.3607726,
     "hash": "90244001869430d8820959ef81a614f6"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\v1\\_remedies.ts": {
-    "mtime": 1778086421.5554545,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\v1\\_remedies.ts": {
+    "mtime": 1778925018.3728428,
     "hash": "853f10baad879f84d2947f32e36b7da2"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\v1\\_self-analysis.ts": {
-    "mtime": 1778086421.5594735,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\v1\\_self-analysis.ts": {
+    "mtime": 1778925018.37435,
     "hash": "57504412b4c3578a0bbf5323eeb0c4e3"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\v1\\_sexual-compatibility.ts": {
-    "mtime": 1778086421.5594735,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\v1\\_sexual-compatibility.ts": {
+    "mtime": 1778925018.37435,
     "hash": "8f982068b8182bf46327803eb70dd9c3"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\v1\\_sexual-health.ts": {
-    "mtime": 1778086421.5594735,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\v1\\_sexual-health.ts": {
+    "mtime": 1778925018.3753614,
     "hash": "d951e71119783317ba09509de6bc5c79"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\v1\\_spouse-prediction.ts": {
-    "mtime": 1778086421.5624924,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\v1\\_spouse-prediction.ts": {
+    "mtime": 1778925018.3753614,
     "hash": "af883bb609102616a64ac845a70fdb5d"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\v1\\_synastry.ts": {
-    "mtime": 1778086421.5630114,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\v1\\_synastry.ts": {
+    "mtime": 1778925018.3763607,
     "hash": "4541dbcf85869dd653735215619c3819"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\api\\v1\\_vulnerability-windows.ts": {
-    "mtime": 1778086421.5630114,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\api\\v1\\_vulnerability-windows.ts": {
+    "mtime": 1778925018.3773587,
     "hash": "9ce6641b368bc600fe2697dbb6053ae5"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\addictionCalculations.ts": {
-    "mtime": 1777800515.8002656,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\addictionCalculations.ts": {
+    "mtime": 1778925018.9992442,
     "hash": "07f21230ff710a841899afc258837936"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\advancedSynastry.ts": {
-    "mtime": 1777800515.8002656,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\advancedSynastry.ts": {
+    "mtime": 1771350480.7580662,
     "hash": "1aa4bd706e38df292844129bc609c3e1"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\comparisonScoring.ts": {
-    "mtime": 1777800515.8094609,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\comparisonScoring.ts": {
+    "mtime": 1778925019.0046241,
     "hash": "092ee6a1d87d5369f3762c4d9b8a1516"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\compatibilityCalculations.ts": {
-    "mtime": 1777800515.809975,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\compatibilityCalculations.ts": {
+    "mtime": 1778925019.0046241,
     "hash": "209eba6cec6a796d2dc673f83a17ecc3"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\conflictCalculations.ts": {
-    "mtime": 1777800515.809975,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\conflictCalculations.ts": {
+    "mtime": 1771607180.270428,
     "hash": "76024ec6df2d1176ec677fc5870c6dc8"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\coreCalculations.ts": {
-    "mtime": 1777800515.809975,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\coreCalculations.ts": {
+    "mtime": 1771350480.7649434,
     "hash": "b6609686a22a9dec9f74241618eea585"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\dashaCalculations.ts": {
-    "mtime": 1777800515.809975,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\dashaCalculations.ts": {
+    "mtime": 1771350480.7671344,
     "hash": "15b294ef356354ef3da7fc1644778b0a"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\extendedCalculations.ts": {
-    "mtime": 1777800515.8139899,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\extendedCalculations.ts": {
+    "mtime": 1778925019.0046241,
     "hash": "03566aac8f790fb01e5593fbd32a3e77"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\index.ts": {
-    "mtime": 1777800515.8139899,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\index.ts": {
+    "mtime": 1771350480.805398,
     "hash": "ec7383d372dd2a0ab92e79a1c408121a"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\jaiminiCalculations.ts": {
-    "mtime": 1777800515.8139899,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\jaiminiCalculations.ts": {
+    "mtime": 1778925019.0100763,
     "hash": "7071103937797acd062b2017b91045ac"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\kpCalculations.ts": {
-    "mtime": 1777800515.8139899,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\kpCalculations.ts": {
+    "mtime": 1771350480.8063943,
     "hash": "d611b6caf0bebd1c2fe8c41906401f68"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\mappingUtils.ts": {
-    "mtime": 1777800515.8139899,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\mappingUtils.ts": {
+    "mtime": 1778925019.010581,
     "hash": "2bae80e6a1fb9c3ee4f0013301b43832"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\mentalHealthCalculations.ts": {
-    "mtime": 1777800515.8139899,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\mentalHealthCalculations.ts": {
+    "mtime": 1771350480.8073924,
     "hash": "f46697877131612e9968b6a96590a65a"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\modernInsightsCalculations.ts": {
-    "mtime": 1777800515.8139899,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\modernInsightsCalculations.ts": {
+    "mtime": 1771350480.816054,
     "hash": "1d2bd61f0f120a2428f4a92c1e56305b"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\poruthamCalculations.ts": {
-    "mtime": 1777800515.8179443,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\poruthamCalculations.ts": {
+    "mtime": 1771350480.8170788,
     "hash": "2aa452c428113ddc22b45d49e6f39a94"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\relationshipPatternCalculations.ts": {
-    "mtime": 1777800515.8184516,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\relationshipPatternCalculations.ts": {
+    "mtime": 1778925019.010581,
     "hash": "444cf68a6348dbf7d844f47de0e16cf8"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\reportGenerator.ts": {
-    "mtime": 1777800515.8194652,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\reportGenerator.ts": {
+    "mtime": 1778925019.010581,
     "hash": "623a5f11dffb3e5590fed87eaa1ccbf4"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\riskCalculations.ts": {
-    "mtime": 1777800515.8220558,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\riskCalculations.ts": {
+    "mtime": 1771607180.2754133,
     "hash": "8d9bf8e59a820b18bd54d0cf85d772d6"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\selfReportGenerator.ts": {
-    "mtime": 1777800515.8220558,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\selfReportGenerator.ts": {
+    "mtime": 1778925019.010581,
     "hash": "b4f823d1e1573fed198bfa950d307365"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\sexualHealthCalculations.ts": {
-    "mtime": 1777800515.8220558,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\sexualHealthCalculations.ts": {
+    "mtime": 1771607180.2769167,
     "hash": "68803179db054e9681ee1da4afee0e08"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\spouseCalculations.ts": {
-    "mtime": 1777800515.8246608,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\spouseCalculations.ts": {
+    "mtime": 1778925019.010581,
     "hash": "61eb2a340ebed834d27aff100ca446d5"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\synastryCalculations.ts": {
-    "mtime": 1777800515.8246608,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\synastryCalculations.ts": {
+    "mtime": 1778925019.010581,
     "hash": "9c0fc98a07b5343ab4e48470e5ed3ad0"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\timingCalculations.ts": {
-    "mtime": 1777800515.8246608,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\timingCalculations.ts": {
+    "mtime": 1771350480.824061,
     "hash": "3c29bfd3e01645e5cc89f659e4e764f3"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\vargaCalculations.ts": {
-    "mtime": 1777800515.8246608,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\vargaCalculations.ts": {
+    "mtime": 1771350480.824061,
     "hash": "15463c1b574a0f827f478c2c13f389d7"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\vulnerabilityTiming.ts": {
-    "mtime": 1777800515.8246608,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\vulnerabilityTiming.ts": {
+    "mtime": 1778925019.010581,
     "hash": "3c75dd8071fbd3753a075545da7ddbbb"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\yogaDoshaCalculations.ts": {
-    "mtime": 1777800515.8246608,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\yogaDoshaCalculations.ts": {
+    "mtime": 1778925019.010581,
     "hash": "5ed91e9dd6eec0cbcef774af6fe1b95f"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\ai\\context.ts": {
-    "mtime": 1777800515.8002656,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\ai\\context.ts": {
+    "mtime": 1771350480.7590632,
     "hash": "959f8b829577af40cc21668e51143ff2"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\ai\\contextProcessor.ts": {
-    "mtime": 1777800515.8002656,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\ai\\contextProcessor.ts": {
+    "mtime": 1771607180.2654402,
     "hash": "37b537794d982fed17920ed9d0852de7"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\ai\\counselorExplanations.ts": {
-    "mtime": 1777800515.8002656,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\ai\\counselorExplanations.ts": {
+    "mtime": 1771607180.2664373,
     "hash": "79214eb17a289b78e8b91806d6cc83f7"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\ai\\geminiClient.ts": {
-    "mtime": 1777800515.8002656,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\ai\\geminiClient.ts": {
+    "mtime": 1778925018.9992442,
     "hash": "c191d5cf184cd577d7b66ec290b8d331"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\ai\\index.ts": {
-    "mtime": 1777800515.8002656,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\ai\\index.ts": {
+    "mtime": 1771607180.2664373,
     "hash": "0c71d08162bd08e513dee70bc3d9215c"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\ai\\matchInsight.ts": {
-    "mtime": 1777800515.8002656,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\ai\\matchInsight.ts": {
+    "mtime": 1778925018.9992442,
     "hash": "f328a3eb789428dacc76210792ab42f8"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\ai\\matchmakingEngine.ts": {
-    "mtime": 1777800515.8057797,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\ai\\matchmakingEngine.ts": {
+    "mtime": 1778925019.003355,
     "hash": "822a6dd7ddd9656c4d0faee6fa568666"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\ai\\prompts.ts": {
-    "mtime": 1777800515.8072891,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\ai\\prompts.ts": {
+    "mtime": 1778925019.0046241,
     "hash": "dfcb731d414ffc71f110ee6b31978a5a"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\lib\\ai\\selfPrompts.ts": {
-    "mtime": 1777800515.8078058,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\lib\\ai\\selfPrompts.ts": {
+    "mtime": 1778925019.0046241,
     "hash": "cc179e802758a18330cc62097d882fb9"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\MarriageAstro-main\\postcss.config.js": {
-    "mtime": 1771099685.678017,
-    "hash": "470cfd3ee10fbff840b377e769485f3e"
-  },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\MarriageAstro-main\\supabase_schema.sql": {
-    "mtime": 1771350480.8717506,
-    "hash": "bf8d9f1ab506dba59aa7d2cbbc14b92d"
-  },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\MarriageAstro-main\\tailwind.config.js": {
-    "mtime": 1771607180.3150458,
-    "hash": "b87ec4c021371f5c3ecfad30e06b4dda"
-  },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\MarriageAstro-main\\vite.config.ts": {
-    "mtime": 1771759552.677166,
-    "hash": "c28acb8c5f831a65ad70cc12ccaebe6c"
-  },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\mcp-server\\src\\client.ts": {
-    "mtime": 1778089330.7191827,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\mcp-server\\src\\client.ts": {
+    "mtime": 1778925019.0326707,
     "hash": "1fd91a05213a14f9178cc2f41280e32f"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\mcp-server\\src\\index.ts": {
-    "mtime": 1778089339.0873718,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\mcp-server\\src\\index.ts": {
+    "mtime": 1778925019.038391,
     "hash": "3a06d516e571b87e3d60e7300a9e6a87"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\mcp-server\\src\\schema.ts": {
-    "mtime": 1778086421.5695221,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\mcp-server\\src\\schema.ts": {
+    "mtime": 1778925019.038391,
     "hash": "9fda9a0049c0f0c5b11fc3be01093023"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\scripts\\singlePairDeepAnalysis.ts": {
-    "mtime": 1777800515.8502007,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\scripts\\singlePairDeepAnalysis.ts": {
+    "mtime": 1778925019.0454535,
     "hash": "144d3f13fdac8031ad262d59260e0ed4"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\App.tsx": {
-    "mtime": 1778089227.9293337,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\App.tsx": {
+    "mtime": 1778925019.050991,
     "hash": "5c0875332794b5c4222bef91de36dbbc"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\main.tsx": {
-    "mtime": 1777800515.9350524,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\main.tsx": {
+    "mtime": 1778925019.1731126,
     "hash": "fb02d15506896a700a8f2bf7fb5437f0"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\selfMode.ts": {
-    "mtime": 1777800515.9729698,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\selfMode.ts": {
+    "mtime": 1771350480.8659427,
     "hash": "c5d415f15dd9bd8de67ac80805e4c37f"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\sw.ts": {
-    "mtime": 1777800515.973485,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\sw.ts": {
+    "mtime": 1778925019.339077,
     "hash": "d663987af2aa6bf428170b2ed15082d2"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\vite-env.d.ts": {
-    "mtime": 1777800515.985319,
-    "hash": "373a58bb3f19fceb777472ad7b30e060"
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\vite-env.d.ts": {
+    "mtime": 1771099686.0665052,
+    "hash": "59be5ad1f46b27f0a27066a8b37dde6e"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\BirthDataForm.tsx": {
-    "mtime": 1777800515.8502007,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\BirthDataForm.tsx": {
+    "mtime": 1778925019.054117,
     "hash": "292b617e28418e482fe195919d0fcaf9"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\ChartDetailsWidget.tsx": {
-    "mtime": 1777800515.85322,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\ChartDetailsWidget.tsx": {
+    "mtime": 1771607180.2831047,
     "hash": "f07f711f663a053fbcc1bf209f80a0ba"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\ErrorBoundary.tsx": {
-    "mtime": 1777800515.85322,
-    "hash": "6f1afab0e18f5b5dadcbd4789e1ff0ba"
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\ErrorBoundary.tsx": {
+    "mtime": 1771131926.3273737,
+    "hash": "ad948d55e2b6fd5023d34cf158cfbe23"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\PlaceAutocomplete.tsx": {
-    "mtime": 1777800515.85322,
-    "hash": "9a2ef0b712a6eaddbcbfcdba77594818"
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\PlaceAutocomplete.tsx": {
+    "mtime": 1771099686.1047935,
+    "hash": "2a208b81e3194489fc8768527aa4990b"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\PushPrompt.tsx": {
-    "mtime": 1777800515.85322,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\PushPrompt.tsx": {
+    "mtime": 1778925019.054117,
     "hash": "50c7521c3c2a8259aafb05d001105561"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\QueryParamHandler.tsx": {
-    "mtime": 1777800515.85322,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\QueryParamHandler.tsx": {
+    "mtime": 1778925019.054117,
     "hash": "648e8ba7e066230ed51abc6047cbb8d5"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\SEOHead.tsx": {
-    "mtime": 1777800515.85322,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\SEOHead.tsx": {
+    "mtime": 1778925019.054117,
     "hash": "2802d0e1e923b8386d72a290fc899fc6"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\admin\\RawModeToggle.tsx": {
-    "mtime": 1777800515.85322,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\admin\\RawModeToggle.tsx": {
+    "mtime": 1778925019.054117,
     "hash": "d08b9e11cf3db5d01ec92ac9b1894c3e"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\ai\\AIPatternAnalyzer.tsx": {
-    "mtime": 1777800515.8565786,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\ai\\AIPatternAnalyzer.tsx": {
+    "mtime": 1778925019.054117,
     "hash": "59047423ef975f117e5e577ee9f1fa08"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\ai\\AIVerdictGenerator.tsx": {
-    "mtime": 1777800515.8570867,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\ai\\AIVerdictGenerator.tsx": {
+    "mtime": 1778925019.054117,
     "hash": "1e26a6a41447f9296cafb8556826bd7a"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\ai\\SelfAstroMindWidget.tsx": {
-    "mtime": 1777800515.8585503,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\ai\\SelfAstroMindWidget.tsx": {
+    "mtime": 1778925019.054117,
     "hash": "689a82b384303b3bcc9882c39ffc39ec"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\charts\\HouseTableChart.tsx": {
-    "mtime": 1777800515.8585503,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\charts\\HouseTableChart.tsx": {
+    "mtime": 1771350480.8324535,
     "hash": "5774387155e256e3763bfcfaed2cc5c2"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\charts\\NorthIndianChart.tsx": {
-    "mtime": 1777800515.8585503,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\charts\\NorthIndianChart.tsx": {
+    "mtime": 1771607180.2831047,
     "hash": "23b879bc4552ea97da5cb44a6ff21d77"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\charts\\SouthIndianChart.tsx": {
-    "mtime": 1777800515.8615663,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\charts\\SouthIndianChart.tsx": {
+    "mtime": 1771607180.2831047,
     "hash": "bf0601fc97c07e28a8537fd68f760490"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\chat\\AstroMindWidget.tsx": {
-    "mtime": 1777800515.8621032,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\chat\\AstroMindWidget.tsx": {
+    "mtime": 1771607180.2831047,
     "hash": "72f1756fb02c30eaa40b3cb36d965e49"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\dashboard\\CosmicMatchWidget.tsx": {
-    "mtime": 1777800515.863626,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\dashboard\\CosmicMatchWidget.tsx": {
+    "mtime": 1778925019.0606272,
     "hash": "6278c540ebeb788fa1d3d4002bb80f17"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\dashboard\\DashboardLayout.tsx": {
-    "mtime": 1777800515.8641405,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\dashboard\\DashboardLayout.tsx": {
+    "mtime": 1778925019.0606272,
     "hash": "8de72b923c8b34ceb4f4dd01df7d375c"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\dashboard\\UserDashboard.tsx": {
-    "mtime": 1777800515.8641405,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\dashboard\\UserDashboard.tsx": {
+    "mtime": 1778925019.0606272,
     "hash": "b66de559eb425e766b18e7df3d486056"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\layout\\LegalLayout.tsx": {
-    "mtime": 1777800515.8667617,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\layout\\LegalLayout.tsx": {
+    "mtime": 1778925019.0606272,
     "hash": "a862c9daaf680040edff6664f437c451"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\onboarding\\UserModeOnboarding.tsx": {
-    "mtime": 1777800515.8667617,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\onboarding\\UserModeOnboarding.tsx": {
+    "mtime": 1778925019.0606272,
     "hash": "8981a604fc9bdb7d0de27eb6d37a54ff"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\pdf\\FamilyReportPdf.tsx": {
-    "mtime": 1777800515.8667617,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\pdf\\FamilyReportPdf.tsx": {
+    "mtime": 1778925019.0606272,
     "hash": "44b27f0e3b4090e6456fc414652b1bb3"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\pdf\\ReportPdf.tsx": {
-    "mtime": 1777800515.8667617,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\pdf\\ReportPdf.tsx": {
+    "mtime": 1778925019.0606272,
     "hash": "cec7d6d4273a12a4453c36431f2637e9"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\premium\\PremiumBadge.tsx": {
-    "mtime": 1777800515.8696294,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\premium\\PremiumBadge.tsx": {
+    "mtime": 1778925019.0606272,
     "hash": "aeb87189dcc5be9bb2af7156c91d691c"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\premium\\PremiumGate.tsx": {
-    "mtime": 1777800515.8706503,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\premium\\PremiumGate.tsx": {
+    "mtime": 1778925019.0686705,
     "hash": "72132b603663c007a20ecb12910fbfcb"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\premium\\PricingModal.tsx": {
-    "mtime": 1777800515.8721654,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\premium\\PricingModal.tsx": {
+    "mtime": 1778925019.0707197,
     "hash": "f496c7cb15d2fb2b02c12055f65d7825"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\premium\\ShareButton.tsx": {
-    "mtime": 1777800515.8721654,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\premium\\ShareButton.tsx": {
+    "mtime": 1778925019.0707197,
     "hash": "72dc60990679efef5197806fe3a78976"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\report\\PartnerInviteButton.tsx": {
-    "mtime": 1777800515.8733253,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\report\\PartnerInviteButton.tsx": {
+    "mtime": 1778925019.0707197,
     "hash": "e0c6a323420b5f4faa0723994a2a0d73"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\report\\QuickVerdictBanner.tsx": {
-    "mtime": 1777800515.8733253,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\report\\QuickVerdictBanner.tsx": {
+    "mtime": 1778925019.0707197,
     "hash": "eaa1e0403c58865bf4681e1d90bfcf6f"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\report\\ReportAhaMoment.tsx": {
-    "mtime": 1777800515.8733253,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\report\\ReportAhaMoment.tsx": {
+    "mtime": 1778925019.0707197,
     "hash": "2583cd6ed0a307fa1295e6f5725dfd48"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\report\\WhatsAppShareCard.tsx": {
-    "mtime": 1777800515.8753388,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\report\\WhatsAppShareCard.tsx": {
+    "mtime": 1778925019.0707197,
     "hash": "762c8ff7f4c6321de7bc0358abcbf98d"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\ui\\AISummaryBox.tsx": {
-    "mtime": 1777800515.8758523,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\ui\\AISummaryBox.tsx": {
+    "mtime": 1778925019.0707197,
     "hash": "70ec05542288b1546e15fc1e3fbde0df"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\ui\\AuthButton.tsx": {
-    "mtime": 1777800515.8768585,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\ui\\AuthButton.tsx": {
+    "mtime": 1778925019.0774133,
     "hash": "1a8065990d51f1c6bcd7097433a9ec86"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\ui\\AwarenessBanner.tsx": {
-    "mtime": 1777800515.8768585,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\ui\\AwarenessBanner.tsx": {
+    "mtime": 1778925019.0809333,
     "hash": "804eab392a530363a88df5769be29677"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\ui\\ComparisonProgressBar.tsx": {
-    "mtime": 1777800515.8768585,
-    "hash": "ae2a193229952d9967a59d2d3dfb934d"
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\ui\\ComparisonProgressBar.tsx": {
+    "mtime": 1771099686.184541,
+    "hash": "8fe92f3dc237c354c892a429bde94fcd"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\ui\\ComparisonResultsPanel.tsx": {
-    "mtime": 1777800515.8791404,
-    "hash": "c0e3291237b5ae1a3ff61c1226cf2a61"
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\ui\\ComparisonResultsPanel.tsx": {
+    "mtime": 1771099686.1868174,
+    "hash": "8372ff5f631280f3494a17fdd88256e2"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\ui\\GoogleTranslate.tsx": {
-    "mtime": 1777800515.8791404,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\ui\\GoogleTranslate.tsx": {
+    "mtime": 1778925019.0809333,
     "hash": "15e190b44591887c2bb6adb933c7f48a"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\ui\\JargonTooltip.tsx": {
-    "mtime": 1777800515.8791404,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\ui\\JargonTooltip.tsx": {
+    "mtime": 1778925019.0809333,
     "hash": "bc16f6c9fb855f61092d271fa1e9ba4a"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\ui\\Logo.tsx": {
-    "mtime": 1777800515.881171,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\ui\\Logo.tsx": {
+    "mtime": 1771607180.2831047,
     "hash": "19df336bbf7577e1141421982371d838"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\ui\\MobileNavStrip.tsx": {
-    "mtime": 1777800515.881171,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\ui\\MobileNavStrip.tsx": {
+    "mtime": 1778925019.0825477,
     "hash": "f083d4a3d3bcdcde3c54d158eabca2eb"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\ui\\SavedReportsPanel.tsx": {
-    "mtime": 1777800515.881171,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\ui\\SavedReportsPanel.tsx": {
+    "mtime": 1778925019.0830522,
     "hash": "1dd278104416c28d76fc5ff951d10468"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\ui\\ThemeToggle.tsx": {
-    "mtime": 1777800515.881171,
-    "hash": "3fbe2166da78980d7373c51101b27639"
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\ui\\ThemeToggle.tsx": {
+    "mtime": 1771099686.2003489,
+    "hash": "61d14c0e360c1b02f54ec365fbd1c978"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\ui\\tooltip.tsx": {
-    "mtime": 1777800515.881171,
-    "hash": "8e3abaf711663bcdfe2a2a32e4132b29"
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\ui\\tooltip.tsx": {
+    "mtime": 1771099686.2060828,
+    "hash": "15c870ab2755b500a129ddb7138287f8"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\ui\\WidgetErrorBoundary.tsx": {
-    "mtime": 1777800515.881171,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\ui\\WidgetErrorBoundary.tsx": {
+    "mtime": 1778925019.0830522,
     "hash": "8a121d23ded96c13c149197e57850b1e"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\AddictionRiskWidget.tsx": {
-    "mtime": 1777800515.881171,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\AddictionRiskWidget.tsx": {
+    "mtime": 1778925019.0850687,
     "hash": "07288d3901a2bf52060d004dbec2c4a7"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\AdvancedKPWidget.tsx": {
-    "mtime": 1777800515.8841927,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\AdvancedKPWidget.tsx": {
+    "mtime": 1778925019.0863893,
     "hash": "fc993a312a541545c97a7d5b76552bae"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\AshtakootWidget.tsx": {
-    "mtime": 1777800515.8852768,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\AshtakootWidget.tsx": {
+    "mtime": 1778925019.0863893,
     "hash": "eb77d961f381e13d1664d266d85e0971"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\CharaDashaWidget.tsx": {
-    "mtime": 1777800515.8852768,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\CharaDashaWidget.tsx": {
+    "mtime": 1778925019.0863893,
     "hash": "d2f293497b32cb3799f2936ac80f4a4c"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\CharaKarakasWidget.tsx": {
-    "mtime": 1777800515.8866272,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\CharaKarakasWidget.tsx": {
+    "mtime": 1778925019.0863893,
     "hash": "dde97fd099956d90edf389cf576b3c9c"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\ConflictZoneWidget.tsx": {
-    "mtime": 1777800515.8871346,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\ConflictZoneWidget.tsx": {
+    "mtime": 1778925019.0863893,
     "hash": "3c94c47f6e0bd8744095e395a3fe2452"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\CosmicNavigator.tsx": {
-    "mtime": 1777800515.8876457,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\CosmicNavigator.tsx": {
+    "mtime": 1778925019.091399,
     "hash": "fb6c092cc2fa9dde9fa392e09e189875"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\CouplePulseWidget.tsx": {
-    "mtime": 1777800515.8876457,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\CouplePulseWidget.tsx": {
+    "mtime": 1778925019.091399,
     "hash": "625f7a57de92408a1e6e009d770e8e31"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\DivisionalChartWidget.tsx": {
-    "mtime": 1777800515.88866,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\DivisionalChartWidget.tsx": {
+    "mtime": 1778925019.091399,
     "hash": "93b72c29469bfac0aeddf8b3c3e6a2c0"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\IdealPartnerProfileWidget.tsx": {
-    "mtime": 1777800515.88866,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\IdealPartnerProfileWidget.tsx": {
+    "mtime": 1778925019.091399,
     "hash": "f5700fd527e3932eb777ed5989039949"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\KPAnalysisWidget.tsx": {
-    "mtime": 1777800515.88866,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\KPAnalysisWidget.tsx": {
+    "mtime": 1778925019.091399,
     "hash": "a4d11e04cada5515f62f94993fb0ddab"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\LifeAfterMarriageWidget.tsx": {
-    "mtime": 1777800515.88866,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\LifeAfterMarriageWidget.tsx": {
+    "mtime": 1778925019.091399,
     "hash": "e87b1f397a22ddd26ba42790e6239724"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\MarriageCountdownWidget.tsx": {
-    "mtime": 1777800515.88866,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\MarriageCountdownWidget.tsx": {
+    "mtime": 1778925019.091399,
     "hash": "d78adb3797889a72173e344a8b0abf6d"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\MarriageReadinessWidget.tsx": {
-    "mtime": 1777800515.88866,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\MarriageReadinessWidget.tsx": {
+    "mtime": 1778925019.091399,
     "hash": "50c22abc7c2f50a042214bc2c698aaa5"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\MentalHealthWidget.tsx": {
-    "mtime": 1777800515.893176,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\MentalHealthWidget.tsx": {
+    "mtime": 1778925019.098164,
     "hash": "7110b5195bcaddd44bc97a6f50bcff6b"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\OverviewWidget.tsx": {
-    "mtime": 1777800515.893176,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\OverviewWidget.tsx": {
+    "mtime": 1778925019.0990028,
     "hash": "bd1143e6031bbf01f05a43ed8cab483f"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\PoruthamWidget.tsx": {
-    "mtime": 1777800515.893176,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\PoruthamWidget.tsx": {
+    "mtime": 1778925019.0995085,
     "hash": "b01927ab32e9b264eb2b383026c24dd8"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\PsychologicalProfileWidget.tsx": {
-    "mtime": 1777800515.893176,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\PsychologicalProfileWidget.tsx": {
+    "mtime": 1778925019.0995085,
     "hash": "389b7199542598f05b86f6750dfac984"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\RelationshipPatternWidget.tsx": {
-    "mtime": 1777800515.8966987,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\RelationshipPatternWidget.tsx": {
+    "mtime": 1778925019.1015265,
     "hash": "6194377467c8be5ba93e7f4e6e028bf3"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\RemediesWidget.tsx": {
-    "mtime": 1777800515.8966987,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\RemediesWidget.tsx": {
+    "mtime": 1771350480.8324535,
     "hash": "a8c773619d0a805f25ee17cfc44c2b49"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\RiskRadarWidget.tsx": {
-    "mtime": 1777800515.8987257,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\RiskRadarWidget.tsx": {
+    "mtime": 1771607180.2831047,
     "hash": "980f3a483c5efaa3eeec5029d7579b73"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\SelfConflictTendencyWidget.tsx": {
-    "mtime": 1777800515.8987257,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\SelfConflictTendencyWidget.tsx": {
+    "mtime": 1778925019.104069,
     "hash": "847908464cbb167017b47f1d1f176189"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\SelfDoshaWidget.tsx": {
-    "mtime": 1777800515.8987257,
-    "hash": "235fe407c0187b106b01051d184a019c"
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\SelfDoshaWidget.tsx": {
+    "mtime": 1771135839.5801077,
+    "hash": "460cc759839bc4e598e00b146fc9712c"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\SelfOverviewWidget.tsx": {
-    "mtime": 1777800515.9002676,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\SelfOverviewWidget.tsx": {
+    "mtime": 1778925019.104069,
     "hash": "069ee2ed0a51513929430f2653ada7bf"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\SelfPsychologicalProfileWidget.tsx": {
-    "mtime": 1777800515.9017925,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\SelfPsychologicalProfileWidget.tsx": {
+    "mtime": 1778925019.104069,
     "hash": "87ac75634e6e75fd8886fb36ff70a7af"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\SelfRemediesWidget.tsx": {
-    "mtime": 1777800515.9017925,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\SelfRemediesWidget.tsx": {
+    "mtime": 1778925019.104069,
     "hash": "d9813c604fc3f74c76cd4b98620cea81"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\SelfRiskRadarWidget.tsx": {
-    "mtime": 1777800515.9017925,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\SelfRiskRadarWidget.tsx": {
+    "mtime": 1778925019.104069,
     "hash": "cf6316ba65e55e48f69b319f32de6a88"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\SelfSexualProfileWidget.tsx": {
-    "mtime": 1777800515.904318,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\SelfSexualProfileWidget.tsx": {
+    "mtime": 1778925019.104069,
     "hash": "59caef72502e0dfd9a6b1784c623f3d0"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\SelfTimingWidget.tsx": {
-    "mtime": 1777800515.9049714,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\SelfTimingWidget.tsx": {
+    "mtime": 1778925019.104069,
     "hash": "20012bf98a86287d96c086706e9b2152"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\SelfVulnerabilityTimelineWidget.tsx": {
-    "mtime": 1777800515.9049714,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\SelfVulnerabilityTimelineWidget.tsx": {
+    "mtime": 1778925019.104069,
     "hash": "7b686c4085d0598253a64243044d2596"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\SeventhHousePlacementWidget.tsx": {
-    "mtime": 1777800515.9049714,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\SeventhHousePlacementWidget.tsx": {
+    "mtime": 1771188991.181531,
     "hash": "824f77d3eb13cc5ed5947dfc42ecff20"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\sexualCompatHelpers.ts": {
-    "mtime": 1777800515.9150906,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\sexualCompatHelpers.ts": {
+    "mtime": 1771735768.8491104,
     "hash": "2f1b3dea858eed626d0f2712a1b9f00b"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\SexualCompatibilityWidget.tsx": {
-    "mtime": 1777800515.9064765,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\SexualCompatibilityWidget.tsx": {
+    "mtime": 1778925019.104069,
     "hash": "407a43e9776b587ac226823de64d3bdc"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\SexualHealthWidget.tsx": {
-    "mtime": 1777800515.908489,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\SexualHealthWidget.tsx": {
+    "mtime": 1771350480.8451204,
     "hash": "a3565bbc742cb97be08bb0652262e7b0"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\SpousePredictionWidget.tsx": {
-    "mtime": 1777800515.911051,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\SpousePredictionWidget.tsx": {
+    "mtime": 1778925019.1116037,
     "hash": "c24b30e13a72cdb14aa99bf68b281119"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\SynastryWidget.tsx": {
-    "mtime": 1777800515.9123392,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\SynastryWidget.tsx": {
+    "mtime": 1778925019.1116037,
     "hash": "9e1447f8c9271589c345b87ff34d155e"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\TimingWidget.tsx": {
-    "mtime": 1777800515.9133494,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\TimingWidget.tsx": {
+    "mtime": 1778925019.1116037,
     "hash": "ac6d3206a99d3a8d86f03d4e3595fd70"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\VulnerabilityTimelineWidget.tsx": {
-    "mtime": 1777800515.9140823,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\VulnerabilityTimelineWidget.tsx": {
+    "mtime": 1771607180.3010843,
     "hash": "c1f57b67cc580cabed5c815f5ac86f24"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\components\\widgets\\YogaDoshaWidget.tsx": {
-    "mtime": 1777800515.9140823,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\components\\widgets\\YogaDoshaWidget.tsx": {
+    "mtime": 1778925019.1116037,
     "hash": "2c613114a89535e30c2f9996ede4f30a"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\context\\AuthContext.tsx": {
-    "mtime": 1777800515.9161866,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\context\\AuthContext.tsx": {
+    "mtime": 1778925019.1116037,
     "hash": "49a366f8d153161bc52a50412f6c4211"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\context\\ThemeContext.tsx": {
-    "mtime": 1777800515.9161866,
-    "hash": "7429625a2680ec6c721cb2b74f3623ed"
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\context\\ThemeContext.tsx": {
+    "mtime": 1771099686.3263557,
+    "hash": "37342fb31034ebe51ef506794bdd8d8e"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\hooks\\useGeminiChat.ts": {
-    "mtime": 1777800515.9161866,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\hooks\\useGeminiChat.ts": {
+    "mtime": 1778925019.1116037,
     "hash": "5c35737c48325a1d214d056b83732036"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\hooks\\useGeminiInsight.ts": {
-    "mtime": 1777800515.9161866,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\hooks\\useGeminiInsight.ts": {
+    "mtime": 1778925019.1116037,
     "hash": "9553c7ad65596502bec8389bc4d679f8"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\hooks\\usePdfExport.ts": {
-    "mtime": 1777800515.9161866,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\hooks\\usePdfExport.ts": {
+    "mtime": 1778925019.1483736,
     "hash": "0e8448271cf5ffde7230969961b3cc59"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\hooks\\usePremium.ts": {
-    "mtime": 1777800515.9161866,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\hooks\\usePremium.ts": {
+    "mtime": 1778925019.1647856,
     "hash": "cd7ed61acc1fb7244f65da04145c0306"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\hooks\\usePushNotification.ts": {
-    "mtime": 1777800515.9161866,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\hooks\\usePushNotification.ts": {
+    "mtime": 1778925019.1652951,
     "hash": "8206f2b6cba2f601d6a983a6f56efdad"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\hooks\\useSelfAI.ts": {
-    "mtime": 1777800515.9161866,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\hooks\\useSelfAI.ts": {
+    "mtime": 1778925019.1652951,
     "hash": "b5c784e1ebc032e04c1e8bd3de336626"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\lib\\adminConfig.ts": {
-    "mtime": 1777800515.9206939,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\lib\\adminConfig.ts": {
+    "mtime": 1778925019.1652951,
     "hash": "45b74091431fc6de5e6f1db1f68f9545"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\lib\\adminService.ts": {
-    "mtime": 1777800515.9206939,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\lib\\adminService.ts": {
+    "mtime": 1778925019.1652951,
     "hash": "e4a0052eec8d759905aea3ebc4b1331a"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\lib\\analytics.ts": {
-    "mtime": 1777800515.9206939,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\lib\\analytics.ts": {
+    "mtime": 1778925019.1652951,
     "hash": "ce22732160a888998e43815a3a930b19"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\lib\\demoData.ts": {
-    "mtime": 1777800515.9252317,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\lib\\demoData.ts": {
+    "mtime": 1778925019.1731126,
     "hash": "b0e86f78ffa261a8bf64c59976f56f85"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\lib\\encryptedStorage.ts": {
-    "mtime": 1777800515.9252317,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\lib\\encryptedStorage.ts": {
+    "mtime": 1778925019.1731126,
     "hash": "7d2222f3ce948076edae199abe1b87f2"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\lib\\errorMonitoring.ts": {
-    "mtime": 1777800515.9277282,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\lib\\errorMonitoring.ts": {
+    "mtime": 1778925019.1731126,
     "hash": "6f0347b86b534e4a86d0ac23a1183c3f"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\lib\\featureDemoData.ts": {
-    "mtime": 1777800515.9292893,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\lib\\featureDemoData.ts": {
+    "mtime": 1778925019.1731126,
     "hash": "46871f5def9fd4a304da7a1bf86e1270"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\lib\\paymentService.ts": {
-    "mtime": 1777800515.930639,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\lib\\paymentService.ts": {
+    "mtime": 1778925019.1731126,
     "hash": "bd59e6e7e11816cd5027d0ea55e5a544"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\lib\\premiumService.ts": {
-    "mtime": 1777800515.930639,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\lib\\premiumService.ts": {
+    "mtime": 1778925019.1731126,
     "hash": "7ad7429315bd2d868fb3313f9e98bb4b"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\lib\\regionService.ts": {
-    "mtime": 1777800515.930639,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\lib\\regionService.ts": {
+    "mtime": 1778925019.1731126,
     "hash": "47878ec4b4cc97872a0bb7f975d294ff"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\lib\\reportUtils.ts": {
-    "mtime": 1777800515.930639,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\lib\\reportUtils.ts": {
+    "mtime": 1778925019.1731126,
     "hash": "82effff67b1d71f296c26e48623dd8ad"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\lib\\retryWithBackoff.ts": {
-    "mtime": 1777800515.930639,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\lib\\retryWithBackoff.ts": {
+    "mtime": 1778925019.1731126,
     "hash": "8f3ddc8639e2994d45c68db4665ace1e"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\lib\\shareUtils.ts": {
-    "mtime": 1777800515.9331467,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\lib\\shareUtils.ts": {
+    "mtime": 1778925019.1731126,
     "hash": "eb9d2ba6e3dcf6a14399bd62ad3fddf7"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\lib\\supabase.ts": {
-    "mtime": 1777800515.9331467,
-    "hash": "3385ba92c2aa6520f510db209f8a26ba"
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\lib\\supabase.ts": {
+    "mtime": 1771099686.3515072,
+    "hash": "0dfe70c8dc0ef9ddb9af7f5a29300bee"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\lib\\supabaseService.ts": {
-    "mtime": 1777800515.9331467,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\lib\\supabaseService.ts": {
+    "mtime": 1778925019.1731126,
     "hash": "7666c16c1f0a717e2302677282c423c5"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\lib\\userProfileService.ts": {
-    "mtime": 1777800515.9331467,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\lib\\userProfileService.ts": {
+    "mtime": 1778925019.1731126,
     "hash": "b594792f876cc422a5a4c6887ba7cd64"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\lib\\astro\\calculations.ts": {
-    "mtime": 1777800515.92422,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\lib\\astro\\calculations.ts": {
+    "mtime": 1778925019.1696053,
     "hash": "54185ebbbfc804824c7083f9f04577fb"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\lib\\astro\\sweph.ts": {
-    "mtime": 1777800515.9252317,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\lib\\astro\\sweph.ts": {
+    "mtime": 1778925044.7597349,
     "hash": "da8002bb2e815fbd737e4ca8711427e7"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\lib\\astro\\test\\calculations.test.ts": {
-    "mtime": 1777800515.9252317,
-    "hash": "46df3c29d1126b06f29ce10e041ef277"
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\lib\\astro\\test\\calculations.test.ts": {
+    "mtime": 1771099686.3799832,
+    "hash": "25225503c1aff35c4a6043bbbeb28374"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\AddPartnerPage.tsx": {
-    "mtime": 1777800515.9350524,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\AddPartnerPage.tsx": {
+    "mtime": 1778925019.1731126,
     "hash": "47358a38747b903617d8b3cce3b3609d"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\AdminPage.tsx": {
-    "mtime": 1777800515.9350524,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\AdminPage.tsx": {
+    "mtime": 1778925019.1996524,
     "hash": "a58d061cca145cb0e77cc5a3b77cc34c"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\AffiliatePage.tsx": {
-    "mtime": 1777800515.9350524,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\AffiliatePage.tsx": {
+    "mtime": 1778925019.220446,
     "hash": "4a39d14cf022ea48e666b349b2c24f9b"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\ApiDocsPage.tsx": {
-    "mtime": 1778089215.5764177,
-    "hash": "2b9670a6263e4f34902acda1c197d3de"
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\ApiDocsPage.tsx": {
+    "mtime": 1778925019.2223008,
+    "hash": "55122b73484f29ff68ec4fc83f60696a"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\ApiKeysPage.tsx": {
-    "mtime": 1778089276.332755,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\ApiKeysPage.tsx": {
+    "mtime": 1778925019.2243476,
     "hash": "3a534134fde896798fbf8dee8e5fede0"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\AuthCallbackPage.tsx": {
-    "mtime": 1777800515.9350524,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\AuthCallbackPage.tsx": {
+    "mtime": 1778925019.2243476,
     "hash": "f4dbcbcb79ed0cf7eefbecfb812591d9"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\CalculatorPage.tsx": {
-    "mtime": 1777800515.9350524,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\CalculatorPage.tsx": {
+    "mtime": 1778925019.2243476,
     "hash": "da8618dbd8c7254178c8424b7c30883c"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\ComparisonPage.tsx": {
-    "mtime": 1777800515.9350524,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\ComparisonPage.tsx": {
+    "mtime": 1778925019.2243476,
     "hash": "aefb770c7557ec11da84cbc0e89c7064"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\DashboardPage.tsx": {
-    "mtime": 1778089246.1012769,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\DashboardPage.tsx": {
+    "mtime": 1778925019.2243476,
     "hash": "364ed89272ac79b637df0c119afa37d7"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\DemoPage.tsx": {
-    "mtime": 1777800515.9350524,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\DemoPage.tsx": {
+    "mtime": 1778925019.2243476,
     "hash": "0fd4be4d693a3c3be70947f1a71e1811"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\HowItWorksPage.tsx": {
-    "mtime": 1777800515.9350524,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\HowItWorksPage.tsx": {
+    "mtime": 1778925019.2243476,
     "hash": "1655eee001c2ea71d999a1e42303e9f0"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\LandingPage.tsx": {
-    "mtime": 1778089237.5929706,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\LandingPage.tsx": {
+    "mtime": 1778925019.232922,
     "hash": "ce6618895a0e7d763ed298f3029ec131"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\LoginPage.tsx": {
-    "mtime": 1777800515.9405603,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\LoginPage.tsx": {
+    "mtime": 1778925019.235966,
     "hash": "3fc9c99c6275c8adfcf7a4ce3968b847"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\McpDocsPage.tsx": {
-    "mtime": 1778089368.455778,
-    "hash": "63cce7aeb4fb81dd38bb27658d5fd333"
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\McpDocsPage.tsx": {
+    "mtime": 1778925019.235966,
+    "hash": "1bb0dd271bb5d642d4c816fad31b02b4"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\NotFoundPage.tsx": {
-    "mtime": 1777800515.9405603,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\NotFoundPage.tsx": {
+    "mtime": 1778925019.235966,
     "hash": "0ae11f7d3df1dcfbf8c04dcd33ab1bbe"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\PartnerDetailsPage.tsx": {
-    "mtime": 1777800515.9425764,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\PartnerDetailsPage.tsx": {
+    "mtime": 1778925019.235966,
     "hash": "61a02409e4ce204a3049475f71e34fce"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\PricingPage.tsx": {
-    "mtime": 1777800515.9425764,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\PricingPage.tsx": {
+    "mtime": 1778925019.235966,
     "hash": "ee80be837d68f37d5a90d49eb46d32f2"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\QuickComparePage.tsx": {
-    "mtime": 1777800515.9450972,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\QuickComparePage.tsx": {
+    "mtime": 1778925019.235966,
     "hash": "8bcdf518fa675d031cfcf9acd1f2fb34"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\ReportPage.tsx": {
-    "mtime": 1777800515.9470859,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\ReportPage.tsx": {
+    "mtime": 1778925019.235966,
     "hash": "b83cbf4de5b4a2aba40e78a1f5e6ff38"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\SelfCalculatorPage.tsx": {
-    "mtime": 1777800515.9470859,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\SelfCalculatorPage.tsx": {
+    "mtime": 1778925019.235966,
     "hash": "1c10147e6669be5490f3bfaaa842a185"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\SelfReportPage.tsx": {
-    "mtime": 1777800515.9470859,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\SelfReportPage.tsx": {
+    "mtime": 1778925019.244478,
     "hash": "33fb0f3884a07ea88e7070a415e6e879"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\blog\\BlogIndexPage.tsx": {
-    "mtime": 1777800515.9495995,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\blog\\BlogIndexPage.tsx": {
+    "mtime": 1778925019.244478,
     "hash": "f7a6e6da7641c452546bd48319034105"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\blog\\KundaliMatchingGuidePage.tsx": {
-    "mtime": 1777800515.9495995,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\blog\\KundaliMatchingGuidePage.tsx": {
+    "mtime": 1778925019.244478,
     "hash": "81d7ee3284121cfd8356924a07e79a30"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\blog\\MangalDoshaMythsPage.tsx": {
-    "mtime": 1777800515.9495995,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\blog\\MangalDoshaMythsPage.tsx": {
+    "mtime": 1778925019.244478,
     "hash": "2094c7a92356210b5a161900e59d16f3"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\blog\\MarriageTimingBlogPage.tsx": {
-    "mtime": 1777800515.951614,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\blog\\MarriageTimingBlogPage.tsx": {
+    "mtime": 1778925019.244478,
     "hash": "3c38fa59cb46b5171ecadde3afde8741"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\blog\\NadiDoshaPage.tsx": {
-    "mtime": 1777800515.951614,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\blog\\NadiDoshaPage.tsx": {
+    "mtime": 1778925019.244478,
     "hash": "176480887894a494bc01093468e5caf0"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\blog\\VedicVsWesternPage.tsx": {
-    "mtime": 1777800515.951614,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\blog\\VedicVsWesternPage.tsx": {
+    "mtime": 1778925019.244478,
     "hash": "972c97a20d643934943ecd320f5c593a"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\dashboard\\DashboardComparePage.tsx": {
-    "mtime": 1777800515.9536462,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\dashboard\\DashboardComparePage.tsx": {
+    "mtime": 1778925019.244478,
     "hash": "c91075b87c23e07603be331ef4d0e920"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\dashboard\\DashboardCompatibilityPage.tsx": {
-    "mtime": 1777800515.9536462,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\dashboard\\DashboardCompatibilityPage.tsx": {
+    "mtime": 1778925019.2520208,
     "hash": "a35b2971aec039d15e3f74b349cab667"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\dashboard\\DashboardPartnersPage.tsx": {
-    "mtime": 1777800515.9536462,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\dashboard\\DashboardPartnersPage.tsx": {
+    "mtime": 1778925019.253,
     "hash": "02af381145ede50d9a4944809fe3aca2"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\dashboard\\DashboardReportsPage.tsx": {
-    "mtime": 1777800515.9552002,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\dashboard\\DashboardReportsPage.tsx": {
+    "mtime": 1778925019.255009,
     "hash": "0d6f758c2a2147e94eb63267b8fa8f9c"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\dashboard\\DashboardSelfAnalysisPage.tsx": {
-    "mtime": 1777800515.955715,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\dashboard\\DashboardSelfAnalysisPage.tsx": {
+    "mtime": 1778925019.255009,
     "hash": "c876d4028f56833bedb0c8f3e9e58cd5"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\features\\AddictionRiskPage.tsx": {
-    "mtime": 1777800515.9567287,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\features\\AddictionRiskPage.tsx": {
+    "mtime": 1778925019.255009,
     "hash": "d9823258d4f72e06fa74ecfd5d1497de"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\features\\AshtakootPage.tsx": {
-    "mtime": 1777800515.9567287,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\features\\AshtakootPage.tsx": {
+    "mtime": 1778925019.255009,
     "hash": "2706b47c08dcfa8ad1173815f4818770"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\features\\CharaDashaPage.tsx": {
-    "mtime": 1777800515.9567287,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\features\\CharaDashaPage.tsx": {
+    "mtime": 1778925019.255009,
     "hash": "d288d5dfaa7de8a18a067af27afb6536"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\features\\ConflictZonesPage.tsx": {
-    "mtime": 1777800515.959326,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\features\\ConflictZonesPage.tsx": {
+    "mtime": 1778925019.255009,
     "hash": "06bb7075c73f957833b3f2ab19770c68"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\features\\DivisionalChartsPage.tsx": {
-    "mtime": 1777800515.959326,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\features\\DivisionalChartsPage.tsx": {
+    "mtime": 1778925019.255009,
     "hash": "fd7ca47eba63467037c6e674d5f3066a"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\features\\DivorceRiskPage.tsx": {
-    "mtime": 1777800515.959326,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\features\\DivorceRiskPage.tsx": {
+    "mtime": 1778925019.255009,
     "hash": "33e0af0cd91cabe7e12a3cc932b616b9"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\features\\FeaturesIndexPage.tsx": {
-    "mtime": 1777800515.960334,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\features\\FeaturesIndexPage.tsx": {
+    "mtime": 1778925019.2612917,
     "hash": "378cc9ef0c7001b6ead420b0c128b5f0"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\features\\KPAnalysisPage.tsx": {
-    "mtime": 1777800515.960334,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\features\\KPAnalysisPage.tsx": {
+    "mtime": 1778925019.2618,
     "hash": "79339bd8eab17bcb0d339e289de76ddc"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\features\\MarriageTimingPage.tsx": {
-    "mtime": 1777800515.9633856,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\features\\MarriageTimingPage.tsx": {
+    "mtime": 1778925019.2618,
     "hash": "cd679cb4402500f23629acb7ead57cbf"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\features\\MentalHealthPage.tsx": {
-    "mtime": 1777800515.9636912,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\features\\MentalHealthPage.tsx": {
+    "mtime": 1778925019.2618,
     "hash": "7c3bd1ee2655ed826faa4106bad043e4"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\features\\PoruthamPage.tsx": {
-    "mtime": 1777800515.964198,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\features\\PoruthamPage.tsx": {
+    "mtime": 1778925019.2618,
     "hash": "6770c33dac819597af841c8ebfd05145"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\features\\PsychologicalProfilePage.tsx": {
-    "mtime": 1777800515.9650545,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\features\\PsychologicalProfilePage.tsx": {
+    "mtime": 1778925019.2618,
     "hash": "33909ea370abff33e04b4b823f6a894a"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\features\\RelationshipPatternsPage.tsx": {
-    "mtime": 1777800515.9655633,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\features\\RelationshipPatternsPage.tsx": {
+    "mtime": 1778925019.2618,
     "hash": "0b35f411b2d8926585ce7bf6e105b138"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\features\\RemediesPage.tsx": {
-    "mtime": 1777800515.9655633,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\features\\RemediesPage.tsx": {
+    "mtime": 1778925019.2653162,
     "hash": "974dee0e494ca23afe07cafe7f7bd868"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\features\\SexualCompatibilityPage.tsx": {
-    "mtime": 1777800515.9655633,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\features\\SexualCompatibilityPage.tsx": {
+    "mtime": 1778925019.2653162,
     "hash": "210aa977ee0a41317261e8ebfaee89f6"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\features\\SpousePredictionPage.tsx": {
-    "mtime": 1777800515.9655633,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\features\\SpousePredictionPage.tsx": {
+    "mtime": 1778925019.2653162,
     "hash": "5aef1837c1eaff229bdf6a494b877f10"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\features\\SynastryPage.tsx": {
-    "mtime": 1777800515.9674256,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\features\\SynastryPage.tsx": {
+    "mtime": 1778925019.2653162,
     "hash": "dca0d2bba0aa7698946e883c7c3648cb"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\features\\VulnerabilityTimelinePage.tsx": {
-    "mtime": 1777800515.9674256,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\features\\VulnerabilityTimelinePage.tsx": {
+    "mtime": 1778925019.2653162,
     "hash": "5e6e0dba80d89319a34e529940f77a11"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\features\\YogaDoshaPage.tsx": {
-    "mtime": 1777800515.9684339,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\features\\YogaDoshaPage.tsx": {
+    "mtime": 1778925019.2653162,
     "hash": "4f897684b7968d648bec2405bcf475cb"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\guides\\AshtakootMilanGuide.tsx": {
-    "mtime": 1777800515.9684339,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\guides\\AshtakootMilanGuide.tsx": {
+    "mtime": 1778925019.2685213,
     "hash": "ebd24fe7e7d2d5589c516f314b831240"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\guides\\MangalDoshaGuide.tsx": {
-    "mtime": 1777800515.9684339,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\guides\\MangalDoshaGuide.tsx": {
+    "mtime": 1778925019.3037312,
     "hash": "15028acdfa6f4c37d007a30177431b27"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\guides\\MarriageTimingGuide.tsx": {
-    "mtime": 1777800515.9684339,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\guides\\MarriageTimingGuide.tsx": {
+    "mtime": 1778925019.3062546,
     "hash": "5a91824712c535439ab0dcb06f07f0b1"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\legal\\PrivacyPolicy.tsx": {
-    "mtime": 1777800515.9709504,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\legal\\PrivacyPolicy.tsx": {
+    "mtime": 1778925019.3062546,
     "hash": "07ec4d037a0195b2771ceae03b9dae20"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\legal\\RefundPolicy.tsx": {
-    "mtime": 1777800515.9709504,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\legal\\RefundPolicy.tsx": {
+    "mtime": 1778925019.3062546,
     "hash": "dae4caab5d1b3e7ff39d0adfa9265dc7"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\pages\\legal\\TermsOfService.tsx": {
-    "mtime": 1777800515.9709504,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\pages\\legal\\TermsOfService.tsx": {
+    "mtime": 1778925019.3062546,
     "hash": "7a72b294409073864510e85c46b15530"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\store\\useAppStore.ts": {
-    "mtime": 1777800515.973485,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\store\\useAppStore.ts": {
+    "mtime": 1778925019.3062546,
     "hash": "3f24e32860a6b57b5508bf4831b12b1a"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\store\\useComparisonStore.ts": {
-    "mtime": 1777800515.973485,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\store\\useComparisonStore.ts": {
+    "mtime": 1778925019.3062546,
     "hash": "eb6b8dc9ee659610b3bfc46b19021a18"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\store\\useUserProfileStore.ts": {
-    "mtime": 1777800515.973485,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\store\\useUserProfileStore.ts": {
+    "mtime": 1778925019.3062546,
     "hash": "ae55cbea8989410a053752dcc578da9d"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\tests\\agePrediction.test.ts": {
-    "mtime": 1777800515.973485,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\tests\\agePrediction.test.ts": {
+    "mtime": 1771145210.3291101,
     "hash": "0527073176b4d80226bc6c70add2dee6"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\tests\\calculations.test.ts": {
-    "mtime": 1777800515.9759986,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\tests\\calculations.test.ts": {
+    "mtime": 1778925019.339077,
     "hash": "dd213cb87dcbe15c3bf486631ba4b90e"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\tests\\comparisonScoring.test.ts": {
-    "mtime": 1777800515.9770434,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\tests\\comparisonScoring.test.ts": {
+    "mtime": 1778925019.339077,
     "hash": "316be51068cfda48b8f18829868808ca"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\tests\\errorMonitoring.test.ts": {
-    "mtime": 1777800515.9770434,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\tests\\errorMonitoring.test.ts": {
+    "mtime": 1778925019.339077,
     "hash": "93ad9806a7fe2f8f5f11cdc3ba1d771a"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\tests\\mentalHealth.test.ts": {
-    "mtime": 1777800515.979728,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\tests\\mentalHealth.test.ts": {
+    "mtime": 1778925019.339077,
     "hash": "d3aaa04cacf2d7e2296b4aeef26d44fd"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\tests\\passionLogic.test.ts": {
-    "mtime": 1777800515.979728,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\tests\\passionLogic.test.ts": {
+    "mtime": 1778925019.339077,
     "hash": "f1ac18d4ef8cfab1ea9e3749e742054b"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\tests\\report.test.ts": {
-    "mtime": 1777800515.979728,
-    "hash": "64afc2aeb0082f6f4329a2a97f6f7055"
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\tests\\report.test.ts": {
+    "mtime": 1771099686.4972947,
+    "hash": "ced4cf119d703415b66cb4b039861758"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\tests\\retryWithBackoff.test.ts": {
-    "mtime": 1777800515.979728,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\tests\\retryWithBackoff.test.ts": {
+    "mtime": 1778925019.339077,
     "hash": "5599844daa281ed46249602b5a5ad3c8"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\tests\\selfReportScore.test.ts": {
-    "mtime": 1777800515.979728,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\tests\\selfReportScore.test.ts": {
+    "mtime": 1771187447.6030288,
     "hash": "83929440cb4719e0bf1bfba101f088dd"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\tests\\utils.ts": {
-    "mtime": 1777800515.979728,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\tests\\utils.ts": {
+    "mtime": 1771350480.8679435,
     "hash": "da5c771f06312b31f307b03bf64cc362"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\tests\\yogaDosha.test.ts": {
-    "mtime": 1777800515.979728,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\tests\\yogaDosha.test.ts": {
+    "mtime": 1778925019.339077,
     "hash": "11bf3f658eb82ef469c5cc175da866f4"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\types\\extendedTypes.ts": {
-    "mtime": 1777800515.9827533,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\types\\extendedTypes.ts": {
+    "mtime": 1778925019.339077,
     "hash": "f33c3def2c2210244edfbd72efaea533"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\types\\index.ts": {
-    "mtime": 1777800515.9848127,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\types\\index.ts": {
+    "mtime": 1778925019.339077,
     "hash": "cb52dc555fad60b43328f68d764768f8"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\types\\selfAnalysis.ts": {
-    "mtime": 1777800515.985319,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\types\\selfAnalysis.ts": {
+    "mtime": 1778925019.339077,
     "hash": "44f9c1fbd927e6fb117e7882071817ea"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\src\\utils\\chartUtils.ts": {
-    "mtime": 1777800515.985319,
-    "hash": "57e328bc060466babdf621dc4e453a7b"
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\src\\utils\\chartUtils.ts": {
+    "mtime": 1771099686.5202465,
+    "hash": "79ec3e609a899828ce7da040a9ebc7c7"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\supabase\\migrations\\001_waitlist.sql": {
-    "mtime": 1777800515.9888458,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\supabase\\migrations\\001_waitlist.sql": {
+    "mtime": 1778925019.3491075,
     "hash": "a215986bb3cddf304b16025c7c072dac"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\supabase\\migrations\\20260505000000_create_api_keys.sql": {
-    "mtime": 1778086421.575564,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\supabase\\migrations\\20260505000000_create_api_keys.sql": {
+    "mtime": 1778925019.3496277,
     "hash": "4ba6e40dec135cba14e0af0a2bdb4556"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\supabase_migrations\\004_push_and_affiliates.sql": {
-    "mtime": 1777800515.9888458,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\supabase_migrations\\004_push_and_affiliates.sql": {
+    "mtime": 1778925019.3496277,
     "hash": "c3f1a7c131b017143d7ffcafa8529e9d"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\tmp\\check_db.js": {
-    "mtime": 1777800515.9888458,
-    "hash": "40e5307c3d13706d5e58e49b984fc284"
-  },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\tmp\\check_rzp_payments.ts": {
-    "mtime": 1777800515.9918618,
-    "hash": "d9c00431f7ea2a91a2dc80296746d041"
-  },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\index.html": {
-    "mtime": 1777800515.7852929,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\index.html": {
+    "mtime": 1778925044.753211,
     "hash": "3e92e1ab4b55b03add65d8e4817f1248"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\README.md": {
-    "mtime": 1777800515.7686598,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\README.md": {
+    "mtime": 1778925044.7517035,
     "hash": "2ce431c09f0ef84e2a88f6987b50fa8f"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\smithery.yaml": {
-    "mtime": 1778261611.612711,
-    "hash": "3a0a5eac3e6d1f5182baa11c49b44fc5"
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\smithery.yaml": {
+    "mtime": 1778925019.050991,
+    "hash": "f25c01ed223872af813601d6a5f12197"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\docs\\01-features.md": {
-    "mtime": 1777800515.775329,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\docs\\01-features.md": {
+    "mtime": 1778925018.37836,
     "hash": "b5eb69f3d3ce5ba4e2299766d8ef4e2a"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\docs\\02-tech-stack.md": {
-    "mtime": 1777800515.775329,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\docs\\02-tech-stack.md": {
+    "mtime": 1778925018.3793583,
     "hash": "31c4240680ef619ca06d09f4935b76f2"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\docs\\03-database-schema.md": {
-    "mtime": 1777800515.775329,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\docs\\03-database-schema.md": {
+    "mtime": 1778925018.3793583,
     "hash": "cc63dea8b3d0cb3eea2a29279ebfc461"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\docs\\04-api-design.md": {
-    "mtime": 1777800515.775329,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\docs\\04-api-design.md": {
+    "mtime": 1778925018.380359,
     "hash": "ac3586f4acadc6dcc245708435903d79"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\docs\\05-astrology-logic.md": {
-    "mtime": 1777800515.775329,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\docs\\05-astrology-logic.md": {
+    "mtime": 1778925018.38138,
     "hash": "525f767f0bb615f5e0fbf76a68db5440"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\docs\\06-ui-design.md": {
-    "mtime": 1777800515.775329,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\docs\\06-ui-design.md": {
+    "mtime": 1778925018.38138,
     "hash": "296a43c0a024e2f115f595eba8f0e083"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\docs\\07-implementation-phases.md": {
-    "mtime": 1777800515.775329,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\docs\\07-implementation-phases.md": {
+    "mtime": 1778925018.3823607,
     "hash": "a4e0f14c894f5580fc66987850f4957e"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\docs\\08-knowledge-base.md": {
-    "mtime": 1777800515.775329,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\docs\\08-knowledge-base.md": {
+    "mtime": 1778925018.3823607,
     "hash": "498e0dea4d7a2b57d336d9305321a1f4"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\docs\\AI_MATCHMAKING.md": {
-    "mtime": 1777800515.775329,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\docs\\AI_MATCHMAKING.md": {
+    "mtime": 1771607180.2643938,
     "hash": "6b51b08db07517517153e45848ba7b20"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\docs\\GEO-SUBMISSION-GUIDE.md": {
-    "mtime": 1777800515.775329,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\docs\\GEO-SUBMISSION-GUIDE.md": {
+    "mtime": 1778925018.3823607,
     "hash": "e21a2b5c1c3629db5df1c9cad99aa5fe"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\docs\\LAUNCH_MARKETING_STRATEGY.md": {
-    "mtime": 1777800515.7838488,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\docs\\LAUNCH_MARKETING_STRATEGY.md": {
+    "mtime": 1778925018.3838642,
     "hash": "1c816378fd577952a48e79ce274a9668"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\docs\\openapi.yaml": {
-    "mtime": 1778261611.612711,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\docs\\openapi.yaml": {
+    "mtime": 1778925018.3839166,
     "hash": "9aa54e6a7679f45657441585e667d671"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\huggingface-space\\index.html": {
-    "mtime": 1777800515.7852929,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\huggingface-space\\index.html": {
+    "mtime": 1778925018.994723,
     "hash": "1870908c2a77e4d69934f2213a55ea7f"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\huggingface-space\\README.md": {
-    "mtime": 1777800515.7838488,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\huggingface-space\\README.md": {
+    "mtime": 1778925018.994723,
     "hash": "8fc17115c7f8bf380e9b82b2a8b057fb"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\knowledge\\ENHANCEMENT_REPORT.md": {
-    "mtime": 1777800515.7868133,
-    "hash": "f09058bf90e49be60d76383c41959de4"
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\knowledge\\ENHANCEMENT_REPORT.md": {
+    "mtime": 1771099685.718247,
+    "hash": "9fb8517bd5a7d72e6a1a4219fc16a72a"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\knowledge\\Risk_kn.md": {
-    "mtime": 1777800515.7868133,
-    "hash": "f6792e6bbbc5eeb69b8fa6bc7bbea275"
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\knowledge\\Risk_kn.md": {
+    "mtime": 1771099685.7198796,
+    "hash": "cb8a202b5c2196e2ef0e289f332f1245"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\MarriageAstro-main\\cmd_out.txt": {
-    "mtime": 1771874945.704939,
-    "hash": "af16e63690397700111e48051722d7ca"
-  },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\MarriageAstro-main\\csv_head.txt": {
-    "mtime": 1771875129.729673,
-    "hash": "b6d5417bcedf80c09d9fd438bbc2b6d8"
-  },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\MarriageAstro-main\\index.html": {
-    "mtime": 1771350480.7565575,
-    "hash": "700d53f016bf8b0718807069f912f73b"
-  },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\MarriageAstro-main\\output.txt": {
-    "mtime": 1771874408.7750838,
-    "hash": "f9b753ecdb196e649eae2cd77c7351cd"
-  },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\MarriageAstro-main\\README.md": {
-    "mtime": 1771099685.6485088,
-    "hash": "408c2e626d8e1d70ddca3c668cd6da68"
-  },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\mcp-server\\README.md": {
-    "mtime": 1778261611.612711,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\mcp-server\\README.md": {
+    "mtime": 1778925019.010581,
     "hash": "1292046d3a74735701dbeda6b1b0da70"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\mcp-server\\smithery.yaml": {
-    "mtime": 1778089358.8341527,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\mcp-server\\smithery.yaml": {
+    "mtime": 1778925019.0326707,
     "hash": "52bcbad96f2d2f88c25c6bc64723c28f"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\public\\llms.txt": {
-    "mtime": 1777800515.8376136,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\public\\llms.txt": {
+    "mtime": 1778925019.0449457,
     "hash": "ac827a36ffd081b9be104b785b52d8ca"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\public\\robots.txt": {
-    "mtime": 1777800515.840649,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\public\\robots.txt": {
+    "mtime": 1778925019.0454535,
     "hash": "a153ef4c8cde0150b3f578579edb2987"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\tmp\\rzp-test.html": {
-    "mtime": 1777800515.9918618,
-    "hash": "9f7c44c8bb829748ac9b4f468bda6c49"
-  },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\public\\icon.svg": {
-    "mtime": 1777800515.8376136,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\public\\icon.svg": {
+    "mtime": 1771350480.8300447,
     "hash": "91ffe8d631dd3bbeaa655d0699fd99e7"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\public\\og-image.png": {
-    "mtime": 1777800515.840649,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\public\\og-image.png": {
+    "mtime": 1778925019.0454535,
     "hash": "f7427a9a26232b402e9a45ad83e333e8"
   },
-  "C:\\Ai Codebase\\Vedic & Astrology\\MarriageAstro\\public\\og-image.svg": {
-    "mtime": 1777800515.840649,
+  "C:\\Users\\rahul\\OneDrive\\Documents\\Codes\\Marriage\\MarriageAstro-main\\MarriageAstro-main\\public\\og-image.svg": {
+    "mtime": 1778925019.0454535,
     "hash": "763471132f6c51169cdc6b6e769e7e1a"
   }
 }

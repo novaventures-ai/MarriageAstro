@@ -14,7 +14,7 @@
  *   }
  * }
  *
- * Get your API key at: https://marriageastro.com/api-keys
+ * Get your API key at: https://marriage-astro.vercel.app/api-keys
  */
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';

@@ -89,7 +89,7 @@ export function requireTier(authResult: AuthResult, required: ApiTier, res: any)
   if (userLevel < requiredLevel) {
     res.status(403).json({
       error: `This endpoint requires the '${required}' plan or higher. Your plan: '${authResult.tier}'.`,
-      upgrade_url: 'https://marriageastro.com/api-keys',
+      upgrade_url: 'https://marriage-astro.vercel.app/api-keys',
     });
     return false;
   }
@@ -112,7 +112,7 @@ export function requireTierOrTeaser(
       success: true,
       preview: true,
       tier_required: required,
-      upgrade_url: 'https://marriageastro.com/api-keys',
+      upgrade_url: 'https://marriage-astro.vercel.app/api-keys',
       data: teaser(),
     });
     return false;

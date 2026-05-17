@@ -2,7 +2,7 @@
  * HTTP client for the MarriageAstro API
  */
 
-const DEFAULT_BASE_URL = 'https://marriageastro.com/api/v1';
+const DEFAULT_BASE_URL = 'https://marriage-astro.vercel.app/api/v1';
 
 export async function callApi(endpoint: string, body: Record<string, unknown>): Promise<unknown> {
   const apiKey = process.env.MARRIAGE_ASTRO_API_KEY;
@@ -10,7 +10,7 @@ export async function callApi(endpoint: string, body: Record<string, unknown>): 
 
   if (!apiKey) {
     throw new Error(
-      'MARRIAGE_ASTRO_API_KEY is not set. Get your key at https://marriageastro.com/api-keys'
+      'MARRIAGE_ASTRO_API_KEY is not set. Get your key at https://marriage-astro.vercel.app/api-keys'
     );
   }
 

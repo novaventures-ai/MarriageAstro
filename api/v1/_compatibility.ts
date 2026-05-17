@@ -67,7 +67,7 @@ export default async function handler(req: any, res: any) {
           conflict_zones: '3–5 recurring friction patterns available — upgrade to view',
           vulnerability_windows: 'High-risk periods in next 3 years detected — upgrade to see dates',
           sexual_compatibility: 'Venus/Mars synastry analysis available — upgrade to view',
-          upgrade_url: 'https://marriageastro.com/api-keys',
+          upgrade_url: 'https://marriage-astro.vercel.app/api-keys',
         },
       },
     });

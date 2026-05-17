@@ -50,7 +50,7 @@ export default async function handler(req: any, res: any) {
           mental_health: moonAfflicted ? '1+ indicators detected — upgrade to see full report' : 'Analysis available — upgrade to view',
           remedies_available: afflictedCount + 3,
           spouse_prediction: 'Full spouse profile available — upgrade to view',
-          upgrade_url: 'https://marriageastro.com/api-keys',
+          upgrade_url: 'https://marriage-astro.vercel.app/api-keys',
         },
       },
     });
