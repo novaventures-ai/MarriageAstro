@@ -72,7 +72,14 @@ graph TD
 2. **Showcase on r/LocalLLaMA:** Demonstrate how open-source LLMs can suddenly perform premium calculations (divorce risk, timeline stress, attachment styles) when bridged with a specialized astrology engine.
 3. **Submit to Awesome Lists:** Propose pull requests to punkpeye's `awesome-mcp-servers` and modelcontextprotocol's official repository under the "Lifestyle / Data Services" category.
 
-### Phase 3: B2B Expansion (Week 3+)
+### Phase 3: Claude Native Connector Directory Integration (Week 3)
+1. **Implement OAuth 2.0 Flow:** Anthropic's public connector catalog requires standard **OAuth 2.0** verification so users can authorize the connector without copy-pasting API keys manually. We must implement standard OAuth handshakes on `marriage-astro.vercel.app`.
+2. **Submit to the Claude Directory:** 
+   * Anthropic features custom connectors to the general public via a curated submission pipeline. 
+   * Submit the production Vercel server URL (`https://marriage-astro.vercel.app/api/mcp`), detailed metadata, security posture, and icons through the developer console submission form at `platform.claude.com/plugins/submit` (or email the Anthropic review team at `mcp-review@anthropic.com`).
+3. **Accumulate Traction & Review:** Once listed, your connector appears inside the official Claude Connector Registry, allowing millions of users to activate it instantly in one click!
+
+### Phase 4: B2B Expansion (Week 4+)
 1. **Dating & Matrimony Platform APIs:** Reach out to modern niche dating platforms (e.g., culturally focused apps) offering them the ability to integrate live Ashtakoot matching or premium Synastry reports directly into their chat interfaces using our Developer Tier.
 
 ---
