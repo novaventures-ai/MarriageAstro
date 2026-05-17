@@ -6,7 +6,112 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import { z } from 'zod';
-import { validateApiKey } from './v1/_auth.js';
+import { createClient } from '@supabase/supabase-js';
+
+// ── AUTHENTICATION SYSTEM ──────────────────────────────────────────────────
+
+export type ApiTier = 'free' | 'developer' | 'solo' | 'premium';
+
+const DAILY_LIMITS: Record<ApiTier, number> = {
+  free: 50,
+  developer: 500,
+  solo: 5000,
+  premium: 99999,
+};
+
+export interface AuthResult {
+  valid: boolean;
+  tier: ApiTier;
+  keyId: string;
+  error?: string;
+  statusCode?: number;
+}
+
+function getSupabase() {
+  const url = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !key) throw new Error('Supabase env vars not configured');
+  return createClient(url, key);
+}
+
+export async function validateApiKey(req: any): Promise<AuthResult> {
+  // 1. RapidAPI Gateway Authentication (DB-less, High-Performance, Secure)
+  const proxySecret = req.headers['x-rapidapi-proxy-secret'] as string;
+  const expectedSecret = process.env.RAPIDAPI_PROXY_SECRET;
+  const rapidApiPlan = req.headers['x-rapidapi-plan'] as string;
+  const rapidApiHost = req.headers['x-rapidapi-host'] as string;
+
+  function mapRapidApiPlan(plan: string): ApiTier {
+    const p = (plan || 'free').toLowerCase();
+    if (p.includes('premium') || p.includes('ultra') || p.includes('mega')) return 'premium';
+    if (p.includes('solo') || p.includes('pro')) return 'solo';
+    if (p.includes('developer') || p.includes('dev')) return 'developer';
+    return 'free';
+  }
+
+  const isRapidApiRequest = !!rapidApiHost;
+
+  if (isRapidApiRequest && expectedSecret && proxySecret === expectedSecret) {
+    return { valid: true, tier: mapRapidApiPlan(rapidApiPlan), keyId: 'rapidapi-verified' };
+  }
+
+  if (isRapidApiRequest && !expectedSecret) {
+    return { valid: true, tier: mapRapidApiPlan(rapidApiPlan), keyId: 'rapidapi-unverified' };
+  }
+
+  // 2. Standard X-API-Key verification (for direct client / MCP users)
+  const apiKey = (req.headers['x-api-key'] as string) ||
+                 (req.headers['authorization'] as string)?.replace(/^Bearer\s+/i, '') ||
+                 (req.query?.apiKey as string) ||
+                 (req.query?.key as string);
+
+  if (!apiKey) {
+    return { valid: false, tier: 'free', keyId: '', error: 'Missing X-API-Key', statusCode: 401 };
+  }
+
+  try {
+    const supabase = getSupabase();
+    const { data, error } = await supabase
+      .from('api_keys')
+      .select('id, tier, calls_today, calls_month, last_reset_at, is_active')
+      .eq('key', apiKey)
+      .single();
+
+    if (error || !data) {
+      return { valid: false, tier: 'free', keyId: '', error: 'Invalid API key', statusCode: 401 };
+    }
+
+    if (!data.is_active) {
+      return { valid: false, tier: 'free', keyId: data.id, error: 'API key is disabled', statusCode: 403 };
+    }
+
+    const tier = data.tier as ApiTier;
+
+    const lastReset = new Date(data.last_reset_at);
+    const needsReset = Date.now() - lastReset.getTime() > 86400000;
+    const callsToday = needsReset ? 0 : data.calls_today;
+
+    if (callsToday >= DAILY_LIMITS[tier]) {
+      return { valid: false, tier, keyId: data.id, error: 'Daily limit reached. Upgrade your plan.', statusCode: 429 };
+    }
+
+    if (needsReset) {
+      await supabase
+        .from('api_keys')
+        .update({ calls_today: 1, last_reset_at: new Date().toISOString() })
+        .eq('id', data.id);
+    } else {
+      await supabase
+        .from('api_keys')
+        .update({ calls_today: callsToday + 1, calls_month: data.calls_month + 1 })
+        .eq('id', data.id);
+    }
+
+    return { valid: true, tier, keyId: data.id };
+  } catch (err: any) {
+    return { valid: false, tier: 'free', keyId: '', error: 'Auth service error', statusCode: 500 };
+  }
+}
 
 // ── SCHEMAS ─────────────────────────────────────────────────────────────────
 
