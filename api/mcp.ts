@@ -481,9 +481,19 @@ export default async function handler(req: any, res: any) {
 
   // 3. Delegate to MCP Streamable HTTP transport handler
   try {
-    await transport.handleRequest(req, res, req.body);
+    // Vercel may pass req.body as a pre-parsed object OR as a raw Buffer/string.
+    // The MCP SDK's handleRequest expects the 3rd arg to be the parsed JSON object.
+    let body = req.body;
+    if (typeof body === 'string') {
+      try { body = JSON.parse(body); } catch { /* leave as string */ }
+    } else if (Buffer.isBuffer(body)) {
+      try { body = JSON.parse(body.toString('utf-8')); } catch { /* leave */ }
+    }
+    await transport.handleRequest(req, res, body);
   } catch (error: any) {
     console.error('MCP Request Error:', error);
-    res.status(500).json({ error: error.message || 'Internal Server Error' });
+    if (!res.headersSent) {
+      res.status(500).json({ error: error.message || 'Internal Server Error' });
+    }
   }
 }
