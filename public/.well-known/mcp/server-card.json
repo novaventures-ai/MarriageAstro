@@ -1,0 +1,377 @@
+{
+  "serverInfo": {
+    "name": "marriage-astro-mcp",
+    "version": "1.0.0"
+  },
+  "authentication": {
+    "required": true,
+    "schemes": ["apiKey"]
+  },
+  "tools": [
+    {
+      "name": "get_birth_chart",
+      "description": "Generate a Vedic birth chart (planets, houses, nakshatras, ascendant, yogas, dashas) for one person.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "description": "Person's name" },
+          "gender": { "type": "string", "enum": ["male", "female", "other"], "description": "Gender (male/female/other)" },
+          "date": { "type": "string", "description": "Date of birth in YYYY-MM-DD format" },
+          "time": { "type": "string", "description": "Time of birth in HH:MM format (24h, defaults to 12:00)" },
+          "latitude": { "type": "number", "description": "Birth place latitude (e.g. 19.076 for Mumbai)" },
+          "longitude": { "type": "number", "description": "Birth place longitude (e.g. 72.877 for Mumbai)" },
+          "timezone": { "type": "string", "description": "Timezone name (e.g. 'Asia/Kolkata', defaults to UTC)" },
+          "location": { "type": "string", "description": "Birth place name (e.g. 'Mumbai, India')" }
+        },
+        "required": ["date", "latitude", "longitude"]
+      }
+    },
+    {
+      "name": "calculate_compatibility",
+      "description": "Calculate Ashtakoot Milan 36-point compatibility score between two people, including all 8 parameters (Varna, Vashya, Tara, Yoni, Graha Maitri, Gana, Bhakoot, Nadi) and dosha flags.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "person_a_name": { "type": "string", "description": "Person A name" },
+          "person_a_gender": { "type": "string", "enum": ["male", "female", "other"], "description": "Person A gender" },
+          "person_a_date": { "type": "string", "description": "Person A date of birth YYYY-MM-DD" },
+          "person_a_time": { "type": "string", "description": "Person A time HH:MM" },
+          "person_a_latitude": { "type": "number", "description": "Person A birth latitude" },
+          "person_a_longitude": { "type": "number", "description": "Person A birth longitude" },
+          "person_a_timezone": { "type": "string", "description": "Person A timezone" },
+          "person_a_location": { "type": "string", "description": "Person A birth location name" },
+          "person_b_name": { "type": "string", "description": "Person B name" },
+          "person_b_gender": { "type": "string", "enum": ["male", "female", "other"], "description": "Person B gender" },
+          "person_b_date": { "type": "string", "description": "Person B date of birth YYYY-MM-DD (omit for single-person analysis)" },
+          "person_b_time": { "type": "string", "description": "Person B time HH:MM" },
+          "person_b_latitude": { "type": "number", "description": "Person B birth latitude" },
+          "person_b_longitude": { "type": "number", "description": "Person B birth longitude" },
+          "person_b_timezone": { "type": "string", "description": "Person B timezone" },
+          "person_b_location": { "type": "string", "description": "Person B birth location name" }
+        },
+        "required": ["person_a_date", "person_a_latitude", "person_a_longitude"]
+      }
+    },
+    {
+      "name": "analyze_dosha",
+      "description": "Check Mangal dosha, Nadi dosha, Kaal Sarpa, and other yoga/dosha patterns for one or two people.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "person_a_date": { "type": "string", "description": "Person A date of birth YYYY-MM-DD" },
+          "person_a_latitude": { "type": "number", "description": "Person A birth latitude" },
+          "person_a_longitude": { "type": "number", "description": "Person A birth longitude" },
+          "person_a_time": { "type": "string", "description": "Person A time HH:MM" },
+          "person_a_timezone": { "type": "string", "description": "Person A timezone" },
+          "person_a_location": { "type": "string", "description": "Person A birth location name" },
+          "person_b_date": { "type": "string", "description": "Person B date of birth YYYY-MM-DD (omit for single-person analysis)" },
+          "person_b_latitude": { "type": "number", "description": "Person B birth latitude" },
+          "person_b_longitude": { "type": "number", "description": "Person B birth longitude" }
+        },
+        "required": ["person_a_date", "person_a_latitude", "person_a_longitude"]
+      }
+    },
+    {
+      "name": "get_full_compatibility_report",
+      "description": "Generate the complete compatibility report including synastry, navamsa, divisional charts, dasha analysis, and timing. Requires developer plan.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "person_a_date": { "type": "string", "description": "Person A date of birth YYYY-MM-DD" },
+          "person_a_latitude": { "type": "number", "description": "Person A birth latitude" },
+          "person_a_longitude": { "type": "number", "description": "Person A birth longitude" },
+          "person_b_date": { "type": "string", "description": "Person B date of birth YYYY-MM-DD" },
+          "person_b_latitude": { "type": "number", "description": "Person B birth latitude" },
+          "person_b_longitude": { "type": "number", "description": "Person B birth longitude" }
+        },
+        "required": ["person_a_date", "person_a_latitude", "person_a_longitude"]
+      }
+    },
+    {
+      "name": "get_marriage_timing",
+      "description": "Find auspicious marriage windows based on Vimshottari Dasha and transit confluence. Requires developer plan.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "date": { "type": "string", "description": "Date of birth in YYYY-MM-DD format" },
+          "latitude": { "type": "number", "description": "Birth place latitude (e.g. 19.076 for Mumbai)" },
+          "longitude": { "type": "number", "description": "Birth place longitude (e.g. 72.877 for Mumbai)" },
+          "time": { "type": "string", "description": "Time of birth in HH:MM format" },
+          "timezone": { "type": "string", "description": "Timezone name (e.g. 'Asia/Kolkata')" },
+          "gender": { "type": "string", "enum": ["male", "female", "other"], "description": "Gender" }
+        },
+        "required": ["date", "latitude", "longitude"]
+      }
+    },
+    {
+      "name": "get_synastry",
+      "description": "Cross-chart planetary aspect analysis and house overlays between two people. Requires developer plan.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "person_a_date": { "type": "string", "description": "Person A date of birth YYYY-MM-DD" },
+          "person_a_latitude": { "type": "number", "description": "Person A birth latitude" },
+          "person_a_longitude": { "type": "number", "description": "Person A birth longitude" },
+          "person_b_date": { "type": "string", "description": "Person B date of birth YYYY-MM-DD" },
+          "person_b_latitude": { "type": "number", "description": "Person B birth latitude" },
+          "person_b_longitude": { "type": "number", "description": "Person B birth longitude" }
+        },
+        "required": ["person_a_date", "person_a_latitude", "person_a_longitude"]
+      }
+    },
+    {
+      "name": "get_navamsa_matching",
+      "description": "D9 Navamsa chart compatibility — the marriage-specific divisional chart analysis. Requires developer plan.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "person_a_date": { "type": "string", "description": "Person A date of birth YYYY-MM-DD" },
+          "person_a_latitude": { "type": "number", "description": "Person A birth latitude" },
+          "person_a_longitude": { "type": "number", "description": "Person A birth longitude" },
+          "person_b_date": { "type": "string", "description": "Person B date of birth YYYY-MM-DD" },
+          "person_b_latitude": { "type": "number", "description": "Person B birth latitude" },
+          "person_b_longitude": { "type": "number", "description": "Person B birth longitude" }
+        },
+        "required": ["person_a_date", "person_a_latitude", "person_a_longitude"]
+      }
+    },
+    {
+      "name": "get_kp_analysis",
+      "description": "Krishnamurti Paddhati (KP) stellar astrology analysis with 249 sub-lords. Requires developer plan.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "date": { "type": "string", "description": "Date of birth in YYYY-MM-DD format" },
+          "latitude": { "type": "number", "description": "Birth place latitude" },
+          "longitude": { "type": "number", "description": "Birth place longitude" },
+          "time": { "type": "string", "description": "Time of birth in HH:MM format" },
+          "timezone": { "type": "string", "description": "Timezone name" }
+        },
+        "required": ["date", "latitude", "longitude"]
+      }
+    },
+    {
+      "name": "get_jaimini_dasha",
+      "description": "Jaimini/Chara Dasha analysis including Darakaraka and Upapada Lagna for marriage timing. Requires developer plan.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "date": { "type": "string", "description": "Date of birth in YYYY-MM-DD format" },
+          "latitude": { "type": "number", "description": "Birth place latitude" },
+          "longitude": { "type": "number", "description": "Birth place longitude" },
+          "time": { "type": "string", "description": "Time of birth in HH:MM format" },
+          "timezone": { "type": "string", "description": "Timezone name" }
+        },
+        "required": ["date", "latitude", "longitude"]
+      }
+    },
+    {
+      "name": "get_self_analysis",
+      "description": "Single-person marriage readiness analysis — personality, timing forecast, spouse profile. Requires developer plan.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "date": { "type": "string", "description": "Date of birth in YYYY-MM-DD format" },
+          "latitude": { "type": "number", "description": "Birth place latitude" },
+          "longitude": { "type": "number", "description": "Birth place longitude" },
+          "time": { "type": "string", "description": "Time of birth in HH:MM format" },
+          "timezone": { "type": "string", "description": "Timezone name" },
+          "gender": { "type": "string", "enum": ["male", "female", "other"], "description": "Gender" }
+        },
+        "required": ["date", "latitude", "longitude"]
+      }
+    },
+    {
+      "name": "get_divorce_risk",
+      "description": "Assess divorce probability from 7th and 2nd house afflictions. Unique feature — no other Vedic API provides this. Requires premium plan.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "person_a_date": { "type": "string", "description": "Person A date of birth YYYY-MM-DD" },
+          "person_a_latitude": { "type": "number", "description": "Person A birth latitude" },
+          "person_a_longitude": { "type": "number", "description": "Person A birth longitude" },
+          "person_b_date": { "type": "string", "description": "Person B date of birth YYYY-MM-DD (omit for single-person analysis)" },
+          "person_b_latitude": { "type": "number", "description": "Person B birth latitude" },
+          "person_b_longitude": { "type": "number", "description": "Person B birth longitude" }
+        },
+        "required": ["person_a_date", "person_a_latitude", "person_a_longitude"]
+      }
+    },
+    {
+      "name": "get_infidelity_risk",
+      "description": "Analyze infidelity indicators from 5th, 8th, and 12th house patterns, plus protective factors. Requires premium plan.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "person_a_date": { "type": "string", "description": "Person A date of birth YYYY-MM-DD" },
+          "person_a_latitude": { "type": "number", "description": "Person A birth latitude" },
+          "person_a_longitude": { "type": "number", "description": "Person A birth longitude" },
+          "person_b_date": { "type": "string", "description": "Person B date of birth YYYY-MM-DD (omit for single-person analysis)" },
+          "person_b_latitude": { "type": "number", "description": "Person B birth latitude" },
+          "person_b_longitude": { "type": "number", "description": "Person B birth longitude" }
+        },
+        "required": ["person_a_date", "person_a_latitude", "person_a_longitude"]
+      }
+    },
+    {
+      "name": "get_sexual_compatibility",
+      "description": "Venus/Mars synastry + sexual temperament matching + mutual satisfaction analysis. Requires premium plan.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "person_a_date": { "type": "string", "description": "Person A date of birth YYYY-MM-DD" },
+          "person_a_latitude": { "type": "number", "description": "Person A birth latitude" },
+          "person_a_longitude": { "type": "number", "description": "Person A birth longitude" },
+          "person_b_date": { "type": "string", "description": "Person B date of birth YYYY-MM-DD (omit for single-person analysis)" },
+          "person_b_latitude": { "type": "number", "description": "Person B birth latitude" },
+          "person_b_longitude": { "type": "number", "description": "Person B birth longitude" }
+        },
+        "required": ["person_a_date", "person_a_latitude", "person_a_longitude"]
+      }
+    },
+    {
+      "name": "get_sexual_health",
+      "description": "Individual sexual health analysis — libido, PME/ED/Frigidity risk indicators from birth chart. Requires premium plan.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "date": { "type": "string", "description": "Date of birth in YYYY-MM-DD format" },
+          "latitude": { "type": "number", "description": "Birth place latitude" },
+          "longitude": { "type": "number", "description": "Birth place longitude" },
+          "time": { "type": "string", "description": "Time of birth in HH:MM format" },
+          "timezone": { "type": "string", "description": "Timezone name" },
+          "gender": { "type": "string", "enum": ["male", "female", "other"], "description": "Gender" }
+        },
+        "required": ["date", "latitude", "longitude"]
+      }
+    },
+    {
+      "name": "get_mental_health_analysis",
+      "description": "Analyze anxiety, depression, narcissism, and emotional stability markers from birth chart. Requires premium plan.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "date": { "type": "string", "description": "Date of birth in YYYY-MM-DD format" },
+          "latitude": { "type": "number", "description": "Birth place latitude" },
+          "longitude": { "type": "number", "description": "Birth place longitude" },
+          "time": { "type": "string", "description": "Time of birth in HH:MM format" },
+          "timezone": { "type": "string", "description": "Timezone name" }
+        },
+        "required": ["date", "latitude", "longitude"]
+      }
+    },
+    {
+      "name": "get_psychological_profile",
+      "description": "Attachment style, emotional patterns, and personality profile from planetary positions. Requires premium plan.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "date": { "type": "string", "description": "Date of birth in YYYY-MM-DD format" },
+          "latitude": { "type": "number", "description": "Birth place latitude" },
+          "longitude": { "type": "number", "description": "Birth place longitude" },
+          "time": { "type": "string", "description": "Time of birth in HH:MM format" },
+          "timezone": { "type": "string", "description": "Timezone name" }
+        },
+        "required": ["date", "latitude", "longitude"]
+      }
+    },
+    {
+      "name": "get_conflict_zones",
+      "description": "Identify conflict triggers, hot-button topics, and tension patterns between two people. Requires premium plan.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "person_a_date": { "type": "string", "description": "Person A date of birth YYYY-MM-DD" },
+          "person_a_latitude": { "type": "number", "description": "Person A birth latitude" },
+          "person_a_longitude": { "type": "number", "description": "Person A birth longitude" },
+          "person_b_date": { "type": "string", "description": "Person B date of birth YYYY-MM-DD (omit for single-person analysis)" },
+          "person_b_latitude": { "type": "number", "description": "Person B birth latitude" },
+          "person_b_longitude": { "type": "number", "description": "Person B birth longitude" }
+        },
+        "required": ["person_a_date", "person_a_latitude", "person_a_longitude"]
+      }
+    },
+    {
+      "name": "get_vulnerability_windows",
+      "description": "Find timing windows when the relationship is at highest stress/breakdown risk. Requires premium plan.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "person_a_date": { "type": "string", "description": "Person A date of birth YYYY-MM-DD" },
+          "person_a_latitude": { "type": "number", "description": "Person A birth latitude" },
+          "person_a_longitude": { "type": "number", "description": "Person A birth longitude" },
+          "person_b_date": { "type": "string", "description": "Person B date of birth YYYY-MM-DD (omit for single-person analysis)" },
+          "person_b_latitude": { "type": "number", "description": "Person B birth latitude" },
+          "person_b_longitude": { "type": "number", "description": "Person B birth longitude" }
+        },
+        "required": ["person_a_date", "person_a_latitude", "person_a_longitude"]
+      }
+    },
+    {
+      "name": "get_inlaw_analysis",
+      "description": "Analyze compatibility with partner's family from 4th and 8th house indicators. Requires premium plan.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "person_a_date": { "type": "string", "description": "Person A date of birth YYYY-MM-DD" },
+          "person_a_latitude": { "type": "number", "description": "Person A birth latitude" },
+          "person_a_longitude": { "type": "number", "description": "Person A birth longitude" },
+          "person_b_date": { "type": "string", "description": "Person B date of birth YYYY-MM-DD (omit for single-person analysis)" },
+          "person_b_latitude": { "type": "number", "description": "Person B birth latitude" },
+          "person_b_longitude": { "type": "number", "description": "Person B birth longitude" }
+        },
+        "required": ["person_a_date", "person_a_latitude", "person_a_longitude"]
+      }
+    },
+    {
+      "name": "get_spouse_prediction",
+      "description": "Predict future spouse's appearance, nature, profession, and when/how you will meet them. Requires premium plan.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "date": { "type": "string", "description": "Date of birth in YYYY-MM-DD format" },
+          "latitude": { "type": "number", "description": "Birth place latitude" },
+          "longitude": { "type": "number", "description": "Birth place longitude" },
+          "time": { "type": "string", "description": "Time of birth in HH:MM format" },
+          "timezone": { "type": "string", "description": "Timezone name" },
+          "gender": { "type": "string", "enum": ["male", "female", "other"], "description": "Gender" }
+        },
+        "required": ["date", "latitude", "longitude"]
+      }
+    },
+    {
+      "name": "get_modern_challenges",
+      "description": "Digital age relationship analysis — social media impact, long-distance patterns, modern planet (Uranus/Neptune/Pluto) influence. Requires premium plan.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "person_a_date": { "type": "string", "description": "Person A date of birth YYYY-MM-DD" },
+          "person_a_latitude": { "type": "number", "description": "Person A birth latitude" },
+          "person_a_longitude": { "type": "number", "description": "Person A birth longitude" },
+          "person_b_date": { "type": "string", "description": "Person B date of birth YYYY-MM-DD (omit for single-person analysis)" },
+          "person_b_latitude": { "type": "number", "description": "Person B birth latitude" },
+          "person_b_longitude": { "type": "number", "description": "Person B birth longitude" }
+        },
+        "required": ["person_a_date", "person_a_latitude", "person_a_longitude"]
+      }
+    },
+    {
+      "name": "get_remedies",
+      "description": "Lal Kitab remedies and gemstone recommendations based on planetary afflictions. Requires premium plan.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "date": { "type": "string", "description": "Date of birth in YYYY-MM-DD format" },
+          "latitude": { "type": "number", "description": "Birth place latitude" },
+          "longitude": { "type": "number", "description": "Birth place longitude" },
+          "time": { "type": "string", "description": "Time of birth in HH:MM format" },
+          "timezone": { "type": "string", "description": "Timezone name" },
+          "gender": { "type": "string", "enum": ["male", "female", "other"], "description": "Gender" }
+        },
+        "required": ["date", "latitude", "longitude"]
+      }
+    }
+  ],
+  "resources": [],
+  "prompts": []
+}
