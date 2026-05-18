@@ -228,6 +228,12 @@ function App() {
                 </div>
               } />
 
+              <Route path="/authorize" element={
+                <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-indigo-950 transition-colors duration-500">
+                  <OAuthAuthorizePage />
+                </div>
+              } />
+
               {/* Legal Routes */}
               <Route path="/legal" element={<LegalLayout />}>
                 <Route index element={<PrivacyPolicy />} />

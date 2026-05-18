@@ -480,7 +480,7 @@ export default async function handler(req: any, res: any) {
     if (auth.statusCode === 401) {
       res.setHeader(
         'WWW-Authenticate',
-        'Bearer authorization_uri="https://marriage-astro.vercel.app/oauth/authorize", resource_metadata="https://marriage-astro.vercel.app/.well-known/oauth-protected-resource"'
+        'Bearer authorization_uri="https://marriage-astro.vercel.app/authorize", resource_metadata="https://marriage-astro.vercel.app/.well-known/oauth-protected-resource"'
       );
     }
     return res.status(auth.statusCode || 401).json({
