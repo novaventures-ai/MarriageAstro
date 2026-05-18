@@ -9,6 +9,54 @@ import { z } from 'zod';
 import { createClient } from '@supabase/supabase-js';
 import { verifyToken } from './oauth.js';
 
+import birthChart from './v1/_birth-chart.js';
+import compatibility from './v1/_compatibility.js';
+import doshaCheck from './v1/_dosha-check.js';
+import fullReport from './v1/_full-report.js';
+import marriageTiming from './v1/_marriage-timing.js';
+import synastry from './v1/_synastry.js';
+import navamsa from './v1/_navamsa.js';
+import kpAnalysis from './v1/_kp-analysis.js';
+import jaiminiDasha from './v1/_jaimini-dasha.js';
+import selfAnalysis from './v1/_self-analysis.js';
+import divorceRisk from './v1/_divorce-risk.js';
+import infidelityRisk from './v1/_infidelity-risk.js';
+import sexualCompatibility from './v1/_sexual-compatibility.js';
+import sexualHealth from './v1/_sexual-health.js';
+import mentalHealth from './v1/_mental-health.js';
+import psychologicalProfile from './v1/_psychological-profile.js';
+import conflictZones from './v1/_conflict-zones.js';
+import vulnerabilityWindows from './v1/_vulnerability-windows.js';
+import inlawAnalysis from './v1/_inlaw-analysis.js';
+import spousePrediction from './v1/_spouse-prediction.js';
+import modernChallenges from './v1/_modern-challenges.js';
+import remedies from './v1/_remedies.js';
+
+const handlers: Record<string, (req: any, res: any) => Promise<any>> = {
+  'birth-chart': birthChart,
+  'compatibility': compatibility,
+  'dosha-check': doshaCheck,
+  'full-report': fullReport,
+  'marriage-timing': marriageTiming,
+  'synastry': synastry,
+  'navamsa': navamsa,
+  'kp-analysis': kpAnalysis,
+  'jaimini-dasha': jaiminiDasha,
+  'self-analysis': selfAnalysis,
+  'divorce-risk': divorceRisk,
+  'infidelity-risk': infidelityRisk,
+  'sexual-compatibility': sexualCompatibility,
+  'sexual-health': sexualHealth,
+  'mental-health': mentalHealth,
+  'psychological-profile': psychologicalProfile,
+  'conflict-zones': conflictZones,
+  'vulnerability-windows': vulnerabilityWindows,
+  'inlaw-analysis': inlawAnalysis,
+  'spouse-prediction': spousePrediction,
+  'modern-challenges': modernChallenges,
+  'remedies': remedies,
+};
+
 // ── AUTHENTICATION SYSTEM ──────────────────────────────────────────────────
 
 export type ApiTier = 'free' | 'developer' | 'solo' | 'premium';
@@ -203,34 +251,63 @@ const server = new McpServer({
   version: '1.0.2',
 });
 
-// Helper to make internal API requests on behalf of the MCP tool callers
+// Helper to execute internal API requests directly within the same process on behalf of the MCP tool callers.
+// This completely avoids external HTTP fetches, DNS resolution, network roundtrips, and Vercel Cold Starts!
 async function callInternalApi(
   endpoint: string,
   body: any,
   apiKey: string,
-  host: string,
-  protocol: string
+  _host?: string,
+  _protocol?: string
 ): Promise<any> {
-  const baseUrl = `${protocol}://${host}/api/v1`;
-  const url = `${baseUrl}/${endpoint}`;
+  const handler = handlers[endpoint];
+  if (!handler) {
+    throw new Error(`Handler not found for endpoint: ${endpoint}`);
+  }
 
-  const response = await fetch(url, {
+  const mockReq = {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
-      'X-API-Key': apiKey,
+      'content-type': 'application/json',
+      'x-api-key': apiKey,
+      'authorization': `Bearer ${apiKey}`,
     },
-    body: JSON.stringify(body),
-  });
+    query: {},
+    body,
+  };
 
-  const json = await response.json() as any;
+  let responseStatus = 200;
+  let responseBody: any = null;
 
-  if (!response.ok) {
-    const message = json?.error || `API error: ${response.status} ${response.statusText}`;
+  const mockRes = {
+    status(code: number) {
+      responseStatus = code;
+      return this;
+    },
+    json(body: any) {
+      responseBody = body;
+      return this;
+    },
+    setHeader() {
+      return this;
+    },
+    end() {
+      return this;
+    }
+  };
+
+  try {
+    await handler(mockReq, mockRes);
+  } catch (err: any) {
+    throw new Error(err.message || 'Intra-process execution failed');
+  }
+
+  if (responseStatus < 200 || responseStatus >= 300) {
+    const message = responseBody?.error || `API error: ${responseStatus}`;
     throw new Error(message);
   }
 
-  return json;
+  return responseBody;
 }
 
 // Helper to register tools dynamically

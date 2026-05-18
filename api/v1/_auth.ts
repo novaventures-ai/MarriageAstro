@@ -4,6 +4,7 @@
  * Returns tier info for downstream use
  */
 import { createClient } from '@supabase/supabase-js';
+import { verifyToken } from '../oauth.js';
 
 export type ApiTier = 'free' | 'developer' | 'solo' | 'premium';
 
@@ -68,6 +69,37 @@ export async function validateApiKey(req: any): Promise<AuthResult> {
 
   if (!apiKey) {
     return { valid: false, tier: 'free', keyId: '', error: 'Missing X-API-Key', statusCode: 401 };
+  }
+
+  // 2b. Stateless OAuth 2.0 Access Token verification
+  const oauthPayload = verifyToken(apiKey);
+  if (oauthPayload && oauthPayload.userId) {
+    try {
+      const supabaseClient = getSupabase();
+      const { data, error } = await supabaseClient
+        .from('profiles')
+        .select('plan_tier')
+        .eq('id', oauthPayload.userId)
+        .single();
+
+      if (error || !data) {
+        return { valid: true, tier: 'free', keyId: `oauth-${oauthPayload.userId}` };
+      }
+
+      const dbTier = (data.plan_tier || 'free').toLowerCase();
+      let tier: ApiTier = 'free';
+      if (dbTier === 'premium' || dbTier === 'astrologer' || dbTier === 'admin') {
+        tier = 'premium';
+      } else if (dbTier === 'developer') {
+        tier = 'developer';
+      } else if (dbTier === 'solo') {
+        tier = 'solo';
+      }
+
+      return { valid: true, tier, keyId: `oauth-${oauthPayload.userId}` };
+    } catch {
+      return { valid: true, tier: 'free', keyId: `oauth-${oauthPayload.userId}` };
+    }
   }
 
   try {
