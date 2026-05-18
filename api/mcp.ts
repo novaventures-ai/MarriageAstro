@@ -5,7 +5,7 @@
  */
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
-import { z } from 'zod/v3';
+import { z } from 'zod';
 import { createClient } from '@supabase/supabase-js';
 import { verifyToken } from './_oauth-helper.js';
 
@@ -245,11 +245,10 @@ function birthDataToPayload(args: any) {
 }
 
 // ── MCP SERVER INITIALIZATION ────────────────────────────────────────────────
-
-const server = new McpServer({
-  name: 'marriage-astro-mcp',
-  version: '1.0.2',
-});
+// Note: McpServer is instantiated per-request inside handler() to avoid
+// cross-request state pollution AND to keep module load side-effect-free —
+// constructing it at module level triggers FUNCTION_INVOCATION_FAILED on
+// Vercel cold start when the SDK's internal schema validation throws.
 
 // Helper to execute internal API requests directly within the same process on behalf of the MCP tool callers.
 // This completely avoids external HTTP fetches, DNS resolution, network roundtrips, and Vercel Cold Starts!
@@ -648,7 +647,7 @@ export default async function handler(req: any, res: any) {
       }
     };
 
-    overrideHeader('accept', 'application/json');
+    overrideHeader('accept', 'application/json, text/event-stream');
     if (req.method === 'POST') {
       overrideHeader('content-type', 'application/json');
     }
