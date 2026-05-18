@@ -1,7 +1,7 @@
 {
   "resource": "https://marriage-astro.vercel.app/api/mcp",
   "authorization_servers": [
-    "https://marriage-astro.vercel.app/api/oauth"
+    "https://marriage-astro.vercel.app"
   ],
   "scopes_supported": [
     "astrology"
