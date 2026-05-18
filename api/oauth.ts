@@ -107,6 +107,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const params = parseParams(req);
+  console.log(`[OAuth Debug] Request Method: ${req.method}, Content-Type: ${req.headers['content-type']}`);
+  console.log(`[OAuth Debug] Parameters received:`, JSON.stringify({ ...params, client_secret: params.client_secret ? '***' : undefined }));
 
   // ── GET Method: Metadata helper ───────────────────────────────────────────
   if (req.method === 'GET') {
@@ -131,11 +133,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const userToken = authHeader.replace('Bearer ', '').trim();
 
     if (!userToken) {
+      console.warn('[OAuth Debug] Authorization Failed: User auth token missing from Authorization header');
       return res.status(401).json({ error: 'unauthorized', error_description: 'User auth token required' });
     }
 
     const { clientId, redirectUri } = params;
     if (!clientId || !redirectUri) {
+      console.warn('[OAuth Debug] Authorization Failed: clientId or redirectUri missing', { clientId, redirectUri });
       return res.status(400).json({ error: 'invalid_request', error_description: 'clientId and redirectUri required' });
     }
 
@@ -144,6 +148,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const anonUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
       const anonKey = process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY;
       if (!anonUrl || !anonKey) {
+        console.error('[OAuth Debug] Authorization Failed: Supabase environment variables not configured');
         return res.status(500).json({ error: 'server_error', error_description: 'Supabase not configured' });
       }
 
@@ -151,6 +156,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const { data: { user }, error } = await anonClient.auth.getUser(userToken);
 
       if (error || !user) {
+        console.warn('[OAuth Debug] Authorization Failed: Invalid user session/token check via Supabase:', error?.message);
         return res.status(401).json({ error: 'unauthorized', error_description: 'Invalid user session' });
       }
 
@@ -161,8 +167,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         redirectUri
       }, 300);
 
+      console.log(`[OAuth Debug] Authorization Code generated successfully for user: ${user.id}`);
       return res.status(200).json({ code });
     } catch (err: any) {
+      console.error('[OAuth Debug] Authorization Code Exception:', err);
       return res.status(500).json({ error: 'server_error', error_description: err.message });
     }
   }
@@ -174,27 +182,37 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const expectedClientId = process.env.CLAUDE_CLIENT_ID || 'claude-connector';
   const expectedClientSecret = process.env.CLAUDE_CLIENT_SECRET;
 
+  console.log(`[OAuth Debug] Validating Client. Received client_id: "${client_id}", expectedClientId: "${expectedClientId}". Received client_secret: "${client_secret ? '***' : 'none'}", expectedClientSecret: "${expectedClientSecret ? '***' : 'none'}"`);
+
   if (client_id && client_id !== expectedClientId) {
+    console.warn(`[OAuth Debug] Client ID mismatch. Received: "${client_id}", Expected: "${expectedClientId}"`);
     return res.status(400).json({ error: 'invalid_client', error_description: 'Client ID mismatch' });
   }
 
   if (expectedClientSecret && client_secret && client_secret !== expectedClientSecret) {
+    console.warn('[OAuth Debug] Client Secret mismatch.');
     return res.status(400).json({ error: 'invalid_client', error_description: 'Client Secret mismatch' });
   }
 
   // Handle Token Exchange
   if (grant_type === 'authorization_code') {
+    console.log(`[OAuth Debug] Grant Type 'authorization_code' token exchange requested.`);
     if (!code) {
+      console.warn('[OAuth Debug] Token Exchange Failed: Code is missing');
       return res.status(400).json({ error: 'invalid_grant', error_description: 'Missing code' });
     }
 
     const payload = verifyToken(code);
     if (!payload) {
+      console.warn('[OAuth Debug] Token Exchange Failed: Code verification failed or code has expired');
       return res.status(400).json({ error: 'invalid_grant', error_description: 'Code invalid or expired' });
     }
 
+    console.log('[OAuth Debug] Authorization code verified successfully. Payload:', JSON.stringify(payload));
+
     // Verify redirect URI matches
     if (redirect_uri && payload.redirectUri && redirect_uri !== payload.redirectUri) {
+      console.warn(`[OAuth Debug] Redirect URI mismatch. Received: "${redirect_uri}", Expected: "${payload.redirectUri}"`);
       return res.status(400).json({ error: 'invalid_grant', error_description: 'Redirect URI mismatch' });
     }
 
@@ -202,6 +220,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const accessToken = signToken({ userId: payload.userId, clientId: payload.clientId }, ACCESS_TOKEN_LIFETIME);
     const refreshToken = signToken({ userId: payload.userId, clientId: payload.clientId, type: 'refresh' }, REFRESH_TOKEN_LIFETIME);
 
+    console.log(`[OAuth Debug] Tokens issued successfully for user ${payload.userId}`);
     return res.status(200).json({
       access_token: accessToken,
       token_type: 'Bearer',
@@ -212,18 +231,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   // Handle Refresh Token
   if (grant_type === 'refresh_token') {
+    console.log('[OAuth Debug] Grant Type "refresh_token" token refresh requested.');
     if (!refresh_token) {
+      console.warn('[OAuth Debug] Token Refresh Failed: refresh_token is missing');
       return res.status(400).json({ error: 'invalid_grant', error_description: 'Missing refresh_token' });
     }
 
     const payload = verifyToken(refresh_token);
     if (!payload || payload.type !== 'refresh') {
+      console.warn('[OAuth Debug] Token Refresh Failed: refresh_token verification failed or expired');
       return res.status(400).json({ error: 'invalid_grant', error_description: 'Invalid or expired refresh token' });
     }
 
     const accessToken = signToken({ userId: payload.userId, clientId: payload.clientId }, ACCESS_TOKEN_LIFETIME);
     const newRefreshToken = signToken({ userId: payload.userId, clientId: payload.clientId, type: 'refresh' }, REFRESH_TOKEN_LIFETIME);
 
+    console.log(`[OAuth Debug] Tokens refreshed successfully for user ${payload.userId}`);
     return res.status(200).json({
       access_token: accessToken,
       token_type: 'Bearer',
@@ -232,5 +255,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     });
   }
 
+  console.warn(`[OAuth Debug] Unsupported Grant Type requested: "${grant_type}"`);
   return res.status(400).json({ error: 'unsupported_grant_type', error_description: 'Supported: authorization_code, refresh_token' });
 }
