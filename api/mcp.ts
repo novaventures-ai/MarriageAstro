@@ -3,6 +3,16 @@
  * Remote Model Context Protocol (MCP) Server for MarriageAstro
  * Exposes all 22 Vedic Astrology calculation tools as a Claude Custom Connector.
  */
+// IMPORTANT: These two side-effect imports must come first so Vercel's
+// serverless bundler includes zod's v3 and v4-mini subpath modules.
+// @modelcontextprotocol/sdk/dist/esm/server/zod-compat.js does
+// `import * as z3rt from 'zod/v3'` and `import * as z4mini from 'zod/v4-mini'`
+// at module load. Without these explicit references, the bundler drops the
+// subpath modules from the deployment, causing ERR_MODULE_NOT_FOUND ->
+// FUNCTION_INVOCATION_FAILED on every request to /api/mcp.
+import 'zod/v3';
+import 'zod/v4-mini';
+
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import { z } from 'zod';
