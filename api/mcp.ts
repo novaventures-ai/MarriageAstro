@@ -7,7 +7,7 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import { z } from 'zod';
 import { createClient } from '@supabase/supabase-js';
-import { verifyToken } from './oauth';
+import { verifyToken } from './oauth.js';
 
 // ── AUTHENTICATION SYSTEM ──────────────────────────────────────────────────
 
