@@ -5,7 +5,7 @@
  */
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
-import { z } from 'zod';
+import { z } from 'zod/v3';
 import { createClient } from '@supabase/supabase-js';
 import { verifyToken } from './_oauth-helper.js';
 
@@ -648,7 +648,7 @@ export default async function handler(req: any, res: any) {
       }
     };
 
-    overrideHeader('accept', 'application/json, text/event-stream');
+    overrideHeader('accept', 'application/json');
     if (req.method === 'POST') {
       overrideHeader('content-type', 'application/json');
     }
