@@ -3,10 +3,10 @@
  * Tier: free
  * Returns: 36-point Ashtakoot Milan score with all 8 parameters + dosha flags
  */
-import { validateApiKey, parseBirthData } from './_auth';
-import { generateChartFromBirthData } from '../../lib/reportGenerator';
-import { calculateAshtakootMilan } from '../../lib/compatibilityCalculations';
-import { analyzeYogaDoshas } from '../../lib/yogaDoshaCalculations';
+import { validateApiKey, parseBirthData } from './_auth.js';
+import { generateChartFromBirthData } from '../../lib/reportGenerator.js';
+import { calculateAshtakootMilan } from '../../lib/compatibilityCalculations.js';
+import { analyzeYogaDoshas } from '../../lib/yogaDoshaCalculations.js';
 
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST required' });

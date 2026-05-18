@@ -3,9 +3,9 @@
  * Tier: premium
  * Returns: infidelity risk indicators and protective factors
  */
-import { validateApiKey, requireTierOrTeaser, parseBirthData } from './_auth';
-import { generateChartFromBirthData } from '../../lib/reportGenerator';
-import { assessInfidelityRisk, assessInfidelityProtections } from '../../lib/riskCalculations';
+import { validateApiKey, requireTierOrTeaser, parseBirthData } from './_auth.js';
+import { generateChartFromBirthData } from '../../lib/reportGenerator.js';
+import { assessInfidelityRisk, assessInfidelityProtections } from '../../lib/riskCalculations.js';
 
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST required' });

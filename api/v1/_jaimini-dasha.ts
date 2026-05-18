@@ -3,9 +3,9 @@
  * Tier: developer
  * Returns: Jaimini/Chara Dasha analysis with Darakaraka and Upapada Lagna
  */
-import { validateApiKey, requireTier, parseBirthData } from './_auth';
-import { generateChartFromBirthData } from '../../lib/reportGenerator';
-import { calculateCharaKarakasUnified, analyzeDarakaraka, calculateUpapadaLagna } from '../../lib/jaiminiCalculations';
+import { validateApiKey, requireTier, parseBirthData } from './_auth.js';
+import { generateChartFromBirthData } from '../../lib/reportGenerator.js';
+import { calculateCharaKarakasUnified, analyzeDarakaraka, calculateUpapadaLagna } from '../../lib/jaiminiCalculations.js';
 
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST required' });

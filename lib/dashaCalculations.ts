@@ -4,7 +4,7 @@
  */
 
 import { Nakshatra, Planet, Sign, DashaPeriod, CharaDashaPeriod, VimshottariDasha } from '@types';
-import { NAKSHATRAS, NAKSHATRA_LORDS, PLANET_PERIODS, SIGNS } from './coreCalculations';
+import { NAKSHATRAS, NAKSHATRA_LORDS, PLANET_PERIODS, SIGNS } from './coreCalculations.js';
 
 // ============================================================================
 // VIMSHOTTARI DASHA

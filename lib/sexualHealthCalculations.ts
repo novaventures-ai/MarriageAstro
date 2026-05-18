@@ -3,7 +3,7 @@
  * Phase 2.5: PME, ED, Frigidity Indicators and Satisfaction Assessment
  */
 import { Chart, Planet, SexualHealthAnalysis } from '@types';
-import { normalizeDegrees } from './coreCalculations';
+import { normalizeDegrees } from './coreCalculations.js';
 import sexualHealthRulesImport from '../knowledge/sexual_health_rules.json';
 
 const sexualHealthRules = (sexualHealthRulesImport as any).default || sexualHealthRulesImport;

@@ -4,7 +4,7 @@
  */
 
 import { Chart } from '@types';
-import { MatchInsight } from './matchInsight';
+import { MatchInsight } from './matchInsight.js';
 
 export interface CounselorExplanation {
     // The "Why"

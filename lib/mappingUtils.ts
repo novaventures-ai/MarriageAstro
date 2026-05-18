@@ -5,12 +5,12 @@ import {
   House,
   ChartData,
   DashaPeriod
-} from '../src/types';
+} from '../src/types/index.js';
 import {
   PlanetPosition as AstroPlanetPosition,
   ZODIAC_SIGNS,
   getSignLord
-} from '../src/lib/astro/calculations';
+} from '../src/lib/astro/calculations.js';
 
 /**
  * Robust mapping of raw planet data to UI types with high precision.

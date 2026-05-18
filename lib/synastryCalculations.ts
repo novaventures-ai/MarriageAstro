@@ -1,5 +1,5 @@
 import { Chart, Planet, Sign } from '@types';
-import { SIGNS } from './coreCalculations';
+import { SIGNS } from './coreCalculations.js';
 import synastryData from '../knowledge/synastry_details.json';
 
 export interface HouseOverlay {

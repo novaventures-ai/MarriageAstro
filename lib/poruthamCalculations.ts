@@ -7,8 +7,8 @@ import {
     getVashya,
     areFriends,
     SIGNS
-} from './coreCalculations';
-import { Planet, Sign, Chart, Nakshatra } from '../src/types';
+} from './coreCalculations.js';
+import { Planet, Sign, Chart, Nakshatra } from '../src/types/index.js';
 import poruthamData from '../knowledge/ten_poruthams.json';
 import yoniMatrixData from '../knowledge/yoni_matrix.json';
 

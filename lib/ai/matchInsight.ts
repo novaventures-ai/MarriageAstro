@@ -10,8 +10,8 @@ import {
     AIMatchAnalysis,
     analyzeAllPartners,
     generateQuickMatchInsight
-} from './matchmakingEngine';
-import { calculateAshtakootMilan } from '../compatibilityCalculations';
+} from './matchmakingEngine.js';
+import { calculateAshtakootMilan } from '../compatibilityCalculations.js';
 
 export interface MatchInsight {
     partnerId: string;

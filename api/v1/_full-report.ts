@@ -4,8 +4,8 @@
  * Returns: complete CompatibilityReport — all sections the caller's tier allows
  * This is the most comprehensive endpoint; use specific endpoints for targeted data.
  */
-import { validateApiKey, requireTier, parseBirthData } from './_auth';
-import { generateFullCompatibilityReport } from '../../lib/reportGenerator';
+import { validateApiKey, requireTier, parseBirthData } from './_auth.js';
+import { generateFullCompatibilityReport } from '../../lib/reportGenerator.js';
 
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST required' });

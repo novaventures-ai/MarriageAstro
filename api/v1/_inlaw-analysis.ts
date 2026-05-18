@@ -3,8 +3,8 @@
  * Tier: premium
  * Returns: compatibility with partner's family (in-law analysis from chart indicators)
  */
-import { validateApiKey, requireTierOrTeaser, parseBirthData } from './_auth';
-import { generateChartFromBirthData, generateFullCompatibilityReport } from '../../lib/reportGenerator';
+import { validateApiKey, requireTierOrTeaser, parseBirthData } from './_auth.js';
+import { generateChartFromBirthData, generateFullCompatibilityReport } from '../../lib/reportGenerator.js';
 
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST required' });

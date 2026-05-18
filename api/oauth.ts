@@ -17,7 +17,7 @@
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createClient } from '@supabase/supabase-js';
-import { signToken, verifyToken, ACCESS_TOKEN_LIFETIME, REFRESH_TOKEN_LIFETIME } from './_oauth-helper';
+import { signToken, verifyToken, ACCESS_TOKEN_LIFETIME, REFRESH_TOKEN_LIFETIME } from './_oauth-helper.js';
 
 // Parse urlencoded or JSON parameters robustly
 function parseParams(req: VercelRequest): Record<string, string> {

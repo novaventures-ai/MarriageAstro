@@ -3,9 +3,9 @@
  * Tier: developer
  * Returns: D9 Navamsa chart compatibility analysis
  */
-import { validateApiKey, requireTier, parseBirthData } from './_auth';
-import { generateChartFromBirthData } from '../../lib/reportGenerator';
-import { calculateNavamsaMatching } from '../../lib/compatibilityCalculations';
+import { validateApiKey, requireTier, parseBirthData } from './_auth.js';
+import { generateChartFromBirthData } from '../../lib/reportGenerator.js';
+import { calculateNavamsaMatching } from '../../lib/compatibilityCalculations.js';
 
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST required' });

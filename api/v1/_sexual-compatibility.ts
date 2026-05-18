@@ -3,10 +3,10 @@
  * Tier: premium
  * Returns: Venus/Mars synastry + sexual temperament + mutual satisfaction analysis
  */
-import { validateApiKey, requireTierOrTeaser, parseBirthData } from './_auth';
-import { generateChartFromBirthData } from '../../lib/reportGenerator';
-import { calculateSexualCompatibility } from '../../lib/compatibilityCalculations';
-import { analyzeMutualSatisfaction } from '../../lib/sexualHealthCalculations';
+import { validateApiKey, requireTierOrTeaser, parseBirthData } from './_auth.js';
+import { generateChartFromBirthData } from '../../lib/reportGenerator.js';
+import { calculateSexualCompatibility } from '../../lib/compatibilityCalculations.js';
+import { analyzeMutualSatisfaction } from '../../lib/sexualHealthCalculations.js';
 
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST required' });

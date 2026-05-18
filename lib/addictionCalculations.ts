@@ -5,7 +5,7 @@
  */
 
 import { Chart, Planet, Sign } from '@types';
-import { normalizeDegrees } from './coreCalculations';
+import { normalizeDegrees } from './coreCalculations.js';
 
 // ============================================================================
 // TYPES

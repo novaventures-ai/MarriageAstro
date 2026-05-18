@@ -3,9 +3,9 @@
  * Tier: premium
  * Returns: predicted spouse appearance, nature, profession, and meeting prediction
  */
-import { validateApiKey, requireTierOrTeaser, parseBirthData } from './_auth';
-import { generateChartFromBirthData } from '../../lib/reportGenerator';
-import { calculateSpousePrediction, calculateSpouseMeeting } from '../../lib/spouseCalculations';
+import { validateApiKey, requireTierOrTeaser, parseBirthData } from './_auth.js';
+import { generateChartFromBirthData } from '../../lib/reportGenerator.js';
+import { calculateSpousePrediction, calculateSpouseMeeting } from '../../lib/spouseCalculations.js';
 
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST required' });

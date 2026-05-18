@@ -3,9 +3,9 @@
  * Tier: developer
  * Returns: auspicious marriage windows from Dasha + Transit analysis
  */
-import { validateApiKey, requireTier, parseBirthData } from './_auth';
-import { generateChartFromBirthData } from '../../lib/reportGenerator';
-import { calculateVimshottariDasha, findMarriageWindows } from '../../lib/dashaCalculations';
+import { validateApiKey, requireTier, parseBirthData } from './_auth.js';
+import { generateChartFromBirthData } from '../../lib/reportGenerator.js';
+import { calculateVimshottariDasha, findMarriageWindows } from '../../lib/dashaCalculations.js';
 
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST required' });

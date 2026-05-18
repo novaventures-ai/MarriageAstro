@@ -4,7 +4,7 @@
  */
 
 import { Chart, RiskAssessment, ModernPlanetAnalysis, ModernChallenges, Planet } from '@types';
-import { normalizeDegrees, SIGN_LORDS } from './coreCalculations';
+import { normalizeDegrees, SIGN_LORDS } from './coreCalculations.js';
 import riskRules from '../knowledge/risk_rules.json';
 
 // ============================================================================

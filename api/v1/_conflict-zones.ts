@@ -3,9 +3,9 @@
  * Tier: premium
  * Returns: conflict triggers, hot-button topics, and tension patterns between two people
  */
-import { validateApiKey, requireTierOrTeaser, parseBirthData } from './_auth';
-import { generateChartFromBirthData, generateFullCompatibilityReport } from '../../lib/reportGenerator';
-import { calculateConflictZones } from '../../lib/conflictCalculations';
+import { validateApiKey, requireTierOrTeaser, parseBirthData } from './_auth.js';
+import { generateChartFromBirthData, generateFullCompatibilityReport } from '../../lib/reportGenerator.js';
+import { calculateConflictZones } from '../../lib/conflictCalculations.js';
 
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST required' });

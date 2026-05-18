@@ -3,9 +3,9 @@
  * Tier: premium
  * Returns: anxiety, depression, narcissism, and other mental health markers from birth chart
  */
-import { validateApiKey, requireTierOrTeaser, parseBirthData } from './_auth';
-import { generateChartFromBirthData } from '../../lib/reportGenerator';
-import { analyzeMentalHealth } from '../../lib/mentalHealthCalculations';
+import { validateApiKey, requireTierOrTeaser, parseBirthData } from './_auth.js';
+import { generateChartFromBirthData } from '../../lib/reportGenerator.js';
+import { analyzeMentalHealth } from '../../lib/mentalHealthCalculations.js';
 
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST required' });

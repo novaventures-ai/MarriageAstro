@@ -5,9 +5,9 @@
  * stored in the Zustand store.
  */
 
-import { getGeminiModel } from './geminiClient';
-import { getAnthropicModel } from './anthropicClient';
-import { useUserProfileStore } from '../../src/store/useUserProfileStore';
+import { getGeminiModel } from './geminiClient.js';
+import { getAnthropicModel } from './anthropicClient.js';
+import { useUserProfileStore } from '../../src/store/useUserProfileStore.js';
 
 export function getAIModel(systemInstruction?: string) {
     const provider = useUserProfileStore.getState().aiProvider || 'gemini';

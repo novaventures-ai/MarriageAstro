@@ -3,7 +3,7 @@
  * Orchestrates all calculation modules to produce final report
  */
 
-import { Chart, CompatibilityReport, BirthDataInput, Gender } from '../src/types';
+import { Chart, CompatibilityReport, BirthDataInput, Gender } from '../src/types/index.js';
 import {
   Remedies,
   TimingAnalysis,
@@ -18,7 +18,7 @@ import {
   SynastryData,
   ExtendedTimingAnalysis,
   DestinySyncItem
-} from '../src/types';
+} from '../src/types/index.js';
 import {
   generateFullChartData,
   BirthData,
@@ -26,59 +26,59 @@ import {
   calculateKPCusps as calculateKPHouseCusps,
   ZODIAC_SIGNS,
   getSignLord
-} from '../src/lib/astro/calculations';
-import { SwissEphemeris } from '../src/lib/astro/sweph';
+} from '../src/lib/astro/calculations.js';
+import { SwissEphemeris } from '../src/lib/astro/sweph.js';
 import {
   mapPlanetPosition,
   mapHouses,
   mapVargaData,
   mapDashaPeriod
-} from './mappingUtils';
+} from './mappingUtils.js';
 import {
   calculateKPCusps as mapKPLords,
   calculateSignificators
-} from './kpCalculations';
+} from './kpCalculations.js';
 import {
   calculateAshtakootMilan,
   calculateNavamsaMatching,
   calculateSexualCompatibility,
   predictSpouseCharacteristics,
   analyzeDivisionalCharts
-} from './compatibilityCalculations';
-import { calculateCharaKarakasUnified } from './jaiminiCalculations';
-import { calculateSpouseMeeting } from './spouseCalculations';
-import { calculatePsychologicalProfile } from './selfReportGenerator';
+} from './compatibilityCalculations.js';
+import { calculateCharaKarakasUnified } from './jaiminiCalculations.js';
+import { calculateSpouseMeeting } from './spouseCalculations.js';
+import { calculatePsychologicalProfile } from './selfReportGenerator.js';
 import {
   analyzeSexualHealth
-} from './sexualHealthCalculations';
+} from './sexualHealthCalculations.js';
 import {
   calculatePorutham
-} from './poruthamCalculations';
+} from './poruthamCalculations.js';
 import {
   assessRisk,
   assessInfidelityProtections,
   analyzeModernPlanets,
   analyzeModernChallenges
-} from './riskCalculations';
-import { analyzeYogaDoshas } from './yogaDoshaCalculations';
-import { analyzeAddictionRisk } from './addictionCalculations';
-import { analyzeModernInsightsEnhanced } from './modernInsightsCalculations';
-import { analyzeMentalHealth } from './mentalHealthCalculations';
-import { calculateRelationshipPatterns } from './relationshipPatternCalculations';
-import { findVulnerablePeriods } from './dashaCalculations';
-import { calculateConflictZones } from './conflictCalculations';
-import { calculateVulnerabilityTimeline } from './vulnerabilityTiming';
+} from './riskCalculations.js';
+import { analyzeYogaDoshas } from './yogaDoshaCalculations.js';
+import { analyzeAddictionRisk } from './addictionCalculations.js';
+import { analyzeModernInsightsEnhanced } from './modernInsightsCalculations.js';
+import { analyzeMentalHealth } from './mentalHealthCalculations.js';
+import { calculateRelationshipPatterns } from './relationshipPatternCalculations.js';
+import { findVulnerablePeriods } from './dashaCalculations.js';
+import { calculateConflictZones } from './conflictCalculations.js';
+import { calculateVulnerabilityTimeline } from './vulnerabilityTiming.js';
 import {
   calculateHouseOverlays,
   calculatePlanetaryConjunctions,
   HouseOverlay,
   PlanetaryConjunction
-} from './synastryCalculations';
+} from './synastryCalculations.js';
 import {
   calculateD9Synastry,
   calculateKPSynastry,
   calculateJaiminiSynastry
-} from './advancedSynastry';
+} from './advancedSynastry.js';
 import {
   calculateKPAnalysis,
   calculateCharaKarakas,
@@ -91,7 +91,7 @@ import {
   calculateExtendedRemedies,
   calculateExtendedDivisionalAnalysis,
   calculateTransitAnalysis
-} from './extendedCalculations';
+} from './extendedCalculations.js';
 
 // ============================================================================
 // CHART GENERATION

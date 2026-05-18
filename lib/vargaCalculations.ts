@@ -11,7 +11,7 @@ import {
   getSignFromLongitude,
   getSignDegree,
   normalizeDegrees
-} from './coreCalculations';
+} from './coreCalculations.js';
 
 // ============================================================================
 // VARGA CALCULATION FUNCTIONS

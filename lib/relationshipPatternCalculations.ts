@@ -4,7 +4,7 @@
  */
 
 import { Chart, Planet } from '@types';
-import { normalizeDegrees } from './coreCalculations';
+import { normalizeDegrees } from './coreCalculations.js';
 
 // ============================================================================
 // TYPES
@@ -133,7 +133,7 @@ function analyzePreMaritalPatterns(chart: Chart, name: string): RelationshipPatt
 // Uses shared logic from riskCalculations.ts
 // ============================================================================
 
-import { assessAffairContext, assessInfidelityProtections } from './riskCalculations';
+import { assessAffairContext, assessInfidelityProtections } from './riskCalculations.js';
 
 function findSmartNeutralizer(chart: Chart, name: string, patternCategory: string, patternName: string): { title: string; text: string } | undefined {
     // 1. Get all available protections using the advanced logic

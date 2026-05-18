@@ -3,8 +3,8 @@
  * Generates data for KP Analysis, Chara Karakas, and other extended widgets
  */
 
-import { Chart, Planet, Sign, House, PlanetaryPosition } from '../src/types';
-import { SIGN_LORDS, SIGNS } from './coreCalculations';
+import { Chart, Planet, Sign, House, PlanetaryPosition } from '../src/types/index.js';
+import { SIGN_LORDS, SIGNS } from './coreCalculations.js';
 
 // Helper functions for spouse and compatibility analysis
 function getSignAtHouse(vargaChart: any, houseNumber: number): Sign | undefined {
@@ -45,11 +45,11 @@ import {
   PlanetSpecificRemedy,
   AfflictionRemedy,
   RelationshipCondition
-} from '../src/types/extendedTypes';
-import { calculateRulingPlanets } from './kpCalculations';
+} from '../src/types/extendedTypes.js';
+import { calculateRulingPlanets } from './kpCalculations.js';
 
-import { calculateManglikDosha } from './compatibilityCalculations';
-import { calculateCharaKarakasUnified } from './jaiminiCalculations';
+import { calculateManglikDosha } from './compatibilityCalculations.js';
+import { calculateCharaKarakasUnified } from './jaiminiCalculations.js';
 
 
 // Import knowledge bases
@@ -1069,7 +1069,7 @@ function getEnergyDescription(sign: string): string {
 }
 
 // Re-use logic from spouseCalculations to ensure consistency
-import { analyzeProfession as analyzeProfessionFromSpouse } from './spouseCalculations';
+import { analyzeProfession as analyzeProfessionFromSpouse } from './spouseCalculations.js';
 
 function analyzeProfession(chart: Chart) {
   const seventhLord = chart.houses[6].lord;

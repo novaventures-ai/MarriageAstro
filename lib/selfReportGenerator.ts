@@ -3,7 +3,7 @@
  * Generates comprehensive marriage analysis for a single person
  */
 
-import { Chart, BirthDataInput, PlanetaryPosition, House, Sign, Planet, DivisionalChartAnalysis, PsychologicalProfile } from '../src/types';
+import { Chart, BirthDataInput, PlanetaryPosition, House, Sign, Planet, DivisionalChartAnalysis, PsychologicalProfile } from '../src/types/index.js';
 import {
   SelfAnalysisReport,
   MarriagePotential,
@@ -14,22 +14,22 @@ import {
   SelfExecutiveSummary,
   FavorablePeriod,
   CautionaryPeriod
-} from '../src/types/selfAnalysis';
+} from '../src/types/selfAnalysis.js';
 import { v4 as uuidv4 } from 'uuid';
-import { calculateTimingAnalysis } from './timingCalculations';
-import { calculateSpousePrediction } from './spouseCalculations';
-import { analyzeYogaDoshas } from './yogaDoshaCalculations';
-import { analyzeMentalHealth } from './mentalHealthCalculations';
-import { analyzeAddictionRisk } from './addictionCalculations';
-import { calculateRelationshipPatterns } from './relationshipPatternCalculations';
-import { calculateVimshottariDasha, getCurrentDasha } from './dashaCalculations';
+import { calculateTimingAnalysis } from './timingCalculations.js';
+import { calculateSpousePrediction } from './spouseCalculations.js';
+import { analyzeYogaDoshas } from './yogaDoshaCalculations.js';
+import { analyzeMentalHealth } from './mentalHealthCalculations.js';
+import { analyzeAddictionRisk } from './addictionCalculations.js';
+import { calculateRelationshipPatterns } from './relationshipPatternCalculations.js';
+import { calculateVimshottariDasha, getCurrentDasha } from './dashaCalculations.js';
 import {
   analyzeMaleSexualHealth,
   analyzeFemaleSexualHealth,
   analyzeLibido,
   analyzeSexualOrientation,
   analyzeMutualSatisfaction
-} from './sexualHealthCalculations';
+} from './sexualHealthCalculations.js';
 import {
   calculateKPAnalysis,
   calculateCharaKarakas,
@@ -41,15 +41,15 @@ import {
   calculateExtendedRemedies,
   calculateExtendedDivisionalAnalysis,
   calculateTransitAnalysis
-} from './extendedCalculations';
+} from './extendedCalculations.js';
 import {
   calculateAshtakootMilan,
   calculateNavamsaMatching,
   calculateSexualCompatibility,
   predictSpouseCharacteristics,
   analyzeDivisionalCharts
-} from './compatibilityCalculations';
-import { ExtendedDivisionalAnalysis, ExtendedTimingAnalysis, DestinySyncItem } from '../src/types/extendedTypes';
+} from './compatibilityCalculations.js';
+import { ExtendedDivisionalAnalysis, ExtendedTimingAnalysis, DestinySyncItem } from '../src/types/extendedTypes.js';
 
 function getCurrentDashaFromChart(chart: Chart): { planet: string; mahadasha: string } | null {
   const now = new Date();

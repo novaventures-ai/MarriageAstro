@@ -1,5 +1,5 @@
 import { Chart, BirthDataInput, Planet } from '@types';
-import { findMarriageWindows } from './dashaCalculations';
+import { findMarriageWindows } from './dashaCalculations.js';
 
 export async function calculateTimingAnalysis(birthData: BirthDataInput, chart: Chart): Promise<any> {
   const now = new Date();

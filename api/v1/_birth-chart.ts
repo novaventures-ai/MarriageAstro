@@ -3,8 +3,8 @@
  * Tier: free
  * Returns: planets, houses, nakshatras, ascendant, yogas for one person
  */
-import { validateApiKey, parseBirthData } from './_auth';
-import { generateChartFromBirthData } from '../../lib/reportGenerator';
+import { validateApiKey, parseBirthData } from './_auth.js';
+import { generateChartFromBirthData } from '../../lib/reportGenerator.js';
 
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST required' });

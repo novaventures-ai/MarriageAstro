@@ -7,7 +7,7 @@ import {
   SelfAnalysisReport,
   PartnerProfile,
   QuickCompareResult
-} from '../../src/types/selfAnalysis';
+} from '../../src/types/selfAnalysis.js';
 import { Chart } from '@types';
 
 export type SelfAIType =

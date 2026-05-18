@@ -25,7 +25,7 @@ export {
   analyzeAllPartners,
   generateQuickMatchInsight,
   generateDetailedExplanation
-} from './matchmakingEngine';
+} from './matchmakingEngine.js';
 
 export type {
   AIMatchAnalysis,
@@ -43,7 +43,7 @@ export type {
   ComparisonPoint,
   AstrologicalEvidence,
   RecommendationLevel
-} from './matchmakingEngine';
+} from './matchmakingEngine.js';
 
 // Match Insight Functions
 export {
@@ -51,10 +51,10 @@ export {
   generateMatchInsight,
   analyzeBestMatch,
   analyzeBestMatchSync
-} from './matchInsight';
+} from './matchInsight.js';
 
-export type { MatchInsight } from './matchInsight';
+export type { MatchInsight } from './matchInsight.js';
 
 // Client Selector
-export { getAIModel } from './clientSelector';
+export { getAIModel } from './clientSelector.js';
 

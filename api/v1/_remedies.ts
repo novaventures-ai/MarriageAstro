@@ -3,9 +3,9 @@
  * Tier: premium
  * Returns: Lal Kitab remedies, gemstone recommendations, planet-specific remedies
  */
-import { validateApiKey, requireTierOrTeaser, parseBirthData } from './_auth';
-import { generateChartFromBirthData } from '../../lib/reportGenerator';
-import { calculateExtendedRemedies } from '../../lib/extendedCalculations';
+import { validateApiKey, requireTierOrTeaser, parseBirthData } from './_auth.js';
+import { generateChartFromBirthData } from '../../lib/reportGenerator.js';
+import { calculateExtendedRemedies } from '../../lib/extendedCalculations.js';
 
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST required' });

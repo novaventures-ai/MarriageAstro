@@ -4,7 +4,7 @@
  */
 
 import { Planet, Sign, CharaDashaPeriod } from '@types';
-import { SIGNS, SIGN_LORDS, getSignFromLongitude, normalizeDegrees } from './coreCalculations';
+import { SIGNS, SIGN_LORDS, getSignFromLongitude, normalizeDegrees } from './coreCalculations.js';
 
 // ============================================================================
 // CHARA KARAKA CALCULATIONS

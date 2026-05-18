@@ -4,7 +4,7 @@ import {
     ConflictTrigger,
     Planet,
     PlanetaryPosition
-} from '../src/types';
+} from '../src/types/index.js';
 
 /**
  * Calculates relationship Conflict Zones based on comprehensive astrological indicators.

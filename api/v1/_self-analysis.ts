@@ -3,9 +3,9 @@
  * Tier: developer
  * Returns: single-person marriage readiness, personality profile, timing forecast
  */
-import { validateApiKey, requireTier, parseBirthData } from './_auth';
-import { generateChartFromBirthData } from '../../lib/reportGenerator';
-import { generateSelfAnalysisReport } from '../../lib/selfReportGenerator';
+import { validateApiKey, requireTier, parseBirthData } from './_auth.js';
+import { generateChartFromBirthData } from '../../lib/reportGenerator.js';
+import { generateSelfAnalysisReport } from '../../lib/selfReportGenerator.js';
 
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST required' });

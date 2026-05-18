@@ -28,9 +28,9 @@ import {
   Yoga,
   DashaPeriod,
 } from '@types';
-import { calculateComparisonScore, ComparisonScore, CategoryScore } from '../comparisonScoring';
-import { calculateAshtakootMilan } from '../compatibilityCalculations';
-import { generateCompatibilityReport } from '../reportGenerator';
+import { calculateComparisonScore, ComparisonScore, CategoryScore } from '../comparisonScoring.js';
+import { calculateAshtakootMilan } from '../compatibilityCalculations.js';
+import { generateCompatibilityReport } from '../reportGenerator.js';
 
 // ============================================================================
 // TYPES

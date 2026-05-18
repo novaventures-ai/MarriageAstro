@@ -30,7 +30,7 @@ import {
   getSignLord,
   areFriends,
   getVashya
-} from './coreCalculations';
+} from './coreCalculations.js';
 
 // Import comprehensive knowledge bases
 import yoniData from '../knowledge/yoni_sexual_compatibility.json';

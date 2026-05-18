@@ -1,4 +1,4 @@
-import { AIContext } from './contextProcessor';
+import { AIContext } from './contextProcessor.js';
 
 export const SYSTEM_PROMPTS = {
     GLOBAL_VERDICT: `You are a Senior Data-Driven Astrologist.

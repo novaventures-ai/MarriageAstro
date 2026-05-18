@@ -3,9 +3,9 @@
  * Tier: premium
  * Returns: attachment style, emotional patterns, personality profile from chart
  */
-import { validateApiKey, requireTierOrTeaser, parseBirthData } from './_auth';
-import { generateChartFromBirthData } from '../../lib/reportGenerator';
-import { calculatePsychologicalProfile } from '../../lib/selfReportGenerator';
+import { validateApiKey, requireTierOrTeaser, parseBirthData } from './_auth.js';
+import { generateChartFromBirthData } from '../../lib/reportGenerator.js';
+import { calculatePsychologicalProfile } from '../../lib/selfReportGenerator.js';
 
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST required' });

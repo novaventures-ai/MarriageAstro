@@ -11,7 +11,7 @@ import {
   SIGN_LORDS,
   getNakshatraFromLongitude,
   normalizeDegrees
-} from './coreCalculations';
+} from './coreCalculations.js';
 
 // ============================================================================
 // SUB-LORD CALCULATIONS

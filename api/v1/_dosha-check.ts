@@ -3,10 +3,10 @@
  * Tier: free
  * Returns: full dosha analysis for one or two people (Mangal, Nadi, Kaal Sarpa, etc.)
  */
-import { validateApiKey, parseBirthData } from './_auth';
-import { generateChartFromBirthData } from '../../lib/reportGenerator';
-import { analyzeYogaDoshas } from '../../lib/yogaDoshaCalculations';
-import { calculateManglikDosha, checkNadiCancellation } from '../../lib/compatibilityCalculations';
+import { validateApiKey, parseBirthData } from './_auth.js';
+import { generateChartFromBirthData } from '../../lib/reportGenerator.js';
+import { analyzeYogaDoshas } from '../../lib/yogaDoshaCalculations.js';
+import { calculateManglikDosha, checkNadiCancellation } from '../../lib/compatibilityCalculations.js';
 
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST required' });

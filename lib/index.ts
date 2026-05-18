@@ -4,31 +4,31 @@
  */
 
 // Core Calculations
-export * from './coreCalculations';
+export * from './coreCalculations.js';
 
 // Varga Calculations
-export * from './vargaCalculations';
+export * from './vargaCalculations.js';
 
 // Dasha Calculations
-export * from './dashaCalculations';
+export * from './dashaCalculations.js';
 
 // KP Astrology
-export * from './kpCalculations';
+export * from './kpCalculations.js';
 
 // Jaimini System
-export * from './jaiminiCalculations';
+export * from './jaiminiCalculations.js';
 
 // Compatibility
-export * from './compatibilityCalculations';
+export * from './compatibilityCalculations.js';
 
 // Sexual Health
-export * from './sexualHealthCalculations';
+export * from './sexualHealthCalculations.js';
 
 // Risk Assessment
-export * from './riskCalculations';
+export * from './riskCalculations.js';
 
 // Report Generation
-export * from './reportGenerator';
+export * from './reportGenerator.js';
 
 // Re-export types
 export * from '@types';

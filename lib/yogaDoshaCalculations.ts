@@ -5,7 +5,7 @@
  */
 
 import { Chart, Planet, Sign, PlanetaryPosition } from '@types';
-import { normalizeDegrees, SIGN_LORDS } from './coreCalculations';
+import { normalizeDegrees, SIGN_LORDS } from './coreCalculations.js';
 
 // ============================================================================
 // TYPES

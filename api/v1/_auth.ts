@@ -4,7 +4,7 @@
  * Returns tier info for downstream use
  */
 import { createClient } from '@supabase/supabase-js';
-import { verifyToken } from '../_oauth-helper';
+import { verifyToken } from '../_oauth-helper.js';
 
 export type ApiTier = 'free' | 'developer' | 'solo' | 'premium';
 
