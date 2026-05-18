@@ -199,37 +199,45 @@ export async function validateApiKey(req: any): Promise<AuthResult> {
 }
 
 // ── SCHEMAS ─────────────────────────────────────────────────────────────────
+// Schemas are built lazily inside buildSchemas() instead of at module top
+// level — constructing Zod chains during module load on Vercel triggers
+// FUNCTION_INVOCATION_FAILED with the current zod@4 + @modelcontextprotocol/sdk
+// version pairing.
 
-const BIRTH_DATA_SCHEMA = {
-  name: z.string().optional().describe("Person's name"),
-  gender: z.enum(['male', 'female', 'other']).optional().describe("Gender (male/female/other)"),
-  date: z.string().describe("Date of birth in YYYY-MM-DD format"),
-  time: z.string().optional().describe("Time of birth in HH:MM format (24h, defaults to 12:00)"),
-  latitude: z.number().describe("Birth place latitude (e.g. 19.076 for Mumbai)"),
-  longitude: z.number().describe("Birth place longitude (e.g. 72.877 for Mumbai)"),
-  timezone: z.string().optional().describe("Timezone name (e.g. 'Asia/Kolkata', defaults to UTC)"),
-  location: z.string().optional().describe("Birth place name (e.g. 'Mumbai, India')"),
-};
+function buildSchemas() {
+  const BIRTH_DATA_SCHEMA = {
+    name: z.string().optional().describe("Person's name"),
+    gender: z.enum(['male', 'female', 'other']).optional().describe("Gender (male/female/other)"),
+    date: z.string().describe("Date of birth in YYYY-MM-DD format"),
+    time: z.string().optional().describe("Time of birth in HH:MM format (24h, defaults to 12:00)"),
+    latitude: z.number().describe("Birth place latitude (e.g. 19.076 for Mumbai)"),
+    longitude: z.number().describe("Birth place longitude (e.g. 72.877 for Mumbai)"),
+    timezone: z.string().optional().describe("Timezone name (e.g. 'Asia/Kolkata', defaults to UTC)"),
+    location: z.string().optional().describe("Birth place name (e.g. 'Mumbai, India')"),
+  };
 
-const PAIR_SCHEMA = {
-  person_a_name: z.string().optional().describe("Person A's name"),
-  person_a_gender: z.enum(['male', 'female', 'other']).optional().describe("Person A's gender (male/female/other)"),
-  person_a_date: z.string().describe("Person A's date of birth in YYYY-MM-DD format"),
-  person_a_time: z.string().optional().describe("Person A's time of birth in HH:MM format (24h, defaults to 12:00)"),
-  person_a_latitude: z.number().describe("Person A's birth place latitude (e.g. 19.076 for Mumbai)"),
-  person_a_longitude: z.number().describe("Person A's birth place longitude (e.g. 72.877 for Mumbai)"),
-  person_a_timezone: z.string().optional().describe("Person A's timezone name (e.g. 'Asia/Kolkata', defaults to UTC)"),
-  person_a_location: z.string().optional().describe("Person A's birth place name (e.g. 'Mumbai, India')"),
+  const PAIR_SCHEMA = {
+    person_a_name: z.string().optional().describe("Person A's name"),
+    person_a_gender: z.enum(['male', 'female', 'other']).optional().describe("Person A's gender (male/female/other)"),
+    person_a_date: z.string().describe("Person A's date of birth in YYYY-MM-DD format"),
+    person_a_time: z.string().optional().describe("Person A's time of birth in HH:MM format (24h, defaults to 12:00)"),
+    person_a_latitude: z.number().describe("Person A's birth place latitude (e.g. 19.076 for Mumbai)"),
+    person_a_longitude: z.number().describe("Person A's birth place longitude (e.g. 72.877 for Mumbai)"),
+    person_a_timezone: z.string().optional().describe("Person A's timezone name (e.g. 'Asia/Kolkata', defaults to UTC)"),
+    person_a_location: z.string().optional().describe("Person A's birth place name (e.g. 'Mumbai, India')"),
 
-  person_b_name: z.string().optional().describe("Person B's name"),
-  person_b_gender: z.enum(['male', 'female', 'other']).optional().describe("Person B's gender (male/female/other)"),
-  person_b_date: z.string().optional().describe("Person B's date of birth in YYYY-MM-DD format (omit for single-person analysis)"),
-  person_b_time: z.string().optional().describe("Person B's time of birth in HH:MM format (24h, defaults to 12:00)"),
-  person_b_latitude: z.number().optional().describe("Person B's birth place latitude (e.g. 19.076 for Mumbai)"),
-  person_b_longitude: z.number().optional().describe("Person B's birth place longitude (e.g. 72.877 for Mumbai)"),
-  person_b_timezone: z.string().optional().describe("Person B's timezone name (e.g. 'Asia/Kolkata', defaults to UTC)"),
-  person_b_location: z.string().optional().describe("Person B's birth place name (e.g. 'Mumbai, India')"),
-};
+    person_b_name: z.string().optional().describe("Person B's name"),
+    person_b_gender: z.enum(['male', 'female', 'other']).optional().describe("Person B's gender (male/female/other)"),
+    person_b_date: z.string().optional().describe("Person B's date of birth in YYYY-MM-DD format (omit for single-person analysis)"),
+    person_b_time: z.string().optional().describe("Person B's time of birth in HH:MM format (24h, defaults to 12:00)"),
+    person_b_latitude: z.number().optional().describe("Person B's birth place latitude (e.g. 19.076 for Mumbai)"),
+    person_b_longitude: z.number().optional().describe("Person B's birth place longitude (e.g. 72.877 for Mumbai)"),
+    person_b_timezone: z.string().optional().describe("Person B's timezone name (e.g. 'Asia/Kolkata', defaults to UTC)"),
+    person_b_location: z.string().optional().describe("Person B's birth place name (e.g. 'Mumbai, India')"),
+  };
+
+  return { BIRTH_DATA_SCHEMA, PAIR_SCHEMA };
+}
 
 function birthDataToPayload(args: any) {
   return {
@@ -311,6 +319,7 @@ async function callInternalApi(
 
 // Helper to register tools dynamically
 function registerTools(server: McpServer, activeApiKey: string, activeHost: string, activeProtocol: string) {
+  const { BIRTH_DATA_SCHEMA, PAIR_SCHEMA } = buildSchemas();
   // ── TIER 1 — FREE ──────────────────────────────────────────────────────────
 
   server.tool(
@@ -541,6 +550,27 @@ function registerTools(server: McpServer, activeApiKey: string, activeHost: stri
 // ── VERCEL SERVERLESS FUNCTION HANDLER ───────────────────────────────────────
 
 export default async function handler(req: any, res: any) {
+  try {
+    return await mcpHandler(req, res);
+  } catch (err: any) {
+    console.error('[MCP] top-level handler error:', err?.stack || err?.message || err);
+    if (!res.headersSent) {
+      // Return 401 instead of 500 so Claude Desktop falls back to the OAuth
+      // flow via WWW-Authenticate instead of showing a generic
+      // "Authorization with the MCP server failed" / McpServerError.
+      res.setHeader(
+        'WWW-Authenticate',
+        'Bearer authorization_uri="https://marriage-astro.vercel.app/authorize", resource_metadata="https://marriage-astro.vercel.app/.well-known/oauth-protected-resource"'
+      );
+      return res.status(401).json({
+        error: 'unauthorized',
+        error_description: err?.message || 'MCP server initialization error',
+      });
+    }
+  }
+}
+
+async function mcpHandler(req: any, res: any) {
   // Add CORS headers for preflight and standard requests
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, DELETE');
