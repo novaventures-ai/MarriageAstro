@@ -24,7 +24,7 @@ async function getAuthHeader(): Promise<string> {
 
 export async function listAllUsers(): Promise<UserRecord[]> {
   const auth = await getAuthHeader();
-  const res = await fetch('/api/admin-users', {
+  const res = await fetch('/api/admin?type=users', {
     headers: { Authorization: auth },
   });
 
@@ -50,7 +50,7 @@ export async function grantPremium(
   expiresAt?: string | null
 ): Promise<boolean> {
   const auth = await getAuthHeader();
-  const res = await fetch('/api/admin-users', {
+  const res = await fetch('/api/admin', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: auth },
     body: JSON.stringify({ action: 'grant', userId, tier, expiresAt: expiresAt ?? null }),
@@ -65,7 +65,7 @@ export async function grantPremium(
 
 export async function revokePremium(userId: string): Promise<boolean> {
   const auth = await getAuthHeader();
-  const res = await fetch('/api/admin-users', {
+  const res = await fetch('/api/admin', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: auth },
     body: JSON.stringify({ action: 'revoke', userId }),
@@ -82,7 +82,7 @@ export async function revokePremium(userId: string): Promise<boolean> {
 
 export async function getPushStats(): Promise<{ count: number }> {
   const auth = await getAuthHeader();
-  const res = await fetch('/api/admin-users', {
+  const res = await fetch('/api/admin', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: auth },
     body: JSON.stringify({ action: 'push_stats' }),
@@ -98,7 +98,7 @@ export async function sendPushBroadcast(
   targetTier?: string
 ): Promise<{ sent: number; failed: number }> {
   const auth = await getAuthHeader();
-  const res = await fetch('/api/admin-users', {
+  const res = await fetch('/api/admin', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: auth },
     body: JSON.stringify({ action: 'push_broadcast', title, body, url, targetTier }),
@@ -127,7 +127,7 @@ export interface AffiliateRecord {
 
 export async function listAffiliates(): Promise<AffiliateRecord[]> {
   const auth = await getAuthHeader();
-  const res = await fetch('/api/admin-affiliates', {
+  const res = await fetch('/api/admin?type=affiliates', {
     headers: { Authorization: auth },
   });
   if (!res.ok) {
@@ -140,7 +140,7 @@ export async function listAffiliates(): Promise<AffiliateRecord[]> {
 
 export async function markAffiliatePaid(affiliateId: string): Promise<boolean> {
   const auth = await getAuthHeader();
-  const res = await fetch('/api/admin-affiliates', {
+  const res = await fetch('/api/admin', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: auth },
     body: JSON.stringify({ action: 'markPaid', affiliateId }),
@@ -150,7 +150,7 @@ export async function markAffiliatePaid(affiliateId: string): Promise<boolean> {
 
 export async function disableAffiliate(affiliateId: string): Promise<boolean> {
   const auth = await getAuthHeader();
-  const res = await fetch('/api/admin-affiliates', {
+  const res = await fetch('/api/admin', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: auth },
     body: JSON.stringify({ action: 'disable', affiliateId }),
@@ -162,7 +162,7 @@ export async function addAffiliate(data: {
   name: string; email: string; whatsapp?: string; bureauName?: string; upiId?: string;
 }): Promise<{ success: boolean; affiliateCode?: string; error?: string }> {
   const auth = await getAuthHeader();
-  const res = await fetch('/api/admin-affiliates', {
+  const res = await fetch('/api/admin', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: auth },
     body: JSON.stringify({ action: 'addAffiliate', ...data }),
@@ -178,7 +178,7 @@ export async function creditMissedPayment(
   commissionInr: number
 ): Promise<{ success: boolean; error?: string }> {
   const auth = await getAuthHeader();
-  const res = await fetch('/api/admin-affiliates', {
+  const res = await fetch('/api/admin', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: auth },
     body: JSON.stringify({ action: 'creditMissed', affiliateId, paymentId, commissionInr }),
@@ -198,7 +198,7 @@ export interface AffiliateConversion {
 
 export async function payoutAffiliate(affiliateId: string): Promise<{ success: boolean; payoutId?: string; status?: string; error?: string }> {
   const auth = await getAuthHeader();
-  const res = await fetch('/api/admin-affiliates', {
+  const res = await fetch('/api/admin', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: auth },
     body: JSON.stringify({ action: 'payout', affiliateId }),
@@ -211,7 +211,7 @@ export async function payoutAffiliate(affiliateId: string): Promise<{ success: b
 
 export async function updateAffiliateUpiId(affiliateId: string, upiId: string): Promise<boolean> {
   const auth = await getAuthHeader();
-  const res = await fetch('/api/admin-affiliates', {
+  const res = await fetch('/api/admin', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: auth },
     body: JSON.stringify({ action: 'updateUpiId', affiliateId, upiId }),
@@ -221,7 +221,7 @@ export async function updateAffiliateUpiId(affiliateId: string, upiId: string): 
 
 export async function listAffiliateConversions(affiliateCode: string): Promise<AffiliateConversion[]> {
   const auth = await getAuthHeader();
-  const res = await fetch(`/api/admin-affiliates?code=${encodeURIComponent(affiliateCode)}`, {
+  const res = await fetch(`/api/admin?type=conversions&code=${encodeURIComponent(affiliateCode)}`, {
     headers: { Authorization: auth },
   });
   if (!res.ok) return [];
@@ -246,7 +246,7 @@ export interface PaymentRecord {
 
 export async function listAllPayments(): Promise<PaymentRecord[]> {
   const auth = await getAuthHeader();
-  const res = await fetch('/api/admin-users', {
+  const res = await fetch('/api/admin', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: auth },
     body: JSON.stringify({ action: 'list_payments' }),
