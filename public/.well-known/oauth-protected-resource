@@ -1,0 +1,14 @@
+{
+  "resource": "https://marriage-astro.vercel.app/api/mcp",
+  "authorization_servers": [
+    "https://marriage-astro.vercel.app/api/oauth"
+  ],
+  "scopes_supported": [
+    "astrology"
+  ],
+  "bearer_methods_supported": [
+    "header"
+  ],
+  "resource_name": "MarriageAstro Vedic Astrology API",
+  "resource_documentation": "https://marriage-astro.vercel.app/docs"
+}
