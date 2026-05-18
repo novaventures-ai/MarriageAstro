@@ -19,6 +19,8 @@ export const OAuthAuthorizePage: React.FC = () => {
   const redirectUri = searchParams.get('redirect_uri');
   const state = searchParams.get('state') || '';
   const scope = searchParams.get('scope') || '';
+  const codeChallenge = searchParams.get('code_challenge') || '';
+  const codeChallengeMethod = searchParams.get('code_challenge_method') || 'S256';
 
   // Redirect to login if user is not authenticated
   useEffect(() => {
@@ -46,7 +48,8 @@ export const OAuthAuthorizePage: React.FC = () => {
         body: JSON.stringify({
           action: 'authorize',
           clientId,
-          redirectUri
+          redirectUri,
+          ...(codeChallenge ? { codeChallenge, codeChallengeMethod } : {}),
         })
       });
 

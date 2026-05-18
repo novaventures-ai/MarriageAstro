@@ -17,7 +17,15 @@
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createClient } from '@supabase/supabase-js';
+import crypto from 'crypto';
 import { signToken, verifyToken, ACCESS_TOKEN_LIFETIME, REFRESH_TOKEN_LIFETIME } from './_oauth-helper.js';
+
+function verifyPkce(codeVerifier: string, codeChallenge: string, method: string): boolean {
+  if (method === 'plain') return codeVerifier === codeChallenge;
+  // S256: BASE64URL(SHA256(ASCII(code_verifier)))
+  const digest = crypto.createHash('sha256').update(codeVerifier).digest('base64url');
+  return digest === codeChallenge;
+}
 
 // Parse urlencoded or JSON parameters robustly
 function parseParams(req: VercelRequest): Record<string, string> {
@@ -90,7 +98,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(401).json({ error: 'unauthorized', error_description: 'User auth token required' });
     }
 
-    const { clientId, redirectUri } = params;
+    const { clientId, redirectUri, codeChallenge, codeChallengeMethod } = params;
     if (!clientId || !redirectUri) {
       console.warn('[OAuth Debug] Authorization Failed: clientId or redirectUri missing', { clientId, redirectUri });
       return res.status(400).json({ error: 'invalid_request', error_description: 'clientId and redirectUri required' });
@@ -117,7 +125,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const code = signToken({
         userId: user.id,
         clientId,
-        redirectUri
+        redirectUri,
+        ...(codeChallenge ? { codeChallenge, codeChallengeMethod: codeChallengeMethod || 'plain' } : {}),
       }, 300);
 
       console.log(`[OAuth Debug] Authorization Code generated successfully for user: ${user.id}`);
@@ -132,15 +141,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { grant_type, code, redirect_uri, client_id, client_secret, refresh_token } = params;
 
   // Validate Client Credentials
-  const expectedClientId = process.env.CLAUDE_CLIENT_ID || 'claude-connector';
+  // client_id: accept any value — Claude Desktop generates a dynamic client_id per connector
+  // that cannot be predicted. Restrict only if CLAUDE_CLIENT_SECRET is explicitly set.
   const expectedClientSecret = process.env.CLAUDE_CLIENT_SECRET;
 
-  console.log(`[OAuth Debug] Validating Client. Received client_id: "${client_id}", expectedClientId: "${expectedClientId}". Received client_secret: "${client_secret ? '***' : 'none'}", expectedClientSecret: "${expectedClientSecret ? '***' : 'none'}"`);
-
-  if (client_id && client_id !== expectedClientId) {
-    console.warn(`[OAuth Debug] Client ID mismatch. Received: "${client_id}", Expected: "${expectedClientId}"`);
-    return res.status(400).json({ error: 'invalid_client', error_description: 'Client ID mismatch' });
-  }
+  console.log(`[OAuth Debug] Token request. client_id: "${client_id}", secret: "${client_secret ? '***' : 'none'}"`);
 
   if (expectedClientSecret && client_secret && client_secret !== expectedClientSecret) {
     console.warn('[OAuth Debug] Client Secret mismatch.');
@@ -167,6 +172,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (redirect_uri && payload.redirectUri && redirect_uri !== payload.redirectUri) {
       console.warn(`[OAuth Debug] Redirect URI mismatch. Received: "${redirect_uri}", Expected: "${payload.redirectUri}"`);
       return res.status(400).json({ error: 'invalid_grant', error_description: 'Redirect URI mismatch' });
+    }
+
+    // Verify PKCE code_verifier if the auth code was issued with a code_challenge
+    const codeVerifier = params.code_verifier;
+    if (payload.codeChallenge) {
+      if (!codeVerifier) {
+        console.warn('[OAuth Debug] PKCE verification failed: code_verifier missing');
+        return res.status(400).json({ error: 'invalid_grant', error_description: 'code_verifier required' });
+      }
+      if (!verifyPkce(codeVerifier, payload.codeChallenge, payload.codeChallengeMethod || 'plain')) {
+        console.warn('[OAuth Debug] PKCE verification failed: code_verifier does not match code_challenge');
+        return res.status(400).json({ error: 'invalid_grant', error_description: 'code_verifier mismatch' });
+      }
+      console.log('[OAuth Debug] PKCE verification passed.');
     }
 
     // Generate stateless Access and Refresh tokens
