@@ -19,53 +19,40 @@ import { z } from 'zod';
 import { createClient } from '@supabase/supabase-js';
 import { verifyToken } from './_oauth-helper.js';
 
-import birthChart from './v1/_birth-chart.js';
-import compatibility from './v1/_compatibility.js';
-import doshaCheck from './v1/_dosha-check.js';
-import fullReport from './v1/_full-report.js';
-import marriageTiming from './v1/_marriage-timing.js';
-import synastry from './v1/_synastry.js';
-import navamsa from './v1/_navamsa.js';
-import kpAnalysis from './v1/_kp-analysis.js';
-import jaiminiDasha from './v1/_jaimini-dasha.js';
-import selfAnalysis from './v1/_self-analysis.js';
-import divorceRisk from './v1/_divorce-risk.js';
-import infidelityRisk from './v1/_infidelity-risk.js';
-import sexualCompatibility from './v1/_sexual-compatibility.js';
-import sexualHealth from './v1/_sexual-health.js';
-import mentalHealth from './v1/_mental-health.js';
-import psychologicalProfile from './v1/_psychological-profile.js';
-import conflictZones from './v1/_conflict-zones.js';
-import vulnerabilityWindows from './v1/_vulnerability-windows.js';
-import inlawAnalysis from './v1/_inlaw-analysis.js';
-import spousePrediction from './v1/_spouse-prediction.js';
-import modernChallenges from './v1/_modern-challenges.js';
-import remedies from './v1/_remedies.js';
-
-const handlers: Record<string, (req: any, res: any) => Promise<any>> = {
-  'birth-chart': birthChart,
-  'compatibility': compatibility,
-  'dosha-check': doshaCheck,
-  'full-report': fullReport,
-  'marriage-timing': marriageTiming,
-  'synastry': synastry,
-  'navamsa': navamsa,
-  'kp-analysis': kpAnalysis,
-  'jaimini-dasha': jaiminiDasha,
-  'self-analysis': selfAnalysis,
-  'divorce-risk': divorceRisk,
-  'infidelity-risk': infidelityRisk,
-  'sexual-compatibility': sexualCompatibility,
-  'sexual-health': sexualHealth,
-  'mental-health': mentalHealth,
-  'psychological-profile': psychologicalProfile,
-  'conflict-zones': conflictZones,
-  'vulnerability-windows': vulnerabilityWindows,
-  'inlaw-analysis': inlawAnalysis,
-  'spouse-prediction': spousePrediction,
-  'modern-challenges': modernChallenges,
-  'remedies': remedies,
-};
+// NOTE: We do NOT import v1 handler modules directly here anymore.
+// api/v1/* is intentionally CJS so Vercel inlines transitive deps
+// (src/lib/astro/sweph.js etc) into the v1 function bundle. Cross-
+// importing those CJS files from this ESM module triggers
+// ERR_MODULE_NOT_FOUND for those transitive deps that aren't shipped
+// to the api/mcp function bundle. We call /api/v1/<endpoint> over
+// HTTP instead — same process, but through Vercel's routing so each
+// function uses its own bundle.
+// Whitelist of v1 endpoints exposed as MCP tools. Used to validate the
+// endpoint name before forwarding over HTTP.
+const V1_ENDPOINTS = new Set([
+  'birth-chart',
+  'compatibility',
+  'dosha-check',
+  'full-report',
+  'marriage-timing',
+  'synastry',
+  'navamsa',
+  'kp-analysis',
+  'jaimini-dasha',
+  'self-analysis',
+  'divorce-risk',
+  'infidelity-risk',
+  'sexual-compatibility',
+  'sexual-health',
+  'mental-health',
+  'psychological-profile',
+  'conflict-zones',
+  'vulnerability-windows',
+  'inlaw-analysis',
+  'spouse-prediction',
+  'modern-challenges',
+  'remedies',
+]);
 
 // ── AUTHENTICATION SYSTEM ──────────────────────────────────────────────────
 
@@ -268,63 +255,48 @@ function birthDataToPayload(args: any) {
 // constructing it at module level triggers FUNCTION_INVOCATION_FAILED on
 // Vercel cold start when the SDK's internal schema validation throws.
 
-// Helper to execute internal API requests directly within the same process on behalf of the MCP tool callers.
-// This completely avoids external HTTP fetches, DNS resolution, network roundtrips, and Vercel Cold Starts!
+// Forward MCP tool invocations to the v1 endpoint over HTTP (loopback).
+// We previously cross-imported handlers in-process, but that breaks because
+// api/v1/* needs to be CJS (so Vercel inlines its transitive deps like
+// src/lib/astro/sweph.js into the v1 bundle), and this api/mcp.ts function
+// is ESM. HTTP fetch sidesteps the ESM/CJS boundary AND lets each function
+// use its own deployment bundle.
 async function callInternalApi(
   endpoint: string,
   body: any,
   apiKey: string,
-  _host?: string,
-  _protocol?: string
+  host?: string,
+  protocol?: string
 ): Promise<any> {
-  const handler = handlers[endpoint];
-  if (!handler) {
-    throw new Error(`Handler not found for endpoint: ${endpoint}`);
+  if (!V1_ENDPOINTS.has(endpoint)) {
+    throw new Error(`Unknown endpoint: ${endpoint}`);
   }
 
-  const mockReq = {
+  const base = `${protocol || 'https'}://${host || 'marriage-astro.vercel.app'}`;
+  const url = `${base}/api/v1/${endpoint}`;
+
+  const resp = await fetch(url, {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
       'x-api-key': apiKey,
       'authorization': `Bearer ${apiKey}`,
     },
-    query: {},
-    body,
-  };
+    body: JSON.stringify(body),
+  });
 
-  let responseStatus = 200;
-  let responseBody: any = null;
-
-  const mockRes = {
-    status(code: number) {
-      responseStatus = code;
-      return this;
-    },
-    json(body: any) {
-      responseBody = body;
-      return this;
-    },
-    setHeader() {
-      return this;
-    },
-    end() {
-      return this;
-    }
-  };
-
+  let parsed: any = null;
   try {
-    await handler(mockReq, mockRes);
-  } catch (err: any) {
-    throw new Error(err.message || 'Intra-process execution failed');
+    parsed = await resp.json();
+  } catch {
+    // non-JSON body — leave parsed as null
   }
 
-  if (responseStatus < 200 || responseStatus >= 300) {
-    const message = responseBody?.error || `API error: ${responseStatus}`;
+  if (!resp.ok) {
+    const message = parsed?.error || `API error: ${resp.status}`;
     throw new Error(message);
   }
-
-  return responseBody;
+  return parsed;
 }
 
 // Helper to register tools dynamically
