@@ -1,11 +1,13 @@
 {
     "functions": {
+        "api/**/*.ts": {
+            "runtime": "@vercel/node@5.6.21",
+            "maxDuration": 30
+        },
         "api/v1/[endpoint].ts": {
+            "runtime": "@vercel/node@5.6.21",
             "maxDuration": 30,
             "includeFiles": "public/swisseph.wasm"
-        },
-        "api/mcp.ts": {
-            "maxDuration": 30
         }
     },
     "headers": [
