@@ -1,9 +1,9 @@
 /**
  * POST /api/v1/self-analysis
- * Tier: developer
+ * Tier: premium (teaser for free)
  * Returns: single-person marriage readiness, personality profile, timing forecast
  */
-import { validateApiKey, requireTier, parseBirthData } from './_auth.js';
+import { validateApiKey, requireTierOrTeaser, parseBirthData } from './_auth.js';
 import { generateChartFromBirthData } from '../../lib/reportGenerator.js';
 import { generateSelfAnalysisReport } from '../../lib/selfReportGenerator.js';
 
@@ -12,8 +12,6 @@ export default async function handler(req: any, res: any) {
 
   const auth = await validateApiKey(req);
   if (!auth.valid) return res.status(auth.statusCode || 401).json({ error: auth.error });
-  if (!requireTier(auth, 'developer', res)) return;
-
   const birth = parseBirthData(req.body);
   if (!birth.dateOfBirth || isNaN(birth.latitude)) {
     return res.status(400).json({ error: 'Required: date, latitude, longitude' });
@@ -23,7 +21,14 @@ export default async function handler(req: any, res: any) {
     const chart = await generateChartFromBirthData(birth);
     const report = await generateSelfAnalysisReport(birth, chart);
 
-    // Strip premium sections for non-premium tier
+    if (!requireTierOrTeaser(auth, 'premium', res, () => ({
+      marriage_readiness_score: (report as any).marriageReadiness?.score ?? null,
+      personality_type: (report as any).personalityProfile?.type ?? null,
+      note: 'Upgrade to Premium (₹399/mo or $14.99/mo) to see: full marriage readiness breakdown, timing forecast, personality deep-dive, sexual profile, and mental health analysis.',
+      upgrade_url: 'https://marriage-astro.vercel.app/pricing',
+    }))) return;
+
+    // Remove sensitive sections if still not premium (safety net)
     if (auth.tier !== 'premium') {
       delete (report as any).sexualProfile;
       delete (report as any).sexualHealth;

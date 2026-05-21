@@ -1,9 +1,9 @@
 /**
  * POST /api/v1/marriage-timing
- * Tier: developer
+ * Tier: free
  * Returns: auspicious marriage windows from Dasha + Transit analysis
  */
-import { validateApiKey, requireTier, parseBirthData } from './_auth.js';
+import { validateApiKey, parseBirthData } from './_auth.js';
 import { generateChartFromBirthData } from '../../lib/reportGenerator.js';
 import { calculateVimshottariDasha, findMarriageWindows } from '../../lib/dashaCalculations.js';
 
@@ -12,8 +12,6 @@ export default async function handler(req: any, res: any) {
 
   const auth = await validateApiKey(req);
   if (!auth.valid) return res.status(auth.statusCode || 401).json({ error: auth.error });
-  if (!requireTier(auth, 'developer', res)) return;
-
   const birth = parseBirthData(req.body);
   if (!birth.dateOfBirth || isNaN(birth.latitude)) {
     return res.status(400).json({ error: 'Required: date, latitude, longitude' });
