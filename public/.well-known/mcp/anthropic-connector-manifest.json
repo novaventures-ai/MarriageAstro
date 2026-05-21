@@ -9,7 +9,7 @@
     "email": "support@marriageastro.com"
   },
   "homepage": "https://marriage-astro.vercel.app",
-  "repository": "https://github.com/novaventures-ai/marriageastro",
+  "repository": "https://github.com/novaventures-ai/MarriageAstro",
   "icon": "icon.png",
   "categories": ["lifestyle", "productivity", "data"],
   "tags": [
@@ -39,7 +39,7 @@
     "scopes": [],
     "pkce_required": true,
     "client_credentials": {
-      "note": "Client ID and Secret must be configured by user during connector setup"
+      "note": "Public client — no client_secret required. PKCE S256 supported."
     }
   },
   "capabilities": {
@@ -50,14 +50,19 @@
   "tools_count": 22,
   "pricing_tiers": {
     "free": {
+      "label": "Free",
       "tools": [
         "get_birth_chart",
         "calculate_compatibility",
         "analyze_dosha"
       ],
-      "description": "Basic birth chart and compatibility analysis"
+      "description": "3 core Vedic tools — birth chart generation, Ashtakoot Milan 36-point compatibility, and Mangal/Nadi/Kaal Sarpa dosha analysis. Full output, no teasers.",
+      "rate_limit": "50 requests/day",
+      "price_monthly_usd": 0,
+      "price_monthly_inr": 0
     },
-    "developer": {
+    "premium": {
+      "label": "Premium",
       "tools": [
         "get_full_compatibility_report",
         "get_marriage_timing",
@@ -65,13 +70,7 @@
         "get_navamsa_matching",
         "get_kp_analysis",
         "get_jaimini_dasha",
-        "get_self_analysis"
-      ],
-      "description": "Advanced astrological analysis including divisional charts and dasha systems",
-      "price_monthly_usd": 9.99
-    },
-    "premium": {
-      "tools": [
+        "get_self_analysis",
         "get_divorce_risk",
         "get_infidelity_risk",
         "get_sexual_compatibility",
@@ -85,9 +84,17 @@
         "get_modern_challenges",
         "get_remedies"
       ],
-      "description": "Complete relationship analysis including psychological profiles and predictive insights",
-      "price_monthly_usd": 19.99
+      "description": "Full access to all 22 tools including unique relationship risk analysis (divorce risk, infidelity indicators, vulnerability windows), spouse prediction, sexual and mental-health compatibility, navamsa/D9 chart matching, KP stellar analysis, Jaimini dasha, and personalized Lal Kitab remedies.",
+      "rate_limit": "99,999 requests/day (effectively unlimited)",
+      "price_monthly_usd": 14.99,
+      "price_monthly_inr": 399,
+      "purchase_url": "https://marriage-astro.vercel.app/pricing",
+      "free_preview": "Free-tier users calling Premium tools receive a short preview output that highlights the relevant chart factors. Upgrading unlocks the full analysis."
     }
+  },
+  "rate_limits": {
+    "free": "50 requests/day",
+    "premium": "99,999 requests/day (unlimited)"
   },
   "security": {
     "data_encryption": "TLS 1.3",
@@ -95,25 +102,20 @@
     "pii_handling": "No PII stored on server; all calculations are stateless",
     "compliance": ["GDPR-ready", "Data minimization principle"]
   },
-  "rate_limits": {
-    "free": "10 requests/hour",
-    "developer": "100 requests/hour",
-    "premium": "500 requests/hour"
-  },
   "support": {
     "documentation": "https://marriage-astro.vercel.app/docs/mcp",
     "email": "support@marriageastro.com",
-    "issues": "https://github.com/novaventures-ai/marriageastro/issues"
+    "issues": "https://github.com/novaventures-ai/MarriageAstro/issues"
   },
   "changelog": [
     {
       "version": "1.0.0",
-      "date": "2025-05-20",
+      "date": "2026-05-20",
       "changes": [
         "Initial release with 22 Vedic astrology tools",
-        "OAuth 2.0 with PKCE support",
-        "Three-tier pricing: Free, Developer ($9.99/mo), Premium ($19.99/mo)",
-        "Unique features: divorce risk, infidelity analysis, sexual compatibility"
+        "OAuth 2.0 with PKCE (S256) support",
+        "Two-tier pricing: Free (3 tools) and Premium ($14.99/mo or ₹399/mo — all 22 tools)",
+        "Unique features: divorce risk, infidelity analysis, sexual compatibility, spouse prediction"
       ]
     }
   ]

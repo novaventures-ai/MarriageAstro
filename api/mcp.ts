@@ -306,7 +306,7 @@ function registerTools(server: McpServer, activeApiKey: string, activeHost: stri
 
   server.tool(
     'get_birth_chart',
-    'Generate a Vedic birth chart (planets, houses, nakshatras, ascendant, yogas, dashas) for one person.',
+    '[Free] Generate a Vedic birth chart (planets, houses, nakshatras, ascendant, yogas, dashas) for one person.',
     BIRTH_DATA_SCHEMA,
     async (args) => {
       const data = await callInternalApi('birth-chart', birthDataToPayload(args), activeApiKey, activeHost, activeProtocol);
@@ -316,7 +316,7 @@ function registerTools(server: McpServer, activeApiKey: string, activeHost: stri
 
   server.tool(
     'calculate_compatibility',
-    'Calculate Ashtakoot Milan 36-point compatibility score between two people, including all 8 parameters (Varna, Vashya, Tara, Yoni, Graha Maitri, Gana, Bhakoot, Nadi) and dosha flags.',
+    '[Free] Calculate Ashtakoot Milan 36-point compatibility score between two people, including all 8 parameters (Varna, Vashya, Tara, Yoni, Graha Maitri, Gana, Bhakoot, Nadi) and dosha flags.',
     PAIR_SCHEMA,
     async (args) => {
       const data = await callInternalApi('compatibility', args, activeApiKey, activeHost, activeProtocol);
@@ -326,7 +326,7 @@ function registerTools(server: McpServer, activeApiKey: string, activeHost: stri
 
   server.tool(
     'analyze_dosha',
-    'Check Mangal dosha, Nadi dosha, Kaal Sarpa, and other yoga/dosha patterns for one or two people.',
+    '[Free] Check Mangal dosha, Nadi dosha, Kaal Sarpa, and other yoga/dosha patterns for one or two people.',
     PAIR_SCHEMA,
     async (args) => {
       const data = await callInternalApi('dosha-check', args, activeApiKey, activeHost, activeProtocol);
@@ -338,7 +338,7 @@ function registerTools(server: McpServer, activeApiKey: string, activeHost: stri
 
   server.tool(
     'get_full_compatibility_report',
-    'Generate the complete compatibility report including synastry, navamsa, divisional charts, dasha analysis, and timing. Requires developer plan.',
+    '[Premium] Generate the complete compatibility report including synastry, navamsa, divisional charts, dasha analysis, and timing. Requires Premium plan ($14.99/mo or ₹399/mo).',
     PAIR_SCHEMA,
     async (args) => {
       const data = await callInternalApi('full-report', args, activeApiKey, activeHost, activeProtocol);
@@ -348,7 +348,7 @@ function registerTools(server: McpServer, activeApiKey: string, activeHost: stri
 
   server.tool(
     'get_marriage_timing',
-    'Find auspicious marriage windows based on Vimshottari Dasha and transit confluence. Requires developer plan.',
+    '[Premium] Find auspicious marriage windows based on Vimshottari Dasha and transit confluence. Requires Premium plan ($14.99/mo or ₹399/mo).',
     BIRTH_DATA_SCHEMA,
     async (args) => {
       const data = await callInternalApi('marriage-timing', birthDataToPayload(args), activeApiKey, activeHost, activeProtocol);
@@ -358,7 +358,7 @@ function registerTools(server: McpServer, activeApiKey: string, activeHost: stri
 
   server.tool(
     'get_synastry',
-    'Cross-chart planetary aspect analysis and house overlays between two people. Requires developer plan.',
+    '[Premium] Cross-chart planetary aspect analysis and house overlays between two people. Requires Premium plan ($14.99/mo or ₹399/mo).',
     PAIR_SCHEMA,
     async (args) => {
       const data = await callInternalApi('synastry', args, activeApiKey, activeHost, activeProtocol);
@@ -368,7 +368,7 @@ function registerTools(server: McpServer, activeApiKey: string, activeHost: stri
 
   server.tool(
     'get_navamsa_matching',
-    'D9 Navamsa chart compatibility — the marriage-specific divisional chart analysis. Requires developer plan.',
+    '[Premium] D9 Navamsa chart compatibility — the marriage-specific divisional chart analysis. Requires Premium plan ($14.99/mo or ₹399/mo).',
     PAIR_SCHEMA,
     async (args) => {
       const data = await callInternalApi('navamsa', args, activeApiKey, activeHost, activeProtocol);
@@ -378,7 +378,7 @@ function registerTools(server: McpServer, activeApiKey: string, activeHost: stri
 
   server.tool(
     'get_kp_analysis',
-    'Krishnamurti Paddhati (KP) stellar astrology analysis with 249 sub-lords. Requires developer plan.',
+    '[Premium] Krishnamurti Paddhati (KP) stellar astrology analysis with 249 sub-lords. Requires Premium plan ($14.99/mo or ₹399/mo).',
     BIRTH_DATA_SCHEMA,
     async (args) => {
       const data = await callInternalApi('kp-analysis', birthDataToPayload(args), activeApiKey, activeHost, activeProtocol);
@@ -388,7 +388,7 @@ function registerTools(server: McpServer, activeApiKey: string, activeHost: stri
 
   server.tool(
     'get_jaimini_dasha',
-    'Jaimini/Chara Dasha analysis including Darakaraka and Upapada Lagna for marriage timing. Requires developer plan.',
+    '[Premium] Jaimini/Chara Dasha analysis including Darakaraka and Upapada Lagna for marriage timing. Requires Premium plan ($14.99/mo or ₹399/mo).',
     BIRTH_DATA_SCHEMA,
     async (args) => {
       const data = await callInternalApi('jaimini-dasha', birthDataToPayload(args), activeApiKey, activeHost, activeProtocol);
@@ -398,7 +398,7 @@ function registerTools(server: McpServer, activeApiKey: string, activeHost: stri
 
   server.tool(
     'get_self_analysis',
-    'Single-person marriage readiness analysis — personality, timing forecast, spouse profile. Requires developer plan.',
+    '[Premium] Single-person marriage readiness analysis — personality, timing forecast, spouse profile. Requires Premium plan ($14.99/mo or ₹399/mo).',
     BIRTH_DATA_SCHEMA,
     async (args) => {
       const data = await callInternalApi('self-analysis', birthDataToPayload(args), activeApiKey, activeHost, activeProtocol);
@@ -410,7 +410,7 @@ function registerTools(server: McpServer, activeApiKey: string, activeHost: stri
 
   server.tool(
     'get_divorce_risk',
-    'Assess divorce probability from 7th and 2nd house afflictions. Unique feature — no other Vedic API provides this. Requires premium plan.',
+    '[Premium] Assess divorce probability from 7th and 2nd house afflictions. Unique feature — no other Vedic API provides this. Free tier returns a teaser preview; Premium plan ($14.99/mo or ₹399/mo) unlocks the full risk score, contributing planets, vulnerable periods, and remedies.',
     PAIR_SCHEMA,
     async (args) => {
       const data = await callInternalApi('divorce-risk', args, activeApiKey, activeHost, activeProtocol);
@@ -420,7 +420,7 @@ function registerTools(server: McpServer, activeApiKey: string, activeHost: stri
 
   server.tool(
     'get_infidelity_risk',
-    'Analyze infidelity indicators from 5th, 8th, and 12th house patterns, plus protective factors. Requires premium plan.',
+    '[Premium] Analyze infidelity indicators from 5th, 8th, and 12th house patterns, plus protective factors. Free tier returns a teaser preview; Premium plan ($14.99/mo or ₹399/mo) unlocks the full analysis.',
     PAIR_SCHEMA,
     async (args) => {
       const data = await callInternalApi('infidelity-risk', args, activeApiKey, activeHost, activeProtocol);
@@ -430,7 +430,7 @@ function registerTools(server: McpServer, activeApiKey: string, activeHost: stri
 
   server.tool(
     'get_sexual_compatibility',
-    'Venus/Mars synastry + sexual temperament matching + mutual satisfaction analysis. Requires premium plan.',
+    '[Premium] Venus/Mars synastry + sexual temperament matching + mutual satisfaction analysis. Free tier returns a teaser preview; Premium plan ($14.99/mo or ₹399/mo) unlocks the full analysis.',
     PAIR_SCHEMA,
     async (args) => {
       const data = await callInternalApi('sexual-compatibility', args, activeApiKey, activeHost, activeProtocol);
@@ -440,7 +440,7 @@ function registerTools(server: McpServer, activeApiKey: string, activeHost: stri
 
   server.tool(
     'get_sexual_health',
-    'Individual sexual health analysis — libido, PME/ED/Frigidity risk indicators from birth chart. Requires premium plan.',
+    '[Premium] Individual sexual health analysis — libido, PME/ED/Frigidity risk indicators from birth chart. Free tier returns a teaser preview; Premium plan ($14.99/mo or ₹399/mo) unlocks the full analysis.',
     BIRTH_DATA_SCHEMA,
     async (args) => {
       const data = await callInternalApi('sexual-health', birthDataToPayload(args), activeApiKey, activeHost, activeProtocol);
@@ -450,7 +450,7 @@ function registerTools(server: McpServer, activeApiKey: string, activeHost: stri
 
   server.tool(
     'get_mental_health_analysis',
-    'Analyze anxiety, depression, narcissism, and emotional stability markers from birth chart. Requires premium plan.',
+    '[Premium] Analyze anxiety, depression, narcissism, and emotional stability markers from birth chart. Free tier returns a teaser preview; Premium plan ($14.99/mo or ₹399/mo) unlocks the full analysis.',
     BIRTH_DATA_SCHEMA,
     async (args) => {
       const data = await callInternalApi('mental-health', birthDataToPayload(args), activeApiKey, activeHost, activeProtocol);
@@ -460,7 +460,7 @@ function registerTools(server: McpServer, activeApiKey: string, activeHost: stri
 
   server.tool(
     'get_psychological_profile',
-    'Attachment style, emotional patterns, and personality profile from planetary positions. Requires premium plan.',
+    '[Premium] Attachment style, emotional patterns, and personality profile from planetary positions. Free tier returns a teaser preview; Premium plan ($14.99/mo or ₹399/mo) unlocks the full analysis.',
     BIRTH_DATA_SCHEMA,
     async (args) => {
       const data = await callInternalApi('psychological-profile', birthDataToPayload(args), activeApiKey, activeHost, activeProtocol);
@@ -470,7 +470,7 @@ function registerTools(server: McpServer, activeApiKey: string, activeHost: stri
 
   server.tool(
     'get_conflict_zones',
-    'Identify conflict triggers, hot-button topics, and tension patterns between two people. Requires premium plan.',
+    '[Premium] Identify conflict triggers, hot-button topics, and tension patterns between two people. Free tier returns a teaser preview; Premium plan ($14.99/mo or ₹399/mo) unlocks the full analysis.',
     PAIR_SCHEMA,
     async (args) => {
       const data = await callInternalApi('conflict-zones', args, activeApiKey, activeHost, activeProtocol);
@@ -480,7 +480,7 @@ function registerTools(server: McpServer, activeApiKey: string, activeHost: stri
 
   server.tool(
     'get_vulnerability_windows',
-    'Find timing windows when the relationship is at highest stress/breakdown risk. Requires premium plan.',
+    '[Premium] Find timing windows when the relationship is at highest stress/breakdown risk. Free tier returns a teaser preview; Premium plan ($14.99/mo or ₹399/mo) unlocks the full analysis.',
     PAIR_SCHEMA,
     async (args) => {
       const data = await callInternalApi('vulnerability-windows', args, activeApiKey, activeHost, activeProtocol);
@@ -490,7 +490,7 @@ function registerTools(server: McpServer, activeApiKey: string, activeHost: stri
 
   server.tool(
     'get_inlaw_analysis',
-    'Analyze compatibility with partner\'s family from 4th and 8th house indicators. Requires premium plan.',
+    '[Premium] Analyze compatibility with partner\'s family from 4th and 8th house indicators. Free tier returns a teaser preview; Premium plan ($14.99/mo or ₹399/mo) unlocks the full analysis.',
     PAIR_SCHEMA,
     async (args) => {
       const data = await callInternalApi('inlaw-analysis', args, activeApiKey, activeHost, activeProtocol);
@@ -500,7 +500,7 @@ function registerTools(server: McpServer, activeApiKey: string, activeHost: stri
 
   server.tool(
     'get_spouse_prediction',
-    'Predict future spouse\'s appearance, nature, profession, and when/how you will meet them. Requires premium plan.',
+    '[Premium] Predict future spouse\'s appearance, nature, profession, and when/how you will meet them. Free tier returns a teaser preview; Premium plan ($14.99/mo or ₹399/mo) unlocks the full analysis.',
     BIRTH_DATA_SCHEMA,
     async (args) => {
       const data = await callInternalApi('spouse-prediction', birthDataToPayload(args), activeApiKey, activeHost, activeProtocol);
@@ -510,7 +510,7 @@ function registerTools(server: McpServer, activeApiKey: string, activeHost: stri
 
   server.tool(
     'get_modern_challenges',
-    'Digital age relationship analysis — social media impact, long-distance patterns, modern planet (Uranus/Neptune/Pluto) influence. Requires premium plan.',
+    '[Premium] Digital age relationship analysis — social media impact, long-distance patterns, modern planet (Uranus/Neptune/Pluto) influence. Free tier returns a teaser preview; Premium plan ($14.99/mo or ₹399/mo) unlocks the full analysis.',
     PAIR_SCHEMA,
     async (args) => {
       const data = await callInternalApi('modern-challenges', args, activeApiKey, activeHost, activeProtocol);
@@ -520,7 +520,7 @@ function registerTools(server: McpServer, activeApiKey: string, activeHost: stri
 
   server.tool(
     'get_remedies',
-    'Lal Kitab remedies and gemstone recommendations based on planetary afflictions. Requires premium plan.',
+    '[Premium] Lal Kitab remedies and gemstone recommendations based on planetary afflictions. Free tier returns a teaser preview; Premium plan ($14.99/mo or ₹399/mo) unlocks the full analysis.',
     BIRTH_DATA_SCHEMA,
     async (args) => {
       const data = await callInternalApi('remedies', birthDataToPayload(args), activeApiKey, activeHost, activeProtocol);
