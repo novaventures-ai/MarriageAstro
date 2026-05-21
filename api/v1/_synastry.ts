@@ -1,9 +1,9 @@
 /**
  * POST /api/v1/synastry
- * Tier: developer
+ * Tier: premium (teaser for free)
  * Returns: cross-chart planetary aspects, house overlays, sexual chemistry aspects
  */
-import { validateApiKey, requireTier, parseBirthData } from './_auth.js';
+import { validateApiKey, requireTierOrTeaser, parseBirthData } from './_auth.js';
 import { generateChartFromBirthData } from '../../lib/reportGenerator.js';
 import { calculateHouseOverlays, calculatePlanetaryConjunctions } from '../../lib/synastryCalculations.js';
 
@@ -29,6 +29,15 @@ export default async function handler(req: any, res: any) {
 
     const houseOverlays = calculateHouseOverlays(chartA, chartB);
     const conjunctions = calculatePlanetaryConjunctions(chartA, chartB);
+
+    if (!requireTierOrTeaser(auth, 'premium', res, () => ({
+      total_overlays: houseOverlays.length,
+      total_conjunctions: conjunctions.length,
+      harmonious: conjunctions.filter((c: any) => c.nature === 'harmonious').length,
+      challenging: conjunctions.filter((c: any) => c.nature === 'challenging').length,
+      note: 'Upgrade to Premium (₹399/mo or $14.99/mo) to see the full synastry map: all house overlays, planetary conjunctions, and sexual chemistry aspects.',
+      upgrade_url: 'https://marriage-astro.vercel.app/pricing',
+    }))) return;
 
     return res.status(200).json({
       success: true,

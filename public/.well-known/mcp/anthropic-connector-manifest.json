@@ -1,0 +1,132 @@
+{
+  "$schema": "https://static.anthropic.com/mcp/connector-manifest-schema.json",
+  "manifest_version": "1.0",
+  "name": "Vedic Astrology MCP — MarriageAstro",
+  "description": "The world's most complete Vedic astrology MCP server with 22 tools for birth charts, compatibility analysis, divorce risk assessment, spouse prediction, and relationship insights using Swiss Ephemeris.",
+  "version": "1.1.0",
+  "author": {
+    "name": "MarriageAstro",
+    "email": "support@marriageastro.com"
+  },
+  "homepage": "https://marriage-astro.vercel.app",
+  "repository": "https://github.com/novaventures-ai/MarriageAstro",
+  "icon": "icon.png",
+  "categories": ["lifestyle", "productivity", "data"],
+  "tags": [
+    "vedic-astrology",
+    "kundali",
+    "birth-chart",
+    "compatibility",
+    "marriage",
+    "jyotish",
+    "navamsa",
+    "dasha",
+    "horoscope",
+    "divorce-risk",
+    "spouse-prediction",
+    "ashtakoot"
+  ],
+  "server": {
+    "type": "remote",
+    "url": "https://marriage-astro.vercel.app/api/mcp",
+    "transport": "streamable-http"
+  },
+  "authentication": {
+    "required": true,
+    "type": "oauth2",
+    "authorization_url": "https://marriage-astro.vercel.app/oauth/authorize",
+    "token_url": "https://marriage-astro.vercel.app/api/oauth",
+    "scopes": [],
+    "pkce_required": true,
+    "client_credentials": {
+      "note": "Public client — no client_secret required. PKCE S256 supported."
+    }
+  },
+  "capabilities": {
+    "tools": true,
+    "resources": false,
+    "prompts": false
+  },
+  "tools_count": 22,
+  "pricing_tiers": {
+    "free": {
+      "label": "Free",
+      "tools": [
+        "get_birth_chart",
+        "calculate_compatibility",
+        "analyze_dosha",
+        "get_psychological_profile",
+        "get_spouse_prediction",
+        "get_marriage_timing"
+      ],
+      "description": "6 core Vedic tools — birth chart, Ashtakoot Milan 36-point compatibility, dosha analysis, psychological profile, spouse prediction, and marriage timing windows. Full output, no teasers.",
+      "rate_limit": "50 requests/day",
+      "price_monthly_usd": 0,
+      "price_monthly_inr": 0
+    },
+    "premium": {
+      "label": "Premium",
+      "tools": [
+        "get_full_compatibility_report",
+        "get_synastry",
+        "get_navamsa_matching",
+        "get_kp_analysis",
+        "get_jaimini_dasha",
+        "get_self_analysis",
+        "get_divorce_risk",
+        "get_infidelity_risk",
+        "get_sexual_compatibility",
+        "get_sexual_health",
+        "get_mental_health_analysis",
+        "get_conflict_zones",
+        "get_vulnerability_windows",
+        "get_inlaw_analysis",
+        "get_modern_challenges",
+        "get_remedies"
+      ],
+      "description": "Full access to all 22 tools including complete compatibility report, synastry, Navamsa D9 matching, KP stellar analysis, Jaimini dasha, self analysis, divorce/infidelity risk, sexual and mental-health compatibility, vulnerability windows, in-law dynamics, and Lal Kitab remedies.",
+      "rate_limit": "99,999 requests/day (effectively unlimited)",
+      "price_monthly_usd": 14.99,
+      "price_monthly_inr": 399,
+      "purchase_url": "https://marriage-astro.vercel.app/pricing",
+      "free_preview": "Free-tier users calling Premium tools receive a short preview output that highlights real chart factors. Upgrading unlocks the full analysis."
+    }
+  },
+  "rate_limits": {
+    "free": "50 requests/day",
+    "premium": "99,999 requests/day (unlimited)"
+  },
+  "security": {
+    "data_encryption": "TLS 1.3",
+    "token_storage": "user-local",
+    "pii_handling": "No PII stored on server; all calculations are stateless",
+    "compliance": ["GDPR-ready", "Data minimization principle"]
+  },
+  "support": {
+    "documentation": "https://marriage-astro.vercel.app/docs/mcp",
+    "email": "support@marriageastro.com",
+    "issues": "https://github.com/novaventures-ai/MarriageAstro/issues"
+  },
+  "changelog": [
+    {
+      "version": "1.1.0",
+      "date": "2026-05-21",
+      "changes": [
+        "Simplified to 2 clean tiers: Free (6 tools) and Premium (all 22 tools)",
+        "Moved psychological profile, spouse prediction, and marriage timing to free tier",
+        "All premium tools now return real teaser preview instead of hard 403",
+        "Removed unbuyable developer tier from gating logic",
+        "Aligned MCP tiers with website pricing page"
+      ]
+    },
+    {
+      "version": "1.0.0",
+      "date": "2026-05-20",
+      "changes": [
+        "Initial release with 22 Vedic astrology tools",
+        "OAuth 2.0 with PKCE (S256) support",
+        "Two-tier pricing: Free (3 tools) and Premium ($14.99/mo or ₹399/mo)"
+      ]
+    }
+  ]
+}

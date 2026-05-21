@@ -1,9 +1,9 @@
 /**
  * POST /api/v1/jaimini-dasha
- * Tier: developer
+ * Tier: premium (teaser for free)
  * Returns: Jaimini/Chara Dasha analysis with Darakaraka and Upapada Lagna
  */
-import { validateApiKey, requireTier, parseBirthData } from './_auth.js';
+import { validateApiKey, requireTierOrTeaser, parseBirthData } from './_auth.js';
 import { generateChartFromBirthData } from '../../lib/reportGenerator.js';
 import { calculateCharaKarakasUnified, analyzeDarakaraka, calculateUpapadaLagna } from '../../lib/jaiminiCalculations.js';
 
@@ -12,8 +12,6 @@ export default async function handler(req: any, res: any) {
 
   const auth = await validateApiKey(req);
   if (!auth.valid) return res.status(auth.statusCode || 401).json({ error: auth.error });
-  if (!requireTier(auth, 'developer', res)) return;
-
   const birth = parseBirthData(req.body);
   if (!birth.dateOfBirth || isNaN(birth.latitude)) {
     return res.status(400).json({ error: 'Required: date, latitude, longitude' });
@@ -31,6 +29,12 @@ export default async function handler(req: any, res: any) {
     });
 
     const upapada = calculateUpapadaLagna(chart.ascendantDegree || 0, chart.houses);
+
+    if (!requireTierOrTeaser(auth, 'premium', res, () => ({
+      darakaraka_planet: dkPlanet ?? null,
+      note: 'Upgrade to Premium (₹399/mo or $14.99/mo) to see full Jaimini analysis: all Chara Karakas, Darakaraka interpretation, Upapada Lagna, and marriage timing via Jaimini dasha.',
+      upgrade_url: 'https://marriage-astro.vercel.app/pricing',
+    }))) return;
 
     return res.status(200).json({
       success: true,
