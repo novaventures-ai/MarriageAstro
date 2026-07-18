@@ -15,7 +15,6 @@ import {
   FavorablePeriod,
   CautionaryPeriod
 } from '../src/types/selfAnalysis.js';
-import { v4 as uuidv4 } from 'uuid';
 import { calculateTimingAnalysis } from './timingCalculations.js';
 import { calculateSpousePrediction } from './spouseCalculations.js';
 import { analyzeYogaDoshas } from './yogaDoshaCalculations.js';
@@ -225,7 +224,7 @@ export async function generateSelfAnalysisReport(
     );
 
     return {
-      id: uuidv4(),
+      id: crypto.randomUUID(),
       generatedAt: new Date(),
       chart,
       marriagePotential,
