@@ -1,7 +1,9 @@
-```
 # Dependencies
 node_modules/
 package-lock.json
+
+# Build output
+dist/
 
 # Python
 __pycache__/
@@ -33,4 +35,3 @@ Thumbs.db
 *.swp
 *.swo
 *~
-```
