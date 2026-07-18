@@ -351,8 +351,8 @@ function registerTools(server: McpServer, activeApiKey: string, activeHost: stri
 
   server.tool(
     'get_navamsa_matching',
-    '[Premium] D9 Navamsa chart compatibility — the marriage-specific divisional chart analysis. Free tier returns a teaser preview; Premium plan (₹399/mo or $14.99/mo) unlocks the full analysis.',
-    REQUIRED_PAIR_SCHEMA,
+    '[Premium] D9 Navamsa chart analysis — the marriage-specific divisional chart. Provide both people for compatibility matching, or only person A for an individual D9 reading (navamsa placements, vargottama planets, 7th-house marriage karma). Free tier returns a teaser preview; Premium plan (₹399/mo or $14.99/mo) unlocks the full analysis.',
+    PAIR_SCHEMA,
     async (args) => {
       const data = await callInternalApi('navamsa', args, activeApiKey, activeHost, activeProtocol);
       return { content: [{ type: 'text', text: JSON.stringify(data, null, 2) }] };
