@@ -213,6 +213,16 @@ const PAIR_SCHEMA = {
   person_b_location: z.string().optional().describe("Person B's birth place name (e.g. 'Mumbai, India')"),
 };
 
+// For tools whose v1 endpoint rejects single-person requests: same shape as
+// PAIR_SCHEMA but person B's core birth fields are required, so the tool
+// schema matches what the endpoint actually accepts.
+const REQUIRED_PAIR_SCHEMA = {
+  ...PAIR_SCHEMA,
+  person_b_date: z.string().describe("Person B's date of birth in YYYY-MM-DD format"),
+  person_b_latitude: z.number().describe("Person B's birth place latitude (e.g. 19.076 for Mumbai)"),
+  person_b_longitude: z.number().describe("Person B's birth place longitude (e.g. 72.877 for Mumbai)"),
+};
+
 function birthDataToPayload(args: any) {
   return {
     name: args.name,
@@ -290,7 +300,7 @@ function registerTools(server: McpServer, activeApiKey: string, activeHost: stri
   server.tool(
     'calculate_compatibility',
     'Calculate Ashtakoot Milan 36-point compatibility score between two people, including all 8 parameters (Varna, Vashya, Tara, Yoni, Graha Maitri, Gana, Bhakoot, Nadi) and dosha flags.',
-    PAIR_SCHEMA,
+    REQUIRED_PAIR_SCHEMA,
     async (args) => {
       const data = await callInternalApi('compatibility', args, activeApiKey, activeHost, activeProtocol);
       return { content: [{ type: 'text', text: JSON.stringify(data, null, 2) }] };
@@ -312,7 +322,7 @@ function registerTools(server: McpServer, activeApiKey: string, activeHost: stri
   server.tool(
     'get_full_compatibility_report',
     '[Premium] Generate the complete compatibility report including synastry, navamsa, divisional charts, dasha analysis, and timing. Free tier returns a teaser preview; Premium plan (₹399/mo or $14.99/mo) unlocks the full analysis.',
-    PAIR_SCHEMA,
+    REQUIRED_PAIR_SCHEMA,
     async (args) => {
       const data = await callInternalApi('full-report', args, activeApiKey, activeHost, activeProtocol);
       return { content: [{ type: 'text', text: JSON.stringify(data, null, 2) }] };
@@ -332,7 +342,7 @@ function registerTools(server: McpServer, activeApiKey: string, activeHost: stri
   server.tool(
     'get_synastry',
     '[Premium] Cross-chart planetary aspect analysis and house overlays between two people. Free tier returns a teaser preview; Premium plan (₹399/mo or $14.99/mo) unlocks the full analysis.',
-    PAIR_SCHEMA,
+    REQUIRED_PAIR_SCHEMA,
     async (args) => {
       const data = await callInternalApi('synastry', args, activeApiKey, activeHost, activeProtocol);
       return { content: [{ type: 'text', text: JSON.stringify(data, null, 2) }] };
@@ -342,7 +352,7 @@ function registerTools(server: McpServer, activeApiKey: string, activeHost: stri
   server.tool(
     'get_navamsa_matching',
     '[Premium] D9 Navamsa chart compatibility — the marriage-specific divisional chart analysis. Free tier returns a teaser preview; Premium plan (₹399/mo or $14.99/mo) unlocks the full analysis.',
-    PAIR_SCHEMA,
+    REQUIRED_PAIR_SCHEMA,
     async (args) => {
       const data = await callInternalApi('navamsa', args, activeApiKey, activeHost, activeProtocol);
       return { content: [{ type: 'text', text: JSON.stringify(data, null, 2) }] };
@@ -404,7 +414,7 @@ function registerTools(server: McpServer, activeApiKey: string, activeHost: stri
   server.tool(
     'get_sexual_compatibility',
     'Venus/Mars synastry + sexual temperament matching + mutual satisfaction analysis. Requires premium plan.',
-    PAIR_SCHEMA,
+    REQUIRED_PAIR_SCHEMA,
     async (args) => {
       const data = await callInternalApi('sexual-compatibility', args, activeApiKey, activeHost, activeProtocol);
       return { content: [{ type: 'text', text: JSON.stringify(data, null, 2) }] };
@@ -444,7 +454,7 @@ function registerTools(server: McpServer, activeApiKey: string, activeHost: stri
   server.tool(
     'get_conflict_zones',
     'Identify conflict triggers, hot-button topics, and tension patterns between two people. Requires premium plan.',
-    PAIR_SCHEMA,
+    REQUIRED_PAIR_SCHEMA,
     async (args) => {
       const data = await callInternalApi('conflict-zones', args, activeApiKey, activeHost, activeProtocol);
       return { content: [{ type: 'text', text: JSON.stringify(data, null, 2) }] };
@@ -454,7 +464,7 @@ function registerTools(server: McpServer, activeApiKey: string, activeHost: stri
   server.tool(
     'get_vulnerability_windows',
     'Find timing windows when the relationship is at highest stress/breakdown risk. Requires premium plan.',
-    PAIR_SCHEMA,
+    REQUIRED_PAIR_SCHEMA,
     async (args) => {
       const data = await callInternalApi('vulnerability-windows', args, activeApiKey, activeHost, activeProtocol);
       return { content: [{ type: 'text', text: JSON.stringify(data, null, 2) }] };
@@ -464,7 +474,7 @@ function registerTools(server: McpServer, activeApiKey: string, activeHost: stri
   server.tool(
     'get_inlaw_analysis',
     'Analyze compatibility with partner\'s family from 4th and 8th house indicators. Requires premium plan.',
-    PAIR_SCHEMA,
+    REQUIRED_PAIR_SCHEMA,
     async (args) => {
       const data = await callInternalApi('inlaw-analysis', args, activeApiKey, activeHost, activeProtocol);
       return { content: [{ type: 'text', text: JSON.stringify(data, null, 2) }] };
@@ -484,7 +494,7 @@ function registerTools(server: McpServer, activeApiKey: string, activeHost: stri
   server.tool(
     'get_modern_challenges',
     'Digital age relationship analysis — social media impact, long-distance patterns, modern planet (Uranus/Neptune/Pluto) influence. Requires premium plan.',
-    PAIR_SCHEMA,
+    REQUIRED_PAIR_SCHEMA,
     async (args) => {
       const data = await callInternalApi('modern-challenges', args, activeApiKey, activeHost, activeProtocol);
       return { content: [{ type: 'text', text: JSON.stringify(data, null, 2) }] };

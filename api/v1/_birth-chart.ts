@@ -45,13 +45,16 @@ export default async function handler(req: any, res: any) {
         yogas: chart.yogas,
         dashas: chart.dashas,
         birthData: { name: birth.name, date: birth.dateOfBirth, time: birth.timeOfBirth },
-        _premium_preview: {
-          divorce_risk: seventhMalefics >= 2 ? 'HIGH — upgrade to see full analysis' : seventhMalefics === 1 ? 'MODERATE — upgrade to see details' : 'LOW — upgrade to confirm',
-          mental_health: moonAfflicted ? '1+ indicators detected — upgrade to see full report' : 'Analysis available — upgrade to view',
-          remedies_available: afflictedCount + 3,
-          spouse_prediction: 'Full spouse profile available — upgrade to view',
-          upgrade_url: 'https://marriage-astro.vercel.app/api-keys',
-        },
+        // Upsell block — only for callers who actually have something to upgrade to
+        ...(auth.tier !== 'premium' ? {
+          _premium_preview: {
+            divorce_risk: seventhMalefics >= 2 ? 'HIGH — upgrade to see full analysis' : seventhMalefics === 1 ? 'MODERATE — upgrade to see details' : 'LOW — upgrade to confirm',
+            mental_health: moonAfflicted ? '1+ indicators detected — upgrade to see full report' : 'Analysis available — upgrade to view',
+            remedies_available: afflictedCount + 3,
+            spouse_prediction: 'Full spouse profile available — upgrade to view',
+            upgrade_url: 'https://marriage-astro.vercel.app/pricing',
+          },
+        } : {}),
       },
     });
   } catch (err: any) {
