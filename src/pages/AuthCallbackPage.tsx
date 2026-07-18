@@ -15,9 +15,13 @@ export const AuthCallbackPage: React.FC = () => {
 
     useEffect(() => {
         // Supabase's detectSessionInUrl handles the token extraction.
-        // We just wait briefly and redirect to home.
+        // Return to the page the user was on before login (e.g. the OAuth
+        // authorize page for the Claude connector), stashed by LoginPage
+        // before the full-page Google redirect. Default to home.
         const timer = setTimeout(() => {
-            navigate('/', { replace: true });
+            const returnTo = sessionStorage.getItem('auth_return_to') || '/';
+            sessionStorage.removeItem('auth_return_to');
+            navigate(returnTo, { replace: true });
         }, 1500);
 
         return () => clearTimeout(timer);

@@ -16,13 +16,20 @@ export const LoginPage: React.FC = () => {
     const [isGoogleLoading, setIsGoogleLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    // If already logged in, redirect to dashboard or previous page
+    // Where to send the user after login. Keep the full path + query string —
+    // the OAuth authorize page (/oauth/authorize?client_id=...&redirect_uri=...)
+    // is unusable without its query params.
+    const fromLocation = (location.state as any)?.from;
+    const returnTo = fromLocation
+        ? `${fromLocation.pathname}${fromLocation.search || ''}`
+        : '/dashboard';
+
+    // If already logged in, redirect to previous page or dashboard
     React.useEffect(() => {
         if (user) {
-            const from = (location.state as any)?.from?.pathname || '/dashboard';
-            navigate(from, { replace: true });
+            navigate(returnTo, { replace: true });
         }
-    }, [user, navigate, location]);
+    }, [user, navigate, returnTo]);
 
     const handleEmailSignIn = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -31,7 +38,7 @@ export const LoginPage: React.FC = () => {
 
         try {
             await signInWithEmail(email, password);
-            navigate('/dashboard');
+            navigate(returnTo, { replace: true });
         } catch (err: any) {
             setError(err.message || 'Invalid email or password. Please try again.');
         } finally {
@@ -43,6 +50,11 @@ export const LoginPage: React.FC = () => {
         setError(null);
         setIsGoogleLoading(true);
         try {
+            // Google sign-in is a full-page redirect, so React Router state is
+            // lost. Stash the return path for AuthCallbackPage to pick up.
+            if (returnTo !== '/dashboard') {
+                sessionStorage.setItem('auth_return_to', returnTo);
+            }
             await signInWithGoogle();
         } catch (err: any) {
             setError(err.message || 'Google sign-in failed.');
