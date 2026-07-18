@@ -4,7 +4,9 @@
  * Returns tier info for downstream use
  */
 import { createClient } from '@supabase/supabase-js';
-import { verifyToken } from '../_oauth-helper.js';
+// Use the CJS-scope copy — requiring ../_oauth-helper.js (ESM scope) crashes
+// this CommonJS function at runtime with ERR_REQUIRE_ESM on Vercel.
+import { verifyToken } from './_oauth-helper.js';
 
 export type ApiTier = 'free' | 'developer' | 'solo' | 'premium';
 
