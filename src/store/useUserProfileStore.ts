@@ -24,7 +24,6 @@ import {
   getUserPartners
 } from '../lib/userProfileService';
 import { supabase } from '../lib/supabase';
-import { v4 as uuidv4 } from 'uuid';
 
 export type UserMode = 'searcher' | 'decider' | 'navigator';
 
@@ -395,7 +394,7 @@ export const useUserProfileStore = create<UserProfileState>()(
 
       // Partner Management Actions
       addPartner: async (data: BirthDataInput) => {
-        const partnerId = uuidv4();
+        const partnerId = crypto.randomUUID();
 
         const newPartner: PartnerProfile = {
           id: partnerId,
