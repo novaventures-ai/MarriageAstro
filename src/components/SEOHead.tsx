@@ -32,8 +32,11 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
   ogParams,
   jsonLd,
 }) => {
+  // Append the brand only if the page title doesn't already include it —
+  // many pages pass a title ending in "| Astro Marriage" / "— Astro Marriage",
+  // which otherwise produced a doubled brand in the tab and OG/Twitter cards.
   const fullTitle = title
-    ? `${title} | ${SITE_NAME}`
+    ? (title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`)
     : `${SITE_NAME} - Free Kundali Matching & Vedic Marriage Compatibility`;
   const canonicalUrl = `${SITE_URL}${path}`;
   const resolvedOgImage = ogParams
