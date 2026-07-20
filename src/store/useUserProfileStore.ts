@@ -14,8 +14,9 @@ import {
 } from '../types/selfAnalysis';
 import { loadPlanTier } from '../lib/premiumService';
 import { isAdminEmail } from '../lib/adminConfig';
-import { generateChartFromBirthData } from '../../lib/reportGenerator';
-import { generateSelfAnalysisReport } from '../../lib/selfReportGenerator';
+// The astro calculation engine (~1MB: sweph-wasm + all lib/*Calculations) is
+// imported dynamically at each call site below, keeping it out of the main
+// bundle so it only loads when the user actually runs an analysis.
 import {
   saveUserProfile,
   savePartner,
@@ -296,6 +297,7 @@ export const useUserProfileStore = create<UserProfileState>()(
 
         // Auto-generate chart
         try {
+          const { generateChartFromBirthData } = await import('../../lib/reportGenerator');
           const chart = await generateChartFromBirthData(data);
           set({ selfChart: chart });
 
@@ -320,6 +322,7 @@ export const useUserProfileStore = create<UserProfileState>()(
         }
 
         try {
+          const { generateChartFromBirthData } = await import('../../lib/reportGenerator');
           const chart = await generateChartFromBirthData(selfBirthData);
           set({ selfChart: chart, generationError: null });
 
@@ -357,6 +360,7 @@ export const useUserProfileStore = create<UserProfileState>()(
         set({ isGeneratingReport: true, generationError: null });
 
         try {
+          const { generateSelfAnalysisReport } = await import('../../lib/selfReportGenerator');
           const report = await generateSelfAnalysisReport(selfBirthData, selfChart);
           set({ selfReport: report, isGeneratingReport: false });
 
@@ -521,6 +525,7 @@ export const useUserProfileStore = create<UserProfileState>()(
             timezone: partner.timezone
           };
 
+          const { generateChartFromBirthData } = await import('../../lib/reportGenerator');
           const chart = await generateChartFromBirthData(birthData);
 
           // Update partner with chart
