@@ -96,6 +96,7 @@ export const BirthDataForm: React.FC<BirthDataFormProps> = ({
           </label>
           <select
             name="gender"
+            aria-label="Gender"
             value={formData.gender}
             onChange={handleChange}
             required
@@ -115,6 +116,7 @@ export const BirthDataForm: React.FC<BirthDataFormProps> = ({
           <input
             type="date"
             name="dateOfBirth"
+            aria-label="Date of birth"
             value={formData.dateOfBirth instanceof Date ? formData.dateOfBirth.toISOString().split('T')[0] : formData.dateOfBirth}
             onChange={handleChange}
             required
@@ -130,6 +132,7 @@ export const BirthDataForm: React.FC<BirthDataFormProps> = ({
           <input
             type="time"
             name="timeOfBirth"
+            aria-label="Time of birth"
             value={formData.timeOfBirth}
             onChange={handleChange}
             required
@@ -203,6 +206,7 @@ export const BirthDataForm: React.FC<BirthDataFormProps> = ({
         </label>
         <select
           name="timezone"
+          aria-label="Timezone"
           value={formData.timezone}
           onChange={handleChange}
           required
