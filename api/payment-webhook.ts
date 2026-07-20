@@ -22,8 +22,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET;
   if (!webhookSecret) {
-    console.warn('payment-webhook: RAZORPAY_WEBHOOK_SECRET not set');
-    return res.status(200).json({ received: true, processed: false });
+    // Fail loudly: without the secret we cannot verify the signature, so we must
+    // NOT silently 200 (that would drop a real payment with no trace). Returning
+    // 500 surfaces the misconfiguration in monitoring and makes Razorpay retry.
+    console.error('payment-webhook: RAZORPAY_WEBHOOK_SECRET not set — cannot verify webhook, refusing to process');
+    return res.status(500).json({ error: 'Webhook not configured' });
   }
 
   const signature = (req.headers['x-razorpay-signature'] as string) || '';

@@ -73,7 +73,12 @@ export default defineConfig({
       output: {
         manualChunks: {
           'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          'vendor-ui': ['recharts', 'lucide-react', 'react-markdown'],
+          // recharts and react-markdown are heavy and only used on report/widget
+          // routes — keep them out of vendor-ui so the landing page (which pulls
+          // lucide-react icons) does not download them.
+          'vendor-charts': ['recharts'],
+          'vendor-markdown': ['react-markdown'],
+          'vendor-ui': ['lucide-react'],
           'vendor-supabase': ['@supabase/supabase-js'],
           'vendor-state': ['zustand'],
         },

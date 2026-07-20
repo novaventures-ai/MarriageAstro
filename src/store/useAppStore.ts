@@ -6,7 +6,10 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { Chart, CompatibilityReport, BirthDataInput } from '@types';
-import { generateFullCompatibilityReport } from '@lib/reportGenerator';
+// NOTE: the astro calculation engine (reportGenerator → sweph-wasm + all
+// lib/*Calculations) is ~1MB. It is imported dynamically inside the action
+// below so it stays out of the main bundle and only loads when the user
+// actually generates a report (not on the landing page).
 import { saveReport } from '../lib/supabaseService';
 import { useUserProfileStore } from './useUserProfileStore';
 import { supabase } from '../lib/supabase';
@@ -69,6 +72,7 @@ export const useAppStore = create<AppState>()(
         set({ isLoading: true, error: null });
 
         try {
+          const { generateFullCompatibilityReport } = await import('@lib/reportGenerator');
           const report = await generateFullCompatibilityReport(birthDataA, birthDataB);
           set({
             currentReport: report,

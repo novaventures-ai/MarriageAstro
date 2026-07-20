@@ -82,12 +82,15 @@ export async function validateApiKey(req: any): Promise<AuthResult> {
 
   const isRapidApiRequest = !!rapidApiHost;
 
-  if (isRapidApiRequest && expectedSecret && proxySecret === expectedSecret) {
-    return { valid: true, tier: mapRapidApiPlan(rapidApiPlan), keyId: 'rapidapi-verified' };
-  }
-
-  if (isRapidApiRequest && !expectedSecret) {
-    return { valid: true, tier: mapRapidApiPlan(rapidApiPlan), keyId: 'rapidapi-unverified' };
+  // RapidAPI traffic is only trusted when the proxy secret is configured AND
+  // matches. If RAPIDAPI_PROXY_SECRET is unset, fail closed — otherwise anyone
+  // can spoof `x-rapidapi-host` + `x-rapidapi-plan: premium` for free premium
+  // access. Set RAPIDAPI_PROXY_SECRET in Vercel to enable RapidAPI.
+  if (isRapidApiRequest) {
+    if (expectedSecret && proxySecret === expectedSecret) {
+      return { valid: true, tier: mapRapidApiPlan(rapidApiPlan), keyId: 'rapidapi-verified' };
+    }
+    return { valid: false, tier: 'free', keyId: '', error: 'RapidAPI proxy secret missing or invalid', statusCode: 401 };
   }
 
   // 2. Standard X-API-Key verification (for direct client / MCP users)
@@ -98,11 +101,6 @@ export async function validateApiKey(req: any): Promise<AuthResult> {
 
   if (!apiKey) {
     return { valid: false, tier: 'free', keyId: '', error: 'Missing X-API-Key', statusCode: 401 };
-  }
-
-  // Local testing / Mock bypass
-  if (apiKey === 'test-key') {
-    return { valid: true, tier: 'developer', keyId: 'mock-key' };
   }
 
   // 2b. Stateless OAuth 2.0 Access Token verification

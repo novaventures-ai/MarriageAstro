@@ -12,7 +12,8 @@ import { Link } from 'react-router-dom';
 
 interface ApiKey {
   id: string;
-  key: string;
+  key: string | null;        // legacy plaintext (null for hashed keys)
+  key_prefix?: string | null; // display-only prefix, e.g. "va_ABCD1234"
   label: string | null;
   tier: 'free' | 'developer' | 'premium';
   calls_today: number;
@@ -43,11 +44,26 @@ function maskKey(key: string) {
   return key.slice(0, 8) + '••••••••••••••••' + key.slice(-4);
 }
 
+// Display string for a stored key: full plaintext for legacy keys, or the
+// stored prefix + mask for hashed keys (whose plaintext no longer exists).
+function displayKey(k: ApiKey): string {
+  if (k.key) return maskKey(k.key);
+  if (k.key_prefix) return k.key_prefix + '••••••••••••••••';
+  return '••••••••••••••••';
+}
+
 function generateKey(): string {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   const arr = new Uint8Array(40);
   crypto.getRandomValues(arr);
   return 'va_' + Array.from(arr).map(b => chars[b % chars.length]).join('');
+}
+
+// SHA-256 hex of a string, using the Web Crypto API (secure-context only — prod
+// is HTTPS). Must match the server's crypto.createHash('sha256') in _auth.ts.
+async function sha256Hex(input: string): Promise<string> {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(input));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
 export function ApiKeysPage() {
@@ -84,15 +100,22 @@ export function ApiKeysPage() {
     setError(null);
     const key = generateKey();
     const tier = isAdmin ? 'premium' : 'free';
+    // Store only the SHA-256 hash + a display prefix. The plaintext key is never
+    // persisted — it is shown to the user once, here, and then unrecoverable.
+    const key_hash = await sha256Hex(key);
+    const key_prefix = key.slice(0, 11);
     const { data, error: err } = await supabase
       .from('api_keys')
-      .insert({ key, user_id: user.id, label: newLabel || null, tier })
+      .insert({ key_hash, key_prefix, user_id: user.id, label: newLabel || null, tier })
       .select()
       .single();
     setCreating(false);
     if (err) { setError(err.message); return; }
-    setNewlyCreated(data);
-    setKeys(prev => [data, ...prev]);
+    // Merge the in-memory plaintext back so the one-time banner can show it;
+    // it is not stored in the DB and will not appear on any later fetch.
+    const created: ApiKey = { ...data, key };
+    setNewlyCreated(created);
+    setKeys(prev => [created, ...prev]);
     setNewLabel('');
     setShowCreate(false);
     setRevealedId(data.id);
@@ -107,6 +130,7 @@ export function ApiKeysPage() {
   }
 
   function handleCopy(key: ApiKey) {
+    if (!key.key) return; // hashed key — plaintext unavailable
     copyToClipboard(key.key);
     setCopiedId(key.id);
     setTimeout(() => setCopiedId(null), 2000);
@@ -301,14 +325,20 @@ export function ApiKeysPage() {
                         {/* Key value */}
                         <div className="flex items-center gap-2 mb-3">
                           <code className="text-sm font-mono text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800 px-2 py-1 rounded truncate max-w-xs">
-                            {isRevealed ? apiKey.key : maskKey(apiKey.key)}
+                            {apiKey.key ? (isRevealed ? apiKey.key : maskKey(apiKey.key)) : displayKey(apiKey)}
                           </code>
-                          <button
-                            onClick={() => setRevealedId(isRevealed ? null : apiKey.id)}
-                            className="text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 shrink-0"
-                          >
-                            {isRevealed ? 'Hide' : 'Reveal'}
-                          </button>
+                          {apiKey.key ? (
+                            <button
+                              onClick={() => setRevealedId(isRevealed ? null : apiKey.id)}
+                              className="text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 shrink-0"
+                            >
+                              {isRevealed ? 'Hide' : 'Reveal'}
+                            </button>
+                          ) : (
+                            <span className="text-xs text-slate-400 shrink-0" title="For security, the full key is shown only once at creation">
+                              shown once
+                            </span>
+                          )}
                         </div>
 
                         {/* Usage bar */}
@@ -334,13 +364,15 @@ export function ApiKeysPage() {
 
                       {/* Actions */}
                       <div className="flex items-center gap-1 shrink-0">
-                        <button
-                          onClick={() => handleCopy(apiKey)}
-                          title="Copy key"
-                          className="p-2 text-slate-400 hover:text-violet-600 hover:bg-violet-50 dark:hover:bg-violet-900/20 rounded-lg transition-colors"
-                        >
-                          {isCopied ? <CheckCircle className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
-                        </button>
+                        {apiKey.key && (
+                          <button
+                            onClick={() => handleCopy(apiKey)}
+                            title="Copy key"
+                            className="p-2 text-slate-400 hover:text-violet-600 hover:bg-violet-50 dark:hover:bg-violet-900/20 rounded-lg transition-colors"
+                          >
+                            {isCopied ? <CheckCircle className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
+                          </button>
+                        )}
                         <button
                           onClick={() => deleteKey(apiKey.id)}
                           title="Delete key"

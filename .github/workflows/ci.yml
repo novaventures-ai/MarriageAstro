@@ -24,6 +24,9 @@ jobs:
       - name: TypeScript check
         run: npm run typecheck
 
+      - name: API ESM/CJS boundary check
+        run: node scripts/check-esm-boundaries.mjs
+
       - name: Lint
         run: npm run lint
 
