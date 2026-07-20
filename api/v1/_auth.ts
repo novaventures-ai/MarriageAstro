@@ -3,6 +3,7 @@
  * Validates X-API-Key header against Supabase api_keys table
  * Returns tier info for downstream use
  */
+import crypto from 'crypto';
 import { createClient } from '@supabase/supabase-js';
 // Use the CJS-scope copy — requiring ../_oauth-helper.js (ESM scope) crashes
 // this CommonJS function at runtime with ERR_REQUIRE_ESM on Vercel.
@@ -52,15 +53,15 @@ export async function validateApiKey(req: any): Promise<AuthResult> {
   // Detect RapidAPI traffic: host header always present (playground + production)
   const isRapidApiRequest = !!rapidApiHost;
 
-  // Case A: Proxy secret is configured AND matches → fully verified RapidAPI traffic
-  if (isRapidApiRequest && expectedSecret && proxySecret === expectedSecret) {
-    return { valid: true, tier: mapRapidApiPlan(rapidApiPlan), keyId: 'rapidapi-verified' };
-  }
-
-  // Case B: RapidAPI request but proxy secret not configured in Vercel env yet
-  // Allow through as free tier (configure RAPIDAPI_PROXY_SECRET in Vercel for production security)
-  if (isRapidApiRequest && !expectedSecret) {
-    return { valid: true, tier: mapRapidApiPlan(rapidApiPlan), keyId: 'rapidapi-unverified' };
+  // RapidAPI traffic is only trusted when the proxy secret is configured AND
+  // matches. If RAPIDAPI_PROXY_SECRET is unset, fail closed — otherwise anyone
+  // can spoof `x-rapidapi-host` + `x-rapidapi-plan: premium` for free premium
+  // access. Set RAPIDAPI_PROXY_SECRET in Vercel to enable RapidAPI.
+  if (isRapidApiRequest) {
+    if (expectedSecret && proxySecret === expectedSecret) {
+      return { valid: true, tier: mapRapidApiPlan(rapidApiPlan), keyId: 'rapidapi-verified' };
+    }
+    return { valid: false, tier: 'free', keyId: '', error: 'RapidAPI proxy secret missing or invalid', statusCode: 401 };
   }
 
   // 2. Standard X-API-Key verification (for direct client / MCP users)
@@ -98,6 +99,18 @@ export async function validateApiKey(req: any): Promise<AuthResult> {
         tier = 'solo';
       }
 
+      // Rate-limit OAuth (Claude connector) callers by their user id — without
+      // this they had no per-day cap at all. Atomic via RPC. If the RPC is
+      // missing (not yet migrated), fall through and allow rather than break.
+      try {
+        const { data: quota, error: quotaErr } = await supabaseClient
+          .rpc('consume_quota', { p_id: `oauth:${oauthPayload.userId}`, p_daily_limit: DAILY_LIMITS[tier] })
+          .single();
+        if (!quotaErr && quota && (quota as any).is_allowed === false) {
+          return { valid: false, tier, keyId: `oauth-${oauthPayload.userId}`, error: 'Daily limit reached. Upgrade your plan.', statusCode: 429 };
+        }
+      } catch { /* quota RPC unavailable — allow */ }
+
       return { valid: true, tier, keyId: `oauth-${oauthPayload.userId}` };
     } catch {
       return { valid: true, tier: 'free', keyId: `oauth-${oauthPayload.userId}` };
@@ -106,11 +119,24 @@ export async function validateApiKey(req: any): Promise<AuthResult> {
 
   try {
     const supabase = getSupabase();
-    const { data, error } = await supabase
+
+    // Look up by SHA-256 hash first (keys created after the hashing rollout store
+    // only key_hash, never plaintext). Fall back to a plaintext match for legacy
+    // keys created before the rollout, so existing users are not disrupted.
+    const keyHash = crypto.createHash('sha256').update(apiKey).digest('hex');
+    let { data, error } = await supabase
       .from('api_keys')
-      .select('id, tier, calls_today, calls_month, last_reset_at, is_active')
-      .eq('key', apiKey)
+      .select('id, tier, is_active')
+      .eq('key_hash', keyHash)
       .single();
+
+    if (error || !data) {
+      ({ data, error } = await supabase
+        .from('api_keys')
+        .select('id, tier, is_active')
+        .eq('key', apiKey)
+        .single());
+    }
 
     if (error || !data) {
       return { valid: false, tier: 'free', keyId: '', error: 'Invalid API key', statusCode: 401 };
@@ -122,27 +148,16 @@ export async function validateApiKey(req: any): Promise<AuthResult> {
 
     const tier = data.tier as ApiTier;
 
-    // Reset daily count if needed
-    const lastReset = new Date(data.last_reset_at);
-    const needsReset = Date.now() - lastReset.getTime() > 86400000;
-    const callsToday = needsReset ? 0 : data.calls_today;
-
-    if (callsToday >= DAILY_LIMITS[tier]) {
-      return { valid: false, tier, keyId: data.id, error: 'Daily limit reached. Upgrade your plan.', statusCode: 429 };
-    }
-
-    // Increment call count
-    if (needsReset) {
-      await supabase
-        .from('api_keys')
-        .update({ calls_today: 1, last_reset_at: new Date().toISOString() })
-        .eq('id', data.id);
-    } else {
-      await supabase
-        .from('api_keys')
-        .update({ calls_today: callsToday + 1, calls_month: data.calls_month + 1 })
-        .eq('id', data.id);
-    }
+    // Atomic quota consume — fixes the read-then-write race that let concurrent
+    // bursts exceed the limit. Falls back to allowing if the RPC is unavailable.
+    try {
+      const { data: quota, error: quotaErr } = await supabase
+        .rpc('consume_api_key_quota', { p_key_id: data.id, p_daily_limit: DAILY_LIMITS[tier] })
+        .single();
+      if (!quotaErr && quota && (quota as any).is_allowed === false) {
+        return { valid: false, tier, keyId: data.id, error: 'Daily limit reached. Upgrade your plan.', statusCode: 429 };
+      }
+    } catch { /* quota RPC unavailable — allow */ }
 
     return { valid: true, tier, keyId: data.id };
   } catch (err: any) {
