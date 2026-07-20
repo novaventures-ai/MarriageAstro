@@ -841,7 +841,7 @@ export const LandingPage: React.FC = () => {
             {/* Features */}
             <div>
               <h4 className="font-semibold text-sm text-gray-800 dark:text-gray-100 mb-3">Features</h4>
-              <ul className="space-y-1.5 text-xs">
+              <ul className="space-y-0.5 text-xs">
                 {[
                   { to: '/features', label: 'All Features' },
                   { to: '/features/divorce-risk', label: 'Divorce Risk Radar' },
@@ -850,42 +850,42 @@ export const LandingPage: React.FC = () => {
                   { to: '/api-keys', label: 'Developer API' },
                   { to: '/api-keys', label: 'MCP Server' },
                 ].map(l => (
-                  <li key={l.to}><Link to={l.to} className="text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{l.label}</Link></li>
+                  <li key={l.to}><Link to={l.to} className="block py-1.5 min-h-[40px] flex items-center text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{l.label}</Link></li>
                 ))}
               </ul>
             </div>
             {/* Guides */}
             <div>
               <h4 className="font-semibold text-sm text-gray-800 dark:text-gray-100 mb-3">Guides</h4>
-              <ul className="space-y-1.5 text-xs">
+              <ul className="space-y-0.5 text-xs">
                 {[
                   { to: '/how-it-works', label: 'How It Works' },
                   { to: '/guides/ashtakoot-milan', label: 'Ashtakoot Milan Guide' },
                   { to: '/guides/marriage-timing', label: 'Marriage Timing Guide' },
                   { to: '/guides/mangal-dosha', label: 'Mangal Dosha Guide' },
                 ].map(l => (
-                  <li key={l.to}><Link to={l.to} className="text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{l.label}</Link></li>
+                  <li key={l.to}><Link to={l.to} className="block py-1.5 min-h-[40px] flex items-center text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{l.label}</Link></li>
                 ))}
               </ul>
             </div>
             {/* Earn */}
             <div>
               <h4 className="font-semibold text-sm text-gray-800 dark:text-gray-100 mb-3">Partners</h4>
-              <ul className="space-y-1.5 text-xs">
+              <ul className="space-y-0.5 text-xs">
                 {[
                   { to: '/affiliate', label: '💰 Affiliate Program' },
                   { to: '/affiliate', label: 'Marriage Bureau Partners' },
                   { to: '/affiliate', label: 'Wedding Planners' },
                   { to: '/pricing', label: 'Pricing' },
                 ].map(l => (
-                  <li key={l.label}><Link to={l.to} className="text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{l.label}</Link></li>
+                  <li key={l.label}><Link to={l.to} className="block py-1.5 min-h-[40px] flex items-center text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{l.label}</Link></li>
                 ))}
               </ul>
             </div>
             {/* Blog */}
             <div>
               <h4 className="font-semibold text-sm text-gray-800 dark:text-gray-100 mb-3">Blog</h4>
-              <ul className="space-y-1.5 text-xs">
+              <ul className="space-y-0.5 text-xs">
                 {[
                   { to: '/blog', label: 'All Articles' },
                   { to: '/blog/kundali-matching-complete-guide', label: 'Kundali Matching Guide' },
@@ -893,20 +893,20 @@ export const LandingPage: React.FC = () => {
                   { to: '/blog/when-will-i-get-married-astrology', label: 'Marriage Timing' },
                   { to: '/blog/nadi-dosha-complete-guide', label: 'Nadi Dosha Guide' },
                 ].map(l => (
-                  <li key={l.to}><Link to={l.to} className="text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{l.label}</Link></li>
+                  <li key={l.to}><Link to={l.to} className="block py-1.5 min-h-[40px] flex items-center text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{l.label}</Link></li>
                 ))}
               </ul>
             </div>
             {/* Legal */}
             <div>
               <h4 className="font-semibold text-sm text-gray-800 dark:text-gray-100 mb-3">Legal</h4>
-              <ul className="space-y-1.5 text-xs">
+              <ul className="space-y-0.5 text-xs">
                 {[
                   { to: '/legal/privacy', label: 'Privacy Policy' },
                   { to: '/legal/terms', label: 'Terms of Service' },
                   { to: '/legal/refund', label: 'Refund & Cancellation' },
                 ].map(l => (
-                  <li key={l.to}><Link to={l.to} className="text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{l.label}</Link></li>
+                  <li key={l.to}><Link to={l.to} className="block py-1.5 min-h-[40px] flex items-center text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{l.label}</Link></li>
                 ))}
               </ul>
             </div>
