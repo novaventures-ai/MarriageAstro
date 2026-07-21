@@ -24,6 +24,7 @@ import { VulnerabilityTimelineWidget } from '../components/widgets/Vulnerability
 import { LifeAfterMarriageWidget } from '../components/widgets/LifeAfterMarriageWidget';
 import { ArrowLeft, ChevronDown, Home } from 'lucide-react';
 import { PremiumGate } from '../components/premium/PremiumGate';
+import { PricingModal } from '../components/premium/PricingModal';
 import { ShareButton } from '../components/premium/ShareButton';
 import { usePremium } from '../hooks/usePremium';
 import { useUserProfileStore } from '../store/useUserProfileStore';
@@ -66,6 +67,7 @@ export const ReportPage: React.FC = () => {
   const [showMobileTabs, setShowMobileTabs] = useState(false);
   const [activeTheme, setActiveTheme] = useState<ThemeId>('match');
   const [demoBannerDismissed, setDemoBannerDismissed] = useState(false);
+  const [showUnlockModal, setShowUnlockModal] = useState(false);
 
   const reportKey = useMemo(() => {
     if (!currentReport) return '';
@@ -648,6 +650,43 @@ export const ReportPage: React.FC = () => {
 
     {/* Push notification opt-in prompt — shown after report loads */}
     <PushPrompt />
+
+    {/* Completion meter + unlock CTA — Zeigarnik/goal-gradient pull toward the
+        locked sections, in the mobile thumb-zone (Fitts's Law). Only for
+        non-premium users with locked themes. */}
+    {(() => {
+      if (isPremium) return null;
+      const totalThemes = themes.length;
+      const unlockedThemes = themes.filter((t) => !t.premiumRequired).length;
+      const lockedThemes = totalThemes - unlockedThemes;
+      if (lockedThemes <= 0) return null;
+      const pct = Math.round((unlockedThemes / totalThemes) * 100);
+      return (
+        <>
+          <div className="h-24" aria-hidden="true" />
+          <div className="fixed bottom-0 inset-x-0 z-40 bg-white/95 dark:bg-gray-800/95 backdrop-blur border-t border-gray-200 dark:border-gray-700 px-4 py-3 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] safe-area-x">
+            <div className="max-w-3xl mx-auto flex items-center gap-3">
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between text-xs mb-1">
+                  <span className="font-semibold text-gray-700 dark:text-gray-200 whitespace-nowrap">{pct}% revealed</span>
+                  <span className="text-gray-500 dark:text-gray-400 whitespace-nowrap">{lockedThemes} section{lockedThemes > 1 ? 's' : ''} left to unlock</span>
+                </div>
+                <div className="h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                  <div className="h-full bg-gradient-to-r from-amber-400 to-amber-600 rounded-full transition-all duration-500" style={{ width: `${pct}%` }} />
+                </div>
+              </div>
+              <button
+                onClick={() => setShowUnlockModal(true)}
+                className="shrink-0 whitespace-nowrap px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-white text-sm font-bold rounded-xl shadow-lg shadow-amber-500/20 transition-colors active:scale-95"
+              >
+                Reveal all
+              </button>
+            </div>
+          </div>
+          <PricingModal isOpen={showUnlockModal} onClose={() => setShowUnlockModal(false)} sectionLabel="Full Compatibility Report" reportKey={reportKey} />
+        </>
+      );
+    })()}
   </div>
 );
 };
