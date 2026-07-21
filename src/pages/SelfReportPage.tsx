@@ -162,6 +162,7 @@ export const SelfReportPage: React.FC = () => {
   const {
     selfReport,
     selfChart,
+    selfBirthData,
     partners,
     isGeneratingReport,
     generateSelfReport,
@@ -360,7 +361,9 @@ export const SelfReportPage: React.FC = () => {
               </div>
               <div className="min-w-0 overflow-hidden">
                 <h1 className="text-sm sm:text-lg font-bold text-gray-800 dark:text-gray-100 whitespace-nowrap">
-                  {selfChart?.name}&apos;s Analysis
+                  {(selfChart?.name || selfBirthData?.name)
+                    ? `${selfChart?.name || selfBirthData?.name}'s Analysis`
+                    : 'Your Analysis'}
                 </h1>
                 <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 truncate">
                   Score: {selfReport?.marriagePotential?.score ?? '?'}/100 • {selfReport?.marriagePotential?.verdict?.replace('_', ' ') ?? 'Analyzing'}
@@ -453,6 +456,40 @@ export const SelfReportPage: React.FC = () => {
         {/* Main Content */}
         <WidgetErrorBoundary fallbackTitle="Self-Analysis UI Error" onReset={() => window.location.reload()}>
           <div>
+            {/* Verdict hero — give the anxious user their answer up front (a warm,
+                plain-language verdict + the score) BEFORE the theme navigator, so
+                the emotional payoff isn't buried behind a menu (Peak-End rule). */}
+            {(() => {
+              const score = selfReport?.marriagePotential?.score;
+              if (typeof score !== 'number') return null;
+              const firstName = (selfChart?.name || selfBirthData?.name || '').trim().split(' ')[0];
+              const verdict = score >= 75
+                ? 'The stars are genuinely on your side for a happy, lasting marriage.'
+                : score >= 60
+                  ? 'You have a strong foundation for a happy marriage — with a little conscious effort.'
+                  : score >= 45
+                    ? 'A marriage that can absolutely work — it simply rewards understanding and patience.'
+                    : 'Marriage will ask for patience and self-awareness from you — and it is very much possible.';
+              const scoreColor = score >= 60 ? 'text-emerald-600 dark:text-emerald-400' : score >= 45 ? 'text-amber-600 dark:text-amber-400' : 'text-rose-600 dark:text-rose-400';
+              return (
+                <div className="mb-6 rounded-3xl bg-gradient-to-br from-purple-50 via-indigo-50 to-pink-50 dark:from-gray-800 dark:via-gray-800 dark:to-indigo-950/40 border border-indigo-100 dark:border-gray-700 p-6 sm:p-8 text-center shadow-sm">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-indigo-500 dark:text-indigo-300 mb-2">
+                    {firstName ? `${firstName}, your marriage potential` : 'Your marriage potential'}
+                  </p>
+                  <div className="flex items-baseline justify-center gap-1 mb-3">
+                    <span className={`text-5xl sm:text-6xl font-extrabold ${scoreColor}`}>{score}</span>
+                    <span className="text-xl font-semibold text-gray-400 dark:text-gray-500">/100</span>
+                  </div>
+                  <p className="text-base sm:text-lg font-semibold text-gray-800 dark:text-gray-100 max-w-xl mx-auto leading-snug">
+                    {verdict}
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-3">
+                    Explore the themes below for the full story behind your number.
+                  </p>
+                </div>
+              );
+            })()}
+
             {/* Cosmic Navigator */}
             <CosmicNavigator
               themes={themes}
