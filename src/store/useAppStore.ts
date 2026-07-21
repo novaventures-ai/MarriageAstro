@@ -70,10 +70,19 @@ export const useAppStore = create<AppState>()(
         }
 
         set({ isLoading: true, error: null });
+        const generationStartedAt = Date.now();
 
         try {
           const { generateFullCompatibilityReport } = await import('@lib/reportGenerator');
           const report = await generateFullCompatibilityReport(birthDataA, birthDataB);
+          // Hold the "casting" state for a minimum beat so an instant WASM result
+          // still feels considered (labor-illusion). Mirrors generateSelfReport;
+          // MIN_CASTING_MS is tunable (0 disables).
+          const MIN_CASTING_MS = 1800;
+          const elapsed = Date.now() - generationStartedAt;
+          if (elapsed < MIN_CASTING_MS) {
+            await new Promise((r) => setTimeout(r, MIN_CASTING_MS - elapsed));
+          }
           set({
             currentReport: report,
             isLoading: false,

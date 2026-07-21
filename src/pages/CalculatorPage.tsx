@@ -7,6 +7,7 @@ import { ThemeToggle } from '../components/ui/ThemeToggle';
 import { AuthButton } from '../components/ui/AuthButton';
 import { Logo } from '../components/ui/Logo';
 import { SEOHead } from '../components/SEOHead';
+import { CastingOverlay } from '../components/ui/CastingOverlay';
 
 export const CalculatorPage: React.FC = () => {
   const navigate = useNavigate();
@@ -37,6 +38,7 @@ export const CalculatorPage: React.FC = () => {
 
   return (
     <div className="min-h-screen py-6 sm:py-8 md:py-12 px-3 sm:px-4 transition-colors duration-500 safe-area-x">
+      <CastingOverlay show={isLoading} />
       <SEOHead
         title="Free Kundali Calculator - Birth Chart & Marriage Timing"
         description="Generate your free Vedic birth chart with Kundali calculator. Get marriage timing predictions, spouse characteristics, and personalized astrological remedies."
