@@ -206,6 +206,10 @@ export default function ChartDetailsWidget({ boyChart, girlChart }: ChartDetails
                                             <tr key={p.planet} className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors text-xs sm:text-sm">
                                                 <td className="px-2 py-2 text-left font-medium whitespace-nowrap">
                                                     <span className={cn(
+                                                        // Base colour so planets without a specific colour (Mercury,
+                                                        // Jupiter, Venus, Uranus, Neptune, Pluto) stay visible — without
+                                                        // it the span had no colour class and inherited an invisible one.
+                                                        "text-gray-800 dark:text-gray-200",
                                                         p.planet === "Mars" && "text-red-600 dark:text-red-400",
                                                         p.planet === "Saturn" && "text-blue-700 dark:text-blue-400",
                                                         p.planet === "Sun" && "text-orange-600 dark:text-orange-400",
