@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { useUserProfileStore } from '../store/useUserProfileStore';
 import { ArrowLeft, Loader2, Sparkles, User } from 'lucide-react';
 import { ThemeToggle } from '../components/ui/ThemeToggle';
+import { CastingOverlay } from '../components/ui/CastingOverlay';
 import PlaceAutocomplete from '../components/PlaceAutocomplete';
 import { Logo } from '../components/ui/Logo';
 import { SEOHead } from '../components/SEOHead';
@@ -332,6 +333,7 @@ export const SelfCalculatorPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+      <CastingOverlay show={isGeneratingReport} />
       <SEOHead
         title="Marriage Analysis - Enter Birth Details"
         description="Enter your birth details to get a complete Vedic astrology marriage analysis. Marriage timing prediction, spouse characteristics, Mangal Dosha check & personalized remedies."

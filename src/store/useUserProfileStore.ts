@@ -358,10 +358,20 @@ export const useUserProfileStore = create<UserProfileState>()(
         }
 
         set({ isGeneratingReport: true, generationError: null });
+        const generationStartedAt = Date.now();
 
         try {
           const { generateSelfAnalysisReport } = await import('../../lib/selfReportGenerator');
           const report = await generateSelfAnalysisReport(selfBirthData, selfChart);
+          // The WASM engine returns almost instantly; hold the "casting" state for
+          // a minimum beat so a weighty question ("will my marriage work?") doesn't
+          // get a throwaway-feeling instant answer (labor-illusion / perceived
+          // value). Tune MIN_CASTING_MS to taste; 0 disables the ritual.
+          const MIN_CASTING_MS = 1800;
+          const elapsed = Date.now() - generationStartedAt;
+          if (elapsed < MIN_CASTING_MS) {
+            await new Promise((r) => setTimeout(r, MIN_CASTING_MS - elapsed));
+          }
           set({ selfReport: report, isGeneratingReport: false });
 
           // Save report to cloud (skip in demo mode)
