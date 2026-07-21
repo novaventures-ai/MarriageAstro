@@ -223,11 +223,13 @@ export const LandingPage: React.FC = () => {
             Not sure which to pick? <span className="text-indigo-500 font-medium">Self Analysis</span> = just your chart &nbsp;·&nbsp; <span className="text-pink-500 font-medium">Compatibility Check</span> = two charts compared
           </p>
 
-          {/* Try Demo CTA — prominent secondary hero action */}
+          {/* Try Demo CTA — secondary (tonal outline) so it supports, rather
+              than competes with, the two primary path CTAs above (Von Restorff:
+              one clear primary action per view). */}
           <div className="flex flex-col items-center gap-2">
             <button
               onClick={() => navigate('/demo')}
-              className="inline-flex items-center gap-2.5 px-7 py-3.5 text-base font-bold text-white bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 rounded-2xl shadow-lg hover:shadow-xl transition-all active:scale-95"
+              className="inline-flex items-center gap-2.5 px-7 py-3.5 text-base font-semibold text-indigo-600 dark:text-indigo-300 bg-white/70 dark:bg-white/5 border border-indigo-200 dark:border-indigo-500/40 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 rounded-2xl shadow-sm hover:shadow transition-all active:scale-95"
             >
               <Play className="w-5 h-5" />
               Try Demo Free — No Sign-up Needed
@@ -243,26 +245,32 @@ export const LandingPage: React.FC = () => {
           <div>
             <p className="text-2xl sm:text-3xl font-bold text-indigo-600 dark:text-indigo-400">12</p>
             <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Planets Analyzed</p>
+            <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-0.5">grahas in your chart</p>
           </div>
           <div>
             <p className="text-2xl sm:text-3xl font-bold text-purple-600 dark:text-purple-400">27</p>
             <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Nakshatras Mapped</p>
+            <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-0.5">lunar birth stars</p>
           </div>
           <div>
             <p className="text-2xl sm:text-3xl font-bold text-pink-600 dark:text-pink-400">36</p>
-            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Points Compatibility</p>
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Compatibility Points</p>
+            <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-0.5">Guna Milan score</p>
           </div>
           <div>
             <p className="text-2xl sm:text-3xl font-bold text-amber-600 dark:text-amber-400">7</p>
             <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Divisional Charts</p>
+            <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-0.5">deeper life areas</p>
           </div>
           <div>
             <p className="text-2xl sm:text-3xl font-bold text-emerald-600 dark:text-emerald-400">14</p>
-            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Yoni Types Profiled</p>
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Yoni Types</p>
+            <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-0.5">intimacy match</p>
           </div>
           <div>
             <p className="text-2xl sm:text-3xl font-bold text-rose-600 dark:text-rose-400">5</p>
             <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Astrology Systems</p>
+            <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-0.5">Parashari, KP, Jaimini…</p>
           </div>
         </div>
       </section>
