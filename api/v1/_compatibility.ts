@@ -60,15 +60,20 @@ export default async function handler(req: any, res: any) {
           person_a: { summary: doshA.summary, severity: doshA.overallSeverity, doshas: doshA.doshas },
           person_b: { summary: doshB.summary, severity: doshB.overallSeverity, doshas: doshB.doshas },
         },
-        // Upsell block — only for callers who actually have something to upgrade to
+        // Upsell block — only for callers who actually have something to upgrade to.
+        // Agency-first: lead with the strongest matched area (a free positive
+        // takeaway), reframe risk as resilience, close on possibility (Peak-End).
         ...(auth.tier !== 'premium' ? {
           _premium_preview: {
-            divorce_risk: ashtakoot.doshas.nadiDosha || ashtakoot.doshas.bhakootDosha
-              ? 'ELEVATED — dosha combination detected. Upgrade to see full divorce risk analysis'
-              : 'LOW-MODERATE — upgrade to see complete divorce risk assessment',
-            conflict_zones: '3–5 recurring friction patterns available — upgrade to view',
-            vulnerability_windows: 'High-risk periods in next 3 years detected — upgrade to see dates',
-            sexual_compatibility: 'Venus/Mars synastry analysis available — upgrade to view',
+            strongest_match: ashtakoot.percentage >= 60
+              ? `A genuinely strong ${ashtakoot.percentage}% match — a solid base to build on.`
+              : `You share workable common ground (${ashtakoot.percentage}%) — the full report shows exactly where to focus.`,
+            relationship_resilience: ashtakoot.doshas.nadiDosha || ashtakoot.doshas.bhakootDosha
+              ? 'A dosha pattern to understand and remedy — unlock your full resilience map'
+              : 'A steady foundation — unlock the complete resilience assessment',
+            harmony_zones: '3–5 recurring dynamics to understand together — see them in the full report',
+            sensitive_periods: 'Years that will reward extra care, with exact dates — in the full report',
+            intimacy_compatibility: 'Your Venus/Mars intimacy synastry is ready to view',
             upgrade_url: 'https://marriage-astro.vercel.app/pricing',
           },
         } : {}),
