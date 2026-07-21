@@ -140,6 +140,9 @@ export const PricingPage: React.FC = () => {
   const [paymentError, setPaymentError] = useState<string | null>(null);
   const [currency, setCurrency] = useState<'INR' | 'USD'>('INR');
   const [isInternational, setIsInternational] = useState(false);
+  // Progressive disclosure: lead with the Free-vs-Premium decision; keep the
+  // pay-once and Astrologer (coming-soon) options tucked away until asked for.
+  const [showMoreOptions, setShowMoreOptions] = useState(false);
   const loadPlanFromCloud = useUserProfileStore((s) => s.loadPlanFromCloud);
 
   useEffect(() => {
@@ -202,6 +205,66 @@ export const PricingPage: React.FC = () => {
       setNotified(true);
     }
   };
+
+  // Lead with the decision most users actually make (Free vs Premium); the
+  // pay-once and Astrologer options sit behind a disclosure below.
+  const primaryTiers = TIERS.filter((t) => t.name === 'Free' || t.name === 'Premium');
+  const secondaryTiers = TIERS.filter((t) => t.name === 'Per-Module Unlock' || t.name === 'Astrologer');
+
+  const renderTierCard = (tier: typeof TIERS[number]) => (
+    <div
+      key={tier.name}
+      className={`relative rounded-2xl border-2 p-6 bg-white dark:bg-gray-900 transition-all ${
+        tier.popular
+          ? 'border-amber-400 dark:border-amber-500 shadow-lg shadow-amber-500/10'
+          : 'border-gray-200 dark:border-gray-700'
+      }`}
+    >
+      {tier.popular && (
+        <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 bg-amber-500 text-white text-xs font-bold rounded-full">
+          Most Popular
+        </span>
+      )}
+      <div className={`text-${tier.color}-600 dark:text-${tier.color}-400 mb-3`}>{tier.icon}</div>
+      <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">{tier.name}</h3>
+      <div className="mt-2 mb-5">
+        <span className="text-4xl font-bold text-gray-800 dark:text-gray-100">
+          {tier.staticPrice
+            ? tier.staticPrice[currency]
+            : tier.priceKey
+              ? pricing[tier.priceKey].display.replace('/mo', '')
+              : '—'}
+        </span>
+        <span className="text-sm text-gray-500">{tier.period}</span>
+      </div>
+      <ul className="space-y-2.5 mb-6">
+        {tier.features.map((f, i) => (
+          <li key={i} className="flex items-start gap-2 text-sm">
+            {f.included ? (
+              <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+            ) : (
+              <X className="w-4 h-4 text-gray-300 dark:text-gray-600 flex-shrink-0 mt-0.5" />
+            )}
+            <span className={f.included ? 'text-gray-700 dark:text-gray-300' : 'text-gray-400 dark:text-gray-600'}>{f.text}</span>
+          </li>
+        ))}
+      </ul>
+      <button
+        disabled={tier.disabled || (loadingTier !== null)}
+        onClick={tier.planType ? () => handleTierCheckout(tier.planType as any, tier.name) : undefined}
+        className={`w-full py-3 rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2 ${
+          tier.popular
+            ? 'bg-amber-500 text-white hover:bg-amber-600 shadow-lg shadow-amber-500/20 border-b-4 border-amber-700 active:border-b-0 active:translate-y-1'
+            : tier.color === 'purple'
+              ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 disabled:opacity-60 cursor-not-allowed'
+              : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 disabled:opacity-60'
+        }`}
+      >
+        {loadingTier === tier.name ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
+        {tier.cta}
+      </button>
+    </div>
+  );
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-500">
@@ -290,62 +353,26 @@ export const PricingPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Tier Cards */}
-      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
-        {TIERS.map((tier) => (
-          <div
-            key={tier.name}
-            className={`relative rounded-2xl border-2 p-6 bg-white dark:bg-gray-900 transition-all ${
-              tier.popular
-                ? 'border-amber-400 dark:border-amber-500 shadow-lg shadow-amber-500/10'
-                : 'border-gray-200 dark:border-gray-700'
-            }`}
-          >
-            {tier.popular && (
-              <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 bg-amber-500 text-white text-xs font-bold rounded-full">
-                Most Popular
-              </span>
-            )}
-            <div className={`text-${tier.color}-600 dark:text-${tier.color}-400 mb-3`}>{tier.icon}</div>
-            <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">{tier.name}</h3>
-            <div className="mt-2 mb-5">
-              <span className="text-4xl font-bold text-gray-800 dark:text-gray-100">
-                {tier.staticPrice
-                  ? tier.staticPrice[currency]
-                  : tier.priceKey
-                    ? pricing[tier.priceKey].display.replace('/mo', '')
-                    : '—'}
-              </span>
-              <span className="text-sm text-gray-500">{tier.period}</span>
-            </div>
-            <ul className="space-y-2.5 mb-6">
-              {tier.features.map((f, i) => (
-                <li key={i} className="flex items-start gap-2 text-sm">
-                  {f.included ? (
-                    <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                  ) : (
-                    <X className="w-4 h-4 text-gray-300 dark:text-gray-600 flex-shrink-0 mt-0.5" />
-                  )}
-                  <span className={f.included ? 'text-gray-700 dark:text-gray-300' : 'text-gray-400 dark:text-gray-600'}>{f.text}</span>
-                </li>
-              ))}
-            </ul>
-            <button
-              disabled={tier.disabled || (loadingTier !== null)}
-              onClick={tier.planType ? () => handleTierCheckout(tier.planType as any, tier.name) : undefined}
-              className={`w-full py-3 rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2 ${
-                tier.popular
-                  ? 'bg-amber-500 text-white hover:bg-amber-600 shadow-lg shadow-amber-500/20 border-b-4 border-amber-700 active:border-b-0 active:translate-y-1'
-                  : tier.color === 'purple'
-                    ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 disabled:opacity-60 cursor-not-allowed'
-                    : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 disabled:opacity-60'
-              }`}
-            >
-              {loadingTier === tier.name ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
-              {tier.cta}
-            </button>
+      {/* Primary decision: Free vs Premium */}
+      <div className="max-w-3xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        {primaryTiers.map(renderTierCard)}
+      </div>
+
+      {/* Progressive disclosure: pay-once + Astrologer options */}
+      <div className="max-w-3xl mx-auto px-4 mb-16">
+        <button
+          onClick={() => setShowMoreOptions((v) => !v)}
+          className="w-full flex items-center justify-center gap-2 py-3 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+          aria-expanded={showMoreOptions}
+        >
+          {showMoreOptions ? 'Hide other options' : 'Prefer to pay once, or need pro tools?'}
+          {showMoreOptions ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+        </button>
+        {showMoreOptions && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+            {secondaryTiers.map(renderTierCard)}
           </div>
-        ))}
+        )}
       </div>
 
       {/* Waitlist / Notify Me — prominent section */}
