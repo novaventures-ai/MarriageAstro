@@ -24,6 +24,8 @@ import {
 } from './jaiminiCalculations.js';
 import { drillActiveDashaChain } from './dashaCalculations.js';
 import { calculateAshtakavarga } from './ashtakavarga.js';
+import { calculateYoginiDasha } from './yoginiDasha.js';
+import { calculateShadbala } from './shadbala.js';
 
 const lon = (chart: Chart, planet: Planet): number =>
   chart.planetaryPositions.find(p => p.planet === planet)?.longitude ?? 0;
@@ -80,6 +82,22 @@ export function assembleFullKundali(chart: Chart) {
     ashtakavarga = null;
   }
 
+  // ── Shadbala (six-fold strength; scoped — see its completeness field) ──
+  let shadbala: unknown;
+  try {
+    shadbala = calculateShadbala(chart);
+  } catch {
+    shadbala = null;
+  }
+
+  // ── Yogini Dasha (8-fold 36-year cycle; independent timing cross-check) ──
+  let yoginiDasha: unknown;
+  try {
+    yoginiDasha = calculateYoginiDasha(chart);
+  } catch {
+    yoginiDasha = null;
+  }
+
   // ── Vimshottari dasha: full 3-level tree + active branch drilled to Prana ──
   const activeChainDeep = drillActiveDashaChain(
     chart.nakshatra as Nakshatra,
@@ -122,6 +140,8 @@ export function assembleFullKundali(chart: Chart) {
       navamsaHouseMeanings: extended.navamsaHouseMeanings,
       d7: extended.d7Full,
       d9: extended.d9Full,
+      // Shadbala — six-fold strength (scoped; see shadbala.completeness).
+      shadbala,
     },
 
     // ── Yogas & Doshas ──
@@ -158,6 +178,8 @@ export function assembleFullKundali(chart: Chart) {
       // Currently-running branch drilled Maha → Antar → Pratyantar → Sookshma → Prana,
       // with every Sookshma of the current Pratyantar and every Prana of the current Sookshma.
       activeChainToPrana: activeChainDeep,
+      // Yogini Dasha — 8-fold 36-year cycle, an independent timing cross-check.
+      yogini: yoginiDasha,
     },
 
     // ── Special points ──
