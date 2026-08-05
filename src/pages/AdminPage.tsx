@@ -82,6 +82,9 @@ export const AdminPage: React.FC = () => {
     if (tab === 'payments' && !paymentsLoaded) fetchPayments();
     if (tab === 'push' && pushCount === null) fetchPushStats();
     if (tab === 'affiliates' && !affiliatesLoaded) fetchAffiliates();
+    // Intentionally keyed on `tab` only — this lazy-loads each tab's data on
+    // switch; the *Loaded flags are read as guards, not effect triggers.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab]);
 
   // ─── Users ───────────────────────────────────────────────────────────────
