@@ -3,8 +3,9 @@
  * Tier: free
  * Returns: planets, houses, nakshatras, ascendant, yogas for one person
  */
-import { validateApiKey, parseBirthData } from './_auth.js';
+import { validateApiKey, parseBirthData, requireTierOrTeaser } from './_auth.js';
 import { generateChartFromBirthData } from '../../lib/reportGenerator.js';
+import { assembleFullKundali } from '../../lib/fullKundali.js';
 
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST required' });
@@ -30,6 +31,24 @@ export default async function handler(req: any, res: any) {
 
   try {
     const chart = await generateChartFromBirthData(birth);
+
+    // ── detail=full — the complete kundali (all divisional charts, all yogas &
+    // doshas, KP sub-lords, full Jaimini set, Vimshopaka strength, and the
+    // Vimshottari tree with the active branch drilled to Prana). This is a
+    // premium-grade payload, so it is gated to premium; free/lower tiers get a
+    // teaser pointing at the summary + upgrade, keeping the paywall intact.
+    const detail = String(req.body?.detail || 'summary').toLowerCase();
+    if (detail === 'full') {
+      if (!requireTierOrTeaser(auth, 'premium', res, () => ({
+        ascendant: chart.ascendant,
+        moon_nakshatra: chart.nakshatra,
+        note: 'detail=full returns the complete kundali — every divisional chart, all yogas & doshas, KP sub-lords, the full Jaimini set, and the 5-level Vimshottari dasha. Premium plan (₹399/mo or $14.99/mo) unlocks it; the default summary is free.',
+        upgrade_url: 'https://marriage-astro.vercel.app/pricing',
+      }))) return;
+
+      return res.status(200).json({ success: true, detail: 'full', data: assembleFullKundali(chart) });
+    }
+
     const seventhMalefics = chart.planetaryPositions.filter((p: any) =>
       ['Mars', 'Saturn', 'Rahu'].includes(p.planet) && [7, 2, 8].includes(p.house)
     ).length;
