@@ -191,6 +191,14 @@ const BIRTH_DATA_SCHEMA = {
   location: z.string().optional().describe("Birth place name (e.g. 'Mumbai, India')"),
 };
 
+// get_birth_chart schema — BIRTH_DATA_SCHEMA plus a `detail` switch.
+const BIRTH_CHART_SCHEMA = {
+  ...BIRTH_DATA_SCHEMA,
+  detail: z.enum(['summary', 'full']).optional().describe(
+    "Level of detail. 'summary' (default) returns the core chart (planets, houses, nakshatras, ascendant, yogas, dashas). 'full' returns the COMPLETE kundali — every divisional chart D1–D60, all yogas & doshas, KP sub-lords & significators, the full Jaimini set (Chara Karakas, Darakaraka, Upapada, Vivah Saham, Chara Dasha), Vimshopaka/Shodashvarga strength, and the Vimshottari dasha tree with the active branch drilled to Prana (level 5). 'full' requires the Premium plan."
+  ),
+};
+
 const PAIR_SCHEMA = {
   person_a_name: z.string().optional().describe("Person A's name"),
   person_a_gender: z.enum(['male', 'female', 'other']).optional().describe("Person A's gender (male/female/other)"),
@@ -287,10 +295,11 @@ function registerTools(server: McpServer, activeApiKey: string, activeHost: stri
 
   server.tool(
     'get_birth_chart',
-    'Generate a Vedic birth chart (planets, houses, nakshatras, ascendant, yogas, dashas) for one person.',
-    BIRTH_DATA_SCHEMA,
+    "Generate a Vedic birth chart for one person. Default returns the core chart (planets, houses, nakshatras, ascendant, yogas, dashas). Pass detail:'full' to fetch the COMPLETE kundali in one call — every divisional chart D1–D60, all yogas & doshas, KP sub-lords, the full Jaimini set, Vimshopaka strength, and the 5-level Vimshottari dasha (active branch drilled to Prana). detail:'full' requires the Premium plan.",
+    BIRTH_CHART_SCHEMA,
     async (args) => {
-      const data = await callInternalApi('birth-chart', birthDataToPayload(args), activeApiKey, activeHost, activeProtocol);
+      const payload = { ...birthDataToPayload(args), ...(args.detail ? { detail: args.detail } : {}) };
+      const data = await callInternalApi('birth-chart', payload, activeApiKey, activeHost, activeProtocol);
       return { content: [{ type: 'text', text: JSON.stringify(data, null, 2) }] };
     }
   );

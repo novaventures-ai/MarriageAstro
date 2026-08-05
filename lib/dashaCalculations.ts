@@ -197,6 +197,126 @@ export function getCurrentDasha(dasha: VimshottariDasha): {
 }
 
 // ============================================================================
+// DEEP VIMSHOTTARI DRILL (levels 4 & 5 — Sookshma & Prana)
+// ============================================================================
+
+const VIMSHOTTARI_ORDER: Planet[] = [
+  'Ketu', 'Venus', 'Sun', 'Moon', 'Mars', 'Rahu', 'Jupiter', 'Saturn', 'Mercury'
+];
+
+const MS_PER_YEAR = 365.2425 * 24 * 60 * 60 * 1000;
+
+/**
+ * Generic Vimshottari sub-division: split any period (ruled by `lord`, spanning
+ * [startDate, endDate]) into its 9 proportional sub-periods, in Vimshottari
+ * order starting from the lord. Because every level of the tree is the same
+ * proportional split (planetYears / 120 of the span), this one function serves
+ * antar, pratyantar, sookshma and prana identically.
+ */
+export function subDivideDasha(lord: Planet, startDate: Date, endDate: Date): DashaPeriod[] {
+  const startIndex = VIMSHOTTARI_ORDER.indexOf(lord);
+  const totalMs = endDate.getTime() - startDate.getTime();
+  const spanYears = totalMs / MS_PER_YEAR;
+
+  const periods: DashaPeriod[] = [];
+  let cursor = new Date(startDate);
+
+  for (let i = 0; i < 9; i++) {
+    const planet = VIMSHOTTARI_ORDER[(startIndex + i) % 9];
+    const fraction = PLANET_PERIODS[planet] / 120; // shares sum to 1 (Σ = 120)
+    const subEnd = new Date(cursor.getTime() + totalMs * fraction);
+    periods.push({
+      planet,
+      startDate: new Date(cursor),
+      endDate: subEnd,
+      durationYears: spanYears * fraction,
+      isCurrent: false,
+    });
+    cursor = subEnd;
+  }
+  return periods;
+}
+
+export interface ActiveDashaLevel {
+  planet: Planet;
+  startDate: Date;
+  endDate: Date;
+  durationYears: number;
+}
+
+export interface ActiveDashaChain {
+  /** The active period at each of the 5 levels, at `at`. */
+  mahadasha: ActiveDashaLevel | null;
+  antardasha: ActiveDashaLevel | null;
+  pratyantardasha: ActiveDashaLevel | null;
+  sookshmaDasha: ActiveDashaLevel | null;
+  pranaDasha: ActiveDashaLevel | null;
+  /** All Sookshma periods within the active Pratyantar (the "very minor" band). */
+  sookshmaPeriods: DashaPeriod[];
+  /** All Prana periods within the active Sookshma (the finest band). */
+  pranaPeriods: DashaPeriod[];
+}
+
+const toLevel = (d: DashaPeriod | undefined): ActiveDashaLevel | null =>
+  d ? { planet: d.planet, startDate: d.startDate, endDate: d.endDate, durationYears: d.durationYears } : null;
+
+/**
+ * Drill the *currently active* Vimshottari path down to Prana (level 5).
+ *
+ * Returning the entire 5-level tree for 120 years is ~9^5 ≈ 59k leaf periods —
+ * impractical to serialise. Instead we walk only the branch that contains
+ * `at`, exposing the full sibling list at the two finest levels so the caller
+ * sees every Sookshma of the current Pratyantar and every Prana of the current
+ * Sookshma. That is the "major + very minor" view that is actually useful.
+ */
+export function drillActiveDashaChain(
+  moonNakshatra: Nakshatra,
+  moonLongitude: number,
+  birthDate: Date,
+  at: Date = new Date()
+): ActiveDashaChain {
+  const empty: ActiveDashaChain = {
+    mahadasha: null, antardasha: null, pratyantardasha: null,
+    sookshmaDasha: null, pranaDasha: null, sookshmaPeriods: [], pranaPeriods: [],
+  };
+
+  const find = (periods: DashaPeriod[]): DashaPeriod | undefined =>
+    periods.find(p => at >= p.startDate && at < p.endDate);
+
+  const vim = calculateVimshottariDasha(moonNakshatra, moonLongitude, birthDate);
+  const maha = vim.mahaDashas.find(d => at >= d.startDate && at < d.endDate);
+  if (!maha) return empty;
+
+  const antars = subDivideDasha(maha.planet, maha.startDate, maha.endDate);
+  const antar = find(antars);
+  if (!antar) return { ...empty, mahadasha: toLevel(maha) };
+
+  const pratyantars = subDivideDasha(antar.planet, antar.startDate, antar.endDate);
+  const praty = find(pratyantars);
+  if (!praty) return { ...empty, mahadasha: toLevel(maha), antardasha: toLevel(antar) };
+
+  const sookshmas = subDivideDasha(praty.planet, praty.startDate, praty.endDate);
+  const sookshma = find(sookshmas);
+  if (!sookshma) {
+    return { ...empty, mahadasha: toLevel(maha), antardasha: toLevel(antar),
+      pratyantardasha: toLevel(praty), sookshmaPeriods: sookshmas };
+  }
+
+  const pranas = subDivideDasha(sookshma.planet, sookshma.startDate, sookshma.endDate);
+  const prana = find(pranas);
+
+  return {
+    mahadasha: toLevel(maha),
+    antardasha: toLevel(antar),
+    pratyantardasha: toLevel(praty),
+    sookshmaDasha: toLevel(sookshma),
+    pranaDasha: toLevel(prana),
+    sookshmaPeriods: sookshmas,
+    pranaPeriods: pranas,
+  };
+}
+
+// ============================================================================
 // CHARA DASHA (JAIMINI SYSTEM)
 // ============================================================================
 

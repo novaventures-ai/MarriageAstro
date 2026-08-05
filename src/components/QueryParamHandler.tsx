@@ -40,6 +40,9 @@ export const QueryParamHandler: React.FC = () => {
     } else if (inviteData) {
       handleInvite(inviteData);
     }
+    // handleShare/handleInvite are stable local handlers; this effect is meant
+    // to run only when the query params change, not when the handlers re-create.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
   const handleShare = async (base64: string) => {

@@ -1,55 +1,54 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
-// Mock localStorage
-const localStorageMock = (() => {
-    let store: Record<string, string> = {};
-    return {
-        getItem: (key: string) => store[key] ?? null,
-        setItem: (key: string, value: string) => { store[key] = value; },
-        removeItem: (key: string) => { delete store[key]; },
-        clear: () => { store = {}; },
-    };
-})();
+// The error-monitoring module is Sentry-based. With no VITE_SENTRY_DSN set
+// (the default in the test environment), `sentryEnabled` is false and
+// captureError falls back to console.error. These tests exercise that real,
+// current behaviour — the previous suite tested a removed localStorage
+// `getErrorLogs` API and no longer matched the module.
 
-Object.defineProperty(globalThis, 'localStorage', { value: localStorageMock });
-Object.defineProperty(globalThis, 'window', {
-    value: {
-        location: { href: 'http://localhost:3001' },
-        addEventListener: vi.fn(),
-    },
-    writable: true,
-});
-Object.defineProperty(globalThis, 'navigator', {
-    value: { userAgent: 'test-agent' },
-    writable: true,
-});
-
-// Force production mode so reportError stores to localStorage
-vi.stubEnv('DEV', '');
-
-// Must import after mocks are set up
-const { captureError, getErrorLogs } = await import('../lib/errorMonitoring');
+const { captureError, setSentryUser, clearSentryUser, initErrorMonitoring, sentryEnabled } =
+    await import('../lib/errorMonitoring');
 
 describe('Error Monitoring', () => {
+    let consoleErrorSpy: ReturnType<typeof vi.spyOn>;
+
     beforeEach(() => {
-        localStorageMock.removeItem('astro_error_log');
-        vi.stubEnv('DEV', '');
+        consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     });
 
-    it('captureError should store errors in localStorage in production', () => {
+    afterEach(() => {
+        consoleErrorSpy.mockRestore();
+    });
+
+    it('runs with Sentry disabled when no DSN is configured', () => {
+        expect(sentryEnabled).toBe(false);
+    });
+
+    it('captureError accepts a string and logs via the console fallback', () => {
         captureError('test error');
-        const logs = getErrorLogs();
-        expect(Array.isArray(logs)).toBe(true);
-        expect(logs.length).toBeGreaterThan(0);
-        expect(logs[0].message).toBe('test error');
+        expect(consoleErrorSpy).toHaveBeenCalled();
+        const args = consoleErrorSpy.mock.calls.at(-1);
+        expect(args?.join(' ')).toContain('test error');
     });
 
-    it('getErrorLogs should return empty array when no logs exist', () => {
-        expect(getErrorLogs()).toEqual([]);
+    it('captureError accepts an Error object without throwing', () => {
+        expect(() => captureError(new Error('boom'), { where: 'unit-test' })).not.toThrow();
+        expect(consoleErrorSpy).toHaveBeenCalled();
     });
 
-    it('getErrorLogs should handle corrupted localStorage gracefully', () => {
-        localStorageMock.setItem('astro_error_log', 'invalid json');
-        expect(getErrorLogs()).toEqual([]);
+    it('setSentryUser / clearSentryUser are safe no-ops when Sentry is disabled', () => {
+        expect(() => setSentryUser('user-123', 'user@example.com')).not.toThrow();
+        expect(() => clearSentryUser()).not.toThrow();
+    });
+
+    it('initErrorMonitoring wires the fallback listeners without throwing', () => {
+        // With no DSN, init registers window error listeners; provide a minimal
+        // window stub so the fallback path can be exercised in a node env.
+        const addEventListener = vi.fn();
+        vi.stubGlobal('window', { addEventListener, location: { href: 'http://localhost/' } });
+        expect(() => initErrorMonitoring()).not.toThrow();
+        expect(addEventListener).toHaveBeenCalledWith('error', expect.any(Function));
+        expect(addEventListener).toHaveBeenCalledWith('unhandledrejection', expect.any(Function));
+        vi.unstubAllGlobals();
     });
 });

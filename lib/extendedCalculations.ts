@@ -1147,34 +1147,95 @@ function getCompoundCharacteristics(chart: Chart): string[] {
 // Vimshopaka Bala helpers
 // ---------------------------------------------------------------------------
 
-/** Standard Vimshopaka point weights for each of the 16 Shodashavargas */
+/**
+ * Standard Parashari Vimshopaka point weights for each of the 16
+ * Shodashavargas. These sum to exactly 20 — the classical 20-point scale.
+ * (Previously D1 was 3 and D27 was 1, summing to 20.5, which let a fully
+ * dignified planet exceed the documented maximum.)
+ */
 const VIMSHOPAKA_WEIGHTS: Record<string, number> = {
-  D1: 3, D2: 1.5, D3: 1, D4: 0.5, D7: 0.5, D9: 3,
+  D1: 3.5, D2: 1, D3: 1, D4: 0.5, D7: 0.5, D9: 3,
   D10: 0.5, D12: 0.5, D16: 2, D20: 0.5, D24: 0.5,
-  D27: 1, D30: 1, D40: 0.5, D45: 0.5, D60: 4
+  D27: 0.5, D30: 1, D40: 0.5, D45: 0.5, D60: 4
 };
 
 const VIMSHOPAKA_MAX = Object.values(VIMSHOPAKA_WEIGHTS).reduce((a, b) => a + b, 0); // 20
 
 /**
  * Returns the proportion of the full varga weight earned given a planet's
- * dignity: 1.0 for exalted/moolatrikona/own, 0.5 for friendly/neutral, 0.0 for enemy/debilitated.
+ * dignity, on a monotonic ladder:
+ *   exalted / moolatrikona / own_house → 1.0
+ *   friendly → 0.75, neutral → 0.5, enemy → 0.25, debilitated → 0.0
+ *
+ * An *unknown or missing* dignity is treated as neutral (0.5), NOT zero — a
+ * position whose dignity field simply wasn't populated must not collapse an
+ * otherwise strong planet's Vimshopaka score to 0 (the bug that made e.g. an
+ * own-sign Saturn read "very weak (0)").  Genuine debilitation is the only
+ * dignity that scores 0, and even that is lifted to neutral upstream when
+ * Neechabhanga (debility cancellation) applies.
  */
-function dignityMultiplier(dignity: PlanetaryPosition['dignity']): number {
+function dignityMultiplier(dignity: PlanetaryPosition['dignity'] | undefined): number {
   switch (dignity) {
     case 'exalted':
     case 'moolatrikona':
     case 'own_house':
       return 1.0;
     case 'friendly':
-      return 1.0;
+      return 0.75;
     case 'neutral':
       return 0.5;
     case 'enemy':
+      return 0.25;
     case 'debilitated':
-    default:
       return 0.0;
+    default:
+      // Unknown / unpopulated dignity → neutral, never zero.
+      return 0.5;
   }
+}
+
+/** Sign of deep debilitation for each of the seven classical grahas. */
+const DEBILITATION_SIGN: Partial<Record<Planet, Sign>> = {
+  Sun: 'Libra',
+  Moon: 'Scorpio',
+  Mars: 'Cancer',
+  Mercury: 'Pisces',
+  Jupiter: 'Capricorn',
+  Venus: 'Virgo',
+  Saturn: 'Aries',
+};
+
+const KENDRA_HOUSES = new Set([1, 4, 7, 10]);
+
+/**
+ * Deterministic (simplified) Neechabhanga Raja Yoga check — does a
+ * debilitated planet have its debility cancelled?  Returns false for any
+ * planet that isn't actually debilitated.  Two classical, data-available
+ * conditions grant cancellation (either suffices):
+ *   1. The planet is vargottama (same sign in D1 and D9).
+ *   2. The dispositor (lord of the debilitation sign) sits in a kendra
+ *      (1/4/7/10) from the Lagna.
+ * This is intentionally conservative: it never *invents* cancellation, it
+ * only recognises the two most testable of the classical rules.
+ */
+function hasNeechaBhanga(planet: Planet, chart: Chart): boolean {
+  const d1Pos = chart.planetaryPositions.find(p => p.planet === planet);
+  if (!d1Pos) return false;
+
+  const debSign = DEBILITATION_SIGN[planet];
+  const isDebilitated = d1Pos.dignity === 'debilitated' || (debSign && d1Pos.sign === debSign);
+  if (!isDebilitated) return false;
+
+  // Rule 1 — vargottama (D1 sign === D9 sign)
+  const d9Pos = chart.vargaCharts?.D9?.planetaryPositions.find(p => p.planet === planet);
+  if (d9Pos && d9Pos.sign === d1Pos.sign) return true;
+
+  // Rule 2 — dispositor of the debilitation sign in a kendra from Lagna
+  const dispositor = getSignLord(d1Pos.sign);
+  const dispositorPos = chart.planetaryPositions.find(p => p.planet === dispositor);
+  if (dispositorPos && KENDRA_HOUSES.has(dispositorPos.house)) return true;
+
+  return false;
 }
 
 /**
@@ -1217,6 +1278,15 @@ export function calculateExtendedDivisionalAnalysis(chart: Chart): ExtendedDivis
     // Check whether we have at least some divisional data beyond D1
     const hasVargaData = !!d9Pos;
 
+    // Neechabhanga: a debilitated-but-cancelled planet must not score 0.
+    const neechaBhanga = hasNeechaBhanga(p.planet, chart);
+    // Effective per-varga multiplier: lift a debilitated position to neutral
+    // when its debility is cancelled, otherwise fall back to plain dignity.
+    const effMultiplier = (pos: PlanetaryPosition | undefined): number =>
+      pos && pos.dignity === 'debilitated' && neechaBhanga
+        ? dignityMultiplier('neutral')
+        : dignityMultiplier(pos?.dignity);
+
     let totalScore: number;
     let d1Score: number;
     let d9Score: number;
@@ -1224,8 +1294,11 @@ export function calculateExtendedDivisionalAnalysis(chart: Chart): ExtendedDivis
     let d60Score: number | undefined;
 
     if (!hasVargaData) {
-      // Pure fallback: use D1 dignity to approximate the full Vimshopaka score
-      totalScore = d1DignityFallbackScore(d1Pos.dignity);
+      // Pure fallback: use D1 dignity to approximate the full Vimshopaka score.
+      // A cancelled debility is scored as neutral rather than the debilitated floor.
+      const fallbackDignity: PlanetaryPosition['dignity'] =
+        d1Pos.dignity === 'debilitated' && neechaBhanga ? 'neutral' : d1Pos.dignity;
+      totalScore = d1DignityFallbackScore(fallbackDignity);
       d1Score    = totalScore;
       d9Score    = 0;
     } else {
@@ -1236,7 +1309,7 @@ export function calculateExtendedDivisionalAnalysis(chart: Chart): ExtendedDivis
       const addVarga = (vargaKey: string, pos: PlanetaryPosition | undefined): number => {
         if (!pos) return 0;
         const weight = VIMSHOPAKA_WEIGHTS[vargaKey] ?? 0;
-        return weight * dignityMultiplier(pos.dignity);
+        return weight * effMultiplier(pos);
       };
 
       // Always-available vargas
@@ -1300,14 +1373,22 @@ export function calculateExtendedDivisionalAnalysis(chart: Chart): ExtendedDivis
     };
   });
 
-  // D60 deities
-  const d60Deities = chart.planetaryPositions.slice(0, 7).map(p => ({
-    planet: p.planet,
-    deity: getD60Deity(p.planet, p.sign),
-    nature: ['Jupiter', 'Venus', 'Mercury', 'Moon'].includes(p.planet) ? 'benefic' as const :
-      ['Saturn', 'Mars', 'Rahu', 'Ketu', 'Sun'].includes(p.planet) ? 'malefic' as const : 'neutral' as const,
-    interpretation: getDeityInterpretation(p.planet)
-  }));
+  // D60 deities — keyed to the planet's *actual* Shashtiamsa (D60) placement
+  // when it has been computed, so the reading reflects the D60 chart rather
+  // than a placement-blind per-planet phrase.
+  const d60Deities = chart.planetaryPositions.slice(0, 7).map(p => {
+    const d60Sign = chart.vargaCharts?.D60?.planetaryPositions.find(pos => pos.planet === p.planet)?.sign;
+    const placeSign = d60Sign || p.sign;
+    return {
+      planet: p.planet,
+      deity: getD60Deity(p.planet, placeSign),
+      nature: ['Jupiter', 'Venus', 'Mercury', 'Moon'].includes(p.planet) ? 'benefic' as const :
+        ['Saturn', 'Mars', 'Rahu', 'Ketu', 'Sun'].includes(p.planet) ? 'malefic' as const : 'neutral' as const,
+      interpretation: d60Sign
+        ? `${getDeityInterpretation(p.planet)} — from ${p.planet} in ${d60Sign} (D60).`
+        : `${getDeityInterpretation(p.planet)} (D60 chart not computed; nature shown from planet's general Shashtiamsa temperament).`,
+    };
+  });
 
   // Navamsa house meanings
   const navamsaHouseMeanings = chart.vargaCharts?.D9?.houses?.map((h, idx) => ({
@@ -1402,13 +1483,7 @@ export function calculateExtendedDivisionalAnalysis(chart: Chart): ExtendedDivis
       },
       dynamicRange: 'The distance between UL and A7 suggests how your private stability reflects in your public partnership.'
     },
-    d7Full: {
-      ascendant: chart.vargaCharts.D7?.ascendant || 'Aries',
-      childrenIndications: ['Fertility indicated', 'Progeny blessed'],
-      ancestralConnection: 'Strong ancestral lineage',
-      lineage: 'Noble lineage indicated',
-      fertility: 'Good fertility prospects'
-    },
+    d7Full: buildD7Analysis(chart),
     jaiminiD9Analysis: {
       secondHouseSign: d9Chart?.houses?.find(h => h.houseNumber === 2)?.sign || 'Taurus',
       secondHousePlanets: d9Chart?.houses?.find(h => h.houseNumber === 2)?.planets || [],
@@ -1429,6 +1504,73 @@ export function calculateExtendedDivisionalAnalysis(chart: Chart): ExtendedDivis
       pushkarNavamsa: [],
       marriageIndications: d9Indications
     }
+  };
+}
+
+/**
+ * Build a Saptamsa (D7) reading from the *actual* computed D7 chart rather
+ * than fixed boilerplate.  D7 governs children and lineage: the 5th house of
+ * D7 and Jupiter (Putrakaraka) are the primary significators.  When no D7
+ * chart is available the caller gets an explicit "not computed" note instead
+ * of fabricated blessings.
+ */
+function buildD7Analysis(chart: Chart): {
+  ascendant: Sign;
+  childrenIndications: string[];
+  ancestralConnection: string;
+  lineage: string;
+  fertility: string;
+} {
+  const d7 = chart.vargaCharts?.D7;
+  if (!d7 || !d7.planetaryPositions || d7.planetaryPositions.length === 0) {
+    return {
+      ascendant: (d7?.ascendant as Sign) || 'Aries',
+      childrenIndications: ['Saptamsa (D7) chart not computed for this reading.'],
+      ancestralConnection: 'D7 not available.',
+      lineage: 'D7 not available.',
+      fertility: 'D7 not available.',
+    };
+  }
+
+  const ascendant = d7.ascendant as Sign;
+  const fifth = d7.houses?.find(h => h.houseNumber === 5);
+  const jupiter = d7.planetaryPositions.find(p => p.planet === 'Jupiter');
+  const benefics = new Set<Planet>(['Jupiter', 'Venus', 'Mercury', 'Moon']);
+
+  const indications: string[] = [];
+
+  if (fifth) {
+    const fifthLord = getSignLord(fifth.sign);
+    indications.push(`D7 5th house (progeny) in ${fifth.sign}, ruled by ${fifthLord}.`);
+    if (fifth.planets.length > 0) {
+      const beneficHere = fifth.planets.filter(pl => benefics.has(pl as Planet));
+      indications.push(
+        beneficHere.length > 0
+          ? `${fifth.planets.join(', ')} in the 5th — benefic ${beneficHere.join(', ')} support healthy progeny prospects.`
+          : `${fifth.planets.join(', ')} in the 5th — placements to weigh for progeny timing.`
+      );
+    }
+  }
+
+  if (jupiter) {
+    indications.push(
+      `Jupiter (Putrakaraka) in ${jupiter.sign}${jupiter.dignity ? ` (${jupiter.dignity.replace('_', ' ')})` : ''} — a key marker for children.`
+    );
+  }
+
+  if (indications.length === 0) {
+    indications.push(`D7 ascendant in ${ascendant}; detailed progeny placements unavailable.`);
+  }
+
+  const jupiterStrong = jupiter && ['exalted', 'moolatrikona', 'own_house', 'friendly'].includes(jupiter.dignity);
+  const fifthBenefic = fifth?.planets.some(pl => benefics.has(pl as Planet));
+
+  return {
+    ascendant,
+    childrenIndications: indications,
+    ancestralConnection: `Rooted in the ${ascendant} Saptamsa ascendant.`,
+    lineage: jupiterStrong ? 'Jupiter well-placed in D7 — supportive lineage indications.' : 'Lineage indications are mixed; read alongside the D1 5th house.',
+    fertility: fifthBenefic || jupiterStrong ? 'Benefic support for fertility in the Saptamsa.' : 'No strong benefic support flagged in D7; not a negative verdict on its own.',
   };
 }
 
