@@ -182,6 +182,7 @@ export interface FullChartData {
     d3?: VargaChart;
     d4?: VargaChart;
     d5?: VargaChart;
+    d6?: VargaChart;
     d7?: VargaChart;
     d8?: VargaChart;
     d9?: VargaChart;
@@ -805,6 +806,15 @@ export function calculateVargaChart(
                 vargaSignIndex = (d1SignIndex + (chaturPart * 3)) % 12;
                 break;
 
+            case 6: // Shashtamsa (D6) — health / disease chart
+                // D6 is outside the classical Shodashavarga, so it has no single
+                // canonical rule. Computed here by the continuous "count from the
+                // natal sign" method (each 5° advances one sign), the same rule
+                // this engine applies to its other count-from-sign vargas (D12, D60).
+                const d6Part = Math.floor(degreeInSign / 5); // 30 / 6 = 5°
+                vargaSignIndex = (d1SignIndex + d6Part) % 12;
+                break;
+
             case 7: // Saptamsa (D7)
                 const d7Part = Math.floor(degreeInSign / (30 / 7));
                 if (d1SignIndex % 2 === 0) { // Odd signs start from Sign
@@ -1406,6 +1416,7 @@ export async function generateFullChartData(birthData: BirthData, includeDeepDas
         d3: calculateVargaChart(d1.planets, ascLongitude, 3, "Drekkana"),
         d4: calculateVargaChart(d1.planets, ascLongitude, 4, "Chaturthamsa"),
         d5: calculateVargaChart(d1.planets, ascLongitude, 5, "Panchamsa"),
+        d6: calculateVargaChart(d1.planets, ascLongitude, 6, "Shashtamsa"),
         d7: calculateVargaChart(d1.planets, ascLongitude, 7, "Saptamsa"),
         d8: calculateVargaChart(d1.planets, ascLongitude, 8, "Ashtamsha"),
         d9: calculateVargaChart(d1.planets, ascLongitude, 9, "Navamsa"),
@@ -1435,6 +1446,7 @@ export async function generateFullChartData(birthData: BirthData, includeDeepDas
         d2: vargas.d2,
         d3: vargas.d3,
         d4: vargas.d4,
+        d6: vargas.d6,
         d7: vargas.d7,
         d8: vargas.d8,
         d9: vargas.d9,
