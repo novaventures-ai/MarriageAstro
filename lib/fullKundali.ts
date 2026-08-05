@@ -23,6 +23,7 @@ import {
   checkMultipleMarriageIndicators,
 } from './jaiminiCalculations.js';
 import { drillActiveDashaChain } from './dashaCalculations.js';
+import { calculateAshtakavarga } from './ashtakavarga.js';
 
 const lon = (chart: Chart, planet: Planet): number =>
   chart.planetaryPositions.find(p => p.planet === planet)?.longitude ?? 0;
@@ -71,6 +72,14 @@ export function assembleFullKundali(chart: Chart) {
   const seventhHousePlanets = (chart.houses.find(h => h.houseNumber === 7)?.planets || []) as Planet[];
   const multipleMarriage = checkMultipleMarriageIndicators(upapada, seventhHousePlanets);
 
+  // ── Ashtakavarga (BAV per planet + SAV), with per-house bindus ──
+  let ashtakavarga: unknown;
+  try {
+    ashtakavarga = calculateAshtakavarga(chart);
+  } catch {
+    ashtakavarga = null;
+  }
+
   // ── Vimshottari dasha: full 3-level tree + active branch drilled to Prana ──
   const activeChainDeep = drillActiveDashaChain(
     chart.nakshatra as Nakshatra,
@@ -118,6 +127,9 @@ export function assembleFullKundali(chart: Chart) {
     // ── Yogas & Doshas ──
     yogas: chart.yogas,
     yogaDoshaAnalysis: yogaDosha,
+
+    // ── Ashtakavarga (transit-strength point system; per sign and per house) ──
+    ashtakavarga,
 
     // ── KP (Krishnamurti Paddhati) ──
     kp: {

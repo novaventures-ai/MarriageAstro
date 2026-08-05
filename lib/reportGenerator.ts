@@ -165,6 +165,7 @@ export async function generateChartFromBirthData(birthData: BirthDataInput): Pro
   if (fullChartData.d3) vargaCharts.D3 = mapVargaData(fullChartData.d3);
   if (fullChartData.d4) vargaCharts.D4 = mapVargaData(fullChartData.d4);
   if (fullChartData.d5) vargaCharts.D5 = mapVargaData(fullChartData.d5);
+  if (fullChartData.d6) vargaCharts.D6 = mapVargaData(fullChartData.d6);
   if (fullChartData.d7) vargaCharts.D7 = mapVargaData(fullChartData.d7);
   if (fullChartData.d8) vargaCharts.D8 = mapVargaData(fullChartData.d8);
   if (fullChartData.d9) vargaCharts.D9 = mapVargaData(fullChartData.d9);
@@ -186,8 +187,11 @@ export async function generateChartFromBirthData(birthData: BirthDataInput): Pro
 
     const jd = await SwissEphemeris.getJulianDay(birthDate);
 
-    // 4.1 Get House Cusps in Placidus
-    const houseCuspsRaw = await calculateKPHouseCusps(jd, birthData.latitude, birthData.longitude);
+    // 4.1 Get House Cusps in Placidus, anchored to the chart's authoritative
+    // ascendant so KP cusp 1 can never disagree with the D1 lagna.
+    const ascSiderealDeg = (d1.ascendant.signIndex * 30) + d1.ascendant.degree +
+      (d1.ascendant.minute / 60) + ((d1.ascendant.second || 0) / 3600);
+    const houseCuspsRaw = await calculateKPHouseCusps(jd, birthData.latitude, birthData.longitude, ascSiderealDeg);
 
     const houseCuspsLongitudes = houseCuspsRaw.map((h: any) => (h.signIndex * 30) + h.degree + h.minute / 60 + h.second / 3600);
 

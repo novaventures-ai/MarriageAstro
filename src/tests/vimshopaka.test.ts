@@ -63,6 +63,31 @@ describe('Vimshopaka strength scoring', () => {
     expect(nonZero).toBeGreaterThanOrEqual(4);
   });
 
+  it('recognises own-sign dignity ("own") and scores it above neutral', () => {
+    // The chart pipeline emits dignity 'own' (not 'own_house'); an own-sign or
+    // exalted planet must outscore a neutral one. Regression for the bug where
+    // 'own' fell through to the neutral default, flattening scores (six planets
+    // reading an identical 10).
+    const analysis = calculateExtendedDivisionalAnalysis(chart);
+    const scoreOf = (planet: string) => analysis.vimshopakaScores.find(s => s.planet === planet)?.total ?? 0;
+    const digOf = (planet: string) => chart.planetaryPositions.find(p => p.planet === planet)?.dignity;
+
+    const neutral = analysis.vimshopakaScores.find(s => digOf(s.planet) === 'neutral');
+    expect(neutral, 'expected at least one neutral graha in the fixture').toBeDefined();
+
+    for (const s of analysis.vimshopakaScores) {
+      const dig = digOf(s.planet);
+      if (dig === 'own' || dig === 'own_house' || dig === 'exalted') {
+        expect(s.total, `${s.planet} (${dig}) should outscore neutral`).toBeGreaterThan(neutral!.total);
+      }
+    }
+
+    // The scores must not be flat: an own-sign or exalted planet exists here,
+    // so the set of distinct totals must be greater than one.
+    const distinct = new Set(analysis.vimshopakaScores.map(s => s.total));
+    expect(distinct.size).toBeGreaterThan(1);
+  });
+
   it('derives D7 progeny indications from the chart, not boilerplate', () => {
     const analysis = calculateExtendedDivisionalAnalysis(chart);
     const joined = analysis.d7Full.childrenIndications.join(' ');

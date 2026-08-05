@@ -182,6 +182,7 @@ export interface FullChartData {
     d3?: VargaChart;
     d4?: VargaChart;
     d5?: VargaChart;
+    d6?: VargaChart;
     d7?: VargaChart;
     d8?: VargaChart;
     d9?: VargaChart;
@@ -805,6 +806,15 @@ export function calculateVargaChart(
                 vargaSignIndex = (d1SignIndex + (chaturPart * 3)) % 12;
                 break;
 
+            case 6: // Shashtamsa (D6) — health / disease chart
+                // D6 is outside the classical Shodashavarga, so it has no single
+                // canonical rule. Computed here by the continuous "count from the
+                // natal sign" method (each 5° advances one sign), the same rule
+                // this engine applies to its other count-from-sign vargas (D12, D60).
+                const d6Part = Math.floor(degreeInSign / 5); // 30 / 6 = 5°
+                vargaSignIndex = (d1SignIndex + d6Part) % 12;
+                break;
+
             case 7: // Saptamsa (D7)
                 const d7Part = Math.floor(degreeInSign / (30 / 7));
                 if (d1SignIndex % 2 === 0) { // Odd signs start from Sign
@@ -1406,6 +1416,7 @@ export async function generateFullChartData(birthData: BirthData, includeDeepDas
         d3: calculateVargaChart(d1.planets, ascLongitude, 3, "Drekkana"),
         d4: calculateVargaChart(d1.planets, ascLongitude, 4, "Chaturthamsa"),
         d5: calculateVargaChart(d1.planets, ascLongitude, 5, "Panchamsa"),
+        d6: calculateVargaChart(d1.planets, ascLongitude, 6, "Shashtamsa"),
         d7: calculateVargaChart(d1.planets, ascLongitude, 7, "Saptamsa"),
         d8: calculateVargaChart(d1.planets, ascLongitude, 8, "Ashtamsha"),
         d9: calculateVargaChart(d1.planets, ascLongitude, 9, "Navamsa"),
@@ -1435,6 +1446,7 @@ export async function generateFullChartData(birthData: BirthData, includeDeepDas
         d2: vargas.d2,
         d3: vargas.d3,
         d4: vargas.d4,
+        d6: vargas.d6,
         d7: vargas.d7,
         d8: vargas.d8,
         d9: vargas.d9,
@@ -1519,9 +1531,26 @@ export function getSubLord(longitude: number): string {
 export async function calculateKPCusps(
     jd: number,
     lat: number,
-    lon: number
+    lon: number,
+    trueAscendantSidereal?: number
 ): Promise<HouseCusp[]> {
-    const { cusps } = await SwissEphemeris.getHouses(jd, lat, lon, 'P'); // 'P' for Placidus
+    let { cusps } = await SwissEphemeris.getHouses(jd, lat, lon, 'P'); // 'P' for Placidus
+
+    // Anchor cusp 1 to the chart's authoritative ascendant. The 1st cusp IS the
+    // lagna by definition, so it must never disagree with the D1 ascendant. In
+    // some environments the Placidus house engine is unavailable and getHouses
+    // silently falls back to an approximation whose ascendant is wrong by a
+    // sign or more (observed: cusp 1 in Virgo while the lagna is Gemini). When
+    // the caller supplies the true ascendant and the engine's cusp 1 drifts
+    // more than half a sign from it, rebuild equal-house cusps from the true
+    // ascendant so cusp 1 always matches the lagna. (Real Placidus is kept
+    // whenever the engine agrees with the lagna.)
+    if (trueAscendantSidereal != null && cusps && cusps.length > 0) {
+        const drift = Math.abs(((cusps[0] - trueAscendantSidereal + 540) % 360) - 180);
+        if (drift > 15) {
+            cusps = Array.from({ length: 12 }, (_, i) => (trueAscendantSidereal + i * 30) % 360);
+        }
+    }
 
     return cusps.map((cuspDegree: number, index: number) => {
         const signIndex = Math.floor(cuspDegree / 30);
