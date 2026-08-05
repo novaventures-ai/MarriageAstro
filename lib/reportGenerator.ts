@@ -186,8 +186,11 @@ export async function generateChartFromBirthData(birthData: BirthDataInput): Pro
 
     const jd = await SwissEphemeris.getJulianDay(birthDate);
 
-    // 4.1 Get House Cusps in Placidus
-    const houseCuspsRaw = await calculateKPHouseCusps(jd, birthData.latitude, birthData.longitude);
+    // 4.1 Get House Cusps in Placidus, anchored to the chart's authoritative
+    // ascendant so KP cusp 1 can never disagree with the D1 lagna.
+    const ascSiderealDeg = (d1.ascendant.signIndex * 30) + d1.ascendant.degree +
+      (d1.ascendant.minute / 60) + ((d1.ascendant.second || 0) / 3600);
+    const houseCuspsRaw = await calculateKPHouseCusps(jd, birthData.latitude, birthData.longitude, ascSiderealDeg);
 
     const houseCuspsLongitudes = houseCuspsRaw.map((h: any) => (h.signIndex * 30) + h.degree + h.minute / 60 + h.second / 3600);
 

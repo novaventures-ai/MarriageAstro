@@ -1174,10 +1174,17 @@ const VIMSHOPAKA_MAX = Object.values(VIMSHOPAKA_WEIGHTS).reduce((a, b) => a + b,
  * dignity that scores 0, and even that is lifted to neutral upstream when
  * Neechabhanga (debility cancellation) applies.
  */
-function dignityMultiplier(dignity: PlanetaryPosition['dignity'] | undefined): number {
+// NOTE ON DIGNITY VOCABULARIES: two calculators feed this code with
+// DIFFERENT dignity strings. The chart pipeline (getPlanetDignity) emits
+// 'exalted' | 'debilitated' | 'own' | 'neutral', while coreCalculations'
+// getDignity emits 'own_house' | 'moolatrikona' | 'friendly' | 'enemy' | …
+// Both are handled here so an own-sign planet is never silently scored as
+// neutral (the bug that made own-sign Saturn read "moderate/very weak").
+function dignityMultiplier(dignity: string | undefined): number {
   switch (dignity) {
     case 'exalted':
     case 'moolatrikona':
+    case 'own':
     case 'own_house':
       return 1.0;
     case 'friendly':
@@ -1193,6 +1200,9 @@ function dignityMultiplier(dignity: PlanetaryPosition['dignity'] | undefined): n
       return 0.5;
   }
 }
+
+/** True for an own-sign planet under either dignity vocabulary ('own' | 'own_house'). */
+const isOwnSign = (d?: string): boolean => d === 'own' || d === 'own_house';
 
 /** Sign of deep debilitation for each of the seven classical grahas. */
 const DEBILITATION_SIGN: Partial<Record<Planet, Sign>> = {
@@ -1242,10 +1252,11 @@ function hasNeechaBhanga(planet: Planet, chart: Chart): boolean {
  * Fallback Vimshopaka score (0–20 scale) based on D1 dignity alone,
  * used when divisional chart data is unavailable.
  */
-function d1DignityFallbackScore(dignity: PlanetaryPosition['dignity']): number {
+function d1DignityFallbackScore(dignity: string): number {
   switch (dignity) {
     case 'exalted':     return 18;
     case 'moolatrikona':
+    case 'own':
     case 'own_house':   return 15;
     case 'friendly':    return 10;
     case 'neutral':     return 7;
@@ -1562,7 +1573,7 @@ function buildD7Analysis(chart: Chart): {
     indications.push(`D7 ascendant in ${ascendant}; detailed progeny placements unavailable.`);
   }
 
-  const jupiterStrong = jupiter && ['exalted', 'moolatrikona', 'own_house', 'friendly'].includes(jupiter.dignity);
+  const jupiterStrong = jupiter && (isOwnSign(jupiter.dignity) || ['exalted', 'moolatrikona', 'friendly'].includes(jupiter.dignity));
   const fifthBenefic = fifth?.planets.some(pl => benefics.has(pl as Planet));
 
   return {
@@ -1880,7 +1891,7 @@ function generateFallbackSignificators(chart: Chart): any[] {
 
       // Determine strength based on dignity
       let strength: 'strong' | 'moderate' | 'weak' = 'moderate';
-      if (pos.dignity === 'exalted' || pos.dignity === 'own_house') strength = 'strong';
+      if (pos.dignity === 'exalted' || isOwnSign(pos.dignity)) strength = 'strong';
       else if (pos.dignity === 'debilitated' || pos.dignity === 'enemy') strength = 'weak';
 
       // Get nakshatra lord from nakshatra name (simplified mapping)
@@ -1960,7 +1971,7 @@ function calculateSamskaarScale(chart: Chart): {
   // Jupiter Analysis (Wisdom/Guru)
   if (jupiter) {
     if (jupiter.dignity === 'exalted') score += 1.0;
-    else if (jupiter.dignity === 'own_house') score += 0.8;
+    else if (isOwnSign(jupiter.dignity)) score += 0.8;
     else if (jupiter.dignity === 'moolatrikona') score += 0.7;
     else if (jupiter.dignity === 'friendly') score += 0.3;
     else if (jupiter.dignity === 'debilitated') score -= 0.5;
@@ -1974,7 +1985,7 @@ function calculateSamskaarScale(chart: Chart): {
   // Venus Analysis (Refinement/Arts)
   if (venus) {
     if (venus.dignity === 'exalted') score += 0.8;
-    else if (venus.dignity === 'own_house') score += 0.6;
+    else if (isOwnSign(venus.dignity)) score += 0.6;
     else if (venus.dignity === 'moolatrikona') score += 0.5;
     else if (venus.dignity === 'friendly') score += 0.2;
     else if (venus.dignity === 'debilitated') score -= 0.4;

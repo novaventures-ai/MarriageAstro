@@ -1519,9 +1519,26 @@ export function getSubLord(longitude: number): string {
 export async function calculateKPCusps(
     jd: number,
     lat: number,
-    lon: number
+    lon: number,
+    trueAscendantSidereal?: number
 ): Promise<HouseCusp[]> {
-    const { cusps } = await SwissEphemeris.getHouses(jd, lat, lon, 'P'); // 'P' for Placidus
+    let { cusps } = await SwissEphemeris.getHouses(jd, lat, lon, 'P'); // 'P' for Placidus
+
+    // Anchor cusp 1 to the chart's authoritative ascendant. The 1st cusp IS the
+    // lagna by definition, so it must never disagree with the D1 ascendant. In
+    // some environments the Placidus house engine is unavailable and getHouses
+    // silently falls back to an approximation whose ascendant is wrong by a
+    // sign or more (observed: cusp 1 in Virgo while the lagna is Gemini). When
+    // the caller supplies the true ascendant and the engine's cusp 1 drifts
+    // more than half a sign from it, rebuild equal-house cusps from the true
+    // ascendant so cusp 1 always matches the lagna. (Real Placidus is kept
+    // whenever the engine agrees with the lagna.)
+    if (trueAscendantSidereal != null && cusps && cusps.length > 0) {
+        const drift = Math.abs(((cusps[0] - trueAscendantSidereal + 540) % 360) - 180);
+        if (drift > 15) {
+            cusps = Array.from({ length: 12 }, (_, i) => (trueAscendantSidereal + i * 30) % 360);
+        }
+    }
 
     return cusps.map((cuspDegree: number, index: number) => {
         const signIndex = Math.floor(cuspDegree / 30);
