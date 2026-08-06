@@ -377,7 +377,7 @@ export function assessInfidelityRisk(chart: Chart, name: string): {
   // ==========================================================================
 
   if (jupiter) {
-    const hasDignity = ['exalted', 'own_house', 'moolatrikona'].includes(jupiter.dignity);
+    const hasDignity = ['exalted', 'own', 'own_house', 'moolatrikona'].includes(jupiter.dignity);
     if (hasDignity || jupiter.house === 7 || jupiter.house === 9) {
       indicators.push({ text: 'Stabilizer: Strong Jupiter provides a philosophical/moral anchor, balancing intense passion.', profileName: name });
       stabilizerScore += 30;
@@ -631,7 +631,7 @@ export function assessProtectiveFactors(chart: Chart, name: string): {
 
   // Strong Jupiter (moral protection)
   if (jupiter) {
-    if (['exalted', 'own_house', 'moolatrikona'].includes(jupiter.dignity)) {
+    if (['exalted', 'own', 'own_house', 'moolatrikona'].includes(jupiter.dignity)) {
       factors.push({ text: 'Strong Jupiter provides moral compass and dharmic protection for the marriage', strength: 'strong', profileName: name });
     } else if (jupiter.dignity === 'friendly') {
       factors.push({ text: 'Well-placed Jupiter offers moderate moral stability', strength: 'moderate', profileName: name });
@@ -683,7 +683,7 @@ export function assessProtectiveFactors(chart: Chart, name: string): {
       }
 
       const secondLord = chart.planetaryPositions.find(p => p.planet === house2.lord);
-      if (secondLord && ['exalted', 'own_house', 'moolatrikona'].includes(secondLord.dignity)) {
+      if (secondLord && ['exalted', 'own', 'own_house', 'moolatrikona'].includes(secondLord.dignity)) {
         factors.push({ text: `2nd Lord (family longevity) is exceptionally strong and dignified`, strength: 'strong', profileName: name });
       }
     }
@@ -735,7 +735,7 @@ export function assessProtectiveFactors(chart: Chart, name: string): {
 
       if (d7H1) {
         const d7LagnaLord = d7.planetaryPositions?.find(p => p.planet === d7H1.lord);
-        if (d7LagnaLord && ['exalted', 'own_house'].includes(d7LagnaLord.dignity)) {
+        if (d7LagnaLord && ['exalted', 'own', 'own_house'].includes(d7LagnaLord.dignity)) {
           factors.push({ text: 'D7 (Saptamsha) Confirmation: Strong Ascendant Lord indicates a fruitful and stable creative bond', strength: 'moderate', profileName: name });
         }
       }
@@ -804,7 +804,7 @@ export function assessProtectiveFactors(chart: Chart, name: string): {
   const dkPlanetName = chart.specialPoints?.darakaraka;
   if (dkPlanetName) {
     const dkPos = chart.planetaryPositions.find(p => p.planet === dkPlanetName);
-    if (dkPos && ['exalted', 'own_house', 'moolatrikona'].includes(dkPos.dignity)) {
+    if (dkPos && ['exalted', 'own', 'own_house', 'moolatrikona'].includes(dkPos.dignity)) {
       factors.push({
         text: `Darakaraka Stability: Your spouse-significator planet (${dkPlanetName}) is exceptionally dignified, indicating a partner who acts as a core stabilizer`,
         strength: 'strong',
@@ -914,7 +914,7 @@ export function assessInfidelityProtections(chart: Chart, name: string): {
     const d9H1 = d9.houses?.find(h => h.houseNumber === 1);
     if (d9H1) {
       const d9LagnaLord = d9.planetaryPositions?.find(p => p.planet === d9H1.lord);
-      if (d9LagnaLord && ['exalted', 'own_house'].includes(d9LagnaLord.dignity)) {
+      if (d9LagnaLord && ['exalted', 'own', 'own_house'].includes(d9LagnaLord.dignity)) {
         protections.push({
           text: 'Inner Resilience: Navamsa Lagna Lord is exceptionally strong, indicating high spiritual resilience against external temptations',
           strength: 'moderate',
@@ -926,7 +926,7 @@ export function assessInfidelityProtections(chart: Chart, name: string): {
 
   // 1. Strong Jupiter (Wisdom/Ethics)
   const jupiter = chart.planetaryPositions.find(p => p.planet === 'Jupiter');
-  if (jupiter && ['exalted', 'own_house', 'moolatrikona'].includes(jupiter.dignity)) {
+  if (jupiter && ['exalted', 'own', 'own_house', 'moolatrikona'].includes(jupiter.dignity)) {
     protections.push({
       text: 'Titan Jupiter: A powerful Jupiter grants deep wisdom and a natural moral compass that inherently rejects deceit.',
       strength: 'strong',
@@ -954,7 +954,7 @@ export function assessInfidelityProtections(chart: Chart, name: string): {
   const house9 = chart.houses.find(h => h.houseNumber === 9);
   if (house9) {
     const lord9 = chart.planetaryPositions.find(p => p.planet === house9.lord);
-    if (lord9 && benefics.includes(lord9.planet) && ['exalted', 'own_house'].includes(lord9.dignity)) {
+    if (lord9 && benefics.includes(lord9.planet) && ['exalted', 'own', 'own_house'].includes(lord9.dignity)) {
       protections.push({
         text: 'Dharmic Shield: The Lord of High Ethics (9th) is powerful, creating a natural aversion to actions that violate your personal code of honor.',
         strength: 'strong',

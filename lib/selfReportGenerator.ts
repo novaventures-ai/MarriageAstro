@@ -337,7 +337,7 @@ function calculateMarriagePotential(chart: Chart): MarriagePotential {
       switch (seventhLord.dignity) {
         case 'exalted': seventhHouseStrength += 20; break;
         case 'moolatrikona': seventhHouseStrength += 15; break;
-        case 'own_house': seventhHouseStrength += 10; break;
+        case 'own': case 'own_house': seventhHouseStrength += 10; break;
         case 'friendly': seventhHouseStrength += 5; break;
         case 'enemy': seventhHouseStrength -= 5; break;
         case 'debilitated': seventhHouseStrength -= 15; break;
@@ -1060,7 +1060,7 @@ function calculateSexualProfile(chart: Chart): SelfSexualProfile {
     romanticStyle,
     marsAnalysis: {
       house: mars?.house || 1,
-      strength: mars?.dignity === 'exalted' || mars?.dignity === 'own_house' ? 'strong' : 'moderate',
+      strength: mars?.dignity === 'exalted' || mars?.dignity === 'own_house' || mars?.dignity === 'own' ? 'strong' : 'moderate',
       influence: getMarsInfluenceDescription(mars)
     },
     venusAnalysis: {
@@ -1891,7 +1891,7 @@ function calculateSelfSexualProfile(chart: Chart): SelfSexualProfile {
   // Mars factors
   if (mars) {
     if (mars.dignity === 'exalted') libidoScore += 20;
-    if (mars.dignity === 'own_house') libidoScore += 15;
+    if (mars.dignity === 'own_house' || mars.dignity === 'own') libidoScore += 15;
     if (['Aries', 'Leo', 'Sagittarius'].includes(mars.sign)) libidoScore += 10;
     if (mars.house === 1 || mars.house === 5 || mars.house === 7) libidoScore += 10;
   }
@@ -1899,7 +1899,7 @@ function calculateSelfSexualProfile(chart: Chart): SelfSexualProfile {
   // Venus factors
   if (venus) {
     if (venus.dignity === 'exalted') libidoScore += 15;
-    if (venus.dignity === 'own_house') libidoScore += 10;
+    if (venus.dignity === 'own_house' || venus.dignity === 'own') libidoScore += 10;
     if (['Taurus', 'Libra', 'Pisces'].includes(venus.sign)) libidoScore += 5;
   }
 
@@ -1926,7 +1926,7 @@ function calculateSelfSexualProfile(chart: Chart): SelfSexualProfile {
   // Get Mars strength
   const marsStrength: 'weak' | 'moderate' | 'strong' =
     !mars ? 'moderate' :
-      mars.dignity === 'exalted' || mars.dignity === 'own_house' ? 'strong' :
+      mars.dignity === 'exalted' || mars.dignity === 'own_house' || mars.dignity === 'own' ? 'strong' :
         mars.dignity === 'debilitated' ? 'weak' : 'moderate';
 
   // Calculate potential issues
@@ -1944,7 +1944,7 @@ function calculateSelfSexualProfile(chart: Chart): SelfSexualProfile {
   // Calculate strengths
   const strengths: string[] = [];
   if (libidoScore >= 70) strengths.push('Strong physical vitality and passion');
-  if (venus?.dignity === 'exalted' || venus?.dignity === 'own_house') {
+  if (venus?.dignity === 'exalted' || venus?.dignity === 'own_house' || venus?.dignity === 'own') {
     strengths.push('Natural charm and romantic abilities');
   }
   if (mars?.dignity === 'exalted') strengths.push('Exceptional drive and determination');

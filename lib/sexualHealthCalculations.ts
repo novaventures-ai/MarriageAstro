@@ -210,9 +210,9 @@ export function analyzeLibido(chart: Chart): {
 
   // High libido factors
   if (mars && mars.dignity === 'exalted') score += weights.exalted_mars;
-  if (mars && (mars.dignity as string) === 'own_house') score += weights.own_house_mars;
+  if (mars && ((mars.dignity as string) === 'own_house' || (mars.dignity as string) === 'own')) score += weights.own_house_mars;
   if (venus && venus.dignity === 'exalted') score += weights.exalted_venus;
-  if (venus && (venus.dignity as string) === 'own_house') score += weights.own_house_venus;
+  if (venus && ((venus.dignity as string) === 'own_house' || (venus.dignity as string) === 'own')) score += weights.own_house_venus;
   if (mars && ['Aries', 'Leo', 'Sagittarius'].includes(mars.sign)) score += weights.fire_sign_mars;
 
   // Mars-Venus connection
@@ -370,10 +370,10 @@ export function analyzeMutualSatisfaction(
   const eighthB = chartB.planetaryPositions.find(p => p.planet === eighthLordB);
 
   // Only add bonus for EXALTED or OWN sign (high strength)
-  if (eighthA && (eighthA.dignity === 'exalted' || eighthA.dignity === 'own_house')) {
+  if (eighthA && (eighthA.dignity === 'exalted' || eighthA.dignity === 'own_house' || eighthA.dignity === 'own')) {
     chemistryScore += 8;
   }
-  if (eighthB && (eighthB.dignity === 'exalted' || eighthB.dignity === 'own_house')) {
+  if (eighthB && (eighthB.dignity === 'exalted' || eighthB.dignity === 'own_house' || eighthB.dignity === 'own')) {
     chemistryScore += 8;
   }
 
