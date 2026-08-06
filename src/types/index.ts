@@ -68,7 +68,9 @@ export interface PlanetaryPosition {
   nakshatraPada: number; // 1-4
   isRetrograde: boolean;
   isCombust: boolean;
-  dignity: 'exalted' | 'moolatrikona' | 'own_house' | 'friendly' | 'neutral' | 'enemy' | 'debilitated';
+  // Note: the chart pipeline (getPlanetDignity) emits 'own'; the coreCalculations
+  // dignity helper emits 'own_house'. Both are valid runtime values.
+  dignity: 'exalted' | 'moolatrikona' | 'own' | 'own_house' | 'friendly' | 'neutral' | 'enemy' | 'debilitated';
 }
 
 export interface House {
