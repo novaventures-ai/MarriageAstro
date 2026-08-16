@@ -43,6 +43,8 @@ import { DivisionalChartWidget } from '../components/widgets/DivisionalChartWidg
 import ChartDetailsWidget from '../components/ChartDetailsWidget';
 import { KPAnalysisWidget } from '../components/widgets/KPAnalysisWidget';
 import { CharaKarakasWidget } from '../components/widgets/CharaKarakasWidget';
+import { AshtakavargaWidget } from '../components/widgets/AshtakavargaWidget';
+import { StrengthTimingWidget } from '../components/widgets/StrengthTimingWidget';
 import { AddictionRiskWidget } from '../components/widgets/AddictionRiskWidget';
 import { RelationshipPatternWidget } from '../components/widgets/RelationshipPatternWidget';
 import { SelfAstroMindWidget } from '../components/ai/SelfAstroMindWidget';
@@ -202,6 +204,7 @@ export const SelfReportPage: React.FC = () => {
           { id: 'readiness', label: 'Marriage Readiness' },
           { id: 'doshas', label: 'Yogas & Doshas' },
           { id: 'kp', label: 'KP Promise Analysis' },
+          { id: 'ashtakavarga', label: 'Ashtakavarga Strength' },
         ],
         dynamicData: {
           badge: `${selfReport?.marriagePotential?.score ?? 0}/100`,
@@ -283,6 +286,7 @@ export const SelfReportPage: React.FC = () => {
         widgets: [
           { id: 'timing', label: 'Life Timeline' },
           { id: 'vulnerability', label: 'Vulnerability Timeline' },
+          { id: 'strength-timing', label: 'Planetary Power & Yogini Dasha' },
           { id: 'remedies', label: 'Actionable Remedies' },
         ],
         dynamicData: {
@@ -559,6 +563,14 @@ export const SelfReportPage: React.FC = () => {
                     </ErrorBoundary>
                   </div>
                 )}
+
+                {selfChart && (
+                  <div id="ashtakavarga">
+                    <ErrorBoundary>
+                      <AshtakavargaWidget chart={selfChart} name={selfChart?.name || 'You'} />
+                    </ErrorBoundary>
+                  </div>
+                )}
               </div>
             )}
 
@@ -755,6 +767,16 @@ export const SelfReportPage: React.FC = () => {
                     </PremiumGate>
                   </ErrorBoundary>
                 </div>
+
+                {selfChart && (
+                  <div id="strength-timing">
+                    <ErrorBoundary>
+                      <PremiumGate section="full_self_report" label="Planetary Power & Yogini Dasha">
+                        <StrengthTimingWidget chart={selfChart} name={selfChart?.name || 'You'} />
+                      </PremiumGate>
+                    </ErrorBoundary>
+                  </div>
+                )}
 
                 {selfReport.remedies && (
                   <div id="remedies">
