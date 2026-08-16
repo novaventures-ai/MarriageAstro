@@ -32,11 +32,11 @@ interface ChartDetailsWidgetProps {
 
 type TabType = 'charts' | 'planets' | 'kp' | 'yogas' | 'dashas' | 'birth';
 type ChartStyle = 'south' | 'north' | 'table';
-type ChartVarga = 'D1' | 'D2' | 'D3' | 'D4' | 'D5' | 'D6' | 'D7' | 'D8' | 'D9' | 'D10' | 'D12' | 'D16' | 'D20' | 'D24' | 'D27' | 'D30' | 'D40' | 'D45' | 'D60';
+type ChartVarga = 'D1' | 'D2' | 'D3' | 'D4' | 'D6' | 'D7' | 'D8' | 'D9' | 'D10' | 'D12' | 'D16' | 'D20' | 'D24' | 'D27' | 'D30' | 'D40' | 'D45' | 'D60';
 
 const VARGA_NAMES: Record<string, string> = {
     D1: 'Rashi', D2: 'Hora', D3: 'Drekkana', D4: 'Chaturthamsa',
-    D5: 'Panchamsa', D6: 'Shashtamsa', D7: 'Saptamsa', D8: 'Ashtamsha', D9: 'Navamsa',
+    D6: 'Shashtamsa', D7: 'Saptamsa', D8: 'Ashtamsha', D9: 'Navamsa',
     D10: 'Dasamsa', D12: 'Dwadasamsa', D16: 'Shodashamsa', D20: 'Vimsamsa',
     D24: 'Chaturvimshamsha', D27: 'Saptavimsamsa', D30: 'Trimsamsa',
     D40: 'Khavedamsa', D45: 'Akshavedamsa', D60: 'Shashtiamsa'

@@ -164,7 +164,6 @@ export async function generateChartFromBirthData(birthData: BirthDataInput): Pro
   if (fullChartData.d2) vargaCharts.D2 = mapVargaData(fullChartData.d2);
   if (fullChartData.d3) vargaCharts.D3 = mapVargaData(fullChartData.d3);
   if (fullChartData.d4) vargaCharts.D4 = mapVargaData(fullChartData.d4);
-  if (fullChartData.d5) vargaCharts.D5 = mapVargaData(fullChartData.d5);
   if (fullChartData.d6) vargaCharts.D6 = mapVargaData(fullChartData.d6);
   if (fullChartData.d7) vargaCharts.D7 = mapVargaData(fullChartData.d7);
   if (fullChartData.d8) vargaCharts.D8 = mapVargaData(fullChartData.d8);
