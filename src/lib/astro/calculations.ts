@@ -181,7 +181,6 @@ export interface FullChartData {
     d2?: VargaChart;
     d3?: VargaChart;
     d4?: VargaChart;
-    d5?: VargaChart;
     d6?: VargaChart;
     d7?: VargaChart;
     d8?: VargaChart;
@@ -884,6 +883,52 @@ export function calculateVargaChart(
                 }
                 break;
 
+            case 20: { // Vimsamsa (D20) — spiritual progress. 20 parts of 1°30'.
+                // Movable → Aries, Fixed → Sagittarius, Dual → Leo.
+                const d20Part = Math.floor(degreeInSign / 1.5);
+                const d20Start = d1SignIndex % 3 === 0 ? 0 : d1SignIndex % 3 === 1 ? 8 : 4;
+                vargaSignIndex = (d20Start + d20Part) % 12;
+                break;
+            }
+
+            case 27: { // Bhamsa / Nakshatramsa (D27) — strengths & weaknesses. 27 parts of 1°6'40".
+                // Fire → Aries, Earth → Cancer, Air → Libra, Water → Capricorn.
+                const d27Part = Math.floor(degreeInSign / (30 / 27));
+                const d27Start = [0, 3, 6, 9][d1SignIndex % 4];
+                vargaSignIndex = (d27Start + d27Part) % 12;
+                break;
+            }
+
+            case 30: { // Trimsamsa (D30) — misfortunes. UNEQUAL five-part division.
+                // Odd signs:  Mars 0-5° → Aries, Saturn 5-10° → Aquarius, Jupiter 10-18° → Sagittarius,
+                //             Mercury 18-25° → Gemini, Venus 25-30° → Libra.
+                // Even signs: the quantum and lordship reverse — Venus 0-5° → Taurus,
+                //             Mercury 5-12° → Virgo, Jupiter 12-20° → Pisces,
+                //             Saturn 20-25° → Capricorn, Mars 25-30° → Scorpio.
+                const isOddSign = d1SignIndex % 2 === 0; // Aries (index 0) is the 1st = odd sign
+                const bounds = isOddSign ? [5, 10, 18, 25, 30] : [5, 12, 20, 25, 30];
+                const targets = isOddSign ? [0, 10, 8, 2, 6] : [1, 5, 11, 9, 7];
+                const slot = bounds.findIndex(b => degreeInSign < b);
+                vargaSignIndex = targets[slot === -1 ? 4 : slot];
+                break;
+            }
+
+            case 40: { // Khavedamsa (D40) — auspicious/inauspicious effects. 40 parts of 45'.
+                // Odd signs → start Aries, Even signs → start Libra.
+                const d40Part = Math.floor(degreeInSign / 0.75);
+                const d40Start = d1SignIndex % 2 === 0 ? 0 : 6;
+                vargaSignIndex = (d40Start + d40Part) % 12;
+                break;
+            }
+
+            case 45: { // Akshavedamsa (D45) — character & conduct. 45 parts of 40'.
+                // Movable → Aries, Fixed → Leo, Dual → Sagittarius.
+                const d45Part = Math.floor(degreeInSign / (30 / 45));
+                const d45Start = d1SignIndex % 3 === 0 ? 0 : d1SignIndex % 3 === 1 ? 4 : 8;
+                vargaSignIndex = (d45Start + d45Part) % 12;
+                break;
+            }
+
             case 60: // Shashtiamsa (D60)
                 const d60Part = Math.floor(degreeInSign / 0.5);
                 // Standard: Start from Sign itself
@@ -891,9 +936,12 @@ export function calculateVargaChart(
                 break;
 
             default:
-                // Use standard "harmonic" rule if defined, else generic continuous
-                const defaultPart = Math.floor(degreeInSign / (30 / division));
-                vargaSignIndex = (d1SignIndex * division + defaultPart) % 12; // Not really valid for all
+                // Every varga this engine actually generates has an explicit case above,
+                // so this is unreachable for supported divisions. Rather than invent a
+                // placement with a formula that isn't valid for the division, fall back
+                // to the D1 sign unchanged — a visibly neutral result instead of a
+                // plausible-looking wrong one.
+                vargaSignIndex = d1SignIndex;
         }
 
         // Calculate degree within the varga sign
@@ -1415,7 +1463,6 @@ export async function generateFullChartData(birthData: BirthData, includeDeepDas
         d2: calculateVargaChart(d1.planets, ascLongitude, 2, "Hora"),
         d3: calculateVargaChart(d1.planets, ascLongitude, 3, "Drekkana"),
         d4: calculateVargaChart(d1.planets, ascLongitude, 4, "Chaturthamsa"),
-        d5: calculateVargaChart(d1.planets, ascLongitude, 5, "Panchamsa"),
         d6: calculateVargaChart(d1.planets, ascLongitude, 6, "Shashtamsa"),
         d7: calculateVargaChart(d1.planets, ascLongitude, 7, "Saptamsa"),
         d8: calculateVargaChart(d1.planets, ascLongitude, 8, "Ashtamsha"),
