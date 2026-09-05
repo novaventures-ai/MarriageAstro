@@ -7,6 +7,9 @@
 
 import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from '@google/generative-ai';
 
+// Current-generation Gemini Flash tier. Keep in sync with api/ai.ts.
+const GEMINI_MODEL = 'gemini-3.8-flash';
+
 const CLIENT_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 const IS_PRODUCTION = import.meta.env.PROD;
 
@@ -58,7 +61,7 @@ async function callProxy(prompt: string, systemInstruction?: string, retries = 3
 function getDirectModel(systemInstruction?: string) {
     const genAI = new GoogleGenerativeAI(CLIENT_API_KEY || '');
     return genAI.getGenerativeModel({
-        model: 'gemini-2.5-flash',
+        model: GEMINI_MODEL,
         systemInstruction,
         generationConfig: {
             maxOutputTokens: 8192,

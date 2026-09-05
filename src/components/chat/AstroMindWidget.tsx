@@ -4,7 +4,6 @@ import ReactMarkdown from 'react-markdown';
 import { useGeminiChat } from '../../hooks/useGeminiChat';
 import { CompatibilityReport } from '@types';
 import { getReportContext } from '@lib/ai/context';
-import { useUserProfileStore } from '../../store/useUserProfileStore';
 
 interface AstroMindWidgetProps {
     report: CompatibilityReport;
@@ -17,7 +16,6 @@ export const AstroMindWidget: React.FC<AstroMindWidgetProps> = ({ report }) => {
 
     const reportContext = React.useMemo(() => getReportContext(report), [report]);
     const { messages, sendMessage, loading, error, clearChat } = useGeminiChat(reportContext);
-    const { aiProvider, setAiProvider } = useUserProfileStore();
 
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -49,38 +47,12 @@ export const AstroMindWidget: React.FC<AstroMindWidgetProps> = ({ report }) => {
                                 <h3 className="font-bold text-xs sm:text-sm">AstroMind AI</h3>
                                 <p className="text-[9px] sm:text-[10px] text-indigo-100/85 flex items-center gap-1 font-medium">
                                     <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
-                                    Active: {aiProvider === 'anthropic' ? 'Claude' : 'Gemini'}
+                                    Active: Gemini
                                 </p>
                             </div>
                         </div>
 
                         <div className="flex items-center gap-2">
-                            {/* Nano AI Toggle Selector */}
-                            <div className="flex items-center gap-0.5 bg-black/45 p-0.5 rounded-lg border border-white/10 backdrop-blur-md">
-                                <button
-                                    onClick={() => setAiProvider('gemini')}
-                                    className={`px-1.5 py-0.5 rounded text-[8px] font-extrabold transition-all ${
-                                        aiProvider === 'gemini'
-                                            ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md'
-                                            : 'text-gray-400 hover:text-white'
-                                    }`}
-                                    title="Google Gemini"
-                                >
-                                    G
-                                </button>
-                                <button
-                                    onClick={() => setAiProvider('anthropic')}
-                                    className={`px-1.5 py-0.5 rounded text-[8px] font-extrabold transition-all ${
-                                        aiProvider === 'anthropic'
-                                            ? 'bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-md'
-                                            : 'text-gray-400 hover:text-white'
-                                    }`}
-                                    title="Anthropic Claude"
-                                >
-                                    C
-                                </button>
-                            </div>
-
                             <button
                                 onClick={clearChat}
                                 className="p-1 hover:bg-white/10 rounded-full transition-colors"
@@ -133,7 +105,7 @@ export const AstroMindWidget: React.FC<AstroMindWidgetProps> = ({ report }) => {
                                         <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-indigo-400 rounded-full animate-bounce [animation-delay:-0.15s]" />
                                         <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-indigo-400 rounded-full animate-bounce" />
                                     </div>
-                                    <span className="text-[10px] sm:text-xs text-gray-400 font-medium">Stars speaking via {aiProvider === 'anthropic' ? 'Claude' : 'Gemini'}...</span>
+                                    <span className="text-[10px] sm:text-xs text-gray-400 font-medium">Stars speaking via Gemini...</span>
                                 </div>
                             </div>
                         )}
@@ -157,7 +129,7 @@ export const AstroMindWidget: React.FC<AstroMindWidgetProps> = ({ report }) => {
                                 type="text"
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
-                                placeholder={`Ask ${aiProvider === 'anthropic' ? 'Claude' : 'Gemini'} about compatibility...`}
+                                placeholder="Ask Gemini about compatibility..."
                                 className="w-full pl-3 sm:pl-4 pr-10 sm:pr-12 py-2.5 sm:py-3 bg-gray-100 dark:bg-gray-900 border-none rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500 dark:text-white transition-all shadow-inner outline-none"
                                 disabled={loading}
                             />

@@ -1,17 +1,12 @@
 /**
- * AI Dynamic Client Selector
+ * AI Client Selector
  *
- * Dynamically selects between Gemini and Anthropic Claude based on the user's preference
- * stored in the Zustand store.
+ * Gemini is the only supported AI provider. This indirection is kept so call
+ * sites stay stable if another provider is ever reintroduced.
  */
 
 import { getGeminiModel } from './geminiClient.js';
-import { getAnthropicModel } from './anthropicClient.js';
-import { useUserProfileStore } from '../../src/store/useUserProfileStore.js';
 
 export function getAIModel(systemInstruction?: string) {
-    const provider = useUserProfileStore.getState().aiProvider || 'gemini';
-    return provider === 'anthropic' 
-        ? getAnthropicModel(systemInstruction) 
-        : getGeminiModel(systemInstruction);
+    return getGeminiModel(systemInstruction);
 }
