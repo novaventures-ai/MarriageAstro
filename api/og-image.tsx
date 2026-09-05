@@ -71,8 +71,8 @@ export default async function handler(req: Request) {
         }}
       >
         {/* Background glows */}
-        <div style={{ position: 'absolute', top: '100px', left: '50%', marginLeft: '-250px', width: '500px', height: '500px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(99,102,241,0.18) 0%, transparent 70%)' }} />
-        <div style={{ position: 'absolute', bottom: '200px', right: '-100px', width: '400px', height: '400px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(245,158,11,0.12) 0%, transparent 70%)' }} />
+        <div style={{ display: 'flex', position: 'absolute', top: '100px', left: '50%', marginLeft: '-250px', width: '500px', height: '500px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(99,102,241,0.18) 0%, transparent 70%)' }} />
+        <div style={{ display: 'flex', position: 'absolute', bottom: '200px', right: '-100px', width: '400px', height: '400px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(245,158,11,0.12) 0%, transparent 70%)' }} />
 
         {/* Brand */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '80px' }}>
@@ -85,8 +85,8 @@ export default async function handler(req: Request) {
           <span style={{ fontSize: '22px', color: '#94a3b8', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '16px' }}>Ashtakoot Milan</span>
           <span style={{ fontSize: '120px', fontWeight: '900', color: scoreColor, lineHeight: 1 }}>{score}</span>
           <span style={{ fontSize: '32px', color: '#64748b', marginBottom: '20px' }}>out of 36</span>
-          <div style={{ width: '200px', height: '10px', background: 'rgba(255,255,255,0.1)', borderRadius: '5px' }}>
-            <div style={{ width: `${scorePct}%`, height: '10px', background: scoreColor, borderRadius: '5px' }} />
+          <div style={{ display: 'flex', width: '200px', height: '10px', background: 'rgba(255,255,255,0.1)', borderRadius: '5px' }}>
+            <div style={{ display: 'flex', width: `${scorePct}%`, height: '10px', background: scoreColor, borderRadius: '5px' }} />
           </div>
           <span style={{ fontSize: '28px', fontWeight: '800', color: scoreColor, marginTop: '20px' }}>{scoreLabel}</span>
         </div>
@@ -132,12 +132,12 @@ export default async function handler(req: Request) {
       }}
     >
       {/* Background decoration */}
-      <div style={{
+      <div style={{ display: 'flex',
         position: 'absolute', top: '-120px', right: '-120px',
         width: '400px', height: '400px', borderRadius: '50%',
         background: 'radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%)',
       }} />
-      <div style={{
+      <div style={{ display: 'flex',
         position: 'absolute', bottom: '-80px', left: '-80px',
         width: '300px', height: '300px', borderRadius: '50%',
         background: 'radial-gradient(circle, rgba(245,158,11,0.1) 0%, transparent 70%)',
@@ -177,8 +177,8 @@ export default async function handler(req: Request) {
           <span style={{ fontSize: '52px', fontWeight: '900', color: scoreColor, lineHeight: 1 }}>{score}</span>
           <span style={{ fontSize: '16px', color: '#64748b', marginBottom: '8px' }}>/36</span>
           {/* Mini progress bar */}
-          <div style={{ width: '120px', height: '6px', background: 'rgba(255,255,255,0.1)', borderRadius: '3px' }}>
-            <div style={{ width: `${scorePct}%`, height: '6px', background: scoreColor, borderRadius: '3px' }} />
+          <div style={{ display: 'flex', width: '120px', height: '6px', background: 'rgba(255,255,255,0.1)', borderRadius: '3px' }}>
+            <div style={{ display: 'flex', width: `${scorePct}%`, height: '6px', background: scoreColor, borderRadius: '3px' }} />
           </div>
           <span style={{ fontSize: '13px', fontWeight: '700', color: scoreColor, marginTop: '8px' }}>{scoreLabel}</span>
         </div>
@@ -193,8 +193,8 @@ export default async function handler(req: Request) {
             <span style={{ fontSize: '13px', color: '#94a3b8', marginBottom: '6px', letterSpacing: '1px', textTransform: 'uppercase' }}>Compatibility</span>
             <span style={{ fontSize: '52px', fontWeight: '900', color: '#818cf8', lineHeight: 1 }}>{compat}</span>
             <span style={{ fontSize: '16px', color: '#64748b', marginBottom: '8px' }}>%</span>
-            <div style={{ width: '120px', height: '6px', background: 'rgba(255,255,255,0.1)', borderRadius: '3px' }}>
-              <div style={{ width: `${compat}%`, height: '6px', background: '#818cf8', borderRadius: '3px' }} />
+            <div style={{ display: 'flex', width: '120px', height: '6px', background: 'rgba(255,255,255,0.1)', borderRadius: '3px' }}>
+              <div style={{ display: 'flex', width: `${compat}%`, height: '6px', background: '#818cf8', borderRadius: '3px' }} />
             </div>
           </div>
         )}

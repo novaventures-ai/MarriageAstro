@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 import { Share2, Check, Copy, MessageCircle, Twitter, Download } from 'lucide-react';
-import { ReportShareData, OgImageParams, buildShareText, buildWhatsAppText, buildTwitterText, buildStoryImageUrl } from '../../lib/shareUtils';
+import { ReportShareData, OgImageParams, buildShareText, buildWhatsAppText, buildTwitterText, buildStoryImageUrl, buildResultShareUrl } from '../../lib/shareUtils';
 
 interface ShareButtonProps {
   title: string;
@@ -34,14 +34,16 @@ export const ShareButton: React.FC<ShareButtonProps> = ({
   const [copied, setCopied] = useState(false);
   const [downloadingStory, setDownloadingStory] = useState(false);
 
-  const shareUrl = url || window.location.href;
   const siteUrl = 'https://marriage-astro.vercel.app';
+  // A report link must point at /r: it is the only URL that unfurls with the
+  // personalised card, since social crawlers never run the SPA's JavaScript.
+  const shareUrl = reportData ? buildResultShareUrl(reportData) : (url || window.location.href);
   const displayUrl = shareUrl.startsWith('http') ? shareUrl : siteUrl;
 
   // Platform-specific text
   const whatsappText = reportData ? buildWhatsAppText(reportData) : `${text}\n${displayUrl}`;
   const twitterText = reportData ? buildTwitterText(reportData) : text;
-  const copyText = reportData ? `${buildShareText(reportData)}\n${displayUrl}` : `${text}\n${displayUrl}`;
+  const copyText = reportData ? buildShareText(reportData) : `${text}\n${displayUrl}`;
 
   const handleShare = async () => {
     if (navigator.share) {

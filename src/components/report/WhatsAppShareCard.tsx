@@ -6,15 +6,11 @@
 
 import React, { useState } from 'react';
 import { Check, Copy, Lock } from 'lucide-react';
-import { ReportShareData, buildWhatsAppText, buildShareText } from '../../lib/shareUtils';
+import { ReportShareData, buildWhatsAppText, buildShareText, buildResultShareUrl } from '../../lib/shareUtils';
 
 interface WhatsAppShareCardProps {
   data: ReportShareData;
-  /** App URL for the share link */
-  url?: string;
 }
-
-const SITE_URL = 'https://marriage-astro.vercel.app';
 
 function getVerdictStyle(score: number): { label: string; bg: string; text: string; border: string } {
   if (score >= 28) return { label: 'Excellent Match', bg: 'bg-emerald-50 dark:bg-emerald-900/20', text: 'text-emerald-700 dark:text-emerald-300', border: 'border-emerald-200 dark:border-emerald-800/40' };
@@ -23,13 +19,13 @@ function getVerdictStyle(score: number): { label: string; bg: string; text: stri
   return { label: 'Needs Careful Review', bg: 'bg-rose-50 dark:bg-rose-900/20', text: 'text-rose-700 dark:text-rose-300', border: 'border-rose-200 dark:border-rose-800/40' };
 }
 
-export const WhatsAppShareCard: React.FC<WhatsAppShareCardProps> = ({ data, url }) => {
+export const WhatsAppShareCard: React.FC<WhatsAppShareCardProps> = ({ data }) => {
   const [copied, setCopied] = useState(false);
 
-  const shareUrl = url || SITE_URL;
   const verdict = getVerdictStyle(data.ashtakootScore);
   const waText = buildWhatsAppText({ ...data });
-  const copyText = `${buildShareText(data)}\n${shareUrl}`;
+  // buildShareText already ends with the /r link that unfurls the score card.
+  const copyText = buildShareText(data);
 
   const handleWhatsApp = () => {
     window.open(`https://wa.me/?text=${encodeURIComponent(waText)}`, '_blank');
