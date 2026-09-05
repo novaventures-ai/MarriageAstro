@@ -65,6 +65,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }, { onConflict: 'payment_id' });
 
       // Apply unlock(s)
+      //
+      // SAFETY NET: a paid unlock must never be silently dropped. This block
+      // used to require `reportKey`, so any page that did not pass one (the
+      // self-report did not) charged the customer and wrote nothing to
+      // report_unlocks — money in, nothing delivered, and the webhook had the
+      // same guard so there was no recovery. When no reportKey is available the
+      // unlock is now granted GLOBALLY on profiles.unlocked_sections, which
+      // usePremium.isSectionUnlocked already honours. Over-delivering slightly
+      // is strictly better than taking money for nothing.
       if ((planType === 'section_unlock' || planType === 'full_report_unlock') && reportKey) {
         const sectionsToApply = [];
         const sid = planType === 'full_report_unlock' ? 'full_report' : sectionToUnlock;
@@ -90,6 +99,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             section_id: targetSid,
             payment_id: razorpay_payment_id
           }, { onConflict: 'user_id,report_key,section_id' });
+        }
+      } else if (planType === 'section_unlock' || planType === 'full_report_unlock') {
+        // No reportKey (e.g. the self-report, which is not a pairing): grant globally.
+        const sid = planType === 'full_report_unlock' ? 'full_report' : sectionToUnlock;
+        if (sid) {
+          const { data: profile } = await db.from('profiles')
+            .select('unlocked_sections').eq('id', userId).single();
+          const existing: string[] = Array.isArray(profile?.unlocked_sections)
+            ? profile!.unlocked_sections : [];
+          if (!existing.includes(sid)) {
+            await db.from('profiles')
+              .update({ unlocked_sections: [...existing, sid] })
+              .eq('id', userId);
+          }
+          console.log(`verify-payment: granted GLOBAL unlock "${sid}" to ${userId} (no reportKey supplied)`);
         }
       } else if (planType === 'premium_monthly') {
         const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();

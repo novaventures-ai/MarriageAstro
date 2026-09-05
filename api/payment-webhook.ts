@@ -123,6 +123,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         section_id: 'full_report',
         payment_id: payment.id
       });
+    } else if (planType === 'section_unlock' || planType === 'full_report_unlock') {
+      // SAFETY NET — mirrors api/verify-payment.ts. Both branches above require a
+      // reportKey; a purchase made from a page that does not supply one (the
+      // self-report) previously fell through here and was silently dropped, so the
+      // customer paid and received nothing with no recovery path. Grant the unlock
+      // globally instead: usePremium.isSectionUnlocked honours
+      // profiles.unlocked_sections without a reportKey.
+      const sid = planType === 'full_report_unlock' ? 'full_report' : sectionToUnlock;
+      if (sid && !existing.includes(sid)) {
+        await db.from('profiles')
+          .update({ unlocked_sections: [...existing, sid] })
+          .eq('id', userId);
+        console.log(`payment-webhook: granted GLOBAL unlock "${sid}" to ${userId} (no reportKey)`);
+      }
     } else if (planType === 'premium_monthly') {
       const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
       await db.from('profiles').update({ plan_tier: 'premium', plan_expires_at: expiresAt }).eq('id', userId);
