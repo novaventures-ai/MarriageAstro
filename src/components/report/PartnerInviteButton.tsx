@@ -55,11 +55,14 @@ export const PartnerInviteButton: React.FC<PartnerInviteButtonProps> = ({
     <div className="relative inline-block">
       <button
         onClick={handleShare}
-        className={`flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-lg shadow-emerald-600/20 transition-all font-medium text-sm ${className}`}
+        title="Invite Partner"
+        aria-label="Invite Partner"
+        className={`flex items-center gap-2 px-2.5 sm:px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-lg shadow-emerald-600/20 transition-all font-medium text-sm ${className}`}
       >
-        <UserPlus className="w-4 h-4" />
+        <UserPlus className="w-4 h-4 flex-shrink-0" />
+        {/* Icon-only on phones: the report header carries six controls and the
+            label pushed the title and logo into a collision. */}
         <span className="hidden sm:inline">Invite Partner</span>
-        <span className="sm:hidden">Invite</span>
       </button>
 
       {showMenu && (

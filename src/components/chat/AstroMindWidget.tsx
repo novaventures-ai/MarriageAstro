@@ -130,7 +130,7 @@ export const AstroMindWidget: React.FC<AstroMindWidgetProps> = ({ report }) => {
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
                                 placeholder="Ask Gemini about compatibility..."
-                                className="w-full pl-3 sm:pl-4 pr-10 sm:pr-12 py-2.5 sm:py-3 bg-gray-100 dark:bg-gray-900 border-none rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500 dark:text-white transition-all shadow-inner outline-none"
+                                className="w-full pl-3 sm:pl-4 pr-10 sm:pr-12 py-2.5 sm:py-3 bg-gray-100 dark:bg-gray-900 border-none rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 transition-all shadow-inner outline-none"
                                 disabled={loading}
                             />
                             <button
@@ -141,7 +141,7 @@ export const AstroMindWidget: React.FC<AstroMindWidgetProps> = ({ report }) => {
                                 <Send className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                             </button>
                         </div>
-                        <p className="text-[9px] sm:text-[10px] text-center text-gray-400 mt-1.5 sm:mt-2">
+                        <p className="text-[9px] sm:text-[10px] text-center text-gray-500 dark:text-gray-400 mt-1.5 sm:mt-2">
                             AstroMind AI can make mistakes. Verify critical info.
                         </p>
                     </form>
