@@ -276,7 +276,7 @@ export const ReportPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+            <div className="flex items-center gap-0.5 sm:gap-3 flex-shrink-0">
               <ShareButton
                 title={`${currentReport.chartA.name} & ${currentReport.chartB.name} Compatibility`}
                 text={`Compatibility score: ${currentReport.ashtakoot?.totalScore || '?'}/36. Check yours at Astro Marriage!`}

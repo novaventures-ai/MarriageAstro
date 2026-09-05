@@ -94,14 +94,32 @@ export function mapVargaData(varga: any): ChartData {
 
 /**
  * Unified dasha period mapping.
+ *
+ * isCurrent is decided by the period's own date range, NOT by whether its lord
+ * appears in `currentDashaPlanets`. That list holds the maha/antar/pratyantar
+ * lords — three different planets — so membership marked three unrelated
+ * periods as current at once, and `dashas.find(d => d.isCurrent)` returned
+ * whichever came first in the array. For a chart whose current mahadasha lord
+ * is not first, that surfaced a period which had already ended (observed: a
+ * 1997-2008 Jupiter mahadasha reported as current in 2026).
+ *
+ * `currentDashaPlanets` is still accepted so existing callers keep working, but
+ * it is now only a fallback for periods that carry no usable dates.
  */
 export function mapDashaPeriod(d: any, currentDashaPlanets: string[] = []): DashaPeriod {
+  const now = Date.now();
+  const start = d.startDate ? new Date(d.startDate).getTime() : NaN;
+  const end = d.endDate ? new Date(d.endDate).getTime() : NaN;
+  const datesUsable = Number.isFinite(start) && Number.isFinite(end);
+
   return {
     planet: d.planet as Planet,
     startDate: d.startDate,
     endDate: d.endDate,
     durationYears: d.years,
-    isCurrent: currentDashaPlanets.includes(d.planet),
+    isCurrent: datesUsable
+      ? now >= start && now < end
+      : currentDashaPlanets.includes(d.planet),
     subPeriods: d.subPeriods?.map((s: any) => mapDashaPeriod(s, currentDashaPlanets))
   };
 }

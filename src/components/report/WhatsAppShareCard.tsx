@@ -91,8 +91,8 @@ export const WhatsAppShareCard: React.FC<WhatsAppShareCardProps> = ({ data }) =>
 
       {/* Private framing */}
       <div className="flex items-center gap-1.5 mt-3 pt-3 border-t border-current/10">
-        <Lock className="w-3 h-3 text-gray-400 flex-shrink-0" />
-        <p className="text-[11px] text-gray-400 dark:text-gray-500">
+        <Lock className="w-3 h-3 text-gray-500 dark:text-gray-400 flex-shrink-0" />
+        <p className="text-[11px] text-gray-600 dark:text-gray-400">
           Share privately with family or a trusted friend. Your full report stays on your device — only the score is shared.
         </p>
       </div>

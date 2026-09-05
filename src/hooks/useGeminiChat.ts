@@ -48,16 +48,30 @@ export const useGeminiChat = (reportContext: string) => {
             // 1. Prepare System Prompt (The Guru Persona)
             const systemInstruction = SYSTEM_PROMPTS.ASTRO_MIND;
 
-            // 2. Prepare User Prompt (Context + Question)
+            // 2. Prepare User Prompt (Context + recent turns + question)
+            //
+            // Previously only the context and the latest question were sent, so
+            // the assistant had no memory: "what about her Saturn?" arrived with
+            // no idea whose Saturn, or what had just been discussed. Replies read
+            // as a series of unrelated answers rather than a conversation.
+            //
+            // The last few turns are replayed instead of the whole transcript —
+            // enough for follow-ups and pronouns to resolve, without the history
+            // growing unbounded on a long session.
+            const HISTORY_TURNS = 8;
+            const recent = messages
+                .filter(m => m.id !== 'welcome')
+                .slice(-HISTORY_TURNS)
+                .map(m => `${m.role === 'user' ? 'User' : 'AstroMind'}: ${m.content}`)
+                .join('\n');
+
             const prompt = generatePrompt('ASTRO_MIND', {
                 reportContext,
+                conversationHistory: recent,
                 userQuestion
             });
 
-            // 3. Call AI Model (Gemini or Claude)
-            // Note: For a real chat, we would send history. 
-            // For this MVP, we send the summarized context + current question to save tokens.
-            // The "Memory" is the context summary.
+            // 3. Call AI Model
             const model = getAIModel(systemInstruction);
             const result = await model.generateContent(prompt);
             const responseText = result.response.text();
@@ -84,7 +98,7 @@ export const useGeminiChat = (reportContext: string) => {
         } finally {
             setLoading(false);
         }
-    }, [reportContext]);
+    }, [reportContext, messages]);
 
     const clearChat = useCallback(() => {
         setMessages([{
