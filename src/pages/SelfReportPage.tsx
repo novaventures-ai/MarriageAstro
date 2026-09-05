@@ -61,6 +61,7 @@ import { UserDashboard } from '../components/dashboard/UserDashboard';
 import { ErrorBoundary } from '../components/ErrorBoundary';
 import { SEOHead } from '../components/SEOHead';
 import { WidgetErrorBoundary } from '../components/ui/WidgetErrorBoundary';
+import { calculateReportKey } from '../lib/reportUtils';
 
 // Psychology Widget Component
 const PsychologyWidget: React.FC<{ profile: any }> = ({ profile }) => (
@@ -189,6 +190,22 @@ export const SelfReportPage: React.FC = () => {
   // --- Dynamic Theme Configuration ---
   // IMPORTANT: useMemo MUST be called before any conditional returns to satisfy
   // React's Rules of Hooks (hooks must always run in the same order every render).
+  // A paid unlock is stored against a report key. Without one the server used to
+  // drop the unlock entirely — the customer was charged and received nothing.
+  // The self-report is a single chart, so both halves of the key are that chart.
+  const selfReportKey = useMemo(() => {
+    if (!selfChart) return '';
+    try {
+      const dob = (selfChart.dateOfBirth as any) instanceof Date
+        ? (selfChart.dateOfBirth as Date).toISOString()
+        : new Date(selfChart.dateOfBirth as any).toISOString();
+      return calculateReportKey(selfChart.name, dob, selfChart.name, dob);
+    } catch (err) {
+      console.warn('Failed to calculate self report key:', err);
+      return '';
+    }
+  }, [selfChart]);
+
   const themes: ThemeConfig[] = useMemo(() => {
     // Return the structure even if report is missing to keep hook counts stable
     return [
@@ -591,7 +608,7 @@ export const SelfReportPage: React.FC = () => {
 
                 <div id="ideal-partner">
                   <ErrorBoundary>
-                    <PremiumGate section="full_self_report" label="Ideal Partner Profile">
+                    <PremiumGate reportKey={selfReportKey} section="full_self_report" label="Ideal Partner Profile">
                       <IdealPartnerProfileWidget report={selfReport} />
                     </PremiumGate>
                   </ErrorBoundary>
@@ -600,7 +617,7 @@ export const SelfReportPage: React.FC = () => {
                 {selfChart && (
                   <div id="7thhouse">
                     <ErrorBoundary>
-                      <PremiumGate section="full_self_report" label="7th House Placement">
+                      <PremiumGate reportKey={selfReportKey} section="full_self_report" label="7th House Placement">
                         <SeventhHousePlacementWidget chart={selfChart} />
                       </PremiumGate>
                     </ErrorBoundary>
@@ -610,7 +627,7 @@ export const SelfReportPage: React.FC = () => {
                 {selfChart && (
                   <div id="navamsa">
                     <ErrorBoundary>
-                      <PremiumGate section="divisional_advanced" label="Navamsa D9 Marriage Chart">
+                      <PremiumGate reportKey={selfReportKey} section="divisional_advanced" label="Navamsa D9 Marriage Chart">
                         <DivisionalChartWidget
                           chartA={selfChart}
                           nameA={selfChart.name}
@@ -624,7 +641,7 @@ export const SelfReportPage: React.FC = () => {
                 {selfChart && (
                   <div id="chara">
                     <ErrorBoundary>
-                      <PremiumGate section="full_self_report" label="Jaimini Soul Connection">
+                      <PremiumGate reportKey={selfReportKey} section="full_self_report" label="Jaimini Soul Connection">
                         {selfReport.jaiminiAnalysis ? (
                           <CharaKarakasWidget
                             partnerA={{
@@ -672,7 +689,7 @@ export const SelfReportPage: React.FC = () => {
                 {selfChart && selfReport.sexualHealth && (
                   <div id="sexual">
                     <ErrorBoundary>
-                      <PremiumGate section="sexual_detail" label="Sexual & Physical Profile">
+                      <PremiumGate reportKey={selfReportKey} section="sexual_detail" label="Sexual & Physical Profile">
                         <SelfSexualProfileWidget
                           sexualHealth={selfReport.sexualHealth}
                           chart={selfChart}
@@ -690,7 +707,7 @@ export const SelfReportPage: React.FC = () => {
               <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
                 <div id="psychology">
                   <ErrorBoundary>
-                    <PremiumGate section="full_self_report" label="Psychological Profile">
+                    <PremiumGate reportKey={selfReportKey} section="full_self_report" label="Psychological Profile">
                       <SelfPsychologicalProfileWidget report={selfReport} />
                     </PremiumGate>
                   </ErrorBoundary>
@@ -698,7 +715,7 @@ export const SelfReportPage: React.FC = () => {
 
                 <div id="conflict">
                   <ErrorBoundary>
-                    <PremiumGate section="full_self_report" label="Conflict Tendencies">
+                    <PremiumGate reportKey={selfReportKey} section="full_self_report" label="Conflict Tendencies">
                       <SelfConflictTendencyWidget report={selfReport} />
                     </PremiumGate>
                   </ErrorBoundary>
@@ -707,7 +724,7 @@ export const SelfReportPage: React.FC = () => {
                 {selfReport.relationshipPatterns && (
                   <div id="patterns">
                     <ErrorBoundary>
-                      <PremiumGate section="full_self_report" label="Relationship Patterns">
+                      <PremiumGate reportKey={selfReportKey} section="full_self_report" label="Relationship Patterns">
                         <RelationshipPatternWidget
                           patternA={selfReport.relationshipPatterns}
                           nameA={selfChart?.name || 'You'}
@@ -720,7 +737,7 @@ export const SelfReportPage: React.FC = () => {
                 {selfReport.mentalHealth && (
                   <div id="mental">
                     <ErrorBoundary>
-                      <PremiumGate section="mental_health" label="Mental Health Analysis">
+                      <PremiumGate reportKey={selfReportKey} section="mental_health" label="Mental Health Analysis">
                         <MentalHealthWidget
                           mentalHealthA={selfReport.mentalHealth}
                           chartAName={selfChart?.name}
@@ -732,7 +749,7 @@ export const SelfReportPage: React.FC = () => {
 
                 <div id="risk-radar">
                   <ErrorBoundary>
-                    <PremiumGate section="divorce_risk" label="Risk & Vulnerability Analysis">
+                    <PremiumGate reportKey={selfReportKey} section="divorce_risk" label="Risk & Vulnerability Analysis">
                       <SelfRiskRadarWidget report={selfReport} />
                     </PremiumGate>
                   </ErrorBoundary>
@@ -762,7 +779,7 @@ export const SelfReportPage: React.FC = () => {
 
                 <div id="vulnerability">
                   <ErrorBoundary>
-                    <PremiumGate section="vulnerability_timeline" label="Vulnerability Timeline">
+                    <PremiumGate reportKey={selfReportKey} section="vulnerability_timeline" label="Vulnerability Timeline">
                       <SelfVulnerabilityTimelineWidget report={selfReport} />
                     </PremiumGate>
                   </ErrorBoundary>
@@ -771,7 +788,7 @@ export const SelfReportPage: React.FC = () => {
                 {selfChart && (
                   <div id="strength-timing">
                     <ErrorBoundary>
-                      <PremiumGate section="full_self_report" label="Planetary Power & Yogini Dasha">
+                      <PremiumGate reportKey={selfReportKey} section="full_self_report" label="Planetary Power & Yogini Dasha">
                         <StrengthTimingWidget chart={selfChart} name={selfChart?.name || 'You'} />
                       </PremiumGate>
                     </ErrorBoundary>
@@ -781,7 +798,7 @@ export const SelfReportPage: React.FC = () => {
                 {selfReport.remedies && (
                   <div id="remedies">
                     <ErrorBoundary>
-                      <PremiumGate section="remedies" label="Remedies & Solutions">
+                      <PremiumGate reportKey={selfReportKey} section="remedies" label="Remedies & Solutions">
                         <SelfRemediesWidget
                           remedies={selfReport.remedies}
                           doshaAnalysis={selfReport.doshaAnalysis}
