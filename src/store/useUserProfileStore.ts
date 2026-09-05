@@ -64,10 +64,6 @@ interface UserProfileState {
   rawMode: boolean;
   setRawMode: (v: boolean) => void;
 
-  // AI Provider Selection
-  aiProvider: 'gemini' | 'anthropic';
-  setAiProvider: (provider: 'gemini' | 'anthropic') => void;
-
   // Hydration
   isHydrated: boolean;
 
@@ -152,7 +148,6 @@ export const useUserProfileStore = create<UserProfileState>()(
           _preDemoState: null,
           userMode: null,
           wantsAutoRenew: false,
-          aiProvider: 'gemini',
           // keep isHydrated true to avoid hydration issues
         });
       },
@@ -183,9 +178,6 @@ export const useUserProfileStore = create<UserProfileState>()(
       wantsAutoRenew: false,
       rawMode: false,
       setRawMode: (v: boolean) => set({ rawMode: v }),
-
-      aiProvider: 'gemini',
-      setAiProvider: (provider: 'gemini' | 'anthropic') => set({ aiProvider: provider }),
 
       userMode: null,
 
@@ -709,7 +701,6 @@ export const useUserProfileStore = create<UserProfileState>()(
           wantsAutoRenew: state.wantsAutoRenew,
           userMode: state.userMode,
           isDemoMode: false,
-          aiProvider: state.aiProvider,
           // NOTE: isAdmin is intentionally NOT persisted to prevent
           // privilege leakage between accounts on the same browser.
           // It is always re-derived from the user's email via loadPlanFromCloud.

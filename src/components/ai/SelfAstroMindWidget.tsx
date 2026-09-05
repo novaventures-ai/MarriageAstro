@@ -7,7 +7,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Send, Sparkles, Loader2, Brain } from 'lucide-react';
 import { SelfAnalysisReport, PartnerProfile } from '../../types/selfAnalysis';
 import { useSelfAI } from '../../hooks/useSelfAI';
-import { useUserProfileStore } from '../../store/useUserProfileStore';
 import ReactMarkdown from 'react-markdown';
 
 interface SelfAstroMindWidgetProps {
@@ -38,7 +37,6 @@ export const SelfAstroMindWidget: React.FC<SelfAstroMindWidgetProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const { aiProvider, setAiProvider } = useUserProfileStore();
   const { generateInsight, loading, error, insight, reset, aiLimited } = useSelfAI(report);
 
   // Auto-scroll to bottom
@@ -147,30 +145,6 @@ export const SelfAstroMindWidget: React.FC<SelfAstroMindWidgetProps> = ({
         </div>
         
         <div className="flex items-center gap-3 self-end sm:self-auto">
-          {/* Micro AI Switch */}
-          <div className="flex items-center gap-1 bg-black/40 p-1 rounded-xl border border-white/10 backdrop-blur-md">
-            <button
-              onClick={() => setAiProvider('gemini')}
-              className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all ${
-                aiProvider === 'gemini'
-                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md'
-                  : 'text-gray-300 hover:text-white'
-              }`}
-            >
-              Gemini
-            </button>
-            <button
-              onClick={() => setAiProvider('anthropic')}
-              className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all ${
-                aiProvider === 'anthropic'
-                  ? 'bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-md'
-                  : 'text-gray-300 hover:text-white'
-              }`}
-            >
-              Claude
-            </button>
-          </div>
-
           <div className="flex items-center gap-1.5 bg-black/25 px-2.5 py-1 rounded-lg border border-white/5">
             <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
             <span className="text-[10px] text-white/80 font-bold uppercase tracking-wider">Active</span>
@@ -210,7 +184,7 @@ export const SelfAstroMindWidget: React.FC<SelfAstroMindWidgetProps> = ({
             <div className="bg-white dark:bg-gray-800 rounded-2xl rounded-bl-none px-4 py-3 border border-gray-200 dark:border-gray-700 shadow-sm">
               <div className="flex items-center gap-2">
                 <Loader2 className="w-4 h-4 text-indigo-600 animate-spin" />
-                <span className="text-xs text-gray-500 font-medium animate-pulse">Analyzing chart data with {aiProvider === 'anthropic' ? 'Claude' : 'Gemini'}...</span>
+                <span className="text-xs text-gray-500 font-medium animate-pulse">Analyzing chart data with Gemini...</span>
               </div>
             </div>
           </div>
@@ -241,7 +215,7 @@ export const SelfAstroMindWidget: React.FC<SelfAstroMindWidgetProps> = ({
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder={`Ask ${aiProvider === 'anthropic' ? 'Claude' : 'Gemini'} about marriage, spouse profile, or remedies...`}
+            placeholder="Ask Gemini about marriage, spouse profile, or remedies..."
             className="flex-1 px-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all outline-none"
           />
           <button

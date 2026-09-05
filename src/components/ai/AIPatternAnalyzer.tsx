@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { Sparkles, Brain, AlertTriangle, RefreshCw, XCircle } from 'lucide-react';
+import { Brain, AlertTriangle, RefreshCw, XCircle } from 'lucide-react';
 import { RelationshipPattern } from '@lib/relationshipPatternCalculations';
 import { generatePrompt } from '@lib/ai/prompts';
 import { checkAIConfig } from '@lib/ai/geminiClient';
-import { checkAnthropicConfig } from '@lib/ai/anthropicClient';
 import { getAIModel } from '@lib/ai/clientSelector';
-import { useUserProfileStore } from '@store/useUserProfileStore';
 import ReactMarkdown from 'react-markdown';
 
 interface AIPatternAnalyzerProps {
@@ -18,12 +16,11 @@ export const AIPatternAnalyzer: React.FC<AIPatternAnalyzerProps> = ({ patterns, 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const { aiProvider, setAiProvider } = useUserProfileStore();
-    const hasApiKey = aiProvider === 'anthropic' ? checkAnthropicConfig() : checkAIConfig();
+    const hasApiKey = checkAIConfig();
 
     const generateInsight = async () => {
         if (!hasApiKey) {
-            setError(`${aiProvider === 'anthropic' ? 'Anthropic Claude' : 'Google Gemini'} API Key is missing. Please add VITE_${aiProvider === 'anthropic' ? 'ANTHROPIC' : 'GEMINI'}_API_KEY to your .env file.`);
+            setError('Google Gemini API Key is missing. Please add VITE_GEMINI_API_KEY to your .env file.');
             return;
         }
 
@@ -72,36 +69,6 @@ Avoid dry astrology jargon. Speak in terms of modern psychology, attachment theo
                 </div>
 
                 <div className="flex items-center gap-3 self-start md:self-auto">
-                    {/* Sleek Toggle Pill Selector */}
-                    <div className="flex items-center gap-1 bg-black/40 p-1 rounded-xl border border-white/5 backdrop-blur-md shadow-inner">
-                        <button
-                            onClick={() => {
-                                setAiProvider('gemini');
-                                setError(null);
-                            }}
-                            className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all duration-300 ${
-                                aiProvider === 'gemini'
-                                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg'
-                                    : 'text-slate-400 hover:text-slate-200'
-                            }`}
-                        >
-                            Gemini 2.5
-                        </button>
-                        <button
-                            onClick={() => {
-                                setAiProvider('anthropic');
-                                setError(null);
-                            }}
-                            className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all duration-300 ${
-                                aiProvider === 'anthropic'
-                                    ? 'bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-lg'
-                                    : 'text-slate-400 hover:text-slate-200'
-                            }`}
-                        >
-                            Claude 3.5
-                        </button>
-                    </div>
-
                     {insight && (
                         <button
                             onClick={generateInsight}
@@ -129,18 +96,14 @@ Avoid dry astrology jargon. Speak in terms of modern psychology, attachment theo
                                 <span>API Key Missing</span>
                             </div>
                             <p className="text-[10px] text-center leading-normal text-slate-300/80">
-                                To analyze this pattern with {aiProvider === 'anthropic' ? 'Claude' : 'Gemini'}, please configure <code className="bg-black/50 px-1 py-0.5 rounded text-amber-300">VITE_{aiProvider === 'anthropic' ? 'ANTHROPIC' : 'GEMINI'}_API_KEY</code> in your environment.
+                                To analyze this pattern with Gemini, please configure <code className="bg-black/50 px-1 py-0.5 rounded text-amber-300">VITE_GEMINI_API_KEY</code> in your environment.
                             </p>
                         </div>
                     ) : (
                         <button
                             onClick={generateInsight}
                             disabled={loading}
-                            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold transition-all shadow-lg transform hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-55 disabled:cursor-not-allowed ${
-                                aiProvider === 'anthropic'
-                                    ? 'bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-black shadow-orange-500/10'
-                                    : 'bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white shadow-rose-500/10'
-                            }`}
+                            className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold transition-all shadow-lg transform hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-55 disabled:cursor-not-allowed bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white shadow-rose-500/10"
                         >
                             {loading ? (
                                 <>

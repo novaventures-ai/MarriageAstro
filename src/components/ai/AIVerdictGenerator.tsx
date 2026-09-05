@@ -4,9 +4,7 @@ import { CompatibilityReport } from '@types';
 import { processReportForAI } from '@lib/ai/contextProcessor';
 import { generateVerdictPrompt, SYSTEM_PROMPTS } from '@lib/ai/prompts';
 import { checkAIConfig } from '@lib/ai/geminiClient';
-import { checkAnthropicConfig } from '@lib/ai/anthropicClient';
 import { getAIModel } from '@lib/ai/clientSelector';
-import { useUserProfileStore } from '@store/useUserProfileStore';
 import ReactMarkdown from 'react-markdown';
 
 interface AIVerdictGeneratorProps {
@@ -18,12 +16,11 @@ export const AIVerdictGenerator: React.FC<AIVerdictGeneratorProps> = ({ report }
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const { aiProvider, setAiProvider } = useUserProfileStore();
-    const hasApiKey = aiProvider === 'anthropic' ? checkAnthropicConfig() : checkAIConfig();
+    const hasApiKey = checkAIConfig();
 
     const generateInsight = async () => {
         if (!hasApiKey) {
-            setError(`${aiProvider === 'anthropic' ? 'Anthropic Claude' : 'Google Gemini'} API Key is missing. Please add VITE_${aiProvider === 'anthropic' ? 'ANTHROPIC' : 'GEMINI'}_API_KEY to your .env file.`);
+            setError('Google Gemini API Key is missing. Please add VITE_GEMINI_API_KEY to your .env file.');
             return;
         }
 
@@ -65,55 +62,17 @@ export const AIVerdictGenerator: React.FC<AIVerdictGeneratorProps> = ({ report }
                         </div>
                         <div>
                             <h3 className="text-xl font-bold text-white flex items-center gap-2">
-                                {aiProvider === 'anthropic' ? 'Claude Astrologer' : 'Gemini Astrologer'}
+                                Gemini Astrologer
                             </h3>
                             <p className="text-indigo-200/70 text-sm font-medium">AI-Synthesized Global Relationship Verdict</p>
                         </div>
                     </div>
 
                     <div className="flex flex-wrap items-center gap-4 self-start md:self-auto">
-                        {/* Premium Toggle Selector with Glow */}
-                        <div className="flex items-center gap-1.5 bg-black/40 p-1.5 rounded-2xl border border-white/10 backdrop-blur-xl shadow-2xl relative">
-                            <button
-                                onClick={() => {
-                                    setAiProvider('gemini');
-                                    setError(null);
-                                }}
-                                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300 flex items-center gap-1.5 ${
-                                    aiProvider === 'gemini'
-                                        ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-indigo-500/30 scale-105 border border-white/10'
-                                        : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
-                                }`}
-                                title="Switch to Google Gemini Engine"
-                            >
-                                <Brain className="w-3.5 h-3.5" />
-                                Gemini 2.5
-                            </button>
-                            <button
-                                onClick={() => {
-                                    setAiProvider('anthropic');
-                                    setError(null);
-                                }}
-                                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300 flex items-center gap-1.5 ${
-                                    aiProvider === 'anthropic'
-                                        ? 'bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-lg shadow-orange-500/30 scale-105 border border-white/10'
-                                        : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
-                                }`}
-                                title="Switch to Anthropic Claude Engine"
-                            >
-                                <Sparkles className="w-3.5 h-3.5" />
-                                Claude 3.5
-                            </button>
-                        </div>
-
                         <button
                             onClick={generateInsight}
                             disabled={loading}
-                            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold transition-all shadow-xl transform hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-70 disabled:cursor-not-allowed ${
-                                aiProvider === 'anthropic'
-                                    ? 'bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-black font-extrabold shadow-orange-500/20'
-                                    : 'bg-gradient-to-r from-indigo-500 to-blue-500 hover:from-indigo-600 hover:to-blue-600 text-white shadow-indigo-500/20'
-                            }`}
+                            className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold transition-all shadow-xl transform hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-70 disabled:cursor-not-allowed bg-gradient-to-r from-indigo-500 to-blue-500 hover:from-indigo-600 hover:to-blue-600 text-white shadow-indigo-500/20"
                         >
                             {loading ? (
                                 <>
@@ -140,10 +99,10 @@ export const AIVerdictGenerator: React.FC<AIVerdictGeneratorProps> = ({ report }
                         <AlertTriangle className="w-8 h-8 text-amber-400 flex-shrink-0 animate-bounce" />
                         <div className="space-y-1">
                             <h4 className="font-bold text-white text-sm">
-                                API Key Required for {aiProvider === 'anthropic' ? 'Anthropic Claude' : 'Google Gemini'}
+                                API Key Required for Google Gemini
                             </h4>
                             <p className="text-xs text-indigo-200/70 leading-relaxed">
-                                To use AI matching, you need to add your API keys. Please set <code className="bg-black/40 px-1.5 py-0.5 rounded text-amber-300 border border-white/5 font-mono">VITE_{aiProvider === 'anthropic' ? 'ANTHROPIC' : 'GEMINI'}_API_KEY</code> in your local <code className="bg-black/40 px-1.5 py-0.5 rounded text-slate-300 font-mono">.env</code> configuration.
+                                To use AI matching, you need to add your API keys. Please set <code className="bg-black/40 px-1.5 py-0.5 rounded text-amber-300 border border-white/5 font-mono">VITE_GEMINI_API_KEY</code> in your local <code className="bg-black/40 px-1.5 py-0.5 rounded text-slate-300 font-mono">.env</code> configuration.
                             </p>
                         </div>
                     </div>
