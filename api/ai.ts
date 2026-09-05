@@ -1,7 +1,7 @@
 import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from '@google/generative-ai';
 
-// Low-cost, current-generation Gemini tier. Keep in sync with lib/ai/geminiClient.ts.
-const GEMINI_MODEL = 'gemini-3.5-flash-lite';
+// Current-generation Gemini Flash tier. Keep in sync with lib/ai/geminiClient.ts.
+const GEMINI_MODEL = 'gemini-3.8-flash';
 
 // Rate limiting: simple in-memory store (resets per cold start)
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();

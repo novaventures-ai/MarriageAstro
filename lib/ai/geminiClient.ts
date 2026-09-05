@@ -7,8 +7,8 @@
 
 import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from '@google/generative-ai';
 
-// Low-cost, current-generation Gemini tier. Keep in sync with api/ai.ts.
-const GEMINI_MODEL = 'gemini-3.5-flash-lite';
+// Current-generation Gemini Flash tier. Keep in sync with api/ai.ts.
+const GEMINI_MODEL = 'gemini-3.8-flash';
 
 const CLIENT_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 const IS_PRODUCTION = import.meta.env.PROD;
