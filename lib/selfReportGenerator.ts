@@ -124,7 +124,7 @@ export async function generateSelfAnalysisReport(
       analyzeYogaDoshas(chart),
       Promise.resolve(analyzeMentalHealth(chart)).catch(() => null),
       Promise.resolve(analyzeAddictionRisk(chart)).catch(() => null),
-      Promise.resolve(calculateRelationshipPatterns(chart, chart.name || 'You')).catch(() => null),
+      Promise.resolve(calculateRelationshipPatterns(chart, chart.name || 'You', 'self')).catch(() => null),
       calculateExtendedDivisionalAnalysis(chart),
       Promise.resolve(calculateKPAnalysis(chart)).catch((err) => {
         console.error('KP Analysis calculation failed:', err instanceof Error ? err.message : 'Unknown error');

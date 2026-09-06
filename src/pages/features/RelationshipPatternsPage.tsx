@@ -35,7 +35,7 @@ const patterns = [
 
 const karmaIndicators = [
   { label: 'Past-Life Relationship Karma', value: 'Present', icon: '♾️', note: 'Ketu in 5th with Venus in Scorpio — unresolved romantic soul contracts from previous incarnations.' },
-  { label: 'Pre-Marital Relationship Count', value: '2–3 indicated', icon: '🌹', note: '5th house activity and Jupiter\'s 3rd-house aspect suggest 2–3 significant relationships before marriage.' },
+  { label: 'Attachment Style', value: 'Opens gradually, commits once sure', icon: '🌹', note: '5th house activity and Venus dignity describe how quickly someone attaches and what they need to feel secure — not a count of past relationships.' },
   { label: 'Venus Cycle Pattern', value: 'Idealism → Disillusionment', icon: '💫', note: 'Venus in Scorpio opposite Rahu: initial intense idealization, followed by disappointment when reality sets in.' },
   { label: 'Pattern Break Potential', value: 'High (After Saturn Return)', icon: '🌟', note: 'Saturn transiting through the 7th house (age 28–30) creates a natural pattern-break window.' },
 ];

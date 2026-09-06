@@ -599,8 +599,8 @@ export async function generateCompatibilityReport(
   // 18. Relationship Pattern Analysis
   let relationshipPatternA: any = { patterns: [], overallRiskLevel: 'low' };
   let relationshipPatternB: any = { patterns: [], overallRiskLevel: 'low' };
-  try { relationshipPatternA = calculateRelationshipPatterns(chartA, chartA.name); } catch (e) { console.error('RelationshipPattern A failed:', e instanceof Error ? e.message : 'Unknown error'); }
-  try { relationshipPatternB = calculateRelationshipPatterns(chartB, chartB.name); } catch (e) { console.error('RelationshipPattern B failed:', e instanceof Error ? e.message : 'Unknown error'); }
+  try { relationshipPatternA = calculateRelationshipPatterns(chartA, chartA.name, 'couple'); } catch (e) { console.error('RelationshipPattern A failed:', e instanceof Error ? e.message : 'Unknown error'); }
+  try { relationshipPatternB = calculateRelationshipPatterns(chartB, chartB.name, 'couple'); } catch (e) { console.error('RelationshipPattern B failed:', e instanceof Error ? e.message : 'Unknown error'); }
 
   let vulnerabilityTimeline: any = { periods: [], conclusion: '', score: 100 };
   try {

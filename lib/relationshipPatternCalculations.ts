@@ -24,6 +24,17 @@ export interface RelationshipPattern {
     };
 }
 
+/**
+ * Who is reading. The same chart is described differently depending on whether
+ * someone is reading about themselves or about another person.
+ *
+ * 'self'   — their own chart, their own life. Be frank and specific; name the
+ *            repeating pattern and what to do about it. Nobody else is judged.
+ * 'couple' — a shared report, often read by the other family. Describe HOW this
+ *            person attaches, never how many people they have attached to.
+ */
+export type PatternAudience = 'self' | 'couple';
+
 export interface KarmaIndicator {
     label: string;
     value: string;
@@ -462,7 +473,7 @@ function houseDiff(a: number, b: number): number {
     return Math.min(d, 12 - d);
 }
 
-function computeKarmaIndicators(chart: Chart): KarmaIndicator[] {
+function computeKarmaIndicators(chart: Chart, audience: PatternAudience = 'couple'): KarmaIndicator[] {
     const ketu    = getPos(chart, 'Ketu');
     const rahu    = getPos(chart, 'Rahu');
     const venus   = getPos(chart, 'Venus');
@@ -543,17 +554,17 @@ function computeKarmaIndicators(chart: Chart): KarmaIndicator[] {
         p => p.house === 5 && !['Ketu', 'Uranus', 'Neptune', 'Pluto'].includes(p.planet)
     );
     for (const p of romantic5th) {
-        if (p.planet === 'Rahu')   { pmScore += 3; pmFactors.push('Rahu in 5th (amplified romance)'); }
-        else if (p.planet === 'Venus') { pmScore += 2; pmFactors.push('Venus in 5th (innate romantic nature)'); }
-        else if (p.planet === 'Mars')  { pmScore += 2; pmFactors.push('Mars in 5th (passion-driven bonds)'); }
-        else if (p.planet === 'Moon')  { pmScore += 1; pmFactors.push('Moon in 5th (emotional entanglement)'); }
+        if (p.planet === 'Rahu')   { pmScore += 3; pmFactors.push('Rahu in 5th (magnetic pull toward romance)'); }
+        else if (p.planet === 'Venus') { pmScore += 2; pmFactors.push('Venus in 5th (romance comes naturally)'); }
+        else if (p.planet === 'Mars')  { pmScore += 2; pmFactors.push('Mars in 5th (passionate and direct in love)'); }
+        else if (p.planet === 'Moon')  { pmScore += 1; pmFactors.push('Moon in 5th (feels romance deeply)'); }
         else                           { pmScore += 1; pmFactors.push(`${p.planet} in 5th`); }
     }
 
     // Factor B — Rahu aspecting Venus (opposition or conjunction across houses)
     if (rahu && venus && romantic5th.every(p => p.planet !== 'Rahu')) {
         const d = houseDiff(rahu.house, venus.house);
-        if (d === 0 || d === 6) { pmScore += 2; pmFactors.push('Rahu–Venus conjunction/opposition (desire amplification)'); }
+        if (d === 0 || d === 6) { pmScore += 2; pmFactors.push('Rahu-Venus contact (desire runs strong)'); }
         else if (d === 1)        { pmScore += 1; pmFactors.push('Rahu near Venus'); }
     }
 
@@ -565,48 +576,105 @@ function computeKarmaIndicators(chart: Chart): KarmaIndicator[] {
 
     // Factor D — Venus dignity
     if (venus) {
-        if (venus.dignity === 'debilitated') { pmScore += 2; pmFactors.push(`Venus debilitated in ${venus.sign} (seeks validation through many bonds)`); }
-        else if (['Scorpio', 'Aries'].includes(venus.sign)) { pmScore += 1; pmFactors.push(`Venus in ${venus.sign} (intense desire nature)`); }
+        if (venus.dignity === 'debilitated') { pmScore += 2; pmFactors.push(`Venus debilitated in ${venus.sign} (needs reassurance to feel secure)`); }
+        else if (['Scorpio', 'Aries'].includes(venus.sign)) { pmScore += 1; pmFactors.push(`Venus in ${venus.sign} (intense in affection)`); }
     }
 
     // Factor E — Moon in romantic nakshatras
     const romanticNaks = ['Rohini', 'Purva Phalguni', 'Swati', 'Purva Ashadha', 'Shatabhisha'];
     if (moon && romanticNaks.includes(moon.nakshatra)) {
         pmScore += 1;
-        pmFactors.push(`Moon in ${moon.nakshatra} nakshatra (romantic disposition)`);
+        pmFactors.push(`Moon in ${moon.nakshatra} nakshatra (romantic by nature)`);
     }
 
     // Protection: Jupiter well-placed reduces impulsive connections
     if (jupiter && [5, 7, 9].includes(jupiter.house) &&
         ['exalted', 'own_house', 'friendly', 'moolatrikona'].includes(jupiter.dignity)) {
         pmScore -= 2;
-        pmProtections.push(`Jupiter in ${ord(jupiter.house)} (wisdom guards romantic choices)`);
+        pmProtections.push(`Jupiter in ${ord(jupiter.house)} (judgment tempers romantic impulse)`);
     }
     pmScore = Math.max(0, pmScore);
 
-    let preMarValue: string;
-    let preMarSeverity: 'low' | 'moderate' | 'high';
-    if (pmScore >= 7) {
-        preMarSeverity = 'high';
-        preMarValue = '4 or more connections likely';
-    } else if (pmScore >= 5) {
-        preMarSeverity = 'high';
-        preMarValue = '3–4 connections indicated';
-    } else if (pmScore >= 3) {
-        preMarSeverity = 'moderate';
-        preMarValue = '2–3 connections indicated';
-    } else if (pmScore >= 1) {
-        preMarSeverity = 'low';
-        preMarValue = '1–2 connections indicated';
-    } else {
-        preMarSeverity = 'low';
-        preMarValue = '0–1 (few or no significant connections)';
-    }
+    // ─── Attachment style, NOT a relationship count ────────────────────────────
+    //
+    // This band used to print "4 or more connections likely" — a factual claim
+    // about a real person's romantic history, derived from a temperament score.
+    // The chart cannot support that at the individual level, and in an arranged
+    // match the output was read as a character verdict. The low bands were worse
+    // still: "few or no significant connections" with a green badge functioned as
+    // a purity certificate, and ranked chastity as the good outcome.
+    //
+    // The same score now describes HOW someone attaches — fast or selectively —
+    // which is what the placements actually indicate. No band is better than
+    // another, and no band claims what has or has not happened.
+    const ATTACHMENT_BANDS = [
+        {
+            min: 7,
+            label: 'Intense',
+            couple: 'Bonds fast and deeply',
+            coupleNote: 'Romance is felt intensely and attachments form quickly. This says nothing about loyalty in marriage — commitment tends to hold firmly once earlier chapters are genuinely closed.',
+            self: 'You attach fast, and you attach hard',
+            selfNote: 'You do not ease into feelings — you arrive fully formed. When it is good it is consuming; when it ends you carry it longer than you let on. The pattern to watch: intensity at the start reads as certainty. It is not. Before you marry, ask honestly whether anything from before is genuinely finished — these placements do not close chapters on their own.',
+        },
+        {
+            min: 5,
+            label: 'Warm',
+            couple: 'Falls in love readily',
+            coupleNote: 'Opens the heart easily and trusts quickly. Gives a great deal early, and steadies completely with the right anchor.',
+            self: 'You fall in love easily, and you mean it every time',
+            selfNote: 'Trusting quickly is your natural setting, not naivety. The risk is giving your best to people who have not earned it yet, and deciding someone is the one before you have any evidence. Before you marry, check that you chose this person — rather than chose the feeling.',
+        },
+        {
+            min: 3,
+            label: 'Balanced',
+            couple: 'Opens gradually, commits once sure',
+            coupleNote: 'Neither guarded nor impulsive. Takes time to trust, and holds once trust is given.',
+            self: 'You take your time, and then you are all in',
+            selfNote: 'You neither rush nor withhold, which is a genuine strength. The cost is that your steadiness can read as coolness early on, and people who need reassurance may leave before you have warmed up. Before you marry, say the things you assume are obvious. They are not obvious to them.',
+        },
+        {
+            min: 1,
+            label: 'Selective',
+            couple: 'Sets a high bar before letting anyone in',
+            coupleNote: 'Few people get close — not because feeling is absent, but because the standard is high. Bonds run deep once they form.',
+            self: 'You set a high bar, and few clear it',
+            selfNote: 'You do not hand your heart over easily, and that has protected you. It has probably also cost you people who were right but arrived at the wrong moment. The pattern to watch: mistaking caution for discernment. Before you marry, notice whether you are choosing them — or just finally allowing someone in.',
+        },
+        {
+            min: 0,
+            label: 'Private',
+            couple: 'Holds the heart closely',
+            coupleNote: 'Keeps romantic life private; intensity runs inward rather than expressed.',
+            self: 'You keep your heart to yourself',
+            selfNote: 'You may feel a great deal and show very little. A partner cannot respond to what they cannot see, and silence gets read as absence of feeling. Before you marry, practise saying the feeling out loud before you need to.',
+        },
+    ];
 
-    const preMarNote = [
-        pmFactors.length > 0 ? `Contributing factors: ${pmFactors.join('; ')}.` : 'No major indicators of multiple connections.',
-        pmProtections.length > 0 ? ` Counter: ${pmProtections.join('; ')}.` : ''
-    ].join('');
+    const band = ATTACHMENT_BANDS.find(b => pmScore >= b.min)!;
+
+    // Attachment style is a temperament, not a risk. Severity colouring would
+    // re-introduce the ranking ("Private" green, "Intense" red) that the copy
+    // is deliberately removing, so every band reports the same neutral level.
+    const preMarSeverity: 'low' | 'moderate' | 'high' = 'moderate';
+    const preMarValue = audience === 'self' ? band.self : band.couple;
+
+    // The two most reserved bands must never be readable as "this person has no
+    // past" — that is the purity reading this rewrite exists to prevent.
+    const NOT_A_HISTORY_CLAIM =
+        ' This describes how privately this person holds their romantic life, not how much of one they have had.';
+
+    const preMarNote = audience === 'self'
+        ? [
+            band.selfNote,
+            pmFactors.length > 0 ? ` What shapes this: ${pmFactors.join('; ')}.` : '',
+            pmProtections.length > 0 ? ` Steadying: ${pmProtections.join('; ')}.` : '',
+          ].join('')
+        : [
+            band.coupleNote,
+            pmScore < 3 ? NOT_A_HISTORY_CLAIM : '',
+            pmFactors.length > 0 ? ` What shapes this: ${pmFactors.join('; ')}.` : '',
+            pmProtections.length > 0 ? ` Steadying: ${pmProtections.join('; ')}.` : '',
+          ].join('');
 
     // ─────────────────────────────────────────────────────────────────────────
     // 3. VENUS CYCLE PATTERN
@@ -712,7 +780,7 @@ function computeKarmaIndicators(chart: Chart): KarmaIndicator[] {
 
     return [
         { label: 'Past-Life Relationship Karma',   value: pastLifeValue,    icon: '♾️', note: pastLifeNote,  severity: pastLifeSeverity  },
-        { label: 'Pre-Marital Relationship Count',  value: preMarValue,       icon: '🌹', note: preMarNote,    severity: preMarSeverity    },
+        { label: audience === 'self' ? 'How You Love' : 'Attachment Style', value: preMarValue, icon: '🌹', note: preMarNote, severity: preMarSeverity },
         { label: 'Venus Cycle Pattern',             value: venusCycleValue,  icon: '💫', note: venusCycleNote, severity: venusCycleSeverity },
         { label: 'Pattern Break Potential',         value: breakValue,       icon: '🌟', note: breakNote,      severity: breakSeverity     },
     ];
@@ -722,7 +790,11 @@ function computeKarmaIndicators(chart: Chart): KarmaIndicator[] {
 // MAIN FUNCTION
 // ============================================================================
 
-export function calculateRelationshipPatterns(chart: Chart, name: string): RelationshipPatternAnalysis {
+export function calculateRelationshipPatterns(
+    chart: Chart,
+    name: string,
+    audience: PatternAudience = 'couple'
+): RelationshipPatternAnalysis {
     const preMarital = analyzePreMaritalPatterns(chart, name);
     const affairContext = [
         ...analyzeAffairContextPatterns(chart, name),
@@ -754,7 +826,7 @@ export function calculateRelationshipPatterns(chart: Chart, name: string): Relat
         opportunityTriggersSummary: summarizePatterns(affairContext, 'Opportunity triggers'),
         capacityApproachSummary: summarizePatterns(relationshipStyle, 'Capacity approach'),
         overallRiskLevel: overallRisk,
-        karmaIndicators: computeKarmaIndicators(chart)
+        karmaIndicators: computeKarmaIndicators(chart, audience)
     };
 }
 
