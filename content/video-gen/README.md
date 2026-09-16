@@ -2,8 +2,39 @@
 
 Generative video via the official `google-genai` SDK. Unlike the NotebookLM
 pipeline, this is a **documented Google API with API-key auth**, so it *could*
-technically run server-side. The reason it does not is cost, and the cost is
-worth understanding precisely before spending anything.
+technically run server-side. The reason it does not is cost.
+
+---
+
+## Check Flow first — you already pay for this
+
+A Google AI Pro subscription and a Gemini API key are **separate billing
+rails**. The subscription does not come with API credits; API calls bill
+pay-as-you-go through AI Studio / Cloud Billing regardless of what you pay
+monthly for the consumer plan.
+
+But the subscription *does* include video generation — just through a different
+door:
+
+| | Google Flow (AI Pro) | This API |
+|---|---|---|
+| Cost | 1,000 credits/mo included | ~₹9/s, no free tier |
+| Veo 3.1 Lite | 10 credits — **~100 clips/mo** | n/a |
+| Veo 3.1 Fast | 20 credits — ~50 clips/mo | n/a |
+| Veo 3.1 Quality | 100 credits — ~10 clips/mo | n/a |
+| Interface | Web UI, manual | CLI, scriptable, batchable |
+
+At 4 reels a week needing roughly 3 clips each, that is **48 generations a
+month against a ~100-generation allowance**. Flow covers the whole content
+calendar at zero marginal cost.
+
+**So use Flow.** Come back here only when you have exhausted the monthly
+credits, or when you specifically need generation scripted into a batch — Flow
+has no CLI and cannot be automated.
+
+Confirm your actual balance in Flow rather than trusting the table above; the
+subscriptions page describes Pro's Veo 3.1 Lite access as a "limited trial",
+which may mean the allowance differs from the reported credit maths.
 
 ---
 

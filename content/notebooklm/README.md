@@ -34,6 +34,20 @@ NotebookLM workspace, not the business.
 
 ---
 
+## What your AI Pro plan unlocks here
+
+AI Pro raises the NotebookLM limits this pipeline runs into: **300 sources per
+notebook** (up from 50 on free) and substantially higher audio/video overview
+quotas. The five pillar documents plus room to add transcripts and posts as you
+produce them fits comfortably.
+
+**`--format cinematic` will not work on your plan.** The CLI offers it, but
+Cinematic Video Overviews — the Veo-3-backed format that produces real animation
+instead of narrated slides — is restricted to **Google AI Ultra** (₹6,500/mo),
+capped at 20 videos/day. On AI Pro, `--format short`, `explainer` and `brief`
+all produce the narrated-slideshow style. Plan around that; do not burn quota
+discovering it.
+
 ## Setup (on your machine, once)
 
 ```bash
