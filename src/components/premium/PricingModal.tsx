@@ -4,12 +4,13 @@
  * Calls initiateCheckout() when Razorpay key is configured; shows "Coming Soon" otherwise.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Check, Crown, Shield, Sparkles, Lock, Loader2, AlertTriangle, ArrowLeft } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { usePremium } from '../../hooks/usePremium';
 import { initiateCheckout } from '../../lib/paymentService';
 import { useUserProfileStore } from '../../store/useUserProfileStore';
+import { detectRegion, PRICING_INR, PRICING_USD, periodLabel } from '../../lib/regionService';
 
 
 interface PricingModalProps {
@@ -45,8 +46,7 @@ const TIERS = [
   },
   {
     name: 'Premium',
-    price: '₹399',
-    period: '/month',
+    priceKey: 'premium_monthly' as const,
     color: 'amber',
     icon: <Crown className="w-6 h-6" />,
     popular: true,
@@ -68,8 +68,7 @@ const TIERS = [
   },
   {
     name: 'Astrologer',
-    price: '₹1,499',
-    period: '/month',
+    priceKey: 'astrologer_monthly' as const,
     color: 'purple',
     icon: <Shield className="w-6 h-6" />,
     features: [
@@ -98,6 +97,15 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose, sec
   const [paymentError, setPaymentError] = useState<string | null>(null);
   const { planTier } = usePremium();
   const loadPlanFromCloud = useUserProfileStore((s) => s.loadPlanFromCloud);
+
+  // Every price in this modal must be the one the visitor will be charged.
+  const [currency, setCurrency] = useState<'INR' | 'USD'>('INR');
+  useEffect(() => {
+    let alive = true;
+    detectRegion().then(r => { if (alive) setCurrency(r.currency); }).catch(() => { /* keep INR */ });
+    return () => { alive = false; };
+  }, []);
+  const pricing = currency === 'USD' ? PRICING_USD : PRICING_INR;
   const [loadingNotify, setLoadingNotify] = useState(false);
 
   if (!isOpen) return null;
@@ -230,7 +238,7 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose, sec
                 <Lock className="w-4 h-4" /> One-Time Unlock
               </p>
               <p className="text-sm text-amber-700 dark:text-amber-300 mt-0.5">
-                ₹49 per section • ₹169 for full report unlock
+                {pricing.section_unlock.display} per section • {pricing.full_report_unlock.display} for full report unlock
               </p>
             </div>
             {razorpayLive ? (
@@ -241,7 +249,9 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose, sec
                   className="flex items-center gap-2 px-4 py-2 bg-amber-500 text-white text-sm font-bold rounded-lg hover:bg-amber-600 disabled:opacity-70 transition-all shadow-md shadow-amber-500/20 active:scale-95"
                 >
                   {sectionLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5" />}
-                  {sectionLabel ? `Unlock ${sectionLabel.split(' ')[0]} Module: ₹49` : 'Unlock Module: ₹49'}
+                  {sectionLabel
+                    ? `Unlock ${sectionLabel.split(' ')[0]} Module: ${pricing.section_unlock.display}`
+                    : `Unlock Module: ${pricing.section_unlock.display}`}
                 </button>
                 <button
                   onClick={() => handleSectionUnlock(true)}
@@ -249,7 +259,7 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose, sec
                   className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white text-sm font-bold rounded-lg hover:bg-indigo-700 disabled:opacity-70 transition-all shadow-md shadow-indigo-500/20 active:scale-95"
                 >
                   {sectionLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Crown className="w-3.5 h-3.5" />}
-                  Unlock Full Report: ₹169
+                  Unlock Full Report: {pricing.full_report_unlock.display}
                 </button>
               </div>
             ) : (
@@ -285,8 +295,12 @@ export const PricingModal: React.FC<PricingModalProps> = ({ isOpen, onClose, sec
                 <div className={`text-${tier.color}-600 dark:text-${tier.color}-400 mb-3`}>{tier.icon}</div>
                 <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100">{tier.name}</h3>
                 <div className="mt-2 mb-4">
-                  <span className="text-3xl font-bold text-gray-800 dark:text-gray-100">{tier.price}</span>
-                  <span className="text-sm text-gray-500">{tier.period}</span>
+                  <span className="text-3xl font-bold text-gray-800 dark:text-gray-100">
+                    {tier.priceKey ? pricing[tier.priceKey].display.replace('/mo', '') : tier.price}
+                  </span>
+                  <span className="text-sm text-gray-500">
+                    {(tier.priceKey && periodLabel(tier.priceKey, currency)) || tier.period}
+                  </span>
                 </div>
                 <ul className="space-y-2.5 mb-6">
                   {tier.features.filter(f => f.text).map((f, i) => (
