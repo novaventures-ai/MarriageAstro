@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, afterEach } from 'vitest';
 import fs from 'fs';
 import path from 'path';
 import { periodLabel, isRecurring, renewalNote, PRICING_INR, PRICING_USD } from '../lib/regionService';
@@ -25,21 +25,71 @@ function stripComments(src: string): string {
   return src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
 }
 
+/** Stand in for sessionStorage so the cached region can be controlled. */
+function setCachedRegion(region: unknown) {
+  const store = new Map<string, string>();
+  if (region !== null) store.set('ma_region', JSON.stringify(region));
+  (globalThis as any).sessionStorage = {
+    getItem: (k: string) => store.get(k) ?? null,
+    setItem: (k: string, v: string) => { store.set(k, v); },
+    removeItem: (k: string) => { store.delete(k); },
+  };
+}
+
 describe('period label reflects what actually happens', () => {
-  it('INR monthly renews, so it may say /month', () => {
-    expect(periodLabel('premium_monthly', 'INR')).toBe('/month');
-    expect(periodLabel('astrologer_monthly', 'INR')).toBe('/month');
-    expect(isRecurring('premium_monthly', 'INR')).toBe(true);
+  /**
+   * These used to assert "INR renews, USD never does", on the reading that a
+   * recurring mandate requires an India-issued card. That conflated e-mandate
+   * (bank debits over NACH, India-only) with recurring CARD payments, which
+   * Razorpay supports in many currencies — its plan form offers EUR, SGD and
+   * USD. Currency was never the right question.
+   *
+   * What actually decides is whether a Razorpay Plan exists for that currency,
+   * which only the server knows and now reports.
+   */
+  afterEach(() => { delete (globalThis as any).sessionStorage; });
+
+  it('claims no renewal until the server says a plan exists', () => {
+    // The fail-safe default. Understating is cheap; promising a renewal that
+    // never happens is what sold a subscription that did not exist.
+    setCachedRegion(null);
+    for (const currency of ['INR', 'USD'] as const) {
+      for (const plan of ['premium_monthly', 'astrologer_monthly']) {
+        expect(isRecurring(plan, currency)).toBe(false);
+        expect(periodLabel(plan, currency)).not.toMatch(/month/i);
+      }
+    }
   });
 
-  it('USD monthly does NOT renew, so it must never say month', () => {
-    for (const plan of ['premium_monthly', 'astrologer_monthly']) {
-      const label = periodLabel(plan, 'USD')!;
-      expect(label).not.toMatch(/month/i);
-      expect(label).not.toMatch(/\/mo\b/);
-      expect(label).toContain('30 days');
-      expect(isRecurring(plan, 'USD')).toBe(false);
-    }
+  it.each(['INR', 'USD'] as const)('says /month in %s once a plan is configured', (currency) => {
+    setCachedRegion({
+      country: currency === 'INR' ? 'IN' : 'US',
+      currency,
+      isInternational: currency !== 'INR',
+      recurring: { premium_monthly: true, astrologer_monthly: true },
+    });
+    expect(isRecurring('premium_monthly', currency)).toBe(true);
+    expect(periodLabel('premium_monthly', currency)).toBe('/month');
+  });
+
+  it('a currency switched on does not speak for the other', () => {
+    // Plans are per-currency: INR live must not make USD claim renewal.
+    setCachedRegion({
+      country: 'IN', currency: 'INR', isInternational: false,
+      recurring: { premium_monthly: true, astrologer_monthly: true },
+    });
+    expect(isRecurring('premium_monthly', 'INR')).toBe(true);
+    expect(isRecurring('premium_monthly', 'USD')).toBe(false);
+  });
+
+  it('honours a per-plan difference within one currency', () => {
+    // Premium can be live while Astrologer is not; the copy must track each.
+    setCachedRegion({
+      country: 'IN', currency: 'INR', isInternational: false,
+      recurring: { premium_monthly: true, astrologer_monthly: false },
+    });
+    expect(periodLabel('premium_monthly', 'INR')).toBe('/month');
+    expect(periodLabel('astrologer_monthly', 'INR')).toContain('30 days');
   });
 
   it('one-off products have no period of their own', () => {
@@ -51,25 +101,36 @@ describe('period label reflects what actually happens', () => {
     // The page strips "/mo" from `display` then appends the label. If a display
     // string carries its own period, the two concatenate into nonsense like
     // "$14.99 / 30 days/month".
-    for (const [currency, table] of [['INR', PRICING_INR], ['USD', PRICING_USD]] as const) {
-      for (const plan of ['premium_monthly', 'astrologer_monthly']) {
-        const rendered = table[plan].display.replace('/mo', '') +
-          (periodLabel(plan, currency) ?? '');
-        expect(rendered.match(/month|30 days/gi)?.length ?? 0,
-          `"${rendered}" states its period more than once`).toBeLessThanOrEqual(1);
+    for (const configured of [true, false]) {
+      for (const [currency, table] of [['INR', PRICING_INR], ['USD', PRICING_USD]] as const) {
+        setCachedRegion({
+          country: 'IN', currency, isInternational: currency !== 'INR',
+          recurring: { premium_monthly: configured, astrologer_monthly: configured },
+        });
+        for (const plan of ['premium_monthly', 'astrologer_monthly']) {
+          const rendered = table[plan].display.replace('/mo', '') +
+            (periodLabel(plan, currency) ?? '');
+          expect(rendered.match(/month|30 days/gi)?.length ?? 0,
+            `"${rendered}" states its period more than once`).toBeLessThanOrEqual(1);
+        }
       }
     }
   });
 });
 
 describe('renewal is described honestly', () => {
-  it('tells an international customer it will not renew', () => {
+  it('says plainly when a plan does not renew', () => {
     const note = renewalNote('premium_monthly', 'USD').toLowerCase();
     expect(note).toContain('does not renew');
   });
 
-  it('tells an Indian customer it will', () => {
+  it('says plainly when it does', () => {
+    setCachedRegion({
+      country: 'IN', currency: 'INR', isInternational: false,
+      recurring: { premium_monthly: true, astrologer_monthly: true },
+    });
     expect(renewalNote('premium_monthly', 'INR').toLowerCase()).toContain('automatically');
+    delete (globalThis as any).sessionStorage;
   });
 });
 
