@@ -3,7 +3,7 @@
  * Marketing/onboarding page — always accessible to all users
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Heart, Stars, Sparkles, ArrowRight, User, ChevronRight, LayoutDashboard, ChevronDown, ChevronUp, Shield, Brain, Flame, Clock, Swords, Eye, Zap, Target, Check, X, Lock, Crown, Star, Quote, Play, Code, Terminal, CheckCircle2, BrainCircuit } from 'lucide-react';
 import { ThemeToggle } from '../components/ui/ThemeToggle';
@@ -13,6 +13,7 @@ import { Logo } from '../components/ui/Logo';
 import { GoogleTranslate } from '../components/ui/GoogleTranslate';
 import { SEOHead } from '../components/SEOHead';
 import { useUserProfileStore } from '../store/useUserProfileStore';
+import { detectRegion, PRICING_INR, PRICING_USD, periodLabel } from '../lib/regionService';
 
 const WELCOME_BACK_CONFIG = {
   searcher: {
@@ -40,6 +41,18 @@ export const LandingPage: React.FC = () => {
   const { user } = useAuth();
   const { userMode } = useUserProfileStore();
   const [dismissed, setDismissed] = useState(false);
+
+  // The pricing block used to hardcode rupees, so an international visitor saw
+  // Rs 399/mo here and $14.99 on /pricing — two different prices for the same
+  // plan, one of which they could not be charged.
+  const [currency, setCurrency] = useState<'INR' | 'USD'>('INR');
+  useEffect(() => {
+    let alive = true;
+    detectRegion().then(r => { if (alive) setCurrency(r.currency); }).catch(() => { /* keep INR */ });
+    return () => { alive = false; };
+  }, []);
+  const pricing = currency === 'USD' ? PRICING_USD : PRICING_INR;
+  const zero = currency === 'USD' ? '$0' : '₹0';
 
   const welcomeConfig = userMode && !dismissed ? WELCOME_BACK_CONFIG[userMode] : null;
 
@@ -574,7 +587,7 @@ export const LandingPage: React.FC = () => {
             <div className="rounded-2xl border-2 border-gray-200 dark:border-gray-700 p-6 bg-white dark:bg-gray-900">
               <Sparkles className="w-8 h-8 text-gray-500 dark:text-gray-400 mb-3" />
               <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">Free</h3>
-              <p className="text-3xl font-bold text-gray-800 dark:text-gray-100 mt-2">₹0</p>
+              <p className="text-3xl font-bold text-gray-800 dark:text-gray-100 mt-2">{zero}</p>
               <p className="text-sm text-gray-500 mb-4">forever</p>
               <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
                 <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500 flex-shrink-0" /> Full Ashtakoot Milan (36 pts)</li>
@@ -589,8 +602,13 @@ export const LandingPage: React.FC = () => {
               <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 bg-amber-500 text-white text-xs font-bold rounded-full">Most Popular</span>
               <Crown className="w-8 h-8 text-amber-500 mb-3" />
               <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">Premium</h3>
-              <p className="text-3xl font-bold text-gray-800 dark:text-gray-100 mt-2">₹399<span className="text-sm font-normal text-gray-500">/mo</span></p>
-              <p className="text-sm text-gray-500 mb-4">or ₹49/section one-time</p>
+              <p className="text-3xl font-bold text-gray-800 dark:text-gray-100 mt-2">
+                {pricing.premium_monthly.display.replace('/mo', '')}
+                <span className="text-sm font-normal text-gray-500">{periodLabel('premium_monthly', currency)}</span>
+              </p>
+              <p className="text-sm text-gray-500 mb-4">
+                or {pricing.section_unlock.display}/section one-time
+              </p>
               <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
                 <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500 flex-shrink-0" /> Everything in Free</li>
                 <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500 flex-shrink-0" /> Risk & Infidelity Details</li>
@@ -609,7 +627,10 @@ export const LandingPage: React.FC = () => {
             <div className="rounded-2xl border-2 border-gray-200 dark:border-gray-700 p-6 bg-white dark:bg-gray-900">
               <Shield className="w-8 h-8 text-purple-500 dark:text-purple-400 mb-3" />
               <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">Astrologer</h3>
-              <p className="text-3xl font-bold text-gray-800 dark:text-gray-100 mt-2">₹1,499<span className="text-sm font-normal text-gray-500">/mo</span></p>
+              <p className="text-3xl font-bold text-gray-800 dark:text-gray-100 mt-2">
+                {pricing.astrologer_monthly.display.replace('/mo', '')}
+                <span className="text-sm font-normal text-gray-500">{periodLabel('astrologer_monthly', currency)}</span>
+              </p>
               <p className="text-sm text-gray-500 mb-4">for professionals</p>
               <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
                 <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500 flex-shrink-0" /> Everything in Premium</li>
@@ -760,7 +781,7 @@ export const LandingPage: React.FC = () => {
             />
             <FAQItem
               question="Is Astro Marriage free to use?"
-              answer="Astro Marriage's core features are free forever — including Ashtakoot Milan (36-point scoring), marriage timing, spouse prediction, psychological profiling, and 3 AI queries per day. Premium unlocks detailed breakdowns for risk analysis, sexual compatibility, mental health, and unlimited AI chat starting at ₹49 per section."
+              answer={`Astro Marriage's core features are free forever — including Ashtakoot Milan (36-point scoring), marriage timing, spouse prediction, psychological profiling, and 3 AI queries per day. Premium unlocks detailed breakdowns for risk analysis, sexual compatibility, mental health, and unlimited AI chat starting at ${pricing.section_unlock.display} per section.`}
             />
             <FAQItem
               question="What astrology systems does Astro Marriage use?"
