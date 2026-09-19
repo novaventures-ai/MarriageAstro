@@ -37,7 +37,10 @@ export function getStoredAffiliateCode(): string | null {
 
 export interface RazorpayModalOptions {
   keyId: string;
-  orderId: string;
+  /** Present for a one-time purchase. Mutually exclusive with subscriptionId. */
+  orderId?: string;
+  /** Present for a recurring plan. Razorpay auto-debits each cycle. */
+  subscriptionId?: string;
   userId: string;
   amount: number;
   currency: string;
@@ -51,6 +54,9 @@ export interface RazorpayModalOptions {
 export interface CheckoutResult {
   success: boolean;
   orderId?: string;
+  subscriptionId?: string;
+  /** True when a recurring mandate was registered, so the plan renews itself. */
+  recurring?: boolean;
   keyId?: string; // Server provided key
   mock: boolean;
   message: string;
@@ -102,6 +108,7 @@ export async function initiateCheckout(options: CheckoutOptions): Promise<Checko
       const result = await openRazorpayModal({
         keyId: data.keyId || import.meta.env.VITE_RAZORPAY_KEY_ID,
         orderId: data.orderId,
+        subscriptionId: data.subscriptionId,
         userId: options.userId,
         amount: data.amount,
         currency: data.currency,
@@ -143,27 +150,45 @@ function openRazorpayModal(opts: RazorpayModalOptions): Promise<CheckoutResult> 
         ? `Unlock: ${opts.sectionToUnlock.replace(/_/g, ' ')}`
         : opts.planType.replace(/_/g, ' ');
 
+      // Razorpay takes EITHER an order_id or a subscription_id, never both —
+      // sending both makes it ignore the subscription and charge once.
+      const idField = opts.subscriptionId
+        ? { subscription_id: opts.subscriptionId }
+        : { order_id: opts.orderId };
+
       const rzp = new window.Razorpay({
         key: opts.keyId,
         amount: opts.amount,
         currency: opts.currency,
         name: 'Astro Marriage',
         description,
-        order_id: opts.orderId,
-        handler: async (response: { razorpay_payment_id: string; razorpay_order_id: string; razorpay_signature: string }) => {
+        ...idField,
+        handler: async (response: {
+          razorpay_payment_id: string;
+          razorpay_order_id?: string;
+          razorpay_subscription_id?: string;
+          razorpay_signature: string;
+        }) => {
           // Payment captured — verify signature and fulfill synchronously for immediate UX
           const verified = await verifyPayment(response, {
             userId: opts.userId,
             planType: opts.planType,
             sectionToUnlock: opts.sectionToUnlock,
             reportKey: opts.reportKey,
-            amount: opts.amount
+            amount: opts.amount,
+            currency: opts.currency,
           });
           resolve({
             success: verified,
             orderId: opts.orderId,
+            subscriptionId: opts.subscriptionId,
+            recurring: Boolean(opts.subscriptionId),
             mock: false,
-            message: verified ? 'Payment successful! Your content is being unlocked.' : 'Payment completed but verification pending.',
+            message: verified
+              ? (opts.subscriptionId
+                  ? 'Subscription active. It renews automatically each month.'
+                  : 'Payment successful! Your content is being unlocked.')
+              : 'Payment completed but verification pending.',
           });
         },
         prefill: {
@@ -213,7 +238,8 @@ function openRazorpayModal(opts: RazorpayModalOptions): Promise<CheckoutResult> 
 export async function verifyPayment(
   razorpayResponse: {
     razorpay_payment_id: string;
-    razorpay_order_id: string;
+    razorpay_order_id?: string;
+    razorpay_subscription_id?: string;
     razorpay_signature: string;
   },
   metadata?: {
@@ -222,6 +248,7 @@ export async function verifyPayment(
     sectionToUnlock?: string;
     reportKey?: string;
     amount?: number;
+    currency?: string;
   }
 ): Promise<boolean> {
   try {

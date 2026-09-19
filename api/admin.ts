@@ -123,7 +123,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (action === 'list_payments') {
       const { data, error: pErr } = await db
         .from('payment_history')
-        .select('payment_id, order_id, user_id, amount, plan_type, section_id, report_key, status, created_at')
+        .select('payment_id, order_id, user_id, amount, currency, plan_type, section_id, report_key, status, created_at')
         .order('created_at', { ascending: false })
         .limit(200);
 

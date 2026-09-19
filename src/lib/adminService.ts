@@ -237,6 +237,8 @@ export interface PaymentRecord {
   user_id: string;
   user_email: string;
   amount: number;
+  /** ISO-4217. Amount is in the smallest unit, so this is required to read it. */
+  currency: 'INR' | 'USD';
   plan_type: string;
   section_id: string | null;
   report_key: string | null;

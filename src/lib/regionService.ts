@@ -84,13 +84,38 @@ export const PRICING_INR: Record<string, { amount: number; display: string }> = 
   astrologer_monthly:  { amount: 149900, display: '₹1,499/mo' },
 };
 
+/**
+ * "/mo" is NOT a formatting choice — it is a promise that the plan renews
+ * itself, and it is only true in INR. An e-mandate can only be registered on a
+ * card issued in India in INR, so an international monthly is a one-time charge
+ * granting 30 days and nothing debits the customer again. Saying "/mo" there
+ * sells a subscription that does not exist and the access lapses silently.
+ */
 export const PRICING_USD: Record<string, { amount: number; display: string }> = {
   section_unlock:      { amount: 499,   display: '$4.99' },
   full_report_unlock:  { amount: 1299,  display: '$12.99' },
-  premium_monthly:     { amount: 1499,  display: '$14.99/mo' },
-  astrologer_monthly:  { amount: 3999,  display: '$39.99/mo' },
+  premium_monthly:     { amount: 1499,  display: '$14.99 / 30 days' },
+  astrologer_monthly:  { amount: 3999,  display: '$39.99 / 30 days' },
 };
 
 export function getPricing(currency: 'INR' | 'USD') {
   return currency === 'USD' ? PRICING_USD : PRICING_INR;
+}
+
+/** Plans that auto-renew. Only INR mandates can, so only INR renews. */
+export function isRecurring(planType: string, currency: 'INR' | 'USD'): boolean {
+  return currency === 'INR' &&
+    (planType === 'premium_monthly' || planType === 'astrologer_monthly');
+}
+
+/**
+ * What to tell the customer about renewal, in their own region's terms.
+ * Empty for one-off unlocks, which renew nothing.
+ */
+export function renewalNote(planType: string, currency: 'INR' | 'USD'): string {
+  if (planType !== 'premium_monthly' && planType !== 'astrologer_monthly') return '';
+  return isRecurring(planType, currency)
+    ? 'Renews automatically each month. Cancel anytime.'
+    : 'One-time payment for 30 days of access. It does not renew automatically — '
+      + 'we will remind you before it ends.';
 }
