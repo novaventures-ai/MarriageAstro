@@ -22,6 +22,27 @@ function getServiceClient() {
   return createClient(url, key, { auth: { autoRefreshToken: false, persistSession: false } });
 }
 
+/**
+ * Razorpay signs the EXACT bytes it sent. Vercel's default body parser consumes
+ * the stream and hands back a parsed object, and `JSON.stringify` of that object
+ * is not the original payload — key order, whitespace and unicode escaping all
+ * differ. Verifying against a re-serialized body therefore fails for every
+ * delivery, which is why no webhook had ever written a row: the endpoint was
+ * enabled and reachable, and rejected 100% of deliveries as forged.
+ *
+ * Disabling the parser gives us the raw bytes to verify, and we parse them
+ * ourselves afterwards.
+ */
+export const config = { api: { bodyParser: false } };
+
+async function readRawBody(req: VercelRequest): Promise<string> {
+  const chunks: Buffer[] = [];
+  for await (const chunk of req as unknown as AsyncIterable<Buffer | string>) {
+    chunks.push(typeof chunk === 'string' ? Buffer.from(chunk) : chunk);
+  }
+  return Buffer.concat(chunks).toString('utf8');
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -37,7 +58,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const signature = (req.headers['x-razorpay-signature'] as string) || '';
-  const rawBody = JSON.stringify(req.body); 
+
+  // `req.body` is undefined here by design — see the config export above.
+  let rawBody: string;
+  try {
+    rawBody = await readRawBody(req);
+  } catch (err) {
+    console.error('payment-webhook: could not read request body', err);
+    return res.status(400).json({ error: 'Unreadable body' });
+  }
 
   try {
     const isValid = Razorpay.validateWebhookSignature(rawBody, signature, webhookSecret);
@@ -50,7 +79,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(401).json({ error: 'Invalid webhook signature' });
   }
 
-  const event = req.body;
+  let event: any;
+  try {
+    event = JSON.parse(rawBody);
+  } catch {
+    console.error('payment-webhook: body passed signature but is not JSON');
+    return res.status(400).json({ error: 'Malformed JSON' });
+  }
   const eventType: string = event?.event || '';
 
   if (eventType.startsWith('subscription.')) {
