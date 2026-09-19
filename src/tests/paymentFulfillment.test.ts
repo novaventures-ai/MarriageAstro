@@ -167,3 +167,59 @@ describe('payment fulfillment never drops a paid unlock', () => {
     expect(dbMock.calls).toHaveLength(0);
   });
 });
+
+describe('verify-payment never clobbers the webhook payload', () => {
+  /**
+   * verify-payment stamped {"verified_at": ...} into raw_payload. Both it and
+   * the webhook upsert the SAME payment_history row, so whichever landed second
+   * overwrote the other — and the webhook's full Razorpay entity (method, card,
+   * fees, international flag, notes) was routinely discarded.
+   *
+   * It cost real information: the first international customer's acquisition
+   * source was unrecoverable because the only record of it had been overwritten.
+   * It also made raw_payload useless as a diagnostic — "only verified_at is
+   * present" reads as "the webhook never ran", which was wrong.
+   *
+   * verified_at now has its own column. PostgREST's upsert only updates columns
+   * present in the payload, so omitting raw_payload leaves the webhook's write
+   * intact.
+   */
+  beforeEach(() => {
+    vi.resetModules();
+    dbMock = makeDbMock();
+    process.env.RAZORPAY_KEY_SECRET = SECRET;
+    process.env.SUPABASE_URL = 'https://example.supabase.co';
+    process.env.SUPABASE_SERVICE_ROLE_KEY = 'service_role_test';
+  });
+
+  const base = {
+    razorpay_order_id: ORDER,
+    razorpay_payment_id: PAYMENT,
+    userId: 'user-123',
+  };
+
+  it('does not send raw_payload at all', async () => {
+    await callVerify({
+      ...base,
+      razorpay_signature: validSignature(),
+      planType: 'section_unlock',
+      sectionToUnlock: 'sexual_detail',
+    });
+    const hist = dbMock.calls.find(c => c.table === 'payment_history');
+    expect(hist, 'no payment_history write').toBeTruthy();
+    expect(Object.keys(hist!.payload),
+      'raw_payload here overwrites the webhook\'s full Razorpay entity')
+      .not.toContain('raw_payload');
+  });
+
+  it('records the verification time in its own column', async () => {
+    await callVerify({
+      ...base,
+      razorpay_signature: validSignature(),
+      planType: 'section_unlock',
+      sectionToUnlock: 'sexual_detail',
+    });
+    const hist = dbMock.calls.find(c => c.table === 'payment_history');
+    expect(Date.parse(hist!.payload.verified_at as string)).not.toBeNaN();
+  });
+});

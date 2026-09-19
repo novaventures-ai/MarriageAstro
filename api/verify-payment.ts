@@ -80,7 +80,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         // same integer, and every revenue total silently mixes the two.
         currency: currency === 'USD' ? 'USD' : 'INR',
         status: 'success',
-        raw_payload: { verified_at: new Date().toISOString() }
+        // raw_payload is deliberately ABSENT. It belongs to the webhook, which
+        // stores the full Razorpay entity. Both endpoints upsert this same row,
+        // so writing raw_payload here overwrote that entity whenever this
+        // landed second — which is most of the time. PostgREST's upsert only
+        // updates the columns present in the payload, so omitting it preserves
+        // whatever the webhook wrote.
+        verified_at: new Date().toISOString(),
       }, { onConflict: 'payment_id' });
 
       // Apply unlock(s)
