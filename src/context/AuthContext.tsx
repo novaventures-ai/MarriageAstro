@@ -56,6 +56,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                     setSentryUser(newSession.user.id, newSession.user.email);
                     identifyUser(newSession.user.id, { email: newSession.user.email });
                     if (event === 'SIGNED_IN') {
+                        // Supabase reports SIGNED_IN for a brand-new account and
+                        // a returning one alike. A first-ever sign-in has
+                        // created_at and last_sign_in_at set within the same
+                        // moment, which is the only signal available here.
+                        // A generous window absorbs clock skew; at worst a
+                        // returning user is miscounted as new, which is far less
+                        // costly than having no signup number at all.
+                        const createdAt = Date.parse(newSession.user.created_at ?? '');
+                        const lastSignIn = Date.parse(newSession.user.last_sign_in_at ?? '');
+                        const isFirstSignIn = Number.isFinite(createdAt)
+                            && Number.isFinite(lastSignIn)
+                            && Math.abs(lastSignIn - createdAt) < 30_000;
+                        if (isFirstSignIn) trackEvent('user_signed_up');
                         trackEvent('user_signed_in');
                         // If user arrived via an affiliate link, record the signup
                         try {

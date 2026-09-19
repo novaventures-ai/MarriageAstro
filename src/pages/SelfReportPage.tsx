@@ -29,6 +29,7 @@ import {
 import { ThemeToggle } from '../components/ui/ThemeToggle';
 import { Logo } from '../components/ui/Logo';
 import { usePremium } from '../hooks/usePremium';
+import { trackEvent } from '../lib/analytics';
 import { PremiumGate } from '../components/premium/PremiumGate';
 import { PricingModal } from '../components/premium/PricingModal';
 import { ShareButton } from '../components/premium/ShareButton';
@@ -171,6 +172,13 @@ export const SelfReportPage: React.FC = () => {
     generateSelfReport,
     setSelfBirthData
   } = useUserProfileStore();
+
+  // See ReportPage: this is the denominator every paywall question needs.
+  const hasSelfReport = Boolean(selfReport);
+  useEffect(() => {
+    if (!hasSelfReport) return;
+    trackEvent('report_viewed', { kind: 'self' });
+  }, [hasSelfReport]);
 
   const { isAdmin, isPremium } = usePremium();
   const [activeTheme, setActiveTheme] = useState<ThemeId>('match');

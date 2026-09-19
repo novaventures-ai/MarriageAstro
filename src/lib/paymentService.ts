@@ -7,6 +7,7 @@
  */
 
 import { UnlockableSection } from '../types';
+import { trackEvent } from './analytics';
 
 export interface CheckoutOptions {
   userId: string;
@@ -53,6 +54,8 @@ export interface RazorpayModalOptions {
 
 export interface CheckoutResult {
   success: boolean;
+  /** The customer closed the modal deliberately, as opposed to a failure. */
+  cancelled?: boolean;
   orderId?: string;
   subscriptionId?: string;
   /** True when a recurring mandate was registered, so the plan renews itself. */
@@ -104,6 +107,19 @@ export async function initiateCheckout(options: CheckoutOptions): Promise<Checko
     }
 
     // 3. Open Razorpay modal and wait for result
+    //
+    // Every purchase in the app funnels through here — the gate, the modal and
+    // the pricing page all call initiateCheckout — so this is the one place
+    // worth instrumenting. Properties carry the plan and the real amount, so a
+    // funnel can be split by what someone was actually trying to buy.
+    trackEvent('payment_initiated', {
+      planType: options.planType,
+      section: options.sectionToUnlock,
+      amount: data.amount,
+      currency: data.currency,
+      recurring: Boolean(data.recurring),
+    });
+
     try {
       const result = await openRazorpayModal({
         keyId: data.keyId || import.meta.env.VITE_RAZORPAY_KEY_ID,
@@ -119,6 +135,16 @@ export async function initiateCheckout(options: CheckoutOptions): Promise<Checko
         affiliateCode: options.affiliateCode,
       });
 
+      trackEvent(result.success ? 'payment_completed' : 'payment_cancelled', {
+        planType: options.planType,
+        section: options.sectionToUnlock,
+        amount: data.amount,
+        currency: data.currency,
+        // 'dismissed' means they closed the modal; 'failed' means the card or
+        // bank rejected it. Both end the funnel, for completely different
+        // reasons, and only one is a pricing problem.
+        outcome: result.success ? 'paid' : result.cancelled ? 'dismissed' : 'failed',
+      });
       return result;
     } catch (modalError: any) {
       console.error('Modal error:', modalError);
@@ -206,6 +232,10 @@ function openRazorpayModal(opts: RazorpayModalOptions): Promise<CheckoutResult> 
           ondismiss: () => {
             resolve({
               success: false,
+              // Deliberately closed, not failed. The distinction is the whole
+              // point of the funnel: price resistance looks nothing like a
+              // broken card.
+              cancelled: true,
               orderId: opts.orderId,
               mock: false,
               message: 'Payment cancelled.',

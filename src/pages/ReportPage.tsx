@@ -1,6 +1,7 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppStore } from '../store/useAppStore';
+import { trackEvent } from '../lib/analytics';
 import { OverviewWidget } from '../components/widgets/OverviewWidget';
 import { AshtakootWidget } from '../components/widgets/AshtakootWidget';
 import { RiskRadarWidget } from '../components/widgets/RiskRadarWidget';
@@ -60,6 +61,15 @@ export const ReportPage: React.FC = () => {
     setViewMode,
     clearReport
   } = useAppStore();
+
+  // The funnel's denominator. Without it you can count people who hit a paywall
+  // but not what share of readers that is, so "is the paywall too early?" has
+  // no answer.
+  const reportScore = currentReport?.overallScore;
+  useEffect(() => {
+    if (reportScore === undefined) return;
+    trackEvent('report_viewed', { kind: 'compatibility', score: reportScore });
+  }, [reportScore]);
 
   const { isPremium } = usePremium();
   const userMode = useUserProfileStore((s) => s.userMode);
