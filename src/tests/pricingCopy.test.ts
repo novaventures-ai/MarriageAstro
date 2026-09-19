@@ -19,6 +19,12 @@ const PRICING_PAGE = fs.readFileSync(
 const LANDING_PAGE = fs.readFileSync(
   path.resolve(__dirname, '../pages/LandingPage.tsx'), 'utf8');
 
+/** Comments explain the bugs these tests guard, and naturally quote the very
+ *  strings being banned. Only rendered code should be scanned. */
+function stripComments(src: string): string {
+  return src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
+}
+
 describe('period label reflects what actually happens', () => {
   it('INR monthly renews, so it may say /month', () => {
     expect(periodLabel('premium_monthly', 'INR')).toBe('/month');
@@ -73,13 +79,18 @@ describe('the pricing page claims only what we support', () => {
     expect(PRICING_PAGE).not.toMatch(/paypal/i);
   });
 
-  it('does not hardcode a currency amount outside the pricing tables', () => {
-    // Free tier's "₹0"/"$0" is the only permitted literal.
-    const literals = (PRICING_PAGE.match(/['"][₹$]\s?[\d,]+(\.\d+)?['"]/g) || [])
-      .filter(s => !/[₹$]\s?0['"]$/.test(s));
-    expect(literals, `hardcoded prices drift from regionService: ${literals.join(', ')}`)
-      .toHaveLength(0);
-  });
+  it.each([['PricingPage', PRICING_PAGE], ['LandingPage', LANDING_PAGE]])(
+    '%s does not hardcode a currency amount outside the pricing tables', (_name, src) => {
+      // A hardcoded price cannot follow the visitor's region, so it shows
+      // rupees to someone who will be charged dollars. Match the amount
+      // ANYWHERE — quoted, or as bare JSX text like `>₹399<`, which is how the
+      // landing page carried it and how an earlier version of this test missed
+      // it. Only the free tier's "₹0"/"$0" is permitted.
+      const literals = (stripComments(src).match(/[₹$]\s?[\d,]+(?:\.\d+)?/g) || [])
+        .filter(s => !/^[₹$]\s?0$/.test(s));
+      expect(literals, `hardcoded prices drift from regionService: ${literals.join(', ')}`)
+        .toHaveLength(0);
+    });
 });
 
 describe('the app does not tell visitors Premium is unreleased', () => {
