@@ -636,13 +636,12 @@ export const LandingPage: React.FC = () => {
                 <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500 flex-shrink-0" /> Everything in Premium</li>
                 <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500 flex-shrink-0" /> Unlimited Profiles</li>
                 <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500 flex-shrink-0" /> API Access</li>
-                <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500 flex-shrink-0" /> Client Management</li>
               </ul>
               <button
                 onClick={() => navigate('/pricing')}
-                className="w-full mt-5 py-2.5 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 font-semibold rounded-lg text-sm"
+                className="w-full mt-5 py-2.5 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 font-semibold rounded-lg text-sm hover:bg-purple-200 dark:hover:bg-purple-900/50 transition-colors"
               >
-                Contact Us
+                See Astrologer Plan
               </button>
             </div>
           </div>

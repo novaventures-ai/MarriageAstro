@@ -79,8 +79,6 @@ const TIERS = [
       { text: 'Unlimited Saved Reports', included: true },
       { text: 'Priority AI (no limits)', included: true },
       { text: 'API Access for Integrations', included: true },
-      { text: 'Client Management Tools', included: true },
-      { text: 'Bulk Analysis', included: true },
     ],
     planType: 'astrologer_monthly' as const,
     cta: 'Get Astrologer',

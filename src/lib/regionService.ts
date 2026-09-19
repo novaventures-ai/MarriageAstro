@@ -96,10 +96,18 @@ export const PRICING_INR: Record<string, { amount: number; display: string }> = 
 
 /**
  * "/mo" is NOT a formatting choice — it is a promise that the plan renews
- * itself, and it is only true in INR. An e-mandate can only be registered on a
- * card issued in India in INR, so an international monthly is a one-time charge
- * granting 30 days and nothing debits the customer again. Saying "/mo" there
- * sells a subscription that does not exist and the access lapses silently.
+ * itself, so it may only be shown where a renewal will actually happen.
+ *
+ * This comment used to say that was possible in INR alone, reasoning that a
+ * recurring mandate requires an India-issued card. That conflated two different
+ * Razorpay products: e-mandate (NACH bank debits) is India-only, but recurring
+ * CARD payments are supported in roughly a hundred currencies, and Razorpay's
+ * own Plan form offers USD, EUR and SGD. The currency was never the constraint.
+ *
+ * What decides it is whether a Plan has been created for that currency and its
+ * ID configured — see resolveRecurringPlanId below. periodLabel reads the live
+ * answer from the server rather than assuming, so the copy can never promise a
+ * renewal the configuration cannot deliver.
  */
 export const PRICING_USD: Record<string, { amount: number; display: string }> = {
   section_unlock:      { amount: 499,   display: '$4.99' },
