@@ -269,6 +269,11 @@ const SUBSCRIPTION_STATE: Record<string, string> = {
   'subscription.charged':   'active',
   'subscription.authenticated': 'authenticated',
   'subscription.pending':   'pending',
+  // A paused subscription that resumes is active again. Without this it stayed
+  // recorded as 'pending' forever — access was unaffected (gating reads
+  // plan_expires_at) but the field you would check to answer "is this customer
+  // active?" said no.
+  'subscription.resumed':   'active',
   'subscription.halted':    'halted',
   'subscription.cancelled': 'cancelled',
   'subscription.completed': 'completed',
@@ -291,16 +296,21 @@ async function handleSubscriptionEvent(eventType: string, event: any, res: Verce
     return res.status(400).json({ error: 'Missing subscription entity' });
   }
 
+  // Decide whether we care about this event BEFORE demanding the metadata it
+  // would need. The dashboard lets you subscribe to every subscription event,
+  // and the ones we ignore (subscription.updated) may arrive without notes —
+  // as do Razorpay's own test pings. Answering 400 to those makes Razorpay
+  // retry an event we were always going to discard.
+  const status = SUBSCRIPTION_STATE[eventType];
+  if (!status) {
+    return res.status(200).json({ received: true, processed: false, note: `unhandled ${eventType}` });
+  }
+
   const userId = subscription?.notes?.userId;
   const planType = subscription?.notes?.planType;
   if (!userId) {
     console.error(`payment-webhook: ${eventType} carried no userId in notes`, subscription.id);
     return res.status(400).json({ error: 'Missing userId in subscription notes' });
-  }
-
-  const status = SUBSCRIPTION_STATE[eventType];
-  if (!status) {
-    return res.status(200).json({ received: true, processed: false, note: `unhandled ${eventType}` });
   }
 
   try {

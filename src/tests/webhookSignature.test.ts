@@ -140,3 +140,78 @@ describe('webhook signature is verified against the RAW body', () => {
     expect(hist!.payload.currency).toBe('INR');
   });
 });
+
+describe('every event the dashboard lets you subscribe to is safe to enable', () => {
+  /**
+   * Razorpay's webhook editor offers ten subscription events and it is natural
+   * to tick them all. Two of them — `resumed` and `updated` — were not in the
+   * handler's state map, and the "do we care about this event" check ran AFTER
+   * the check demanding notes.userId. So an ignored event arriving without
+   * notes (Razorpay's own test pings, or a subscription created outside our
+   * checkout) answered 400, and Razorpay retries 4xx — a retry loop over an
+   * event we were always going to discard.
+   */
+  beforeEach(() => {
+    vi.resetModules();
+    dbCalls.length = 0;
+    process.env.RAZORPAY_WEBHOOK_SECRET = SECRET;
+    process.env.SUPABASE_URL = 'https://example.supabase.co';
+    process.env.SUPABASE_SERVICE_ROLE_KEY = 'service_role_test';
+  });
+
+  const ALL_DASHBOARD_EVENTS = [
+    'subscription.authenticated', 'subscription.paused', 'subscription.resumed',
+    'subscription.activated', 'subscription.pending', 'subscription.halted',
+    'subscription.charged', 'subscription.cancelled', 'subscription.completed',
+    'subscription.updated',
+  ];
+
+  it.each(ALL_DASHBOARD_EVENTS)('%s never answers an error', async (event) => {
+    const raw = JSON.stringify({
+      event,
+      payload: {
+        subscription: { entity: { id: 'sub_Z', notes: { userId: 'u-9', planType: 'premium_monthly' } } },
+        payment: { entity: { id: `pay_${event}`, amount: 39900, currency: 'INR' } },
+      },
+    });
+    const out = await post(raw, sign(raw));
+    expect(out.statusCode, `${event} would make Razorpay retry`).toBe(200);
+  });
+
+  /** The only event we deliberately discard. */
+  const IGNORED = ['subscription.updated'];
+
+  it.each(ALL_DASHBOARD_EVENTS)('%s does not retry-loop when notes are absent', async (event) => {
+    // Razorpay's test ping carries no notes. An event we DISCARD must still be
+    // accepted, or Razorpay retries something we were never going to act on.
+    // An event we act on may legitimately answer 400 — it cannot know which
+    // profile to update, and a retry will not supply one.
+    const raw = JSON.stringify({ event, payload: { subscription: { entity: { id: 'sub_NONOTES' } } } });
+    const out = await post(raw, sign(raw));
+    if (IGNORED.includes(event)) {
+      expect(out.statusCode, `${event} is ignored but would make Razorpay retry`).toBe(200);
+    } else {
+      expect(out.statusCode, `${event} is acted on, so it must report missing notes`).toBe(400);
+    }
+  });
+
+  it('a resumed subscription reads as active, not still-paused', async () => {
+    const raw = JSON.stringify({
+      event: 'subscription.resumed',
+      payload: { subscription: { entity: { id: 'sub_R', notes: { userId: 'u-9', planType: 'premium_monthly' } } } },
+    });
+    await post(raw, sign(raw));
+    const profile = dbCalls.find(c => c.table === 'profiles' && c.op === 'update');
+    expect(profile!.payload.subscription_status).toBe('active');
+  });
+
+  it('an ignored event writes nothing', async () => {
+    const raw = JSON.stringify({
+      event: 'subscription.updated',
+      payload: { subscription: { entity: { id: 'sub_U', notes: { userId: 'u-9' } } } },
+    });
+    const out = await post(raw, sign(raw));
+    expect(out.body.processed).toBe(false);
+    expect(dbCalls).toHaveLength(0);
+  });
+});
