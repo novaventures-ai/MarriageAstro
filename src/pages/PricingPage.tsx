@@ -14,6 +14,7 @@ import { SEOHead } from '../components/SEOHead';
 import { supabase } from '../lib/supabase';
 import { initiateCheckout } from '../lib/paymentService';
 import { useUserProfileStore } from '../store/useUserProfileStore';
+import { useAppStore } from '../store/useAppStore';
 import { detectRegion, PRICING_INR, PRICING_USD, periodLabel } from '../lib/regionService';
 import { Loader2, AlertTriangle } from 'lucide-react';
 
@@ -57,8 +58,14 @@ const TIERS = [
       { text: 'Sexual & Intimacy Module', included: true },
       { text: 'Remedies & Timing Module', included: true },
     ],
-    cta: 'Unlock in Report',
-    disabled: true, // Only triggerable from report page lock gates
+    // A section unlock needs a reportKey to name WHICH report it applies to, so
+    // this card cannot charge from here — without one the webhook falls through
+    // to the global-unlock safety net and the purchase has no recorded scope.
+    // It navigates instead: to the open report if there is one, otherwise to the
+    // calculator that produces one. Payment happens at the lock gate, in context.
+    cta: 'Unlock in Your Report',
+    disabled: false,
+    navigateToReport: true,
   },
   {
     name: 'Premium',
@@ -100,11 +107,9 @@ const TIERS = [
       { text: 'Unlimited Saved Reports', included: true },
       { text: 'Priority AI (no limits)', included: true },
       { text: 'API Access for Integrations', included: true },
-      { text: 'Client Management Tools', included: true },
-      { text: 'Bulk Analysis', included: true },
     ],
-    cta: 'Coming Soon',
-    disabled: true,
+    cta: 'Get Astrologer',
+    disabled: false,
     planType: 'astrologer_monthly' as const,
   },
 ];
@@ -116,7 +121,7 @@ const FAQS = [
   },
   {
     q: 'What payment methods do you accept?',
-    a: 'India: UPI (GPay, PhonePe), credit/debit cards, net banking, and wallets via Razorpay — monthly plans auto-renew and can be cancelled anytime. International: Visa/Mastercard/Amex in USD. Because a recurring mandate can only be registered on an India-issued card, international monthly plans are a single charge for 30 days and do not renew automatically; we will remind you before access ends.',
+    a: 'India: UPI (GPay, PhonePe), credit/debit cards, net banking, and wallets via Razorpay. International: Visa, Mastercard and Amex, charged in USD. Monthly plans renew automatically and can be cancelled at any time. One-time module and full-report unlocks are a single charge in your local currency and never renew.',
   },
   {
     q: 'Can I cancel my subscription anytime?',
@@ -124,7 +129,7 @@ const FAQS = [
   },
   {
     q: 'What happens to my unlocked sections if I cancel?',
-    a: 'One-time module or full report unlocks are permanent. If you cancel a monthly subscription, you keep access until the period ends, then revert to the free tier. International monthly plans do not renew in the first place, so there is nothing to cancel — access simply ends after 30 days. Your reports and data are never deleted.',
+    a: 'One-time module or full report unlocks are permanent. If you cancel a monthly subscription, you keep access until the end of the period you have already paid for, then revert to the free tier. Your reports and data are never deleted.',
   },
   {
     q: 'Do you offer refunds?',
@@ -139,9 +144,19 @@ export const PricingPage: React.FC = () => {
   const [currency, setCurrency] = useState<'INR' | 'USD'>('INR');
   const [isInternational, setIsInternational] = useState(false);
   // Progressive disclosure: lead with the Free-vs-Premium decision; keep the
-  // pay-once and Astrologer (coming-soon) options tucked away until asked for.
+  // pay-once and Astrologer options tucked away until asked for.
   const [showMoreOptions, setShowMoreOptions] = useState(false);
   const loadPlanFromCloud = useUserProfileStore((s) => s.loadPlanFromCloud);
+  const currentReport = useAppStore((s) => s.currentReport);
+
+  /**
+   * Where "Unlock in Your Report" sends someone. A one-time unlock is bought at
+   * the lock gate inside a report, because that is the only place a reportKey
+   * exists to scope the purchase to. Someone with a report open goes straight
+   * there; someone without one goes to the calculator to generate the free
+   * report first, which is the step that shows them what they would be buying.
+   */
+  const goToUnlock = () => navigate(currentReport ? '/report' : '/calculator');
 
   useEffect(() => {
     detectRegion().then(({ currency: c, isInternational: intl }) => {
@@ -189,11 +204,17 @@ export const PricingPage: React.FC = () => {
   };
 
   // Lead with the decision most users actually make (Free vs Premium); the
-  // pay-once and Astrologer options sit behind a disclosure below.
+  // pay-once and Astrologer options sit behind a disclosure below. Both are
+  // now purchasable, so neither is hidden because it does not work.
   const primaryTiers = TIERS.filter((t) => t.name === 'Free' || t.name === 'Premium');
   const secondaryTiers = TIERS.filter((t) => t.name === 'Per-Module Unlock' || t.name === 'Astrologer');
 
-  const renderTierCard = (tier: typeof TIERS[number]) => (
+  const renderTierCard = (tier: typeof TIERS[number]) => {
+    const ctaLabel =
+      'navigateToReport' in tier && tier.navigateToReport && !currentReport
+        ? 'Start Your Free Report'
+        : tier.cta;
+    return (
     <div
       key={tier.name}
       className={`relative rounded-2xl border-2 p-6 bg-white dark:bg-gray-900 transition-all ${
@@ -235,20 +256,27 @@ export const PricingPage: React.FC = () => {
       </ul>
       <button
         disabled={tier.disabled || (loadingTier !== null)}
-        onClick={tier.planType ? () => handleTierCheckout(tier.planType as any, tier.name) : undefined}
+        onClick={
+          tier.planType
+            ? () => handleTierCheckout(tier.planType as any, tier.name)
+            : 'navigateToReport' in tier && tier.navigateToReport
+              ? goToUnlock
+              : undefined
+        }
         className={`w-full py-3 rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2 ${
           tier.popular
             ? 'bg-amber-500 text-white hover:bg-amber-600 shadow-lg shadow-amber-500/20 border-b-4 border-amber-700 active:border-b-0 active:translate-y-1'
             : tier.color === 'purple'
-              ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 disabled:opacity-60 cursor-not-allowed'
+              ? 'bg-purple-600 text-white hover:bg-purple-700 shadow-lg shadow-purple-500/20 disabled:opacity-60'
               : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 disabled:opacity-60'
         }`}
       >
         {loadingTier === tier.name ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
-        {tier.cta}
+        {ctaLabel}
       </button>
     </div>
-  );
+    );
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-500">
