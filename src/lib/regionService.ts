@@ -94,8 +94,8 @@ export const PRICING_INR: Record<string, { amount: number; display: string }> = 
 export const PRICING_USD: Record<string, { amount: number; display: string }> = {
   section_unlock:      { amount: 499,   display: '$4.99' },
   full_report_unlock:  { amount: 1299,  display: '$12.99' },
-  premium_monthly:     { amount: 1499,  display: '$14.99 / 30 days' },
-  astrologer_monthly:  { amount: 3999,  display: '$39.99 / 30 days' },
+  premium_monthly:     { amount: 1499,  display: '$14.99' },
+  astrologer_monthly:  { amount: 3999,  display: '$39.99' },
 };
 
 export function getPricing(currency: 'INR' | 'USD') {
@@ -106,6 +106,17 @@ export function getPricing(currency: 'INR' | 'USD') {
 export function isRecurring(planType: string, currency: 'INR' | 'USD'): boolean {
   return currency === 'INR' &&
     (planType === 'premium_monthly' || planType === 'astrologer_monthly');
+}
+
+/**
+ * The period suffix shown next to a price. It is NOT cosmetic: "/month" is a
+ * promise the plan renews itself, which is only true where a mandate can be
+ * registered. Deriving it from the region stops the UI selling a subscription
+ * that cannot exist.
+ */
+export function periodLabel(planType: string, currency: 'INR' | 'USD'): string | null {
+  if (planType !== 'premium_monthly' && planType !== 'astrologer_monthly') return null;
+  return isRecurring(planType, currency) ? '/month' : ' / 30 days';
 }
 
 /**

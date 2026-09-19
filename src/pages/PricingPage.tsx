@@ -14,7 +14,7 @@ import { SEOHead } from '../components/SEOHead';
 import { supabase } from '../lib/supabase';
 import { initiateCheckout } from '../lib/paymentService';
 import { useUserProfileStore } from '../store/useUserProfileStore';
-import { detectRegion, PRICING_INR, PRICING_USD } from '../lib/regionService';
+import { detectRegion, PRICING_INR, PRICING_USD, periodLabel } from '../lib/regionService';
 import { Loader2, AlertTriangle } from 'lucide-react';
 
 const TIERS = [
@@ -116,7 +116,7 @@ const FAQS = [
   },
   {
     q: 'What payment methods do you accept?',
-    a: 'India: UPI (GPay, PhonePe), credit/debit cards, net banking, and wallets via Razorpay. International: Visa/Mastercard/Amex international cards accepted in USD. Prices are shown in your local currency automatically.',
+    a: 'India: UPI (GPay, PhonePe), credit/debit cards, net banking, and wallets via Razorpay — monthly plans auto-renew and can be cancelled anytime. International: Visa/Mastercard/Amex in USD. Because a recurring mandate can only be registered on an India-issued card, international monthly plans are a single charge for 30 days and do not renew automatically; we will remind you before access ends.',
   },
   {
     q: 'Can I cancel my subscription anytime?',
@@ -124,7 +124,7 @@ const FAQS = [
   },
   {
     q: 'What happens to my unlocked sections if I cancel?',
-    a: 'One-time module or full report unlocks are permanent. If you cancel a monthly subscription, you keep access until the period ends, then revert to the free tier. Your reports and data are never deleted.',
+    a: 'One-time module or full report unlocks are permanent. If you cancel a monthly subscription, you keep access until the period ends, then revert to the free tier. International monthly plans do not renew in the first place, so there is nothing to cancel — access simply ends after 30 days. Your reports and data are never deleted.',
   },
   {
     q: 'Do you offer refunds?',
@@ -235,7 +235,9 @@ export const PricingPage: React.FC = () => {
               ? pricing[tier.priceKey].display.replace('/mo', '')
               : '—'}
         </span>
-        <span className="text-sm text-gray-500">{tier.period}</span>
+        <span className="text-sm text-gray-500">
+          {(tier.priceKey && periodLabel(tier.priceKey, currency)) || tier.period}
+        </span>
       </div>
       <ul className="space-y-2.5 mb-6">
         {tier.features.map((f, i) => (
@@ -330,7 +332,7 @@ export const PricingPage: React.FC = () => {
           <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/30 rounded-xl px-4 py-3 flex items-center gap-3 text-sm">
             <Globe className="w-4 h-4 text-blue-500 flex-shrink-0" />
             <span className="text-blue-700 dark:text-blue-300">
-              Showing <strong>USD pricing</strong> for international visitors. All features identical — pay in your local currency via card or PayPal.
+              Showing <strong>USD pricing</strong> for international visitors. All features identical. Paid by international Visa, Mastercard or Amex; monthly plans outside India are charged once for 30 days and do not auto-renew.
             </span>
           </div>
         </div>
