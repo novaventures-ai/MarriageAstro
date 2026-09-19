@@ -13,6 +13,7 @@ import { supabase } from '../../lib/supabase';
 import { initiateCheckout } from '../../lib/paymentService';
 import { useUserProfileStore } from '../../store/useUserProfileStore';
 import { detectRegion, PRICING_INR, PRICING_USD } from '../../lib/regionService';
+import { trackEvent } from '../../lib/analytics';
 
 // Re-map for UI labels
 const CATEGORY_LABELS: Record<string, string> = {
@@ -76,6 +77,13 @@ export const PremiumGate: React.FC<PremiumGateProps> = ({
    */
   const handleUnlockModule = async () => {
     setError(null);
+    // The step before checkout: someone hit a paywall and decided to pay. The
+    // gap between this and payment_initiated is people who bounce at sign-in.
+    trackEvent('section_unlock_attempted', {
+      section,
+      category: SECTION_TO_CATEGORY[section] || section,
+      label: label || section,
+    });
     const { data: { session } } = await supabase.auth.getSession();
     if (!session?.user) {
       setError('Please sign in to unlock this module.');
@@ -184,7 +192,10 @@ export const PremiumGate: React.FC<PremiumGateProps> = ({
                 </p>
               )}
               <button
-                onClick={() => setShowPricing(true)}
+                onClick={() => {
+                  trackEvent('pricing_modal_opened', { from: 'premium_gate', section });
+                  setShowPricing(true);
+                }}
                 className="text-xs text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 mt-2 font-medium underline underline-offset-2 transition-colors"
               >
                 See all plans

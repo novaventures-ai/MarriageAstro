@@ -10,6 +10,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { QueryParamHandler } from './components/QueryParamHandler';
+import { PageTracker } from './components/PageTracker';
 
 // Lazy-loaded pages (code-split per route)
 const CalculatorPage = lazy(() => import('./pages/CalculatorPage').then(m => ({ default: m.CalculatorPage })));
@@ -107,6 +108,7 @@ function App() {
         <Router>
           <ErrorBoundary>
           <QueryParamHandler />
+          <PageTracker />
           <Suspense fallback={<LoadingFallback />}>
             <Routes>
               {/* Public Routes */}
