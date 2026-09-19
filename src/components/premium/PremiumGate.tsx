@@ -4,11 +4,15 @@
  * Shows blurred preview with unlock CTA for free users.
  */
 
-import React, { useState } from 'react';
-import { Lock, Sparkles } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Lock, Sparkles, Loader2, AlertTriangle } from 'lucide-react';
 import { usePremium } from '../../hooks/usePremium';
 import { UnlockableSection } from '../../types';
 import { PricingModal } from './PricingModal';
+import { supabase } from '../../lib/supabase';
+import { initiateCheckout } from '../../lib/paymentService';
+import { useUserProfileStore } from '../../store/useUserProfileStore';
+import { detectRegion, PRICING_INR, PRICING_USD } from '../../lib/regionService';
 
 // Re-map for UI labels
 const CATEGORY_LABELS: Record<string, string> = {
@@ -42,11 +46,56 @@ export const PremiumGate: React.FC<PremiumGateProps> = ({
 }) => {
   const { isSectionUnlocked } = usePremium();
   const [showPricing, setShowPricing] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const loadPlanFromCloud = useUserProfileStore((s) => s.loadPlanFromCloud);
+
+  // Prices shown here must match what the visitor will actually be charged.
+  const [currency, setCurrency] = useState<'INR' | 'USD'>('INR');
+  useEffect(() => {
+    let alive = true;
+    detectRegion().then(r => { if (alive) setCurrency(r.currency); }).catch(() => { /* keep INR */ });
+    return () => { alive = false; };
+  }, []);
+  const pricing = currency === 'USD' ? PRICING_USD : PRICING_INR;
 
   // If unlocked, render normally
   if (isSectionUnlocked(section, reportKey)) {
     return <>{children}</>;
   }
+
+  /**
+   * Charge for THIS module, directly.
+   *
+   * This button used to open the pricing modal instead. The modal's own
+   * section-unlock button sits in a header strip while a "Most Popular"
+   * Premium subscription card dominates the body, so a button promising a
+   * single module for one price led to a subscription at eight times it —
+   * which is exactly what happened to the first person who tried it. A
+   * control that names a price charges that price.
+   */
+  const handleUnlockModule = async () => {
+    setError(null);
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.user) {
+      setError('Please sign in to unlock this module.');
+      return;
+    }
+    setLoading(true);
+    const result = await initiateCheckout({
+      userId: session.user.id,
+      planType: 'section_unlock',
+      sectionToUnlock: SECTION_TO_CATEGORY[section] || section,
+      reportKey,
+      userEmail: session.user.email,
+    });
+    if (result.success) {
+      await loadPlanFromCloud(session.user.id, session.user.email || '');
+    } else if (result.message && !result.mock) {
+      setError(result.message);
+    }
+    setLoading(false);
+  };
 
   const sectionLabel = label || section.replace(/_/g, ' ');
 
@@ -122,13 +171,24 @@ export const PremiumGate: React.FC<PremiumGateProps> = ({
                 Unlock this entire module including all detailed sub-sections and actionable insights.
               </p>
               <button
-                onClick={() => setShowPricing(true)}
-                className="px-6 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-semibold rounded-xl shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 hover:scale-[1.02] transition-all flex items-center gap-2 mx-auto"
+                onClick={handleUnlockModule}
+                disabled={loading}
+                className="px-6 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-semibold rounded-xl shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 hover:scale-[1.02] disabled:opacity-70 disabled:hover:scale-100 transition-all flex items-center gap-2 mx-auto"
               >
-                <Sparkles className="w-4 h-4" />
-                Unlock This Module: ₹49
+                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+                Unlock This Module: {pricing.section_unlock.display}
               </button>
-              <p className="text-xs text-gray-400 mt-2 font-medium">₹49 per module • ₹169 for full report access</p>
+              {error && (
+                <p className="text-xs text-red-600 dark:text-red-400 mt-2 flex items-center justify-center gap-1.5">
+                  <AlertTriangle className="w-3.5 h-3.5 flex-shrink-0" />{error}
+                </p>
+              )}
+              <button
+                onClick={() => setShowPricing(true)}
+                className="text-xs text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 mt-2 font-medium underline underline-offset-2 transition-colors"
+              >
+                See all plans
+              </button>
             </div>
           </div>
         </div>
