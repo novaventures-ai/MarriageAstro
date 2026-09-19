@@ -45,32 +45,57 @@ const PRICING_USD: Record<string, number> = {
 };
 
 /**
- * Razorpay Plan IDs for the recurring INR plans, created once in the dashboard
- * (Subscriptions → Plans) and supplied as env vars. When a plan ID is absent the
- * endpoint degrades to a one-time order rather than failing the sale.
+ * Subscription products, by plan type. Each resolves to a Razorpay Plan ID held
+ * in an env var named RAZORPAY_PLAN_<PLAN>_<CURRENCY>, created once in the
+ * dashboard (Subscriptions → Plans). A plan is created per currency because
+ * Razorpay fixes a plan's amount AND currency at creation and neither can be
+ * changed afterwards.
+ *
+ * When a plan ID is absent the endpoint degrades to a one-time order rather
+ * than failing the sale, so a currency can be switched on independently just by
+ * adding its env var.
  */
-const RECURRING_PLAN_ENV: Record<string, string> = {
-  premium_monthly:    'RAZORPAY_PLAN_PREMIUM_MONTHLY_INR',
-  astrologer_monthly: 'RAZORPAY_PLAN_ASTROLOGER_MONTHLY_INR',
-};
+const RECURRING_PLANS = new Set(['premium_monthly', 'astrologer_monthly']);
+
+const planEnvKey = (planType: string, currency: string) =>
+  `RAZORPAY_PLAN_${planType.toUpperCase()}_${currency.toUpperCase()}`;
 
 /** Billing cycles to schedule. 120 months is Razorpay's practical "until cancelled". */
 const TOTAL_BILLING_CYCLES = 120;
 
 /**
- * Whether this sale should create a recurring subscription.
- * Requires a monthly plan, INR (e-mandate cannot be registered in USD), and a
- * configured plan ID.
+ * The Plan ID to subscribe this sale to, or null to fall back to a one-time
+ * order.
+ *
+ * This used to refuse every non-INR currency outright, on the reading that a
+ * recurring mandate requires an India-issued card. That conflated two distinct
+ * rails: e-mandate (bank debits over NACH, genuinely India-only) with recurring
+ * CARD payments, which Razorpay supports in roughly 100 currencies. Its own
+ * plan form offers EUR, SGD and USD alongside INR.
+ *
+ * So the currency no longer decides — the presence of a configured Plan does.
+ * A currency is live exactly when its Plan ID is set, which also tracks what
+ * the account is actually entitled to do.
  */
 export function resolveRecurringPlanId(
   planType: string,
   currency: string,
   env: Record<string, string | undefined>,
 ): string | null {
-  const envKey = RECURRING_PLAN_ENV[planType];
-  if (!envKey) return null;          // not a subscription product
-  if (currency !== 'INR') return null; // e-mandate is India-issued cards in INR only
-  return env[envKey] || null;        // not configured yet → caller falls back
+  if (!RECURRING_PLANS.has(planType)) return null;  // not a subscription product
+  return env[planEnvKey(planType, currency)] || null;
+}
+
+/** Which of this currency's monthly plans are configured, for honest UI copy. */
+export function recurringAvailability(
+  currency: string,
+  env: Record<string, string | undefined>,
+): Record<string, boolean> {
+  const out: Record<string, boolean> = {};
+  for (const plan of RECURRING_PLANS) {
+    out[plan] = Boolean(resolveRecurringPlanId(plan, currency, env));
+  }
+  return out;
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -78,11 +103,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method === 'GET') {
     const country = ((req.headers['x-vercel-ip-country'] as string) || 'IN').toUpperCase();
     const isInternational = country !== 'IN';
-    res.setHeader('Cache-Control', 'public, max-age=3600');
+    const currency = isInternational ? 'USD' : 'INR';
+    // Short cache: this now carries which plans recur, which changes the moment
+    // a plan ID is configured. An hour of stale "does not renew" copy after
+    // switching a currency on would be a lie the UI tells itself.
+    res.setHeader('Cache-Control', 'public, max-age=300');
     return res.status(200).json({
       country,
-      currency: isInternational ? 'USD' : 'INR',
+      currency,
       isInternational,
+      recurring: recurringAvailability(currency, process.env),
     });
   }
 

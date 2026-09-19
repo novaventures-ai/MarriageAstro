@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import crypto from 'crypto';
 import { nextExpiry } from '../../api/payment-webhook';
-import { resolveRecurringPlanId } from '../../api/create-checkout';
+import { resolveRecurringPlanId, recurringAvailability } from '../../api/create-checkout';
 
 /**
  * premium_monthly was sold as "$14.99/mo" but created a one-time order, so it
@@ -200,28 +200,67 @@ describe('nextExpiry', () => {
   });
 });
 
-describe('recurring plans are INR-only', () => {
-  const env = {
-    RAZORPAY_PLAN_PREMIUM_MONTHLY_INR: 'plan_ABC',
-    RAZORPAY_PLAN_ASTROLOGER_MONTHLY_INR: 'plan_DEF',
+describe('a plan is live exactly when its Plan ID is configured', () => {
+  /**
+   * This block used to assert "INR only", on the reading that a recurring
+   * mandate requires an India-issued card. That conflated e-mandate (bank
+   * debits over NACH, genuinely India-only) with recurring CARD payments,
+   * which Razorpay supports in roughly 100 currencies — its own plan form
+   * offers EUR, SGD and USD alongside INR.
+   *
+   * Currency was never the right question. Razorpay fixes a plan's amount AND
+   * currency at creation, so there is one Plan per currency, and a currency is
+   * live exactly when its Plan ID is set — which also tracks what the account
+   * is actually entitled to do.
+   */
+  const INR_ONLY = {
+    RAZORPAY_PLAN_PREMIUM_MONTHLY_INR: 'plan_INR_PREM',
+    RAZORPAY_PLAN_ASTROLOGER_MONTHLY_INR: 'plan_INR_ASTR',
+  };
+  const BOTH = {
+    ...INR_ONLY,
+    RAZORPAY_PLAN_PREMIUM_MONTHLY_USD: 'plan_USD_PREM',
+    RAZORPAY_PLAN_ASTROLOGER_MONTHLY_USD: 'plan_USD_ASTR',
   };
 
-  it('returns a plan id for a monthly INR purchase', () => {
-    expect(resolveRecurringPlanId('premium_monthly', 'INR', env)).toBe('plan_ABC');
-    expect(resolveRecurringPlanId('astrologer_monthly', 'INR', env)).toBe('plan_DEF');
+  it('resolves the plan for the currency being charged', () => {
+    expect(resolveRecurringPlanId('premium_monthly', 'INR', BOTH)).toBe('plan_INR_PREM');
+    expect(resolveRecurringPlanId('premium_monthly', 'USD', BOTH)).toBe('plan_USD_PREM');
+    expect(resolveRecurringPlanId('astrologer_monthly', 'USD', BOTH)).toBe('plan_USD_ASTR');
   });
 
-  it('refuses USD — an e-mandate cannot be registered in a foreign currency', () => {
-    expect(resolveRecurringPlanId('premium_monthly', 'USD', env)).toBeNull();
-    expect(resolveRecurringPlanId('astrologer_monthly', 'USD', env)).toBeNull();
+  it('never bills one currency against another currency\'s plan', () => {
+    // The costly failure: charging a USD customer against a Rs 399 plan.
+    expect(resolveRecurringPlanId('premium_monthly', 'USD', INR_ONLY)).toBeNull();
   });
 
-  it('refuses one-off products even in INR', () => {
-    expect(resolveRecurringPlanId('section_unlock', 'INR', env)).toBeNull();
-    expect(resolveRecurringPlanId('full_report_unlock', 'INR', env)).toBeNull();
+  it('lets a currency be switched on independently', () => {
+    // Adding USD plans must not require touching INR, and vice versa.
+    expect(resolveRecurringPlanId('premium_monthly', 'INR', INR_ONLY)).toBe('plan_INR_PREM');
+    expect(resolveRecurringPlanId('premium_monthly', 'USD', INR_ONLY)).toBeNull();
   });
 
-  it('falls back to a one-time order when no plan id is configured', () => {
+  it('refuses one-off products in every currency', () => {
+    for (const currency of ['INR', 'USD']) {
+      expect(resolveRecurringPlanId('section_unlock', currency, BOTH)).toBeNull();
+      expect(resolveRecurringPlanId('full_report_unlock', currency, BOTH)).toBeNull();
+    }
+  });
+
+  it('falls back to a one-time order when nothing is configured', () => {
+    // This is the state until the dashboard side is done, so it must be inert
+    // rather than an error.
     expect(resolveRecurringPlanId('premium_monthly', 'INR', {})).toBeNull();
+    expect(resolveRecurringPlanId('premium_monthly', 'USD', {})).toBeNull();
+  });
+
+  it('reports availability per plan, for honest UI copy', () => {
+    expect(recurringAvailability('USD', INR_ONLY))
+      .toEqual({ premium_monthly: false, astrologer_monthly: false });
+    expect(recurringAvailability('INR', INR_ONLY))
+      .toEqual({ premium_monthly: true, astrologer_monthly: true });
+    // A half-configured currency must not claim the unconfigured plan renews.
+    expect(recurringAvailability('USD', { RAZORPAY_PLAN_PREMIUM_MONTHLY_USD: 'p' }))
+      .toEqual({ premium_monthly: true, astrologer_monthly: false });
   });
 });

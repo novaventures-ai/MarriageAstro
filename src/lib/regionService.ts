@@ -11,6 +11,13 @@ export interface RegionInfo {
   country: string;       // ISO 2-letter code, e.g. "IN", "US", "GB"
   currency: 'INR' | 'USD';
   isInternational: boolean;
+  /**
+   * Which monthly plans actually auto-renew in this visitor's currency, keyed
+   * by planType. Reported by the server, which alone knows whether a Razorpay
+   * Plan ID is configured for that currency. Absent until the region call
+   * returns, and absent in the offline fallback.
+   */
+  recurring?: Record<string, boolean>;
 }
 
 const CACHE_KEY = 'ma_region';
@@ -25,6 +32,9 @@ function timezoneBasedFallback(): RegionInfo {
     country: isInternational ? 'UNKNOWN' : 'IN',
     currency: isInternational ? 'USD' : 'INR',
     isInternational,
+    // Unknown offline. isRecurring treats that as "does not renew", because
+    // promising a renewal that never happens is the costlier error.
+    recurring: undefined,
   };
 }
 
@@ -102,10 +112,27 @@ export function getPricing(currency: 'INR' | 'USD') {
   return currency === 'USD' ? PRICING_USD : PRICING_INR;
 }
 
-/** Plans that auto-renew. Only INR mandates can, so only INR renews. */
+const MONTHLY_PLANS = new Set(['premium_monthly', 'astrologer_monthly']);
+
+/**
+ * Whether this plan actually auto-renews for this visitor.
+ *
+ * This used to answer "only if INR", on the reading that a recurring mandate
+ * needs an India-issued card. That conflated e-mandate (bank debits over NACH,
+ * India-only) with recurring CARD payments, which Razorpay supports in many
+ * currencies — its plan form offers EUR, SGD and USD alongside INR.
+ *
+ * The honest answer is not a property of the currency but of whether a Razorpay
+ * Plan exists for it, which only the server knows. Until it has told us, this
+ * returns false: showing "/ 30 days" on a plan that does renew is a small
+ * understatement, while showing "/month" on one that does not is the bug that
+ * sold a subscription which never existed.
+ */
 export function isRecurring(planType: string, currency: 'INR' | 'USD'): boolean {
-  return currency === 'INR' &&
-    (planType === 'premium_monthly' || planType === 'astrologer_monthly');
+  if (!MONTHLY_PLANS.has(planType)) return false;
+  const region = getCachedRegion();
+  if (!region || region.currency !== currency) return false;
+  return Boolean(region.recurring?.[planType]);
 }
 
 /**
