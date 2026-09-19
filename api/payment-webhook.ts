@@ -1,7 +1,14 @@
 /**
  * Payment Webhook - Vercel Serverless Function
  *
- * Handles Razorpay `payment.captured` webhook events.
+ * Handles Razorpay `payment.captured` and the subscription lifecycle events
+ * that keep a recurring plan alive: `subscription.charged` (a renewal was
+ * debited), plus `cancelled` / `halted` / `completed` / `paused` (the mandate
+ * stopped producing charges).
+ *
+ * A renewal arrives ONLY as a webhook — there is no browser session to verify
+ * it — so this endpoint is the sole thing standing between a successful auto-
+ * debit and a customer losing access they paid for.
  */
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
@@ -45,6 +52,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const event = req.body;
   const eventType: string = event?.event || '';
+
+  if (eventType.startsWith('subscription.')) {
+    return handleSubscriptionEvent(eventType, event, res);
+  }
 
   if (eventType !== 'payment.captured') {
     return res.status(200).json({ received: true, processed: false, note: 'ignoring non-captured event' });
@@ -96,6 +107,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     order_id: payment.order_id,
     user_id: userId,
     plan_type: planType,
+    currency: payment.currency === 'USD' ? 'USD' : 'INR',
     section_id: sectionToUnlock || null,
     report_key: reportKey || null,
     amount: payment.amount,
@@ -141,7 +153,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
       await db.from('profiles').update({ plan_tier: 'premium', plan_expires_at: expiresAt }).eq('id', userId);
     } else if (planType === 'astrologer_monthly') {
-      await db.from('profiles').update({ plan_tier: 'astrologer', plan_expires_at: null }).eq('id', userId);
+      // Previously stored NULL, which loadPlanTier reads as "never expires" —
+      // one payment bought the tier permanently. It is a monthly plan; it gets
+      // a month, and a subscription renewal extends it.
+      const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+      await db.from('profiles').update({ plan_tier: 'astrologer', plan_expires_at: expiresAt }).eq('id', userId);
     }
 
     await db.from('payment_history').update({ status: 'success' }).eq('payment_id', payment.id);
@@ -206,4 +222,93 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   return res.status(200).json({ received: true, processed: true });
+}
+
+
+/** 30 days in milliseconds — one billing cycle. */
+const CYCLE_MS = 30 * 24 * 60 * 60 * 1000;
+
+/** Razorpay subscription state → the state we store on the profile. */
+const SUBSCRIPTION_STATE: Record<string, string> = {
+  'subscription.activated': 'active',
+  'subscription.charged':   'active',
+  'subscription.authenticated': 'authenticated',
+  'subscription.pending':   'pending',
+  'subscription.halted':    'halted',
+  'subscription.cancelled': 'cancelled',
+  'subscription.completed': 'completed',
+  'subscription.paused':    'pending',
+};
+
+/**
+ * Extend a plan by one cycle from whichever is later: now, or the existing
+ * expiry. Renewals are debited a little BEFORE the period ends, so extending
+ * from `now` would silently shave days off every month.
+ */
+export function nextExpiry(currentExpiry: string | null | undefined, now = Date.now()): string {
+  const base = currentExpiry ? Math.max(now, new Date(currentExpiry).getTime()) : now;
+  return new Date(base + CYCLE_MS).toISOString();
+}
+
+async function handleSubscriptionEvent(eventType: string, event: any, res: VercelResponse) {
+  const subscription = event?.payload?.subscription?.entity;
+  if (!subscription) {
+    return res.status(400).json({ error: 'Missing subscription entity' });
+  }
+
+  const userId = subscription?.notes?.userId;
+  const planType = subscription?.notes?.planType;
+  if (!userId) {
+    console.error(`payment-webhook: ${eventType} carried no userId in notes`, subscription.id);
+    return res.status(400).json({ error: 'Missing userId in subscription notes' });
+  }
+
+  const status = SUBSCRIPTION_STATE[eventType];
+  if (!status) {
+    return res.status(200).json({ received: true, processed: false, note: `unhandled ${eventType}` });
+  }
+
+  try {
+    const db = getServiceClient();
+    const update: Record<string, unknown> = {
+      razorpay_subscription_id: subscription.id,
+      subscription_status: status,
+    };
+
+    if (eventType === 'subscription.charged') {
+      // Money arrived: extend access and record the charge.
+      const { data: profile } = await db
+        .from('profiles').select('plan_expires_at').eq('id', userId).single();
+
+      update.plan_tier = planType === 'astrologer_monthly' ? 'astrologer' : 'premium';
+      update.plan_expires_at = nextExpiry(profile?.plan_expires_at);
+
+      const payment = event?.payload?.payment?.entity;
+      if (payment?.id) {
+        await db.from('payment_history').upsert({
+          payment_id: payment.id,
+          order_id: payment.order_id || null,
+          subscription_id: subscription.id,
+          user_id: userId,
+          plan_type: planType || 'premium_monthly',
+          amount: payment.amount ?? 0,
+          currency: payment.currency === 'USD' ? 'USD' : 'INR',
+          status: 'success',
+          raw_payload: { event: eventType, renewed_at: new Date().toISOString() },
+        }, { onConflict: 'payment_id' });
+      }
+    }
+
+    // cancelled / halted / completed deliberately leave plan_expires_at alone:
+    // the customer paid for the cycle they are in and keeps it to the end.
+    // loadPlanTier drops them to free once that date passes.
+    await db.from('profiles').update(update).eq('id', userId);
+
+    console.log(`payment-webhook: ${eventType} → ${status} for ${userId} (${subscription.id})`);
+    return res.status(200).json({ received: true, processed: true, status });
+  } catch (err) {
+    console.error(`payment-webhook: failed handling ${eventType}`, err);
+    // 500 makes Razorpay retry rather than dropping a renewal.
+    return res.status(500).json({ error: 'Subscription fulfillment failed' });
+  }
 }

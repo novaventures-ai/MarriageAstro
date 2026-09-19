@@ -17,16 +17,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { 
     razorpay_payment_id, 
     razorpay_order_id, 
+    razorpay_subscription_id,
     razorpay_signature,
     // Metadata passed from client for synchronous fulfillment
     userId,
     planType,
     sectionToUnlock,
     reportKey,
-    amount
+    amount,
+    currency
   } = req.body || {};
 
-  if (!razorpay_payment_id || !razorpay_order_id || !razorpay_signature) {
+  // A subscription checkout returns a subscription id in place of an order id.
+  const isSubscription = Boolean(razorpay_subscription_id);
+
+  if (!razorpay_payment_id || !razorpay_signature || (!razorpay_order_id && !isSubscription)) {
     return res.status(400).json({ error: 'Missing payment fields', valid: false });
   }
 
@@ -36,12 +41,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   // 1. Verify Signature
-  const body = `${razorpay_order_id}|${razorpay_payment_id}`;
+  //
+  // The two flows hash DIFFERENT strings, and the operand order is reversed
+  // between them. An order signs `order_id|payment_id`; a subscription signs
+  // `payment_id|subscription_id`. Using the order form on a subscription
+  // produces a mismatch on every renewal, so this must branch.
+  const body = isSubscription
+    ? `${razorpay_payment_id}|${razorpay_subscription_id}`
+    : `${razorpay_order_id}|${razorpay_payment_id}`;
   const expected = crypto.createHmac('sha256', secret).update(body).digest('hex');
-  const valid = expected === razorpay_signature;
+  const valid = expected.length === String(razorpay_signature).length &&
+    crypto.timingSafeEqual(Buffer.from(expected), Buffer.from(String(razorpay_signature)));
 
   if (!valid) {
-    console.warn('verify-payment: signature mismatch', { razorpay_order_id, razorpay_payment_id });
+    console.warn('verify-payment: signature mismatch', {
+      razorpay_order_id, razorpay_subscription_id, razorpay_payment_id,
+    });
     return res.status(401).json({ error: 'Invalid signature', valid: false });
   }
 
@@ -54,12 +69,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       // Record in history
       await db.from('payment_history').upsert({
         payment_id: razorpay_payment_id,
-        order_id: razorpay_order_id,
+        order_id: razorpay_order_id || null,
+        subscription_id: razorpay_subscription_id || null,
         user_id: userId,
         plan_type: planType,
         section_id: sectionToUnlock || null,
         report_key: reportKey || null,
         amount: amount || 0,
+        // Without this the row is indistinguishable from a rupee sale of the
+        // same integer, and every revenue total silently mixes the two.
+        currency: currency === 'USD' ? 'USD' : 'INR',
         status: 'success',
         raw_payload: { verified_at: new Date().toISOString() }
       }, { onConflict: 'payment_id' });
@@ -115,11 +134,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           }
           console.log(`verify-payment: granted GLOBAL unlock "${sid}" to ${userId} (no reportKey supplied)`);
         }
-      } else if (planType === 'premium_monthly') {
+      } else if (planType === 'premium_monthly' || planType === 'astrologer_monthly') {
+        // 30 days covers this cycle. A recurring subscription re-extends it on
+        // every subscription.charged webhook; a one-time purchase simply lapses,
+        // which is why the non-recurring copy must not promise renewal.
         const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
-        await db.from('profiles').update({ plan_tier: 'premium', plan_expires_at: expiresAt }).eq('id', userId);
-      } else if (planType === 'astrologer_monthly') {
-        await db.from('profiles').update({ plan_tier: 'astrologer' }).eq('id', userId);
+        const tier = planType === 'premium_monthly' ? 'premium' : 'astrologer';
+        await db.from('profiles').update({
+          plan_tier: tier,
+          plan_expires_at: expiresAt,
+          // NULL status marks a one-time purchase with no mandate behind it.
+          razorpay_subscription_id: razorpay_subscription_id || null,
+          subscription_status: isSubscription ? 'active' : null,
+        }).eq('id', userId);
       }
 
       console.log(`verify-payment: synchronous fulfillment success for ${userId} (${planType})`);

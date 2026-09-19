@@ -428,9 +428,19 @@ export const AdminPage: React.FC = () => {
               </div>
               <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm">
                 <p className="text-xs text-gray-500 uppercase tracking-wider">Total Revenue</p>
+                {/* Split by currency: amount is a bare integer in the smallest
+                    unit, so summing across currencies added dollars to rupees. */}
                 <p className="text-2xl font-bold text-indigo-600">
-                  ₹{payments.filter(p => p.status === 'success').reduce((s, p) => s + (p.amount / 100), 0).toLocaleString('en-IN')}
+                  ₹{payments.filter(p => p.status === 'success' && p.currency !== 'USD')
+                      .reduce((s, p) => s + (p.amount / 100), 0).toLocaleString('en-IN')}
                 </p>
+                {payments.some(p => p.status === 'success' && p.currency === 'USD') && (
+                  <p className="text-lg font-semibold text-emerald-600">
+                    ${payments.filter(p => p.status === 'success' && p.currency === 'USD')
+                        .reduce((s, p) => s + (p.amount / 100), 0).toLocaleString('en-US',
+                          { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -461,7 +471,7 @@ export const AdminPage: React.FC = () => {
                               {p.section_id ? `Section: ${p.section_id.replace(/_/g, ' ')}` : p.plan_type.replace(/_/g, ' ')}
                             </span>
                           </td>
-                          <td className="px-4 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300">₹{p.amount / 100}</td>
+                          <td className="px-4 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300">{p.currency === 'USD' ? '$' : '₹'}{p.amount / 100}</td>
                           <td className="px-4 py-3">
                             <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
                               p.status === 'success' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' :
