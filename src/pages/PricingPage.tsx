@@ -1,6 +1,6 @@
 /**
  * Pricing Page
- * Full tier comparison with FAQ and email capture.
+ * Full tier comparison with FAQ.
  * Auto-detects visitor region and shows INR or USD pricing.
  */
 
@@ -134,8 +134,6 @@ const FAQS = [
 
 export const PricingPage: React.FC = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [notified, setNotified] = useState(false);
   const [loadingTier, setLoadingTier] = useState<string | null>(null);
   const [paymentError, setPaymentError] = useState<string | null>(null);
   const [currency, setCurrency] = useState<'INR' | 'USD'>('INR');
@@ -187,22 +185,6 @@ export const PricingPage: React.FC = () => {
     } catch (err: any) {
       setLoadingTier(null);
       setPaymentError(err.message || 'An unexpected error occurred during checkout.');
-    }
-  };
-
-  const handleNotify = async () => {
-    if (!email.trim()) return;
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      await supabase.from('waitlist').upsert({
-        email: email.trim(),
-        user_id: session?.user?.id ?? null,
-        plan: 'premium',
-        source: 'pricing_page',
-      }, { onConflict: 'email' });
-      setNotified(true);
-    } catch {
-      setNotified(true);
     }
   };
 
@@ -304,10 +286,6 @@ export const PricingPage: React.FC = () => {
 
       {/* Hero */}
       <div className="text-center py-12 sm:py-16 px-4">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-xs font-semibold border border-emerald-200 dark:border-emerald-800/50 mb-4">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-          Beta Launch Offer — Get 50% Off Lifetime on Premium
-        </div>
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 dark:text-gray-100 mb-4">
           Ready to Unlock Your Relationship Clarity?
         </h1>
@@ -375,42 +353,6 @@ export const PricingPage: React.FC = () => {
             {secondaryTiers.map(renderTierCard)}
           </div>
         )}
-      </div>
-
-      {/* Waitlist / Notify Me — prominent section */}
-      <div id="waitlist-form" className="max-w-2xl mx-auto px-4 mb-16 scroll-mt-20">
-        <div className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/10 dark:to-purple-900/10 rounded-2xl p-6 sm:p-8 border border-indigo-100 dark:border-indigo-800/30 text-center">
-          {notified ? (
-            <div>
-              <div className="text-4xl mb-3">🎉</div>
-              <p className="text-green-600 dark:text-green-400 font-bold text-lg">You&apos;re on the list!</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">We&apos;ll email you when Premium launches with your 50% founding-member discount.</p>
-            </div>
-          ) : (
-            <>
-              <Crown className="w-8 h-8 text-amber-500 mx-auto mb-3" />
-              <p className="font-bold text-indigo-800 dark:text-indigo-200 text-lg mb-1">Join the Premium Waitlist</p>
-              <p className="text-sm text-indigo-600 dark:text-indigo-400 mb-5">Be first to know when Premium launches — founding members get 50% off forever.</p>
-              <div className="flex gap-2 max-w-md mx-auto">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && handleNotify()}
-                  placeholder="your@email.com"
-                  className="flex-1 px-4 py-2.5 bg-white dark:bg-gray-800 border border-indigo-200 dark:border-indigo-700 rounded-lg text-sm text-gray-800 dark:text-gray-100 focus:ring-2 focus:ring-indigo-500 outline-none"
-                />
-                <button
-                  onClick={handleNotify}
-                  className="px-5 py-2.5 bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-indigo-700 transition-colors whitespace-nowrap"
-                >
-                  Count Me In
-                </button>
-              </div>
-              <p className="text-xs text-gray-400 dark:text-gray-500 mt-3">No spam. Unsubscribe anytime. Your email is encrypted.</p>
-            </>
-          )}
-        </div>
       </div>
 
       {/* FAQ */}

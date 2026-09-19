@@ -562,12 +562,12 @@ export const LandingPage: React.FC = () => {
               Simple, Transparent Pricing
             </h2>
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400 text-xs font-semibold border border-indigo-200 dark:border-indigo-800/50">
-              <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
-              Free Beta — All core features free, premium launching soon
+              <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
+              No subscription required — pay once per module, or go Premium
             </span>
           </div>
           <p className="text-center text-sm sm:text-base text-gray-500 dark:text-gray-400 mb-8 sm:mb-12 max-w-2xl mx-auto">
-            Everything you need is free today. Join the waitlist to get early access and a founding-member discount when premium launches.
+            Full Ashtakoot matching and your core report are free, with no account needed to start. Unlock a single module when you want more, or take Premium for everything.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Free */}
@@ -602,7 +602,7 @@ export const LandingPage: React.FC = () => {
                 onClick={() => navigate('/pricing')}
                 className="w-full mt-5 py-2.5 bg-amber-500 text-white font-semibold rounded-lg hover:bg-amber-600 transition-colors text-sm"
               >
-                Join Beta Waitlist — Get 50% Off
+                See Premium Plans
               </button>
             </div>
             {/* Astrologer */}

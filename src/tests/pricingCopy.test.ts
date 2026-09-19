@@ -16,6 +16,8 @@ import { periodLabel, isRecurring, renewalNote, PRICING_INR, PRICING_USD } from 
 
 const PRICING_PAGE = fs.readFileSync(
   path.resolve(__dirname, '../pages/PricingPage.tsx'), 'utf8');
+const LANDING_PAGE = fs.readFileSync(
+  path.resolve(__dirname, '../pages/LandingPage.tsx'), 'utf8');
 
 describe('period label reflects what actually happens', () => {
   it('INR monthly renews, so it may say /month', () => {
@@ -78,4 +80,32 @@ describe('the pricing page claims only what we support', () => {
     expect(literals, `hardcoded prices drift from regionService: ${literals.join(', ')}`)
       .toHaveLength(0);
   });
+});
+
+describe('the app does not tell visitors Premium is unreleased', () => {
+  /**
+   * Both pages carried pre-launch copy long after launch: a "Beta Launch Offer
+   * — 50% Off Lifetime" badge and a waitlist promising founding members "50%
+   * off forever", sitting beside a working Get Premium button. Checkout never
+   * applied any discount, so it advertised a price the product would not
+   * honour, and told the handful of visitors the site gets to wait instead of
+   * buy. Premium has paying customers; nothing may claim it is coming.
+   */
+  const FORBIDDEN = [
+    /launching soon/i,
+    /premium launches/i,
+    /when premium/i,
+    /founding[- ]member/i,
+    /50%\s*off/i,
+    /join the (premium )?waitlist/i,
+    /early access list/i,
+  ];
+
+  for (const [name, src] of [['PricingPage', PRICING_PAGE], ['LandingPage', LANDING_PAGE]] as const) {
+    it(`${name} makes no pre-launch or unapplied-discount claim`, () => {
+      for (const re of FORBIDDEN) {
+        expect(re.test(src), `${name} still contains ${re}`).toBe(false);
+      }
+    });
+  }
 });
